@@ -1,6 +1,9 @@
 06 May 2010
 Work laptop, 32 but version SilkSvn. NetBeans 6.9 beta
 
+Worked.  Had to used a fix proxy.  Not sure how to get the change flags.
+They started showing up.  Just a question of getting a connection I guess.
+
 ===========================================================
 02 Apr 2010
 
