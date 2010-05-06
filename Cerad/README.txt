@@ -1,3 +1,7 @@
+06 May 2010
+Work laptop, 32 but version SilkSvn. NetBeans 6.9 beta
+
+===========================================================
 02 Apr 2010
 
 This time I used the SVN Tortoise to create a folder called Cerad in the zayso2010 repo.
