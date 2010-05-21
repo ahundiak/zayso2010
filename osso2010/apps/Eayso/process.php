@@ -1,16 +1,17 @@
 <?php
 ERROR_REPORTING(E_ALL);
 
-define('ZAYSO2010_CONFIG_HOME','/home/impd/zayso2010/');
-define('ZAYSO2010_CONFIG_DATA','/home/impd/zayso2010/datax/');
+define('ZAYSO2010_CONFIG_HOME','/home/ahundiak/zayso2010/');
+define('ZAYSO2010_CONFIG_DATA','/home/ahundiak/zayso2010/datax/');
 
-ini_set('include_path','.:' .
-        ZAYSO2010_CONFIG_HOME . 'Cerad/library');
+ini_set('include_path','.' .
+        PATH_SEPARATOR . ZAYSO2010_CONFIG_HOME . 'Cerad/library');
 
 require_once 'Cerad/Loader.php';
 Cerad_Loader::registerAutoload();
 
 $xmlFileName  = ZAYSO2010_CONFIG_DATA . 'SimpleTest01.xml';
+$xmlFileName  = 'SimpleTest01.xml';
 $xmlFileNamex = basename($xmlFileName,'.xml') . 'x.xml';
 
 $doc = new DOMDocument();
