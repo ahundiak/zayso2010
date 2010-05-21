@@ -1,0 +1,29 @@
+18 Aug 2006
+
+Once and for all document the mysql commands.
+
+Fresh xampp install.
+
+shell> mysql -uroot
+
+mysql> SET PASSWORD FOR 'root'@'localhost' = PASSWORD('root894');
+
+mysql> CREATE DATABASE osso2007;
+mysql> GRANT ALL ON osso2007.* TO "impd"@"localhost";
+
+mysql> SET PASSWORD FOR 'impd'@'localhost' = PASSWORD('impd894');
+
+mysql> FLUSH PRIVILEGES;
+
+================================
+For backups
+
+shell> mysqldump -uimpd -pimpd894 --opt osso2007 > osso2007MMDD.sql
+
+shell> mysql -uimpd -pimpd894 osso2007 < osso2006MMDD.sql
+
+================================
+To reset a root password, stop mysqld then restart with --skip-grant-tables
+I just edited the mysql.server file.
+
+--skip-grant-tables
