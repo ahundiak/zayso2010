@@ -30,7 +30,7 @@ function doit()
   var win = new Ext.Window
   ({
     height  : 350,
-    width   : 550,
+    width   : 700,
     border  : false,
     layout  : 'fit',
     items   : grid

@@ -3,6 +3,8 @@ class Direct_Schedule extends ExtJS_Direct_Base
 {
   function read($params)
   {
+    // Cerad_Debug::dump($params);
+    
     $records = array
     (
       array
