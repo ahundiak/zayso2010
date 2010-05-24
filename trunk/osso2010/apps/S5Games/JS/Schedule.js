@@ -1,119 +1,51 @@
 Ext.ns('Zayso.S5Games.Schedule');
 
-Zayso.S5Games.Schedule.Search = Ext.extend(Ext.form.FormPanel,
+Zayso.S5Games.Schedule.Panel = Ext.extend(Ext.Panel,
 {
   initComponent: function()
   {
-    var dayGroup = new Ext.form.CheckboxGroup
-    ({
-      fieldLabel: 'Days',
-    //itemCls:    'x-check-group-alt',
+    var store  = new Zayso.S5Games.Schedule.Store();
+    var search = new Zayso.S5Games.Schedule.Search();
 
-      columns:    3,
-      width: 120,
-      items:
-      [
-        {boxLabel: 'Fri', name: 'day-fri', checked: true},
-        {boxLabel: 'Sat', name: 'day-sat', checked: true},
-        {boxLabel: 'Sun', name: 'day-sun', checked: true}
-      ]
-    });
-    var siteGroup = new Ext.form.CheckboxGroup
-    ({
-      fieldLabel: 'Sites',
-      columns:    2,
-      width: 160,
-      items:
-      [
-        {boxLabel: 'John Hunt', name: 'site-john_hunt', checked: true},
-        {boxLabel: 'Merrimack', name: 'site-merrimack', checked: true}
-      ]
-    });
-    var divGroup = new Ext.form.CheckboxGroup
-    ({
-      fieldLabel: 'Divs',
-      columns:    5,
-      width: 250,
-      items:
-      [
-        {boxLabel: 'U10B', name: 'div-u10b', checked: true},
-        {boxLabel: 'U12B', name: 'div-u12b', checked: true},
-        {boxLabel: 'U14B', name: 'div-u14b', checked: true},
-        {boxLabel: 'U16B', name: 'div-u16b', checked: true},
-        {boxLabel: 'U19B', name: 'div-u19b', checked: true},
+    search.getForm().on('actioncomplete',function(form)
+    {
+      var values = form.getValues();
+      store.load({params: values});
+    })
+    search.load();
 
-        {boxLabel: 'U10G', name: 'div-u10g', checked: true},
-        {boxLabel: 'U12G', name: 'div-u12g', checked: true},
-        {boxLabel: 'U14G', name: 'div-u14g', checked: true},
-        {boxLabel: 'U16G', name: 'div-u16g', checked: true},
-        {boxLabel: 'U19G', name: 'div-u19g', checked: true}
-      ]
-    });
-    var theForm = this;
-    var searchButton =
-    {
-      xtype:   'button',
-      type:    'submit',
-      name:    'search',
-      text:    'Search',
-      tooltip: 'Press to update the schedule listing',
-      handler: function(button)
-      {
-        console.log('Search pressed');
-        var values = theForm.getForm().getValues();
-        console.log(values);
-        theForm.store.load({params: values});
-      }
-    };
-    var col1 =
-    {
-      xtype: 'container',
-      layout: 'form',
-//      width: 350,
-      //columnWidth: .5,
-      items: [dayGroup,siteGroup,divGroup]
-    };
-    var col2 =
-    {
-      xtype: 'container',
-      layout: 'form',
-      //columnWidth: .4,
-      items:
-      [
-        { xtype: 'textfield', width: 200, name : 'coaches',  fieldLabel : 'Coaches'  , tooltip: 'Used to filter teams'},
-        { xtype: 'textfield', width: 200, name : 'referees', fieldLabel : 'Referees' },
-        { xtype: 'textfield', width: 200, name : 'brackets', fieldLabel : 'Brackets' },
-        searchButton
-      ]
-    };
-    var formConfig =
-    {
-      id          : 's5games-schedule-search',
-      autoHeight  : true,
-//      width       : 650,
-      //height      : 100,
+    var grid = new Zayso.S5Games.Schedule.Grid({store: store});
 
-      //frame       : true,
-      style       : 'margin: 5px',
-      labelWidth  : 40,
+    // Now configure the grid itself
+    var panelConfig =
+    {
+      id          : 's5games-schedule-panel',
+      title       : 'Game and Referee Schedule 2009',
+      width       : 500,
+      height      : 400,
 
-      layout: 'column',
-      items: [col1,col2]
+      latout      : 'vbox',
+      frame       : true,
+      style       : 'margin: 5px;',
+
+      store       : store,
+      search      : search,
+      grid        : grid,
+
+      items       : [search,grid]
     };
+
     // apply config and init
-    Ext.apply(this, Ext.apply(this.initialConfig, formConfig));
+    Ext.apply(this, Ext.apply(this.initialConfig, panelConfig));
 
-    Zayso.S5Games.Schedule.Search.superclass.initComponent.apply(this);
-
-    //var values = this.getForm().getValues();
-    //console.log(values);
+    Zayso.S5Games.Schedule.Panel.superclass.initComponent.apply(this);
   }
 });
-Ext.reg('Zayso.S5Games.Schedule.Search', Zayso.S5Games.Schedule.Search);
+Ext.reg('Zayso.S5Games.Schedule.Panel', Zayso.S5Games.Schedule.Panel);
 
-Zayso.S5Games.Schedule.Grid = Ext.extend(Ext.grid.GridPanel,
+Zayso.S5Games.Schedule.Store = Ext.extend(Ext.data.DirectStore,
 {
-  initComponent: function()
+  constructor: function()
   {
     // Master grid store
     var recordFields =
@@ -154,11 +86,10 @@ Zayso.S5Games.Schedule.Grid = Ext.extend(Ext.grid.GridPanel,
       },
       paramsAsHash: true
     });
-    var gridStore = new Ext.data.DirectStore
-    ({
+    var storeConfig =
+    {
       // These all come from Store
       storeId     : 's5games-schedule-grid-store',
-    //baseParams  : { event_id : this.eventId },
       autoLoad    : false,
       autoSave    : false,
 
@@ -168,13 +99,183 @@ Zayso.S5Games.Schedule.Grid = Ext.extend(Ext.grid.GridPanel,
       writer      : writer,
       reader      : reader,
       proxy       : proxy
+    };
+    Zayso.S5Games.Schedule.Store.superclass.constructor.call(this, storeConfig);
+  }
+});
+
+Zayso.S5Games.Schedule.Search = Ext.extend(Ext.form.FormPanel,
+{
+  initComponent: function()
+  {
+    var dayGroup = new Ext.form.CheckboxGroup
+    ({
+      fieldLabel: 'Days',
+      name      : 'days',
+    //itemCls:    'x-check-group-alt',
+
+      columns:    3,
+      width: 120,
+      items:
+      [
+        {boxLabel: 'Fri', name: 'day-fri', checked: true},
+        {boxLabel: 'Sat', name: 'day-sat', checked: true},
+        {boxLabel: 'Sun', name: 'day-sun', checked: true}
+      ]
     });
-    gridStore.on('exception',function()
+    var siteGroup = new Ext.form.CheckboxGroup
+    ({
+      fieldLabel: 'Sites',
+      name      : 'sites',
+      columns:    2,
+      width: 160,
+      items:
+      [
+        {boxLabel: 'John Hunt', name: 'site-john_hunt', checked: true},
+        {boxLabel: 'Merrimack', name: 'site-merrimack', checked: true}
+      ]
+    });
+    var divGroup = new Ext.form.CheckboxGroup
+    ({
+      fieldLabel: 'Divs',
+      name      : 'divs',
+      columns:    5,
+      width: 250,
+      items:
+      [
+        {boxLabel: 'U10B', name: 'div-u10b', checked: true},
+        {boxLabel: 'U12B', name: 'div-u12b', checked: true},
+        {boxLabel: 'U14B', name: 'div-u14b', checked: true},
+        {boxLabel: 'U16B', name: 'div-u16b', checked: true},
+        {boxLabel: 'U19B', name: 'div-u19b', checked: true},
+
+        {boxLabel: 'U10G', name: 'div-u10g', checked: true},
+        {boxLabel: 'U12G', name: 'div-u12g', checked: true},
+        {boxLabel: 'U14G', name: 'div-u14g', checked: true},
+        {boxLabel: 'U16G', name: 'div-u16g', checked: true},
+        {boxLabel: 'U19G', name: 'div-u19g', checked: true}
+      ]
+    });
+    var searchButton =
     {
-      // If the server elects to not update a record then an exception is tossed
-      // console.log('DirectStore Exception Caught');
-      // console.info(arguments);
-    },this);
+      xtype:   'button',
+      type:    'submit',
+      name:    'search',
+      text:    'Search',
+      scope:   this,
+      tooltip: 'Press to update the schedule listing',
+      style:    'padding-right: 10px',
+      handler: function(button)
+      {
+        // Pretend that the acion was completed
+        var form = this.getForm();
+        form.fireEvent('actioncomplete',form);
+      }
+    };
+    var excelButton =
+    {
+      xtype:   'button',
+      type:    'submit',
+      name:    'excel',
+      text:    'Generate Spreadsheet',
+      scope:   this,
+      tooltip: 'Press to generate printable report',
+      style:    'padding-right: 10px',
+      handler: function(button)
+      {
+        // Pretend that the acion was completed
+        console.log('Excel');
+        var form = this.getForm();
+        form.fireEvent('actioncomplete',form);
+      }
+    };
+    var sortBy =
+    {
+      xtype       : 'combo',
+      name        : 'sort_by',
+      hiddenName  : 'sort_by',
+      fieldLabel  : 'Sort By',
+
+      triggerAction : 'all',
+      lazyRender    : true,
+
+      mode  : 'local',
+      store : new Ext.data.ArrayStore
+      ({
+        id: 0,
+        fields: [
+            'id',
+            'displayText'
+        ],
+        data: [[1, 'Date,Time,Field'], [2, 'Date,Field,Time']]
+      }),
+      valueField:   'id',
+      displayField: 'displayText'
+    };
+    var col1 =
+    {
+      xtype: 'panel',
+      layout: 'form',
+      frame: true,
+      labelWidth: 30,
+//      width: 350,
+      items: [dayGroup,siteGroup,divGroup]
+    };
+    var col2 =
+    {
+      xtype: 'panel',
+      layout: 'form',
+      frame: true,
+      labelWidth: 60,
+      items:
+      [
+        sortBy,
+        { xtype: 'textfield', width: 200, name : 'coaches',  fieldLabel : 'Coaches'  , tooltip: 'Used to filter teams'},
+        { xtype: 'textfield', width: 200, name : 'referees', fieldLabel : 'Referees' },
+        { xtype: 'textfield', width: 200, name : 'brackets', fieldLabel : 'Brackets' },
+        { xtype: 'container', layout: 'hbox', items: [excelButton,searchButton] }
+      ]
+    };
+    var col3 =
+    {
+      xtype: 'panel',
+      layout: 'form',
+      width: 50
+    };
+    var formConfig =
+    {
+      id          : 's5games-schedule-search',
+      autoHeight  : true,
+//      width       : 650,
+      //height      : 100,
+
+      api:
+      {
+        load:   Zayso.Direct.Schedule.load,
+        submit: Zayso.Direct.Schedule.submit
+      },
+      paramsAsHash: true,
+
+      frame       : true,
+      style       : 'margin: 5px',
+
+      layout: 'hbox',
+      items: [col1,col3,col2]
+    };
+    // apply config and init
+    Ext.apply(this, Ext.apply(this.initialConfig, formConfig));
+
+    Zayso.S5Games.Schedule.Search.superclass.initComponent.apply(this);
+  }
+});
+Ext.reg('Zayso.S5Games.Schedule.Search', Zayso.S5Games.Schedule.Search);
+
+Zayso.S5Games.Schedule.Grid = Ext.extend(Ext.grid.GridPanel,
+{
+  initComponent: function()
+  {
+    // Master grid store
+    var gridStore = new Zayso.S5Games.Schedule.Store();
 
     var columnModel =
     [
@@ -220,37 +321,20 @@ Zayso.S5Games.Schedule.Grid = Ext.extend(Ext.grid.GridPanel,
     {
       return value;
     }
-    // Create the search form and load the store
-    var searchForm = new Zayso.S5Games.Schedule.Search({store: gridStore});
-
-    gridStore.load();
-
-    var gridTopToolbar = 
-    {
-      xtype       : 'toolbar',
-      autoHeight  : true,
-      items       : searchForm
-    };
     // Now configure the grid itself
     var gridConfig =
     {
       id          : 's5games-schedule-grid',
-      title       : 'Game and Referee Schedule 2009',
       autoHeight  : true,
     //width       : 500,
     //height      : 400,
 
-    //frame       : true,
+      frame       : true,
       style       : 'margin: 5px;',
 
-      store       : gridStore,
       columns     : columnModel,
-      loadMask    : true,
+      loadMask    : true
 
-      tbar: gridTopToolbar
-
-    //clicksToEdit: 2,
-      // viewConfig  : { forceFit : true }
     };
     // apply config and init
     Ext.apply(this, Ext.apply(this.initialConfig, gridConfig));

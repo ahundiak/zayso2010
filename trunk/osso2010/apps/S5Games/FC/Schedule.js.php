@@ -25,7 +25,11 @@ function doit()
   console.log('Schedule testing');
 
 
-  var grid = new Zayso.S5Games.Schedule.Grid();
+//var search = new Zayso.S5Games.Schedule.Search();
+//search.load();
+
+//var grid   = new Zayso.S5Games.Schedule.Grid();
+  var panel   = new Zayso.S5Games.Schedule.Panel();
 
   var win = new Ext.Window
   ({
@@ -33,7 +37,7 @@ function doit()
     width   : 700,
     border  : false,
     layout  : 'fit',
-    items   : grid
+    items   : panel
   });
   win.show();
   
