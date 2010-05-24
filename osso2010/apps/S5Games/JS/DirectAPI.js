@@ -20,6 +20,11 @@ Zayso.Direct.API = function()
       ],
       Schedule:
       [
+        // These come from the search form
+        { name: 'load',   len: 1 },
+        { name: 'submit', len: 1, formHandler: true },
+
+        // And the grid store
         { name: 'read',    len: 1 },
         { name: 'create',  len: 1 },
         { name: 'update',  len: 1 },
