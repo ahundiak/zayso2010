@@ -31,8 +31,7 @@ class ExtJS_Direct_Base
       default;
         $total = count($rows);
         $records = $rows;
-    }
-     */
+    } */
     $total = count($rows);
     $records = $rows;
 
