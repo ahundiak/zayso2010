@@ -4,7 +4,8 @@
  */
 class ExtJS_FC_Index
 {
-  protected $context = NULL;
+  protected $contextx = NULL;
+  protected $contextClassName = 'Cerad_Context';
 
   protected $loadFirebug             = FALSE;
   protected $loadJSFilesIndividually = TRUE;
@@ -35,6 +36,15 @@ class ExtJS_FC_Index
       require 'JS/' . $file . '.js';
     }
   }
+  // Spits out one php file
+  protected function phpLoad($file)
+  {
+    $file = str_replace('-','/',$file);
+
+    header('Content-Type: text/html');
+
+    require 'JS/' . $file . '.php';
+  }
   protected function get(&$post,$name)
   {
     if (!isset($post[$name])) return null;
@@ -42,14 +52,23 @@ class ExtJS_FC_Index
     unset($post[$name]);
     return $value;
   }
+  protected function __get($name)
+  {
+    switch($name)
+    {
+      case 'context': return $this->getContext(); break;
+
+    }
+  }
   protected function getContext()
   {
-    if (!$this->context)
+    if (!$this->contextx)
     {
       $params = include('Config/' . APP_CONFIG_FILE);
-      $this->context = new Cerad_Context($params);
+      $contextClassName = $this->contextClassName;
+      $this->contextx = new $contextClassName($params);
     }
-    return $this->context;
+    return $this->contextx;
   }
   protected function direct()
   {
@@ -121,7 +140,8 @@ class ExtJS_FC_Index
       die("Not direct and not GET, {$_SERVER['REQUEST_METHOD']}");
     }
     // Need to determine type of action
-    if (isset($_GET['jsload'])) return $this->jsLoad($_GET['jsload']);
+    if (isset($_GET['jsload']))  return $this->jsLoad ($_GET['jsload']);
+    if (isset($_GET['phpload'])) return $this->phpLoad($_GET['phpload']);
 
     // Must be an action
     if (isset($_GET['a'])) $action = $_GET['a'];
