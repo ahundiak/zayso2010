@@ -6,7 +6,7 @@
   (
   
   );
-  $memberId = 1;
+  $memberId = $this->getMemberId();
 ?>
 <script type="text/javascript">
 
@@ -16,10 +16,6 @@ function doit()
 {
   Ext.QuickTips.init();
   Ext.Direct.addProvider(Zayso.Direct.API());
-
-  console.log('doit executed');
-
-  return;
   
   Zayso.app = new Zayso.App();
   
