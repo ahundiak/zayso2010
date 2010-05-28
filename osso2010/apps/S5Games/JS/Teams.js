@@ -1,6 +1,6 @@
-Ext.ns('Zayso.S5Games.Schedule');
+Ext.ns('Zayso.S5Games.Teams');
 
-Zayso.S5Games.Schedule.Panel = Ext.extend(Ext.Panel,
+Zayso.S5Games.Teams.Panel = Ext.extend(Ext.Panel,
 {
   initComponent: function()
   {
@@ -41,25 +41,24 @@ Zayso.S5Games.Schedule.Panel = Ext.extend(Ext.Panel,
     Zayso.S5Games.Schedule.Panel.superclass.initComponent.apply(this);
   }
 });
-Ext.reg('Zayso.S5Games.Schedule.Panel', Zayso.S5Games.Schedule.Panel);
+Ext.reg('Zayso.S5Games.Teams.Panel', Zayso.S5Games.Teams.Panel);
 
-Zayso.S5Games.Schedule.Store = Ext.extend(Ext.data.DirectStore,
+Zayso.S5Games.Teams.Store = Ext.extend(Ext.data.DirectStore,
 {
   constructor: function()
   {
     // Master grid store
     var recordFields =
     [
-      { name : 'game_id',     mapping : 'game_id' },
-      { name : 'game_num',    mapping : 'game_num'        },
+      { name : 'id',      mapping : 'id'     },
+      { name : 'region',  mapping : 'region' },
 
-      { name : 'date',        mapping : 'date'    },
-      { name : 'time',        mapping : 'time' },
-      { name : 'field',       mapping : 'field' },
+      { name : 'div',     mapping : 'div'    },
+      { name : 'name',    mapping : 'name'   },
+      { name : 'colors',  mapping : 'colors' },
 
-      { name : 'div',         mapping : 'div'        },
-      { name : 'team_home',   mapping : 'team_home'  },
-      { name : 'team_away',   mapping : 'team_away'  }
+      { name : 'status',  mapping : 'status' },
+      { name : 'notes',   mapping : 'notes'  }
     ];
     var writer = new Ext.data.JsonWriter
     ({
@@ -69,7 +68,7 @@ Zayso.S5Games.Schedule.Store = Ext.extend(Ext.data.DirectStore,
     var reader = new Ext.data.JsonReader
     ({
       root            : 'records',
-      idProperty      : 'game_id',
+      idProperty      : 'id',
       totalProperty   : 'totalCount',
       successProperty : 'success',
       messageProperty : 'message',
@@ -79,17 +78,17 @@ Zayso.S5Games.Schedule.Store = Ext.extend(Ext.data.DirectStore,
     ({
       api :
       {
-        read:    Zayso.Direct.Schedule.read,
-        create:  Zayso.Direct.Schedule.create,
-        destroy: Zayso.Direct.Schedule.destroy,
-        update:  Zayso.Direct.Schedule.update
+        read:    Zayso.Direct.Teams.read,
+        create:  Zayso.Direct.Teams.create,
+        destroy: Zayso.Direct.Teams.destroy,
+        update:  Zayso.Direct.Teams.update
       },
       paramsAsHash: true
     });
     var storeConfig =
     {
       // These all come from Store
-      storeId     : 's5games-schedule-grid-store',
+      storeId     : 's5games-teams-grid-store',
       autoLoad    : false,
       autoSave    : false,
 
@@ -100,7 +99,7 @@ Zayso.S5Games.Schedule.Store = Ext.extend(Ext.data.DirectStore,
       reader      : reader,
       proxy       : proxy
     };
-    Zayso.S5Games.Schedule.Store.superclass.constructor.call(this, storeConfig);
+    Zayso.S5Games.Teams.Store.superclass.constructor.call(this, storeConfig);
   }
 });
 
@@ -270,58 +269,47 @@ Zayso.S5Games.Schedule.Search = Ext.extend(Ext.form.FormPanel,
 });
 Ext.reg('Zayso.S5Games.Schedule.Search', Zayso.S5Games.Schedule.Search);
 
-Zayso.S5Games.Schedule.Grid = Ext.extend(Ext.grid.GridPanel,
+Zayso.S5Games.Teams.Grid = Ext.extend(Ext.grid.EditorGridPanel,
 {
   initComponent: function()
   {
     var columnModel =
     [
       {
-        header    : 'Game',
-        dataIndex : 'game_num',
+        header    : 'Team ID',
+        dataIndex : 'id',
         width     : 60
       },
       {
-        header    : 'Date',
-        dataIndex : 'date',
-        width     : 100
+        header    : 'Region',
+        dataIndex : 'region',
+        width     : 60
       },
       {
-        header    : 'Time',
-        dataIndex : 'time',
-        width     : 100
-      },
-      {
-        header    : 'Field',
-        dataIndex : 'field',
-        width     : 100
-      },
-      {
-        header    : 'Div',
+        header    : 'Division',
         dataIndex : 'div',
-        width     : 60
+        width     : 100
       },
       {
-        header    : 'Home Team',
-        dataIndex : 'team_home',
-        width     : 150,
-        renderer  : renderTeam
+        header    : 'Name',
+        dataIndex : 'name',
+        width     : 100
       },
       {
-        header    : 'Away Team',
-        dataIndex : 'team_away',
-        width     : 150,
-        renderer  : renderTeam
+        header    : 'Colors',
+        dataIndex : 'colors',
+        width     : 100
+      },
+      {
+        header    : 'Status',
+        dataIndex : 'status',
+        width     : 100
       }
     ];
-    var renderTeam = function(value,metadata,record,rowIndex,colIndex,store)
-    {
-      return value;
-    }
     // Now configure the grid itself
     var gridConfig =
     {
-      id          : 's5games-schedule-grid',
+      id          : 's5games-teams-grid',
       autoHeight  : true,
     //width       : 500,
     //height      : 400,
@@ -336,7 +324,7 @@ Zayso.S5Games.Schedule.Grid = Ext.extend(Ext.grid.GridPanel,
     // apply config and init
     Ext.apply(this, Ext.apply(this.initialConfig, gridConfig));
 
-    Zayso.S5Games.Schedule.Grid.superclass.initComponent.apply(this);
+    Zayso.S5Games.Teams.Grid.superclass.initComponent.apply(this);
   }
 });
-Ext.reg('Zayso.S5Games.Schedule.Grid', Zayso.S5Games.Schedule.Grid);
+Ext.reg('Zayso.S5Games.Teams.Grid', Zayso.S5Games.Teams.Grid);
