@@ -1,0 +1,100 @@
+09 Jun 2009
+
+In osso2007 had a reasonable system whereby created a
+Map program names to database table names
+Repo Contains both map and item pointers
+Item - more or less standalone with many get methods, fewer set functions
+
+All item interaction went through the repo class so it 
+could initialize the data names from the map class.
+
+In osso2009
+Items can be instianted directly passing an array of initial parameters
+get methods hide the internal data info
+flexible since different queries might return different versions of the same 
+slass.  No mapping.  No repo necessary.
+
+For updating one can use arrays though of course that implies
+fairly close link to the database.  Want an object just for persisting?
+
+$person = $personRepo->newItem();
+$person->lname = lname;
+$personRepo->save($person);
+
+or
+
+$person->save();
+
+Basically always go through the repo object or allow read only items 
+to be distinct?
+
+BaseMap
+	$map
+	$mapx
+	static getInstance($mapClassname);
+	
+BaseItem
+	$data
+	getModelData
+	setModelData
+	__get __set from $data
+	no constructor, no links to anything else
+	
+BaseTable
+    protected $db      = NULL;     // Initialized in constructor
+    protected $context = NULL;     // Context has getDb
+    
+    protected $tblName  = NULL;
+    protected $keyName  = NULL;
+    protected $colNames = array(); // Initialized in constructor
+
+    protected $mapClassName = NULL; // Allows independence from Model
+
+    function find($id)
+    function delete($id)
+    function save($row,$insertOnlyFlag = FALSE)
+    
+    function getAliasedColumnNames($alias)
+    function fromAll($select,$alias)
+    function joinAll($select,$alias,$right,$rightKey = NULL)
+    
+BaseModel
+    protected $db      = NULL;
+    protected $context = NULL;
+
+    protected $mapClassName = NULL;
+    
+    protected $tableCache     = NULL;
+    protected $tableClassName = NULL;
+    
+    protected $itemCache     = NULL;
+    protected $itemClassName = NULL;
+    
+    protected $map  = array(); // Copied from map class
+    protected $mapx = array();
+
+    function init() {}
+    
+    function __get(table or db) cached
+    
+    public function create($rowx,$alias = NULL,$itemClassName = NULL)
+        rowx gets converted to camel case using map and mapx
+        
+    public function find      ($id,$itemClassName = NULL)
+    public function findCached($id,$itemClassName = NULL)
+        db->find(id) create()
+        
+    public function newItem ($itemClassName = NULL)
+    public function newItemx($itemClassName = NULL)
+        names from map and mapx
+    
+ 	public function delete($id) // id could be item object
+    function save($item,$insertOnlyFlag = FALSE)
+    
+    function search   ($search)
+    function searchOne($search)
+      search only returns one and only one object
+      
+    function fromAll($select,$alias)
+	function joinAll($select,$alias,$right,$rightKey = NULL)
+    

@@ -1,0 +1,105 @@
+<?php $game = $data->game; ?>
+<form name="referee_signup" method="post" action="signup.php" >
+
+<input type="hidden" name="game_id" value="<?php echo $game->getId(); ?>" />
+<input type="hidden" name="pos_id"  value="<?php echo $data->posId; ?>" />
+
+<table border="1" width="500">
+<tr><th colspan="2">Referee Signup Form</th></tr>
+<tr>
+	<td>Game Number</td>
+	<td>
+		<?php echo $game->getId(); ?>
+	</td>
+</tr>
+<tr>
+	<td>Date</td>
+	<td>
+		<?php echo $this->formatDate($game->getDate()); ?>
+	</td>
+</tr>
+<tr>
+	<td>Time</td>
+	<td>
+		<?php echo $this->formatTime($game->getTime()); ?>
+	</td>
+</tr>
+<tr>
+	<td>Field</td>
+	<td>
+		<?php echo $this->escape($game->getFieldDesc()); ?>
+	</td>
+</tr>
+<tr>
+	<td>Home Team</td>
+	<td>
+		<?php echo $this->escape($game->getHomeTeam()->getDesc()); ?>
+	</td>
+</tr>
+<tr>
+	<td>Away Team</td>
+	<td>
+		<?php echo $this->escape($game->getAwayTeam()->getDesc()); ?>
+	</td>
+</tr>
+<tr><td colspan="2">.</td></tr>
+<?php foreach($data->persons as $person) { ?>
+<tr>
+	<td><?php echo $person['pos'];  ?></td>
+	<td><?php echo $person['name']; ?></td>	
+</tr>
+<?php } ?>
+<tr><td colspan="2">.</td></tr>
+<tr>
+	<td>Referee Position</td>
+	<td>
+		<?php echo $this->escape($data->posPickList[$data->posId]); ?>
+	</td>
+</tr>
+<tr>
+	<td>Referee Region</td>
+	<td>
+		<select name="referee_region">
+			<option value="0">Select your region</option>
+			<?php echo $this->formOptions($data->regionPickList,$data->refRegion); ?>
+		</select>
+	</td>
+</tr>
+<tr>
+	<td>Referee First Name</td>
+	<td>
+		<input type="text" name="referee_first_name" size="30" 
+		       value="<?php echo $this->escape($data->refFirstName); ?>" />
+	</td>
+</tr>
+<tr>
+	<td>Referee Last Name</td>
+	<td>
+		<input type="text" name="referee_last_name" size="30"
+		       value="<?php echo $this->escape($data->refLastName); ?>" />
+	</td>
+</tr>
+<tr>
+	<td>Referee AYSOID (optional)</td>
+	<td>
+		<input type="text" name="referee_aysoid" size="10"
+		       value="<?php echo $this->escape($data->refAysoid); ?>" />
+	</td>
+</tr>
+<tr>
+	<td><a href="schedule.php">Return to schedule</a></td>
+	<td>
+		<input type="submit" name="referee_signup" value="Signup For Game" />
+	</td>
+</tr>
+<?php if ($data->errors) { ?>
+<tr>
+	<td colspan="2" style="color: red">
+	<?php foreach($data->errors as $error) {
+		echo $this->escape($error) . "\n<br />";
+	}
+	?>
+	</td>
+</tr>	
+<?php }?>
+</table>
