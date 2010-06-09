@@ -52,7 +52,7 @@ class ExtJS_FC_Index
     unset($post[$name]);
     return $value;
   }
-  protected function __get($name)
+  public function __get($name)
   {
     switch($name)
     {
