@@ -8,7 +8,7 @@ class Controller
     'host'     => '127.0.0.1',
     'username' => 'impd',
     'password' => 'impd894',
-    'dbname'   => 's5games',
+    'dbname'   => 's5games2010',
     'dbtype'   => 'mysql',
     'adapter'  => 'pdo_mysql'
   );

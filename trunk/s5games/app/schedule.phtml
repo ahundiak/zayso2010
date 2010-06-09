@@ -64,7 +64,7 @@
         </td>
       </tr>
       <tr>
-        <td>Team Search</td>
+        <td>Game Search</td>
         <td>
           <input type="text" name="sched_search_game" size="20"
                  value="<?php echo $this->escape($tpl->searchGame); ?>" />
@@ -109,36 +109,36 @@
 <table border = "1" width="800">
 <tr><th colspan="8">Game and Referee Schedule</th></tr>
 <tr>
-	<td width="45">Game</td>
-	<td width="45">Date</td>
-	<td width="45">Time</td>
-	<td width="50">Field</td>
-	<td width="40">Div</td>
-	<td width="60">Bracket</td>
-	<td width="160">Home/Away Team</td>
-	<td width="250">Referees</td>
+  <td width="45">Game</td>
+  <td width="45">Date</td>
+  <td width="45">Time</td>
+  <td width="50">Field</td>
+  <td width="40">Div</td>
+  <td width="60">Bracket</td>
+  <td width="160">Home/Away Team</td>
+  <td width="250">Referees</td>
 </tr>
 <?php 
-	foreach($tpl->games as $game)
-	{
-		switch($game->id)
-		{
-			case 95: case 132: case 14: case 53:
-				$style = 'style="background-color: red"';
-				break;
-			default:
-				$style = NULL;
-		}
+  foreach($tpl->games as $game)
+  {
+    switch($game->id)
+    {
+      case 666:
+        $style = 'style="background-color: red"';
+	break;
+      default:
+        $style = NULL;
+    }
 ?>
 <tr <?php echo $style; ?>>
-	<td align="center"><?php echo $game->id;     ?></td>
-	<td><?php echo $game->date;    ?></td>
-	<td><?php echo $game->time;    ?></td>
-	<td><?php echo $game->field;   ?></td>
-	<td><?php echo $game->div;     ?></td>
-	<td><?php echo $this->displayBracket($game); ?></td>
-	<td><?php echo $this->displayTeams  ($game); ?></td>
-	<td><?php echo $this->displayPersons($game); ?></td>
+  <td align="center"><?php echo $game->id;     ?></td>
+  <td><?php echo $game->date;    ?></td>
+  <td><?php echo $game->time;    ?></td>
+  <td><?php echo $game->field;   ?></td>
+  <td><?php echo $game->div;     ?></td>
+  <td><?php echo $this->displayBracket($game); ?></td>
+  <td><?php echo $this->displayTeams  ($game); ?></td>
+  <td><?php echo $this->displayPersons($game); ?></td>
 </tr>
 <?php } ?>
 </table>

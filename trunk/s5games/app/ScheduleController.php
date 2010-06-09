@@ -50,8 +50,9 @@ class ScheduleController extends Controller
 				
       case 'excel':
         ob_start();
-	include 'ExcelTpl.xml.php';
-	include 'ScheduleTpl.xml.php';
+        include 'schedule.csv.php';
+//	include 'ExcelTpl.xml.php';
+//	include 'ScheduleTpl.xml.php';
 	$content = ob_get_clean();
 	echo $content;
 	break;
@@ -83,14 +84,13 @@ class ScheduleController extends Controller
   }
   function displayBracket($game)
   {
-    $home = $game->homeBracket;
-    $away = $game->awayBracket;
-    if ($home == $away)
+    $bracket = $game->bracket;
+    switch($bracket)
     {
-      if (!$home) $home = 'FRIEND';
-      return $home;
+      case 'NO BRACKET' : return 'NA'; break;
+      case 'FINAL'      : return 'FINALS'; break;
     }
-    return $home . '<br />' . $away;
+    return $bracket;
   }
   function displayTeams($game)
   {
@@ -113,20 +113,15 @@ class ScheduleController extends Controller
       1 => array('pos' => 'CR',  'name' => '.', 'status' => 0),
       2 => array('pos' => 'AR1', 'name' => '.', 'status' => 0),
       3 => array('pos' => 'AR2', 'name' => '.', 'status' => 0),
+      4 => array('pos' => 'AS',  'name' => '',  'status' => 0),
+      5 => array('pos' => 'AS2', 'name' => '',  'status' => 0),
     );
     $personsx = $game->getPersons();
     foreach($personsx as $personx)
     {
-      $name   = $personx->fname . ' ' . $personx->lname;
-      $status = $personx->status;
-      $region = $personx->region;
-    // if ($region < 1000) $region = 'R0' . $region;
-    // else                $region = 'R'  . $region;
-			
-      $name  = $region . ' ' . $name;
       $posId = $personx->posId;
-      $persons[$posId]['name']   = $name;
-      $persons[$posId]['status'] = $status;
+      $persons[$posId]['name']   = $personx->desc;
+      $persons[$posId]['status'] = $personx->status;
     }
     $html = "<table>\n";
     foreach($persons as $posId => $person)
@@ -163,8 +158,10 @@ class ScheduleController extends Controller
           $span = "<span>";
       }
       $name = $span . $this->escape($person['name']) . "</span>";
-			
-      $html .= "<tr><td>{$pos}</td><td>{$name}</td></tr>\n";
+      if ($person['name'])
+      {
+        $html .= "<tr><td>{$pos}</td><td>{$name}</td></tr>\n";
+      }
     }
     $html .= "</table>\n";
 		
