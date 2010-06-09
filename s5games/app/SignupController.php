@@ -33,6 +33,7 @@ class SignupController extends Controller
       $tpl->refLastName  = $row['lname'];
       $tpl->refAysoid    = $row['aysoid'];
       $tpl->refStatus    = $row['status'];
+      $tpl->refAss       = $row['ass_id'];
     }
     // Session data if we have it
     $tpl->errors = $this->getSess('ref_errors');
@@ -44,6 +45,7 @@ class SignupController extends Controller
       $tpl->refLastName  = $this->getSess('ref_last_name');
       $tpl->refAysoid    = $this->getSess('ref_aysoid');
       $tpl->refStatus    = $this->getSess('ref_status',1);
+      $tpl->refAss       = $this->getSess('ref_ass',0);
     }
     if ($tpl->errors) $_SESSION['ref_errors'] = NULL;
 		
@@ -90,14 +92,8 @@ class SignupController extends Controller
     $personsx = $tpl->game->getPersons();
     foreach($personsx as $personx)
     {
-      $name   = $personx->fname . ' ' . $personx->lname;
-      $region = $personx->region;
-      // if ($region < 1000) $region = 'R0' . $region;
-      // else                $region = 'R'  . $region;
-			
-      $name = $region . ' ' . $name;
       $posId = $personx->posId;
-      $persons[$posId]['name'] = $name;
+      $persons[$posId]['name'] = $personx->desc;
     }
     $tpl->persons = $persons;
 		
@@ -124,6 +120,7 @@ class SignupController extends Controller
     $refLastName  =      $this->getPost('referee_last_name');
     $refAysoid    = (int)$this->getPost('referee_aysoid');
     $refStatus    = (int)$this->getPost('referee_status');
+    $refAss       = (int)$this->getPost('referee_ass');
 		
     if (!$refAysoid) $refAysoid = NULL;
 		
@@ -166,6 +163,7 @@ class SignupController extends Controller
     $_SESSION['ref_last_name']  = $refLastName;
     $_SESSION['ref_aysoid']     = $refAysoid;
     $_SESSION['ref_status']     = $refStatus;
+    $_SESSION['ref_ass']        = $refAss;
     $_SESSION['ref_errors']     = $errors;
 		
     if ($errors) return header($relocateOk);
@@ -190,6 +188,7 @@ class SignupController extends Controller
     $row['status']   = $refStatus;
     $row['game_num'] = $gameId;
     $row['pos_id']   = $posId;
+    $row['ass_id']   = $refAss;
     $row['notes']    = NULL;
 
     if ($row['game_person_id']) $db->update('game_person','game_person_id',$row);

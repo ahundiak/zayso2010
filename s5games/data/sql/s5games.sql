@@ -13,17 +13,16 @@
 -- s5games game
 -- G #	DATE	DIV	FIELD	TIME	R	TEAM H	HOME	TEAM A	AWAY
 
-DROP TABLE IF EXISTS `game`;
-CREATE TABLE         `game` (
+DROP TABLE IF EXISTS `games`;
+CREATE TABLE         `games` (
   `game_num`     int (10) unsigned NOT NULL,
   `game_date`    char( 8) default NULL,
   `game_time`    char( 8) default NULL,
   `game_div`     char( 4) default NULL,
   `game_field`   char(12) default NULL,
-  `game_type`    char( 2) default NULL,
-  `home_bracket` char(20) default NULL,
+  `game_type`    char( 4) default NULL,
+  `game_bracket` char(20) default NULL,
   `home_name`    char(20) default NULL, 
-  `away_bracket` char(20) default NULL,
   `away_name`    char(20) default NULL, 
 
   PRIMARY KEY   (`game_num`),
@@ -43,6 +42,7 @@ CREATE TABLE         `game_person` (
   `status`     int (10) unsigned default NULL,
   `game_num`   int (10) unsigned default NULL,  
   `pos_id`     int (10) unsigned default NULL,
+  `ass_id`     int (10) unsigned default NULL,
   `notes`      char(40) default NULL, 
 
   PRIMARY KEY  (`game_person_id`),
@@ -70,6 +70,7 @@ CREATE TABLE         `game_person_log`
   `status`     int (10) unsigned default NULL,
   `game_num`   int (10) unsigned default NULL,  
   `pos_id`     int (10) unsigned default NULL,
+  `ass_id`     int (10) unsigned default NULL,
   `notes`      char(40) default NULL, 
 
   PRIMARY KEY  (`log_id`),

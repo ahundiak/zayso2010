@@ -9,136 +9,128 @@
 <table border="1" width="500">
 <tr><th colspan="2">Referee Signup Form</th></tr>
 <tr>
-	<td>Game Number</td>
-	<td>
-		<?php echo $game->id; ?>
-	</td>
+  <td>Game Number</td>
+  <td><?php echo $game->id; ?></td>
 </tr>
 <tr>
-	<td>Date</td>
-	<td>
-		<?php echo $game->date; ?>
-	</td>
+  <td>Date</td><td><?php echo $game->date; ?></td>
 </tr>
 <tr>
-	<td>Time</td>
-	<td>
-		<?php echo $game->time; ?>
-	</td>
+  <td>Time</td>
+  <td><?php echo $game->time; ?></td>
 </tr>
 <tr>
-	<td>Field</td>
-	<td>
-		<?php echo $game->field; ?>
-	</td>
+  <td>Field</td>
+  <td><?php echo $game->field; ?></td>
 </tr>
 <tr>
-	<td>Div</td>
-	<td>
-		<?php echo $game->div; ?>
-	</td>
+  <td>Div</td>
+  <td><?php echo $game->div; ?></td>
 </tr>
 <tr>
-	<td>Home Team</td>
-	<td>
-		<?php echo $this->escape($game->homeName); ?>
-	</td>
+  <td>Bracket</td>
+  <td><?php echo $game->bracket; ?></td>
 </tr>
 <tr>
-	<td>Away Team</td>
-	<td>
-		<?php echo $this->escape($game->awayName); ?>
-	</td>
+  <td>Home Team</td>
+  <td><?php echo $this->escape($game->homeName); ?></td>
+</tr>
+<tr>
+  <td>Away Team</td>
+  <td><?php echo $this->escape($game->awayName); ?></td>
 </tr>
 <tr><td colspan="2">&nbsp;</td></tr>
-<?php foreach($tpl->persons as $person) { ?>
+<?php foreach($tpl->persons as $index => $person) {
+    if ($person['name'] || ($index < 3)) {
+?>
 <tr>
-	<td><?php echo $person['pos'];  ?></td>
-	<td><?php echo $person['name']; ?></td>	
+  <td><?php echo $person['pos'];  ?></td>
+  <td><?php echo $person['name']; ?></td>
 </tr>
-<?php } ?>
+<?php }} ?>
 <tr><td colspan="2">&nbsp;</td></tr>
 <tr>
-	<td>Referee Position</td>
-	<td>
-		<?php 
-			if (!$this->isAdmin()) echo $tpl->posPickList[$tpl->posId];
-			else { 
-		?>
-		<select name="pos_id">
-			<?php echo $this->formOptions($tpl->posPickList,$tpl->posId); ?>
-		</select>
-		<?php } ?>
-	</td>
+  <td>Referee Position</td>
+  <td>
+  <?php
+    if (!$this->isAdmin()) echo $tpl->posPickList[$tpl->posId];
+    else {
+  ?>
+    <select name="pos_id">
+      <?php echo $this->formOptions($tpl->posPickList,$tpl->posId); ?>
+    </select>
+	<?php } ?>
+  </td>
 </tr>
 <tr>
-	<td>Referee Assessment</td>
-	<td>
-		<select name="referee_ass">
-			<option value="0">None</option>
-			<?php echo $this->formOptions($tpl->assPickList,$tpl->refRegion); ?>
-		</select>
-	</td>
+  <td>Request Assessment</td>
+  <td>
+    <select name="referee_ass">
+      <option value="0">None</option>
+      <?php echo $this->formOptions($tpl->assPickList,$tpl->refAss); ?>
+    </select>
+  </td>
 </tr>
 <tr>
-	<td>Referee Region</td>
-	<td>
-		<select name="referee_region">
-			<option value="0">Select your region</option>
-			<?php echo $this->formOptions($tpl->regionPickList,$tpl->refRegion); ?>
-		</select>
-	</td>
+  <td>Referee Region</td>
+  <td>
+    <select name="referee_region">
+      <option value="0">Select your region</option>
+      <?php echo $this->formOptions($tpl->regionPickList,$tpl->refRegion); ?>
+    </select>
+  </td>
 </tr>
 <tr>
-	<td>Referee First Name</td>
-	<td>
-		<input type="text" name="referee_first_name" size="30" 
-		       value="<?php echo $this->escape($tpl->refFirstName); ?>" />
-	</td>
+  <td>Referee First Name</td>
+  <td>
+    <input type="text" name="referee_first_name" size="30"
+           value="<?php echo $this->escape($tpl->refFirstName); ?>" />
+  </td>
 </tr>
 <tr>
-	<td>Referee Last Name</td>
-	<td>
-		<input type="text" name="referee_last_name" size="30"
-		       value="<?php echo $this->escape($tpl->refLastName); ?>" />
-	</td>
+  <td>Referee Last Name</td>
+  <td>
+    <input type="text" name="referee_last_name" size="30"
+           value="<?php echo $this->escape($tpl->refLastName); ?>" />
+  </td>
 </tr>
 <?php if ($this->isAdmin()) {?>
 <tr>
-	<td>Referee AYSOID (optional)</td>
-	<td>
-		<input type="text" name="referee_aysoid" size="10"
-		       value="<?php echo $this->escape($tpl->refAysoid); ?>" />
-	</td>
+  <td>Referee AYSOID (optional)</td>
+  <td>
+    <input type="text" name="referee_aysoid" size="10"
+           value="<?php echo $this->escape($tpl->refAysoid); ?>" />
+  </td>
 </tr>
 <?php } ?>
 <tr><td colspan="2">&nbsp;</td></tr>
 <tr>
-	<td>Assignment Status</td>
-	<td>
-		<select name="referee_status">
-			<?php echo $this->formOptions($tpl->statusPickList,$tpl->refStatus); ?>
-		</select>
-	</td>
+  <td>Assignment Status</td>
+  <td>
+    <select name="referee_status">
+      <?php echo $this->formOptions($tpl->statusPickList,$tpl->refStatus); ?>
+    </select>
+  </td>
 </tr>
 <tr>
-	<td><a href="index.php?page=schedule">Return to schedule</a></td>
-	<td>
-		<input type="submit" name="referee_signup" value="Signup For Game" />
-		<?php if ($this->isAdmin() && 0) { ?>
-		<input type="checkbox" name="referee_remove_confirm" value="1" />
-		<input type="submit" name="referee_remove" value="Remove" />
-		<?php } ?>
-	</td>
+  <td><a href="index.php?page=schedule">Return to schedule</a></td>
+  <td>
+    <input type="submit" name="referee_signup" value="Signup For Game" />
+    <?php if ($this->isAdmin() && 0) { ?>
+      <input type="checkbox" name="referee_remove_confirm" value="1" />
+      <input type="submit" name="referee_remove" value="Remove" />
+    <?php } ?>
+  </td>
 </tr>
 <?php if ($tpl->errors) { ?>
 <tr>
-	<td colspan="2" style="color: red">
-	<?php foreach($tpl->errors as $error) {
-		echo $this->escape($error) . "\n<br />";
-	}
-	?>
-	</td>
+  <td colspan="2" style="color: red">
+    <?php foreach($tpl->errors as $error)
+    {
+      echo $this->escape($error) . "\n<br />";
+    }
+    ?>
+  </td>
 </tr>	
 <?php }?>
 </table>
@@ -157,6 +149,6 @@ column.  Your name will show in red on the schedule and other people will be abl
 You are still on the hook to do the game unless your name gets removed from the schedule.
 </p><br /><p>
 The only way to remove yourself from a game is to contact
-<a href="mailto:ahundiak@gmail.com">Art Hundiak</a>. Phone: 256.457.5943
+<a href="mailto:ahundiak@s5games.org">Art Hundiak</a>. Phone: 256.457.5943
 </p>
 </div>
