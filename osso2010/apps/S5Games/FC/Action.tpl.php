@@ -1,7 +1,7 @@
 <?php
 $baseAppPath     = '';  // Until we rediscover a need for a hard coded path
 $baseExtJSPath   = '../tools/ext/';
-$baseFirebugPath = '../tools/firebug/';
+$baseFirebugPath = '../tools/firebug-lite/';
 ?>
 <html>
 <head>
@@ -9,9 +9,11 @@ $baseFirebugPath = '../tools/firebug/';
   <meta http-equiv="Cache-Control" content="no-cache" />
   
   <title><?php echo $title; ?></title>
-<?php if ($loadFirebug) { ?>
-  <script type="text/javascript" src="<?php echo $baseFirebugPath; ?>firebug-lite-compressed.js"></script>
+<?php if ($loadFirebug && 0) { ?>
+  <script type="text/javascript" src="<?php echo $baseFirebugPath; ?>build/firebug-lite.js"></script>
+
 <?php } ?>
+  <script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script>
   <link rel="stylesheet" type="text/css" href="<?php echo $baseExtJSPath; ?>resources/css/ext-all.css" />
   
   <script type="text/javascript" src="<?php echo $baseExtJSPath; ?>adapter/ext/ext-base.js"></script>
