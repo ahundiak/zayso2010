@@ -230,9 +230,11 @@ class SignupController extends Controller
     $row['ass_id']   = $refAss;
     $row['notes']    = NULL;
 
-    if ($row['game_person_id']) $db->update('game_person','game_person_id',$row);
-    else                        $db->insert('game_person','game_person_id',$row);
-		
+    if ($user->isAdmin || !MYAPP_CONFIG_DISABLE_SIGNUPS)
+    {
+      if ($row['game_person_id']) $db->update('game_person','game_person_id',$row);
+      else                        $db->insert('game_person','game_person_id',$row);
+    }
     return header($relocateOk);
   }
 }
