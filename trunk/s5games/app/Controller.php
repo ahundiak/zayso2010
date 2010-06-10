@@ -22,7 +22,7 @@ class Controller
   {
     if (!$this->contextx)
     {
-      $params = require('config.php');
+      $params = require(MYAPP_CONFIG_FILE);
       $contextClassName = $this->contextClassName;
       $this->contextx = new $contextClassName($params);
     }

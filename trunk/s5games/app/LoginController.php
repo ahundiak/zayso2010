@@ -9,6 +9,8 @@ class LoginController extends Controller
   {
     $post = $this->context->post;
 
+    $errors = NULL;
+
     $userAysoid = $post->get('user_aysoid');
     $userIsAuth = FALSE;
     $userPass = $post->get('user_pass');
@@ -29,13 +31,18 @@ class LoginController extends Controller
 		
       default:
         $userName = 'Public';
+        $errors[] = '*** Incorrect password';
     }
     // Verify have a valid id
     $user = new User($this->context);
     $user->loadEayso($userAysoid);
 
     if ($user->isInEayso) $userIsAuth = TRUE;
-    else                  $userIsAuth = FALSE;
+    else
+    {
+      $errors[] = '*** AYSOID is invalid or not current';
+      $userIsAuth = FALSE;
+    }
 
     if (!$userPassIsCorrect) $userIsAuth = FALSE;
 
@@ -45,7 +52,8 @@ class LoginController extends Controller
     $session->set('user_pass',   $userPass);
     $session->set('user_aysoid', $userAysoid);
     $session->set('user_is_auth',$userIsAuth);
-    
+    $session->set('user_errors', $errors);
+
     if ($userIsAuth)
     {
       header("location: index.php?page=schedule");

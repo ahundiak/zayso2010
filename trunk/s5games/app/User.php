@@ -4,6 +4,12 @@ class User
   protected $context = NULL;
   protected $data    = NULL;
   protected $vol     = NULL;
+  protected $certs   = NULL;
+
+  public $isAuth    = false;
+  public $isAdmin   = false;
+  public $isReferee = false;
+  public $isInEayso = false;
 
   public function __construct($context)
   {
@@ -11,15 +17,28 @@ class User
   }
   public function loadEayso($aysoid)
   {
+    // Basic vol info
     $sql = 'SELECT * from eayso_vols WHERE aysoid = :aysoid;';
     $params = array('aysoid' => $aysoid);
     $db  = $this->context->dbEayso;
     $row = $db->fetchRow($sql,$params);
   //Cerad_Debug::dump($row); die();
     $this->vol = $row;
-
+    
     if (!$row) return FALSE;
 
+    $this->isInEayso = true;
+    $this->isAdmin = $this->getIsAdmin();
+
+    // Pull in certifications
+    $sql = 'SELECT * from eayso_vol_certs WHERE aysoid = :aysoid;';
+    $params = array('aysoid' => $aysoid);
+    $db  = $this->context->dbEayso;
+    $rows = $db->fetchRows($sql,$params);
+
+    $this->certs = $rows;
+    $this->isReferee = $this->getIsReferee();
+    
     return TRUE;
   }
   protected function getIsInEayso()
@@ -27,7 +46,7 @@ class User
     if ($this->vol) return TRUE;
     return FALSE;
   }
-  protected function getIsAuth()
+  protected function getIsAuthx()
   {
     if ($this->context->session->get('user_is_auth')) return TRUE;
     
@@ -49,13 +68,21 @@ class User
   }
   protected function getIsReferee()
   {
-    if ($this->isAdmin) return TRUE;
-
-    if (!$this->isAuth) return FALSE;
     if (!$this->vol)    return FALSE;
     if ( $this->vol['mem_year'] < 'FS2009') return FALSE;
 
+    $badge = $this->getRefereeBadgeDesc();
+    if (!$badge) return FALSE;
+    
     return TRUE;
+  }
+  public function getRefereeBadgeDesc()
+  {
+    foreach($this->certs as $cert)
+    {
+      if ($cert['cert_cat'] == 200) return $cert['cert_desc'];
+    }
+    return NULL;
   }
   public function __get($name)
   {
@@ -64,10 +91,10 @@ class User
     switch($name)
     {
       case 'desc':      return $this->getDesc();      break;
-      case 'isAuth':    return $this->getIsAuth();    break;
-      case 'isAdmin':   return $this->getIsAdmin();   break;
-      case 'isInEayso': return $this->getIsInEayso(); break;
-      case 'isReferee': return $this->getIsAuth();    break;
+      case 'isAuthx':    return $this->getIsAuth();    break;
+      case 'isAdminx':   return $this->getIsAdmin();   break;
+      case 'isInEaysox': return $this->getIsInEayso(); break;
+      case 'isRefereex': return $this->getIsAuth();    break;
 
       case 'fnamex':
         $nname = $this->nname;
@@ -79,6 +106,8 @@ class User
   }
   protected function getDesc()
   {
+    if (!$this->isAuth) return 'Guest';
+
     $vol = $this->vol;
     if (!$vol) return 'Guest';
 
@@ -87,8 +116,13 @@ class User
 
     $desc = $vol['mem_year'] . ' ' . $vol['region'] . ' ' . $fname . ' ' . $vol['lname'];
 
-    if (!$this->isAuth)    $desc .= '(Not logged in)';
-    if ( $this->isReferee) $desc .= '(Referee)';
+    if ( $this->isReferee) 
+    {
+      $badge = $this->getRefereeBadgeDesc();
+      $desc .= "($badge)";
+    }
+    else $desc .= '(Not a referee)';
+    
     if ( $this->isAdmin)   $desc .= '(Admin)';
     
     return $desc;

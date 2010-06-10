@@ -97,9 +97,14 @@ class Context extends Cerad_Context
 
     $user = new User($this);
 
-    $aysoid = $this->session->get('user_aysoid');
+    $isAuth = $this->session->get('user_is_auth');
 
-    if ($aysoid) $user->loadEayso($aysoid);
+    if ($isAuth)
+    {
+      $user->isAuth = true;
+      $aysoid = $this->session->get('user_aysoid');
+      if ($aysoid) $user->loadEayso($aysoid);
+    }
 
     $this->set('user',$user);
     

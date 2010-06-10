@@ -112,6 +112,25 @@ class ScheduleController extends Controller
 		
     return $person->region . ' ' . $person->fname . ' ' . $person->lname;
   }
+  function getGamePersons($game)
+  {
+    $persons = array
+    (
+      1 => array('pos' => 'CR',  'name' => '.', 'status' => 0),
+      2 => array('pos' => 'AR1', 'name' => '.', 'status' => 0),
+      3 => array('pos' => 'AR2', 'name' => '.', 'status' => 0),
+      4 => array('pos' => 'AS',  'name' => '',  'status' => 0),
+      5 => array('pos' => 'AS2', 'name' => '',  'status' => 0),
+    );
+    $personsx = $game->getPersons();
+    foreach($personsx as $personx)
+    {
+      $posId = $personx->posId;
+      $persons[$posId]['name']   = $personx->desc;
+      $persons[$posId]['status'] = $personx->status;
+    }
+    return $persons;
+  }
   function displayPersons($game)
   {
     // $user = $this->context->user;
