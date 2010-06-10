@@ -1,6 +1,8 @@
 <?php
 class Cerad_Context
 {
+  protected $data = array();
+
   protected $dbs = array();
   protected $dbAlias = 'dbMain';
 
@@ -15,6 +17,21 @@ class Cerad_Context
     $this->init();
   }
   protected function init() {}
+
+  protected function get($name,$default = NULL)
+  {
+    if(isset($this->data[$name])) return $this->data[$name];
+    return $default;
+  }
+  protected function set($name,$item)
+  {
+    $this->data[$name] = $item;
+  }
+  protected function has($name)
+  {
+    if(isset($this->data[$name])) return true;
+    return false;
+  }
   
   function __get($name)
   {
@@ -25,7 +42,7 @@ class Cerad_Context
       case 'response': return $this->getResponse();
     }
   }
-  public function getDForName($name)
+  public function getDbForName($name)
   {
     if ($name == 'db') $name = $this->dbAlias;
     if (!isset($this->dbs[$name]))
