@@ -54,7 +54,7 @@ class User
   }
   protected function getIsAdmin()
   {
-    if (!$this->isAuth) return FALSE;
+  //if (!$this->isAuth) return FALSE;
     if (!$this->vol)    return FALSE;
 
     $aysoid = $this->vol['aysoid'];

@@ -100,7 +100,9 @@
 </tr>
 <tr>
 	<td colspan="3">
+        <?php if (MYAPP_CONFIG_DISABLE_SIGNUPS) { ?>
 	<span style="background-color: red">Online signup is disabled, please email or call to signup.</span><br />
+        <?php } ?>
 	Signup for games by clicking on one of the referee links in the right hand column.
 	If you don't see any links then make sure you are logged in with the correct password.<br />
 	Green referee names are pending approval, Black means approved.  

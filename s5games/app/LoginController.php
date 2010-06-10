@@ -37,6 +37,13 @@ class LoginController extends Controller
     $user = new User($this->context);
     $user->loadEayso($userAysoid);
 
+    if ($user->isAdmin && $userName != 'Admin')
+    {
+      // die('Just to be sure');
+      $user = new User($this->context);
+      $userPassIsCorrect = FALSE;
+    }
+    
     if ($user->isInEayso) $userIsAuth = TRUE;
     else
     {
