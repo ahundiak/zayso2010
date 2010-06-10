@@ -1,28 +1,39 @@
 <?php
 class ScheduleController extends Controller
 {
+  protected $userIsReferee = false;
+  protected $userIsAdmin   = false;
+
   function executeGet()
   {
+    $context = $this->context;
+    $session = $context->session;
+    $get     = $context->get;
+    $user    = $context->user;
+
+    $this->userIsReferee = $user->isReferee;
+    $this->userIsAdmin   = $user->isAdmin;
+
     // Template data
     $tpl = new Cerad_Data();
-    $tpl->userName = $userName = $this->getUserName();
-		
-    $tpl->showFri  = $this->getSess('sched_show_fri', 1);
-    $tpl->showSat  = $this->getSess('sched_show_sat', 1);
-    $tpl->showSun  = $this->getSess('sched_show_sun', 1);
-    $tpl->showU10  = $this->getSess('sched_show_u10', 1);
-    $tpl->showU12  = $this->getSess('sched_show_u12', 1);
-    $tpl->showU14  = $this->getSess('sched_show_u14', 1);
-    $tpl->showU16  = $this->getSess('sched_show_u16', 1);
-    $tpl->showU19  = $this->getSess('sched_show_u19', 1);
-    $tpl->showCoed = $this->getSess('sched_show_coed',1);
-    $tpl->showGirl = $this->getSess('sched_show_girl',1);
-    $tpl->showMM   = $this->getSess('sched_show_mm',  1);
-    $tpl->showJH   = $this->getSess('sched_show_jh',  1);
+    $tpl->user = $user;
 
-    $tpl->sort       = $this->getSess('sched_sort',1);
-    $tpl->searchGame = $this->getSess('sched_search_game');
-    $tpl->searchRef  = $this->getSess('sched_search_ref');
+    $tpl->showFri  = $session->get('sched_show_fri', 1);
+    $tpl->showSat  = $session->get('sched_show_sat', 1);
+    $tpl->showSun  = $session->get('sched_show_sun', 1);
+    $tpl->showU10  = $session->get('sched_show_u10', 1);
+    $tpl->showU12  = $session->get('sched_show_u12', 1);
+    $tpl->showU14  = $session->get('sched_show_u14', 1);
+    $tpl->showU16  = $session->get('sched_show_u16', 1);
+    $tpl->showU19  = $session->get('sched_show_u19', 1);
+    $tpl->showCoed = $session->get('sched_show_coed',1);
+    $tpl->showGirl = $session->get('sched_show_girl',1);
+    $tpl->showMM   = $session->get('sched_show_mm',  1);
+    $tpl->showJH   = $session->get('sched_show_jh',  1);
+
+    $tpl->sort       = $session->get('sched_sort',1);
+    $tpl->searchGame = $session->get('sched_search_game');
+    $tpl->searchRef  = $session->get('sched_search_ref');
 		
     $tpl->sortPickList = array
     (
@@ -34,14 +45,14 @@ class ScheduleController extends Controller
     );
 		
     // Setup for query
-    $query = new Query($this->getDb());
+    $query = new Query($context->db);
     $gameIds = $query->queryDistinctGames($tpl);
 		
     $tpl->games = $query->queryGamesForIds($gameIds,$tpl->sort,$tpl->searchGame,$tpl->searchRef);
     $tpl->gameCnt = count($tpl->games);
 		
     // And process it
-    $out = $this->getGet('out','web');
+    $out = $get->get('out','web');
     switch($out)
     {
       case 'web':
@@ -60,26 +71,21 @@ class ScheduleController extends Controller
   }
   function executePost()
   {
-    $_SESSION['sched_sort']        = $this->getPost('sched_sort');
-    $_SESSION['sched_search_game'] = $this->getPost('sched_search_game');
-    $_SESSION['sched_search_ref' ] = $this->getPost('sched_search_ref');
-		
-    $_SESSION['sched_show_fri']  = $this->getPost('sched_show_fri');
-    $_SESSION['sched_show_sat']  = $this->getPost('sched_show_sat');
-    $_SESSION['sched_show_sun']  = $this->getPost('sched_show_sun');
-		
-    $_SESSION['sched_show_u10']  = $this->getPost('sched_show_u10');
-    $_SESSION['sched_show_u12']  = $this->getPost('sched_show_u12');
-    $_SESSION['sched_show_u14']  = $this->getPost('sched_show_u14');
-    $_SESSION['sched_show_u16']  = $this->getPost('sched_show_u16');
-    $_SESSION['sched_show_u19']  = $this->getPost('sched_show_u19');
-		
-    $_SESSION['sched_show_coed'] = $this->getPost('sched_show_coed');
-    $_SESSION['sched_show_girl'] = $this->getPost('sched_show_girl');
+    $session = $this->context->session;
+    $post    = $this->context->post;
 
-    $_SESSION['sched_show_mm']   = $this->getPost('sched_show_mm');
-    $_SESSION['sched_show_jh']   = $this->getPost('sched_show_jh');
-		
+    $names = array
+    (
+      'sched_sort','sched_search_game','sched_search_ref',
+      'sched_show_fri','sched_show_sat','sched_show_sun',
+      'sched_show_u10','sched_show_u12','sched_show_u14','sched_show_u16','sched_show_u19',
+      'sched_show_coed','sched_show_girl',
+      'sched_show_jh','sched_show_mm',
+    );
+    foreach($names as $name)
+    {
+      $session->set($name,$post->get($name));
+    }
     header("location: index.php?page=schedule");
   }
   function displayBracket($game)
@@ -87,8 +93,8 @@ class ScheduleController extends Controller
     $bracket = $game->bracket;
     switch($bracket)
     {
-      case 'NO BRACKET' : return 'NA'; break;
-      case 'FINAL'      : return 'FINALS'; break;
+      case 'NO BRACKETx' : return 'NA'; break;
+      case 'FINALx'      : return 'FINALS'; break;
     }
     return $bracket;
   }
@@ -108,6 +114,10 @@ class ScheduleController extends Controller
   }
   function displayPersons($game)
   {
+    // $user = $this->context->user;
+    $userIsReferee = $this->userIsReferee;
+    $userIsAdmin   = $this->userIsAdmin;
+
     $persons = array
     (
       1 => array('pos' => 'CR',  'name' => '.', 'status' => 0),
@@ -127,7 +137,7 @@ class ScheduleController extends Controller
     foreach($persons as $posId => $person)
     {
       $pos  = $person['pos'];
-      if ($this->isReferee())
+      if ($userIsReferee)
       {
         $gameId = $game->id;
 	$url = "index.php?page=signup&game={$gameId}&pos={$posId}";
@@ -137,12 +147,12 @@ class ScheduleController extends Controller
       {
         case 1:
           $span = "<span style=\"color: green;\">";
-          if (!$this->isAdmin()) $pos = $person['pos'];
+          if (!$userIsAdmin) $pos = $person['pos'];
           break;
 					
         case 3:
           $span = "<span style=\"color: brown;\">";
-          if (!$this->isAdmin()) $pos = $person['pos'];
+          if (!$userIsAdmin) $pos = $person['pos'];
           break;
 					
 	case 2:
@@ -151,7 +161,7 @@ class ScheduleController extends Controller
 					
 	case 4:
           $span = "<span>";
-          if (!$this->isAdmin()) $pos = $person['pos'];
+          if (!$userIsAdmin) $pos = $person['pos'];
           break;
 					
 	default:

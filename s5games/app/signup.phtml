@@ -3,29 +3,12 @@
 
 <input type="hidden" name="game_id" value="<?php echo $game->id;   ?>" />
 <input type="hidden" name="pos_id"  value="<?php echo $tpl->posId; ?>" />
-<input type="hidden" name="referee_aysoid" 
-	   value="<?php echo $this->escape($tpl->refAysoid); ?>" />
 		       
 <table border="1" width="500">
 <tr><th colspan="2">Referee Signup Form</th></tr>
 <tr>
-  <td>Game Number</td>
-  <td><?php echo $game->id; ?></td>
-</tr>
-<tr>
-  <td>Date</td><td><?php echo $game->date; ?></td>
-</tr>
-<tr>
-  <td>Time</td>
-  <td><?php echo $game->time; ?></td>
-</tr>
-<tr>
-  <td>Field</td>
-  <td><?php echo $game->field; ?></td>
-</tr>
-<tr>
-  <td>Div</td>
-  <td><?php echo $game->div; ?></td>
+  <td>Game Info</td>
+  <td><?php echo "{$game->id}, {$game->date}, {$game->time}, {$game->div}, {$game->field}"; ?></td>
 </tr>
 <tr>
   <td>Bracket</td>
@@ -39,7 +22,7 @@
   <td>Away Team</td>
   <td><?php echo $this->escape($game->awayName); ?></td>
 </tr>
-<tr><td colspan="2">&nbsp;</td></tr>
+<tr><td colspan="2"></td></tr>
 <?php foreach($tpl->persons as $index => $person) {
     if ($person['name'] || ($index < 3)) {
 ?>
@@ -48,12 +31,12 @@
   <td><?php echo $person['name']; ?></td>
 </tr>
 <?php }} ?>
-<tr><td colspan="2">&nbsp;</td></tr>
+<tr><td colspan="2"></td></tr>
 <tr>
   <td>Referee Position</td>
   <td>
   <?php
-    if (!$this->isAdmin()) echo $tpl->posPickList[$tpl->posId];
+    if (!$tpl->user->isAdmin) echo $tpl->posPickList[$tpl->posId];
     else {
   ?>
     <select name="pos_id">
@@ -72,38 +55,49 @@
   </td>
 </tr>
 <tr>
+  <td>Referee AYSOID</td>
+  <td>
+    <input type="text" name="referee_aysoid" size="10"
+           value="<?php echo $this->escape($tpl->refAysoid); ?>" />
+    <input type="submit" name="referee_verify" value="Verify AYSOID" />
+  </td>
+</tr>
+<tr><td colspan="2"></td></tr>
+<tr>
   <td>Referee Region</td>
   <td>
+    <?php
+      if ($tpl->refRegion) echo $tpl->regionPickList[$tpl->refRegion];
+    ?>
+    <?php /*
     <select name="referee_region">
       <option value="0">Select your region</option>
       <?php echo $this->formOptions($tpl->regionPickList,$tpl->refRegion); ?>
     </select>
+     */ ?>
   </td>
 </tr>
 <tr>
   <td>Referee First Name</td>
   <td>
-    <input type="text" name="referee_first_name" size="30"
+    <?php echo $this->escape($tpl->refFirstName); ?>
+    <?php /*
+    <input type="text" name="referee_first_name" size="30" readonly="readonly"
            value="<?php echo $this->escape($tpl->refFirstName); ?>" />
+     */ ?>
   </td>
 </tr>
 <tr>
   <td>Referee Last Name</td>
   <td>
+    <?php echo $this->escape($tpl->refLastName); ?>
+    <?php /*
     <input type="text" name="referee_last_name" size="30"
            value="<?php echo $this->escape($tpl->refLastName); ?>" />
+    */ ?>
   </td>
 </tr>
-<?php if ($this->isAdmin()) {?>
-<tr>
-  <td>Referee AYSOID (optional)</td>
-  <td>
-    <input type="text" name="referee_aysoid" size="10"
-           value="<?php echo $this->escape($tpl->refAysoid); ?>" />
-  </td>
-</tr>
-<?php } ?>
-<tr><td colspan="2">&nbsp;</td></tr>
+<tr><td colspan="2"></td></tr>
 <tr>
   <td>Assignment Status</td>
   <td>
@@ -116,10 +110,6 @@
   <td><a href="index.php?page=schedule">Return to schedule</a></td>
   <td>
     <input type="submit" name="referee_signup" value="Signup For Game" />
-    <?php if ($this->isAdmin() && 0) { ?>
-      <input type="checkbox" name="referee_remove_confirm" value="1" />
-      <input type="submit" name="referee_remove" value="Remove" />
-    <?php } ?>
   </td>
 </tr>
 <?php if ($tpl->errors) { ?>
@@ -136,13 +126,19 @@
 </table>
 </form>
 <br />
-<div style="width: 500px">
+<div style="width: 600px">
 <p>
-To signup for a game, fill in the referee information in the bottom third of the form then press "Signup".
+To signup for a game, fill in your 8 digit ayso volunteer id then press "Signup".
 Your name will appear in the middle section of the form indicating that the assignment has been accepted
 and is pending approval.  Return to the schedule screen and you will see your name in green.  When the
 assignor approves your request your name will turn to black.
-</p><br /><p>
+</p>
+<ul>
+  <li>Do not sign up for your own child's games.</li>
+  <li>Do not sign up for your own region's games.</li>
+  <li>Avoid signing up for games in the same division/bracket that your children play in.</li>
+</ul>
+<p>
 If you really do not want to do the game because your schedule is packed but are signing up anyways because
 it is required for the tournament then choose the "Ref only if needed" option from the Assignment Status
 column.  Your name will show in red on the schedule and other people will be able to take your assignment. 

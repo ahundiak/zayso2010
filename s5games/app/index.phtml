@@ -1,4 +1,4 @@
-<div style="width: 500px">
+<div style="width: 600px">
 <p style="">Section 5 Games Referee Signup 2010</p>
 <br />
 <p>
@@ -6,28 +6,37 @@ The plan is to have the schedule posted and ready for signups on Friday, June 11
 </p>
 <br />
 <p>
-If you are a referee then enter the password sent out in the email and press "Login".  
-If you just want to browse the schedule without signing up for game then press "Game Schedule"
-without any password at all.
+If you are a coach/parent/player etc and just want to look at the schedule then
+<a href="index.php?page=schedule">click here</a>.
+</p>
+<br />
+<p>
+If you are a referee then enter your AYSOID (8 digit volunteer number, can be found <a href="http://www.eayso.org">here</a>)
+and the password sent out in the email and press "Login".  
 </p>
 <br />
 <p>For help: Contact <a href="mailto:ahundiak@s5games.org">Art Hundiak</a>. Phone: 256.457.5943</p>
-<p>Spring Area 5C referee site can be found:  <a href="http://www.zayso.org/osso2007">here</a>.</p>
+<p>Spring Area 5C referee site can be reached  <a href="http://www.zayso.org/osso2007">here</a>.</p>
 </div>
 <br />
 <form name="login_form" method="post" action="index.php?page=login">
 <table border="1">
   <tr>
+    <td>AYSOID</td>
+    <td>
+      <input name="user_aysoid" type="text" id="user_aysoid" value="<?php echo $this->escape($tpl->userAysoid); ?>" />
+    </td>
+  </tr>
+  <tr>
     <td>Password</td>
     <td>
-      <input name="user_pass" type="password" id="user_pass">
+      <input name="user_pass" type="password" id="user_pass" value="<?php echo $this->escape($tpl->userPass); ?>" />
     </td>
   </tr>
   <tr>
     <td>&nbsp;</td>
     <td>
       <input type="submit" name="Submit" value="Login">
-      <input type="submit" name="Submit" value="Game Schedule">
     </td>
   </tr>
 </table> 

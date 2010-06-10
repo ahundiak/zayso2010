@@ -3,15 +3,22 @@ class SignupController extends Controller
 {
   function executeGet()
   {
+    $context = $this->context;
+    $db      = $context->db;
+    $get     = $context->get;
+    $user    = $context->user;
+    $session = $context->session;
+
     // Make sure are logged in
     $relocate = "location: index.php?page=schedule";
-    if (!$this->isReferee()) return header($relocate);
+    if (!$user->isReferee) return header($relocate);
 		
     $tpl = new Cerad_Data();
-		
+    $tpl->user = $user;
+
     // Need to have game and position
-    $gameId = (int)$this->getGet('game');
-    $posId  = (int)$this->getGet('pos');
+    $gameId = (int)$get->get('game');
+    $posId  = (int)$get->get('pos');
     if (!$gameId || !$posId) return header($relocate);
 		
     $tpl->gameId = $gameId;
@@ -24,7 +31,6 @@ class SignupController extends Controller
       'game_id' => $gameId,
       'pos_id'  => $posId,
     );
-    $db  = $this->getDb();
     $row = $db->fetchRow($sql,$params);
     if ($row)
     {
@@ -36,19 +42,30 @@ class SignupController extends Controller
       $tpl->refAss       = $row['ass_id'];
     }
     // Session data if we have it
-    $tpl->errors = $this->getSess('ref_errors');
+    $tpl->errors = $session->get('ref_errors');
 		
     if (!$row || $tpl->errors)
     {
-      $tpl->refRegion    = $this->getSess('ref_region');
-      $tpl->refFirstName = $this->getSess('ref_first_name');
-      $tpl->refLastName  = $this->getSess('ref_last_name');
-      $tpl->refAysoid    = $this->getSess('ref_aysoid');
-      $tpl->refStatus    = $this->getSess('ref_status',1);
-      $tpl->refAss       = $this->getSess('ref_ass',0);
+      $tpl->refRegion    = $session->get('ref_region');
+      $tpl->refFirstName = $session->get('ref_first_name');
+      $tpl->refLastName  = $session->get('ref_last_name');
+      $tpl->refAysoid    = $session->get('ref_aysoid');
+      $tpl->refStatus    = $session->get('ref_status',1);
+      $tpl->refAss       = $session->get('ref_ass',0);
     }
-    if ($tpl->errors) $_SESSION['ref_errors'] = NULL;
-		
+    if ($tpl->errors) $session->set('ref_errors',NULL);
+
+    if (!$tpl->refAysoid)
+    {
+      $tpl->refAysoid = $user->aysoid;
+    }
+    // Always need aysoid
+    $ref = new User($context);
+    $ref->loadEayso($tpl->refAysoid);
+    $tpl->refRegion    = $ref->region;
+    $tpl->refFirstName = $ref->fnamex;
+    $tpl->refLastName  = $ref->lname;
+
     // Referee positions
     $tpl->posPickList = array
     (
@@ -71,7 +88,7 @@ class SignupController extends Controller
     $tpl->regionPickList = $regionRepo->getRegionPickList();
 		
     // Query
-    $query = new Query($this->getDb());
+    $query = new Query($db);
     $events = $query->queryGamesForIds($gameId);
 		
     if (count($events) != 1) return header($relocate);
@@ -103,7 +120,7 @@ class SignupController extends Controller
       1 => 'Request this game',
       2 => 'Ref only if needed',
     );
-    if ($this->isAdmin())
+    if ($user->isAdmin)
     {
       $tpl->statusPickList[3] = 'Assigned by admin';
       $tpl->statusPickList[4] = 'Approved';
@@ -115,39 +132,56 @@ class SignupController extends Controller
   }
   function executePost()
   {
-    $refRegion    = (int)$this->getPost('referee_region');
-    $refFirstName =      $this->getPost('referee_first_name');
-    $refLastName  =      $this->getPost('referee_last_name');
-    $refAysoid    = (int)$this->getPost('referee_aysoid');
-    $refStatus    = (int)$this->getPost('referee_status');
-    $refAss       = (int)$this->getPost('referee_ass');
+    $context = $this->context;
+    $user    = $context->user;
+    $post    = $context->post;
+    $session = $context->session;
+
+    $refRegion    = (int)$post->get('referee_region');
+    $refFirstName =      $post->get('referee_first_name');
+    $refLastName  =      $post->get('referee_last_name');
+
+    $refAysoid    = (int)$post->get('referee_aysoid');
+    $refStatus    = (int)$post->get('referee_status');
+    $refAss       = (int)$post->get('referee_ass');
 		
-    if (!$refAysoid) $refAysoid = NULL;
+    // if (!$refAysoid) $refAysoid = NULL;
 		
     $errors = NULL;
-    if (!$refRegion)    $errors[] = '*** Please enter your region number';
-    if (!$refFirstName) $errors[] = '*** Please enter your first name';
-    if (!$refLastName)  $errors[] = '*** Please enter your last name';
-		
-    $gameId = (int)$this->getPost('game_id');
-    $posId  = (int)$this->getPost('pos_id');
+    //if (!$refRegion)    $errors[] = '*** Please enter your region number';
+    //if (!$refFirstName) $errors[] = '*** Please enter your first name';
+    //if (!$refLastName)  $errors[] = '*** Please enter your last name';
+    if (!$refAysoid)    $errors[] = '*** Please enter your 8 digit ayso volunteer number';
+
+    $ref = new User($context);
+    $ref->loadEayso($refAysoid);
+    $refRegion    = $ref->region;
+    $refFirstName = $ref->fnamex;
+    $refLastName  = $ref->lname;
+
+    if ($refAysoid)
+    {
+      if (!$ref->isInEayso) $errors[] = '*** The volunteer number is not valid or current';
+      if (!$ref->isReferee) $errors[] = '*** Volunteer is not a current certified referee';
+    }
+    $gameId = (int)$post->get('game_id');
+    $posId  = (int)$post->get('pos_id');
 		
     // Check data
     $relocate = "location: index.php?page=schedule";
     if (!$gameId || !$posId) return header($relocate);
-    if (!$this->isReferee()) return header($relocate);
+    if (!$user->isReferee)   return header($relocate);
 		
     // Ok so far
     $relocateOk = "location: index.php?page=signup&game={$gameId}&pos={$posId}";
-    $db = $this->getDb();
+    $db = $context->db;
 		
     // See if a removal
     if ($refStatus == 5)
     {
-      if (!$this->isAdmin()) return header($relocate);
+      if (!$user->isAdmin) return header($relocate);
     //if (!$this->getPost('referee_remove_confirm')) return header($relocateOk);
 			
-      $db = $this->getDb();
       $sql = "DELETE FROM game_person WHERE game_num = :game_id AND pos_id = :pos_id;";
       $params = array
       (
@@ -155,19 +189,22 @@ class SignupController extends Controller
 	'pos_id'  => $posId,
       );
       $db->execute($sql,$params);
-      $_SESSION['ref_status'] = 1;
+      $session->set('ref_status',1);
       return header($relocateOk);
     }
-    $_SESSION['ref_region']     = $refRegion;
-    $_SESSION['ref_first_name'] = $refFirstName;
-    $_SESSION['ref_last_name']  = $refLastName;
-    $_SESSION['ref_aysoid']     = $refAysoid;
-    $_SESSION['ref_status']     = $refStatus;
-    $_SESSION['ref_ass']        = $refAss;
-    $_SESSION['ref_errors']     = $errors;
+    $session->set('ref_region',    $refRegion);
+    $session->set('ref_first_name',$refFirstName);
+    $session->set('ref_last_name', $refLastName);
+    $session->set('ref_aysoid',    $refAysoid);
+    $session->set('ref_status',    $refStatus);
+    $session->set('ref_ass',       $refAss);
+    $session->set('ref_errors',    $errors);
 		
     if ($errors) return header($relocateOk);
-		
+
+    // Might have been just a lookup
+    if (!$post->get('referee_signup')) return header($relocateOk);
+    
     // See if have an existing record
     $sql = "SELECT * FROM game_person WHERE game_num = :game_id AND pos_id = :pos_id;";
     $params = array
