@@ -1,7 +1,7 @@
 <?php
 error_reporting(E_ALL);
 
-define('MYAPP_CONFIG_HOME','/export/home/ahundiak/zayso2010/');
+define('MYAPP_CONFIG_HOME','/home/ahundiak/zayso2010/');
 
 /* Wrap everything in a class to avoid global variables */
 class WebIndex
@@ -11,7 +11,7 @@ class WebIndex
     /* This could get moved to .htaccess */
     ini_set('include_path','.' .
       PATH_SEPARATOR . MYAPP_CONFIG_HOME . 's5games/app' .
-      PATH_SEPARATOR . MYAPP_CONFIG_HOME . 's5games/library'
+      PATH_SEPARATOR . MYAPP_CONFIG_HOME . 'Cerad/library'
     );
     session_start();
     date_default_timezone_set('US/Central');
