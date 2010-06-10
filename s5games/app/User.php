@@ -119,9 +119,9 @@ class User
     if ( $this->isReferee) 
     {
       $badge = $this->getRefereeBadgeDesc();
-      $desc .= "($badge)";
+      $desc .= " ($badge)";
     }
-    else $desc .= '(Not a referee)';
+    else $desc .= ' (Not a referee)';
     
     if ( $this->isAdmin)   $desc .= '(Admin)';
     
