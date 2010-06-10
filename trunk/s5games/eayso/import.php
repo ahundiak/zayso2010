@@ -45,6 +45,7 @@ class Import
     $vols  = new ImportEaysoVolReg ($this, MYAPP_CONFIG_DATA . 'EaysoSec5Vols2008_20100609.csv');
     echo "Eayso Vol Import 2008 {$vols->countInsert} {$vols->countUpdate}\n";
 */
+    /*
     $files = array(
       'RefNat','RefNat2','RefAdv','RefInt',
       'RefReg','RefRegSH','RefU8','RefU8SH','RefSH','RefSHz','RefAR','RefARSH',
@@ -56,7 +57,12 @@ class Import
     {
       echo "Import $file\n";
       $certs = new ImportEaysoVolCerts($this, $path . $file . '.csv');
-    }
+    }*/
+    $file = MYAPP_CONFIG_DATA . 's5games/vols.csv';
+    $vols  = new ImportEaysoVolReg ($this, $file);
+
+    $file = MYAPP_CONFIG_DATA . 's5games/certs.csv';
+    $certs = new ImportEaysoVolCerts($this, $file);
   }
 }
 $import = new Import();
