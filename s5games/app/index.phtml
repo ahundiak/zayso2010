@@ -39,5 +39,16 @@ and the password sent out in the email and press "Login".
       <input type="submit" name="Submit" value="Login">
     </td>
   </tr>
+  <?php if ($tpl->userErrors) { ?>
+  <tr>
+    <td colspan="2" style="color: red">
+    <?php foreach($tpl->userErrors as $error)
+    {
+      echo $this->escape($error) . "\n<br />";
+    }
+    ?>
+    </td>
+  </tr>
+  <?php } ?>
 </table> 
 </form>

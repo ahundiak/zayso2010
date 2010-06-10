@@ -65,6 +65,7 @@ class SignupController extends Controller
     $tpl->refRegion    = $ref->region;
     $tpl->refFirstName = $ref->fnamex;
     $tpl->refLastName  = $ref->lname;
+    $tpl->refBadge     = $ref->getRefereeBadgeDesc();
 
     // Referee positions
     $tpl->posPickList = array
@@ -190,6 +191,7 @@ class SignupController extends Controller
       );
       $db->execute($sql,$params);
       $session->set('ref_status',1);
+      $session->set('ref_aysoid',$refAysoid);
       return header($relocateOk);
     }
     $session->set('ref_region',    $refRegion);

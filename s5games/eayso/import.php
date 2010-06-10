@@ -30,11 +30,12 @@ class Import
   {
     // Startup stuff
     ini_set('include_path','.' . 
-      PATH_SEPARATOR . MYAPP_CONFIG_HOME . 'Cerad/library'
+      PATH_SEPARATOR . MYAPP_CONFIG_HOME . 'Cerad/library' .
+      PATH_SEPARATOR . MYAPP_CONFIG_HOME . 's5games/data/classes'
     );
     require_once 'Cerad/Loader.php';
     Cerad_Loader::registerAutoload();
-        
+    /*
     $vols  = new ImportEaysoVolReg ($this, MYAPP_CONFIG_DATA . 'EaysoSec5Vols2010_20100609.csv');
     echo "Eayso Vol Import 2010 {$vols->countInsert} {$vols->countUpdate}\n";
 
@@ -43,13 +44,22 @@ class Import
 
     $vols  = new ImportEaysoVolReg ($this, MYAPP_CONFIG_DATA . 'EaysoSec5Vols2008_20100609.csv');
     echo "Eayso Vol Import 2008 {$vols->countInsert} {$vols->countUpdate}\n";
+*/
+    $files = array(
+      'RefNat','RefNat2','RefAdv','RefInt',
+      'RefReg','RefRegSH','RefU8','RefU8SH','RefSH','RefSHz','RefAR','RefARSH',
+      'CoachSH','CoachSHz'
+    );
 
-//      $certs = new ImportEaysoVolCert($this, $path . 'volunteers/VolunteerCertificationCoach20080211.xml');  
-//      $certs = new ImportEaysoVolCert($this, $path . 'volunteers/VolunteerCertificationReferee20080211.xml');  
-//      $certs = new ImportEaysoVolCert($this, $path . 'volunteers/VolunteerCertificationManagement20080211.xml');  
-//      $certs = new ImportEaysoVolCert($this, $path . 'volunteers/VolunteerCertificationInstructor20080211.xml'); 
+    $path = MYAPP_CONFIG_DATA . 'eayso/20100610/';
+    foreach($files as $file)
+    {
+      echo "Import $file\n";
+      $certs = new ImportEaysoVolCerts($this, $path . $file . '.csv');
     }
+  }
 }
 $import = new Import();
 $import->process();
+echo "Import complete\n";
 ?>

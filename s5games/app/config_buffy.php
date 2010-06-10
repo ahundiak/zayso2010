@@ -28,12 +28,5 @@ return array
       'adapter'  => 'pdo_mysql'
     ),
   ),
-  'users' => array
-  (
-    'Guest'   => array('id' => -1, 'name' => 'Guest',  'pass' => ''),
-    'Referee' => array('id' => -2, 'name' => 'Referee','pass' => 's5games'),
-    'Admin'   => array('id' => -3, 'name' => 'Admin',  'pass' => 'admin5'),
-  ),
-  'userDefaultId' => -1,
 );
 ?>
