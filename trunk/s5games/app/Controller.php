@@ -1,56 +1,37 @@
 <?php
 class Controller
 {
-  protected $db = NULL;
-	
-  protected $dbParams = array
-  (
-    'host'     => '127.0.0.1',
-    'username' => 'impd',
-    'password' => 'impd894',
-    'dbname'   => 's5games2010',
-    'dbtype'   => 'mysql',
-    'adapter'  => 'pdo_mysql'
-  );
-  public function getDb()
+  protected $contextx = NULL;
+  protected $contextClassName = 'Context';
+  
+  function __construct()
   {
-    if (!$this->db)
-    {
-      $this->db = new Cerad_DatabaseAdapter($this->dbParams);
-    }
-    return $this->db;
+    $this->init();
   }
-  function getUserName()
+  protected function init() {}
+
+  public function __get($name)
   {
-    if (isset( $_SESSION['user_name']) && $_SESSION['user_name'])
-    {
-      return $_SESSION['user_name'];
-    }
-    header("location: index.php");
-  }
-  function isReferee()
-  {
-    $name = $this->getUserName();
     switch($name)
     {
-      case 'General':
-      case 'Admin':
-        return TRUE;
+      case 'context': return $this->getContext();  break;
+      case 'user':    return $this->context->user; break;
     }
-    return FALSE;
   }
-  function isAdmin()
+  protected function getContext()
   {
-    $name = $this->getUserName();
-    switch($name)
+    if (!$this->contextx)
     {
-      case 'Admin':
-        return TRUE;
+      $params = require('config.php');
+      $contextClassName = $this->contextClassName;
+      $this->contextx = new $contextClassName($params);
     }
-    return FALSE;
+    return $this->contextx;
   }
   public function getSess($name,$defaultValue = NULL)
   {
+    return $this->context->session->get($name,$defaultValue);
+    
     if (isset($_SESSION[$name])) return $_SESSION[$name];
     return $defaultValue;
   }

@@ -102,6 +102,13 @@ class ImportGames
     $data['game_div'] = 'U' . $data['game_div'];
     
     $data['game_field'] = $this->fields[$data['game_field']];
+
+    switch($data['game_bracket'])
+    {
+      case 'NO BRACKET' : $data['game_bracket'] = 'NA';     break;
+      case 'FINAL'      : $data['game_bracket'] = 'FINALS'; break;
+    }
+
   //Cerad_Debug::dump($data); die();
 		
     // And store
