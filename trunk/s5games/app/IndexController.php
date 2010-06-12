@@ -20,6 +20,9 @@ class IndexController extends Controller
     $tpl->userAysoid = $session->get('user_aysoid');
     $tpl->userErrors = $session->get('user_errors');
 
+    // Backward compatibility
+    if ($tpl->userName == 'General') $tpl->userName = $tpl->userAysoid;
+
     if ($tpl->userErrors) $session->set('user_errors',NULL);
     
     // Process the template
