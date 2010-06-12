@@ -5,45 +5,65 @@ class LoginController extends Controller
   {
     header("location: index.php");
   }
+  function tryOSSO($userName,$userPass)
+  {
+    $userPass = md5($userPass);
+
+    // Usual query
+    $sql = <<<EOT
+SELECT
+  account.account_id AS account_id,
+  member.member_id   AS member_id,
+  person.aysoid      AS aysoid
+FROM
+  account
+LEFT JOIN member ON member.account_id = account.account_id
+LEFT JOIN person ON person.person_id  = member.member_id
+WHERE
+  account.account_user = :user_name AND
+  account.account_pass = :user_pass AND
+  member.level = 1
+EOT;
+    $paramsx = array
+    (
+      'user_name' => $userName,
+      'user_pass' => $userPass
+    );
+    $db = $this->context->dbOSSO;
+
+    $row = $db->fetchRow($sql,$paramsx);
+
+    if (!$row) return NULL;
+
+    if (!$row['aysoid']) return NULL;
+
+    return $row['aysoid'];
+  }
   function executePost()
   {
     $post = $this->context->post;
 
     $errors = NULL;
 
-    $userAysoid = $post->get('user_aysoid');
-    $userIsAuth = FALSE;
-    $userPass = $post->get('user_pass');
-    $userPassIsCorrect = FALSE;
+    $userAysoid = $post->get('user_name');
+    $userName   = $post->get('user_name');
+    $userPass   = $post->get('user_pass');
 
-    switch($userPass)
+    $userIsAuth = FALSE;
+    $userIsOSSO = FALSE;
+
+    // See if in osso
+    $aysoid = $this->tryOSSO($userName,$userPass);
+    if ($aysoid)
     {
-      case 's5games':
-        $userName = 'General';
-        $userPassIsCorrect = TRUE;
-        break;
-		
-      case 'soccer894':
-        $userName = 'Admin';
-        $userPassIsCorrect = TRUE;
-        //if (!$userAysoid) $userAysoid = '99437977';
-	break;
-		
-      default:
-        $userName = 'Public';
-        $errors[] = '*** Incorrect password';
+      $userAysoid = $aysoid;
+      $userIsOSSO = TRUE;
     }
-    // Verify have a valid id
+    // Load the user
     $user = new User($this->context);
     $user->loadEayso($userAysoid);
 
-    if ($user->isAdmin && $userName != 'Admin')
-    {
-      // die('Just to be sure');
-      $user = new User($this->context);
-      $userPassIsCorrect = FALSE;
-    }
-    
+    // Verify have a valid aysoid
     if ($user->isInEayso) $userIsAuth = TRUE;
     else
     {
@@ -51,8 +71,19 @@ class LoginController extends Controller
       $userIsAuth = FALSE;
     }
 
-    if (!$userPassIsCorrect) $userIsAuth = FALSE;
+    // Check password
+    if (!$userIsOSSO)
+    {
+      if ($userPass != 's5games') $userAuth = FALSE;
 
+      // Admin must sign in from osso
+      if ($user->isAdmin)
+      {
+        $user = new User($this->context);
+        $userIsAuth = FALSE;
+        $errors[] = '*** Invalid Admin Login Attempt';
+      }
+    }
     $session = $this->context->session;
     
     $session->set('user_name',   $userName);
