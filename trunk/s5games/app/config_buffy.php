@@ -27,6 +27,14 @@ return array
       'dbtype'   => 'mysql',
       'adapter'  => 'pdo_mysql'
     ),
+    'dbOSSO' => array (
+      'host'     => '127.0.0.1',
+      'username' => 'impd',
+      'password' => 'impd894',
+      'dbname'   => 'osso2007',
+      'dbtype'   => 'mysql',
+      'adapter'  => 'pdo_mysql'
+    ),
   ),
 );
 ?>

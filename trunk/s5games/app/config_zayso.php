@@ -27,6 +27,14 @@ return array
       'dbtype'   => 'mysql',
       'adapter'  => 'pdo_mysql'
     ),
+    'dbOSSO' => array (
+      'host'     => 'db.telana.com',
+      'username' => 'impd',
+      'password' => 'impd894',
+      'dbname'   => 'osso2007',
+      'dbtype'   => 'mysql',
+      'adapter'  => 'pdo_mysql'
+    ),
   ),
 );
 ?>

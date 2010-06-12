@@ -15,8 +15,9 @@ class IndexController extends Controller
       return header("location: index.php");
     }
     $tpl = new Cerad_Data();
-    $tpl->userAysoid = $session->get('user_aysoid');
+    $tpl->userName   = $session->get('user_name');
     $tpl->userPass   = $session->get('user_pass');
+    $tpl->userAysoid = $session->get('user_aysoid');
     $tpl->userErrors = $session->get('user_errors');
 
     if ($tpl->userErrors) $session->set('user_errors',NULL);
