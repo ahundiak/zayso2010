@@ -121,7 +121,7 @@ class User
       $badge = $this->getRefereeBadgeDesc();
       $desc .= " ($badge)";
     }
-    else $desc .= ' (Not a referee)';
+    else $desc .= ' (NOT a certified AYSO referee)';
     
     if ( $this->isAdmin)   $desc .= '(Admin)';
     
