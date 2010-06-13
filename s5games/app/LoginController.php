@@ -48,7 +48,7 @@ EOT;
     $userAysoid = $post->get('user_name');
     $userName   = $post->get('user_name');
     $userPass   = $post->get('user_pass');
-
+    
     $userIsAuth = FALSE;
     $userIsOSSO = FALSE;
 
@@ -79,7 +79,7 @@ EOT;
       // Admin must sign in from osso
       if ($user->isAdmin)
       {
-        $user = new User($this->context);
+        // $user = new User($this->context);
         $userIsAuth = FALSE;
         $errors[] = '*** Invalid Admin Login Attempt';
       }
