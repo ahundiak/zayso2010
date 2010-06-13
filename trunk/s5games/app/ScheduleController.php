@@ -50,7 +50,12 @@ class ScheduleController extends Controller
 		
     $tpl->games = $query->queryGamesForIds($gameIds,$tpl->sort,$tpl->searchGame,$tpl->searchRef);
     $tpl->gameCnt = count($tpl->games);
-		
+
+    // Stats
+    $stats = $query->getCoverageStats();
+    $tpl->statCovered   = $stats['covered'];
+    $tpl->statOpenSlots = $stats['slots_open'];
+    
     // And process it
     $out = $get->get('out','web');
     switch($out)

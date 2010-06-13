@@ -244,5 +244,30 @@ EOT;
     }
     return $gameIds;
   }
+  function getCoverageStats()
+  {
+    $db = $this->getDb();
+
+    $gameCount = 190;
+
+    $sql = 'SELECT count(*) AS slots_covered FROM game_person WHERE pos_id IN (1,2,3);';
+    $row = $db->fetchRow($sql);
+
+    $slotsCovered = $row['slots_covered'];
+    $slotsTotal   = $gameCount * 3;
+    $slotsOpen    = $slotsTotal - $slotsCovered;
+
+    $stats = array();
+    $stats['game_count']    = $gameCount;
+    $stats['slots_open']    = $slotsOpen;
+    $stats['slots_total']   = $slotsTotal;
+    $stats['slots_covered'] = $slotsCovered;
+
+    $covered = ($slotsCovered / $slotsTotal) * 100.0;
+
+    $stats['covered'] = (int)$covered;
+
+    return $stats;
+  }
 }
 ?>
