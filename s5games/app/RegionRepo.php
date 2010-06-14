@@ -26,6 +26,7 @@ class RegionRepo
 		1174=> '5C-1174 NE Madison County, AL',
 		1535=> '5D-1535 Covington, TN',
 		1565=> '5C-1565 Ardmore, TN',
+		1159=> '5B-1159 Alcoa, TN',
 		9999=> 'XX-9999 No specific region',
 	);
 	function getRegionPickList() { return $this->regionPickList; }
