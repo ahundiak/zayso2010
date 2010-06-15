@@ -36,7 +36,7 @@ class ExtJS_FC_Index
       require 'JS/' . $file . '.js';
     }
   }
-  // Spits out one php file
+  // Spits out one php file ???
   protected function phpLoad($file)
   {
     $file = str_replace('-','/',$file);
@@ -64,7 +64,7 @@ class ExtJS_FC_Index
   {
     if (!$this->contextx)
     {
-      $params = include('Config/' . APP_CONFIG_FILE);
+      $params = include('Config/config_' . APP_CONFIG_HOST . '.php');
       $contextClassName = $this->contextClassName;
       $this->contextx = new $contextClassName($params);
     }
