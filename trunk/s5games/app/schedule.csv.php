@@ -12,10 +12,10 @@
   header("Content-Type: text/csv");
   header('Content-Disposition: attachment; filename="'. 'schedule2010.csv' .'"');
 ?>
-Game,Date,Time,Field,Bracket,Home Team,Away Team,Center,AR1,AR2,Assessor,Assessor 2
+Game,Date,Time,Field,Div,Bracket,Home Team,Away Team,Center,AR1,AR2,Assessor,Assessor 2
 <?php foreach($tpl->games as $game)
 {
-  echo "{$game->id},{$game->date},{$game->time},{$game->field},{$game->bracket},{$game->homeName},{$game->awayName}";
+  echo "{$game->id},{$game->date},{$game->time},{$game->field},{$game->div},{$game->bracket},{$game->homeName},{$game->awayName}";
   $persons = $this->getGamePersons($game);
   foreach($persons as $person)
   {
