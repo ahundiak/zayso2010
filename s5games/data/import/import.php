@@ -35,7 +35,7 @@ class Import
         
         $path = MYAPP_CONFIG_DATA;
 
-        $import = new ImportGames($this, $path . 'schedules/Schedule20100611.csv');
+        $import = new ImportGames($this, $path . 'schedules/Schedule20100613.csv');
         echo "Imported {$import->count} games\n";
     }
 }
