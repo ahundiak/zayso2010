@@ -61,8 +61,8 @@ class Import
     $file = MYAPP_CONFIG_DATA . 's5games/vols.csv';
     $vols  = new ImportEaysoVolReg ($this, $file);
 
-    $file = MYAPP_CONFIG_DATA . 's5games/certs.csv';
-    $certs = new ImportEaysoVolCerts($this, $file);
+//    $file = MYAPP_CONFIG_DATA . 's5games/certs.csv';
+//    $certs = new ImportEaysoVolCerts($this, $file);
   }
 }
 $import = new Import();
