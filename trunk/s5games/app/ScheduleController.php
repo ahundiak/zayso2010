@@ -120,8 +120,10 @@ class ScheduleController extends Controller
     $persons = $game->getPersons();
     if (!isset($persons[$posId])) return NULL;
     $person = $persons[$posId];
-		
-    return $person->region . ' ' . $person->fname . ' ' . $person->lname;
+
+    return $person->desc;
+
+    //return $person->region . ' ' . $person->fname . ' ' . $person->lname;
   }
   function getGamePersons($game)
   {
