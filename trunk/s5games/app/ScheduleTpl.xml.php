@@ -89,14 +89,14 @@
    <Column ss:StyleID="s21" ss:Width="24.6"/>
    <Column ss:StyleID="s22" ss:Width="33.6"/>
    <Column ss:StyleID="s25" ss:Width="28.2"/>
-   <Column ss:StyleID="s23" ss:Width="70.0"/>
-   <Column ss:StyleID="s22" ss:Width="110.0"/>
-   <Column ss:StyleID="s22" ss:Width="110.0"/>
-   <Column ss:StyleID="s22" ss:Width="120.0"/>
-   <Column ss:StyleID="s22" ss:Width="120.0"/>
-   <Column ss:StyleID="s22" ss:Width="120.0"/>
+   <Column ss:StyleID="s23" ss:Width="60.0"/>
    <Column ss:StyleID="s22" ss:Width="100.0"/>
-   <Column ss:StyleID="s22" ss:Width="50.0"/>
+   <Column ss:StyleID="s22" ss:Width="100.0"/>
+   <Column ss:StyleID="s22" ss:Width="110.0"/>
+   <Column ss:StyleID="s22" ss:Width="110.0"/>
+   <Column ss:StyleID="s22" ss:Width="110.0"/>
+   <Column ss:StyleID="s22" ss:Width="90.0"/>
+   <Column ss:StyleID="s22" ss:Width="10.0"/>
     <Row ss:AutoFitHeight="0">
     <Cell ss:StyleID="s22"><Data ss:Type="String">G #</Data></Cell>
     <Cell><Data ss:Type="String">DATE</Data></Cell>
@@ -110,18 +110,18 @@
     <Cell ss:StyleID="s22"><Data ss:Type="String">AR1</Data></Cell>
     <Cell ss:StyleID="s22"><Data ss:Type="String">AR2</Data></Cell>
     <Cell ss:StyleID="s22"><Data ss:Type="String">Assessor</Data></Cell>
-    <Cell ss:StyleID="s22"><Data ss:Type="String">Assessor 2</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="String"></Data></Cell>
    </Row>
    <?php foreach($tpl->games as $game) { ?>
    <Row ss:AutoFitHeight="0">
-    <Cell ss:StyleID="s26"><Data ss:Type="Number"><?php echo $game->id;    ?></Data></Cell>
-    <Cell ss:StyleID="s27"><Data ss:Type="String"><?php echo $game->date;  ?></Data></Cell>
-    <Cell ss:StyleID="s30"><Data ss:Type="String"><?php echo $game->time;  ?></Data></Cell>
-    <Cell ss:StyleID="s27"><Data ss:Type="String"><?php echo $game->field; ?></Data></Cell>
-    <Cell ss:StyleID="s26"><Data ss:Type="String"><?php echo $game->div;   ?></Data></Cell>
-    <Cell ss:StyleID="s28"><Data ss:Type="String"><?php echo $game->bracket; ?></Data></Cell>
-    <Cell ss:StyleID="s27"><Data ss:Type="String"><?php echo $game->homeName;    ?></Data></Cell>
-    <Cell ss:StyleID="s27"><Data ss:Type="String"><?php echo $game->awayName;    ?></Data></Cell>
+    <Cell ss:StyleID="s26"><Data ss:Type="Number"><?php echo $game->id;       ?></Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="String"><?php echo $game->date;     ?></Data></Cell>
+    <Cell ss:StyleID="s30"><Data ss:Type="String"><?php echo $game->time;     ?></Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="String"><?php echo $game->field;    ?></Data></Cell>
+    <Cell ss:StyleID="s26"><Data ss:Type="String"><?php echo $game->div;      ?></Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="String"><?php echo $game->bracket;  ?></Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="String"><?php echo $game->homeName; ?></Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="String"><?php echo $game->awayName; ?></Data></Cell>
     <Cell ss:StyleID="s29"><Data ss:Type="String"><?php echo $this->displayPerson($game,1); ?></Data></Cell>
     <Cell ss:StyleID="s29"><Data ss:Type="String"><?php echo $this->displayPerson($game,2); ?></Data></Cell>
     <Cell ss:StyleID="s29"><Data ss:Type="String"><?php echo $this->displayPerson($game,3); ?></Data></Cell>
