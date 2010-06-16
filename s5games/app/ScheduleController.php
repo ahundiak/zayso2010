@@ -64,11 +64,17 @@ class ScheduleController extends Controller
         $this->processTemplate('schedule.phtml',$tpl);
 	break;
 				
-      case 'excel':
+      case 'csv':
         ob_start();
         include 'schedule.csv.php';
-//	include 'ExcelTpl.xml.php';
-//	include 'ScheduleTpl.xml.php';
+	$content = ob_get_clean();
+	echo $content;
+	break;
+
+      case 'excel':
+        ob_start();
+        include 'ExcelTpl.xml.php';
+        include 'ScheduleTpl.xml.php';
 	$content = ob_get_clean();
 	echo $content;
 	break;
