@@ -84,47 +84,49 @@
    	x:FullRows="1" 
    	ss:StyleID="s21" 
    	ss:DefaultRowHeight="13.2">
-   <Column ss:StyleID="s21" ss:AutoFitWidth="0" ss:Width="21.599999999999998"/>
-   <Column ss:StyleID="s22" ss:Width="31.200000000000003"/>
-   <Column ss:StyleID="s21" ss:AutoFitWidth="0" ss:Width="24.6"/>
+   <Column ss:StyleID="s21" ss:Width="21.6"/>
+   <Column ss:StyleID="s22" ss:Width="31.2"/>
+   <Column ss:StyleID="s21" ss:Width="24.6"/>
    <Column ss:StyleID="s22" ss:Width="33.6"/>
    <Column ss:StyleID="s25" ss:Width="28.2"/>
-   <Column ss:StyleID="s23" ss:Width="12"/>
-   <Column ss:StyleID="s23" ss:Width="41.4"/>
-   <Column ss:StyleID="s22" ss:AutoFitWidth="0" ss:Width="101.4"/>
-   <Column ss:StyleID="s22" ss:Width="41.4"/>
-   <Column ss:StyleID="s22" ss:AutoFitWidth="0" ss:Width="101.4"/>
-   <Column ss:StyleID="s24" ss:AutoFitWidth="0" ss:Width="101.4" ss:Span="2"/>
-   <Row ss:AutoFitHeight="0">
+   <Column ss:StyleID="s23" ss:Width="70.0"/>
+   <Column ss:StyleID="s22" ss:Width="110.0"/>
+   <Column ss:StyleID="s22" ss:Width="110.0"/>
+   <Column ss:StyleID="s22" ss:Width="120.0"/>
+   <Column ss:StyleID="s22" ss:Width="120.0"/>
+   <Column ss:StyleID="s22" ss:Width="120.0"/>
+   <Column ss:StyleID="s22" ss:Width="100.0"/>
+   <Column ss:StyleID="s22" ss:Width="50.0"/>
+    <Row ss:AutoFitHeight="0">
     <Cell ss:StyleID="s22"><Data ss:Type="String">G #</Data></Cell>
     <Cell><Data ss:Type="String">DATE</Data></Cell>
-    <Cell ss:StyleID="s22"><Data ss:Type="String">DIV</Data></Cell>
-    <Cell><Data ss:Type="String">FIELD</Data></Cell>
     <Cell><Data ss:Type="String">TIME</Data></Cell>
-    <Cell ss:StyleID="s25"><Data ss:Type="String">R</Data></Cell>
-    <Cell ss:StyleID="s25"><Data ss:Type="String">TEAM H</Data></Cell>
+    <Cell><Data ss:Type="String">FIELD</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">DIV</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">BRACKET</Data></Cell>
     <Cell><Data ss:Type="String">HOME</Data></Cell>
-    <Cell><Data ss:Type="String">TEAM A</Data></Cell>
     <Cell><Data ss:Type="String">AWAY</Data></Cell>
     <Cell ss:StyleID="s22"><Data ss:Type="String">CR</Data></Cell>
     <Cell ss:StyleID="s22"><Data ss:Type="String">AR1</Data></Cell>
     <Cell ss:StyleID="s22"><Data ss:Type="String">AR2</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">Assessor</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">Assessor 2</Data></Cell>
    </Row>
    <?php foreach($tpl->games as $game) { ?>
    <Row ss:AutoFitHeight="0">
     <Cell ss:StyleID="s26"><Data ss:Type="Number"><?php echo $game->id;    ?></Data></Cell>
     <Cell ss:StyleID="s27"><Data ss:Type="String"><?php echo $game->date;  ?></Data></Cell>
-    <Cell ss:StyleID="s26"><Data ss:Type="String"><?php echo $game->div;   ?></Data></Cell>
-    <Cell ss:StyleID="s27"><Data ss:Type="String"><?php echo $game->field; ?></Data></Cell>
     <Cell ss:StyleID="s30"><Data ss:Type="String"><?php echo $game->time;  ?></Data></Cell>
-    <Cell ss:StyleID="s28"><Data ss:Type="String"><?php echo $game->type;  ?></Data></Cell>
-    <Cell ss:StyleID="s28"><Data ss:Type="String"><?php echo $game->homeBracket; ?></Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="String"><?php echo $game->field; ?></Data></Cell>
+    <Cell ss:StyleID="s26"><Data ss:Type="String"><?php echo $game->div;   ?></Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="String"><?php echo $game->bracket; ?></Data></Cell>
     <Cell ss:StyleID="s27"><Data ss:Type="String"><?php echo $game->homeName;    ?></Data></Cell>
-    <Cell ss:StyleID="s27"><Data ss:Type="String"><?php echo $game->awayBracket; ?></Data></Cell>
     <Cell ss:StyleID="s27"><Data ss:Type="String"><?php echo $game->awayName;    ?></Data></Cell>
     <Cell ss:StyleID="s29"><Data ss:Type="String"><?php echo $this->displayPerson($game,1); ?></Data></Cell>
     <Cell ss:StyleID="s29"><Data ss:Type="String"><?php echo $this->displayPerson($game,2); ?></Data></Cell>
     <Cell ss:StyleID="s29"><Data ss:Type="String"><?php echo $this->displayPerson($game,3); ?></Data></Cell>
+    <Cell ss:StyleID="s29"><Data ss:Type="String"><?php echo $this->displayPerson($game,4); ?></Data></Cell>
+    <Cell ss:StyleID="s29"><Data ss:Type="String"><?php echo $this->displayPerson($game,5); ?></Data></Cell>
    </Row>
    <?php } ?>
   </Table>
