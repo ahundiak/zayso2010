@@ -1,3 +1,6 @@
+15 Jun 2010
+New laptop
+
 06 May 2010
 Work laptop, 32 but version SilkSvn. NetBeans 6.9 beta
 
