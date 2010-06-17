@@ -115,7 +115,11 @@
 <tr>
   <td><a href="index.php?page=schedule">Return to schedule</a></td>
   <td>
-    <input type="submit" name="referee_signup" value="Signup For Game" />
+    <input
+      type="submit"
+      name="referee_signup"
+      value="Signup For Game"
+      <?php if (MYAPP_CONFIG_DISABLE_SIGNUPS) { ?>disabled="disabled" <?php } ?>/>
   </td>
 </tr>
 <?php if ($tpl->errors) { ?>
