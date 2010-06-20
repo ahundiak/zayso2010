@@ -19,7 +19,7 @@ class ScheduleController extends Controller
     $tpl->user = $user;
 
     $tpl->showFri  = $session->get('sched_show_fri', 0);
-    $tpl->showSat  = $session->get('sched_show_sat', 1);
+    $tpl->showSat  = $session->get('sched_show_sat', 0);
     $tpl->showSun  = $session->get('sched_show_sun', 1);
     $tpl->showU10  = $session->get('sched_show_u10', 1);
     $tpl->showU12  = $session->get('sched_show_u12', 1);
