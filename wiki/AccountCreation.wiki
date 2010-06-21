@@ -1,5 +1,5 @@
 #labels Account
-#Creating an user account
+# Creating an user account
 
 = An AYSO volunteer creates a zayso account =
 
