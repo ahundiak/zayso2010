@@ -3,12 +3,28 @@
 
 = An AYSO volunteer creates a zayso account =
 
-# Press Create Account Link
+1. Press Create Account Link
 
+2. Initial creation - Enter the following then press create
+  * Account Name
+  * Password
+  * Password Check
+  * First Name
+  * Last name
+  * Email
+  * AYSO Default Region Number
 
-= Details =
+3. If AYSO Volunteer
+  * AYSO ID
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+4. Show name for above id, if correct then 
+  * Send email to eayso account with validation code
+  * Enter validation code
+  * User receives email
+  * Copy/Paste validation code
+
+5. If AYSO Player
+  * Player id
+  * Repeat step 4 above
+
+Home - Account - Help
