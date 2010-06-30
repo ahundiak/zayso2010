@@ -1,0 +1,58 @@
+=================================================
+12 Feb 2007
+
+As it stands right now, The XXXModel functions all require a $db to be passed in.  In some it some
+cases it is ignored YearModel::getPickList while in other cases such as for the UnitModel 
+actual queries need to be done.  
+
+On the other hand, the Item objects currently have no direct db connection at all.  Items know about
+each other but not about the database.
+
+For physical team we have a getTeamKey function which needs the unit key.  As long as the
+query which generates the team data joins the unit then all is well.  But if not then
+it might be kind of nice to link it on.
+
+Run into this in the List vs Edit views.  In some ways it's easier to work with a Row as opposed to an Item.
+In other ways it's not.
+
+The view should probably use one way or another.
+
+If all views are done with Item only then divorce the Db_Table stuff from a big chunk of code.
+
+The listing stuff really should be item based since you want joins.
+
+Using items also allows adjusting id's for negative numbers.
+
+On the other hand, a new Item might cause a problem?  Maybe not since unused data is ignored.
+Override __set to allow the view to adjust values.
+
+Maybe add camel conversion stuff as well.
+
+So rows will only be used by the controller for individual records.
+---
+Individual item
+
+1. Make new record
+2. Retrieve record from database
+3. Send results of a query, prefixed
+
+
+=================================================
+02 Feb 2007
+
+Need some sort of mapping between form data and table record objects.  Should be able to compare the two
+and generate update statements on any differences.
+
+Same map should(in theory) be usable by the template objects for creating input element.
+
+Also want to use for validating and filtering.
+-----------------------------
+Have $view->render(tplFilename) which returns chunks of html based on $view data.
+Need a better way of combining templates together?
+Need a better way of 'processing a view'
+
+Should the controller load the person to edit ou should the view?
+Upon posting it has to be the controller doing the updating.
+
+On the other hand, should the controller be required to know what all the view does?
+
