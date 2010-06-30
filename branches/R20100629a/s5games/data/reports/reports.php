@@ -45,7 +45,7 @@ class Reports
     $path = MYAPP_CONFIG_DATA;
 
     $report = new RefereeReport($this);
-    $report->execute();
+    $report->generatePhoneList();
   }
 }
 
