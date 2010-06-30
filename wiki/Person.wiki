@@ -1,0 +1,9 @@
+#summary Person Schema Information
+
+= Background =
+
+The basic goal is to have a person table with one entry for each person in the system.
+Two basic categories of persons, players and the rest (coaches, referees, managers, volunteers) etc.
+The same person can be both a player as well as a volunteer.  Might have some trouble linking
+volunteer records with their player record.
+
