@@ -1,7 +1,7 @@
 <?php
-class Osso_Person_Import_PersonImport extends Cerad_Import
+class Osso_Person_PersonImport extends Cerad_Import
 {
-  protected $readerClassName = 'Osso_Person_Import_PersonReader';
+  protected $readerClassName = 'Osso_Person_PersonReader';
   protected $regions = array();
 
   protected function init()

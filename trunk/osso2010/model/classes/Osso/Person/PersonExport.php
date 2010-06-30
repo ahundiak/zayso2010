@@ -1,5 +1,5 @@
 <?php
-class Person_Export_Person
+class Osso_Person_PersonExport
 {
   protected $context;
   protected $db;
