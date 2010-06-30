@@ -1,3 +1,6 @@
+30 Jun 2010
+Think I recovered Cerad at least, best to make copies from command line
+
 29 Jun 2010
 Just making sure copy worked as expected.
 
