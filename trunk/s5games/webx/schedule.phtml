@@ -1,0 +1,73 @@
+<p>User name: <?php echo $userName; ?> <a href="index.php">Logout</a></p>
+<form name="schedule_search" method="post" action="schedule.php" >
+<table border="1" width="500">
+<tr><th colspan="4">Schedule Search Form</th></tr>
+<tr>
+	<td>From</td>
+	<td>
+		<select name="sched_date1">
+			<?php echo $this->formOptions($datePickList,$data->date1); ?>
+		</select>
+	</td>
+	<td>
+		<select name="sched_age1">
+			<?php echo $this->formOptions($agePickList,$data->age1); ?>
+		</select>
+	</td>
+    <td>Show 
+      Coed<?php echo $this->formCheckBox('sched_show_coed',$data->showCoed); ?>
+      Girl<?php echo $this->formCheckBox('sched_show_girl',$data->showGirl); ?>
+    </td>
+</tr>
+<tr>
+	<td>To</td>
+	<td>
+		<select name="sched_date2">
+			<?php echo $this->formOptions($datePickList,$data->date2); ?>
+		</select>
+	</td>
+	<td>
+		<select name="sched_age2">
+			<?php echo $this->formOptions($agePickList,$data->age2); ?>
+		</select>
+	</td>
+	<td>Sort By
+		<select name="sched_sort">
+			<?php echo $this->formOptions($sortPickList,$data->sort); ?>
+		</select>
+	</td>
+</tr>
+<tr>
+	<td colspan="3">.</td>
+	<td align="right">
+		<input type="submit" name="submit" value="Update List of Games"/>
+	</td>
+</table>
+</form>
+<br />
+<table border = "1" width="800">
+<tr><th colspan="6">Game and Referee Schedule</th></tr>
+<tr>
+	<td width="45">Game</td>
+	<td width="65">Date</td>
+	<td width="60">Time</td>
+	<td width="125">Field</td>
+	<td width="250">Home Team/Away Team</td>
+	<td>Officials</td>
+</tr>
+<?php 
+	$event = new DisplayEvent($this);
+	foreach($events as $eventx) 
+	{
+		$event->setEvent($eventx);
+?>
+<tr>
+	<td><?php echo $event->getId();      ?></td>
+	<td><?php echo $event->getDate();    ?></td>
+	<td><?php echo $event->getTime();    ?></td>
+	<td><?php echo $event->getField();   ?></td>
+	<td><?php echo $event->getTeams();   ?></td>
+	<td><?php echo $event->getPersons(); ?></td>
+</tr>
+<?php } ?>
+</table>
