@@ -2,7 +2,7 @@
 ERROR_REPORTING(E_ALL);
 
 define('APP_CONFIG_HOME','/home/ahundiak/zayso2010/');
-define('APP_CONFIG_DATA','/home/ahundiak/zayso2010/datax/');
+define('APP_CONFIG_DATA','/home/ahundiak/datax/arbiter/20100626/');
 
 ini_set('include_path','.' .
         PATH_SEPARATOR . APP_CONFIG_HOME . 'Cerad/library' .
@@ -20,7 +20,7 @@ $refAvail->exportCSV(ZAYSO2010_CONFIG_DATA . 'RefAvailx.csv');
 */
 
 $metrics = new Arbiter_Metrics_Metrics();
-$metrics->import(APP_CONFIG_DATA . 'AHSAAScheduleNormal2010.csv');
+$metrics->import(APP_CONFIG_DATA . 'ScheduleNormal.csv');
 
 // Cerad_Debug::dump('Just because');
 

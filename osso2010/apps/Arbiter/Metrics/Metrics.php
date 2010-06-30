@@ -14,21 +14,21 @@ class Row
     $this->header = $header;
     //Cerad_Debug::dump($header);
 
-    $this->gameIndex = array_search('Game ',$header);
+    $this->gameIndex = array_search('Game',$header);
 
-    $this->dateIndex = array_search('Date & Time ',$header);
+    $this->dateIndex = array_search('Date & Time',$header);
     $this->dowIndex  = $this->dateIndex + 1;
     $this->timeIndex = $this->dateIndex + 2;
 
-    $this->sportIndex = array_search('Sport & Level ',$header);
+    $this->sportIndex = array_search('Sport & Level',$header);
     $this->levelIndex = $this->sportIndex + 1;
 
-    $this->billIndex = array_search('Bill-To ',$header);
-    $this->siteIndex = array_search('Site ',$header);
-    $this->homeIndex = array_search('Home ',$header);
-    $this->awayIndex = array_search('Away ',$header);
+    $this->billIndex = array_search('Bill-To',$header);
+    $this->siteIndex = array_search('Site',$header);
+    $this->homeIndex = array_search('Home',$header);
+    $this->awayIndex = array_search('Away',$header);
 
-    $this->crIndex  = array_search('Officials ',$header);
+    $this->crIndex  = array_search('Officials',$header);
     $this->ar1Index = $this->crIndex + 1;
     $this->ar2Index = $this->crIndex + 2;
 
@@ -69,11 +69,22 @@ class Arbiter_Metrics_Metrics
   protected $dateCounts  = array();
   protected $matchCounts = array();
 
+  protected $referees = array();
+
+  function processReferee($pos,$name)
+  {
+    if (!isset($this->referees[$name])) $this->referees[$name] = 0;
+    $this->referees[$name]++;
+  }
   function processRow($row)
   {
     // Ignore empty lines
     if (!$row->game) return;
 
+    // Only high school
+    //Cerad_Debug::dump($row); die();
+    if ($row->sport != 'AHSAA') return;
+    
     $this->gameCount++;
 
     if ($row->cr)
@@ -151,6 +162,22 @@ class Arbiter_Metrics_Metrics
     {
       echo "At Least {$atLeast}: {$atLeastCount}\n";
     }
+    // Referee listing
+    ksort($this->matchCounts);
+    $fp = fopen('/home/ahundiak/datax/arbiter/AHSAARefereeCounts.csv','w');
+    $hdr = array('fname','lname','count');
+    fputcsv($fp,$hdr);
+    foreach($this->matchCounts as $name => $count)
+    {
+      $names = explode(' ',$name);
+      $fname = $names[0];
+      array_shift($names);
+      $lname = implode(' ',$names);
+
+      $item = array('fname' => $fname, 'lname' => $lname, 'count' => $count);
+      fputcsv($fp,$item);
+    }
+    fclose($fp);
   }
 }
 ?>
