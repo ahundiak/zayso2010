@@ -1,0 +1,44 @@
+ExtJS
+Inclusive and mature, big
+
+Ext.Direct for quick database interactions
+
+YUI 3 - Not enough widgets
+
+YUI 2
+Good table and calender, like the autoload stuff, not so much config oriented
+*** Select box?
+AutoComplete works like it
+Decent example showing autocomplete with a button
+
+The copy/paste in data grid works okay but fields have new lines between them
+
+jQuery
+Light weight and popular core library
+
+Need to select best of breed components
+saw a nice grid and calendar
+
+UI DatePicker
+http://jqueryui.com/home
+
+jqGrid
+http://trirand.com/blog/jqgrid/jqgrid.html
+
+jquery.json - convert to json
+
+ajaxupload - file uploads
+
+=================================
+Tested
+calendar
+file uploads
+
+TODO
+Combo boxes
+Basic grids
+
+=================================
+How hard would it be to pull in Ext.Direct and Ext.Stores?
+
+
