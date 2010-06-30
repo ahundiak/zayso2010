@@ -1,3 +1,6 @@
+29 Jun 2010
+Just making sure copy worked as expected.
+
 15 Jun 2010
 New laptop
 
