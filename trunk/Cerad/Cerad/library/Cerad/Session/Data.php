@@ -1,5 +1,5 @@
 <?php
-class Cerad_Data
+class Cerad_Session_Data
 {
   protected $data;
 
@@ -15,9 +15,12 @@ class Cerad_Data
     if (isset($this->data[$name])) return $this->data[$name];
     return null;
   }
-  public function get($name,$default = null)
+  public function get($name = null,$default = null)
   {
+    if (!$name) return $this->data;
+
     if (isset($this->data[$name])) return $this->data[$name];
+    
     return $default;
   }
   public function __set($name,$value)

@@ -1,73 +1,84 @@
 <?php
 class Cerad_Context
 {
-  protected $data = array();
+  protected $data;
+  protected $classNames = array
+  (
+    'db'             => 'Cerad_DatabaseAdapter',
 
-  protected $dbs = array();
-  protected $dbAlias = 'dbMain';
+    'request'        => 'Cerad_Request_Request',
+    'requestGet'     => 'Cerad_Request_Get',
+    'requestPost'    => 'Cerad_Request_Post',
+    'requestFiles'   => 'Cerad_Request_Files',
+    'requestServer'  => 'Cerad_Request_Server',
+    'requestRequest' => 'Cerad_Request_Request',
+    'requestCookies' => 'Cerad_Request_Cookies',
 
-  protected $request  = NULL;
-  protected $response = NULL;
-	
-  protected $params;
-	
-  public function __construct($params)
+    'session'        => 'Cerad_Session_Basic',
+    'sessionDB'      => 'Cerad_Session_Database',
+    'sessionData'    => 'Cerad_Session_Data',
+    'sessionFile'    => 'Cerad_Session_Basic',
+
+    'routes'         => 'Cerad_Routes',
+    'html'           => 'Cerad_HTML',
+  );
+  
+  public function __construct($config = null)
   {
-    $this->params = $params;
+    $this->data['config'] = $config;
     $this->init();
   }
   protected function init() {}
 
-  protected function get($name,$default = NULL)
+  public function __get($name)
   {
-    if(isset($this->data[$name])) return $this->data[$name];
-    return $default;
-  }
-  protected function set($name,$item)
-  {
-    $this->data[$name] = $item;
-  }
-  protected function has($name)
-  {
-    if(isset($this->data[$name])) return true;
-    return false;
-  }
-  
-  function __get($name)
-  {
-    if (substr($name,0,2) == 'db') return $this->getDbForName($name);
-    switch($name)
+    if (isset($this->data[$name])) return $this->data[$name];
+
+    // Special case fo db adapters
+    if (substr($name,0,2) == 'db') return $this->newDb($name);
+
+    // Create a class
+    if (isset($this->classNames[$name]))
     {
-      case 'request':  return $this->getRequest();
-      case 'response': return $this->getResponse();
+      $className = $this->classNames[$name];
+      $this->data[$name] = $item = new $className($this);
+      return $item;
     }
+
+    // Special handling
+    $methodName = 'new' . ucfirst($name);
+
+    return $this->$methodName();
   }
-  public function getDbForName($name)
+  public function __set($name,$value)
   {
-    if ($name == 'db') $name = $this->dbAlias;
-    if (!isset($this->dbs[$name]))
-    {
-      $this->dbs[$name] = new Cerad_DatabaseAdapter($this->params['dbs'][$name]);
-    }
-    return $this->dbs[$name];
+    $this->data[$name] = $value;
   }
-  function getRequest()
+  protected function newConfig()
   {
-    if (!$this->request)
-    {
-      $this->request = new Cerad_Request($this);
-    }
-    return $this->request;
+    return $this->data['config'] = array();
+
   }
-  function setRequest($request) { $this->request = $request; }
-	
-  function getResponse()
+  protected function newDb($name)
   {
-    if (!$this->response)
-    {
-      $this->response = new Cerad_Response($this);
-    }
-    return $this->response;
+    $dbParams = $this->config['dbParams'];
+    
+    if (isset($dbParams['default'])) $default = $dbParams['default'];
+    else                             $default = array();
+
+    $params = array_merge($default,$dbParams[$name]);
+
+    $className = $this->classNames['db'];
+    return $this->data[$name] = new $className($params);
+  }
+  public function getTimeStamp()
+  {
+    return date('YmdHis');
+  }
+  public function newSessionData()
+  {
+    $className = $this->classNames['sessionData'];
+    return new $className();
   }
 }
 ?>
