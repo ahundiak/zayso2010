@@ -170,5 +170,38 @@ class RefereeReport
     if ($ax > $bx) return  1;
     return 0;
   }
+  function GeneratePhoneList()
+  {
+    $fileName = MYAPP_CONFIG_DATA . 'RefPhoneList.csv';
+    $fp = fopen($fileName,'w');
+
+    $db   = $this->context->db;
+
+    // Do the games
+    $sql  = <<<EOT
+SELECT DISTINCT
+  eayso.eayso_vols.aysoid,
+  eayso.eayso_vols.region,
+  eayso.eayso_vols.fname,
+  eayso.eayso_vols.lname,
+  eayso.eayso_vols.nname,
+  eayso.eayso_vols.phone_cell
+FROM game_person
+LEFT JOIN eayso.eayso_vols ON eayso.eayso_vols.aysoid = game_person.aysoid
+ORDER BY lname,fname;
+EOT;
+    $rows = $db->fetchRows($sql);
+    //Cerad_Debug::dump($rows[0]); die();
+    foreach($rows as $row)
+    {
+      $raw = $row['phone_cell'];
+      $cell = substr($raw,0,3) . '.' . substr($raw,3,3) . '.' . substr($raw,6,4);
+
+      fprintf($fp,
+        "%s,%s,%s,%s,%s,%s\n",
+        $row['aysoid'],$row['region'],$row['lname'],$row['fname'],$row['nname'],$cell);
+    }
+    fclose($fp);
+  }
 }
 ?>
