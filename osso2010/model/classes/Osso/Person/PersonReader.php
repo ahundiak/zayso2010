@@ -1,5 +1,5 @@
 <?php
-class Osso_Person_Import_PersonReader extends Cerad_Reader_CSV
+class Osso_Person_PersonReader extends Cerad_Reader_CSV
 {
   protected $map = array
   (
