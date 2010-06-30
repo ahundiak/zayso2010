@@ -164,10 +164,11 @@ table.entry2
   border-width: 1px;
   border-color: black;
   padding:      2px;
+  margin-left:  5px;
 }
 table.entry2 td.data
 {
-  border-bottom-style: solid;
+  border-style: solid;
   border-width: 1px;
   border-color: black;
   
@@ -176,7 +177,7 @@ table.entry2 td.data
 }
 table.entry2 td.label
 {
-  border-bottom-style: solid;
+  border-style: solid;
   border-width: 1px;
   border-color: black;
   
@@ -184,4 +185,31 @@ table.entry2 td.label
   margin-right: 6px;
   
   text-align: center;
+}
+/* Standard data entry table */
+table.entry
+{
+  border-style: solid;
+  border-width: 2px;
+  border-color: black;
+  padding:      2px;
+  margin-left:  5px;
+}
+table.entry td
+{
+  border-style: solid;
+  border-width: 1px;
+  border-color: black;
+
+  padding:     2px;
+  margin-left: 4px;
+}
+table.entry th
+{
+  border-bottom-style: solid;
+  border-width: 2px;
+  border-color: black;
+
+  padding:     2px;
+  margin-left: 4px;
 }
