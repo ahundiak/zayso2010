@@ -1,8 +1,0 @@
-08 Apr 2010
-
-Using netbeans since it runs well under solaris 10.
-
-Only real downside of solaris 10 is that ie cannot be tested under it.
-Unless i can get some sort of virtulazion process running.
-And a lot of javascript works under firefox but not ie.
-
