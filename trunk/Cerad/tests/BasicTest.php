@@ -16,5 +16,14 @@ class BasicTest extends PHPUnit_Framework_TestCase
     //echo $out . ' ' . strlen($out);
     $this->assertEquals('int(42)',$out);
   }
+  function test_preg_replace()
+  {
+    $exp = '/\D/'; // everything but numbers
+    $num = '(256)457-5943x27.';
+    $num = preg_replace($exp,'',$num);
+
+    $this->assertEquals($num,'256457594327');
+    
+  }
 }
 ?>
