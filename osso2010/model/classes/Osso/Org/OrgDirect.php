@@ -1,6 +1,24 @@
 <?php
 class Osso_Org_OrgDirect extends Osso_Base_BaseDirect
 {
+  public function insertOrgPerson($params)
+  {
+
+  }
+  public function getOrgForKey($keyx)
+  {
+    $result = new Cerad_Direct_Result();
+
+    $num = (int)$keyx;
+    if ($num) $keyx = sprintf('R%04u',$keyx);
+
+    $search = array('keyx' => $keyx);
+    $row = $this->db->find('org','keyx',$search);
+
+    $result->row = $row;
+
+    return $result;
+  }
   public function getOrgGroupOrgPicklist($params)
   {
     $search = NULL;
@@ -21,15 +39,17 @@ class Osso_Org_OrgDirect extends Osso_Base_BaseDirect
     if ($search == NULL) return array('success' => false);
 
     $rows = $this->db->fetchRows($sql,$search);
-    $items = array();
+    $items  = array();
+    $itemsx = array();
     foreach($rows as $row)
     {
       $items[$row['org_id']] = $row['org_desc'];
+      $itemsx[] = array('id' => $row['org_id'], 'value' => $row['org_desc']);
     }
     return array(
       'success' => true,
-      'count'   => count($items),
-      'records' => $items,
+      'count'   => count($itemsx),
+      'records' => $itemsx,
     );
   }
 }

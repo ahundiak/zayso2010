@@ -19,25 +19,9 @@ DROP TABLE IF EXISTS `person`;
 CREATE TABLE         `person`
 (
   `id`         int (10) unsigned NOT NULL auto_increment,
+  `status`     int (10) unsigned NOT NULL default 1,
 
-  `fname`      char(20) default '',
-  `lname`      char(20) default '',
-  `nname`      char(20) default '',
-  `mname`      char(20) default '',
-  `sname`      char(20) default '', -- suffix
-
-  `dob`        char (8) default '',
-  `gender`     char (2) default '',
-
-  `status`     int (10) unsigned default 1,
-
-  `ts_created` char(16) default NULL,
-  `ts_updated` char(16) default NULL,
-
-  PRIMARY KEY  (`id`),
-  KEY `i1` (`fname`,`lname`),
-  KEY `i2` (`nname`,`lname`),
-  KEY `i3` (`lname`,`fname`)
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ==============================================
@@ -48,9 +32,9 @@ CREATE TABLE         `person_reg`
 (
   `id`          int (10) unsigned NOT NULL auto_increment,
 
-  `person_id`   int (10) unsigned default 0,
+  `person_id`   int (10) unsigned NOT NULL default 0,
 
-  `reg_type`    int (10) unsigned default 0, -- 1=osso, 2=ayso
+  `reg_type`    int (10) unsigned NOT NULL default 0, -- 1=osso, 2=ayso
   `reg_num`     char(20)          NOT NULL,  -- aysoid
 
   PRIMARY KEY  (`id`),

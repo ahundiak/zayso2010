@@ -7,22 +7,17 @@ class Osso_Person_PersonReader extends Cerad_Reader_CSV
 
     'region' => 'region',
     'aysoid' => 'aysoid',
-//  'year'   => 'year',
 
     'lname'  => 'lname',
     'fname'  => 'fname',
     'nname'  => 'nname',
     'mname'  => 'mname',
 
-//  'sname'  => 'sname',
-//  'DOB'            => 'dob',
-//  'Gender'         => 'gender',
-
     'phone_home' => 'phone_home',
     'phone_work' => 'phone_work',
     'phone_cell' => 'phone_cell',
-    'email_home' => 'email',
-    'email_work' => 'email2',
+    'email_home' => 'email_home',
+    'email_work' => 'email_work',
 
     'member'  => 'member',
     'coach'   => 'coach',

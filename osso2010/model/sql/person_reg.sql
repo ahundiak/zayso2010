@@ -43,7 +43,8 @@ CREATE TABLE         `person_reg`
   UNIQUE KEY    `i0` (`person_reg_type_id`,`person_reg_num`),
   KEY `i1` (`fname`,`lname`),
   KEY `i2` (`nname`,`lname`),
-  KEY `i3` (`lname`,`fname`)
+  KEY `i3` (`lname`,`fname`),
+  KEY `i4` (person_id)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ===============================================
@@ -64,6 +65,7 @@ CREATE TABLE         `person_reg_cert`
   `cert_type`  int (10) unsigned default NULL,
   `cert_desc`  char(40) default NULL,
   `cert_date`  char (8) default NULL,
+  `cert_year`  int (10) unsigned default 0, -- effective for
   
   `ts_created` char(16) default NULL,
   `ts_updated` char(16) default NULL,
@@ -76,6 +78,7 @@ CREATE TABLE         `person_reg_cert`
 -- ===============================================
 -- Volunteers can belog to more that one region
 -- Capture this, not sure how to use it
+-- Note that the org id has to be universal
 --
 DROP TABLE IF EXISTS `person_reg_org`;
 CREATE TABLE         `person_reg_org`
@@ -88,3 +91,20 @@ CREATE TABLE         `person_reg_org`
   UNIQUE  KEY  `i0` (`person_reg_id`,`org_id`),
   UNIQUE  KEY  `i1` (`org_id`,`person_reg_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+-- ===============================================
+-- Probably don't really need this in all databases
+DROP TABLE IF EXISTS `person_reg_type`;
+CREATE TABLE         `person_reg_type`
+(
+  `id`    int (10) unsigned NOT NULL auto_increment,
+  `keyx`  char(10) NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE  KEY `i1` (`keyx`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+INSERT INTO person_reg_type VALUES
+(1,'osso'),
+(2,'ayso vol'),
+(3,'ayso player');
+

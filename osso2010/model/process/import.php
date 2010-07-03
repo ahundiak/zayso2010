@@ -22,54 +22,22 @@ class Import
 
     $this->context = new Cerad_Context($this->config);
   }
-  public function execute()
+  protected function importEayso($datax)
   {
-    $datax = $this->config['datax'];
-
-    // eayso2007 units
-    
-    //$path  = $datax . 'osso/';
-
-  // Psrt of the transfer process
-  //$import = new Org_Import_Unit($this->context);
-  //$import->process($path . 'Unitx.csv');
-  //echo $import->getResultMessage() . "\n";
-
-  //$import = new Org_Import_Region($this->context);
-  //$import->process($path . 'Regionx.csv');
-  //echo $import->getResultMessage() . "\n";
-
-    // Master organization update ***
-    /*
-    $import = new Org_Import_Org($this->context);
-    $import->process($datax . 'osso/Orgx.csv');
-    echo $import->getResultMessage() . "\n";
-    */
-
-    // Persons
-    /*
-    $import = new Osso_Person_Import_PersonImport($this->context);
-    $import->process($datax . 'osso/Personx.csv');
-    echo $import->getResultMessage() . "\n";
-    */
-
-    // Accounts
-    $import = new Osso2007_Account_AccountImport($this->context);
-    $import->process($datax . 'osso/Account2007x.csv');
-    echo $import->getResultMessage() . "\n";
-
+    // 8300 reg_main initial import
+    //
     // Volunteers
-    $path  = $datax . 'eayso/';
+    $path  = $datax . 'eayso/20100626/';
 
     $files = array(
-      '20100626/Vols2008.csv',
-      '20100626/Vols2009.csv',
-      '20100626/Vols2010.csv'
+      'Vols2008.csv',
+      'Vols2009.csv',
+      'Vols2010.csv'
     );
-    $files = array();
+    //$files = array();
     foreach($files as $file)
     {
-      $import = new Eayso_Import_Vol($this->context);
+      $import = new Eayso_Reg_Main_RegMainImport($this->context);
       $import->process($path . $file);
       echo $import->getResultMessage() . "\n";;
     }
@@ -92,23 +60,23 @@ class Import
       'CertsAssessor.csv',
       'CertsAssessorNational.csv',
     );
-    $files = array();
+    //$files = array();
     foreach($files as $file)
     {
-      $import = new Eayso_Import_VolCert($this->context);
+      $import = new Eayso_Reg_Cert_RegCertImport($this->context);
       $import->process($path . $file);
       echo $import->getResultMessage() . "\n";;
     }
     // Coaching Certs
     $path  = $datax . 'eayso/20100626/';
     $files = array(
-//      'CertsCoachNational.csv',
-//      'CertsCoachAdvanced.csv',
-//      'CertsCoachAdvancedCC.csv',
-//      'CertsCoachIntermediate.csv',
-//      'CertsCoachIntermediateCC.csv',
-//      'CertsCoachSafeHaven.csv',
-//      'CertsCoachSafeHavenZ.csv',
+      'CertsCoachNational.csv',
+      'CertsCoachAdvanced.csv',
+      'CertsCoachAdvancedCC.csv',
+      'CertsCoachIntermediate.csv',
+      'CertsCoachIntermediateCC.csv',
+      'CertsCoachSafeHaven.csv',
+      'CertsCoachSafeHavenZ.csv',
       'CertsCoachU06.csv',
       'CertsCoachU06Z.csv',
       'CertsCoachU08.csv',
@@ -119,13 +87,55 @@ class Import
       'CertsCoachVIP.csv',
       'CertsCoachB.csv',
     );
-    $files = array();
+  //$files = array();
     foreach($files as $file)
     {
-      $import = new Eayso_Import_VolCert($this->context);
+      $import = new Eayso_Reg_Cert_RegCertImport($this->context);
       $import->process($path . $file);
       echo $import->getResultMessage() . "\n";;
     }
+  }
+  protected function importPersons($datax)
+  {
+    $import = new Osso_Person_PersonImport($this->context);
+    $import->process($datax . 'osso/Personx.csv');
+    echo $import->getResultMessage() . "\n";
+  }
+  public function execute()
+  {
+    $datax = $this->config['datax'];
+
+  //$this->importEayso($datax);
+    $this->importPersons($datax);
+
+    return;
+    
+    // eayso2007 units
+    
+    //$path  = $datax . 'osso/';
+
+  // Psrt of the transfer process
+  //$import = new Org_Import_Unit($this->context);
+  //$import->process($path . 'Unitx.csv');
+  //echo $import->getResultMessage() . "\n";
+
+  //$import = new Org_Import_Region($this->context);
+  //$import->process($path . 'Regionx.csv');
+  //echo $import->getResultMessage() . "\n";
+
+    // Master organization update ***
+    /*
+    $import = new Org_Import_Org($this->context);
+    $import->process($datax . 'osso/Orgx.csv');
+    echo $import->getResultMessage() . "\n";
+    */
+
+    // Accounts
+    $import = new Osso2007_Account_AccountImport($this->context);
+    $import->process($datax . 'osso/Account2007x.csv');
+    echo $import->getResultMessage() . "\n";
+
+
   }
 }
 $config = require '../config/config.php';
