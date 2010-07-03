@@ -10,143 +10,164 @@ class Osso_Person_PersonImport extends Cerad_Import
     $this->db = $this->context->dbOsso;
     $this->ts = $this->context->getTimeStamp();
 
-    $this->count->insertedVolRegion     = 0;
-    $this->count->updatedPersonRegEayso = 0;
-    $this->count->insertedPersonRegOsso = 0;
+    $this->directRegMainEayso = new Eayso_Reg_Main_RegMainDirect($this->context);
+    $this->directRegMainOsso  = new  Osso_Reg_Main_RegMainDirect($this->context);
+    
+    $this->directRegProp      = new  Osso_Reg_Prop_RegPropDirect($this->context);
+    $this->directRegOrg       = new  Osso_Reg_Org_RegOrgDirect  ($this->context);
+
+    $this->directPerson       = new Osso_Person_PersonDirect              ($this->context);
+    $this->directPersonReg    = new Osso_Person_Reg_PersonRegDirect       ($this->context);
+
+    //$this->directPersonRegOrg = new Osso_Person_Reg_Org_PersonRegOrgDirect($this->context);
+
+    $this->directOrg = new Osso_Org_OrgDirect($this->context);
+    
   }
+  protected $regTypeOsso = 101;
+  protected $regTypeAyso = 102;
+
   public function getResultMessage()
   {
     $file = basename($this->innFileName);
     $count = $this->count;
     $class = get_class($this);
 
-    $msg = sprintf("%s %s, Total: %u, Inserted: %u, Updated: %u, PersonReg Inserted: %u, Org Inserted: %u",
+    $msg = sprintf("%s %s, Total: %u, Inserted: %u, Updated: %u",
       $class, $file,
-      $count->total,$count->inserted,$count->updated,$count->insertedPersonRegOsso, $count->insertedVolRegion);
+      $count->total,$count->inserted,$count->updated);
     return $msg;
+  }
+  public function processRegMain($data,$dataRegMainEayso)
+  {
+    $personId = $data['id'];
+
+    // See if have osso record
+    $search = array('reg_type' => $this->regTypeOsso,'reg_num' => $personId);
+    $result = $this->directRegMainOsso->fetchRow($search);
+    if (!$result->row)
+    {
+      // Use eayso data
+      $datax = $dataRegMainEayso;
+      unset($datax['id']);
+      $datax['reg_type'] = $this->regTypeOsso;
+      $datax['reg_num']  = $personId;
+
+      // Xfer over any changes
+      $fields = array('fname','lname','nname','mname');
+      foreach($fields as $key)
+      {
+        if ($data[$key]) $datax[$key] = $data[$key];
+      }
+      $this->directRegMainOsso->insert($datax);
+      $this->count->inserted++;
+      return;
+    }
+    // TODOx Update if have changes
+    return;
+
+  }
+  public function processRegOrg($data)
+  {
+    $region = $data['region'];
+    if (!$region) return;
+
+    if (!isset($this->regions[$region]))
+    {
+      $result = $this->directOrg->getOrgForKey($region);
+      if (!$result->row)
+      {
+        echo "*** Missing region $region\n";
+        $this->regions[$region] = 0;
+        return;
+      }
+      $this->regions[$region] = $result->row['id'];
+    }
+    $orgId = $this->regions[$region];
+    if (!$orgId) return;
+
+    $datax = array(
+      'reg_type' => $this->regTypeOsso,
+      'reg_num'  => $data['id'],
+      'org_id'   => $orgId
+    );
+    $this->directRegOrg->insert($datax);
+
+  }
+  protected function processRegProp($data)
+  {
+    $propTypes = array(
+      'phone_home' => 11,
+      'phone_work' => 12,
+      'phone_cell' => 13,
+      'email_home' => 21,
+      'email_work' => 22,
+    );
+    $datax = array(
+      'reg_type' => $this->regTypeOsso,
+      'reg_num'  => $data['id'],
+    );
+    foreach($propTypes as $name => $typex)
+    {
+      if ($data[$name])
+      {
+        $valuex = $data[$name];
+
+        switch($typex)
+        {
+          case 11: case 12: case 13:
+              $valuex = preg_replace('/\D/','',$valuex);
+            break;
+        }
+        $datax['typex']  = $typex;
+        $datax['valuex'] = $valuex;
+        $this->directRegProp->insert($datax); // TODOx DUP key should update valuex
+      }
+    }
   }
   public function processEaysoVolunteer($data)
   {
-    $db = $this->db;
-
     // Make sure have one
     $aysoid = $data['aysoid'];
     if (!$aysoid) return 0;
 
     // Verify it's correct
-    $search['type']   = 2;
-    $search['aysoid'] = $aysoid;
-    $sql = 'SELECT * FROM person_reg WHERE person_reg_type_id = :type AND person_reg_num = :aysoid;';
-    $dataPersonRegEayso = $db->fetchRow($sql,$search);
-
-    if ($dataPersonRegEayso === FALSE)
+    $search = array('reg_type' => $this->regTypeAyso,'reg_num' => $aysoid);
+    $result = $this->directRegMainEayso->fetchRow($search);
+    if (!$result->row)
     {
       // echo "Missing or invalid aysoid: $aysoid\n";
       return 0;
     }
+    $dataRegMainEayso = $result->row;
 
-    // See insert or update main record
+    // Add a main record
     $personId   = $data['id'];
-    $personData = $db->find('person','id',$personId);
-    if ($personData === FALSE)
-    {
-      // Start with eayso info
-      $fields = array('fname','lname','nname','mname','sname','dob','gender',);
-      $datax = array();
-      foreach($fields as $field) { $datax[$field] = $dataPersonRegEayso[$field]; }
+    $this->directPerson->insert(array('id' => $personId));
 
-      // Override with reader info, initial import use eayso data always
-      $fields = array('fname','lname','nname','mname');
-      foreach($fields as $field)
-      {
-        if ($data[$field] && !$datax[$field]) $datax[$field] = $data[$field]; 
-      }
+    // Add person_reg record for eayso
+    $datax = array(
+      'person_id' => $personId,
+      'reg_type'  => $dataRegMainEayso['reg_type'],
+      'reg_num'   => $dataRegMainEayso['reg_num'],
+    );
+    $this->directPersonReg->insert($datax);
 
-      $personId = $data['id'];
-      if ($personId) $datax['id'] = $personId;
+    // Add person_reg record for osso
+    $datax = array(
+      'person_id' => $personId,
+      'reg_type'  => $this->regTypeOsso,
+      'reg_num'   => $personId,
+    );
+    $this->directPersonReg->insert($datax);
 
-      $datax['status'] = 1;
-      $datax['ts_created'] = $this->ts;
-      $datax['ts_updated'] = $this->ts;
-
-      $db->insert('person','id',$datax);
-      $personId = $db->lastInsertId();
-      $this->count->inserted++;
-
-      // Need for osso person_reg entry
-      $dataPerson = $datax;
-      $dataPerson['id'] = $personId;
-    }
-    else {
-      // Update if necessary
-      $changes = array();
-      foreach($data as $key => $value)
-      {
-        if ($value && isset($personData[$key]) && ($personData[$key] != $value)) $changes[$key] = $value;
-      }
-      // Revisit after initial import is complete
-      $changes = array();
-      if (count($changes))
-      {
-        //Cerad_Debug::dump($changes); die();
-        $changes['id'] = $personId;
-        $changes['ts_updated'] = $this->ts;
-        $db->update('person','id',$changes);
-        $this->count->updated++;
-      }
-    }
-
-    // See if need to update person_id for the eayso record
-    if ($personId != $dataPersonRegEayso['person_id'])
-    {
-      if ($dataPersonRegEayso['person_id'])
-      {
-        $msg = sprintf("*** Two persons with same aysoid: %s %u %u",$aysoid, $personId,$dataPersonRegEayso);
-        echo $msg . "\n";
-        return 1;
-      }
-      $changes['person_id']  = $personId;
-      $changes['ts_updated'] = $this->ts;
-      $changes['id']         = $dataPersonRegEayso['id'];
-      $db->update('person_reg','id',$changes);
-      $this->count->updatedPersonRegEayso++;
-    }
-    // Insert person_reg record if needed
-    $search = array('type' => 1, 'person_reg_num' => $personId);
-    $sql = 'SELECT id FROM person_reg WHERE person_reg_type_id = :type AND person_reg_num = :person_reg_num;';
-    $dataPersonRegOsso = $db->fetchRow($sql,$search);
-
-    if ($dataPersonRegOsso === FALSE)
-    {
-      $datax = array();
-
-      $datax['person_id']          = $personId;
-      $datax['person_reg_num']     = $personId;
-      $datax['person_reg_year']    = $dataPersonRegEayso['person_reg_year'];
-      $datax['person_reg_type_id'] = 1;
-     
-      $fields = array('fname','lname','nname','mname','sname','dob','gender',);
-      foreach($fields as $field) { $datax[$field] = $dataPerson[$field]; }
-
-      $fields = array('phone_home','phone_work','phone_cell','email','email2');
-      foreach($fields as $field)
-      {
-        $datax[$field] = $dataPersonRegEayso[$field];
-
-        if ($data[$field] && !$datax[$field]) $datax[$field] = $data[$field];
-      }
-      $datax['ts_created'] = $this->ts;
-      $datax['ts_updated'] = $this->ts;
-
-      $db->insert('person_reg','id',$datax);
-      $this->count->insertedPersonRegOsso++;
-
-      $dataPersonRegOsso = $datax;
-      $dataPersonRegOsso['id'] = $db->lastInsertId();
-    }
-    // Link region to person
-    $this->processVolRegion($dataPersonRegOsso['id'],$data['region']);
+    // Process Reg Main
+    $this->processRegMain($data,$dataRegMainEayso);
+    $this->processRegProp($data);
+    $this->processRegOrg ($data);
     
+// die('Got here');
+
     // Fully processed
     return 1;
   }
@@ -159,7 +180,7 @@ class Osso_Person_PersonImport extends Cerad_Import
     // Handle eayso volunteers
     if ($this->processEaysoVolunteer($data)) return;
 
-    // Special checks
+    // Special checks, only processing those with eayso ids for now
     return;
 
     // Clean up dob
@@ -248,17 +269,16 @@ class Osso_Person_PersonImport extends Cerad_Import
   }
   protected function processVolRegion($personRegId,$region)
   {
-    $db = $this->db;
 
     if (!$region) return;
     
     // Need to find the org_id for the region
     if (!isset($this->regions[$region]))
     {
-      if (is_int($region)) $keyx = sprintf('R%04u',$region);
-      else                 $keyx = $region;
+      $search = array('keyx' => $region);
+      $result = $this->directOrg->getOrgForKey($search);
 
-      $org = $db->find('org','keyx',$keyx);
+      $org = $result->row;
       if (!$org)
       {
         echo("Could not find region: $region\n"); // Some regions are revoked
@@ -270,17 +290,10 @@ class Osso_Person_PersonImport extends Cerad_Import
     $orgId = $this->regions[$region];
     if (!$orgId) return;
 
-    // Look for existing record
-    $search['org_id']        = $orgId;
-    $search['person_reg_id'] = $personRegId;
-    $sql = 'SELECT * FROM person_reg_org WHERE org_id = :org_id AND person_reg_id = :person_reg_id';
-    $row = $db->fetchRow($sql,$search);
-    if ($row === FALSE)
-    {
-      $db->insert('person_reg_org','id',$search);
-      $this->countInsertVolRegion++;
-      return;
-    }
+    // ok to just insert as dups will be ignored
+    $row = array('org_id' => $orgId, 'person_reg_id' => $personRegId);
+    $this->directPersonRegOrg->insert($row);
+
     return;
   }
   protected function processYear($year)
