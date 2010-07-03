@@ -119,7 +119,7 @@ class Cerad_DatabaseAdapter
         
     return $stmt->rowCount();
   }
-  function insert($tableName,$keyName,$data)
+  function insert($tableName,$keyName,$data,$ignoreDupKey = false)
   {
     // Build set list
     $names  = '';
@@ -131,7 +131,10 @@ class Cerad_DatabaseAdapter
       $names  .= ' ' . $name;
       $values .= ':' . $name;    
     }
-    $sql = "INSERT INTO {$tableName}\n({$names}) VALUES \n({$values});";
+    if (!$ignoreDupKey) $dup = NULL;
+    else $dup = "ON DUPLICATE KEY UPDATE {$keyName} = {$keyName}";
+
+    $sql = "INSERT INTO {$tableName}\n({$names}) VALUES \n({$values}) {$dup};";
     
     $stmt = $this->pdo->prepare($sql);
         

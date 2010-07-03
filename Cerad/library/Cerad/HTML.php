@@ -30,6 +30,11 @@ class Cerad_HTML
     $html = NULL;
     foreach($options as $key => $content)
     {
+      if (is_array($content))
+      {
+        $key     = $content['id'];
+        $content = $content['value'];
+      }
       if ($key == $value) $select = ' selected="selected"';
       else                $select = NULL;
 
