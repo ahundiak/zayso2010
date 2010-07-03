@@ -5,13 +5,18 @@ body#layout-body
   
   margin:  0;  /* With respect to containing element */
   padding: 0;  /* Around internal elements */
+
+  font-size: 100%;
+
 }
 div#layout-page
 {
+  /*
   position: absolute;
   left:         50%;
   width:        900px;
-  margin-left: -450px;
+  margin-left: -450px; */
+
   padding:      0px;
   
   color:      black;
@@ -24,50 +29,68 @@ div#layout-page
 div#layout-banner
 {
   color:      black;
-  background: #99FF33;
+  background: #99FF33; /* Bright green */
   
-  border-style: none;
+  border-style: solid; /* None */
   border-width: medium;
   border-color: green;
+
+ height: 100px;
+ clear:  both;
 }
 div#layout-banner-left
 {
   color:      black;
-  background: #99FF33;
+  background: red; /*#99FF33;*/
+
+  margin-right: 220px;
   
-  float: left; 
-  width: 80%;
+  /*float: left;*/
+  /*width: 80%;*/
 }
 div#layout-banner-left span
 {
-  margin-left: 3px;
+  margin-left: 0px; /* 3px */
 }
+div#layout-banner-left span.bold
+{
+  font-family  :  "Times New Roman", Times, serif;
+  font-size    : 2em;
+}
+
 div#layout-banner-right
 {
   color:      black;
-  background: #99FF33;
+  background: blue; /* #99FF33;*/
   
-  float: right; 
-  width: 20%;
+  float: right;
+  width: 200px; /*19.9%;*/
     
   text-align: right;
 }
 div#layout-banner-right span
 {
-  margin-right: 3px;
+  margin-right: 0px; /* 3px */
 }
 /* Top menu bar navigation */
 div#layout-menu-top
 {
   color:      black;
   background: yellow;
-  height:     30px;
+  height:     25px;
+
+  border-style: solid; /* None */
+  border-width: medium;
+  border-color: red;
+
+  clear: both;
+  
 }
 div#layout-menu-top ul
 {
   list-style-type: none;
   margin:  0px;
-  padding: 5px;
+  padding: 2px 2px 2px 2px; /* 5 */
 }
 div#layout-menu-top ul li
 {
@@ -75,12 +98,12 @@ div#layout-menu-top ul li
 }  
 div#layout-menu-top ul li a
 {
-  padding: 0px  20px;
-  margin:  0px   2px;
+  padding: 0px   5px 0px 5px; /* 20 */ /* Top right bottom left */
+  margin:  2px   2px 2px 2px;
   
   border:  1px solid #666;
   
-  background-color: #CCC;
+  background-color: #CCC;  /* Grayish */
   color:            black;
   text-decoration:  none;
   text-align:       center;
@@ -96,6 +119,11 @@ div#layout-content
   color:            black;
   padding-left:     3px;
   padding-bottom:   3px;
+
+  border-style: solid; /* None */
+  border-width: medium;
+  border-color: blue;
+
 }
 h1 {color:green;background:white}
 h2 {color:blue; background:white}
@@ -103,8 +131,8 @@ h2 {color:blue; background:white}
 h3 
 {
   color:            green;
-  background-color: #FFFFCC;
-  margin:           4px;
+  background-color: #FFFFCC; /* Tan */
+  margin:           0px;
 }
 h4
 {

@@ -13,6 +13,8 @@ $html = $this->context->html;
 <div>
   <a href="?la=account-logout">Log Out</a>
 </div>
+Some uncontained text.
+
 
 
 

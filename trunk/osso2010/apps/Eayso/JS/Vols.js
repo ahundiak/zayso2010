@@ -220,8 +220,11 @@ Zayso.Eayso.Vols.Grid = Ext.extend(Ext.grid.EditorGridPanel,
       for(i = 0; i < value.length; i++)
       {
         var item = value[i];
+      //var cert_date = item.cert_date.substring(0,4) + '.' + item.cert_date.substring(4,10);
+        var cert_date = item.cert_date.substring(0,4);
+
         if (html) html += '<br />';
-        html += item.cert_desc + ' ' + item.cert_date;
+        html += cert_date + ' ' + item.cert_desc;
       }
       return html;
     }
