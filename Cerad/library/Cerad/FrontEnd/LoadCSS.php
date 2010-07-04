@@ -17,7 +17,7 @@ class Cerad_FrontEnd_LoadCSS
     ob_start();
     foreach($files as $file)
     {
-      include 'css/' . $file . '.css';
+      include 'css/' . $file . '.css.php';
     }
     header('text/css');
     ob_end_flush();
