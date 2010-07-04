@@ -4,7 +4,7 @@
 <h3>Welcome to Zayso</h3>
 <p>The section 5 referee system blah blah blah</p>
 <form id="schedule-guest" method="post" action="schedule-guest">
-  <table class="entry"  style="width: 600px;">
+  <table class="entry" style="width: 600px;">
     <tr><th colspan="3">Go directly to schedules without signing in</th></tr>
     <tr>
       <td>Select Region</td>

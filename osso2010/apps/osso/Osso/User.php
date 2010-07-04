@@ -31,14 +31,20 @@ class Osso_User
   {
     // Check data
     $direct = new Osso_Account_AccountDirect($this->context);
-    $results = $direct->getUserData(array('id' => $id));
+    $result = $direct->getUserData(array('id' => $id));
 
-    if ($results['success'] != true) $this->data = $this->genGuestData();
+    if (!$result->success)
+    {
+      $this->data = $this->genGuestData();
+    }
     else
     {
-      $this->data = $results['data'];
+      $this->data = $result->row;
       $this->data['isLoggedIn'] = $isLoggedIn;
     }
+    $this->genInfo();
+    $this->genPermissions();
+    
     $this->save();
   }
   public function logout()
@@ -53,6 +59,11 @@ class Osso_User
       'id'         => -1,
       'name'       => 'Guest',
       'isLoggedIn' => false, // Guests are always considered to be logged in?
+      'isAdmin'    => false,
+      'isReferee'  => false,
+      'isCoach'    => false,
+      'info1'      => 'Guest',
+      'info2'      => 'Welcome to the AYSO Area 5C Scheduling System',
     );
   }
   public function __get($name)
@@ -85,6 +96,38 @@ class Osso_User
     $this->data['name'] = $name;
     return $name;
   }
+  protected function genInfo()
+  {
+    // Generates info1 and info 2 lines used for banner
+    if ($this->isGuest) return;
+    
+    $info1 = sprintf('%s MY%s %s',$this->org_key,$this->reg_year,$this->name);
+
+    $info2 = NULL;
+    $certRepo = new Eayso_Reg_Cert_RegCertRepo($this->context);
+    foreach($this->certs AS $cert)
+    {
+      $certDesc = $certRepo->getDesc($cert['cert_type']);
+      if ($info2) $info2 .= ', ' . $certDesc;
+      else        $info2  =        $certDesc;
+    }
+    if (!$info2) $info2 = 'NO Certifications on record';
+
+    $this->data['info1'] = $info1;
+    $this->data['info2'] = $info2;
+  }
+  protected function genPermissions()
+  {
+    switch($this->person_id)
+    {
+      case 1:
+        $this->data['isAdmin'] = true;
+        break;
+    }
+    $certs = $this->certs;
+    if (isset($certs[200])) $this->data['isReferee'] = true;
+    if (isset($certs[300])) $this->data['isCoach']   = true;
+ }
 }
 
 ?>

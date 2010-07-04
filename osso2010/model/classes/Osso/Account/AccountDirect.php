@@ -3,13 +3,16 @@ class Osso_Account_AccountDirect extends Osso_Base_BaseDirect
 {
   public function getUserData($params)
   {
+    $result = $this->newResult();
+
     $search = array('id' => $params['id']);
-    $sql  = 'SELECT * FROM user_data_view WHERE id = :id ORDER BY cert_source;';
+    $sql  = 'SELECT * FROM user_data_view_eayso WHERE id = :id ORDER BY cert_cat;';
     $rows = $this->db->fetchRows($sql,$search);
 
     if (count($rows) < 1)
     {
-      return array('success' => false);
+      $result->error = "Unknown account person id";
+      return $result;
     }
     $row = $rows[0];
     $data = array();
@@ -19,16 +22,30 @@ class Osso_Account_AccountDirect extends Osso_Base_BaseDirect
       'id','fname','lname',
       'account_id','account_user_name',
       'org_id','org_key','org_desc',
-      'person_idx','person_id','person_dob'
+      'person_idx','person_id','dob','sex'
     );
     foreach($fields as $field) { $data[$field] = $row[$field]; }
 
     $data['certs'] = array();
+    $data['reg_year'] = 0;
     foreach($rows as $row)
     {
-      if ($row['cert_cat'] > 0) $data['certs'][$row['cert_cat']] = $row['cert_type'];
+      if ($row['cert_cat'] > 0)
+      {
+        $data['certs'][$row['cert_cat']] = array
+        (
+            'cert_cat'  => $row['cert_cat'],
+            'cert_type' => $row['cert_type'],
+            'cert_date' => $row['cert_date'],
+        );
+      }
+      
+      // Want the highest registration year between osso and eayso
+      $regYear = (int)$row['reg_year'];
+      if ($regYear && ($regYear > $data['reg_year'])) $data['reg_year'] = $regYear;
     }
-    return array('success' => true, 'data' => $data);
+    $result->row = $data;
+    return $result;
   }
   public function authenticate($params)
   {

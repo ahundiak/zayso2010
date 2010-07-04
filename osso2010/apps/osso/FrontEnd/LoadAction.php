@@ -25,6 +25,8 @@ class FrontEnd_LoadAction
     'account-login'  => 'Action_Account_LoginCont',
     'account-logout' => 'Action_Account_LogoutCont',
 
+    'person-edit'    => 'Action_Person_Edit_PersonEditCont',
+
   );
   function execute()
   {

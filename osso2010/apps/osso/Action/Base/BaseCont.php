@@ -10,19 +10,35 @@ class Action_Base_BaseCont
   protected $tplContent;
 
   protected $userMustBeLoggedIn = true;
+  protected $webDir;
 
   function __construct($context)
   {
     $this->context = $context;
     $this->init();
   }
-  protected function init() {}
-
-  public function redirect($action)
+  protected function init()
   {
-    if ($action != 'index') $url = '?la=' . $action;
-    else                    $url = '?';
-    
+    $this->webDir = dirname($_SERVER['SCRIPT_NAME']);
+  }
+  public function genUrl($action = null,$params = null)
+  {
+    $url = $this->webDir;
+    if ($action) $url .= '/la/' . $action;
+
+    if ($params) 
+    {
+      foreach($params as $name => $value)
+      {
+        $url .= '/' . $name . '/' . $value;
+      }
+    }
+
+    return $url;
+  }
+  public function redirect($action = null,$params = null)
+  {
+    $url = $this->genUrl($action,$params);
     header("Location: $url");
   }
   public function render($name)
@@ -31,7 +47,7 @@ class Action_Base_BaseCont
     include $name;
     return ob_get_clean();
   }
-  public function renderPage($name = NULL)
+  public function renderPage($name = null)
   {
     if (!$name) $name = $this->tplName;
 
