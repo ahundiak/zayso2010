@@ -1,0 +1,11 @@
+The original design had different files under web (index/direct/jsload) all of which called individual
+FC files to do the work.
+
+The new design has a single web/index.php which directly loads a master front controller.
+
+The front controller itself uses $_GET arguments to decide what to execute in turn
+
+index.php jsload=file (No file means to load defaults set of files)
+index.php a=action (Last check, allows debugging individual actions, default to index)
+
+The original code figured out the base web path and worked from it, for now using relative paths
