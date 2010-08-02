@@ -8,11 +8,17 @@ class Cerad_FrontEnd_LoadCSS
   {
     $this->context = $context;
   }
-  function execute()
+  function execute($args)
   {
-    $f = $this->context->request->get('f');
+    /*
+  //$f = $this->context->request->get('f');
+    $f = $args;
+    if (!$f) return;
+
     if($f) $files = explode(',',$f);
     else   $files = $this->files;
+*/
+    $files=$args;
 
     ob_start();
     foreach($files as $file)
