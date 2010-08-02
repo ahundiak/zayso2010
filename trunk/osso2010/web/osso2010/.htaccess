@@ -1,19 +1,8 @@
-#RewriteEngine on
-#RewriteBase /osso
-#RewriteRule !\.(js|ico|gif|jpg|png|css)$ index.php
+RewriteEngine on
+RewriteBase /osso2010
+RewriteRule !\.(js|ico|gif|jpg|png|css)$ index.php
 
 # Setup php
 php_flag  register_globals off
 php_flag  magic_quotes_gpc off
 php_value display_errors   on
-
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-
-    RewriteCond %{REQUEST_FILENAME} -s [OR]
-    RewriteCond %{REQUEST_FILENAME} -l [OR]
-    RewriteCond %{REQUEST_FILENAME} -d
-    RewriteRule ^.*$ - [NC,L]
-
-    RewriteRule ^.*$ /osso2010/index.php [NC,L]
-</IfModule>
