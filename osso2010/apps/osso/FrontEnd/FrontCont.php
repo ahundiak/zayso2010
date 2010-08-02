@@ -4,6 +4,20 @@ include $config['ws'] . 'Cerad/library/Cerad/FrontEnd/FrontCont.php';
 class FrontCont extends Cerad_FrontEnd_FrontCont
 {
   protected $contextClassName = 'Osso_Context';
+  protected $indexFileName    = 'FrontEnd/Index.html.php';
+
+  protected $loadTypeClassNames = array(
+      'css'     => 'FrontEnd_LoadCSS',
+      'js'      => 'FrontEnd_LoadJS',
+
+      'cont'    => 'FrontEnd_LoadCont',
+
+      'action'  => 'FrontEnd_LoadAction',
+      'actionx' => 'FrontEnd_LoadAction',
+     
+      'direct'  => 'FrontEnd_LoadDirect',
+      'tab'     => 'FrontEnd_LoadTab',
+  );
 
   protected function setIncludePath()
   {

@@ -8,48 +8,38 @@ class FrontEnd_LoadAction
     $this->context = $context;
     $this->init();
   }
-  protected function init()
+  protected function init() {}
+
+  protected $argClassNames = array
+  (
+    'user-login'      => 'Osso_User_UserLoginAction',
+    'user-login-data' => 'Osso_User_UserLoginDataAction',
+    'user-logout'     => 'Osso_User_UserLogoutAction',
+    'user-info'       => 'Osso_User_UserInfoAction',
+    'user-menu'       => 'Osso_User_UserMenuAction',
+
+    'account-create'  => 'Osso_Account_Create_AccountCreateAction',
+   );
+  function execute($args)
   {
-    //session_name('osso2010');
-    //session_set_cookie_params(3600); // 0 Till browser is closed
-    //session_start();
+    if ((!is_array($args) || count($args) < 1))
+    {
+      die("LoadActionx executed with no args\n");
+    }
+    $arg = array_shift($args);
+    if (!isset($this->argClassNames[$arg]))
+    {
+      die("Invalid actionx arg: $arg\n");
+    }
+    $argClassName = $this->argClassNames[$arg];
 
-    date_default_timezone_set('US/Central');
-  }
-  protected $actionClassNames = array(
-    'index-classic' => 'Action_Index_IndexCont',
-    'index'         => 'Action_Index_IndexCont',
-    'jquery'        => 'Action_JQuery_JQueryCont',
-    'import'        => 'Action_Import_ImportCont',
+    $action = new $argClassName($this->context);
 
-    'account-login'  => 'Action_Account_LoginCont',
-    'account-logout' => 'Action_Account_LogoutCont',
+    $result = $action->execute($args);
 
-    'person-edit'    => 'Action_Person_Edit_PersonEditCont',
+    header('Content-Type: application/json');
+    echo json_encode($result);
 
-  );
-  function execute()
-  {
-    $context = $this->context;
-    $request = $context->request;
-    $config  = $context->config;
-
-    $action = $request->get('la',$config['load_action']);
-    $method = $request->get('lm',$config['load_method']);
-
-    $actionClassName = $this->actionClassNames[$action];
-
-    $cont = new $actionClassName($context);
-    $cont->$method();
-  }
-  function executeOld()
-  {
-    ob_start();
-    include 'Classic.html.php';
-    $page = ob_get_clean();
-
-    header('Content-type: text/html');
-    echo $page;
   }
 }
 ?>
