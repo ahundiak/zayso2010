@@ -1,3 +1,5 @@
+-- ===========================================================
+-- Includes all the certs and eayso info
 -- User Data from account_person_id
 DROP VIEW IF EXISTS user_data_view_eayso;
 CREATE VIEW         user_data_view_eayso AS
