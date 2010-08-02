@@ -27,6 +27,8 @@ class Osso_User
     $session = $this->context->session;
     $session->set('user',$this->data);
   }
+  public function getData() { return $this->data; }
+
   public function changeUser($id,$isLoggedIn = false)
   {
     // Check data
@@ -50,6 +52,7 @@ class Osso_User
   public function logout()
   {
     $this->data['isLoggedIn'] = false; // Maybe check remember me here?
+    $this->data = $this->genGuestData();
     $this->save();
   }
   protected function genGuestData()
