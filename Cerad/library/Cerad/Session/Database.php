@@ -23,7 +23,8 @@ class Cerad_Session_Database extends Cerad_Session_Base
   // Return a new session if
   protected function genSessionId()
   {
-    $sessionId = md5(microtime().rand(1,9999999999999999999999999));
+    // $sessionId = md5(microtime().rand(1,9999999999999999999999999));
+    $sessionId = md5(uniqid());
     return $sessionId;
   }
   // Returns NULL if not found
