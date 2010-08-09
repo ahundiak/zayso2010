@@ -9,7 +9,7 @@ return array
   'dbParams' => array
   (
     'default' => array (
-      'host'     => 'db.telena.com',
+      'host'     => 'db.telavant.com',
       'username' => 'impd',
       'password' => 'impd894',
       'dbname'   => 'xxx',
