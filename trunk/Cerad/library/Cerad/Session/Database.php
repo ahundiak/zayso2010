@@ -50,7 +50,7 @@ class Cerad_Session_Database extends Cerad_Session_Base
     if (!$this->sessionId)
     {
       $this->sessionId = $this->genSessionId();
-      setcookie($this->sessionCookieName,$this->sessionId,$this->sessionCookieLifetime);
+      setcookie($this->sessionCookieName,$this->sessionId,$this->sessionCookieLifetime,'/osso2010/');
     }
     $sessionId = $this->sessionId;
 
