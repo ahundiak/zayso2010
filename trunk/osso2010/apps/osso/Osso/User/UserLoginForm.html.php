@@ -9,8 +9,8 @@
   $html = $this->context->html;
 
 ?>
-<table class="entry" style="width: 600px;">
 <form id="account-login-form" method="post" action="action/user-login">
+<table class="entry" style="width: 600px;">
 <tr><th colspan="2">User Login</th></tr>
 <tr>
   <td>User Name</td>
@@ -46,10 +46,10 @@
 <tr>
   <td colspan="2" align="center"><input type="submit" name="account_login_submit" value="Log In" />
 </tr>
-</form>
 </table>
+</form>
 
-<?php if ($accountData) { ?>
+<?php if ($accountData && 0) { ?>
 <form id="account-help" method="post" action="account-help">
   <table class="entry" width="600px">
     <tr><th colspan="2">Request for help with logging on</th></tr>
