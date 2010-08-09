@@ -30,7 +30,7 @@ class FrontCont extends Cerad_FrontEnd_FrontCont
   }
 }
 // Merge in additional config items
-$configx = require '../../model/config/config_' . $config['web_host'] . '.php';
+$configx = require $config['ws'] . 'osso2010/model/config/config_' . $config['web_host'] . '.php';
 $config  = array_merge($config,$configx);
 $configx = NULL;
 
