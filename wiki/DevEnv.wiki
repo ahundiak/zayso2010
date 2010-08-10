@@ -14,7 +14,10 @@ Might move to Postgress in the future since mysql still has issues with views an
 
   * Install svn command line client, for Windows, use [http://www.sliksvn.com/en/download SVN Silk]
   * Make a directory called /home/ahundiak/zayso2010 then check out the latest code
-  * Fetch the wiki directory as well
+  * Fetch the wiki directory into /home/ahundiak/zayso2010/wiki as well
+
+Note that I like to use /home/ahundiak for working in even on Windows systems.
+I avoid hard coding this path but sometimes it is just plain easier.
 
   * Install and configure PHP, Apache and MySql.  For windows use the latest [http://www.apachefriends.org/en/xampp-windows.html xamp package]
   * Create a virtual host pointing to /home/ahundiak/zayso2010/osso2010/web and test
