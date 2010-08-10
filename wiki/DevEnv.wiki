@@ -1,0 +1,20 @@
+#summary Development Enviroment
+
+=== Big Picture ===
+Zayso is a LAMP project currently using PHP, Apache and MySql.
+Might move to Postgress in the future since mysql still has issues with views and stored procedures.
+
+=== Some Names ===
+  * Zayso - Public name of the project
+  * Osso - Open Source Sports Organizer, private name of the project
+  * Cerad - My family names, use for a shared library
+
+=== Getting Started ===
+  * Request to join the zayso2010 project on code.google.com
+
+  * Install svn command line client, for Windows, use [http://www.sliksvn.com/en/download SVN Silk]
+  * Make a directory called /home/ahundiak/zayso2010 then check out the latest code
+
+  * Install and configure PHP, Apache and MySql.  For windows use the latest [http://www.apachefriends.org/en/xampp-windows.html xamp package]
+  * Create a virtual host pointing to /home/ahundiak/zayso2010/osso2010/web and test
+
