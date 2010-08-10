@@ -14,6 +14,7 @@ Might move to Postgress in the future since mysql still has issues with views an
 
   * Install svn command line client, for Windows, use [http://www.sliksvn.com/en/download SVN Silk]
   * Make a directory called /home/ahundiak/zayso2010 then check out the latest code
+  * Fetch the wiki directory as well
 
   * Install and configure PHP, Apache and MySql.  For windows use the latest [http://www.apachefriends.org/en/xampp-windows.html xamp package]
   * Create a virtual host pointing to /home/ahundiak/zayso2010/osso2010/web and test
@@ -22,6 +23,7 @@ Might move to Postgress in the future since mysql still has issues with views an
 I use [http://netbeans.org/downloads/ NetBeans] since it installs cleanly under both windows and Solaris 10.
 I also had trouble configuring Eclipse with svn and proxy servers.
   * Adjust the Editor to insert two spaces for each tab.  Do not mess up my source code formating!
+  * Adjust the svn settings and verify you can commit changes from within your IDE.
 
   * Install [http://www.phpunit.de/manual/current/en/installation.html PHP Unit Testing 3.4.x].
 I just ftp-ed the package instead of messing around with the pear installer.  No real need to configure it.
