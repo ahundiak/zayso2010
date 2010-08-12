@@ -46,6 +46,8 @@ class PersonEditCont extends Proj_Controller_Action
         $submitClear  = $request->getPost('person_submit_clear');
         $submitCreate = $request->getPost('person_submit_create');
         $submitUpdate = $request->getPost('person_submit_update');
+
+        if (!$this->context->user->isAdminx) $submitCreate = FALSE;
         
         $submitUpdatePositions = $request->getPost('person_submit_update_positions');
         $submitUpdateVolShow   = $request->getPost('person_submit_update_vol_show');
@@ -79,6 +81,8 @@ class PersonEditCont extends Proj_Controller_Action
             return $response->setRedirect($this->link('person_edit',$id));    
         }
         /* Update or create new person */
+        if (!$submitCreate && !$submitUpdate) return $response->setRedirect($this->link('person_edit',$id));
+        
         if ($submitCreate) $id = 0;
         $item = $model->find($id);
         
