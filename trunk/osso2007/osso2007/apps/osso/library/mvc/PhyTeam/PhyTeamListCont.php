@@ -29,7 +29,8 @@ class PhyTeamListCont extends Proj_Controller_Action
         $request  = $this->getRequest();
         $response = $this->getResponse();
         $session  = $this->context->session;
-        
+        $isAdmin  = $this->context->user->isAdminx;
+
         $redirect = $this->link('phy_team_list');
         
         $models       = $this->context->models;
@@ -42,7 +43,7 @@ class PhyTeamListCont extends Proj_Controller_Action
             $confirm = $request->getPost('phy_team_confirm_delete');
             if ($confirm) {
                 $phyTeamIds = $request->getPost('phy_team_delete_ids');
-                $phyTeamModel->delete($phyTeamIds);
+                if ($isAdmin) $phyTeamModel->delete($phyTeamIds);
             }
             return $response->setRedirect($redirect);
         }
@@ -66,6 +67,7 @@ class PhyTeamListCont extends Proj_Controller_Action
         if (!$data->yearId)       $flag = FALSE;
         if (!$data->divisionId)   $flag = FALSE;
         if (!$data->seasonTypeId) $flag = FALSE;
+        if (!$isAdmin) $flag = FALSE;
         if (!$flag) return $response->setRedirect($redirect);
         
         $seqn = $phyTeamModel->getHighestSeqNum($data) + 1;
