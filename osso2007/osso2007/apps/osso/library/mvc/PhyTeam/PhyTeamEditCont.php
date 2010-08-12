@@ -35,8 +35,9 @@ class PhyTeamEditCont extends Proj_Controller_Action
         $request  = $this->getRequest();
         $response = $this->getResponse();
         
-        if (!$this->isAuthorized()) return $response->setRedirect($this->link('phy_team_edit'));
-        
+        if (!$this->isAuthorized())           return $response->setRedirect($this->link('phy_team_edit'));
+        if (!$this->context->user->isAdminx)  return $response->setRedirect($this->link('phy_team_edit'));
+
         $model    = $this->context->models->PhyTeamModel;
 
         $submitUpdate = $request->getPost('phy_team_submit_update');

@@ -15,6 +15,13 @@
 <link rel="stylesheet" type="text/css" href="<?php echo $this->file('css/osso.css');   ?>" />
 <link rel="stylesheet" type="text/css" href="<?php echo $this->file('css/menu.css');   ?>" />
 
+
+<link rel="stylesheet" type="text/css" href="<?php echo $this->file('../tools/jquery/css/smoothness/jquery-ui-1.8.2.custom.css'); ?>" />
+
+<script type="text/javascript" src="<?php echo $this->file('../tools/jquery/js/jquery-1.4.2.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $this->file('../tools/jquery/js/jquery-ui-1.8.2.custom.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $this->file('../tools/jquery/js/jquery.form.js'); ?>"></script>
+
 </head>
 <body id="layout-body"><div id="layout-page">
 

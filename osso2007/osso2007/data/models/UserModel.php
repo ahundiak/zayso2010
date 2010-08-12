@@ -68,6 +68,9 @@ class UserItem
             /* Am I an administrator? */
             case 'isAdmin':
               return $this->getContext()->models->UserModel->isAdmin($this);
+
+            case 'isAdminx':
+              return $this->getContext()->models->UserModel->isAdminx($this);
             
             case 'isReferee': 
                 return $this->getContext()->models->UserModel->isRegionReferee($this,0);
@@ -213,6 +216,17 @@ class UserModel extends BaseModel
      * Check to see if the user is an 'administrator' and
      * returns true or false accordingly
      */
+   function isAdminx($user)
+    {
+        if (!$user->isPerson) return FALSE;
+
+        switch($user->person->id)
+        {
+          case 1:        // Me
+            return TRUE;
+        }
+        return FALSE;
+    }
     function isAdmin($user)
     {
         if (!$user->isPerson) return FALSE;
@@ -220,6 +234,8 @@ class UserModel extends BaseModel
         switch($user->person->id)
         {
           case 1:        // Me
+          case 1674:     // Ray Cassell
+          case 808:      // Vernon Paulett
             return TRUE;
         }
         return FALSE;
