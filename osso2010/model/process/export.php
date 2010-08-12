@@ -35,12 +35,21 @@ class Export
     $export = new Org_Export_Org($this->context);
     $export->process($datax . 'Org.csv');
 */
+    /*
     $export = new Osso2007_Account_AccountExport($this->context);
     $export->process($datax . 'Account2007.csv');
     echo $export->getResultMessage() . "\n";
 
     $export = new Osso2007_Account_Member_MemberExport($this->context);
     $export->process($datax . 'Member2007.csv');
+    echo $export->getResultMessage() . "\n";
+    */
+    $export = new Osso2007_Site_SiteExport($this->context);
+    $export->process($datax . 'Site2007.csv');
+    echo $export->getResultMessage() . "\n";
+
+    $export = new Osso2007_Site_FieldExport($this->context);
+    $export->process($datax . 'Field2007.csv');
     echo $export->getResultMessage() . "\n";
   }
 }

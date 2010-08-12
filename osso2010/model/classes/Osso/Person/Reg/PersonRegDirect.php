@@ -4,6 +4,14 @@ class Osso_Person_Reg_PersonRegDirect extends Osso_Base_BaseDirect
   protected $tblName = 'person_reg';
   protected $ignoreDupKey = true;
 
+  public function getForAysoid($aysoid)
+  {
+    $sql = 'SELECT * FROM person_reg where reg_type = :reg_type AND reg_num = :reg_num;';
+    $search = array('reg_type' => 102, 'reg_num' => $aysoid);
+    $result = $this->newResult();
+    $result->row = $this->db->fetchRow($sql,$search);
+    return $result;
+  }
   /* ===============================================
    * TODOx This needs to go away
    */

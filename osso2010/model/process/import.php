@@ -27,7 +27,7 @@ class Import
     // 8300 reg_main initial import
     //
     // Volunteers
-    $path  = $datax . 'eayso/20100626/';
+    $path  = $datax . 'eayso/20100811/';
 
     $files = array(
       'Vols2008.csv',
@@ -41,6 +41,22 @@ class Import
       $import->process($path . $file);
       echo $import->getResultMessage() . "\n";;
     }
+    // Certs
+    $files = array(
+      'CertsReferee.csv',
+      'CertsRefereex.csv',
+      'CertsRefereeSafeHaven.csv',
+      'CertsCoach.csv',
+      'CertsCoachSafeHaven.csv',
+    );
+    $files = array();
+    foreach($files as $file)
+    {
+      $import = new Eayso_Reg_Cert_RegCertImport($this->context);
+      $import->process($path . $file);
+      echo $import->getResultMessage() . "\n";;
+    }
+    return;
 
     // Referee Certs
     $path  = $datax . 'eayso/20100626/';
@@ -98,7 +114,30 @@ class Import
   protected function importPersons($datax)
   {
     $import = new Osso_Person_PersonImport($this->context);
-    $import->process($datax . 'osso/Personx.csv');
+    $import->process($datax . 'osso/Person.csv');
+    echo $import->getResultMessage() . "\n";
+  }
+  protected function importTeams($datax)
+  {
+    $import = new Osso_Team_Phy_PhyTeamImport($this->context);
+    $import->process($datax . 'eayso/teams/Teams0498.csv');
+    echo $import->getResultMessage() . "\n";
+  }
+  protected function importTeams2007($datax)
+  {
+    $import = new Osso2007_Team_Phy_PhyTeamImport($this->context);
+    $import->process($datax . 'eayso/20100811/Teams0498.csv');
+    echo $import->getResultMessage() . "\n";
+
+    $import = new Osso2007_Team_Phy_PhyTeamRosterImport($this->context);
+    $import->process($datax . 'eayso/20100811/Rosters0498.csv');
+    echo $import->getResultMessage() . "\n";
+
+  }
+  protected function importSchedules2007($datax)
+  {
+    $import = new Osso2007_Schedule_SchImport0498($this->context);
+    $import->process($datax . 'eayso/20100811/Schedules0498.csv');
     echo $import->getResultMessage() . "\n";
   }
   public function execute()
@@ -106,7 +145,20 @@ class Import
     $datax = $this->config['datax'];
 
   //$this->importEayso($datax);
-    $this->importPersons($datax);
+  //$this->importPersons($datax);
+  //$this->importTeams2007($datax);
+    $this->importSchedules2007($datax);
+
+    return;
+    
+    // Sites
+    $import = new Osso2007_Site_SiteImport($this->context);
+    $import->process($datax . 'osso/Site2007x.csv');
+    echo $import->getResultMessage() . "\n";
+
+    $import = new Osso2007_Site_FieldImport($this->context);
+    $import->process($datax . 'osso/Field2007x.csv');
+    echo $import->getResultMessage() . "\n";
 
     return;
     

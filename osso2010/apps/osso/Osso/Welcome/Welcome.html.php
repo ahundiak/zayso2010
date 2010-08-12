@@ -1,7 +1,7 @@
 <div id="welcome-div">
   <div class="content">
     <p>Welcome Content</p>
-    <p>Why did they make the margins so wide and the fonts so big???</p>
+    <p>Why did they make the Margins so wide and the fonts so big???</p>
     <a id="account-create-link" href="">Create New Account</a>
   </div>
   <?php echo $this->render('Osso/User/UserLoginForm.html.php'); ?>

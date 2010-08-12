@@ -62,7 +62,11 @@ class Eayso_Reg_Main_RegMainImport extends Cerad_Import
     {
       if (isset($datax[$key]))
       {
-        if ($row[$key] != $datax[$key]) $changes[$key] = $datax[$key];
+        if ($row[$key] != $datax[$key])
+        {
+          $changes[$key] = $datax[$key];
+        //printf("### Changes %s '%s' '%s'\n",$key,$row[$key],$datax[$key]);
+        }
       }
     }
     if (count($changes) < 1) return;
