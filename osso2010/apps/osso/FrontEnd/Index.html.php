@@ -6,8 +6,8 @@
     
 <!-- <script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script> -->
 
-    <link rel="stylesheet" type="text/css" href="../tools/jquery/css/smoothness/jquery-ui-1.8.2.custom.css">
-    <link rel="stylesheet" type="text/css" href="css/osso">
+    <link rel="stylesheet" type="text/css" href="../tools/jquery/css/smoothness/jquery-ui-1.8.2.custom.css" />
+    <link rel="stylesheet" type="text/css" href="css/osso" />
 
     <script type="text/javascript" src="../tools/jquery/js/jquery-1.4.2.min.js"></script>
     <script type="text/javascript" src="../tools/jquery/js/jquery-ui-1.8.2.custom.min.js"></script>
