@@ -6,7 +6,7 @@
     <th colspan="2">Create New Account</th>
 </tr>
 <tr>
-    <td>User Login Name</td>
+    <td style="width: 180px;">User Login Name</td>
     <td><input type="text" name="account_user" size="40" value="<?php echo $data->accountUser; ?>" /></td>
 </tr>
 <tr>
@@ -35,8 +35,12 @@
     <td><input type="text" name="account_pass1" size="20" value="" /></td>
 </tr>
 <tr>
-    <td>Password 2</td>
+    <td>Password (Repeat)</td>
     <td><input type="text" name="account_pass2" size="20" value="" /></td>
+</tr>
+<tr>
+    <td>AYSO ID (8 digits)*</td>
+    <td><input type="text" name="member_aysoid" size="20" value="<?php echo $data->memberAysoid; ?>" /></td>
 </tr>
 <tr>
     <td></td>
@@ -44,8 +48,15 @@
 </tr>
 <?php if ($data->message) { ?>
 <tr>
-    <td colspan="2"><?php echo $this->escape($data->message); ?></td>
+    <td colspan="2" style="color: red;"><?php echo $this->escape($data->message); ?></td>
 </tr>
 <?php } ?>
+<tr>
+    <td colspan="2">
+      *Referees and coaches should enter their 8 digit AYSO ID number which can be found by signing in to
+      <a href="www.eayso.org">EAYSO</a>.  You can enter this number later on the edit account page.
+      Referees need to be certified in EAYSO before they can sign up for games.
+    </td>
+</tr>
 </table>
 </form>

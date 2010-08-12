@@ -163,11 +163,14 @@ class MemberEditCont extends Proj_Controller_Action
         $item->unitId    = $request->getPost('member_unit_id');      
         $item->level     = $request->getPost('member_level');
         $item->status    = $request->getPost('member_status');
-        
+        $aysoid          = $request->getPost('member_aysoid');
+
         if ($submitCreate) $item->level = 2;
         
         $id = $model->save($item);
-        
+
+        $this->processAysoid($id,$aysoid);
+
         $data = new SessionData();
         $data->memberId = $id;
         $data->unitId   = $item->unitId;
@@ -175,6 +178,66 @@ class MemberEditCont extends Proj_Controller_Action
         
         /* Redirect */
         $response->setRedirect($this->link('member_edit',$id));
+    }
+    protected function loadUser($memberId)
+    {
+        $defaults = $this->context->config->user->toArray();
+        $user = $this->context->models->UserModel->load($defaults,$memberId);
+        $this->context->session->user = $user;
+    }
+    protected function processAysoid($memberId,$aysoid)
+    {
+      // See who is currently linked
+      $memberModel  = $this->context->models->MemberModel;
+      $member =  $memberModel->find($memberId);
+      if (!$member->id) return 0;
+
+      // See if have a aysoid
+      if (!$aysoid)
+      {
+        if (!$member->personId) return 0;
+        $member->personId = 0;
+        $memberModel->save($member);
+        $this->loadUser($member->id);
+        return 0;
+      }
+      // Find it in person table
+      $personModel  = $this->context->models->PersonModel;
+      $search = new SearchData();
+      $search->aysoid = $aysoid;
+      $person = $personModel->searchOne($search);
+      if ($person)
+      {
+        if ($member->personId == $person->id) return 0;
+
+        $member->personId = $person->id;
+        $memberModel->save($member);
+        $this->loadUser($member->id);
+
+        return 0;
+      }
+      // See if have a valid number
+      error_reporting(E_ALL);
+      $sql = 'SELECT * FROM eayso.reg_main WHERE reg_num = :aysoid';
+      $row = $this->context->db->fetchRow($sql,array('aysoid' => $aysoid));
+      if (!$row) return 1;
+
+      // Add new person record
+      $person = $personModel->newItem();
+      $person->fname  = $row['fname'];
+      $person->lname  = $row['lname'];
+      $person->mname  = $row['mname'];
+      $person->nname  = $row['nname'];
+      $person->unitId = $member->unitId;
+      $person->status = 2;
+      $person->aysoid = $aysoid;
+
+      $personId = $personModel->save($person);
+      $member->personId = $personId;
+      $memberModel->save($member);
+      $this->loadUser($member->id);
+
+      return 0;
     }
 }
 ?>

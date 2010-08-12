@@ -59,7 +59,7 @@ class SchedRefSignupView extends Proj_View
         }
         
         /* Referee list, eveyone for admin */
-        if (!$user->isAdmin) $refereePickList = $user->refereePickList;
+        if (!$user->isAdmin || 1) $refereePickList = $user->refereePickList;
         else {
             $search = new SearchData();
             $search->volTypeId = array($models->VolType->TYPE_ADULT_REF,$models->VolType->TYPE_YOUTH_REF);

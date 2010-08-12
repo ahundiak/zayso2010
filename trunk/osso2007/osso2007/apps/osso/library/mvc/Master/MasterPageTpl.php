@@ -15,24 +15,6 @@
 <link rel="stylesheet" type="text/css" href="<?php echo $this->file('css/osso.css');   ?>" />
 <link rel="stylesheet" type="text/css" href="<?php echo $this->file('css/menu.css');   ?>" />
 
-<?php /* 
-<script type="text/javascript"><!--//--><![CDATA[//><!--
-
-sfHover = function() {
-    var sfEls = document.getElementById("nav").getElementsByTagName("LI");
-    for (var i=0; i<sfEls.length; i++) {
-        sfEls[i].onmouseover=function() {
-            this.className+=" sfhover";
-        }
-        sfEls[i].onmouseout=function() {
-            this.className=this.className.replace(new RegExp(" sfhover\\b"), "");
-        }
-    }
-}
-if (window.attachEvent) window.attachEvent("onload", sfHover);
-
-//--><!]]></script>
-*/ ?>
 </head>
 <body id="layout-body"><div id="layout-page">
 
@@ -44,23 +26,12 @@ if (window.attachEvent) window.attachEvent("onload", sfHover);
 
 <span>Zayso</span>
 
-<span>- Season: 
-  <?php echo $this->escape($user->seasonTypeDesc); ?>
-  <?php echo $this->escape($user->yearDesc);       ?>
-</span>
-
-<span>- Region:
-<?php 
-    if ($user->unitId) echo $this->escape($user->unitDesc);
-    else               echo 'None Selected';
-?>
-</span>
-
-<span>- User:
+<span>
 <?php 
     if ($user->isMember) {
         $name = $user->name;
-        if ($user->isPerson) $name .= '*';
+        // if ($user->isPerson) $name .= '*';
+        $name .= ' ' . $user->certs;
     }
     else $name = 'Not Logged In';
     echo $this->escape($name);
@@ -107,17 +78,17 @@ if (window.attachEvent) window.attachEvent("onload", sfHover);
       <?php echo $this->href('Referee Schedule','sched_ref_list'); ?>
     </li>
   <?php } ?>
-  <?php if ($user->isMadisonReferee) { ?>
+  <?php if ($user->isMadisonReferee && 0) { ?>
     <li>
       <?php echo $this->href('Ref Points 498','ref_points_madison'); ?>
     </li>
   <?php } ?>
-  <?php if ($user->isMonroviaReferee) { ?>
+  <?php if ($user->isMonroviaReferee && 0) { ?>
     <li>
       <?php echo $this->href('Ref Points 894','ref_points_monrovia'); ?>
     </li>
   <?php } ?>  
-  <?php if ($user->isReferee) { ?>
+  <?php if ($user->isReferee && 0) { ?>
     <li>
       <?php echo $this->href('Area Tourn Avail','ref_avail_signup'); ?>
     </li>

@@ -33,4 +33,7 @@ INSERT INTO `division` VALUES
 (21,21,'U19C','U19 Coed' ),
 (22,22,'U05B','U05 Boys' ),
 (23,23,'U05G','U05 Girls'),
-(24,24,'U05C','U05 Coed' );
+(24,24,'U05C','U05 Coed' ),
+(25,25,'U07B','U07 Boys' ),
+(26,26,'U07G','U07 Girls'),
+(27,27,'U07C','U07 Coed' );

@@ -11,7 +11,7 @@ class PersonMap extends BaseMap
         'nname'  => 'nname',
         'unitId' => 'unit_id',
         'status' => 'status',
-		'aysoid' => 'aysoid',
+	'aysoid' => 'aysoid',
     );
     protected $mapx = array(
         'unitDesc' => 'unit_desc',
@@ -192,6 +192,7 @@ class PersonModel extends BaseModel
                 "{$left}.fname   AS {$left}_fname",
                 "{$left}.lname   AS {$left}_lname",
                 "{$left}.unit_id AS {$left}_unit_id",
+                "{$left}.aysoid  AS {$left}_aysoid",
             )
         );
     }
