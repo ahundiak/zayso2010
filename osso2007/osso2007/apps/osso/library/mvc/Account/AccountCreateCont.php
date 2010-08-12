@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL);
 
 class AccountCreateCont extends Proj_Controller_Action 
 {
@@ -19,6 +20,7 @@ class AccountCreateCont extends Proj_Controller_Action
             
             $data->memberName   = NULL;
             $data->memberUnitId = $user->unitId;
+            $data->memberAysoid = NULL;
             
             $data->message = NULL;
             
@@ -54,6 +56,7 @@ class AccountCreateCont extends Proj_Controller_Action
         $data->accountEmail = $this->clean($request->getPost('account_email'));
             
         $data->memberName   = $this->clean($request->getPost('member_name'));
+        $data->memberAysoid = $this->clean($request->getPost('member_aysoid'));
         $data->memberUnitId = $this->clean($request->getPost('member_unit_id'));
             
         $data->message = NULL;
@@ -86,6 +89,10 @@ class AccountCreateCont extends Proj_Controller_Action
             $data->message = 'Must select an organization';
             return $response->setRedirect($redirect);
         }
+
+        // Check the aysoid
+        $personId = $this->processAysoid($data);
+        if ($data->message) return $response->setRedirect($redirect);
         
         /* Make the account */
         $account = $models->AccountModel->find(0);
@@ -113,6 +120,7 @@ class AccountCreateCont extends Proj_Controller_Action
         $member->accountId = $accountId;
         $member->name      = $data->memberName;
         $member->unitId    = $data->memberUnitId;
+        $member->personId  = $personId;
         $member->level     = 1;
         $member->status    = 1;
 
@@ -127,6 +135,47 @@ class AccountCreateCont extends Proj_Controller_Action
         /* Redirect */
         // $response->setRedirect($this->link('account_created'));
     }
+    protected function processAysoid($data)
+    {
+      // See if have one
+      $aysoid = $data->memberAysoid;
+      if (!$aysoid) return 0;
+
+      // Check existing
+      $directPerson = new Osso2007_Person_PersonDirect($this->context);
+      $result = $directPerson->fetchRows(array('aysoid' => $aysoid));
+      if ($result->rowCount)
+      {
+        // $data->message = 'Found Person ' . $result->rows[0]['person_id'];
+        return $result->rows[0]['person_id'];
+      }
  
+      // Make sure it's valid
+      $directEayso = new Eayso_Reg_Main_RegMainDirect($this->context);
+      $result = $directEayso->fetchRow(array('reg_num' => $aysoid));
+      if (!$result->row)
+      {
+        $data->message = 'AYSO ID Is invalid or the record has not been loaded into zayso yet';
+        return 0;
+      }
+      $row = $result->row;
+
+      // Add new person record
+      $datax = array(
+        'fname'   => $row['fname'],
+        'lname'   => $row['lname'],
+        'mname'   => $row['mname'],
+        'nname'   => $row['nname'],
+        'aysoid'  => $row['reg_num'],
+        'unit_id' => $data->memberUnitId,
+        'status'  => 3,
+      );
+      $result = $directPerson->insert($datax);
+      $personId = $result->id;
+
+      // $data->message = 'Added Person ' . $personId;
+
+      return $personId;
+    }
 }
 ?>

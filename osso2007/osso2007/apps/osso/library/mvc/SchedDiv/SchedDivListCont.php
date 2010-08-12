@@ -24,7 +24,7 @@ class SchedDivListCont extends Proj_Controller_Action
         $data->showAway       = TRUE;
             
         $date1 = $this->context->models->DateTimeModel->getToday();
-        $date2 = '20100701'; //$this->context->models->DateTimeModel->getNextSunday();
+        $date2 = '20101130'; //$this->context->models->DateTimeModel->getNextSunday();
             
         $data->dateYear1      = substr($date1,0,4);
         $data->dateYear2      = substr($date2,0,4);

@@ -10,6 +10,8 @@ class PhyTeamMap extends BaseMap
         'divisionSeqNum' => 'division_seq_num',
         'name'           => 'name',
         'colors'         => 'colors',
+        'eaysoId'        => 'eayso_id',
+        'eaysoDes'       => 'eayso_des',
     );
     protected $mapx = array(
         'year'           => 'year_desc',     
@@ -96,7 +98,8 @@ class PhyTeamModel extends BaseModel
 
         $select->order('phy_team.reg_year_id,phy_team.season_type_id,phy_team.unit_id,phy_team.division_id,phy_team.division_seq_num');
                
-        $rows = $this->db->fetchAll($select);// Zend::dump($rows);
+        $rows = $this->db->fetchAll($select); 
+        // Cerad_Debug::dump($rows);  echo $select->__toString(); die();
         $items = array();
         foreach($rows as $row)
         {

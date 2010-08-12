@@ -15,6 +15,7 @@ class MemberMap extends BaseMap
         'unitDesc' => 'unit_desc',
         'personFirstName' => 'person_fname',
         'personLastName'  => 'person_lname',
+        'aysoid'          => 'person_aysoid',
     );
 }
 class MemberTable extends BaseTable

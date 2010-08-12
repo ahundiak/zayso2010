@@ -35,6 +35,10 @@ class UserItem
     {
         switch($name) {
 
+          /* Cert information */
+          case 'certs':
+            return $this->getContext()->models->UserModel->getCerts($this);
+
             /* Display Name */
             case 'name':
                 $member = $this->member;
@@ -63,10 +67,7 @@ class UserItem
                       
             /* Am I an administrator? */
             case 'isAdmin':
-                if ($this->data['is_admin'] === NULL) {
-                    $this->data['is_admin'] = $this->getContext()->models->UserModel->isAdmin($this);
-                } 
-                return $this->data['is_admin'];
+              return $this->getContext()->models->UserModel->isAdmin($this);
             
             case 'isReferee': 
                 return $this->getContext()->models->UserModel->isRegionReferee($this,0);
@@ -215,6 +216,13 @@ class UserModel extends BaseModel
     function isAdmin($user)
     {
         if (!$user->isPerson) return FALSE;
+
+        switch($user->person->id)
+        {
+          case 1:        // Me
+            return TRUE;
+        }
+        return FALSE;
         
         $search = new SearchData();
         $search->personId     = $user->person->id;
@@ -237,7 +245,26 @@ class UserModel extends BaseModel
      */
     function isRegionReferee($user,$unitId)
     {
-        if (!$user->isPerson) return FALSE;
+      if (!$user->isPerson) return FALSE;
+
+      $aysoid = $user->person->aysoid;
+      if (!$aysoid) return FALSE;
+
+      $sql = 'SELECT * FROM eayso.reg_view_info WHERE reg_num = :aysoid;';
+      $rows = $this->db->fetchAll($sql,array('aysoid' => $aysoid));
+      foreach($rows as $row)
+      {
+        if ($row['cert_cat'] == Eayso_Reg_Cert_RegCertRepo::TYPE_REFEREE_BADGE)
+        {
+          if (!$unitId) return TRUE;
+          if ( $unitId == $row['org_id']) return TRUE;
+        }
+      }
+      return FALSE;
+      
+      $certs = NULL;
+      $repo = new Eayso_Reg_Cert_RegCertRepo();
+      $year = 0;
 
         $search = new SearchData();
         $search->personId     = $user->person->id;
@@ -257,6 +284,56 @@ class UserModel extends BaseModel
         return FALSE;
     }
     function getRefereePickList($user)
+    {
+      $accountId = $user->account->id;
+      $sql = <<<EOT
+SELECT
+  person.fname     AS fname,
+  person.lname     AS lname,
+  person.nname     AS nname,
+  person.person_id AS person_id,
+  person.aysoid    AS aysoid,
+
+  eayso.reg_cert.catx  AS cert_cat,
+  eayso.reg_cert.typex AS cert_type
+
+FROM member
+LEFT JOIN person ON person.person_id = member.person_id
+LEFT JOIN eayso.reg_cert ON eayso.reg_cert.reg_num = person.aysoid
+WHERE account_id = :account_id
+ORDER BY lname,fname;
+EOT;
+      $rows = $this->context->db->fetchRows($sql,array('account_id' => $accountId));
+      $persons = array();
+      foreach($rows as $row)
+      {
+        $personId = $row['person_id'];
+        if (!isset($persons[$personId]))
+        {
+          $persons[$personId] = $row;
+          $persons[$personId]['isReferee'] = false;
+        }
+        if ($row['cert_cat'] == 200) $persons[$personId]['isReferee'] = true;
+      }
+      // Cerad_Debug::dump($persons); die();
+      $items = NULL;
+      foreach($persons AS $person)
+      {
+        if ($person['isReferee'])
+        {
+          $nname = $person['nname'];
+          $fname = $person['fname'];
+          $name  = $person['lname'];
+          if ($nname) $name .= ', ' . $nname;
+          else        $name .= ', ' . $fname;
+
+          $items[$person['person_id']] = $name;
+        }
+      }
+      return $items;
+    //Cerad_Debug::dump($items); die();
+    }
+    function getRefereePickListOld($user)
     {
         $models = $this->context->models;
         $accountId = $user->account->id;
@@ -318,6 +395,34 @@ class UserModel extends BaseModel
             $items[$row['person_id']] = $row['person_id'];
         }        
         return $items;
-    }   
+    }
+    function getCerts($user)
+    {
+      if (!$user->isPerson) return '';
+
+      $aysoid = $user->person->aysoid;
+      if (!$aysoid) return '';
+
+      $sql = 'SELECT * FROM eayso.reg_view_user WHERE reg_numx = :aysoid;';
+      $rows = $this->db->fetchAll($sql,array('aysoid' => $aysoid));
+      
+      $certs = NULL;
+      $repo = new Eayso_Reg_Cert_RegCertRepo();
+      $year = 0;
+
+      foreach($rows as $row)
+      {
+        $cert = $repo->getDesc($row['cert_type']);
+        if ($certs) $certs .= ', ' . $cert;
+        else        $certs  =        $cert;
+
+        $yearx = (int)$row['reg_year'];
+        if ($yearx > $year) $year = $yearx;
+      }
+      $certs = 'MY' . $year . ', ' . $certs;
+      return $certs;
+
+      
+    }
 }
 ?>

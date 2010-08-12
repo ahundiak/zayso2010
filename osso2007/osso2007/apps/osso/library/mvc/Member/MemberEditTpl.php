@@ -71,6 +71,10 @@
     </td>
 </tr>
 <tr>
+    <td>AYSO ID</td>
+    <td><input type="text" name="member_aysoid" size="10" value="<?php echo $member->aysoid; ?>" /></td>
+</tr>
+<tr>
     <td>Volunteer Name</td>
     <td><input type="text" name="volunteer_name" size="40" value="<?php echo $member->personName; ?>" readonly="true" /></td>
 </tr>
@@ -81,6 +85,7 @@
 </table>
 </form>
 <br />
+<?php /* ?>
 <form method="post" action="<?php echo $this->link('member_edit'); ?>">
 <input type="hidden" name="account_id" value="<?php echo $account->id; ?>" />
 <input type="hidden" name="member_id"  value="<?php echo $member->id;  ?>" />
@@ -136,6 +141,14 @@
 </tr>
 </table>
 </form>
+<?php */ ?>
+<h3>Linking to AYSO Volunteer Record</h3>
+<p>
+If you are an AYSO volunteer (referee or coach) then you need to link your account to your
+volunteer record.  Do this by entering your 8 digit aysoid number and then pressing update.
+You can find your number by signing in to <a href="www.eayso.org">eayso</a>.
+</p>
+<?php /* ?>
 <h3>Linking to AYSO Volunteer Record</h3>
 <p>
 If you are an AYSO volunteer (referee or coach) then you need to link your account to your
@@ -150,3 +163,4 @@ should show up and can then be linked.
 If you still can't see the volunteer record then that means they are not in the system.
 Contact the <a href="mailto:ahundiak@ayso894.org">administrator</a> for help.
 </p>
+<?php */ ?>

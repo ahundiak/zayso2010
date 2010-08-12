@@ -126,6 +126,10 @@ class ProjectContext
         /* Setup database and locators */
         $this->db     = new Proj_Db_Adapter($config->db->toArray());
         
+        $this->dbOsso     = $this->db;
+        $this->dbOsso2007 = $this->db;
+      //$this->dbEayso    = $this->db;
+        
         $this->tables = new Proj_Locator_Table($this);
         
         $this->models = new Proj_Locator_Model($this);
