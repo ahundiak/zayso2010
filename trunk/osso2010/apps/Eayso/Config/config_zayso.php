@@ -9,7 +9,7 @@ return array
   'dbParams' => array
   (
     'default' => array (
-      'host'     => 'db.telena.com',
+      'host'     => 'db.televant.com',
       'username' => 'impd',
       'password' => 'impd894',
       'dbname'   => 'xxx',
@@ -17,7 +17,7 @@ return array
       'adapter'  => 'pdo_mysql'
     ),
     'dbMain' => array (
-      'host'     => 'db.telena.com',
+      'host'     => 'db.televant.com',
       'username' => 'impd',
       'password' => 'impd894',
       'dbname'   => 'osso2007',
