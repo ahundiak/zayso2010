@@ -57,59 +57,6 @@ class Import
       echo $import->getResultMessage() . "\n";;
     }
     return;
-
-    // Referee Certs
-    $path  = $datax . 'eayso/20100626/';
-    $files = array(
-      'CertsRefereeNational.csv',
-      'CertsRefereeNational2.csv',
-      'CertsRefereeAdvanced.csv',
-      'CertsRefereeIntermediate.csv',
-      'CertsRefereeRegional.csv',
-      'CertsRefereeRegionalSafeHaven.csv',
-      'CertsRefereeU08.csv',
-      'CertsRefereeU08SafeHaven.csv',
-      'CertsRefereeAssistant.csv',
-      'CertsRefereeAssistantSafeHaven.csv',
-      'CertsRefereeSafeHaven.csv',
-      'CertsRefereeSafeHavenZ.csv',
-      'CertsAssessor.csv',
-      'CertsAssessorNational.csv',
-    );
-    //$files = array();
-    foreach($files as $file)
-    {
-      $import = new Eayso_Reg_Cert_RegCertImport($this->context);
-      $import->process($path . $file);
-      echo $import->getResultMessage() . "\n";;
-    }
-    // Coaching Certs
-    $path  = $datax . 'eayso/20100626/';
-    $files = array(
-      'CertsCoachNational.csv',
-      'CertsCoachAdvanced.csv',
-      'CertsCoachAdvancedCC.csv',
-      'CertsCoachIntermediate.csv',
-      'CertsCoachIntermediateCC.csv',
-      'CertsCoachSafeHaven.csv',
-      'CertsCoachSafeHavenZ.csv',
-      'CertsCoachU06.csv',
-      'CertsCoachU06Z.csv',
-      'CertsCoachU08.csv',
-      'CertsCoachU08Z.csv',
-      'CertsCoachU10.csv',
-      'CertsCoachU10Z.csv',
-      'CertsCoachU12.csv',
-      'CertsCoachVIP.csv',
-      'CertsCoachB.csv',
-    );
-  //$files = array();
-    foreach($files as $file)
-    {
-      $import = new Eayso_Reg_Cert_RegCertImport($this->context);
-      $import->process($path . $file);
-      echo $import->getResultMessage() . "\n";;
-    }
   }
   protected function importPersons($datax)
   {
@@ -126,11 +73,11 @@ class Import
   protected function importTeams2007($datax)
   {
     $import = new Osso2007_Team_Phy_PhyTeamImport($this->context);
-    $import->process($datax . 'eayso/20100811/Teams0498.csv');
+    $import->process($datax . 'eayso/20100811/Teams0894.csv');
     echo $import->getResultMessage() . "\n";
 
     $import = new Osso2007_Team_Phy_PhyTeamRosterImport($this->context);
-    $import->process($datax . 'eayso/20100811/Rosters0498.csv');
+    $import->process($datax . 'eayso/20100811/Rosters0894.csv');
     echo $import->getResultMessage() . "\n";
 
   }
@@ -146,8 +93,8 @@ class Import
 
   //$this->importEayso($datax);
   //$this->importPersons($datax);
-  //$this->importTeams2007($datax);
-    $this->importSchedules2007($datax);
+    $this->importTeams2007($datax);
+  //$this->importSchedules2007($datax);
 
     return;
     

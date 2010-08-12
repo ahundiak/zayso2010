@@ -7,6 +7,8 @@ class Osso2007_Team_Phy_PhyTeamPersonDirect extends Osso_Base_BaseDirect
 {
   protected $tblName = 'osso2007.phy_team_person';
   protected $idName  = 'phy_team_person_id';
+  
+  protected $ignoreDupKey = false;
 
   public function deleteForPhyTeam($phyTeamId)
   {
