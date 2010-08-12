@@ -1,7 +1,7 @@
 <?php
-class Osso_Person_PersonImport extends Cerad_Import
+class Osso_Team_Phy_PhyTeamImport2 extends Cerad_Import
 {
-  protected $readerClassName = 'Osso_Person_PersonReader';
+  protected $readerClassName = 'Osso_Team_Phy_PhyTeamReader';
   protected $regions = array();
 
   protected function init()
@@ -136,7 +136,7 @@ class Osso_Person_PersonImport extends Cerad_Import
     $result = $this->directRegMainEayso->fetchRow($search);
     if (!$result->row)
     {
-      printf("Missing or invalid aysoid: %s %s %s %s\n",$aysoid,$data['region'],$data['fname'],$data['lname']);
+      // echo "Missing or invalid aysoid: $aysoid\n";
       return 0;
     }
     $dataRegMainEayso = $result->row;
@@ -171,137 +171,168 @@ class Osso_Person_PersonImport extends Cerad_Import
     // Fully processed
     return 1;
   }
+  public function getPerson($regionId,$fname,$lname)
+  {
+    // Need some data
+    if (!$regionId) return 0;
+    if (!$fname)    return 0;
+    if (!$lname)    return 0;
+
+    $result = $this->directRegMainEayso->getForOrgName($regionId,$fname,$lname);
+    $rows = $result->rows;
+    if (count($rows) < 1)
+    {
+      printf("*** Person not found %d %s %s\n",$regionId,$fname,$lname);
+      die();
+    }
+    if (count($rows) > 1)
+    {
+      printf("*** Multiple people found %d %s %s\n",$regionId,$fname,$lname);
+      //die();
+    }
+    $row = $rows[0];
+
+    // Need to find the person record
+
+    //printf("Found %s %s\n",$fname,$lname);
+    
+    return 0;
+  }
   public function processRowData($data)
   {   
     // Validation
-    if (!$data['id']) return;
+    if (!$data['teamId']) return;
     $this->count->total++;
 
+    // Mess with the key
+    $teamDes = $data['teamDes'];
+    $teamKey = $data['teamKey'];
+
+    $teamDes  = str_replace('-','',$teamDes);
+    $teamDess = explode(' ',$teamDes);
+    $teamDes  = $teamDess[0];
+
+    $teamKey = $this->getTeamKey($teamDes);
+    if (!$teamKey) return;
+
+    if ($teamKey != $data['teamKey'])
+    {
+      printf("*** Team Key %s %s %s\n",$teamDes,$teamKey,$data['teamKey']);
+    }
+
+    // Get the region
+    $regionId = $this->getRegion($data['region']);
+    if (!$regionId) return;
+
+    // Get volunteers
+    $vols = array();
+    $vols[10] = $this->getPerson($regionId,$data['headCoachFName'],$data['headCoachLName']);
+    $vols[11] = $this->getPerson($regionId,$data['asstCoachFName'],$data['asstCoachLName']);
+    $vols[12] = $this->getPerson($regionId,$data['managerFName'  ],$data['managerLName'  ]);
+
     // Handle eayso volunteers
-    if ($this->processEaysoVolunteer($data)) return;
+    // if ($this->processEaysoVolunteer($data)) return;
 
     // Special checks, only processing those with eayso ids for now
     return;
-
-    // Clean up dob
-    $dobs = explode('/',$data['dob']);
-    if (count($dobs) == 3)
-    {
-      if (strlen($dobs[0]) == 1) $month = '0' . $dobs[0];
-      else                       $month =       $dobs[0];
-      if (strlen($dobs[1]) == 1) $day   = '0' . $dobs[1];
-      else                       $day   =       $dobs[1];
-
-      $data['dob'] = $dobs[2] . $month . $day;
-    }
-        
-    // Clean up phone work extension
-    $phoneWorkExt = trim($data['phone_work_ext']);
-    if ($phoneWorkExt)
-    {
-      $data['phone_work'] = $data['phone_work'] . 'x' . $phoneWorkExt;
-    }
-    unset($data['phone_work_ext']);
-
-    // Clean up registration year
-    $data['person_reg_year'] = $this->processYear($data['person_reg_year']);
-
-    // Volunteer region
-    $region = $data['region'];
-    unset($data['region']);
-
-    // Already exist?
-    $db = $this->db;
-    $search['type']   = 2;
-    $search['aysoid'] = $data['person_reg_num'];
-    $sql = 'SELECT * FROM person_reg WHERE person_reg_type_id = :type AND person_reg_num = :aysoid;';
-    $datax = $db->fetchRow($sql,$search);
-    
-    if ($datax === FALSE)
-    {
-      // Create new one
-      $data['person_id']          = 0;
-      $data['person_reg_type_id'] = 2;
-      $data['ts_created'] = $this->ts;
-      $data['ts_updated'] = $this->ts;
-      $data['email2']     = '';
-
-      $db->insert('person_reg','id',$data);
-      $this->countInsert++;
-
-      // Add any regions
-      $id = $db->lastInsertId();
-      $this->processVolRegion($id,$region);
-      return;
-    }
-    $this->processVolRegion($datax['id'],$region);
-
-    // Use the latest membership year data
-    $my  = $data ['person_reg_year'];
-    $myx = $datax['person_reg_year'];
-    
-    if ($my >= $myx)
-    {
-      unset($datax['ts_created']);
-      unset($datax['ts_modified']);
-
-      $changes = array();
-      foreach(array_keys($data) as $key)
-      {
-        if ($data[$key] != $datax[$key]) $changes[$key] = $data[$key];
-      }
-      if (count($changes))
-      {
-        $changes['id']         = $datax['id'];
-        $changes['ts_updated'] = $this->ts;
-
-        /*
-        Cerad_Debug::dump($data);
-        Cerad_Debug::dump($datax);
-        Cerad_Debug::dump($changes);
-        die(); */
-        
-        $db->update('person_reg','id',$changes);
-        $this->countUpdate++;
-
-      }
-    }
   }
-  protected function processVolRegion($personRegId,$region)
+  protected function getRegion($region)
   {
 
-    if (!$region) return;
-    
+    if (!$region) return NULL;
+
     // Need to find the org_id for the region
     if (!isset($this->regions[$region]))
     {
-      $search = array('keyx' => $region);
-      $result = $this->directOrg->getOrgForKey($search);
+      $result = $this->directOrg->getOrgForKey($region);
 
       $org = $result->row;
       if (!$org)
       {
         echo("Could not find region: $region\n"); // Some regions are revoked
         $this->regions[$region] = 0;
-        return;
+        return 0;
       }
+      
       $this->regions[$region] = $org['id'];
     }
-    $orgId = $this->regions[$region];
-    if (!$orgId) return;
-
-    // ok to just insert as dups will be ignored
-    $row = array('org_id' => $orgId, 'person_reg_id' => $personRegId);
-    $this->directPersonRegOrg->insert($row);
-
-    return;
+    return $this->regions[$region];
   }
-  protected function processYear($year)
+  protected function getTeamKey($teamDes)
   {
-    // Clean up registration year
-    $yearx = (int)(substr($year,-4));
-    if (($yearx < 1990) || ($yearx > 2020)) die("Year: '$year'");
-    return $yearx;
+    foreach($this->divs as $divKey => $div)
+    {
+      $len = strlen($divKey);
+      if (substr($teamDes,0,$len) == $divKey)
+      {
+        $age = $div['age'];
+        $sex = $div['sex'];
+        $seq = (int)substr($teamDes,$len);
+
+        if ($age == 0) return NULL;
+
+        $teamKey = sprintf('U%02u%s%02u',$age,$sex,$seq);
+        return $teamKey;
+      }
+     }
+     echo "*** Bad Division Key '$teamDes'\n";
+     return NULL;
   }
+  protected $divs = array
+  (
+    'U5C'  => array('age' =>  5, 'sex' => 'C'),
+    'U5B'  => array('age' =>  5, 'sex' => 'B'),
+    'U5G'  => array('age' =>  5, 'sex' => 'G'),
+
+    'U05C' => array('age' =>  5, 'sex' => 'C'),
+    'U05B' => array('age' =>  5, 'sex' => 'B'),
+    'U05G' => array('age' =>  5, 'sex' => 'G'),
+
+    'U6C'  => array('age' =>  6, 'sex' => 'B'),
+    'U6B'  => array('age' =>  6, 'sex' => 'B'),
+    'U6G'  => array('age' =>  6, 'sex' => 'G'),
+
+    'U06C' => array('age' =>  6, 'sex' => 'B'),
+    'U06B' => array('age' =>  6, 'sex' => 'B'),
+    'U06G' => array('age' =>  6, 'sex' => 'G'),
+
+    'U7C'  => array('age' =>  7, 'sex' => 'B'),
+    'U7B'  => array('age' =>  7, 'sex' => 'B'),
+    'U7G'  => array('age' =>  7, 'sex' => 'G'),
+
+    'U07C' => array('age' =>  7, 'sex' => 'B'),
+    'U07B' => array('age' =>  7, 'sex' => 'B'),
+    'U07G' => array('age' =>  7, 'sex' => 'G'),
+
+    'U8C'  => array('age' =>  8, 'sex' => 'B'),
+    'U8B'  => array('age' =>  8, 'sex' => 'B'),
+    'U8G'  => array('age' =>  8, 'sex' => 'G'),
+
+    'U08C' => array('age' =>  8, 'sex' => 'B'),
+    'U08B' => array('age' =>  8, 'sex' => 'B'),
+    'U08G' => array('age' =>  8, 'sex' => 'G'),
+
+    'U10C' => array('age' => 10, 'sex' => 'B'),
+    'U10B' => array('age' => 10, 'sex' => 'B'),
+    'U10G' => array('age' => 10, 'sex' => 'G'),
+
+    'U12C' => array('age' => 12, 'sex' => 'B'),
+    'U12B' => array('age' => 12, 'sex' => 'B'),
+    'U12G' => array('age' => 12, 'sex' => 'G'),
+
+    'U14C' => array('age' => 14, 'sex' => 'B'),
+    'U14B' => array('age' => 14, 'sex' => 'B'),
+    'U14G' => array('age' => 14, 'sex' => 'G'),
+
+    'U16C' => array('age' => 16, 'sex' => 'B'),
+    'U16B' => array('age' => 16, 'sex' => 'B'),
+    'U16G' => array('age' => 16, 'sex' => 'G'),
+
+    'U19C' => array('age' => 19, 'sex' => 'B'),
+    'U19B' => array('age' => 19, 'sex' => 'B'),
+    'U19G' => array('age' => 19, 'sex' => 'G'),
+
+    'VIP'  => array('age' =>  0, 'sex' => 'C'),
+  );
 }
 ?>

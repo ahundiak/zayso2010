@@ -69,8 +69,7 @@ LEFT JOIN person_reg_cert ON person_reg_cert.person_reg_id = person_reg.id
 
 -- ======================================================
 -- Organization group view
-DROP VIEW IF EXISTS org_group_org_view;
-CREATE VIEW         org_group_org_view AS
+CREATE  OR REPLACE VIEW  org_group_org_view AS
 SELECT
   org_group.id    AS org_group_id,
   org_group.keyx  AS org_group_key,
