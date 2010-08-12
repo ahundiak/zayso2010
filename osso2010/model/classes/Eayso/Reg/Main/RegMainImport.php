@@ -11,7 +11,6 @@ class Eayso_Reg_Main_RegMainImport extends Cerad_Import
   {
     parent::init();
     $this->db = $this->context->dbEayso;
-    $this->ts = $this->context->getTimeStamp();
 
     $this->directOrg     = new Eayso_Org_OrgDirect         ($this->context);
     $this->directRegOrg  = new Eayso_Reg_Org_RegOrgDirect  ($this->context);

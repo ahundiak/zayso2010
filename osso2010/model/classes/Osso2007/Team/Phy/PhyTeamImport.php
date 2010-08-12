@@ -11,23 +11,15 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
     $this->ts = $this->context->getTimeStamp();
 
     $this->directRegMainEayso = new Eayso_Reg_Main_RegMainDirect($this->context);
-    $this->directRegMainOsso  = new  Osso_Reg_Main_RegMainDirect($this->context);
-    
-    //$this->directRegProp      = new  Osso_Reg_Prop_RegPropDirect($this->context);
-    //$this->directRegOrg       = new  Osso_Reg_Org_RegOrgDirect  ($this->context);
 
-    $this->directPerson       = new Osso2007_Person_PersonDirect              ($this->context);
+    $this->directPerson  = new Osso2007_Person_PersonDirect($this->context);
 
-    //$this->directPersonReg    = new Osso_Person_Reg_PersonRegDirect       ($this->context);
-    //$this->directPersonRegOrg = new Osso_Person_Reg_Org_PersonRegOrgDirect($this->context);
-
-    $this->directOrg = new Osso_Org_OrgDirect($this->context);
+    $this->directOrg     = new Osso_Org_OrgDirect($this->context);
 
     $this->directPhyTeam = new Osso2007_Team_Phy_PhyTeamDirect($this->context);
     $this->directSchTeam = new Osso2007_Team_Sch_SchTeamDirect($this->context);
 
     $this->directPhyTeamPerson = new Osso2007_Team_Phy_PhyTeamPersonDirect($this->context);
-    
   }
   protected $regTypeOsso = 101;
   protected $regTypeAyso = 102;
@@ -45,7 +37,7 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
   }
 
   // Finds the eayso volunteer, adding it to person if necessary
-  public function getPerson($regionId,$fname,$lname)
+  protected function getPersonForName($regionId,$fname,$lname)
   {
     // Need some data
     if (!$regionId) return 0;
@@ -65,18 +57,27 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
       //die();
       return 0;
     }
-    $dataRegMainEayso = $rows[0];
-
-    // Cerad_Debug::dump($dataRegMainEayso); die();
+    return $this->getPersonForAysoid($regionId,$rows[0]['reg_num']);
+  }
+  protected function getPersonForAysoid($regionId,$aysoid)
+  {
+    // Cerad_Debug::dump($data); die();
+    if (!$regionId) return 0;
+    if (!$aysoid)   return 0;
 
     // Need to find the person record
-    $result = $this->directPerson->fetchRow(array('aysoid' => $dataRegMainEayso['reg_num']));
+    $result = $this->directPerson->fetchRow(array('aysoid' => $aysoid));
     $dataPerson = $result->row;
     if (isset($dataPerson['person_id']))
     {
       // printf("Found %s %s %s %d\n",$fname,$lname,$eaysoMainData['reg_num'],$personRegData['person_id']);
       return $dataPerson['person_id'];
     }
+    // Lookup ayso record
+    $result = $this->directRegMainEayso->fetchRow(array('reg_num' => $aysoid));
+    if (!$result->row) return 0;
+    $dataRegMainEayso = $result->row;
+
     // Add new person record
     $datax = array(
       'fname'   => $dataRegMainEayso['fname'],
@@ -187,25 +188,60 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
     $this->saveSchTeam($phyTeamData);
 
     // Get volunteers based on names
+    $persons = array
+    (
+      array('type_id' => 16, 'fname' => 'headCoachFName', 'lname' => 'headCoachLName'),
+      array('type_id' => 17, 'fname' => 'asstCoachFName', 'lname' => 'asstCoachLName'),
+      array('type_id' => 18, 'fname' => 'managerFName',   'lname' => 'managerLName'),
+    );
     $vols = array();
-    $vols[16] = $this->getPerson($regionId,$data['headCoachFName'],$data['headCoachLName']);
-    $vols[17] = $this->getPerson($regionId,$data['asstCoachFName'],$data['asstCoachLName']);
-    $vols[18] = $this->getPerson($regionId,$data['managerFName'  ],$data['managerLName'  ]);
-
+    foreach($persons as $person)
+    {
+      $personId = $this->getPersonForName($regionId,$data[$person['fname']],$data[$person['lname']]);
+      if ($personId) $vols[$person['type_id']] = $personId;
+    }
+    return $this->insertPhyTeamPersons($phyTeamData['phy_team_id'],$vols);
+  }
+  protected function insertPhyTeamPersons($phyTeamId,$vols)
+  {
     // Easiest way to stay in sync
-    $teamId = $phyTeamData['phy_team_id'];
-    $this->directPhyTeamPerson->deleteForPhyTeam($teamId);
-
+    // $this->directPhyTeamPerson->deleteForPhyTeam($teamId);
+    
+    // Grab any existing records
+    $result = $this->directPhyTeamPerson->fetchRows(array('phy_team_id' => $phyTeamId));
+    $volsx = array();
+    foreach($result->rows as $row)
+    {
+      $volsx[$row['vol_type_id']] = $row;
+    }
     // Add back in
     foreach($vols as $typeId => $personId)
     {
-      if ($personId)
+      if (!isset($volsx[$typeId]))
       {
         // Insert new
         $datax['person_id']   = $personId;
-        $datax['phy_team_id'] = $teamId;
+        $datax['phy_team_id'] = $phyTeamId;
         $datax['vol_type_id'] = $typeId;
         $this->directPhyTeamPerson->insert($datax);
+      }
+      else // Have record for vol type
+      {
+        $datax = $volsx[$typeId];
+        if ($datax['person_id'] != $personId)
+        {
+          $datax['person_id'] = $personId;
+          $this->directPhyTeamPerson->update($datax);
+
+        }
+      }
+      // Maybe should do one more loop for any deleted items
+      foreach($volsx as $volx)
+      {
+        if (!isset($vols[$volx['vol_type_id']]))
+        {
+          $this->directPhyTeamPerson->delete($volx['phy_team_person_id']);
+        }
       }
     }
     return;
