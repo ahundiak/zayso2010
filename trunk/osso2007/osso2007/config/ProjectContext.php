@@ -124,53 +124,60 @@ class ProjectContext
 		$this->config = $config = new Zend_Config_Ini($appConfigFilePath, 'all');
         
         /* Setup database and locators */
-        $this->db     = new Proj_Db_Adapter($config->db->toArray());
-        
-        $this->dbOsso     = $this->db;
+        $this->db = new Proj_Db_Adapter($config->db->toArray());
         $this->dbOsso2007 = $this->db;
-      //$this->dbEayso    = $this->db;
         
         $this->tables = new Proj_Locator_Table($this);
         
         $this->models = new Proj_Locator_Model($this);
 		
 	}
-	/* Create on demand */
-	public function __get($name)
-	{
-		switch($name) {
-			case 'db':      return $this->createDb();
-			case 'dbEayso': return $this->createDbEayso();
-			case 'session': return $this->createSession();
-		}
-		throw new Exception("ApplicationContext.__get $name");
-	}
-	protected function createSession()
-	{
-		$params = $this->config->session->toArray();
+  /* Create on demand */
+  public function __get($name)
+  {
+    switch($name)
+    {
+      case 'db':      return $this->createDb();
+      case 'dbOsso':  return $this->createDbOsso();
+      case 'dbEayso': return $this->createDbEayso();
+      case 'session': return $this->createSession();
+    }
+    throw new Exception("ApplicationContext.__get $name");
+  }
+  protected function createSession()
+  {
+    $params = $this->config->session->toArray();
 
-		// Zend_Session_Core::setOptions($params);
-        Zend_Session::setOptions($params);
-		Zend_Session::rememberMe();
-		$this->session = $session = new Zend_Session_Namespace('Project');
-		
-		return $session;
-	}
-	protected function createDb()
-	{
-		// set up an adapter
-		$params = $this->config->db->toArray();
-        $this->db = $db = new Proj_Db_Adapter($params);
-        
-		return $db;
-	}
-	protected function createDbEayso()
-	{
-		// set up an adapter
-		$params = $this->config->dbEayso->toArray();
-        $this->dbEayso = $dbEayso = new Proj_Db_Adapter($params);
-        
-		return $dbEayso;
-	}
+    // Zend_Session_Core::setOptions($params);
+    Zend_Session::setOptions($params);
+    Zend_Session::rememberMe();
+    $this->session = $session = new Zend_Session_Namespace('Project');
+    return $session;
+  }
+  protected function createDb()
+  {
+    // set up an adapter
+    $params = $this->config->db->toArray();
+    $this->db = $db = new Proj_Db_Adapter($params);    
+    return $db;
+  }
+  protected function createDbEayso()
+  {
+    // set up an adapter
+    $params = $this->config->dbEayso->toArray();
+    $this->dbEayso = $db = new Proj_Db_Adapter($params);
+    return $db;
+  }
+  protected function createDbOsso()
+  {
+    // set up an adapter
+    $params = $this->config->dbOsso->toArray();
+    $this->dbOsso = $db = new Proj_Db_Adapter($params);
+    return $db;
+  }
+  public function getTimeStamp()
+  {
+    return date('YmdHis');
+  }
 }
 ?>

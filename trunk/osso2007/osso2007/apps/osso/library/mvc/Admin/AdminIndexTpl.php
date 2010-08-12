@@ -34,6 +34,10 @@
     <td><?php echo $this->href('Referee Schedules','sched_ref_list'); ?></td>
 </tr>
 <tr>
+    <td>Import</td>
+    <td><?php echo $this->href('Import Information','import_proc'); ?></td>
+</tr>
+<tr>
     <td>Account Management</td>
     <td><?php echo $this->href('Account List','account_list'); ?></td>
 </tr>
