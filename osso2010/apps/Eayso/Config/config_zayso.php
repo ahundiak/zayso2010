@@ -4,7 +4,7 @@ return array
   'dbs' => array
   (
     'dbMain' => array (
-      'host'     => 'db.telena.com',
+      'host'     => 'db.telavant.com',
       'username' => 'impd',
       'password' => 'impd894',
       'dbname'   => 'eayso',
@@ -12,7 +12,7 @@ return array
       'adapter'  => 'pdo_mysql'
     ),
     'dbEayso' => array (
-      'host'     => 'db.telena.com',
+      'host'     => 'db.telavant.com',
       'username' => 'impd',
       'password' => 'impd894',
       'dbname'   => 'eayso',
