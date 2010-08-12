@@ -236,6 +236,7 @@ class UserModel extends BaseModel
           case 1:        // Me
           case 1674:     // Ray Cassell
           case 808:      // Vernon Paulett
+          case 609:      // David S
             return TRUE;
         }
         return FALSE;
