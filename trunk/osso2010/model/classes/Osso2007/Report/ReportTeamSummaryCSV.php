@@ -13,8 +13,31 @@ class Osso2007_Report_ReportTeamSummaryCSV
   public function process($params)
   {
     $lines = array();
-    $header = 'Name,R0160 Huntsville,R0498 Madison,R0894 Monrovia,R1174 NEMC,R0557 SL/FAY,Total';
-    $lines[] = $header;
+
+    $cols = array
+    (
+      array('skip' => 0, 'regionId' =>  7, 'name' => 'R0160 Huntsville'),
+      array('skip' => 0, 'regionId' =>  4, 'name' => 'R0498 Madison'),
+      array('skip' => 0, 'regionId' =>  1, 'name' => 'R0894 Monrovia'),
+      array('skip' => 0, 'regionId' => 11, 'name' => 'R1174 NEMC'),
+      array('skip' => 0, 'regionId' =>  5, 'name' => 'R0557 SL/FAY'),
+      array('skip' => 0, 'regionId' => 28, 'name' => 'R0662 Sand Rock'),
+      array('skip' => 0, 'regionId' => 10, 'name' => 'R0991 Sewanee'),
+
+      array('skip' => 0, 'regionId' => 21, 'name' => 'R0414 Cullman'),
+      array('skip' => 0, 'regionId' =>  6, 'name' => 'R0778 Arab'),
+
+      array('skip' => 0, 'regionId' => 17, 'name' => 'R1565 Ardmore'),
+      array('skip' => 0, 'regionId' => 20, 'name' => 'R1062 Albertville'),
+      array('skip' => 0, 'regionId' => 24, 'name' => 'R0773 Hartselle'),
+     );
+    $line = 'Division';
+    foreach($cols as $col)
+    {
+      if (!$col['skip']) $line .= ',' . $col['name'];
+    }
+    $line .= ',Total';
+    $lines[] = $line;
 
     $divs = array(7,8,9,10,11,12,13,14,15,16,17,18,19,20,21);
     $divs = implode(',',$divs);
@@ -60,8 +83,11 @@ EOT;
       $line   = $row['name'];
       $divId  = $row['divId'];
       $total = 0;
-      foreach($regionIds as $regionId)
+      foreach($cols as $col)
       {
+        if ($col['skip']) continue;
+        $regionId = $col['regionId'];
+
         if (isset($data[$regionId][$divId])) $cnt = $data[$regionId][$divId];
         else                                 $cnt = 0;
         $line  .= ',' . $cnt;
