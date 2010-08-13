@@ -170,8 +170,9 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
     $teamId  = $data['teamId'];
     $teamDes = $data['teamDes'];
 
-    $teamDes  = str_replace('FAY','', $teamDes);
-    $teamDes  = str_replace('SL', '', $teamDes);
+    $teamDes  = str_replace('FAY','',     $teamDes);
+    $teamDes  = str_replace('SL', '',     $teamDes);
+    $teamDes  = str_replace(' Team ', '', $teamDes);
 
     $teamDes  = str_replace('R160-','', $teamDes);
     $teamDes  = str_replace('160-', '', $teamDes);
