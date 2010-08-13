@@ -239,7 +239,7 @@ class UserModel extends BaseModel
           case 609:     // David S
           case 1685:    // Jim Meehan
           case 1880:    // Paul Sapp
-          case 1554:    // Gen Uhl
+          case 1544:    // Gen Uhl
           case 1552:    // Bob Ellington
             
 
