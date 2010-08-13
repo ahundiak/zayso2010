@@ -119,7 +119,7 @@
         </select>
 	</td>
 	<td style="text-align: center">
-	<?php echo $this->href('Excel','sched_ref_list',999); ?>
+	<?php // echo $this->href('Excel','sched_ref_list',999); ?>
 	</td>
 </tr>
 	
