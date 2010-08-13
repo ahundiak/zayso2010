@@ -6,10 +6,6 @@ If you are a referee or coach then you will probably want to
 <?php echo $this->href('Create An Account','account_create') ?>. <br />
 </p>
 <br />
-<p><span style="color: red">IMPORTANT: </span>
-The global password has been disabled.  You must use your own password to login.
-Contact your referee administrator if you are having trouble.
-</p>
 <hr />
 <p>
 You can view schedules without logging in or without having an account.<br />

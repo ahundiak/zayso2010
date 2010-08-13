@@ -44,18 +44,26 @@ class PersonListView extends Proj_View
     function displayVolList($vols)
     {
         $db = $this->context->db;
-        
+        $cnt = 0;
+        $max = 6;
         $html = NULL;
-        foreach($vols as $vol) { // Zend::dump($vol); die();
-            $unit   = $vol->unitKey;        //UnitModel::getKey       ($db,$vol->unitId);
-            $year   = $vol->year;           //YearModel::getDesc      ($db,$vol->regYearId);
-            $season = $vol->seasonTypeDesc; // SeasonTypeModel::getDesc($db,$vol->seasonTypeId);
-            $div    = $vol->divisionDesc;   // DivisionModel::getDesc  ($db,$vol->divisionId);
-            $job    = $vol->volTypeDesc;    // VolTypeModel::getDesc   ($db,$vol->volTypeId);
-            
+        $vols = array_values($vols);
+        for($i = count($vols) - 1; $i >= 0; $i--)
+        {
+          $vol = $vols[$i];
+          $cnt++;
+          $unit   = $vol->unitKey;        //UnitModel::getKey       ($db,$vol->unitId);
+          $year   = $vol->year;           //YearModel::getDesc      ($db,$vol->regYearId);
+          $season = $vol->seasonTypeDesc; // SeasonTypeModel::getDesc($db,$vol->seasonTypeId);
+          $div    = $vol->divisionDesc;   // DivisionModel::getDesc  ($db,$vol->divisionId);
+          $job    = $vol->volTypeDesc;    // VolTypeModel::getDesc   ($db,$vol->volTypeId);
+
+          if ($cnt <= $max)
+          {
             if ($html) $html .= "<br />\n";
             $html .= "{$unit} {$year} {$season} {$job}";
             if ($div) $html .= " {$div}";
+          }
         }
         return $html;
     }

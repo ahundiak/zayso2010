@@ -1,13 +1,13 @@
 <?php
-  $data = $this->importProcData;
+  $data = $this->reportProcData;
 ?>
-<form method="post" enctype="multipart/form-data" action="<?php echo $this->link('import_proc'); ?>">
+<form method="post" action="<?php echo $this->link('report_proc'); ?>">
 <table border="1">
-<tr><th colspan="2">Import Information</th></tr>
+<tr><th colspan="2">Generate Reports</th></tr>
 <tr>
   <td style="width: 100px; ">Year</td>
   <td style="width: 500px;">
-    <select name="import_year_id">
+    <select name="report_year_id">
       <option value="0">All Years</option>
       <?php echo $this->formOptions($this->yearPickList,$data->yearId); ?>" />
     </select>
@@ -16,7 +16,7 @@
 <tr>
   <td>Season</td>
   <td>
-    <select name="import_season_type_id">
+    <select name="report_season_type_id">
       <option value="0">All Seasons</option>
       <?php echo $this->formOptions($this->seasonTypePickList,$data->seasonTypeId); ?>" />
     </select>
@@ -25,27 +25,24 @@
 <tr>
   <td>Region</td>
   <td>
-    <select name="import_unit_id">
+    <select name="report_unit_id">
       <option value="0">All Regions</option>
       <?php echo $this->formOptions($this->unitPickList,$data->unitId); ?>" />
     </select>
   </td>
 </tr>
 <tr>
-  <td>CSV File</td>
+  <td>Report Type</td>
   <td>
-    <input type="file" name="import_file" size="80"/>
-  </td>
-</tr>
-<tr>
-  <td>Processed File</td>
-  <td>
-    <input type="text" name="import_file_proc" readonly="readonly" size="40" value="<?php echo $data->fileName; ?>"/>
+    <select name="report_type_id">
+      <option value="0">Select Report Type</option>
+      <?php echo $this->formOptions($this->reportTypePickList,$data->reportTypeId); ?>" />
+    </select>
   </td>
 </tr>
 <tr>
   <td>.</td>
-  <td align="center"><input type="submit" name="import_submit" value="Import" />
+  <td align="center"><input type="submit" name="report_submit" value="Generate" />
 </tr>
 <?php if ($data->message) { ?>
 <tr>

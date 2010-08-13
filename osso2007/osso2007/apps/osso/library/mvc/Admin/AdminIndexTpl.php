@@ -38,6 +38,10 @@
     <td><?php echo $this->href('Import Information','import_proc'); ?></td>
 </tr>
 <tr>
+    <td>Reports</td>
+    <td><?php echo $this->href('Generate Reports','report_proc'); ?></td>
+</tr>
+<tr>
     <td>Account Management</td>
     <td><?php echo $this->href('Account List','account_list'); ?></td>
 </tr>

@@ -105,7 +105,7 @@ class ApplicationContext extends ProjectContext
                         '\b(' .
                         'home|account|member|user|sched_div|sched_ref|' . 
                         'phy_team|sch_team|person|unit|field|field_site|event|admin|' .
-                        'sched_team|sched_field|ref_points|ref_avail|import' .
+                        'sched_team|sched_field|ref_points|ref_avail|import|report' .
                         ')\b', 
                 'id'  => '\d+', 
                 'id2' => '\d+'
