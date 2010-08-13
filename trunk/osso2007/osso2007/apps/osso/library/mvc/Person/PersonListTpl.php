@@ -67,10 +67,11 @@
 </form>
 <br />
 <table border="1">
-<tr><th colspan="3">List of People</th></tr>
+<tr><th colspan="4">List of People</th></tr>
 <tr>
     <td>Edit</td>
-    <td>Person's Name</td>
+    <td style="width: 200px;">Person's Name</td>
+    <td style="width: 100px;">Eayso Info</td>
     <td>Volunteer Positions</td>
 </tr>
 <?php 
@@ -79,6 +80,7 @@
 <tr>
     <td><?php echo $this->href('Edit','person_edit',$item->id); ?></td>
     <td><?php echo $this->displayPersonName($item);       ?></td>
+    <td><?php echo $this->escape($item->aysoid);          ?></td>
     <td><?php echo $this->displayVolList   ($item->vols); ?></td>
 </tr>
 <?php } ?>

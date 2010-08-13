@@ -1,8 +1,4 @@
 <?php $data = $this->homeLoginData; ?>
-<p><span style="color: red">IMPORTANT: </span>
-The global password has been disabled.  You must use your own password to login.
-Contact your referee administrator if you are having trouble.
-</p>
 <form method="post" action="<?php echo $this->link('home_login'); ?>"> 
 <table border="1">
 <tr><th colspan="2">User Login</th></tr>
