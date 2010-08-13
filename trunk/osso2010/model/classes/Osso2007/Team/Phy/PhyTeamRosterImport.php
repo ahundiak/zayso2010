@@ -16,8 +16,7 @@ class Osso2007_Team_Phy_PhyTeamRosterImport extends Osso2007_Team_Phy_PhyTeamImp
       'season_type_id' => 1,
     );
     $result = $this->directPhyTeam->fetchRow($search);
-    if ($result->row) return $result->row['phy_team_id'];
-    return 0;
+    return $result->row;
   }
   public function processRowData($data)
   {   
@@ -38,8 +37,8 @@ class Osso2007_Team_Phy_PhyTeamRosterImport extends Osso2007_Team_Phy_PhyTeamImp
     if (!$regionId) die('Invalid region id ' . $data['region']); // return;
 
     // Physical team should always exist
-    $phyTeamId = $this->getPhyTeam($regionId,$teamDes);
-    if (!$phyTeamId) die('No existing physical team for ' . $teamDes);
+    $phyTeamData = $this->getPhyTeam($regionId,$teamDes);
+    if (!$phyTeamData) die('No existing physical team for ' . $teamDes);
 
     // Get volunteers based on aysoid
     $persons = array
@@ -54,7 +53,7 @@ class Osso2007_Team_Phy_PhyTeamRosterImport extends Osso2007_Team_Phy_PhyTeamImp
       $personId = $this->getPersonForAysoid($regionId,$data[$person['aysoid']]);
       if ($personId) $vols[$person['type_id']] = $personId;
     }
-    $this->insertPhyTeamPersons($phyTeamId,$vols);
+    $this->insertPhyTeamPersons($phyTeamData,$vols);
 
     return;
   }

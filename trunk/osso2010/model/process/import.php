@@ -73,11 +73,11 @@ class Import
   protected function importTeams2007($datax)
   {
     $import = new Osso2007_Team_Phy_PhyTeamImport($this->context);
-    $import->process($datax . 'eayso/20100811/Teams0894.csv');
+    $import->process($datax . 'eayso/20100813/Teams0557.csv');
     echo $import->getResultMessage() . "\n";
 
     $import = new Osso2007_Team_Phy_PhyTeamRosterImport($this->context);
-    $import->process($datax . 'eayso/20100811/Rosters0894.csv');
+    $import->process($datax . 'eayso/20100813/Teams0894.csv');
     echo $import->getResultMessage() . "\n";
 
   }

@@ -16,6 +16,8 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
 
     $this->directOrg     = new Osso_Org_OrgDirect($this->context);
 
+    $this->directVol     = new Osso2007_Vol_VolDirect($this->context);
+
     $this->directPhyTeam = new Osso2007_Team_Phy_PhyTeamDirect($this->context);
     $this->directSchTeam = new Osso2007_Team_Sch_SchTeamDirect($this->context);
 
@@ -48,7 +50,7 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
     $rows = $result->rows;
     if (count($rows) < 1)
     {
-      printf("*** Person not found %d %s %s\n",$regionId,$fname,$lname);
+      // printf("*** Person not found %d %s %s\n",$regionId,$fname,$lname);
       return 0;
     }
     if (count($rows) > 1)
@@ -168,8 +170,12 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
     $teamId  = $data['teamId'];
     $teamDes = $data['teamDes'];
 
+    $teamDes  = str_replace('FAY','', $teamDes);
+    $teamDes  = str_replace('SL', '', $teamDes);
+
     $teamDes  = str_replace('R160-','', $teamDes);
     $teamDes  = str_replace('160-', '', $teamDes);
+
     $teamDes  = str_replace('-','', $teamDes);
     $teamDes  = str_replace('_',' ',$teamDes);
     $teamDess = explode(' ',$teamDes);
@@ -200,10 +206,12 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
       $personId = $this->getPersonForName($regionId,$data[$person['fname']],$data[$person['lname']]);
       if ($personId) $vols[$person['type_id']] = $personId;
     }
-    return $this->insertPhyTeamPersons($phyTeamData['phy_team_id'],$vols);
+    return $this->insertPhyTeamPersons($phyTeamData,$vols);
   }
-  protected function insertPhyTeamPersons($phyTeamId,$vols)
+  protected function insertPhyTeamPersons($phyTeamData,$vols)
   {
+    $phyTeamId = $phyTeamData['phy_team_id'];
+    
     // Easiest way to stay in sync
     // $this->directPhyTeamPerson->deleteForPhyTeam($teamId);
     
@@ -220,6 +228,7 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
       if (!isset($volsx[$typeId]))
       {
         // Insert new
+        $datax = array();
         $datax['person_id']   = $personId;
         $datax['phy_team_id'] = $phyTeamId;
         $datax['vol_type_id'] = $typeId;
@@ -232,16 +241,27 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
         {
           $datax['person_id'] = $personId;
           $this->directPhyTeamPerson->update($datax);
-
         }
       }
-      // Maybe should do one more loop for any deleted items
-      foreach($volsx as $volx)
+      // Always update the vol table except no unique key
+      $datax = array();
+      $datax['person_id']   = $personId;
+      $datax['vol_type_id'] = $typeId;
+
+      $datax['reg_year_id']    = $phyTeamData['reg_year_id'];
+      $datax['season_type_id'] = $phyTeamData['season_type_id'];
+      $datax['unit_id']        = $phyTeamData['unit_id'];
+      $datax['division_id']    = $phyTeamData['division_id'];
+      $result = $this->directVol->fetchRows($datax);
+      if (!$result->rowCount) $this->directVol->insert($datax);
+      
+    }
+    // Maybe should do one more loop for any deleted items
+    foreach($volsx as $volx)
+    {
+      if (!isset($vols[$volx['vol_type_id']]))
       {
-        if (!isset($vols[$volx['vol_type_id']]))
-        {
-          $this->directPhyTeamPerson->delete($volx['phy_team_person_id']);
-        }
+        $this->directPhyTeamPerson->delete($volx['phy_team_person_id']);
       }
     }
     return;
@@ -303,6 +323,7 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
     'U6C'  => array('id' =>  3, 'age' =>  6, 'sex' => 'B'),
     'U6B'  => array('id' =>  1, 'age' =>  6, 'sex' => 'B'),
     'U6G'  => array('id' =>  2, 'age' =>  6, 'sex' => 'G'),
+    'U6'   => array('id' =>  3, 'age' =>  6, 'sex' => 'C'),
 
     'U06C' => array('id' =>  3, 'age' =>  6, 'sex' => 'B'),
     'U06B' => array('id' =>  1, 'age' =>  6, 'sex' => 'B'),
