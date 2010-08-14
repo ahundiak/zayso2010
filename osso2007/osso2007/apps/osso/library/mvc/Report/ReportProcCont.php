@@ -5,6 +5,17 @@ class ReportProcCont extends Proj_Controller_Action
 {
   protected function posted($data)
   {
+    $reportClassName = NULL;
+    switch($data->reportTypeId)
+    {
+      case 1: $reportClassName = 'Osso2007_Report_ReportTeamSummaryCSV'; break;
+      case 2: $reportClassName = 'Osso2007_Report_ReportTeamKeysCSV';    break;
+    }
+    if (!$reportClassName) return NULL;
+
+    $report = new $reportClassName($this->context);
+    $result = $report->process($data);
+    
     header('Pragma: public');
     header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
     header('Last-Modified: '.gmdate('D, d M Y H:i:s') . ' GMT');
@@ -17,8 +28,7 @@ class ReportProcCont extends Proj_Controller_Action
     header("Content-type: application/x-msexcel"); // This should work for the rest
     header('Content-Disposition: attachment; filename="'. 'report.csv' .'"');
 
-    $report = new Osso2007_Report_ReportTeamSummaryCSV($this->context);
-    return $report->process($data);
+    return $result;
 
   }
   public function processAction()
@@ -51,8 +61,12 @@ class ReportProcCont extends Proj_Controller_Action
     {
       $data->posted = false;
       $session->reportProcData = $data;
-      $response->setBody($this->posted($datax));
-      return;
+      $result = $this->posted($datax);
+      if ($result)
+      {
+        $response->setBody($this->posted($datax));
+        return;
+      }
     }
     if ($data->message)
     {

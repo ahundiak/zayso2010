@@ -19,7 +19,8 @@ class ReportProcView extends Proj_View
     $this->reportTypePickList = array
     (
         1 => 'Team Summary',
-        2 => 'Coach Contact Info',
+        2 => 'Team Scheduling Keys',
+        3 => 'Coach Contact Info',
     );
 
     /* And render it  */      
