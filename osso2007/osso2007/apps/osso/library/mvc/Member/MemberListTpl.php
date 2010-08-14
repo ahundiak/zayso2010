@@ -5,7 +5,7 @@
     <td>Region</td>
     <td>Account Name</td>
     <td>Member Name</td>
-    <td>AYSO Name</td>
+    <td>eAYSO Information</td>
     <td>Status</td>
     <td>Level</td>
 </tr>
