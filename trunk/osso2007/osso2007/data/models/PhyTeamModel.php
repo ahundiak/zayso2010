@@ -96,7 +96,7 @@ class PhyTeamModel extends BaseModel
         if ($search->divisionSeqNum) $select->where('phy_team.division_seq_num IN (?)',$search->divisionSeqNum);
         if ($search->phyTeamId)      $select->where('phy_team.phy_team_id    IN (?)',  $search->phyTeamId);
 
-        $select->order('phy_team.reg_year_id,phy_team.season_type_id,phy_team.unit_id,phy_team.division_id,phy_team.division_seq_num');
+        $select->order('phy_team.reg_year_id,phy_team.season_type_id,phy_team.unit_id,phy_team_division_desc,phy_team.division_seq_num');
                
         $rows = $this->db->fetchAll($select); 
         // Cerad_Debug::dump($rows);  echo $select->__toString(); die();
