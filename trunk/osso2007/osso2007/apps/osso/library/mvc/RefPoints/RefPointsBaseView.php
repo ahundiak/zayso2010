@@ -3,88 +3,100 @@ class RefereeItem
 {
 	
 }
+error_reporting(E_ALL);
+
 class RefPointsBaseView extends Proj_View
 {
-    function getReferees()
+  function getReferees()
+  {
+    $user      = $this->context->user;
+    $accountId = $user->account->id;
+
+    $sql = <<<EOT
+SELECT
+  person.fname     AS fname,
+  person.lname     AS lname,
+  person.nname     AS nname,
+  person.person_id AS person_id,
+  person.aysoid    AS aysoid,
+
+  member.member_id AS member_id,
+  
+  eayso.reg_cert.catx  AS cert_cat,
+  eayso.reg_cert.typex AS cert_type
+
+FROM member
+LEFT JOIN person ON person.person_id = member.person_id
+LEFT JOIN eayso.reg_cert ON eayso.reg_cert.reg_num = person.aysoid
+WHERE account_id = :account_id
+ORDER BY lname,fname;
+EOT;
+    $rows = $this->context->db->fetchRows($sql,array('account_id' => $accountId));
+
+    $persons = array();
+    foreach($rows as $row)
     {
-    	$db     = $this->context->db;
-    	$user   = $this->context->user;
-        $accountId = $user->account->id;
-        
-        $select = new Proj_Db_Select($db);
-        $select->from ('member','member.member_id AS member_id');
-        $select->joinleft(
-            'person',
-            'person.person_id = member.person_id',
-            array(
-                'person.person_id AS person_id',
-                'person.fname AS person_fname',
-                'person.lname AS person_lname',
-        ));
-        $select->joinleft(
-            'vol',
-            'vol.person_id = person.person_id',
-            array(
-                'vol.vol_type_id AS vol_type_id',
-        ));
-        $select->where("member.account_id IN (?)",$accountId);
-        $select->where("vol.vol_type_id IN (?)",array(VolTypeModel::TYPE_ADULT_REF,VolTypeModel::TYPE_YOUTH_REF));
-        
-        // Limits to current season
-		$select->where("vol.unit_id = ?",       $user->unitId);
-		$select->where("vol.reg_year_id = ?",   $user->yearId);
-		$select->where("vol.season_type_id = ?",$user->seasonTypeId);
-		
-        $rows = $db->fetchAll($select);
-        $items = array();
-        foreach($rows as $row)
-        {
-            $item = new RefereeItem();
-            $item->id    = $row['person_id'];
-            $item->fname = $row['person_fname'];
-            $item->lname = $row['person_lname'];
-            
-            $item->memberId  = $row['member_id'];
-            $item->volTypeId = $row['vol_type_id'];
-            
-            $items[] = $item;
-        }
-        return $items;
-        
-        // Zend_Debug::dump($rows); die();
+      $personId = $row['person_id'];
+      if (!isset($persons[$personId]))
+      {
+        $persons[$personId] = $row;
+        $persons[$personId]['isReferee'] = false;
+      }
+      if ($row['cert_cat'] == 200) $persons[$personId]['isReferee'] = true;
     }
-    function getRefereeTeams($refereeIds,$data)
+    $items = array();
+    foreach($persons as $person)
     {
-        if (count($refereeIds) < 1) return array();
+      if ($person['isReferee'])
+      {
+        $item = new RefereeItem();
+        $item->id    = $person['person_id'];
+        $item->fname = $person['fname'];
+        $item->lname = $person['lname'];
+        $item->nname = $person['lname'];
+
+        $item->memberId  = $person['member_id'];
+        $item->volTypeId = VolTypeModel::TYPE_ADULT_REF; // Pull dob later
+
+        $items[] = $item;
+      }
+    }
+    return $items;
+  }
+  function getRefereeTeams($refereeIds,$data)
+  {
+    // Cerad_Debug::dump($data); die();
+    if (count($refereeIds) < 1) return array();
         
-    	$db = $this->context->db;
+    $db = $this->context->db;
     	
-        $select = new Proj_Db_Select($db);
+    $select = new Proj_Db_Select($db);
         
-        $select->from ('phy_team_referee',array(
-        	'phy_team_referee.phy_team_referee_id  AS phy_team_referee_id',
-        	'phy_team_referee.referee_id           AS referee_id',
-        	'phy_team_referee.phy_team_id          AS team_id',
-        	'phy_team_referee.pri_regular          AS pri_regular',
-        	'phy_team_referee.pri_tourn            AS pri_tourn',
-        	'phy_team_referee.max_regular          AS max_regular',
-            'phy_team_referee.max_tourn            AS max_tourn',
-        ));
-        $select->joinleft(
-            'person as referee',
-            'referee.person_id = phy_team_referee.referee_id',
-            array(
-                'referee.fname AS referee_fname',
-                'referee.lname AS referee_lname',
-        ));
-        $select->joinleft(
-            'phy_team as team',
-            'team.phy_team_id = phy_team_referee.phy_team_id',
-            array(
-                'team.unit_id          AS team_unit_id',
-                'team.division_id      AS team_div_id',
-            	'team.division_seq_num AS team_seq_num',
-        ));
+    $select->from ('phy_team_referee',array
+    (
+      'phy_team_referee.phy_team_referee_id  AS phy_team_referee_id',
+      'phy_team_referee.referee_id           AS referee_id',
+      'phy_team_referee.phy_team_id          AS team_id',
+      'phy_team_referee.pri_regular          AS pri_regular',
+      'phy_team_referee.pri_tourn            AS pri_tourn',
+      'phy_team_referee.max_regular          AS max_regular',
+      'phy_team_referee.max_tourn            AS max_tourn',
+    ));
+    $select->joinleft(
+      'person as referee',
+      'referee.person_id = phy_team_referee.referee_id',
+      array(
+        'referee.fname AS referee_fname',
+        'referee.lname AS referee_lname',
+      ));
+      $select->joinleft(
+        'phy_team as team',
+        'team.phy_team_id = phy_team_referee.phy_team_id',
+        array(
+          'team.unit_id          AS team_unit_id',
+          'team.division_id      AS team_div_id',
+          'team.division_seq_num AS team_seq_num',
+      ));
         $select->joinleft(
             'unit as unit',
             'unit.unit_id = team.unit_id',
@@ -113,9 +125,9 @@ class RefPointsBaseView extends Proj_View
                 'head_coach.lname AS head_coach_lname',
         ));
         
-		$select->where("phy_team_referee.referee_id     IN (?)",$refereeIds);
-		$select->where("phy_team_referee.reg_year_id    IN (?)",$data->yearId);
-		$select->where("phy_team_referee.season_type_id IN (?)",$data->seasonTypeId);
+        $select->where("phy_team_referee.referee_id     IN (?)",$refereeIds);
+        $select->where("phy_team_referee.reg_year_id    IN (?)",$data->yearId);
+        $select->where("phy_team_referee.season_type_id IN (?)",$data->seasonTypeId);
 		
         $select->order('phy_team_referee.referee_id,phy_team_referee.pri_regular');
 
@@ -247,6 +259,7 @@ class RefPointsBaseView extends Proj_View
             	'event_team.event_team_type_id AS event_team_type_id'
         ));
         // Join youth referee records
+
         $select->joinLeft(
         	'vol',
         	'vol.person_id = event_person.person_id AND ' . 
@@ -265,8 +278,8 @@ class RefPointsBaseView extends Proj_View
 			EventPersonTypeModel::TYPE_4TH,
 		));
 			
-		$select->where("event.event_date >= ?",'20090801');
-		$select->where("event.event_date <= ?",'20091031');
+		$select->where("event.event_date >= ?",'20100801');
+		$select->where("event.event_date <= ?",'20101031');
 		
         $rows = $db->fetchAll($select);
 	//  Zend_Debug::dump($rows); die();
@@ -290,7 +303,8 @@ class RefPointsBaseView extends Proj_View
 			if ($event['sch_type'] == 0) $event['sch_type'] = $row['event_schedule_type_id']; // reg or tourn
 			
 			if ($event['division'] < $row['division_id']) $event['division'] = $row['division_id'];
-			
+
+                        // Need age from somewhere
 			if ($row['vol_type_id']) $event['youth'] = TRUE;
 			else                     $event['youth'] = FALSE;
 			

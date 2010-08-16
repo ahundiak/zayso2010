@@ -56,47 +56,21 @@
 <table border="1">
 <tr><th colspan="4">Select Team To Represent</th></tr>
 <tr>
-<?php /* ?>
-    <td>
-        <select name="ref_points_add_year_id">
-            <option value="0">All Years</option>
-            <?php echo $this->formOptions($this->yearPickList,$data->yearId); ?>" />
-        </select>
-    </td>
-<?php */ ?>
+
     <input type="hidden" name="ref_points_add_year_id" value="<?php echo $data->yearId; ?>" />
-<?php /* ?>
-    <td>
-        <select name="ref_points_add_season_type_id">
-            <option value="0">All Seasons</option>
-            <?php echo $this->formOptions($this->seasonTypePickList,$data->seasonTypeId); ?>" />
-        </select>
-    </td>
-<?php */ ?>
     <input type="hidden" name="ref_points_add_season_type_id" value="<?php echo $data->seasonTypeId; ?>" />
-    
+    <input type="hidden" name="ref_points_add_division_id" value="<?php echo $data->divisionId; ?>" />
     <td>
         <select name="ref_points_add_referee_id">
             <?php echo $this->formOptions($this->refereePickList,$data->refereeId); ?> />
         </select>
     </td>
-    
     <td>
         <select name="ref_points_add_unit_id">
             <option value="0">All Regions</option>
             <?php echo $this->formOptions($this->unitPickList,$data->unitId); ?> />
         </select>
     </td>
-
- <?php /* ?>
-    <td>
-        <select name="ref_points_add_division_id">
-            <option value="0">Division</option>
-            <?php echo $this->formOptions($this->divisionPickList,$data->divisionId); ?>" />
-        </select>
-    </td>
-<?php */ ?>
-    <input type="hidden" name="ref_points_add_division_id" value="<?php echo $data->divisionId; ?>" />
     <td>
         <select name="ref_points_add_team_id">
             <option value="0">Select Team</option>
@@ -115,6 +89,6 @@ However the system will allow you to pick up to three teams.
 If your first team aleady has a referee then your representation will shift to the second team.
 </p>
 <p>The summary table at the top shows how many games you have done so far.  
-All you need is three to satisfy the points requirement.
+All you need is six to satisfy the points requirement.
 We would of course like you to do more.
 <?php } ?>
