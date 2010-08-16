@@ -85,12 +85,12 @@
       <?php echo $this->href('Referee Schedule','sched_ref_list'); ?>
     </li>
   <?php } ?>
-  <?php if ($user->isMadisonReferee && 0) { ?>
+  <?php if ($user->isMadisonReferee && 1) { ?>
     <li>
       <?php echo $this->href('Ref Points 498','ref_points_madison'); ?>
     </li>
   <?php } ?>
-  <?php if ($user->isMonroviaReferee && 0) { ?>
+  <?php if ($user->isMonroviaReferee && 1) { ?>
     <li>
       <?php echo $this->href('Ref Points 894','ref_points_monrovia'); ?>
     </li>
