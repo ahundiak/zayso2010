@@ -41,7 +41,7 @@ class ImportProcCont extends Proj_Controller_Action
   protected $map = array
   (
     'Eayso_Reg_Main_RegMainImport'          => array('AYSOID',          'WorkPhoneExt',     'Membershipyear'),
-    'Eayso_Reg_Cert_RegCertImport'          => array('AYSO ID',         'CertificationDesc','Certification Date'),
+    'Eayso_Reg_Cert_RegCertImport'          => array('AYSOID',          'CertificationDesc','CertDate'),
     'Osso2007_Team_Phy_PhyTeamImport'       => array('TeamDesignation', 'TeamID',           'TeamAsstCoachFName'),
     'Osso2007_Team_Phy_PhyTeamRosterImport' => array('Team Designation','Region #',         'Asst. Team Coach AYSO ID'),
   );
