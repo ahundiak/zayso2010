@@ -258,11 +258,12 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
       
     }
     // Maybe should do one more loop for any deleted items
+    // Nope nope nope
     foreach($volsx as $volx)
     {
       if (!isset($vols[$volx['vol_type_id']]))
       {
-        $this->directPhyTeamPerson->delete($volx['phy_team_person_id']);
+        // $this->directPhyTeamPerson->delete($volx['phy_team_person_id']);
       }
     }
     return;
