@@ -45,6 +45,27 @@ class ImportProcCont extends Proj_Controller_Action
     'Osso2007_Team_Phy_PhyTeamImport'       => array('TeamDesignation', 'TeamID',           'TeamAsstCoachFName'),
     'Osso2007_Team_Phy_PhyTeamRosterImport' => array('Team Designation','Region #',         'Asst. Team Coach AYSO ID'),
   );
+  protected function getImportClassName($tmpName,$fileName)
+  {
+    if (!strcmp($fileName,'AreaMasterSchedule20100816.xml')) return 'Osso2007_Schedule_SchImportMA';
+
+    $fp = fopen($tmpName,'r');
+    if (!$fp) return NULL;
+
+    $header = fgetcsv($fp);
+    fclose($fp);
+
+    foreach($this->map as $class => $names)
+    {
+      $haveAll = true;
+      foreach($names as $name)
+      {
+        if (array_search($name,$header) === FALSE) $haveAll = false;
+      }
+      if ($haveAll) return $class;
+    }
+    return NULL;
+  }
   public function processActionPost()
   {
     $request  = $this->getRequest();
@@ -68,26 +89,8 @@ class ImportProcCont extends Proj_Controller_Action
     $tmpName = $_FILES['import_file']['tmp_name'];
     if (!$tmpName) return $response->setRedirect($redirect);
 
-    $fp = fopen($tmpName,'r');
-    if (!$fp)
-    {
-      $data->message = "Could not open file for reading";
-      $session->importProcData = $data;
-      return $response->setRedirect($redirect);
-    }
-    $header = fgetcsv($fp);
-    fclose($fp);
-
-    $importClassName = NULL;
-    foreach($this->map as $class => $names)
-    {
-      $haveAll = true;
-      foreach($names as $name)
-      {
-        if (array_search($name,$header) === FALSE) $haveAll = false;
-      }
-      if ($haveAll) $importClassName = $class;
-    }
+    $importClassName = $this->getImportClassName($tmpName,$data->fileName);
+    
     if (!$importClassName)
     {
       $data->message = 'Could not determine file type';
