@@ -1,7 +1,7 @@
 <?php
 error_reporting(E_ALL);
 
-class Import
+class ProcessImport
 {
   protected $config;
   protected $context;
@@ -87,14 +87,22 @@ class Import
     $import->process($datax . 'eayso/20100811/Schedules0498.csv');
     echo $import->getResultMessage() . "\n";
   }
+  protected function importMasterAreaSchedule($datax)
+  {
+    $import = new Osso2007_Schedule_SchImportMA($this->context);
+  //$import->allowUpdates = FALSE;
+    $import->process($datax . 'eayso/20100815/AreaMasterSchedule20100816.xml');
+    echo $import->getResultMessage() . "\n";
+  }
   public function execute()
   {
     $datax = $this->config['datax'];
 
   //$this->importEayso($datax);
   //$this->importPersons($datax);
-    $this->importTeams2007($datax);
+  //$this->importTeams2007($datax);
   //$this->importSchedules2007($datax);
+    $this->importMasterAreaSchedule($datax);
 
     return;
     
@@ -138,7 +146,7 @@ class Import
   }
 }
 $config = require '../config/config.php';
-$import = new Import($config);
-$import->execute();
+$process = new ProcessImport($config);
+$process->execute();
 echo "Import complete\n";
 ?>

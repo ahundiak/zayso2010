@@ -11,6 +11,7 @@ class Osso2007_Site_FieldAliasDirect extends Osso_Base_BaseDirect
   protected $fieldAliases = array
   (
     // Madison 2010
+      /*
     'Dublin 1'           => 'Malcolm',
     'Dublin 2'           => 'Dublin #2',
     'Dublin 3'           => 'Dublin #3',
@@ -19,7 +20,7 @@ class Osso2007_Site_FieldAliasDirect extends Osso_Base_BaseDirect
     'Dublin 6'           => 'Dublin #6',
     'Dublin 7'           => 'Dublin #7',
     'Dublin 8'           => 'Dublin #8',
-    'Dublin 9'           => 'Dublin #9',
+    'Dublin 9'           => 'Dublin #9', */
     'Dubin 9'            => 'Dublin #9',
     'P Lower Lower N'    => 'Palmer LL North',
     'P Lower Lower S'    => 'Palmer LL South',
