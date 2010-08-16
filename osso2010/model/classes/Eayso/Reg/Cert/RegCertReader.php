@@ -3,9 +3,9 @@ class Eayso_Reg_Cert_RegCertReader extends Cerad_Reader_CSV
 {
  protected $map = array
   (
-    'Region'    => 'region',
-    'AYSO ID'   => 'reg_num',
-    'MY'        => 'reg_year',
+    'RegionNumber'       => 'region',
+    'AYSOID'             => 'reg_num',
+    'MembershipTermName' => 'reg_year',
 
     'LastName'      => 'lname',
     'FirstName'     => 'fname',
@@ -15,7 +15,7 @@ class Eayso_Reg_Cert_RegCertReader extends Cerad_Reader_CSV
     'BusinessPhone' => 'phone_work',
 
     'CertificationDesc'  => 'certDesc',
-    'Certification Date' => 'datex',
+    'CertDate'           => 'datex',
   );
 }
 ?>
