@@ -40,10 +40,8 @@
 <?php echo $this->render('MemberListTpl'); ?>
 <h3>Signing up to Referee</h3>
 <p>
-To sign up for a game, the system first needs to know that you are an ayso volunteer.
-In the table above, look in the AYSO Name column.  
-If you see your name there then the system knows you are a volunteer.
-You can proceed to the referee schedules and start signing up.
+To sign up for a game, you must be certified as an AYSO referee in <a href="www.eayso.org">eAYSO</a>
+Contact your Regional Referee Administrator is you don't see your certification listed.
 </p><p>
 If the AYSO Name column is blank then click on the Edit link next to your name.
 Another screen will come up which will allow you to link to your AYSO volunteer record.
@@ -51,8 +49,8 @@ Another screen will come up which will allow you to link to your AYSO volunteer 
 <h3>Family Accounts</h3>
 <p>
 Many families have more than one referee in them.  
-The system allows you to have one family account containing multuple family (or friend) members.
-This in turn allows you to signup all your family members for games without having to constantly
+The system allows you to have one family account containing multiple family (or friend) members.
+This in turn allows you to sign up all your family members for games without having to constantly
 log in and out.</p>
 <p>
 To add a new family member to your account, click on the "add new member to account" link and follow
