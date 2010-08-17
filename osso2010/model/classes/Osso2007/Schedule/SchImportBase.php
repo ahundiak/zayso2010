@@ -261,7 +261,6 @@ class Osso2007_Schedule_SchImportBase extends Cerad_Import
   protected function processDate($date)
   {
     if (strlen($date) == 23) return $this->getDateFromExcelFormat($date);
-    die($date);
     $dates = explode('/',$date);
     if (count($dates) != 3) die('Invalid date ' . $date);
     $date = sprintf('%04u%02u%02u',$dates[2],$dates[0],$dates[1]);
@@ -270,7 +269,6 @@ class Osso2007_Schedule_SchImportBase extends Cerad_Import
   protected function processTime($time)
   {
     if (strlen($time) == 23) return $this->getTimeFromExcelFormat($time);
-    die($time);
     $times = explode(' ',$time);
     if (count($times) != 2) die('Invalid time ' . $time);
 

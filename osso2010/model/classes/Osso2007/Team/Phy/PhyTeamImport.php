@@ -322,28 +322,28 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
     'U05B' => array('id' => 22, 'age' =>  5, 'sex' => 'B'),
     'U05G' => array('id' => 23, 'age' =>  5, 'sex' => 'G'),
 
-    'U6C'  => array('id' =>  3, 'age' =>  6, 'sex' => 'B'),
+    'U6C'  => array('id' =>  3, 'age' =>  6, 'sex' => 'C'),
     'U6B'  => array('id' =>  1, 'age' =>  6, 'sex' => 'B'),
     'U6G'  => array('id' =>  2, 'age' =>  6, 'sex' => 'G'),
     'U6'   => array('id' =>  3, 'age' =>  6, 'sex' => 'C'),
 
-    'U06C' => array('id' =>  3, 'age' =>  6, 'sex' => 'B'),
+    'U06C' => array('id' =>  3, 'age' =>  6, 'sex' => 'C'),
     'U06B' => array('id' =>  1, 'age' =>  6, 'sex' => 'B'),
     'U06G' => array('id' =>  2, 'age' =>  6, 'sex' => 'G'),
 
-    'U7C'  => array('id' => 27, 'age' =>  7, 'sex' => 'B'),
+    'U7C'  => array('id' => 27, 'age' =>  7, 'sex' => 'C'),
     'U7B'  => array('id' => 25, 'age' =>  7, 'sex' => 'B'),
     'U7G'  => array('id' => 26, 'age' =>  7, 'sex' => 'G'),
 
-    'U07C' => array('id' => 27, 'age' =>  7, 'sex' => 'B'),
+    'U07C' => array('id' => 27, 'age' =>  7, 'sex' => 'C'),
     'U07B' => array('id' => 25, 'age' =>  7, 'sex' => 'B'),
     'U07G' => array('id' => 26, 'age' =>  7, 'sex' => 'G'),
 
-    'U8C'  => array('id' =>  6, 'age' =>  8, 'sex' => 'B'),
+    'U8C'  => array('id' =>  6, 'age' =>  8, 'sex' => 'C'),
     'U8B'  => array('id' =>  4, 'age' =>  8, 'sex' => 'B'),
     'U8G'  => array('id' =>  5, 'age' =>  8, 'sex' => 'G'),
 
-    'U08C' => array('id' =>  6, 'age' =>  8, 'sex' => 'B'),
+    'U08C' => array('id' =>  6, 'age' =>  8, 'sex' => 'C'),
     'U08B' => array('id' =>  4, 'age' =>  8, 'sex' => 'B'),
     'U08G' => array('id' =>  5, 'age' =>  8, 'sex' => 'G'),
 

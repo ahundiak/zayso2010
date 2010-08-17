@@ -9,6 +9,12 @@
   <head>
   </head>
   <body>
+    <p>Instead of having to remember your zayso password you can now sign in using one or more of these accounts.
+    </p>
+     <iframe src="http://zayso.rpxnow.com/openid/embed?token_url=http%3A%2F%2Flocal.osso2010.org%2Fopenid%2Frpx.php"
+             scrolling="no"  frameBorder="no"  allowtransparency="true"  style="width:400px;height:240px">
+     </iframe>
+    <br />
     <a class="rpxnow" onclick="return false;"
       href="https://zayso.rpxnow.com/openid/v2/signin?token_url=http%3A%2F%2Flocal.osso2010.org/openid%2Frpx.php"> Sign In </a>
     
