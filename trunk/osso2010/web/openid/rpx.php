@@ -27,12 +27,15 @@ if(isset($_POST['token'])) {
 
   /* STEP 3: Parse the JSON auth_info response */
   $auth_info = json_decode($raw_json, true);
-print_r($auto_info);
+
   if ($auth_info['stat'] == 'ok') {
 
     /* STEP 3 Continued: Extract the 'identifier' from the response */
     $profile = $auth_info['profile'];
     $identifier = $profile['identifier'];
+
+    header("Location: http://www.zayso.org/openid/home.php?i=$identifier");
+    return;
 
     if (isset($profile['photo'])) {
       $photo_url = $profile['photo'];
