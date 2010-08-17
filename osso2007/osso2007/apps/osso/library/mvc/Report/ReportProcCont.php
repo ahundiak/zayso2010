@@ -24,8 +24,11 @@ class ReportProcCont extends Proj_Controller_Action
     header ("Pragma: no-cache");
     header("Expires: 0");
     header('Content-Transfer-Encoding: none');
-    header('Content-Type: application/vnd.ms-excel;'); // This should work for IE & Opera
-    header("Content-type: application/x-msexcel"); // This should work for the rest
+    header('Content-Type: text/csv;');
+
+    //header('Content-Type: application/vnd.ms-excel;'); // This should work for IE & Opera
+    //header("Content-type: application/x-msexcel"); // This should work for the rest
+
     header('Content-Disposition: attachment; filename="'. 'report.csv' .'"');
 
     return $result;
