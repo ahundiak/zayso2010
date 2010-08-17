@@ -10,6 +10,12 @@ class Osso2007_Site_FieldAliasDirect extends Osso_Base_BaseDirect
 
   protected $fieldAliases = array
   (
+    // NEMC
+    'SJ-U6-1' => 'SJ U06-1',
+    'SJ-U6-2' => 'SJ U06-2',
+    'SJ-U8-1' => 'SJ U08-1',
+    'SJ-U8-2' => 'SJ U08-2',
+
     // Madison 2010
       /*
     'Dublin 1'           => 'Malcolm',

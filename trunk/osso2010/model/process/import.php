@@ -83,8 +83,8 @@ class ProcessImport
   }
   protected function importSchedules2007($datax)
   {
-    $import = new Osso2007_Schedule_SchImport0498($this->context);
-    $import->process($datax . 'eayso/20100811/Schedules0498.csv');
+    $import = new Osso2007_Schedule_SchImport($this->context);
+    $import->process($datax . 'eayso/20100815/Schedule1174.csv');
     echo $import->getResultMessage() . "\n";
   }
   protected function importMasterAreaSchedule($datax)
@@ -101,8 +101,8 @@ class ProcessImport
   //$this->importEayso($datax);
   //$this->importPersons($datax);
   //$this->importTeams2007($datax);
-  //$this->importSchedules2007($datax);
-    $this->importMasterAreaSchedule($datax);
+    $this->importSchedules2007($datax);
+  //$this->importMasterAreaSchedule($datax);
 
     return;
     

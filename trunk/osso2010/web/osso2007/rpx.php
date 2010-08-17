@@ -26,15 +26,16 @@ if(isset($_POST['token'])) {
 
   /* STEP 3: Parse the JSON auth_info response */
   $auth_info = json_decode($raw_json, true);
-// print_r($auth_info);
+//print_r($auth_info);
 
   if ($auth_info['stat'] == 'ok') {
 
     /* STEP 3 Continued: Extract the 'identifier' from the response */
     $profile = $auth_info['profile'];
     $identifier = $profile['identifier'];
-
-    header("Location: http://local.osso2010.org/openid/home.php?i=$identifier");
+    $identifierx = htmlspecialchars($identifier);
+    $identifierx = str_replace('/','_',$identifier);
+    header("Location: http://local.osso2010.org/osso2007/home/openid/$identifierx");
     return;
 
     if (isset($profile['photo'])) {
