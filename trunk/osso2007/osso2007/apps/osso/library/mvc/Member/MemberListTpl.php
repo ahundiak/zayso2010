@@ -1,11 +1,11 @@
 <table border="1">
 <tr><th colspan="5">List Account Members</th></tr>
 <tr>
-    <td>Edit</td>
-    <td>Region</td>
-    <td>Member Name</td>
-    <td>eAYSO Information</td>
-    <td>Level</td>
+    <td style="width:  50px;">Edit</td>
+    <td style="width: 100px;">Region</td>
+    <td style="width: 150px;">Member Name</td>
+    <td style="width: 300px;">eAYSO Information</td>
+    <td style="width:  50px;">Level</td>
 </tr>
 <?php
 
