@@ -187,14 +187,30 @@ class Osso2007_Schedule_SchImportBase extends Cerad_Import
     $regionId = $this->getRegion($tmps[0]);
     if (!$regionId) die('Invalid region ' . $team);
 
-    $divKey = 'U' . substr($tmps[1],0,3);
+    $right = $tmps[1];
+
+    // Find position of the gender letter
+    $pos = 100;
+    foreach(array('B','C','G') as $gender)
+    {
+      $posx = strpos($right,$gender);
+      if ($posx !== FALSE)
+      {
+        if ($posx < $pos) $pos = $posx;
+      }
+    }
+    if ($pos == 100)
+    {
+       printf("Invalid division, no gender %s %s\n",$team,$divKey); die();
+    }
+    $divKey = 'U' . substr($right,0,$pos+1);
     $result = $this->directDiv->getForKey($divKey);
     if (!$result->row)
     {
       printf("Invalid division %s %s\n",$team,$divKey); die();
     }
     $divId = $result->row['id'];
-    $num = (int)substr($tmps[1],3,2);
+    $num = (int)substr($right,$pos+1,2);
     if ($num == 0)
     {
       // TBD
