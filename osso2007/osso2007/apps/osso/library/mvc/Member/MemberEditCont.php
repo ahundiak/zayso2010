@@ -179,9 +179,12 @@ class MemberEditCont extends Proj_Controller_Action
         /* Redirect */
         $response->setRedirect($this->link('member_edit',$id));
     }
+    // Only reload the current (primary) user
     protected function loadUser($memberId)
     {
-        $defaults = $this->context->config->user->toArray();
+      if ($this->context->user->member->level != 1) return;
+
+        $defaults = $this->context->config['user']; // ->user->toArray();
         $user = $this->context->models->UserModel->load($defaults,$memberId);
         $this->context->session->user = $user;
     }
