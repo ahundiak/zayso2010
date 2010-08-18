@@ -41,6 +41,7 @@ class Tests
   //$suite->addTestSuite('Osso_Person_Reg_PersonRegTests');
 
     $suite->addTestSuite('Osso2007_Account_AccountTests');
+    $suite->addTestSuite('Osso2007_Person_PersonTests');
 
     PHPUnit_TextUI_TestRunner::run($suite, array());
 
