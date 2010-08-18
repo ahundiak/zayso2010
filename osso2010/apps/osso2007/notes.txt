@@ -1,0 +1,40 @@
+17 Aug 2010
+
+index.php
+class loader
+
+context
+context->db
+
+context->user
+context->session
+context->request
+context->response
+
+dispatcher
+routes
+controller
+models
+
+-----------------------------
+Proj_Db_Adapter
+  No Zend hook
+  should be replacable with Cerad_DatabaseAdapter
+  DONE
+
+-----------------------------
+config
+  Zend_Config_Ini
+  Think a simple array is better
+  $config->db->toArray()
+  $config->session
+  $config->user
+
+-----------------------------
+session
+  Zend_Session_Namespace
+  isset and get/set
+
+==== DONE ====
+view
+context->url

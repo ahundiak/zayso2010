@@ -37,7 +37,60 @@ class Osso2007_Schedule_SchImportBase extends Cerad_Import
       $count->total,$count->inserted,$count->updated);
     return $msg;
   }
-  public function addEvent($date,$time,$fieldId,$homeTeam,$awayTeam)
+  public function addEventTeam($date,$time,$field,$eventId,$eventTeamTypeId,$team,$teamx)
+  {
+    // See if already have one
+    $result = $this->directEventTeam->fetchRows((array('event_id' => $eventId,'event_team_type_id' => $eventTeamTypeId)));
+    if ($result->rowCount)
+    {
+      if (!$team) return;
+
+      // Check that the team is not different
+      $eventTeam = $result->rows[0];
+      if ($eventTeam['team_id'] != $team['sch_team_id'])
+      {
+        if ($eventTeam['team_id'] == 0 || $eventId = 8928)
+        {
+          // Update a TBD team
+          $eventTeam['team_id']     = $team['sch_team_id'];
+          $eventTeam['reg_year_id'] = $team['reg_year_id'];
+          $eventTeam['unit_id']     = $team['unit_id'];
+          $eventTeam['division_id'] = $team['division_id'];
+        //Cerad_Debug::dump($eventTeam); die();
+          $this->directEventTeam->update($eventTeam);
+          return;
+        }
+        // Deal with team change
+        if ($eventId != 8982)
+        {
+          Cerad_Debug::dump($eventTeam);
+          Cerad_Debug::dump($team);
+          printf("Event team mismatch %d %s %s %s %d %d %d\n",
+                $eventId,$date,$time,$field,$eventTeamTypeId,
+                $eventTeam['team_id'],$team['sch_team_id']);
+          die();
+        }
+      }
+      return;
+    }
+    // Add one
+    if ($team) $addTeam = $team;
+    else       $addTeam = $teamx;
+    if (!$addTeam) return;
+
+    $data = array
+    (
+      'event_id'           => $eventId,
+      'event_team_type_id' => $eventTeamTypeId,
+      'team_id'            => $addTeam['sch_team_id'],
+      'reg_year_id'        => $addTeam['reg_year_id'],
+      'unit_id'            => $addTeam['unit_id'],
+      'division_id'        => $addTeam['division_id'],
+      'score' => 0,
+    );
+    if ($this->allowUpdates) $this->directEventTeam->insert($data);
+  }
+  public function addEvent($date,$time,$field,$fieldId,$homeTeam,$awayTeam)
   {
     // Need at least one team
     if (!$homeTeam && !$awayTeam) return 0;
@@ -82,66 +135,10 @@ class Osso2007_Schedule_SchImportBase extends Cerad_Import
     }
     else $eventId = $result->rows[0]['event_id'];
 
-    // Process home team
-    $result = $this->directEventTeam->fetchRows((array('event_id' => $eventId,'event_team_type_id' => 1)));
-    if ($result->rowCount)
-    {
-      // Check that the team is not different
-      $eventTeam = $result->rows[0];
-      if ($eventTeam['team_id'] != $homeTeam['sch_team_id'])
-      {
-        // Deal with team change
-        printf("Event home team mismatch %s %s\n",$date,$time);
-        die();
-      }
-    }
-    else
-    {
-      // Always need a home team
-      if ($homeTeam) $addTeam = $homeTeam;
-      else           $addTeam = $adminTeam;
+    // Add teams
+    $this->addEventTeam($date,$time,$field,$eventId,1,$homeTeam,$adminTeam);
+    $this->addEventTeam($date,$time,$field,$eventId,2,$awayTeam,null);
 
-      $data = array
-      (
-        'event_id'           => $eventId,
-        'event_team_type_id' => 1,
-        'team_id'            => $addTeam['sch_team_id'],
-        'reg_year_id'        => $addTeam['reg_year_id'],
-        'unit_id'            => $addTeam['unit_id'],
-        'division_id'        => $addTeam['division_id'],
-        'score' => 0,
-      );
-      if ($this->allowUpdates) $this->directEventTeam->insert($data);
-    }
-    // Process away team
-    $result = $this->directEventTeam->fetchRows((array('event_id' => $eventId,'event_team_type_id' => 2)));
-    if ($result->rowCount)
-    {
-      // Check that the team is not different
-      $eventTeam = $result->rows[0];
-      if ($eventTeam['team_id'] != $awayTeam['sch_team_id'])
-      {
-        die('event away team mismatch');
-      }
-    }
-    else
-    {
-      // Only add if have one
-      if (!$awayTeam) return $eventId;
-      $addTeam = $awayTeam;
-
-      $data = array
-      (
-        'event_id'           => $eventId,
-        'event_team_type_id' => 2,
-        'team_id'            => $addTeam['sch_team_id'],
-        'reg_year_id'        => $addTeam['reg_year_id'],
-        'unit_id'            => $addTeam['unit_id'],
-        'division_id'        => $addTeam['division_id'],
-        'score' => 0,
-      );
-      if ($this->allowUpdates) $this->directEventTeam->insert($data);
-    }
     return $eventId;
   }
   public function processRowData($data)
@@ -167,7 +164,7 @@ class Osso2007_Schedule_SchImportBase extends Cerad_Import
     $homeTeam = $this->processTeam($homeTeam);
     $awayTeam = $this->processTeam($awayTeam);
 
-    $this->addEvent($date,$time,$fieldId,$homeTeam,$awayTeam);
+    $this->addEvent($date,$time,$field,$fieldId,$homeTeam,$awayTeam);
     
     // printf("Game %s %s %s %s %s\n",$date,$time,$fieldId,$homeTeam['sch_team_id'],$awayTeam['sch_team_id']);
 
@@ -223,7 +220,9 @@ class Osso2007_Schedule_SchImportBase extends Cerad_Import
     $result = $this->directPhyTeam->fetchRow($search);
     if (!$result->row)
     {
-      printf("Invalid phy team %s\n",$team); die();
+      printf("Invalid phy team %s\n",$team); 
+      Cerad_Debug::dump($search);
+      die();
     }
     $phyTeamId = $result->row['phy_team_id'];
 
@@ -269,6 +268,9 @@ class Osso2007_Schedule_SchImportBase extends Cerad_Import
   protected function processTime($time)
   {
     if (strlen($time) == 23) return $this->getTimeFromExcelFormat($time);
+    if (strlen($time) ==  3) $time = '0' . $time;
+    if (strlen($time) ==  4) return $time;  // Already in 24 hour format
+    
     $times = explode(' ',$time);
     if (count($times) != 2) die('Invalid time ' . $time);
 
