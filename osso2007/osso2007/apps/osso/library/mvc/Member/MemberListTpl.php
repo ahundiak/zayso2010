@@ -47,7 +47,10 @@
    }
     else {
       $lines = array();
-      $lines[] = $this->escape($personName);
+      if (strlen($personName) > 1)
+      {
+        $lines[] = $this->escape($personName);
+      }
       $lines[] = 'Not linked to eayso';
     }
     $eaysoInfo = implode("<br />\n",$lines);
