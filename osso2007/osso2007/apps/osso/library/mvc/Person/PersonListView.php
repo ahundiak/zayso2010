@@ -56,8 +56,10 @@ class PersonListView extends Proj_View
     function displayCerts($person)
     {
       $id = $person->id;
-      if (!isset($this->certs[$id])) return 'Not in eayso';
+      if (!isset($this->certs[$id])) return 'Not linked to eayso';
       $item = $this->certs[$id];
+
+      if (!$item['eayso_aysoid']) return 'Not linked to eayso';
 
       $lines = array();
 
