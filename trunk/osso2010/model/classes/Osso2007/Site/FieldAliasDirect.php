@@ -45,6 +45,22 @@ class Osso2007_Site_FieldAliasDirect extends Osso_Base_BaseDirect
     'JH7'                => 'John Hunt 7',
     'JH8'                => 'John Hunt 8',
 
+    'JH9'                => 'John Hunt 9',
+    'JH9a'               => 'John Hunt 9A',
+    'JH9b'               => 'John Hunt 9B',
+    'JH9c'               => 'John Hunt 9C',
+
+    'JH12'               => 'John Hunt 12',
+    'JH12a'              => 'John Hunt 12A',
+    'JH12b'              => 'John Hunt 12B',
+    'JH12c'              => 'John Hunt 12C',
+
+    'JH13'               => 'John Hunt 13',
+    'JH13a'              => 'John Hunt 13A',
+    'JH13b'              => 'John Hunt 13B',
+    'JH13c'              => 'John Hunt 13C',
+    'JH13d'              => 'John Hunt 13D',
+
     'JH15'               => 'John Hunt 15',
     'JH16'               => 'John Hunt 16',
     'JH17'               => 'John Hunt 17',
@@ -62,7 +78,8 @@ class Osso2007_Site_FieldAliasDirect extends Osso_Base_BaseDirect
     'CS ES U12'          => 'Creekside ES U12',
     'CS ES U10'          => 'Creekside ES U10',
     'SL-E U12'           => 'SL-E',
-      
+
+    // Not being used in 2010
     'Harvest Elementary' => 'Harvest',
     'Westminster East'   => 'Westmin U10 East',
     'WCA U10'            => 'Westmin U10 East',

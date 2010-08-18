@@ -70,8 +70,11 @@ class Osso2007_Div_DivDirect extends Osso_Base_BaseDirect
   {
     $result = $this->newResult();
 
-    if ($key == 'U8G0') $key = 'U8G';
-    if ($key == 'U8C0') $key = 'U8C';
+    //if ($key == 'U6G0') $key = 'U6G';
+    //if ($key == 'U6C0') $key = 'U6C';
+
+    //if ($key == 'U8G0') $key = 'U8G';
+    //if ($key == 'U8C0') $key = 'U8C';
 
     if (isset($this->divs[$key]))
     {
