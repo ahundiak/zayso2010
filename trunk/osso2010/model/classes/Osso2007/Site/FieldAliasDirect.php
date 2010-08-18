@@ -74,6 +74,11 @@ class Osso2007_Site_FieldAliasDirect extends Osso_Base_BaseDirect
     // Monrovis
     'MMS'                => 'Monrovia MS',
 
+    'NW Field'           => 'Endeavor ES NW',
+    'NE Field'           => 'Endeavor ES NE',
+    'SW Field'           => 'Endeavor ES SW',
+    'SE Field'           => 'Endeavor ES SE',
+
     'CS ES U14'          => 'Creekside ES U14',
     'CS ES U12'          => 'Creekside ES U12',
     'CS ES U10'          => 'Creekside ES U10',
