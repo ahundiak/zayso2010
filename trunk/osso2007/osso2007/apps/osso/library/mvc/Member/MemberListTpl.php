@@ -31,7 +31,7 @@
       $nname = $item['eayso_nname'];
       $lname = $item['eayso_lname'];
 
-      if ($nname) $name = $fname . ' (' . $name . ')' . $lname;
+      if ($nname) $name = $fname . ' (' . $nname . ') ' . $lname;
       else        $name = $fname . ' ' .$lname;
 
       // $lines[] = $this->escape($name);

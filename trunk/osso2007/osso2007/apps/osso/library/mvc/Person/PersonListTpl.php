@@ -71,7 +71,7 @@
 <tr>
     <td>Edit</td>
     <td style="width: 200px;">Person's Name</td>
-    <td style="width: 100px;">Eayso Info</td>
+    <td style="width: 200px;">eAYSO Information</td>
     <td>Volunteer Positions</td>
 </tr>
 <?php 
@@ -80,7 +80,7 @@
 <tr>
     <td><?php echo $this->href('Edit','person_edit',$item->id); ?></td>
     <td><?php echo $this->displayPersonName($item);       ?></td>
-    <td><?php echo $this->escape($item->aysoid);          ?></td>
+    <td><?php echo $this->displayCerts     ($item);       ?></td>
     <td><?php echo $this->displayVolList   ($item->vols); ?></td>
 </tr>
 <?php } ?>
