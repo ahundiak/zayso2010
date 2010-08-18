@@ -23,7 +23,7 @@ class Osso_Org_OrgTests extends Osso_Base_BaseTests
     $results = $direct->getOrgForKey($search);
 
     $this->assertTrue($results['success']);
-    $data = $results['data'];
+    $data = $results['row'];
 
     $this->assertEquals($data['desc1'],'R0894 Monrovia, AL');
 
