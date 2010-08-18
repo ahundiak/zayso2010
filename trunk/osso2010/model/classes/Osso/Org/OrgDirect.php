@@ -7,7 +7,10 @@ class Osso_Org_OrgDirect extends Osso_Base_BaseDirect
   }
   public function getOrgForKey($keyx)
   {
+
     $result = new Cerad_Direct_Result();
+    
+    if (is_array($keyx)) $keyx = $keyx['keyx'];
 
     $num = (int)$keyx;
     if ($num) $keyx = sprintf('R%04u',$keyx);

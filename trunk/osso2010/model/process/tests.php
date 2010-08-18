@@ -37,8 +37,10 @@ class Tests
 
     $suite = new PHPUnit_Framework_TestSuite('OSSO Model Tests');
 
-    $suite->addTestSuite('Osso_Org_OrgTests');
-    $suite->addTestSuite('Osso_Person_Reg_PersonRegTests');
+  //$suite->addTestSuite('Osso_Org_OrgTests');
+  //$suite->addTestSuite('Osso_Person_Reg_PersonRegTests');
+
+    $suite->addTestSuite('Osso2007_Account_AccountTests');
 
     PHPUnit_TextUI_TestRunner::run($suite, array());
 
