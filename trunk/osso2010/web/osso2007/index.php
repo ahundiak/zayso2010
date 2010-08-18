@@ -1,4 +1,15 @@
 <?php
+error_reporting(E_ALL);
+$config = array
+(
+  'ws'        => '/home/ahundiak/zayso2010/',
+  'db_host'   => '127.0.0.1',
+  'web_host'  => 'buffy',
+  'web_tools' => '/tools/',
+);
+require_once $config['ws'] . 'osso2007/osso2007/apps/osso/FrontEnd/FrontContx.php';
+exit();
+
 error_reporting(0);
 
 /* Wrap everything in a class to avoid global variables */

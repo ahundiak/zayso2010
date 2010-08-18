@@ -84,7 +84,8 @@ class ProcessImport
   protected function importSchedules2007($datax)
   {
     $import = new Osso2007_Schedule_SchImport($this->context);
-    $import->process($datax . 'eayso/20100815/Schedule1174.csv');
+  //$import->allowUpdates = FALSE;
+    $import->process($datax . 'eayso/20100815/Schedule0160.csv');
     echo $import->getResultMessage() . "\n";
   }
   protected function importMasterAreaSchedule($datax)
