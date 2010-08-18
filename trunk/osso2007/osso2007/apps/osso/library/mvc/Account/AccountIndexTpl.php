@@ -41,9 +41,9 @@
 <h3>Signing up to Referee</h3>
 <p>
 To sign up for a game, you must be certified as an AYSO referee in <a href="www.eayso.org">eAYSO</a>
-Contact your Regional Referee Administrator is you don't see your certification listed.
+Contact your Regional Referee Administrator if you don't see your certifications listed.
 </p><p>
-If the AYSO Name column is blank then click on the Edit link next to your name.
+If the eAYSO information column says you are not linked then click on the Edit link.
 Another screen will come up which will allow you to link to your AYSO volunteer record.
 </p>
 <h3>Family Accounts</h3>
