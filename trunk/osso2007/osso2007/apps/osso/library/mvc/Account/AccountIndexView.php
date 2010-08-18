@@ -26,8 +26,13 @@ class AccountIndexView extends Proj_View
     $search->wantAccount = TRUE;
         
     $this->members = $models->MemberModel->search($search);
-        
-  //Cerad_Debug::dump($this->members); die(0);
+
+    $directAccount = new Osso2007_Account_AccountDirect($this->context);
+    $result = $directAccount->getCerts(array('account_id' => $this->account->id));
+
+    $this->membersx = $result->rows;
+    
+    // Cerad_Debug::dump($this->membersx); die(0);
         
     /* And render it  */      
     return $this->renderx();
