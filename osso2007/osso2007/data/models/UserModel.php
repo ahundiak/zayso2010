@@ -223,6 +223,7 @@ class UserModel extends BaseModel
         switch($user->person->id)
         {
           case 1:        // Me
+            case 609:    // David S
             return TRUE;
         }
         return FALSE;
