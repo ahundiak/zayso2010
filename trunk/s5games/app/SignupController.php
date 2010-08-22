@@ -8,7 +8,7 @@ class SignupController extends Controller
     $get     = $context->get;
     $user    = $context->user;
     $session = $context->session;
-
+// Cerad_Debug::dump($user); die();
     // Make sure are logged in
     $relocate = "location: index.php?page=schedule";
     if (!$user->isReferee) return header($relocate);
@@ -54,11 +54,13 @@ class SignupController extends Controller
       $tpl->refAss       = $session->get('ref_ass',0);
     }
     if ($tpl->errors) $session->set('ref_errors',NULL);
-
+// echo "Ref aysoid '{$user->aysoid}'\n"; die();
     if (!$tpl->refAysoid)
     {
-      $tpl->refAysoid = $user->aysoid;
+      $tpl->refAysoid = $user->reg_num;
     }
+    // die('Ref aysoid ' . $tpl->refAysoid);
+    
     // Always need aysoid
     $ref = new User($context);
     $ref->loadEayso($tpl->refAysoid);
@@ -116,17 +118,18 @@ class SignupController extends Controller
     $tpl->persons = $persons;
 		
     // Status options
-    $tpl->statusPickList = array
+    $statusPickList = array
     (
       1 => 'Request this game',
       2 => 'Ref only if needed',
     );
     if ($user->isAdmin)
     {
-      $tpl->statusPickList[3] = 'Assigned by admin';
-      $tpl->statusPickList[4] = 'Approved';
-      $tpl->statusPickList[5] = 'Remove';
+      $statusPickList[3] = 'Assigned by admin';
+      $statusPickList[4] = 'Approved';
+      $statusPickList[5] = 'Remove';
     }
+    $tpl->statusPickList = $statusPickList;
 
     // And process it
     $this->processTemplate('signup.phtml',$tpl);
