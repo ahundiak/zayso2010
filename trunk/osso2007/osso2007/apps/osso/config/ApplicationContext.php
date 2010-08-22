@@ -1,4 +1,7 @@
 <?php
+/* =====================================
+ * 22 Aug 2010 Obsolete
+ */
 /* ========================================================
  * This is designed to create the context for a given application
  * 
@@ -14,7 +17,7 @@ class ApplicationLoader
 }
 spl_autoload_register(array('ApplicationLoader','loadClass'));
 spl_autoload_register(array('ProjectLoader',    'loadClass'));
-spl_autoload_register(array('Zend_Loader',      'loadClass'));
+spl_autoload_register(array('Zend_Loader',     'loadClass')); // Cerad_Loader does not work
 
 class ApplicationContext extends ProjectContext
 {
@@ -107,7 +110,7 @@ class ApplicationContext extends ProjectContext
                         'phy_team|sch_team|person|unit|field|field_site|event|admin|' .
                         'sched_team|sched_field|ref_points|ref_avail|import|report' .
                         ')\b', 
-                'id'  => '\d+', 
+                'id'  => '.+', // '\d+',
                 'id2' => '\d+'
             )
         );
