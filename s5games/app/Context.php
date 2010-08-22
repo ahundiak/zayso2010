@@ -103,6 +103,7 @@ class Context extends Cerad_Context
     {
       $user->isAuth = true;
       $aysoid = $this->session->get('user_aysoid');
+      //die("aysoid $aysoid");
       if ($aysoid) $user->loadEayso($aysoid);
     }
 
