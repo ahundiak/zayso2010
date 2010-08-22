@@ -3,7 +3,11 @@
  * Don't like the direction Zend is taking as far as database stuff goes so see what it takes
  * to build a simple wrapper for the pdo object
  */
-class Proj_Db_Adapter
+class Proj_Db_Adapter extends Cerad_DatabaseAdapter
+{
+
+}
+class Proj_Db_Adapterx
 {
     protected $pdo = NULL;
     protected $dbParams = array();
