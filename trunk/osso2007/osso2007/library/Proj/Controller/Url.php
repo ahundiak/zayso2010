@@ -3,7 +3,7 @@ class Proj_Controller_Url
 {
     protected $router = NULL;
     protected $routes;
-    protected $prefix;
+    protected $prefix; // http://local.osso2010.org/osso2007
     
     function __construct($routes,$prefix)
     {
@@ -12,10 +12,13 @@ class Proj_Controller_Url
             $this->router = $routes;
             $this->routes = $this->router->getRoutes();
         }
+        $this->router = NULL;
+        $this->routes = NULL;
         $this->prefix = $prefix;
     }
     function linkCurrent($par1 = NULL, $par2 = NULL)
     {
+        die('linkCurrent');
         if (!$this->router) return NULL;
         
         $route = $this->router->getCurrentRoute();
@@ -39,6 +42,12 @@ class Proj_Controller_Url
         if (!$pos) return NULL;
         
         $module = substr($name,0,$pos);//die($module);
+        $path = $this->prefix . '/' . $module . '/' . substr($name,$pos+1);
+        if ($par1 !== NULL) $path .= '/' . $par1;
+        if ($par2 !== NULL) $path .= '/' . $par2;
+        return $path;
+
+
         foreach(array_reverse($this->routes) as $route) {
             if ($route->isModule($module)) { //Zend::dump($route); die();
                 $path = $this->prefix . '/' . $module . '/' . substr($name,$pos+1); 
