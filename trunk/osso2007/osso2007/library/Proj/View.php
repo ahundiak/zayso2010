@@ -1,47 +1,47 @@
 <?php
-class Proj_View extends Zend_View
+error_reporting(E_ALL);
+class Proj_View // extends Zend_View
 {
-    protected $tplPage    = 'MasterPageTpl';
-    protected $tplTitle   = 'Project View';
-    protected $tplContent = 'HomeIndexTpl';
+  protected $tplPage    = 'MasterPageTpl';
+  protected $tplTitle   = 'Project View';
+  protected $tplContent = 'HomeIndexTpl';
     
-    protected $tplRedirectDelay = 0;
-    protected $tplRedirectLink  = NULL;
+  protected $tplRedirectDelay = 0;
+  protected $tplRedirectLink  = NULL;
 
+  protected $context = null;
         
-	function __construct($config = array())
-    {
-        parent::__construct($config);
-        
-        $this->init();
-    }
-    function init()
-    {
-        $this->context = ProjectContext::getInstance('view');
-        
-        $this->setScriptPath($this->context->appAppDir  . '/library');
-//      $this->addScriptPath($this->context->appAppDir  . '/library/mvc');
-//      $this->addScriptPath($this->context->appAppDir  . '/library/mvc/Admin');
-//      $this->addScriptPath($this->context->appAppDir  . '/library/mvc/Public');     
-    }
+  function __construct($context = null)
+  {
+    $this->context = $context;
 
-    function render($tplName)
-    {
-        $tplPath = ProjectLoader::getPath($tplName);
+    // parent::__construct($config);
         
-        // All I really should need is an include surrounded by some buffer saving
-        ob_start();
-        include $tplPath;
-        return ob_get_clean();
+    $this->init();
+  }
+  function init()
+  {
+    if (!$this->context) $this->context = ProjectContext::getInstance('view');
         
-        // return parent::render($tplPath);
-    }
-    function renderx()
-    {
-        $this->content = $this->render($this->tplContent);
+    //$this->setScriptPath($this->context->appAppDir  . '/library');
+  }
+  function render($tplName)
+  {
+    $tplPath = ProjectLoader::getPath($tplName);
         
-        return $this->render($this->tplPage);
-    }
+    // All I really should need is an include surrounded by some buffer saving
+    ob_start();
+    include $tplPath;
+    return ob_get_clean();
+        
+    // return parent::render($tplPath);
+  }
+  function renderx()
+  {
+    $this->content = $this->render($this->tplContent);
+        
+    return $this->render($this->tplPage);
+  }
     public function formatDate($date)
     {
         if (strlen($date) < 8) return $date;
@@ -127,6 +127,10 @@ class Proj_View extends Zend_View
     public function file($path)
     {
         return $this->context->url->file($path);
+    }
+    public function escape($content)
+    {
+      return htmlspecialchars($content);
     }
 }
 ?>
