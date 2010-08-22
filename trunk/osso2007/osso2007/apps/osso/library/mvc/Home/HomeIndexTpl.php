@@ -36,3 +36,8 @@ If you already have an account then login here.
 </p>
 <?php echo $this->render($this->tplLogin); ?>
 <?php } ?>
+<?php if ($this->context->appServerName == 'local.osso2010.org' && 0) { ?>
+<iframe src="http://zayso.rpxnow.com/openid/embed?token_url=http%3A%2F%2Flocal.osso2010.org%2Fosso2007%2Frpx.php"
+        scrolling="no"  frameBorder="no"  allowtransparency="true"  style="width:400px;height:240px">
+</iframe>
+<?php } ?>
