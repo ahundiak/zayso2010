@@ -1,4 +1,7 @@
 <?php
+/* ===========================================
+ * 22 Aug 2010 Obsolete
+ */
 /* ========================================================
  * This is designed to create the context for a given project
  * 
