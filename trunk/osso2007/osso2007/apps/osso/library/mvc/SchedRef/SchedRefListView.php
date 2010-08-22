@@ -1,13 +1,13 @@
 <?php
 class SchedRefListView extends Proj_View
 {
-    function init()
-    {
-        parent::init();
+  function init()
+  {
+    parent::init();
         
-        $this->tplTitle   = 'Referee Schedules';
-        $this->tplContent = 'SchedRefListTpl';
-    }
+    $this->tplTitle   = 'Referee Schedules';
+    $this->tplContent = 'SchedRefListTpl';
+  }
     function process($data)
     {
         $models = $this->context->models;
@@ -37,13 +37,13 @@ class SchedRefListView extends Proj_View
         if ($user->isAdmin) {
             $this->outputTypePickList = array(
                 '1' => 'Web',
-                '2' => 'Excel One',
-                '3' => 'Excel Multiple',
+                '2' => 'Spreadsheet',
             );
         }
         else {
             $this->outputTypePickList = array(
                 '1' => 'Web',
+                '2' => 'Spreadsheet',
             );
         }
         /* -------------------
