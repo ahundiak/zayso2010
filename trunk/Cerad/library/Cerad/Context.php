@@ -44,11 +44,21 @@ class Cerad_Context
       $this->data[$name] = $item = new $className($this);
       return $item;
     }
-
     // Special handling
     $methodName = 'new' . ucfirst($name);
 
     return $this->$methodName();
+  }
+  // Short term hack for s5games
+  protected function get($name)
+  {
+    if (isset($this->data[$name])) return $this->data[$name];
+    return NULL;
+  }
+  protected function set($name,$data)
+  {
+    $this->data[$name] = $data;
+    return $data;
   }
   public function __set($name,$value)
   {

@@ -17,6 +17,7 @@ class Cerad_DatabaseAdapter
     $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);    
     $this->pdo->setAttribute(PDO::ATTR_CASE,               PDO::CASE_LOWER); 
     $this->pdo->setAttribute(PDO::ATTR_ORACLE_NULLS,       PDO::NULL_TO_STRING);
+
   }
   public function quote($values)
   {
@@ -69,6 +70,10 @@ class Cerad_DatabaseAdapter
     $stmt = $this->prepare($sql,$values);
     return $stmt->fetch(PDO::FETCH_ASSOC); // FALSE if not found
   }
+  // osso2007 Interface
+  function fetchOne($sql,$values = NULL) { return $this->fetchRow ($sql,$values); }
+  function fetchAll($sql,$values = NULL) { return $this->fetchRows($sql,$values); }
+
   function fetchCol($sql,$values = NULL)
   {
     $stmt = $this->prepare($sql,$values);
@@ -147,8 +152,6 @@ class Cerad_DatabaseAdapter
   function isDuplicateEntryError($e)
   {
     $errorCode = $e->errorInfo[1];
-        
-        // Zend_Debug::dump($e->errorInfo);
         
     if ($errorCode == '1062') return TRUE; // 1048 is cannot be NULL
     return FALSE;
