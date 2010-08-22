@@ -73,65 +73,65 @@ class ProjectLoader
 
 class SessionData
 {
-    function __get($name) { return NULL; }
+  function __get($name) { return NULL; }
 };
 
 class ProjectContext
 {	
-    static $instances = array();
+  static $instances = array();
     
-    /* -------------------------------------------------------
-     * The idea here is that object which do not have the context injected into them
-     * can get the context with the possibility that a different might have been created
-     * just for them.
-     */
-    static function getInstance($name = 'default')
-    {
-        if (isset(self::$instances[$name]))     return self::$instances[$name];
-        if (isset(self::$instances['default'])) return self::$instances['default'];
+  /* -------------------------------------------------------
+   * The idea here is that object which do not have the context injected into them
+   * can get the context with the possibility that a different might have been created
+   * just for them.
+   */
+  static function getInstance($name = 'default')
+  {
+    if (isset(self::$instances[$name]))     return self::$instances[$name];
+    if (isset(self::$instances['default'])) return self::$instances['default'];
         
-        throw new Exception("Tried to get project context before it was created");
-    }
-    static function setInstance($instance,$name = 'default')
-    {
-        self::$instances[$name] = $instance;
-    }
-	function __construct($params = array())
-	{
-		/* Store it */
-		ProjectContext::setInstance($this);
+    throw new Exception("Tried to get project context before it was created");
+  }
+  static function setInstance($instance,$name = 'default')
+  {
+    self::$instances[$name] = $instance;
+  }
+  function __construct($params = array())
+  {
+    /* Store it */
+    ProjectContext::setInstance($this);
         
-		/* A project can have multiple applications */
-		$this->appProjDir = $projDir = $params['proj_dir'];
+    /* A project can have multiple applications */
+    $this->appProjDir = $projDir = $params['proj_dir'];
 		
-		/* Application specific directory */
-		$this->appAppDir = $appAppDir = $params['app_dir'];
+    /* Application specific directory */
+    $this->appAppDir = $appAppDir = $params['app_dir'];
 		
-		/* Web Directory for url generation */
-		$this->appWebDir = dirname($_SERVER['SCRIPT_NAME']);
+    /* Web Directory for url generation */
+    $this->appWebDir = dirname($_SERVER['SCRIPT_NAME']);
 		
-		/* Server name is often handy */
-		$this->appServerName = $_SERVER['SERVER_NAME'];
+    /* Server name is often handy */
+    $this->appServerName = $_SERVER['SERVER_NAME'];
 		
-		/* Absolute url */
-		$this->appUrlAbs = "http://{$this->appServerName}{$this->appWebDir}";
+    /* Absolute url */
+    $this->appUrlAbs = "http://{$this->appServerName}{$this->appWebDir}";
 	
-		/* Load in config file */
-		if (isset($params['config_file_name'])) $configFileName = $params['config_file_name'];
-		else                                    $configFileName = 'config.ini';
+    /* Load in config file */
+    if (isset($params['config_file_name'])) $configFileName = $params['config_file_name'];
+    else                                    $configFileName = 'config.ini';
 		
-        $appConfigFilePath = $appAppDir . '/config/' . $configFileName;
-		$this->config = $config = new Zend_Config_Ini($appConfigFilePath, 'all');
+    $appConfigFilePath = $appAppDir . '/config/' . $configFileName;
+    $this->config = $config = new Zend_Config_Ini($appConfigFilePath, 'all');
         
-        /* Setup database and locators */
-        $this->db = new Proj_Db_Adapter($config->db->toArray());
-        $this->dbOsso2007 = $this->db;
+    /* Setup database and locators */
+    $this->db = new Proj_Db_Adapter($config->db->toArray());
+    $this->dbOsso2007 = $this->db;
         
-        $this->tables = new Proj_Locator_Table($this);
+    $this->tables = new Proj_Locator_Table($this);
         
-        $this->models = new Proj_Locator_Model($this);
-		
-	}
+    $this->models = new Proj_Locator_Model($this);
+
+  }
   /* Create on demand */
   public function __get($name)
   {
