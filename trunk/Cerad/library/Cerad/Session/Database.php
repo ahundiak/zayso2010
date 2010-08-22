@@ -3,7 +3,8 @@ class Cerad_Session_Database extends Cerad_Session_Base
 {
   protected $sessionId;
   protected $db;
-
+  protected $ts;
+  
   protected function init()
   {
     parent::init();
@@ -30,6 +31,10 @@ class Cerad_Session_Database extends Cerad_Session_Base
   // Returns NULL if not found
   public function get($name)
   {
+    // die('get ' . $name . ' ' . $this->sessionId);
+    
+    if (isset($this->data[$name])) return $this->data[$name];
+
     // Get the session id
     $sessionId = $this->sessionId;
     if (!$sessionId) return NULL;
@@ -38,21 +43,31 @@ class Cerad_Session_Database extends Cerad_Session_Base
     $search = array('session_id' => $sessionId,'name' => $name);
     $sql = 'SELECT item FROM session_data WHERE keyx = :session_id AND name = :name;';
     $row = $this->db->fetchRow($sql,$search);
-    if ($row === FALSE) return NULL;
+    if ($row === FALSE)
+    {
+      $this->data[$name] = NULL;
+      return NULL;
+    }
 
     // Back to object
     $item = unserialize($row['item']);
+    $this->data[$name] = $item;
     return $item;
   }
   public function set($name,$item)
   {
+    // Always save in cache
+    $this->data[$name] = $item;
+
     // Get the session id creating one of needed
     if (!$this->sessionId)
     {
       $this->sessionId = $this->genSessionId();
-      setcookie($this->sessionCookieName,$this->sessionId,$this->sessionCookieLifetime,'/osso2010/');
+      setcookie($this->sessionCookieName,$this->sessionId,$this->sessionCookieLifetime,$this->sessionCookiePath);
     }
     $sessionId = $this->sessionId;
+
+// die('set ' . $name . ' ' . $sessionId);
 
     // Delete if null
     if (!$item)
@@ -80,6 +95,12 @@ ON DUPLICATE KEY UPDATE item = VALUES(item), ts_updated = VALUES(ts_updated);
 EOT;
     $count = $this->db->execute($sql,$params);
     
+  }
+  public function has($name)
+  {
+    $item = $this->get($name);
+    if ($item) return TRUE;
+    return FALSE;
   }
 }
 
