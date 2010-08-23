@@ -8,9 +8,6 @@
     <td style="width:  75px;">Account</td>
 </tr>
 <?php
-
-  $repoCert = new Eayso_Reg_Cert_RegCertRepo($this->context);
-  
   foreach($this->membersx as $item)
   {
     $memberId       = $item['member_id'];
@@ -41,8 +38,7 @@
 
       foreach($item['certs'] as $cert)
       {
-        $line = $repoCert->getDesc($cert['cert_type']);
-        $lines[] = $this->escape($line);
+        $lines[] = $this->escape($cert['cert_desc']);
       }
    }
     else {
