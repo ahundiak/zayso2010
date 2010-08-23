@@ -42,17 +42,19 @@ SELECT
   reg_main.dob       AS eayso_dob,
   reg_main.sex       AS eayso_gender,
 
-  reg_cert.catx      AS cert_cat,
-  reg_cert.typex     AS cert_type,
-  reg_cert.datex     AS cert_date
+  reg_cert.catx       AS cert_cat,
+  reg_cert.typex      AS cert_type,
+  reg_cert.datex      AS cert_date,
+  reg_cert_type.desc1 AS cert_desc
 
 FROM
  osso2007.account AS account
 
-LEFT JOIN osso2007.member AS member ON member.account_id  = account.account_id
-LEFT JOIN osso2007.person AS person ON person.person_id   = member.person_id
-LEFT JOIN eayso.reg_main  AS reg_main ON reg_main.reg_num = person.aysoid
-LEFT JOIN eayso.reg_cert  AS reg_cert ON reg_cert.reg_num = person.aysoid
+LEFT JOIN osso2007.member     AS member        ON member.account_id  = account.account_id
+LEFT JOIN osso2007.person     AS person        ON person.person_id   = member.person_id
+LEFT JOIN eayso.reg_main      AS reg_main      ON reg_main.reg_num   = person.aysoid
+LEFT JOIN eayso.reg_cert      AS reg_cert      ON reg_cert.reg_num   = person.aysoid
+LEFT JOIN eayso.reg_cert_type AS reg_cert_type ON reg_cert_type.id   = reg_cert.typex
 
 LEFT JOIN osso2007.unit AS member_unit ON member_unit.unit_id = member.unit_id
 LEFT JOIN osso2007.unit AS person_unit ON person_unit.unit_id = person.unit_id
@@ -75,6 +77,7 @@ EOT;
         unset($item['cert_cat']);
         unset($item['cert_type']);
         unset($item['cert_date']);
+        unset($item['cert_desc']);
         $item['certs'] = array();
       }
       $item['certs'][] = array
@@ -82,6 +85,7 @@ EOT;
         'cert_cat'  => $row['cert_cat'],
         'cert_type' => $row['cert_type'],
         'cert_date' => $row['cert_date'],
+        'cert_desc' => $row['cert_desc'],
       );
       $items[$id] = $item;
     }
