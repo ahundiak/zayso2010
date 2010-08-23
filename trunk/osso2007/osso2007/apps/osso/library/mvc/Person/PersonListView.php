@@ -43,8 +43,6 @@ class PersonListView extends Proj_View
         $result = $directPerson->getCerts(array('person_id' => $personIds));
         $this->certs = $result->rows;
         
-        $this->repoCert = new Eayso_Reg_Cert_RegCertRepo($this->context);
-
         /* Render it */        
         return $this->renderx();
     }
@@ -77,8 +75,7 @@ class PersonListView extends Proj_View
 
       foreach($item['certs'] as $cert)
       {
-        $line = $this->repoCert->getDesc($cert['cert_type']);
-        $lines[] = $this->escape($line);
+        $lines[] = $this->escape($cert['cert_desc']);
       }
 
       return implode("<br \>\n",$lines);
