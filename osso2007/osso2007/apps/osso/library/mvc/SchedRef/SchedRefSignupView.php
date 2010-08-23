@@ -59,13 +59,18 @@ class SchedRefSignupView extends Proj_View
         }
         
         /* Referee list, eveyone for admin */
-        if (!$user->isAdmin || 1) $refereePickList = $user->refereePickList;
-        else {
+        if (!$user->isAdmin || 0) $refereePickList = $user->refereePickList;
+        else 
+        {
+          $search = array('unit_id' => $user->unitId);
+          $direct = new Osso2007_Referee_RefereeDirect($this->context);
+          $refereePickList = $direct->getRefereePickList($search);
+          /*
             $search = new SearchData();
             $search->volTypeId = array($models->VolType->TYPE_ADULT_REF,$models->VolType->TYPE_YOUTH_REF);
             $search->yearId       = array(8,9,10);  // $user->yearId;
             $search->seasonTypeId = array(1,2,3); // $user->seasonTypeId;
-            $refereePickList = $models->VolModel->getPersonPickList($search);
+            $refereePickList = $models->VolModel->getPersonPickList($search); */
         }
         /* Fool with pick lists */
         $personPickList = array('0' => 'Not Assigned') + $refereePickList;
