@@ -340,7 +340,7 @@ EOT;
         if ($row['cert_cat'] == 200) $persons[$personId]['isReferee'] = true;
       }
       // Cerad_Debug::dump($persons); die();
-      $items = NULL;
+      $items = array();
       foreach($persons AS $person)
       {
         if ($person['isReferee'])
