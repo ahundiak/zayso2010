@@ -1,4 +1,9 @@
 <?php
+/* --------------------------------------------
+ * Had to explicitly save the data back into session while
+ * doing a refresh picklist, everything else seems to work
+ * folllowing the shift to a different session object
+ */
 class EventEditCont extends Proj_Controller_Action 
 {
 	public function processAction()
@@ -343,8 +348,10 @@ class EventEditCont extends Proj_Controller_Action
         $response = $this->getResponse();
         $data     = $this->context->session->eventEditData;
         
-        $this->getPostedData($data);
+        $data = $this->getPostedData($data);
         
+        $this->context->session->eventEditData = $data;
+
         return $response->setRedirect($this->link('event_edit',$data->event->id));
     }
     /* ----------------------------------------------
