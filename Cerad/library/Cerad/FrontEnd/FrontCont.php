@@ -4,7 +4,7 @@ class Cerad_FrontEnd_FrontCont
   protected $config;
   protected $data;
   protected $contextClassName = 'Cerad_Context';
-  protected $indexFileName    = 'Index.html.php';
+  protected $indexFileName    = 'FrontEnd/Index.html.php';
 
   protected $loadTypeClassNames = array(
       'css'     => 'Cerad_FrontEnd_LoadCSS',
