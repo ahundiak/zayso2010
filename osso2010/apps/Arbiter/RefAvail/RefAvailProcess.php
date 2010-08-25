@@ -42,7 +42,7 @@ class Item
     if ($name) $this->name .= ' ' . $name;
   }
 }
-class RefAvail
+class Arbiter_RefAvail_RefAvailProcess
 {
   protected $date  = null;
   protected $dates = array();
@@ -77,8 +77,8 @@ class RefAvail
   function processRow($row)
   {
     // Is it a date?
-    $dateKey = 'AHSAA Referee Availability for';
-    if (!strncmp($row->name,$dateKey,strlen($dateKey)))
+    $dateKey = 'Referee Availability for';
+    if (strstr($row->name,$dateKey) !== FALSE)
     {
       $data = explode(',',$row->name);
       $data = explode('/',trim($data[1]));
