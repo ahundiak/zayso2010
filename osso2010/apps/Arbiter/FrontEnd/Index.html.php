@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>ZAYSO Arbiter Tools</title>
-  <base href="/arbiter/index.php" />
+  <base href="<?php echo $this->context->config['web_path'] . 'index.php'; ?>" />
 </head>
 <body>
 <form method="post" enctype="multipart/form-data" action="ref_avail">
