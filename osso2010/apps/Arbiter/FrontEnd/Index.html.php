@@ -5,11 +5,9 @@
   <base href="/arbiter/index.php" />
 </head>
 <body>
-<h3>Referee Availability Report</h3>
-
 <form method="post" enctype="multipart/form-data" action="ref_avail">
-<table border="1">
-<tr><th colspan="2">Generate Referee Availability Report</th></tr>
+<table border="1" style="width: 700px;">
+<tr><th colspan="2">Generate Weekly Referee Availability Report</th></tr>
 <tr>
   <td style="width: 100px;">CSV File</td>
   <td style="width: 500px;">
@@ -17,15 +15,16 @@
   </td>
 </tr>
 <tr>
-  <td>Processed File</td>
-  <td>
-    <input type="text" name="ref_avail_filex" readonly="readonly" size="40" value="<?php echo 'Placeholder'; ?>"/>
-  </td>
-</tr>
-<tr>
   <td>.</td>
   <td align="center"><input type="submit" name="ref_avail_submit" value="Generate" />
 </tr>
+<tr>
+  <td colspan="2">
+    Use Arbiter to create a referee availability report for a week or so and save (From Excel)
+    as a comma separated (CSV) file.  Click the Browse or Choose File button and pick the .csv file.
+    Press Generate and a weekly availability file will passed back.
+    Open it up, set the row and column heights to about 30 and schedule away.
+  </td>
 </table>
 </form>
 
