@@ -10,11 +10,19 @@ class ReportProcCont extends Proj_Controller_Action
     {
       case 1: $reportClassName = 'Osso2007_Report_ReportTeamSummaryCSV'; break;
       case 2: $reportClassName = 'Osso2007_Report_ReportTeamKeysCSV';    break;
+
+      case 4: $reportClassName = 'Osso2007_Referee_RefereeUtilReport';   break;
     }
     if (!$reportClassName) return NULL;
 
+    $params = array
+    (
+      'unit_id' => $data->unitId,
+      'date_ge' => '20100801',
+      'date_le' => '20101231',
+    );
     $report = new $reportClassName($this->context);
-    $result = $report->process($data);
+    $result = $report->process($params);
     
     header('Pragma: public');
     header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
@@ -80,13 +88,6 @@ class ReportProcCont extends Proj_Controller_Action
         
     return;
   }
-  protected $map = array
-  (
-    'Eayso_Reg_Main_RegMainImport'          => array('AYSOID',          'WorkPhoneExt',     'Membershipyear'),
-    'Eayso_Reg_Cert_RegCertImport'          => array('AYSO ID',         'CertificationDesc','Certification Date'),
-    'Osso2007_Team_Phy_PhyTeamImport'       => array('TeamDesignation', 'TeamID',           'TeamAsstCoachFName'),
-    'Osso2007_Team_Phy_PhyTeamRosterImport' => array('Team Designation','Region #',         'Asst. Team Coach AYSO ID'),
-  );
   public function processActionPost()
   {
     $request  = $this->getRequest();
@@ -111,46 +112,6 @@ class ReportProcCont extends Proj_Controller_Action
     $session->reportProcData = $data;
     return $response->setRedirect($redirect);
     
-    $tmpName = $_FILES['import_file']['tmp_name'];
-    if (!$tmpName) return $response->setRedirect($redirect);
-
-    $fp = fopen($tmpName,'r');
-    if (!$fp)
-    {
-      $data->message = "Could not open file for reading";
-      $session->importProcData = $data;
-      return $response->setRedirect($redirect);
-    }
-    $header = fgetcsv($fp);
-    fclose($fp);
-
-    $importClassName = NULL;
-    foreach($this->map as $class => $names)
-    {
-      $haveAll = true;
-      foreach($names as $name)
-      {
-        if (array_search($name,$header) === FALSE) $haveAll = false;
-      }
-      if ($haveAll) $importClassName = $class;
-    }
-    if (!$importClassName)
-    {
-      $data->message = 'Could not determine file type';
-      $session->importProcData = $data;
-      return $response->setRedirect($redirect);
-    }
-
-    $import = new $importClassName($this->context);
-    $import->process($tmpName);
-
-    $data->message = $import->getResultMessage();
-
-    $session->importProcData = $data;
-
-    // Done
-    $response->setRedirect($redirect);
-    return;
   }
 }
 ?>

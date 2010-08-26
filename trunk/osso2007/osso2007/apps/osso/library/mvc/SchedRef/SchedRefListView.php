@@ -81,7 +81,21 @@ class SchedRefListView extends Proj_View
             $data->showAway
         );
         $search->point2 = $data->point2;
-        $eventIds = $models->EventTeamModel->searchDistinct($search);
+
+        $searchx = array
+        (
+          'date_le'            => $search->dateLE,
+          'date_ge'            => $search->dateGE,
+          'unit_id'            => (int)$search->unitId,
+          'division_id'        =>      $search->divisionId,
+          'event_team_type_id' =>      $search->eventTeamTypeId,
+          'point2'             => (int)$search->point2,
+        );
+        $direct = new Osso2007_Event_EventDirect($this->context);
+        $result = $direct->getDistinctIds($searchx);
+        $eventIds = $result->rows;
+        
+        // $eventIds = $models->EventTeamModel->searchDistinct($search);
         
         /* Now the full query */
         $search = new SearchData();

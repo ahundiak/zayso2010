@@ -21,6 +21,7 @@ class ReportProcView extends Proj_View
         1 => 'Team Summary',
         2 => 'Team Scheduling Keys',
         3 => 'Coach Contact Info',
+        4 => 'Referee Utilization',
     );
 
     /* And render it  */      
