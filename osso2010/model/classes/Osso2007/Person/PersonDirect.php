@@ -15,7 +15,9 @@ class Osso2007_Person_PersonDirect extends Osso_Base_BaseDirect
     $personId = $this->db->quote($params['person_id']);
 
     if (!$personId) return $result;
-    
+
+    $regTypeId = 102;
+
     $sql = <<<EOT
 SELECT
   person.person_id   AS person_id,
@@ -44,8 +46,12 @@ SELECT
 FROM
  osso2007.person AS person
 
-LEFT JOIN eayso.reg_main      AS reg_main      ON reg_main.reg_num = person.aysoid
-LEFT JOIN eayso.reg_cert      AS reg_cert      ON reg_cert.reg_num = reg_main.reg_num
+LEFT JOIN eayso.reg_main AS reg_main ON 
+  reg_main.reg_num = person.aysoid AND reg_main.reg_type = $regTypeId
+
+LEFT JOIN eayso.reg_cert AS reg_cert ON 
+  reg_cert.reg_num = reg_main.reg_num AND reg_cert.reg_type = reg_main.reg_type
+    
 LEFT JOIN eayso.reg_cert_type AS reg_cert_type ON reg_cert_type.id = reg_cert.typex
 
 LEFT JOIN osso2007.unit AS person_unit ON person_unit.unit_id = person.unit_id
