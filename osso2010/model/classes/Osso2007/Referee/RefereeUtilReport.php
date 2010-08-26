@@ -58,7 +58,7 @@ class Osso2007_Referee_RefereeUtilReport
       }
     }}
     $lines = array();
-    $lines[] = 'First Name,Nick Name,Last Name,AYSOID,Email,Cell Phone,Age,MYear,Ref Cert,SH Cert,CR Count,AR Count';
+    $lines[] = 'Region,First Name,Nick Name,Last Name,AYSOID,Eayso Email,Cell Phone,Age,MYear,Ref Cert,SH Cert,CR Count,AR Count';
 
     foreach($referees AS $referee)
     {
@@ -77,8 +77,10 @@ class Osso2007_Referee_RefereeUtilReport
 
       $line = array
       (
+        $referee['person_unit_desc'],
         $referee['person_fname'], $referee['person_nname'],$referee['person_lname'],
-        $referee['person_aysoid'],$referee['eayso_email'], $referee['eayso_phone_cell'],
+        $referee['person_aysoid'],
+        $referee['eayso_email'], $referee['eayso_phone_cell'],
         $age,$my,
         $referee['cert_desc'],$referee['cert_sh_desc'],$cr,$ar
       );
