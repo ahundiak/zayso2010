@@ -25,7 +25,7 @@ class Osso2007_Referee_RefereeTests extends Osso_Base_BaseTests
     $this->assertTrue($result->success);
 
     $rows = $result->rows; // Cerad_Debug::dump($rows);
-    $this->assertEquals(count($rows),117);
+    $this->assertTrue(count($rows) > 100);
 
     foreach($rows as $row)
     {
