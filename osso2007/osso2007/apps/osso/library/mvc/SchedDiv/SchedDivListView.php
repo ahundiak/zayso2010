@@ -89,9 +89,24 @@ class SchedDivListView extends Proj_View
         	if ($schTeam->unitId != $data->unitId) $data->teamId = 0;
         }
         $search->teamId = $data->teamId;
-        
-        $eventIds = $models->EventTeamModel->searchDistinct($search);
-        
+
+        $searchx = array
+        (
+          'date_le'            => $search->dateLE,
+          'date_ge'            => $search->dateGE,
+          'unit_id'            => (int)$search->unitId,
+          'division_id'        =>      $search->divisionId,
+          'event_team_type_id' =>      $search->eventTeamTypeId,
+          'team_id'            => (int)$search->teamId,
+
+        );
+        $direct = new Osso2007_Event_EventDirect($this->context);
+        $result = $direct->getDistinctIds($searchx);
+        $eventIds = $result->rows;
+//Cerad_Debug::dump($eventIds);
+//     $eventIds = $models->EventTeamModel->searchDistinct($search);
+//Cerad_Debug::dump($eventIds);
+//die();
         /* Now the full query */
         $search = new SearchData();
         $search->eventId = $eventIds;
