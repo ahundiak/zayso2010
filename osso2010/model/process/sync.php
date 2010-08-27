@@ -25,9 +25,17 @@ class Sync
   public function execute()
   {
     // Sync Person Table
-    $process = new Osso2007_Person_PersonSync($this->context);
+    // $process = new Osso2007_Person_PersonSync($this->context);
+/*
+    $process = new Osso_Project_ProjectSync($this->context);
     $process->process();
-    echo $process->getResultMessage();;
+    echo $process->getResultMessage();
+    */
+    $xmlFileName = $this->config['datax'] . 'points.xml';
+    
+    $process = new Osso2007_Referee_Points_RefPointsMonrovia($this->context);
+    $process->process(array('xmlFileName' => $xmlFileName));
+    echo $process->getResultMessage();
   }
 }
 $config = require '../config/config.php';
