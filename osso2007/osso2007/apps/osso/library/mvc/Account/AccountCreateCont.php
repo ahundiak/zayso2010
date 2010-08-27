@@ -127,7 +127,7 @@ class AccountCreateCont extends Proj_Controller_Action
         $memberId = $models->MemberModel->save($member);
         
         /* Login to it */
-        $defaults = $this->context->config->user->toArray();
+        $defaults = $this->context->config['user'];
         $user = $models->UserModel->load($defaults,$memberId);
         $this->context->session->user = $user;
         $response->setRedirect($this->link('account_index'));
