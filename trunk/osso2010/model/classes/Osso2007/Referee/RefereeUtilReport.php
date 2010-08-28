@@ -12,6 +12,8 @@ class Osso2007_Referee_RefereeUtilReport
   {
     
   }
+  public function getOutputFileName() { return 'RefUtil.csv'; }
+
   public function process($params)
   {
     $directEvent   = new Osso2007_Event_EventDirect    ($this->context);
