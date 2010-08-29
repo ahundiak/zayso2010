@@ -31,11 +31,17 @@ class Sync
     $process->process();
     echo $process->getResultMessage();
     */
-    $xmlFileName = $this->config['datax'] . 'points.xml';
+    $xmlFileName = $this->config['datax'] . 'MonroviaPoints.xml';
     
     $process = new Osso2007_Referee_Points_RefPointsMonrovia($this->context);
     $process->process(array('xmlFileName' => $xmlFileName));
-    echo $process->getResultMessage();
+    echo $process->getResultMessage() . "\n";
+
+    $xmlFileName = $this->config['datax'] . 'MadisonPoints.xml';
+
+    $process = new Osso2007_Referee_Points_RefPointsMadison($this->context);
+    $process->process(array('xmlFileName' => $xmlFileName));
+    echo $process->getResultMessage() . "\n";
   }
 }
 $config = require '../config/config.php';
