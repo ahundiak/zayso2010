@@ -7,6 +7,8 @@ error_reporting(E_ALL);
 
 class RefPointsBaseView extends Proj_View
 {
+  protected $refereeId = 0;
+  
   function getReferees()
   {
     $user      = $this->context->user;
