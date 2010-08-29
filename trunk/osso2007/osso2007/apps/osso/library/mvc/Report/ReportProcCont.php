@@ -14,6 +14,7 @@ class ReportProcCont extends Proj_Controller_Action
       case 4: $reportClassName = 'Osso2007_Referee_RefereeUtilReport';   break;
 
       case 5: $reportClassName = 'Osso2007_Referee_Points_RefPointsMonrovia';   break;
+      case 6: $reportClassName = 'Osso2007_Referee_Points_RefPointsMadison';    break;
     }
     if (!$reportClassName) return NULL;
 
