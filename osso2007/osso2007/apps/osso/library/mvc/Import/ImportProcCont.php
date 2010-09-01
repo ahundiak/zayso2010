@@ -40,7 +40,7 @@ class ImportProcCont extends Proj_Controller_Action
   }
   protected $map = array
   (
-    'Osso2007_Schedule_SchImport'            => array('Date','Time','Field','Home Team','Away Team'),
+    'Osso2007_Schedule_SchImport'            => array('Date','Time','Field','HomeTeam','AwayTeam'),
     'Eayso_Reg_Main_RegMainImport'           => array('AYSOID',          'WorkPhoneExt',     'Membershipyear'),
     'Eayso_Reg_Cert_RegCertImport'           => array('AYSOID',          'CertificationDesc','CertDate'),
     'Eayso_Reg_Cert_Type_RegCertTypeImport'  => array('id','desc1','desc2','desc3','table reg_cert_type'),
