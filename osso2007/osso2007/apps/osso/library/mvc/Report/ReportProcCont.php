@@ -26,7 +26,13 @@ class ReportProcCont extends Proj_Controller_Action
     );
     $report = new $reportClassName($this->context);
     $result = $report->process($params);
+    if (!$result) return $result;
+
     $file   = $report->getOutputFileName();
+
+    $response = $this->getResponse();
+    $response->setFileHeaders($file);
+    return $result;
 
     header('Pragma: public');
     header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
