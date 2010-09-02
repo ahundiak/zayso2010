@@ -22,9 +22,12 @@
             <?php echo $this->formOptions($this->orderByPickList,$data->orderBy); ?>
         </select>
         Output
+        <input type="submit" name="sched_ref_submit_spreadsheet" value="Spreadsheet" />
+<?php /*
         <select name="sched_div_output_type">
             <?php echo $this->formOptions($this->outputTypePickList,$data->outputType); ?>
         </select>
+ */ ?>
     </td>
 </tr>
 <tr><td colspan="2"></td></tr>

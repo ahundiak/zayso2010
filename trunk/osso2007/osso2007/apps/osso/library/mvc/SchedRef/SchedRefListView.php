@@ -8,47 +8,52 @@ class SchedRefListView extends Proj_View
     $this->tplTitle   = 'Referee Schedules';
     $this->tplContent = 'SchedRefListTpl';
   }
-    function process($data)
-    {
-        $models = $this->context->models;
-        $user   = $this->context->user;
+  function process($data)
+  {
+    $models = $this->context->models;
+    $user   = $this->context->user;
         
-        $this->schedRefListData = $data;
+    $this->schedRefListData = $data;
                      
-        $this->unitPickList         = $models->UnitModel        ->getPickList();
-        $this->yearPickList         = $models->YearModel        ->getPickList();
-        $this->divisionAgePickList  = $models->DivisionModel    ->getAgePickList();
-        $this->eventTypePickList    = $models->EventTypeModel   ->getPickList();
-        $this->seasonTypePickList   = $models->SeasonTypeModel  ->getPickList();
-        $this->scheduleTypePickList = $models->ScheduleTypeModel->getPickList();
-        $this->eventPoint2PickList  = $models->EventPoint2Model ->getPickList();
+    $this->unitPickList         = $models->UnitModel        ->getPickList();
+    $this->yearPickList         = $models->YearModel        ->getPickList();
+    $this->divisionAgePickList  = $models->DivisionModel    ->getAgePickList();
+    $this->eventTypePickList    = $models->EventTypeModel   ->getPickList();
+    $this->seasonTypePickList   = $models->SeasonTypeModel  ->getPickList();
+    $this->scheduleTypePickList = $models->ScheduleTypeModel->getPickList();
+    $this->eventPoint2PickList  = $models->EventPoint2Model ->getPickList();
         
-        /* Date processing */
-        $dtModel = $models->DateTimeModel;
-        $this->dateYearPickList  = $dtModel->getYearPickList ();
-        $this->dateMonthPickList = $dtModel->getMonthPickList();
-        $this->dateDayPickList   = $dtModel->getDayPickList  ();
+    /* Date processing */
+    $dtModel = $models->DateTimeModel;
+    $this->dateYearPickList  = $dtModel->getYearPickList ();
+    $this->dateMonthPickList = $dtModel->getMonthPickList();
+    $this->dateDayPickList   = $dtModel->getDayPickList  ();
         
-        /* A few misc lists */
-        $this->orderByPickList = array(
-            '1' => 'Date,Time,Field',
-            '2' => 'Date,Field,Time',
-        );
-        if ($user->isAdmin) {
-            $this->outputTypePickList = array(
-                '1' => 'Web',
-                '2' => 'Spreadsheet',
-            );
-        }
-        else {
-            $this->outputTypePickList = array(
-                '1' => 'Web',
-                '2' => 'Spreadsheet',
-            );
-        }
-        /* -------------------
-         * First grab events of interest
-         */
+    /* A few misc lists */
+    $this->orderByPickList = array
+    (
+      '1' => 'Date,Time,Field',
+      '2' => 'Date,Field,Time',
+    );
+    if ($user->isAdmin)
+    {
+      $this->outputTypePickList = array
+      (
+        '1' => 'Web',
+        '2' => 'Spreadsheet',
+      );
+    }
+    else
+    {
+      $this->outputTypePickList = array
+      (
+        '1' => 'Web',
+        '2' => 'Spreadsheet',
+      );
+    }
+    /* -------------------
+     * First grab events of interest
+     */
         $search = new SearchData();
 
         /* Date range */     
@@ -117,12 +122,12 @@ class SchedRefListView extends Proj_View
         if (!$data->show) $this->showRefereeIds = NULL;
         else 
         {
-        	if ($data->show > 0) $this->showRefereeIds = array($data->show);
-        	else {
-        		$this->showRefereeIds = array_keys($refereePickList);
-        		if (count($this->showRefereeIds) < 1) $this->showRefereeIds = NULL;
-        	}
-        	if ($this->showRefereeIds) $this->personIds = $this->showRefereeIds; // Maybe
+          if ($data->show > 0) $this->showRefereeIds = array($data->show);
+          else {
+            $this->showRefereeIds = array_keys($refereePickList);
+            if (count($this->showRefereeIds) < 1) $this->showRefereeIds = NULL;
+          }
+          if ($this->showRefereeIds) $this->personIds = $this->showRefereeIds; // Maybe
         }
         
         // Everyone for admin
@@ -139,7 +144,18 @@ class SchedRefListView extends Proj_View
         	-1 => 'My Account Referees',
         ) + $refereePickList;
         
-        return $this->renderx();
+        $response = $this->context->response;
+        switch($data->outputType)
+        {
+          case 2:
+            ob_start();
+            include 'SchedRefList.csv.php';
+            $response->setBody(ob_get_clean());
+            $response->setFileHeaders('RefSchedule.csv');
+            return;
+        }
+        $response->setBody($this->renderx());
+        return;
     }
     function showEvent($event)
     {
