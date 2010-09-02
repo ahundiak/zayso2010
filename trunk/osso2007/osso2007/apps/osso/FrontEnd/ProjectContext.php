@@ -103,7 +103,8 @@ class ProjectContext extends Cerad_Context
   {
     parent::init();
 
-    $this->classNames['session'] = 'Osso2007_Session';
+    $this->classNames['session']  = 'Osso2007_Session';
+    $this->classNames['response'] = 'Cerad_Response';
     
     $params = $this->config;
     

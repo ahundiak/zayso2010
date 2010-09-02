@@ -38,6 +38,9 @@ class ApplicationContext extends ProjectContext
     // Dispatcher 
     $fc->setDispatcher(new Proj_Controller_Dispatcher());
 
+    // Response
+    $fc->setResponse($this->response);
+    
     // Not used but need one directory to avoid an error		
     $fc->setControllerDirectory($this->appAppDir . '/library/mvc');
         		
