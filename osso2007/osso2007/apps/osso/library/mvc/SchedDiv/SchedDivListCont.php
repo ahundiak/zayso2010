@@ -69,7 +69,9 @@ class SchedDivListCont extends Proj_Controller_Action
         	$session->schedDivListData = $data;
         }
 //Zend_Debug::dump($response); die();        
-        $response->setBody($view->process($datax));
+        //$response->setBody($view->process($datax));
+
+        $view->process($datax);
         
         return;
     }
@@ -99,7 +101,9 @@ class SchedDivListCont extends Proj_Controller_Action
         $data->yearId         = $request->getPost('sched_div_year_id');
         $data->unitId         = $request->getPost('sched_div_unit_id');
         $data->orderBy        = $request->getPost('sched_div_order_by');
-        $data->outputType     = $request->getPost('sched_div_output_type');
+
+        // $data->outputType     = $request->getPost('sched_div_output_type');
+
         $data->dateYear1      = $request->getPost('sched_div_date_year1');
         $data->dateYear2      = $request->getPost('sched_div_date_year2');
         $data->dateMonth1     = $request->getPost('sched_div_date_month1');
@@ -114,6 +118,11 @@ class SchedDivListCont extends Proj_Controller_Action
         $data->showHome       = $request->getPost('sched_div_show_home');
         $data->showAway       = $request->getPost('sched_div_show_away');
         $data->teamId         = $request->getPost('sched_div_team_id');
+
+        $data->outputType = 1;
+
+        $spreadsheet = $request->getPost('sched_div_submit_spreadsheet');
+        if ($spreadsheet) $data->outputType = 2;
         
         $session->schedDivListData = $data;
         

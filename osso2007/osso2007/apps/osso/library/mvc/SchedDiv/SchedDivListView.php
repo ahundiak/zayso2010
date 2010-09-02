@@ -3,17 +3,17 @@ class SchedDivListView extends Proj_View
 {
     function init()
     {
-        parent::init();
+      parent::init();
         
-        $this->tplTitle   = 'Division Schedules';
-        $this->tplContent = 'SchedDivListTpl';
+      $this->tplTitle   = 'Division Schedules';
+      $this->tplContent = 'SchedDivListTpl';
     }
     function process($data)
     {
-        $models = $this->context->models;
-        $user   = $this->context->user;
+      $models = $this->context->models;
+      $user   = $this->context->user;
         
-        $this->schedDivListData = $data;
+      $this->schedDivListData = $data;
                      
         $this->unitPickList         = $models->UnitModel        ->getPickList();
         $this->yearPickList         = $models->YearModel        ->getPickList();
@@ -36,13 +36,13 @@ class SchedDivListView extends Proj_View
         if ($user->isAdmin) {
             $this->outputTypePickList = array(
                 '1' => 'Web',
-                '2' => 'Excel One',
-                '3' => 'Excel Multiple',
+                '2' => 'Spreadsheet',
             );
         }
         else {
             $this->outputTypePickList = array(
                 '1' => 'Web',
+                '2' => 'Spreadsheet',
             );
         }
         /* -------------------
@@ -150,15 +150,20 @@ class SchedDivListView extends Proj_View
         $this->personIds = $user->personIds;
         
         // return $this->renderx();
-        
-        if ($data->outputType == 1) return $this->renderx();
-        
-	    ob_start();
-		include 'ExcelTpl.xml.php';
-		include 'SchedDivList.xml.php';
-		$content = ob_get_clean();
-		return $content;
-		
+
+        $response = $this->context->response;
+
+        if ($data->outputType == 1) 
+        {
+          $response->setBody($this->renderx());
+          return;
+        }
+	ob_start();
+        include 'SchedDivList.csv.php';
+        $content = ob_get_clean();
+        $response->setBody($content);
+        $response->setFileHeaders('DivSchedule.csv');
+        return;
     }
     function displayTeams($event)
     {
