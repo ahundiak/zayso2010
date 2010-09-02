@@ -58,7 +58,7 @@ class SchedDivListCont extends Proj_Controller_Action
             $data->ahowAge2 = -1;
         }
         /* Process */
-        $view = new SchedDivListView();
+        $view = new SchedDivListView($this->context);
         
         /* Always reset output type */
         $datax = clone $data;
