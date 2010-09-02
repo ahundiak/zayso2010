@@ -107,6 +107,7 @@
             <option value="0">All Teams</option>
             <?php echo $this->formOptions($this->schTeamPickList,$data->teamId); ?>" />
         </select>
+        Count: <?php echo count($this->events); ?>
     </td>
     <td style="text-align: right">
         <input type="submit" name="sched_div_submit_spreadsheet" value="Spreadsheet" />
