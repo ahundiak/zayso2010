@@ -8,19 +8,16 @@
  *
  * maybe setCSV
  */
-class Cerad_Response
+abstract class Zend_Controller_Response_Abstract {}
+
+class Cerad_Response extends Zend_Controller_Response_Abstract
 {
   protected $headers = array();
   protected $body    = array();
   protected $code    = 200;
 
-  public function isRedirect()
-  {
-    $code = $this->code;
-    if (($code >= 300) && ($code <= 307)) return true;
+  protected $fileName = NULL;
 
-    return false;
-  }
   public function setCode($code) { $this->code = $code; }
   
   public function setHeader($name,$value,$replace = false)
@@ -30,9 +27,18 @@ class Cerad_Response
   }
   public function setRedirect($url, $code = 302)
   {
+    // die('setRedirect ' . $url);
     $this->setHeader('Location', $url, true);
     $this->setCode($code);
     return $this;
+  }
+  public function isRedirect()
+  {
+    die('isRedirect');
+    $code = $this->code;
+    if (($code >= 300) && ($code <= 307)) return true;
+
+    return false;
   }
   public function setBody($content, $name = 'default')
   {
@@ -41,8 +47,9 @@ class Cerad_Response
   }
   public function __toString()
   {
+    die('__toString');
     ob_start();
-    $this->sendResponse();
+    $this->sendBody();
     return ob_get_clean();
   }
   public function sendResponse()
@@ -85,5 +92,64 @@ class Cerad_Response
     }
     if (!$codeSent) header('HTTP/1.1 ' . $code);
   }
+  public function setFileHeaders($fileName)
+  {
+    $this->fileName = $fileName;
+
+    $this->setHeader('Pragma', 'public');
+    $this->setHeader('Pragma', 'no-cache');
+
+    $this->setHeader('Expires','Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+  //$this->setHeader('Expires', '0');
+
+    $this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT');
+    $this->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');  // HTTP/1.1
+    $this->setHeader('Cache-Control', 'pre-check=0, post-check=0, max-age=0'); // HTTP/1.1
+
+    $this->setHeader('Content-Transfer-Encoding', 'none');
+
+    if (strstr($fileName,'.xml'))
+    {
+      $this->setHeader('Content-Type', 'text/xml;');
+      $this->setHeader('Content-Type', 'application/vnd.ms-excel;'); // This should work for IE & Opera
+      $this->setHeader('Content-Type', 'application/x-msexcel');     // This should work for the rest
+    }
+    if (strstr($fileName,'.csv'))
+    {
+      $this->setHeader('Content-Type', 'text/csv;');
+    }
+    $this->setHeader('Content-Disposition', 'attachment; filename="'. $fileName .'"');
+  }
+  // Needed for transition
+  public function appendBody($content, $name = null)
+    {
+    if ($name || $content)
+    {
+      printf("appendBody name: %s, content: %s\n",$name,$content);die();
+    }
+        if ((null === $name) || !is_string($name)) {
+            if (isset($this->body['default'])) {
+                $this->body['default'] .= (string) $content;
+            } else {
+                return $this->append('default', $content);
+            }
+        } elseif (isset($this->body[$name])) {
+            $this->body[$name] .= (string) $content;
+        } else {
+            return $this->append($name, $content);
+        }
+
+        return $this;
+    }
+    public function append($name, $content)
+    {
+        if (!is_string($name)) return $this;
+
+        if (isset($this->body[$name])) {
+            unset($this->body[$name]);
+        }
+        $this->body[$name] = (string) $content;
+        return $this;
+    }
 }
 ?>
