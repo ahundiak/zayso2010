@@ -23,6 +23,11 @@ class AccountEditView extends Proj_View
         $search->wantAccount = TRUE;
         
         $this->members = $models->MemberModel->search($search);
+
+        $directAccount = new Osso2007_Account_AccountDirect($this->context);
+        $result = $directAccount->getCerts(array('account_id' => $account->id));
+
+        $this->membersx = $result->rows;
         
         /* And render it  */      
         return $this->renderx();
