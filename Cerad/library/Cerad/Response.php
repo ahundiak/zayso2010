@@ -125,7 +125,7 @@ class Cerad_Response extends Zend_Controller_Response_Abstract
     {
     if ($name || $content)
     {
-      printf("appendBody name: %s, content: %s\n",$name,$content);die();
+      // printf("appendBody name: '%s', content: '%s'\n",$name,$content);die();
     }
         if ((null === $name) || !is_string($name)) {
             if (isset($this->body['default'])) {
