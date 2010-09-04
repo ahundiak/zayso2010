@@ -1,15 +1,17 @@
-<!DOCTYPE html 
-     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">            
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
 <?php 
     if ($this->tplRedirectDelay && $this->tplRedirectLink) {
     echo "<meta http-equiv=\"refresh\" content=\"{$this->tplRedirectDelay};url={$this->tplRedirectLink}\" />";
     }
 ?>        
 <title><?php echo $this->escape($this->tplTitle); ?></title>
+
+<base href="<?php echo $this->context->config['web_path'] . 'index.php'; ?>" />
+
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
 <link rel="stylesheet" type="text/css" href="<?php echo $this->file('css/layout.css'); ?>" />
 <link rel="stylesheet" type="text/css" href="<?php echo $this->file('css/osso.css');   ?>" />
