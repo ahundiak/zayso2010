@@ -14,7 +14,9 @@ class Proj_Controller_Url
         }
         $this->router = NULL;
         $this->routes = NULL;
-        $this->prefix = $prefix;
+        $this->prefix = $prefix . '/';
+
+        $this->prefix = '';
     }
     function linkCurrent($par1 = NULL, $par2 = NULL)
     {
@@ -26,7 +28,7 @@ class Proj_Controller_Url
         $module  = $route->getModule();
         $control = $route->getControl();
         
-        $path = $this->prefix . '/' . $module . '/' . $control; 
+        $path = $this->prefix . $module . '/' . $control; 
                 
         if ($par1 !== NULL) $path .= '/' . $par1;
         if ($par2 !== NULL) $path .= '/' . $par2;
@@ -42,7 +44,7 @@ class Proj_Controller_Url
         if (!$pos) return NULL;
         
         $module = substr($name,0,$pos);//die($module);
-        $path = $this->prefix . '/' . $module . '/' . substr($name,$pos+1);
+        $path = $this->prefix . $module . '/' . substr($name,$pos+1);
         if ($par1 !== NULL) $path .= '/' . $par1;
         if ($par2 !== NULL) $path .= '/' . $par2;
         return $path;
@@ -62,7 +64,7 @@ class Proj_Controller_Url
     }
     function file($path)
     {
-        return $this->prefix . '/' . $path;    
+        return $this->prefix . $path;    
     }    
 }
 ?>
