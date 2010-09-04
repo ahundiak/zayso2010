@@ -12,12 +12,23 @@ abstract class Zend_Controller_Response_Abstract {}
 
 class Cerad_Response extends Zend_Controller_Response_Abstract
 {
+  protected $context = null;
+  
   protected $headers = array();
   protected $body    = array();
   protected $code    = 200;
 
+  protected $prefix  = ''; // For redirected urls
+  
   protected $fileName = NULL;
 
+  public function __construct($context)
+  {
+    $this->context = $context;
+    $this->init();
+  }
+  protected function init() {}
+  
   public function setCode($code) { $this->code = $code; }
   
   public function setHeader($name,$value,$replace = false)
@@ -28,6 +39,12 @@ class Cerad_Response extends Zend_Controller_Response_Abstract
   public function setRedirect($url, $code = 302)
   {
     // die('setRedirect ' . $url);
+
+    // Should probably check for absolute
+    if ((substr($url,0,5) != 'http:') && (substr($url,0,6) != 'https:')&& (substr($url,0,1) != '/'))
+    {
+      $url = $this->prefix . $url;
+    }
     $this->setHeader('Location', $url, true);
     $this->setCode($code);
     return $this;
