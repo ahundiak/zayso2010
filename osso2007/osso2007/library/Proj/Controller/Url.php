@@ -16,7 +16,7 @@ class Proj_Controller_Url
         $this->routes = NULL;
         $this->prefix = $prefix . '/';
 
-        $this->prefix = '';
+        // $this->prefix = '';
     }
     function linkCurrent($par1 = NULL, $par2 = NULL)
     {
