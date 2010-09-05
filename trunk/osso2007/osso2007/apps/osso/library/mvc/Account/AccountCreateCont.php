@@ -128,7 +128,12 @@ class AccountCreateCont extends Proj_Controller_Action
         
         /* Login to it */
         $defaults = $this->context->config['user'];
-        $user = $models->UserModel->load($defaults,$memberId);
+
+      //$user = $models->UserModel->load($defaults,$memberId);
+
+        $repo = new Osso2007_UserRepo($this->context);
+        $user = $repo->load($defaults,$memberId);
+
         $this->context->session->user = $user;
         $response->setRedirect($this->link('account_index'));
                

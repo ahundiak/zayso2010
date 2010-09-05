@@ -179,15 +179,19 @@ class MemberEditCont extends Proj_Controller_Action
         /* Redirect */
         $response->setRedirect($this->link('member_edit',$id));
     }
-    // Only reload the current (primary) user
-    protected function loadUser($memberId)
-    {
-      if ($this->context->user->member->level != 1) return;
+  // Only reload the current (primary) user
+  protected function loadUser($memberId)
+  {
+    if ($this->context->user->member->level != 1) return;
 
-        $defaults = $this->context->config['user']; // ->user->toArray();
-        $user = $this->context->models->UserModel->load($defaults,$memberId);
-        $this->context->session->user = $user;
-    }
+    $defaults = $this->context->config['user']; // ->user->toArray();
+
+  //$user = $this->context->models->UserModel->load($defaults,$memberId);
+    $repo = new Osso2007_UserRepo($this->context);
+    $user = $repo->load($defaults,$memberId);
+
+    $this->context->session->user = $user;
+  }
     protected function processAysoid($memberId,$aysoid)
     {
       // See who is currently linked
