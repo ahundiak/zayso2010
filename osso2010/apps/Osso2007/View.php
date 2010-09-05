@@ -2,9 +2,10 @@
 
 class Osso2007_View
 {
-  protected $tplPage    = 'MasterPageTpl';
+  protected $tplPage    = 'Osso2007/Master/MasterPageTpl.html.php';
   protected $tplTitle   = 'Project View';
-  protected $tplContent = 'HomeIndexTpl';
+  
+  protected $tplContent = '';
     
   protected $tplRedirectDelay = 0;
   protected $tplRedirectLink  = NULL;
@@ -20,18 +21,16 @@ class Osso2007_View
 
   protected function render($tplName)
   {
-    $tplPath = Osso2007_Loader::getPath($tplName);
-    if (!$tplPath) $tplPath = $tplName;
+    //$tplPath = Osso2007_Loader::getPath($tplName);
+    //if (!$tplPath) $tplPath = $tplName;
 
     // Not sure if we should do this or not
     // $tplPath = str_replace('_','/',$tplPath);
     
     // All I really should need is an include surrounded by some buffer saving
     ob_start();
-    include $tplPath;
+    include $tplName;
     return ob_get_clean();
-        
-    // return parent::render($tplPath);
   }
   protected function renderPage()
   {
