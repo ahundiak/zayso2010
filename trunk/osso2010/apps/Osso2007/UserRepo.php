@@ -131,6 +131,8 @@ class Osso2007_UserRepo
   }
   function getRefereePickList($user)
   {
+    if (!$user->account) return array();
+    
     $accountId = $user->account->id;
     $sql = <<<EOT
 SELECT
