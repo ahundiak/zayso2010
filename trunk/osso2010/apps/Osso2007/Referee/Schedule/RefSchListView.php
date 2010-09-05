@@ -148,13 +148,11 @@ class Osso2007_Referee_Schedule_RefSchListView extends Osso2007_View
         switch($data->outputType)
         {
           case 2:
-            ob_start();
-            include 'SchedRefList.csv.php';
-            $response->setBody(ob_get_clean());
+            $response->setBody($this->render('Osso2007/Referee/Schedule/RefSchListTpl.csv.php'));
             $response->setFileHeaders('RefSchedule.csv');
             return;
         }
-        $response->setBody($this->renderx());
+        $response->setBody($this->renderPage());
         return;
     }
     function showEvent($event)

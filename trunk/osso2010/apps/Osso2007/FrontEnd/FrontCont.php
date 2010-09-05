@@ -99,7 +99,7 @@ class Osso2007_FrontEnd_FrontCont
 $configx = require $config['ws'] . 'osso2010/model/config/config_' . $config['web_host'] . '.php';
 $config  = array_merge($config,$configx);
 
-$configx = require $config['ws'] . 'osso2007/osso2007/apps/osso/config/config.php';
+$configx = require $config['ws'] . 'osso2010/apps/Osso2007/FrontEnd/config.php';
 $config  = array_merge($config,$configx);
 
 $configx = NULL;
