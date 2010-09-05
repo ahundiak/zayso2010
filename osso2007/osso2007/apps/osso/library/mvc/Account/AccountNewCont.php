@@ -1,4 +1,7 @@
 <?php
+/* -------------------------------------
+ * 05 Sep 2010 - Obsolete
+ */
 require_once 'models/AccountModel.php';
 require_once 'models/MemberModel.php';
 require_once 'models/UnitModel.php';

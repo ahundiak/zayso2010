@@ -54,8 +54,10 @@ class HomeLoginCont extends Proj_Controller_Action
     $defaults = $this->context->config['user']; // ->toArray();
         
     // if ($defaults['unit_id'] != 4) $defaults['season_type_id'] = 3;    
-    $user = $models->UserModel->load($defaults,$member->id);
-      
+    // $user = $models->UserModel->load($defaults,$member->id);
+    $repo = new Osso2007_UserRepo($this->context);
+    $user = $repo->load($defaults,$member->id);
+    
     $this->context->session->user = $user;
     
     $response->setRedirect($this->link('account_index'));   
