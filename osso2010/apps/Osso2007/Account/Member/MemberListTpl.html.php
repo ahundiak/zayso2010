@@ -2,7 +2,7 @@
 <tr><th colspan="5">List Account Members</th></tr>
 <tr>
     <td style="width:  50px;">Edit</td>
-    <td style="width: 100px;">Region</td>
+    <td style="width: 150px;">Region</td>
     <td style="width: 150px;">Member Name</td>
     <td style="width: 300px;">eAYSO Information</td>
     <td style="width:  75px;">Account</td>
@@ -31,9 +31,9 @@
       if ($nname) $name = $fname . ' (' . $nname . ') ' . $lname;
       else        $name = $fname . ' ' .$lname;
 
-      // $lines[] = $this->escape($name);
+      $lines[] = $this->escape($name);
 
-      $line = $name . ' ' . $item['eayso_aysoid'] . ' MY' . $item['eayso_reg_year'];
+      $line = ' MY' . $item['eayso_reg_year'] . ' ' . $item['eayso_aysoid'];
       $lines[] = $this->escape($line);
 
       foreach($item['certs'] as $cert)
