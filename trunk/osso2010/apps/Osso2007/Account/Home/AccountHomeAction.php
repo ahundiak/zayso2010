@@ -8,7 +8,7 @@ class Osso2007_Account_Home_AccountHomeAction extends Osso2007_Action
        
     // Must be authenticated
     $user = $this->context->user;
-    if (!$user->isAuth) return $response->setRedirect($this->link('home_index'));
+    if (!$user->isAuth) return $this->context->response->setRedirect($this->link('home_index'));
         
     // process
     if (isset($session->accountHomeData)) $data = $session->accountHomeData;
