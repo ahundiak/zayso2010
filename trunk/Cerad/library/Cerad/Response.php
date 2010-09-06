@@ -41,9 +41,9 @@ class Cerad_Response extends Zend_Controller_Response_Abstract
     // die('setRedirect ' . $url);
 
     // Should probably check for absolute
-    if ((substr($url,0,5) != 'http:') && (substr($url,0,6) != 'https:')&& (substr($url,0,1) != '/'))
+    if ((substr($url,0,5) != 'http:') && (substr($url,0,6) != 'https:'))
     {
-      $url = $this->prefix . $url;
+      $url = $this->context->request->webBase . $url;
     }
     $this->setHeader('Location', $url, true);
     $this->setCode($code);
