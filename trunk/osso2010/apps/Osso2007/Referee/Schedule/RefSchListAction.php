@@ -38,7 +38,7 @@ class Osso2007_Referee_Schedule_RefSchListAction extends Osso2007_Action
         
     return $data;    
   }
-  public function executeGet($args)
+  public function processGet($args)
   {
     // Cerad_Debug::dump($args); die('Ref Sched Action');
     
@@ -79,7 +79,7 @@ class Osso2007_Referee_Schedule_RefSchListAction extends Osso2007_Action
         
     return;
   }
-  public function executePost($args)
+  public function processPost($args)
   {            
     $session  = $this->context->session;
     $request  = $this->context->request;

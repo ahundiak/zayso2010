@@ -5,10 +5,18 @@
  */
 class Osso2007_Url
 {
+    protected $context;
+
     protected $prefix; // http://local.osso2010.org/osso2007
-    
+
+    protected $webPath; // '/osso2007/'
+    protected $webBase; // http://local.osso2010.org/osso2007/
+
     public function __construct($context)
     {
+      $this->context = $context;
+      $this->init();
+
       /* Web Directory for url generation */
       $this->appWebDir = dirname($_SERVER['SCRIPT_NAME']);
 
@@ -21,6 +29,12 @@ class Osso2007_Url
       $this->prefix = $this->appUrlAbs . '/';
 
       $this->prefix = '';
+    }
+    protected function init()
+    {
+      // Independent
+      $this->webPath = dirname($_SERVER['SCRIPT_NAME']) . '/';
+      $this->webBase = 'http://' . $_SERVER['SERVER_NAME'] . $this->webPath;
     }
     function link($name,$par1 = NULL, $par2 = NULL)
     {

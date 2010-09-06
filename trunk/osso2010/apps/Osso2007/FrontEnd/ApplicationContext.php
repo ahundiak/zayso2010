@@ -54,8 +54,8 @@ class ApplicationContext extends ProjectContext
     /* Create the user object */
     if ($session && isset($session->user))
     {
-      $user = $session->user;
-      $user->setContext($this);
+      $data = $session->user;
+      $user = new Osso2007_User($this,$data);
     }
     else
     {

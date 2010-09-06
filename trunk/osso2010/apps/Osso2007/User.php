@@ -8,10 +8,15 @@ class Osso2007_User
   protected $context = null;
   protected $data    = array();
 
-  public function __construct($context = null)
+  public function __construct($context = null, $data = null)
   {
     $this->context = $context;
 
+    if ($data)
+    {
+      $this->data = $data;
+      return;
+    }
     // Move to init
     $this->data['member']   = NULL;
     $this->data['account']  = NULL;
@@ -33,6 +38,8 @@ class Osso2007_User
   {
     switch($name)
     {
+      case 'data': return $this->data;
+
       // The user model
       case 'repo':
         $this->repo = new Osso2007_UserRepo($this->context);
