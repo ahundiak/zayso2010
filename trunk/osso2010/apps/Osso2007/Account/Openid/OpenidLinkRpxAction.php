@@ -61,10 +61,10 @@ class Osso2007_Account_Openid_OpenidLinkRpxAction extends Osso2007_Action
     else                          $email = '';
 
     $user = $this->context->user;
-    $accountId = $user->account->id;
-    $memberId  = $user->member->id;
-    $personId  = $user->person->id;
-
+    $accountId = $user->accountId;
+    $memberId  = $user->memberId;
+    $personId  = $user->personId;
+    
     if (!$memberId) return $this->redirect('account_openid_link');
 
     $data = array

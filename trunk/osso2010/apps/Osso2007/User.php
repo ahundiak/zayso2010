@@ -49,6 +49,21 @@ class Osso2007_User
       case 'certs':
         return $this->repo->getCerts($this);
 
+      case 'accountId':
+        $item = $this->account;
+        if ($item) return $item->id;
+        return 0;
+
+      case 'memberId':
+        $item = $this->member;
+        if ($item) return $item->id;
+        return 0;
+
+       case 'personId':
+        $item = $this->person;
+        if ($item) return $item->id;
+        return 0;
+
       /* Display Name */
       case 'name':
         $member = $this->member;
