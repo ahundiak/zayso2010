@@ -9,7 +9,7 @@
 ?>        
 <title><?php echo $this->escape($this->tplTitle); ?></title>
 
-<base href="<?php echo $this->context->config['web_path'] . 'index.php'; ?>" />
+<base href="<?php echo $this->context->request->webBase; ?>" />
 
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
