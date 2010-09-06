@@ -16,7 +16,7 @@
   </tr>
   <?php } ?>
   <tr>
-    <td colspan="2"></td>
+    <td colspan="2">Check to box next to the delete button to confirm delete</td>
     <td>
       <input type="checkbox" name="openid_confirm_delete" value="1" />
       <input type="submit"   name="openid_submit_delete"  value="Delete" />
