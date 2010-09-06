@@ -190,7 +190,7 @@ class MemberEditCont extends Proj_Controller_Action
     $repo = new Osso2007_UserRepo($this->context);
     $user = $repo->load($defaults,$memberId);
 
-    $this->context->session->user = $user;
+    $this->context->session->user = $user->data;
   }
     protected function processAysoid($memberId,$aysoid)
     {
