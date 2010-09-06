@@ -10,17 +10,22 @@ class Osso2007_Action
   }
   protected function init() {}
 
-  public function executeGet ($args) { return 'GET'; }
-  public function executePost($args) { return 'POST'; }
+  public function processGet ($args) { return 'GET'; }
+  public function processPost($args) { return 'POST'; }
 
-  public function execute($args)
+  public function process($args)
   {
     // Direct based on actions
     $method = $_SERVER['REQUEST_METHOD'];
-    if ($method == 'POST') return $this->executePost($args);
-    else                   return $this->executeGet ($args);
+    if ($method == 'POST') return $this->processPost($args);
+    else                   return $this->processGet ($args);
   }
-
+  protected function redirect($routeName,$par1 = NULL,$par2 = NULL)
+  {
+    $url = $this->context->url->link($routeName,$par1,$par2);
+    
+    $this->context->response->setRedirect($url);
+  }
   public function link($routeName = NULL,$par1 = NULL,$par2 = NULL)
   {
     return $this->context->url->link($routeName,$par1,$par2);

@@ -69,30 +69,52 @@ class Osso2007_FrontEnd_FrontCont
     }
     // Convert to array
     if (!is_array($args)) $args = explode('/',$args);
-    if (isset($this->map[$args[0]]))
-    {
-      if (isset($this->map[$args[0]][$args[1]]))
-      {
-        // Still need the modeling stuff
-        // $context = new Osso2007_Context($params);
-        
-        $contClassName = $this->map[$args[0]][$args[1]];
-        $cont = new $contClassName($context);
-        array_shift($args);
-        array_shift($args);
-        $cont->execute($args);
+    if (!$args[0]) $args[0] = 'index_home';
 
-        $response = $context->response;
-        $response->sendResponse();
-        exit();
+    $actionClassName = null;
+    $actionRoute = $args[0];
+    $argCount = 1;
+    if (isset($this->map[$actionRoute])) $actionClassName = $this->map[$actionRoute];
+    else
+    {
+      if (isset($args[1]))
+      {
+        $actionRoute .= '_' . $args[1];
+        if (isset($this->map[$actionRoute])) $actionClassName = $this->map[$actionRoute];
+        $argCount = 2;
       }
+    }
+    if ($actionClassName)
+    {
+      // Still need the modeling stuff
+      // $context = new Osso2007_Context($params);
+        
+      $action = new $actionClassName($context);
+
+      while($argCount--) array_shift($args);
+
+      $action->process($args);
+
+      $response = $context->response;
+      $response->sendResponse();
+      exit();
     }
 // Cerad_Debug::dump($args);
 
     $context->fc->dispatch();
   }
   protected $map = array(
-    'sched_ref' => array('list' => 'Osso2007_Referee_Schedule_RefSchListAction'),
+    'sched_ref_list' => 'Osso2007_Referee_Schedule_RefSchListAction',
+      
+    'home_index'     => 'Osso2007_Index_IndexHomeAction',
+    'index_home'     => 'Osso2007_Index_IndexHomeAction',
+
+    'index_login_rpx' => 'Osso2007_Index_IndexLoginRpxAction',
+      
+    'account_index'           => 'Osso2007_Account_Home_AccountHomeAction',
+    'account_home'            => 'Osso2007_Account_Home_AccountHomeAction',
+    'account_openid_link'     => 'Osso2007_Account_Openid_OpenidLinkAction',
+    'account_openid_link_rpx' => 'Osso2007_Account_Openid_OpenidLinkRpxAction',
   );
 }
 // Merge in additional config items
