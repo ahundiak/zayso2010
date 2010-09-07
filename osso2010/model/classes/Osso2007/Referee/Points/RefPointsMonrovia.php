@@ -78,13 +78,16 @@ EOT;
     ob_start();
     include 'Osso2007/Referee/Points/RefPointsMonroviaTpl.xml.php';
     $out = ob_get_clean();
-       
+
     // Save
-    if (!isset($params['xmlFileName'])) return $out;
-        
-    $file = fopen($params['xmlFileName'],'wt');
-    fwrite($file,$out);
-    fclose($file);
+    $response = $this->context->response;
+    $response->setBody($out);
+
+    if (isset($params['xmlFileName'])) $xmlFileName = $params['xmlFileName'];
+    else                               $xmlFileName = 'RefPointsMonrovia.xml';
+    $response->setFileHeaders($xmlFileName);
+
+    return true;
   }
 }
 ?>
