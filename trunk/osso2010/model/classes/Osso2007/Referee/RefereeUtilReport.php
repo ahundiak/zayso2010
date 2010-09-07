@@ -8,10 +8,7 @@ class Osso2007_Referee_RefereeUtilReport
     $this->context = $context;
     $this->init();
   }
-  protected function init()
-  {
-    
-  }
+  protected function init() {}
   public function getOutputFileName() { return 'RefUtil.csv'; }
 
   public function process($params)
@@ -86,12 +83,13 @@ class Osso2007_Referee_RefereeUtilReport
         $age,$my,
         $referee['cert_desc'],$referee['cert_sh_desc'],$cr,$ar
       );
-
-
       $lines[] = implode(',',$line);
-
     }
-    return implode("\n",$lines);
+    $response = $this->context->response;
+    $response->setBody(implode("\n",$lines));
+    $response->setFileHeaders('RefUtil.csv');
+
+    return true;
   }
 }
 

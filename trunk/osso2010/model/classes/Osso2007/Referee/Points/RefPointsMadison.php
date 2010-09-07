@@ -136,11 +136,14 @@ class Osso2007_Referee_Points_RefPointsMadison extends Osso2007_Referee_Points_R
     $out = ob_get_clean();
 
     // Save
-    if (!isset($params['xmlFileName'])) return $out;
+    $response = $this->context->response;
+    $response->setBody($out);
 
-    $file = fopen($params['xmlFileName'],'wt');
-    fwrite($file,$out);
-    fclose($file);
+    if (isset($params['xmlFileName'])) $xmlFileName = $params['xmlFileName'];
+    else                               $xmlFileName = 'RefPointsMadison.xml';
+    $response->setFileHeaders($xmlFileName);
+
+    return true;
   }
 }
 ?>
