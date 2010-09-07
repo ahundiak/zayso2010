@@ -115,6 +115,9 @@ class Osso2007_FrontEnd_FrontCont
     'account_home'            => 'Osso2007_Account_Home_AccountHomeAction',
     'account_openid_link'     => 'Osso2007_Account_Openid_OpenidLinkAction',
     'account_openid_link_rpx' => 'Osso2007_Account_Openid_OpenidLinkRpxAction',
+
+    'report_proc' => 'Osso2007_Report_ReportProcAction',
+
   );
 }
 // Merge in additional config items

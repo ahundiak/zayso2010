@@ -10,14 +10,18 @@ class Osso2007_View
   protected $tplRedirectDelay = 0;
   protected $tplRedirectLink  = NULL;
 
-  protected $context = null;
-        
+  protected $context;
+  protected $format;
+
   public function __construct($context = null)
   {
     $this->context = $context;
     $this->init();
   }
-  protected function init() {}
+  protected function init()
+  {
+    $this->format = new Cerad_Format_HTML($this->context);
+  }
 
   protected function render($tplName)
   {
@@ -47,11 +51,7 @@ class Osso2007_View
   /* This stuff really should be replaced with html object */
   public function formatDate($date)
   {
-    if (strlen($date) < 8) return $date;
-        
-    $stamp = mktime(0,0,0,substr($date,4,2),substr($date,6,2),substr($date,0,4));
-        
-    return date('D M d',$stamp);
+    return $this->format->date($date);
   }
   public function formatTime($time)
   {
@@ -134,9 +134,6 @@ class Osso2007_View
   {
     return $this->context->url->file($path);
   }
-  public function escape($content)
-  {
-    return htmlspecialchars($content);
-  }
+  public function escape($content) { return $this->format->escape($content); }
 }
 ?>
