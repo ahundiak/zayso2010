@@ -42,6 +42,7 @@ EOT;
     }
     $rows[] = array('reg_year_id' => 10, 'season_type_id' => 1, 'schedule_type_id' => 3, 'unit_id' => 27);
     $rows[] = array('reg_year_id' => 10, 'season_type_id' => 1, 'schedule_type_id' => 4, 'unit_id' => 27);
+    $rows[] = array('reg_year_id' => 11, 'season_type_id' => 2, 'schedule_type_id' => 1, 'unit_id' =>  4);
     $items = array();
 
     $lines   = array();
