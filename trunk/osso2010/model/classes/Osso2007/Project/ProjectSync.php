@@ -80,6 +80,7 @@ EOT;
       }
       $unitDesc = $org['desc_pick'];
       $unitKey  = $org['keyx'];
+      $unitId   = $org['unit_id'];
 
       $regions[] = (int)substr($unitKey,1,4);
 
@@ -123,10 +124,18 @@ EOT;
 
       if (!$line)
       {
+        // Status
+        $status = 0;
         if (($year == 2010) && ($seasonTypeId == 1)) $status = 1;
-        else                                         $status = 0;
+
+        // Admin organization
+        $adminOrgId = 1;
+        if ($schTypeId    == 2) $adminOrgId = $unitId; // RT
+        if ($seasonTypeId == 2) $adminOrgId = $unitId; // Winter
+        $sportTypeId = 1;
+
         $id++;
-        $line = array($id,$status,1,$year,$dateBeg,$dateEnd,$row['season_type_id'],$row['schedule_type_id'],1,$desc);
+        $line = array($id,$status,$sportTypeId,$year,$dateBeg,$dateEnd,$row['season_type_id'],$row['schedule_type_id'],$adminOrgId,$desc);
       }
       // Always write regional tournaments
       if ($schTypeId == 2)

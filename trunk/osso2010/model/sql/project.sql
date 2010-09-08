@@ -27,8 +27,8 @@ CREATE TABLE         project
   date_end    char( 8) default '',
 
   PRIMARY KEY  (id),
-  UNIQUE KEY    i0 (cal_year,season_type_id,type_id,sport_type_id),
-  KEY           i1 (status)
+  UNIQUE  KEY   i0 (cal_year,season_type_id,type_id,admin_org_id,sport_type_id),
+          KEY   i1 (status)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ===============================================
