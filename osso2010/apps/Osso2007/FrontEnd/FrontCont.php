@@ -117,6 +117,7 @@ class Osso2007_FrontEnd_FrontCont
     'account_openid_link_rpx' => 'Osso2007_Account_Openid_OpenidLinkRpxAction',
 
     'report_proc' => 'Osso2007_Report_ReportProcAction',
+    'import_proc' => 'Osso2007_Import_ImportProcAction',
 
   );
 }
