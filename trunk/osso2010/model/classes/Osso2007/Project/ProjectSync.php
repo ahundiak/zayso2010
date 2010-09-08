@@ -45,7 +45,7 @@ EOT;
     $items = array();
 
     $lines   = array();
-    $lines[] = 'id,status,sport,year,date_beg,date_end,season,type,admin,description,regions';
+    $lines[] = 'id,status,sport,year,date_beg,date_end,season,type,admin,description,regions,project_table';
     $line    = null;
     $regions = null;
     $id      = 0;
@@ -118,7 +118,7 @@ EOT;
       {
         $type = 'Regular Season ' . $unitDesc; // Winter
       }
-      $desc = sprintf('%d %s %s',$year,$season,$type);
+      $desc = sprintf('CY%d %s %s',$year,$season,$type);
 
       if (!$line)
       {
