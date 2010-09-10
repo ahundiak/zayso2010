@@ -111,7 +111,14 @@ class Osso2007_User
                 
       case 'personIds': 
          return $this->repo->getPersonIds($this);
-             
+
+      case 'projectId':
+        if (!isset($this->data['defaults']['project_id']))
+        {
+          $this->data['defaults']['project_id'] = 28;
+        }
+        return $this->data['defaults']['project_id'];
+        
       /* Defaults */
       case 'yearId':
       case 'regYearId':
