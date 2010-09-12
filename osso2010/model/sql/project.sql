@@ -11,15 +11,19 @@
 
 -- ===============================================
 -- Projects
+-- Maybe want auto add of teams flag?  Or possibly done with project type class
 DROP TABLE IF EXISTS project;
 CREATE TABLE         project
 (
   id             int(10) unsigned NOT NULL auto_increment,
   type_id        int(10) unsigned default 0,
+  event_num      int(10) unsigned default 0,
+  mem_year       int(10) unsigned default 0,
   cal_year       int(10) unsigned default 0,
   season_type_id int(10) unsigned default 0,
   admin_org_id   int(10) unsigned default 0,
   sport_type_id  int(10) unsigned default 0,
+  sort1          int(10) unsigned default 0,
   status         int(10) unsigned default 1,
 
   desc1       char(80) default '',
@@ -40,6 +44,7 @@ CREATE TABLE         project_org
   project_id int(10) unsigned default 0,
   org_id     int(10) unsigned default 0,
   type_id    int(10) unsigned default 0,
+  sort1      int(10) unsigned default 0,
   status     int(10) unsigned default 1,
   desc1     char(80) default '',
 
@@ -51,18 +56,20 @@ CREATE TABLE         project_org
 -- ===============================================
 -- Project Teams
 DROP TABLE IF EXISTS project_team;
-CREATE TABLE         project_team
+DROP TABLE IF EXISTS project_org_team;
+CREATE TABLE         project_org_team
 (
-  id         int(10) unsigned NOT NULL auto_increment,
-  project_id int(10) unsigned default 0,
-  team_id    int(10) unsigned default 0,
-  type_id    int(10) unsigned default 0,
-  status     int(10) unsigned default 1,
-  desc1     char(80) default '',
+  id             int(10) unsigned NOT NULL auto_increment,
+  project_org_id int(10) unsigned default 0,
+  team_id        int(10) unsigned default 0,
+  type_id        int(10) unsigned default 0,
+  sort1          int(10) unsigned default 0,
+  status         int(10) unsigned default 1,
+  desc1         char(80) default '',
 
   PRIMARY KEY  (id),
-  UNIQUE KEY    i0 (project_id,team_id),
-  UNIQUE KEY    i1 (team_id,project_id)
+  UNIQUE KEY    i0 (project_org_id,team_id),
+  UNIQUE KEY    i1 (team_id,project_org_id)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ===============================================
@@ -71,15 +78,15 @@ DROP TABLE IF EXISTS `project_type`;
 CREATE TABLE         `project_type`
 (
   id       int (10) unsigned NOT NULL auto_increment,
-  keyx     char(10) NOT NULL,
+  key1     char(10) NOT NULL,
   desc1    char(80) default '',
   class1    int(10) unsigned default 0,
   status    int(10) unsigned default 1,
   PRIMARY KEY  (`id`),
-  UNIQUE  KEY `i1` (`keyx`)
+  UNIQUE  KEY `i1` (`key1`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-INSERT INTO project_type (id,keyx,desc1,class1,status) VALUES
+INSERT INTO project_type (id,key1,desc1,class1,status) VALUES
 (1,'RS','Regular Season',        1,1),
 (2,'RT','AYSO Region Tournament',2,1),
 (3,'AT','AYSO Area Tournament',  2,1),
