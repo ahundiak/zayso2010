@@ -100,6 +100,7 @@ class EventEditView extends Proj_View
         $event->id             = 0;
         $event->unitId         = $data->unitId;
         $event->yearId         = $data->yearId;
+        $event->projectId      = $data->projectId;
         
         $event->fieldId        = 0;
         
