@@ -133,7 +133,7 @@
         else      $odd = TRUE;
         
         $eventContent = $event->eventTypeDesc . ' ' . $event->id;
-        if ($event->num) $eventContent .= '-' . $event->num;
+//        if ($event->num) $eventContent .= '-' . $event->num;
         
         $eventDesc = $this->href($this->escape($eventContent),'event_edit',$event->id);;
 
