@@ -21,11 +21,8 @@
         <select name="sched_div_order_by">
             <?php echo $this->formOptions($this->orderByPickList,$data->orderBy); ?>" />
         </select>
-        <?php /*
         Output
-        <select name="sched_div_output_type">
-            <?php echo $this->formOptions($this->outputTypePickList,1); ?>" />
-        </select> */ ?>
+        <input type="submit" name="sched_div_submit_spreadsheet" value="Spreadsheet" />
     </td>
 </tr>
 <tr><td colspan="2"></td></tr>
@@ -110,7 +107,6 @@
         Count: <?php echo count($this->events); ?>
     </td>
     <td style="text-align: right">
-        <input type="submit" name="sched_div_submit_spreadsheet" value="Spreadsheet" />
         <input type="submit" name="sched_div_submit_search" value="Search" />
     </td>
 </tr>
