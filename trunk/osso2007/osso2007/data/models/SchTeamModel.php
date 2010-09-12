@@ -3,6 +3,7 @@ class SchTeamMap extends BaseMap
 {
     protected $map = array(
         'id'             => 'sch_team_id',
+        'projectId'      => 'project_id',
         'phyTeamId'      => 'phy_team_id',
         'yearId'         => 'reg_year_id',
         'seasonTypeId'   => 'season_type_id',

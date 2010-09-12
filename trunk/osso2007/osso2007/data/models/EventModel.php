@@ -4,6 +4,7 @@ class EventMap extends BaseMap
     protected $map = array(
         'id'             => 'event_id',
     	'num'            => 'event_num',
+        'projectId'      => 'project_id',
         'yearId'         => 'reg_year_id',
         'seasonTypeId'   => 'season_type_id',
         'scheduleTypeId' => 'schedule_type_id',
@@ -14,7 +15,7 @@ class EventMap extends BaseMap
         'date'           => 'event_date',
         'time'           => 'event_time',
         'duration'       => 'event_duration',
-    	'point1'		 => 'point1',
+    	'point1'         => 'point1',
         'point2'         => 'point2',
     );
     protected $mapx = array(
@@ -105,6 +106,7 @@ class EventModel extends BaseModel
         
         if ($search->wantx) $this->joinWantx($select,$alias);
                              
+        if ($search->projectId)      $select->where("{$alias}.project_id       IN (?)",$search->projectId);
         if ($search->yearId)         $select->where("{$alias}.reg_year_id      IN (?)",$search->yearId);
         if ($search->eventTypeId)    $select->where("{$alias}.event_type_id    IN (?)",$search->eventTypeId);
         if ($search->seasonTypeId)   $select->where("{$alias}.season_type_id   IN (?)",$search->seasonTypeId);
