@@ -1,9 +1,10 @@
 <?php $event = $this->event; ?>
 
 <form method="post" action="<?php echo $this->link('event_edit'); ?>"> 
-<input type="hidden" name="event_id"     value="<?php echo $event->id; ?>" />
-<input type="hidden" name="event_num"    value="<?php echo $event->num; ?>" />
-<input type="hidden" name="event_point1" value="<?php echo $event->point1; ?>" />
+<input type="hidden" name="event_id"         value="<?php echo $event->id; ?>" />
+<input type="hidden" name="event_num"        value="<?php echo $event->num; ?>" />
+<input type="hidden" name="event_project_id" value="<?php echo $event->projectId; ?>" />
+<input type="hidden" name="event_point1"     value="<?php echo $event->point1; ?>" />
 <table border="1" style="width: 775px">
 <tr>
     <th colspan="2">

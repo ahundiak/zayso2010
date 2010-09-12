@@ -24,7 +24,8 @@ class EventEditCont extends Proj_Controller_Action
             $data->unitId       = $user->unitId; /* For new fields */
             $data->yearId       = $user->yearId;
             $data->seasonTypeId = $user->seasonTypeId;
-            
+            $data->projectId    = $user->projectId;
+
             $data->point1 = EventPoint1Model::TYPE_YES;
             $data->point2 = EventPoint2Model::TYPE_NYP;
             
@@ -41,6 +42,8 @@ class EventEditCont extends Proj_Controller_Action
             
             $session->eventEditData = $data;   
         }
+        if (!$data->projectId) $data->projectId = 28;
+        
         $id = $request->getParam('id');
         if ($id >= 0) {
             if (isset($data->event)) {
@@ -111,7 +114,8 @@ class EventEditCont extends Proj_Controller_Action
         
         /* Event is easy, form will not allow empty data except for field and thats okay for now */
         $event = $models->EventModel->newItem();
-        
+
+        $event->projectId       = $eventx->projectId;
         $event->unitId          = $eventx->unitId;
         $event->yearId          = $eventx->yearId;
         $event->eventTypeId     = $eventx->eventTypeId;
@@ -367,6 +371,7 @@ class EventEditCont extends Proj_Controller_Action
         
         $event->id              = $request->getPost('event_id');
         $event->num             = $request->getPost('event_num');
+        $event->projectId       = $request->getPost('event_project_id');
         
         $event->unitId          = $request->getPost('event_unit_id');
         $event->yearId          = $request->getPost('event_year_id');
