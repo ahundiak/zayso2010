@@ -6,8 +6,10 @@ class Osso2007_Project_ProjectImportReader extends Cerad_Reader_CSV
   (
     'id'          => 'id',
     'status'      => 'status',
+    'event_num'   => 'event_num',
     'sport'       => 'sport_type_id',
-    'year'        => 'cal_year',
+    'mem_year'    => 'mem_year',
+    'cal_year'    => 'cal_year',
     'season'      => 'season_type_id',
     'type'        => 'type_id',
     'admin'       => 'admin_org_id',
