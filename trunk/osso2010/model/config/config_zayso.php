@@ -16,6 +16,7 @@ return array
       'dbtype'   => 'mysql',
       'adapter'  => 'pdo_mysql'
     ),
+    'db'         => array ('dbname' => 'osso2007'),
     'dbMain'     => array ('dbname' => 'osso2007'),
     'dbOsso2007' => array ('dbname' => 'osso2007'),
     'dbOsso'     => array ('dbname' => 'osso'),
