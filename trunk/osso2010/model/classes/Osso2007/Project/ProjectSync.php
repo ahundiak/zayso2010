@@ -46,7 +46,7 @@ EOT;
     $items = array();
 
     $lines   = array();
-    $lines[] = 'id,status,sport,year,date_beg,date_end,season,type,admin,description,regions,project_table';
+    $lines[] = 'id,status,event_num,sport,mem_year,cal_year,date_beg,date_end,season,type,admin,description,regions,project_table';
     $line    = null;
     $regions = null;
     $id      = 0;
@@ -69,7 +69,6 @@ EOT;
           $regions = null;
         }
       }
-      $year = $row['reg_year_id'] + 2000;
 
       $unitId = $row['unit_id'];
       if (isset($orgs[$unitId])) $org = $orgs[$unitId];
@@ -84,29 +83,36 @@ EOT;
 
       $regions[] = (int)substr($unitKey,1,4);
 
+      $calYear = $row['reg_year_id'] + 2000;
+
       $seasonTypeId = $row['season_type_id'];
       switch($seasonTypeId)
       {
         case 1:
           $season = 'Fall';
-          $dateBeg = $year . '0801';
-          $dateEnd = $year . '1130';
+          $dateBeg = $calYear . '0801';
+          $dateEnd = $calYear . '1130';
+          $memYear = $calYear;
           break;
         case 2: 
           $season = 'Winter';
-          $dateBeg = $year . '0101';
-          $dateEnd = $year . '0331';
+          $dateBeg = $calYear . '0101';
+          $dateEnd = $calYear . '0331';
+          $memYear = $calYear - 1;
           break;
         case 3: 
           $season = 'Spring';
-          $dateBeg = $year . '0201';
-          $dateEnd = $year . '0731';
-          break;
+          $dateBeg = $calYear . '0201';
+          $dateEnd = $calYear . '0731';
+          $memYear = $calYear - 1;
+         break;
         case 4: 
           $season = 'Summer';
-          $dateBeg = $year . '0601';
-          $dateEnd = $year . '0731';
+          $dateBeg = $calYear . '0601';
+          $dateEnd = $calYear . '0731';
+          $memYear = $calYear - 1;
           break;
+        default: die('Invalid season type ' . $seasonTypeId);
       }
       $schTypeId = $row['schedule_type_id'];
       switch($schTypeId)
@@ -120,22 +126,28 @@ EOT;
       {
         $type = 'Regular Season ' . $unitDesc; // Winter
       }
-      $desc = sprintf('CY%d %s %s',$year,$season,$type);
+      $desc = sprintf('CY%d %s %s',$calYear,$season,$type);
 
       if (!$line)
       {
         // Status
-        $status = 0;
-        if (($year == 2010) && ($seasonTypeId == 1)) $status = 1;
-
+        $status = 3;
+        if (($calYear == 2010) && ($seasonTypeId == 1)) $status = 1;
+        if ($calYear > 2010) $status = 2;
+        
         // Admin organization
         $adminOrgId = 1;
         if ($schTypeId    == 2) $adminOrgId = $unitId; // RT
         if ($seasonTypeId == 2) $adminOrgId = $unitId; // Winter
         $sportTypeId = 1;
+        $eventNum = 1000;
 
         $id++;
-        $line = array($id,$status,$sportTypeId,$year,$dateBeg,$dateEnd,$row['season_type_id'],$row['schedule_type_id'],$adminOrgId,$desc);
+        $line = array
+        (
+          $id,$status,$eventNum,$sportTypeId,$memYear,$calYear,$dateBeg,$dateEnd,
+          $seasonTypeId,$schTypeId,$adminOrgId,$desc
+        );
       }
       // Always write regional tournaments
       if ($schTypeId == 2)
