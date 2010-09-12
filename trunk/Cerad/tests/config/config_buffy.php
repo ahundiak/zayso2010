@@ -16,6 +16,7 @@ return array
       'dbtype'   => 'mysql',
       'adapter'  => 'pdo_mysql'
     ),
+    'db'         => array ('dbname' => 'cerad_test'),
     'dbTest'     => array ('dbname' => 'cerad_test'),
     'dbSession'  => array ('dbname' => 'session'),
     'dbOsso'     => array ('dbname' => 'osso'),

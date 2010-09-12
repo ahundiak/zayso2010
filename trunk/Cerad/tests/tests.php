@@ -13,16 +13,17 @@ class Tests extends Cerad_Tests_Driver
     'BasicTest',
     'Cerad_Direct_BaseTests',
     'Cerad_ArrayObjectTests',
+    'XMLTests',
   );
   function init()
   {
     parent::init();
-    $this->testsClassNames = array('XMLTests');
+    $this->testsClassNames = array('Cerad_Repo_RepoTests');
   }
 }
 // Needs to be at the bottom
-$import = new Tests($config);
+$tests = new Tests($config);
 unset($config);
-$import->execute();
+$tests->execute();
 
 ?>
