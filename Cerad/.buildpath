@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<buildpath>
+	<buildpathentry kind="src" path="library/Cerad"/>
+	<buildpathentry kind="src" path="library/ExtJS/Direct"/>
+	<buildpathentry kind="src" path="library/ExtJS/FC"/>
+	<buildpathentry kind="src" path="tests"/>
+	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
+</buildpath>
