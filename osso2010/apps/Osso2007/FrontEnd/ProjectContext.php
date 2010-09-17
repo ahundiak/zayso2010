@@ -18,7 +18,7 @@ class ProjectLoader
   }
 }
 
-class ProjectContext extends Osso2007_Context
+class ProjectContext extends Osso2007_FrontEnd_Context
 {	
   static $instances = array();
     

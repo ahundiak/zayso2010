@@ -37,14 +37,14 @@ class ApplicationContext extends ProjectContext
     
     // Url generator */
     // $this->url = new Proj_Controller_Url($router,$this->appUrlAbs);
-    $this->url = new Osso2007_Url($this);
+    // $this->url = new Osso2007_Url($this);
         
     // Dispatcher 
     $fc->setDispatcher(new Proj_Controller_Dispatcher());
 
     // Response
     $fc->setResponse($this->response);
-    
+
     // Not used but need one directory to avoid an error		
     $fc->setControllerDirectory($this->appAppDir . '/library/mvc');
         		
