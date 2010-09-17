@@ -1,9 +1,22 @@
 <?php
-class Osso2007_Event_EventTests extends Osso_Base_BaseTests
+class Osso2007_Event_EventTests extends Cerad_Tests_Base
 {
   protected $directClassName = 'Osso2007_Event_EventDirect';
 
-  public function test_getDistinctIds()
+  public function test_getRowsForProjectNum()
+  {
+    $repoEvent = $this->context->repos->event;
+    
+    $pid = 28;
+    $num = 1320;
+
+    $rows = $repoEvent->getRowsForProjectNum($pid,$num);
+
+    $this->assertEquals(1,count($rows));
+    $row = array_shift($rows);
+    $this->assertEquals(2,count($row['teams']));
+  }
+  public function sest_getDistinctIds()
   {
     $direct = $this->direct;
 
