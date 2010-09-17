@@ -13,6 +13,7 @@ class Cerad_Repo_RepoResult
     (
       'success' => true,
       'message' => null,
+      'errors'  => null,
       'rows'    => array(),
       'id'      => 0,
     );
@@ -25,6 +26,7 @@ class Cerad_Repo_RepoResult
       case 'rows':
       case 'success':
       case 'message':
+      case 'errors':
         return $this->data[$name];
 
       case 'count': 
@@ -45,6 +47,11 @@ class Cerad_Repo_RepoResult
       case 'success':
       case 'message':
         $this->data[$name] = $value;
+        return;
+
+      case 'error':
+        $this->data['errors'][] = $value;
+        $this->data['success'] = false;
         return;
     }
     die('Cerad_Repo_RepoResult __set ' . $name);
