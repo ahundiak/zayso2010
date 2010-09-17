@@ -20,7 +20,7 @@ class ProcessImport
     require_once 'Cerad/Loader.php';
     Cerad_Loader::registerAutoload();
 
-    $this->context = new Cerad_Context($this->config);
+    $this->context = new Osso2007_Context($this->config);
   }
   protected function importEayso($datax)
   {
@@ -102,48 +102,23 @@ class ProcessImport
   //$this->importEayso($datax);
   //$this->importPersons($datax);
   //$this->importTeams2007($datax);
-    $this->importSchedules2007($datax);
+  //$this->importSchedules2007($datax);
   //$this->importMasterAreaSchedule($datax);
 
+//    $import = new Osso2007_Team_Sch_SchTeamImport($this->context);
+//    $import->process($datax . 'Schedules/RT1.csv');
+//    echo $import->getResultMessage() . "\n";
+
+    $params = array
+    (
+        'input_file_name' => $datax . 'Schedules/RT1.csv',
+        'project_id'      => 31,
+    );
+    $import = new Osso2007_Schedule_Import_SchImport($this->context);
+    $import->process($params);
+    echo $import->getResultMessage() . "\n";
+
     return;
-    
-    // Sites
-    $import = new Osso2007_Site_SiteImport($this->context);
-    $import->process($datax . 'osso/Site2007x.csv');
-    echo $import->getResultMessage() . "\n";
-
-    $import = new Osso2007_Site_FieldImport($this->context);
-    $import->process($datax . 'osso/Field2007x.csv');
-    echo $import->getResultMessage() . "\n";
-
-    return;
-    
-    // eayso2007 units
-    
-    //$path  = $datax . 'osso/';
-
-  // Psrt of the transfer process
-  //$import = new Org_Import_Unit($this->context);
-  //$import->process($path . 'Unitx.csv');
-  //echo $import->getResultMessage() . "\n";
-
-  //$import = new Org_Import_Region($this->context);
-  //$import->process($path . 'Regionx.csv');
-  //echo $import->getResultMessage() . "\n";
-
-    // Master organization update ***
-    /*
-    $import = new Org_Import_Org($this->context);
-    $import->process($datax . 'osso/Orgx.csv');
-    echo $import->getResultMessage() . "\n";
-    */
-
-    // Accounts
-    $import = new Osso2007_Account_AccountImport($this->context);
-    $import->process($datax . 'osso/Account2007x.csv');
-    echo $import->getResultMessage() . "\n";
-
-
   }
 }
 $config = require '../config/config.php';

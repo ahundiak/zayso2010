@@ -1,8 +1,4 @@
 <?php
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 error_reporting(E_ALL);
 
 class Tests
@@ -25,9 +21,9 @@ class Tests
     require_once 'Cerad/Loader.php';
     Cerad_Loader::registerAutoload();
 
-    $this->context = new Cerad_Context($this->config);
+    $this->context = new Osso2007_Context($this->config);
 
-    $GLOBALS['context_tests'] = $this->context;
+    $GLOBALS['tests_context'] = $this->context;
     
   }
   public function execute()
@@ -43,13 +39,20 @@ class Tests
   //$suite->addTestSuite('Osso2007_Account_AccountTests');
   //$suite->addTestSuite('Osso2007_Person_PersonTests');
   //$suite->addTestSuite('Osso2007_Referee_RefereeTests');
+
     $suite->addTestSuite('Osso2007_Event_EventTests');
+
+    $suite->addTestSuite('Osso2007_Div_DivTests');
+    $suite->addTestSuite('Osso2007_Org_OrgTests');
+
+    $suite->addTestSuite('Osso2007_Team_Phy_PhyTeamTests');
+    $suite->addTestSuite('Osso2007_Team_Sch_SchTeamTests');
 
     PHPUnit_TextUI_TestRunner::run($suite, array());
 
   }
 }
 $config = require '../config/config.php';
-$import = new Tests($config);
-$import->execute();
+$tests = new Tests($config);
+$tests->execute();
 ?>
