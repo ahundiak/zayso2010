@@ -20,31 +20,17 @@ class Sync
     require_once 'Cerad/Loader.php';
     Cerad_Loader::registerAutoload();
 
-    $this->context = new Cerad_Context($this->config);
+    $this->context = new Osso2007_Context($this->config);
   }
   public function execute()
   {
-    // Sync Person Table
-    // $process = new Osso2007_Person_PersonSync($this->context);
-/*
-    $process = new Osso_Project_ProjectSync($this->context);
-    $process->process();
-    echo $process->getResultMessage();
-    */
-    $xmlFileName = $this->config['datax'] . 'MonroviaPoints.xml';
-    
-    $process = new Osso2007_Referee_Points_RefPointsMonrovia($this->context);
-    $process->process(array('xmlFileName' => $xmlFileName));
-    echo $process->getResultMessage() . "\n";
-
-    $xmlFileName = $this->config['datax'] . 'MadisonPoints.xml';
-
-    $process = new Osso2007_Referee_Points_RefPointsMadison($this->context);
-    $process->process(array('xmlFileName' => $xmlFileName));
+    // Sync Project Stuff
+    $process = new Osso2007_Project_ProjectSync2($this->context);
+    $process->process(array());
     echo $process->getResultMessage() . "\n";
   }
 }
 $config = require '../config/config.php';
-$process = new Sync($config);
-$process->execute();
+$sync = new Sync($config);
+$sync->execute();
 ?>
