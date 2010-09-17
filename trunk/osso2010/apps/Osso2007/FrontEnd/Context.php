@@ -1,5 +1,5 @@
 <?php
-class Osso2007_Context extends Cerad_Context
+class Osso2007_FrontEnd_Context extends Cerad_Context
 {
   protected $classNames = array
   (
@@ -11,6 +11,9 @@ class Osso2007_Context extends Cerad_Context
 
     'url'      => 'Osso2007_Url',
     'html'     => 'Cerad_HTML',
+
+    'repos'    => 'Osso2007_Repos',
+    'tables'   => 'Osso2007_Tables',
   );
 }
 
