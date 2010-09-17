@@ -127,8 +127,22 @@ class Cerad_Repo_RepoTable
   }
   public function query($cols = null,$wheres = null)
   {
-    if (is_array($cols) && count($cols) > 0) $cols = implode(',',$cols);
-    else                                     $cols = '*';
+    if ($cols == null) $list = '*';
+    else               $list = $cols;
+    if (is_array($cols) && count($cols) > 0)
+    {
+      $list = NULL;
+      foreach($cols as $key => $name)
+      {
+        if (is_int($key)) $namex = $name;
+        else              $namex = "$key AS $name";
+
+        if ($list) $list .= ',' . $namex;
+        else       $list  =       $namex;
+      }
+      $cols = $list;
+    }
+    $cols = $list;
 
     $search = array();
     if (is_array($wheres) && count($wheres) > 0)
