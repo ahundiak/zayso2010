@@ -35,3 +35,7 @@ ADD COLUMN class_id int(10) unsigned default 1
 AFTER event_type_id;
 
 UPDATE event SET class_id = 1;
+
+ALTER TABLE event_team
+ADD COLUMN type_index int(10) unsigned default 0
+AFTER event_team_type_id;
