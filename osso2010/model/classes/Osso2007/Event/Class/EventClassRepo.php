@@ -17,7 +17,8 @@ class Osso2007_Event_Class_EventClassRepo
     2 => 'PP - Pool Play',
     3 => 'QF - Quarter Final',
     4 => 'SF - Semi Final',
-    5 => 'F  - Final'
+    5 => 'F  - Final',
+    6 => 'CM - Consolation Match',
   );
   protected $classKeys = array
   (
@@ -25,7 +26,8 @@ class Osso2007_Event_Class_EventClassRepo
     2 => 'PP',
     3 => 'QF',
     4 => 'SF',
-    5 => 'F'
+    5 => 'F',
+    6 => 'CM',
   );
   protected $classIds = array
   (
@@ -34,6 +36,7 @@ class Osso2007_Event_Class_EventClassRepo
     'QF' => 3,
     'SF' => 4,
     'F'  => 5,
+    'CM' => 6,
   );
   function getPickList() { return $this->classPickList; }
     
