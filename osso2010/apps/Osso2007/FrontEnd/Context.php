@@ -13,7 +13,7 @@ class Osso2007_FrontEnd_Context extends Cerad_Context
     'html'     => 'Cerad_HTML',
 
     'repos'    => 'Osso2007_Repos',
-    'tables'   => 'Osso2007_Tables',
+    'tablesx'  => 'Osso2007_Tables',
   );
 }
 
