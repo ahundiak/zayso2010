@@ -63,7 +63,7 @@ class Osso2007_Team_Sch_SchTeamImport extends Cerad_Import
 
     // Need the project ids
     $pidTeams    = 28;
-    $pidSchedule = 31;
+    $pidSchedule = 32;
     $rowSchedule = $this->repoProject->getRowForId($pidSchedule);
 
     // Lookup physical team if have one
@@ -71,7 +71,7 @@ class Osso2007_Team_Sch_SchTeamImport extends Cerad_Import
     if ($data['phy_team'])
     {
       $phyTeamKey = $data['phy_team'];
-      $phyTeamId = $this->repoPhyTeam->getIdForProjectKey($pidSchedule,$phyTeamKey);
+      $phyTeamId = $this->repoPhyTeam->getIdForProjectKey($pidTeams,$phyTeamKey);
     }
     // Have a schedule team already?
     $schTeamId = $this->repoSchTeam->getIdForProjectKey($pidSchedule,$schTeamKey);
