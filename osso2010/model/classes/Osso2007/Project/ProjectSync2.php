@@ -40,7 +40,7 @@ class Osso2007_Project_ProjectSync2
       $repoProject->addOrg ($pid,$orgId);
       $repoProject->addTeam($pid,$teamId);
     }
-    printf("RS %d %d\n",$pid,count($teams));
+    // printf("RS %d %d\n",$pid,count($teams));
   }
   protected function processRT($project)
   {
@@ -66,7 +66,7 @@ class Osso2007_Project_ProjectSync2
       $teamId = $teamId['id'];
       $repoProject->addTeam($pid,$teamId);
     }
-    printf("RT %d %d %d\n",$pid,$orgId,count($teamIds));
+   //printf("RT %d %d %d\n",$pid,$orgId,count($teamIds));
   }
   public function process($params = array())
   {
