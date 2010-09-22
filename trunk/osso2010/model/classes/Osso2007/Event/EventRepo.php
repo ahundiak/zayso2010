@@ -14,9 +14,9 @@ class Osso2007_Event_EventRepo
   {
     switch($name)
     {
-      case 'tableEvent'      : return $this->tableEvent       = $this->context->tables->event;
-      case 'tableEventTeam'  : return $this->tableEventTeam   = $this->context->tables->eventTeam;
-      case 'tableEventPerson': return $this->tableEventPerson = $this->context->tables->eventPerson;
+      case 'tableEvent'      : return $this->tableEvent       = $this->context->tablesx->event;
+      case 'tableEventTeam'  : return $this->tableEventTeam   = $this->context->tablesx->eventTeam;
+      case 'tableEventPerson': return $this->tableEventPerson = $this->context->tablesx->eventPerson;
 
       case 'repoEventClass' : return $this->repoEventClass = $this->context->repos->eventClass;
 
@@ -199,6 +199,8 @@ EOT;
   }
   protected function update($event)
   {
+    Cerad_Debug::dump($event);
+    die('update');
     return $this->result;
   }
   protected function insert($event)
@@ -244,9 +246,6 @@ EOT;
     $awayTeam['team_id']  = $schTeamId;
     $awayTeam['event_team_type_id'] = 2;
     $this->tableEventTeam->insert($awayTeam);
-
-    Cerad_Debug::dump($event);
-    die('Inserted ' . $id);
   }
 }
 ?>
