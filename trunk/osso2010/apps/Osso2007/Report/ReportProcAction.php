@@ -21,17 +21,10 @@ class Osso2007_Report_ReportProcAction extends Osso2007_Action
       $data['posted']         = false;
 
       $session->reportProcData = $data;
-    }
-         
+    }         
     $view = new Osso2007_Report_ReportProcView($this->context);
     $view->process($data);
 
-    // Wonder if this is better handled in the view?
-    if ($data['posted'])
-    {
-      $data['posted'] = false;
-      // $session->reportProcData = $data;
-    }
     return;
   }
   public function processPost()
