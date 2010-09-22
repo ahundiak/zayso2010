@@ -135,6 +135,12 @@
 <table border="1">
 <tr><th colspan="6">Referee Schedule</th></tr>
 <tr>
+  <td colspan="6">
+    Event Prefix: RS=Regular Season, RT=Regional Tournament, AT=Area Tournament, ST=State Tournament<br />
+    Event Suffix: RG=Regular Game, PP=Pool Play, QF=Quarter Final, SF=Semi Final, F=Final, CM=Consolation Match
+  </td>
+</tr>
+<tr>
     <td>Event</td>
     <td>Date</td>
     <td>Time</td>
@@ -143,36 +149,48 @@
     <td style="width: 250px;">Referees</td>
 </tr>
 <?php 
-    $odd = FALSE;
-    foreach($this->events as $event) 
+  $odd = FALSE;
+  foreach($this->events as $event) 
+  {
+    if ($this->showEvent($event))
     {
-    	if ($this->showEvent($event)) {
-    	 
-        	if ($odd) $odd = FALSE;
-        	else      $odd = TRUE;
-        	
-        	$eventContent = $event->eventTypeDesc . ' ' . $event->id;
-        	if ($event->num) $eventContent .= '-' . $event->num;
-        
-        	$eventDesc = $this->href($this->escape($eventContent),'event_edit',$event->id);;
+      if ($odd) $odd = FALSE;
+      else      $odd = TRUE;
 
-        	if ($event->scheduleTypeId == 2) $eventDesc .= '<br />REG TOURN';
-        	if ($event->scheduleTypeId == 3) $eventDesc .= '<br />AREA TOURN';
-        	
-        	//$eventDesc = $this->href($this->escape($event->eventTypeDesc . ' ' . $event->id),'event_edit',$event->id);;
-        	//if ($event->scheduleTypeId != 1) $eventDesc .= '<br />TOURNAMENT';
+      switch($event->scheduleTypeId)
+      {
+        case  1: $st = 'RS'; break;
+        case  2: $st = 'RT'; break;
+        case  3: $st = 'AT'; break;
+        case  4: $st = 'ST'; break;
+        case  5: $st = 'SG'; break;
+        default: $st = '??';
+      }
+      switch($event->classId)
+      {
+        case  1: $ci = 'RG'; break;
+        case  2: $ci = 'PP'; break;
+        case  3: $ci = 'QF'; break;
+        case  4: $ci = 'SF'; break;
+        case  5: $ci = 'F' ; break;
+        case  6: $ci = 'CM'; break;
+        default: $ci = '??';
+      }
+      $eventContent = sprintf('%s-%d-%s',$st,$event->num,$ci);
+
+      $eventDesc = $this->href($this->escape($eventContent),'event_edit',$event->id);;
  ?>
 <tr>
-    <td><?php echo $eventDesc; ?></td>
-    <td><?php echo $this->formatDate($event->date);  ?></td>
-    <td><?php echo $this->formatTime($event->time);  ?></td>
-    <td><?php echo $this->escape($event->fieldDesc); ?></td>
-    <td>
-        <?php echo $this->displayTeams($event); ?>
-    </td>
-    <td>
-        <?php echo $this->displayPersons($event); ?>
-    </td>
+  <td><?php echo $eventDesc; ?></td>
+  <td><?php echo $this->formatDate($event->date);  ?></td>
+  <td><?php echo $this->formatTime($event->time);  ?></td>
+  <td><?php echo $this->escape($event->fieldDesc); ?></td>
+  <td>
+    <?php echo $this->displayTeams($event); ?>
+  </td>
+  <td>
+    <?php echo $this->displayPersons($event); ?>
+  </td>
 </tr>
 <?php }} ?>
 </table>
