@@ -9,6 +9,7 @@ class EventMap extends BaseMap
         'seasonTypeId'   => 'season_type_id',
         'scheduleTypeId' => 'schedule_type_id',
         'eventTypeId'    => 'event_type_id',
+        'classId'        => 'class_id',
         'unitId'         => 'unit_id',
         'status'         => 'status',
         'fieldId'        => 'field_id',
