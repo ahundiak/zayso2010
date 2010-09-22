@@ -17,7 +17,10 @@ class Osso2007_Project_ProjectRepo
       case 'tableProject':     return $this->tableProject     = new Cerad_Repo_RepoTable($this->context->db,'osso2007.project');
       case 'tableProjectItem': return $this->tableProjectItem = new Cerad_Repo_RepoTable($this->context->db,'osso2007.project_item');
     }
-  }
+  } 
+  /* -----------------------------------------------------------
+   * Active project stuff
+   */
   public function getActiveProjects($params = array())
   {
     $sql = <<<EOT
@@ -27,6 +30,76 @@ FROM osso2007.project AS project
 WHERE project.status = 1;
 EOT;
     $rows = $this->context->db->fetchRows($sql);
+    return $rows;
+  }
+  public function getActiveProjectsPickList($params = array())
+  {
+    $sql = <<<EOT
+SELECT
+  id,desc1
+FROM osso2007.project AS project
+WHERE project.status = 1;
+EOT;
+    $rows = $this->context->db->fetchRows($sql);
+    $list = array();
+    foreach($rows as $row)
+    {
+      $list[$row['id']] = $row['desc1'];
+    }
+    return $list;
+  }
+  /* ------------------------------------------------------
+   * List of teams for
+   * active projects or selected projects
+   * selected regions
+   * selected divisions
+   *
+   * Going to have an issue once have multiple teams
+   * Really only for the regular season, this needs to be physical teams only
+   */
+  public function getTeams($params = array())
+  {
+    $sql = <<<EOT
+SELECT
+  sch_team.sch_team_id      AS sch_team_id,
+  phy_team.phy_team_id      AS phy_team_id,
+  phy_team.division_seq_num AS team_seq_num,
+  phy_team_org.keyx         AS team_org_key,
+  phy_team_div.desc_pick    AS team_div_key,
+  coach_head.fname          AS coach_head_fname,
+  coach_head.nname          AS coach_head_nname,
+  coach_head.lname          AS coach_head_lname
+
+FROM      osso2007.sch_team AS sch_team
+LEFT JOIN osso2007.project  AS project      ON project.id = sch_team.project_id
+LEFT JOIN osso2007.phy_team AS phy_team     ON phy_team.phy_team_id = sch_team.phy_team_id
+LEFT JOIN osso2007.unit     AS phy_team_org ON phy_team_org.unit_id = phy_team.unit_id
+LEFT JOIN osso2007.division AS phy_team_div ON phy_team_div.division_id = phy_team.division_id
+
+LEFT JOIN osso2007.phy_team_person AS coach_headx ON
+  coach_headx.phy_team_id = phy_team.phy_team_id AND
+  coach_headx.vol_type_id = 16
+
+LEFT JOIN osso2007.person AS coach_head ON coach_headx.person_id = coach_head.person_id
+
+WHERE
+  project.status = 1 AND
+  phy_team_org.unit_id IN (:org_id) AND
+  phy_team.division_id IN (:div_id)
+
+ORDER BY
+  phy_team_org.keyx,
+  phy_team_div.sortx,
+  phy_team.division_seq_num
+;
+EOT;
+    $search = array
+    (
+        'div_id' => $params['div_id'],
+        'org_id' => $params['org_id'],
+    );
+    $rows = $this->context->db->fetchRows($sql,$search);
+    //Cerad_Debug::dump($rows); die();
     return $rows;
   }
   /* ----------------------------------------------------------
