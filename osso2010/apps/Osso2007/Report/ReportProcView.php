@@ -21,7 +21,7 @@ class Osso2007_Report_ReportProcView extends Osso2007_View
       case 5: $reportClassName = 'Osso2007_Referee_Points_RefPointsMonrovia';   break;
       case 6: $reportClassName = 'Osso2007_Referee_Points_RefPointsMadison';    break;
 
-      case 7: $reportClassName = 'Osso2007_Project_ProjectSync';    break;
+      case 7: $reportClassName = 'Osso2007_Project_ProjectSync2';    break;
     }
     if (!$reportClassName) return FALSE;
 
