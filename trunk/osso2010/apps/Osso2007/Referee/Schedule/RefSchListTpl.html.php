@@ -178,7 +178,7 @@
       }
       if ($event->num) $eventNum = $event->num;
       else             $eventNum = $event->id;
-      $eventContent = sprintf('%s-%d-%s',$st,$event->num,$ci);
+      $eventContent = sprintf('%s-%d-%s',$st,$eventNum,$ci);
 
       $eventDesc = $this->href($this->escape($eventContent),'event_edit',$event->id);;
  ?>
