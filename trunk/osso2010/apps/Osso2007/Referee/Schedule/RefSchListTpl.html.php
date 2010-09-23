@@ -174,7 +174,7 @@
         case  4: $ci = 'SF'; break;
         case  5: $ci = 'F' ; break;
         case  6: $ci = 'CM'; break;
-        default: $ci = '??';
+        default: $ci = 'RG';
       }
       $eventContent = sprintf('%s-%d-%s',$st,$event->num,$ci);
 
