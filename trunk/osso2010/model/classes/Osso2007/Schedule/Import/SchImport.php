@@ -69,7 +69,7 @@ if (!$row) die('Missing Team ' . $team);
     $homeTeam = $this->processTeam($homeTeam);
     $awayTeam = $this->processTeam($awayTeam);
 
-    $eventClassId = $this->repoEvent->getClassIdForKey($data['type']);
+    $eventClassId = $this->repoMisc->getEventClassIdForKey($data['type']);
     if (!$eventClassId) $eventClassId = 1;
 
     $eventNum = (int)$data['number'];
