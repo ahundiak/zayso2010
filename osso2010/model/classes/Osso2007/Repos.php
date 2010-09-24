@@ -10,9 +10,13 @@ class Osso2007_Repos extends Cerad_Services
 
     'org'     => 'Osso2007_Org_OrgRepo',
     'div'     => 'Osso2007_Div_DivRepo',
-
+    'misc'    => 'Osso2007_Misc_MiscRepo',
+    'site'    => 'Osso2007_Site_SiteRepo',
+      
     'event'      => 'Osso2007_Event_EventRepo',
     'eventClass' => 'Osso2007_Event_Class_EventClassRepo',
+
+    'schedule'   => 'Osso2007_Schedule_SchRepo',
   );
 }
 ?>
