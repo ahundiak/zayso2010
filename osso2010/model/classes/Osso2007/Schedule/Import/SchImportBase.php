@@ -35,6 +35,7 @@ class Osso2007_Schedule_Import_SchImportBase extends Cerad_Import
 
     $this->repoEventClass = $this->context->repos->eventClass;
     $this->repoEvent      = $this->context->repos->event;
+    $this->repoMisc       = $this->context->repos->misc;
 
   }
 
