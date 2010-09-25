@@ -16,7 +16,8 @@ class Osso2007_Report_ReportProcView extends Osso2007_View
       case 10: $reportClassName = 'Osso2007_Report_ReportTeamSummaryCSV'; break;
       case 20: $reportClassName = 'Osso2007_Report_ReportTeamKeysCSV';    break;
 
-      case 4: $reportClassName = 'Osso2007_Referee_RefereeUtilReport';   break;
+      case 3: $reportClassName = 'Osso2007_Team_Coach_CoachContactReport';   break;
+      case 4: $reportClassName = 'Osso2007_Referee_RefereeUtilReport';       break;
 
       case 5: $reportClassName = 'Osso2007_Referee_Points_RefPointsMonrovia';   break;
       case 6: $reportClassName = 'Osso2007_Referee_Points_RefPointsMadison';    break;
