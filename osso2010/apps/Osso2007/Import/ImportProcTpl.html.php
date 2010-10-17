@@ -23,11 +23,19 @@
   </td>
 </tr>
 <tr>
+  <td>Project</td>
+  <td>
+    <select name="import_project_id">
+      <?php echo $this->formOptions($this->projectPickList,$data['project_id']); ?>" />
+    </select>
+  </td>
+</tr>
+<tr>
   <td>Region</td>
   <td>
-    <select name="import_unit_id">
+    <select name="import_org_id">
       <option value="0">All Regions</option>
-      <?php echo $this->formOptions($this->unitPickList,$data['unit_id']); ?>" />
+      <?php echo $this->formOptions($this->orgPickList,$data['org_id']); ?>" />
     </select>
   </td>
 </tr>
