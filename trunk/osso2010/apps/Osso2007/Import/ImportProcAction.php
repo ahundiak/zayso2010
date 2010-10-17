@@ -16,9 +16,10 @@ class Osso2007_Import_ImportProcAction extends Osso2007_FrontEnd_Action
 
       $data = array
       (
-        'unit_id'         => $user->unitId,
+        'org_id'          => $user->unitId,
         'year_id'         => $user->yearId,
         'season_type_id'  => $user->seasonTypeId,
+        'project_id'      => $user->projectId,
         'file_name'       => '',
       );
       $session->importProcData = $data;
@@ -75,10 +76,12 @@ class Osso2007_Import_ImportProcAction extends Osso2007_FrontEnd_Action
     // Pull data
     $data = array
     (
-      'unit_id'        => $request->getPostInt('import_unit_id'),
-      'year_id'        => $request->getPostInt('import_year_id'),
-      'season_type_id' => $request->getPostInt('import_season_type_id'),
-      'file_name'     => $_FILES['import_file']['name'],
+      'org_id'          => $request->getPostInt('import_org_id'),
+      'year_id'         => $request->getPostInt('import_year_id'),
+      'project_id'      => $request->getPostInt('import_project_id'),
+      'season_type_id'  => $request->getPostInt('import_season_type_id'),
+      'file_name'       => $_FILES['import_file']['name'],
+      'input_file_name' => $_FILES['import_file']['tmp_name'],
     );
     // $session->importProcData = $data;
 
@@ -95,7 +98,7 @@ class Osso2007_Import_ImportProcAction extends Osso2007_FrontEnd_Action
     }
 
     $import = new $importClassName($this->context);
-    $import->process($tmpName);
+    $import->process($data);
 
     $data['message'] = $import->getResultMessage();
 

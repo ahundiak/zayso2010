@@ -18,13 +18,17 @@ class Osso2007_Import_ImportProcView extends Osso2007_FrontEnd_View
   }
   function process($data)
   {
-    $models = $this->context->models;
     $this->importProcData = $data;
 
-    $this->unitPickList       = $models->UnitModel      ->getPickList();
-    $this->yearPickList       = $models->YearModel      ->getPickList();
-    $this->seasonTypePickList = $models->SeasonTypeModel->getPickList();
-        
+    $repoOrg     = $this->context->repos->org;
+    $repoMisc    = $this->context->repos->misc;
+    $repoProject = $this->context->repos->project;
+
+    $this->orgPickList        = $repoOrg->getPickList();
+    $this->yearPickList       = $repoMisc->getYearPickList();
+    $this->seasonTypePickList = $repoMisc->getSeasonTypePickList();
+    $this->projectPickList    = $repoProject->getActiveProjectsPickList();
+    
     /* Render it  */
     $this->renderPage();
 
