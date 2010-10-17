@@ -89,6 +89,7 @@ if (!$row) die('Missing Team ' . $team);
     printf("Project: %s\n",$this->projectRow['desc1']);
     die();
   }
+  // Needs to be a parameter array
   public function process($inputFileName)
   {
     // Need project info
