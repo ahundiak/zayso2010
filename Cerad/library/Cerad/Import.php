@@ -33,8 +33,11 @@ class Cerad_Import
   protected function init()
   {
   }
-  public function process($innFileName)
+  public function process($params)
   {
+    if (is_array($params)) $innFileName = $params['input_file_name'];
+    else                   $innFileName = $params;
+
     $this->innFileName = $innFileName;
     
     if (!$this->reader)
