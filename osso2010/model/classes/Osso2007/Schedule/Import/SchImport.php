@@ -90,12 +90,10 @@ if (!$row) die('Missing Team ' . $team);
     die();
   }
   // Needs to be a parameter array
-  public function process($inputFileName)
+  public function process($params)
   {
     // Need project info
-    //$pid = $params['project_id'];
-    //if (!$pid) return;
-    $pid = 32;
+    $pid = $params['project_id'];
 
     $row = $this->context->repos->project->getRowForId($pid);
     if (!$row) return;
@@ -103,7 +101,7 @@ if (!$row) die('Missing Team ' . $team);
     $this->projectId  = $pid;
     $this->projectRow = $row;
 
-    parent::process($inputFileName);
+    parent::process($params);
   }
 }
 ?>
