@@ -9,19 +9,6 @@ class Osso2007_Team_Sch_SchTeamImport extends Cerad_Import
     parent::init();
     $this->db = $this->context->db;
 
-    $this->directRegMainEayso = new Eayso_Reg_Main_RegMainDirect($this->context);
-
-    $this->directPerson  = new Osso2007_Person_PersonDirect($this->context);
-
-    $this->directOrg     = new Osso_Org_OrgDirect($this->context);
-
-    $this->directVol     = new Osso2007_Vol_VolDirect($this->context);
-
-    $this->directPhyTeam = new Osso2007_Team_Phy_PhyTeamDirect($this->context);
-    $this->directSchTeam = new Osso2007_Team_Sch_SchTeamDirect($this->context);
-
-    $this->directPhyTeamPerson = new Osso2007_Team_Phy_PhyTeamPersonDirect($this->context);
-
     $repos = $this->context->repos;
 
     $this->repoDiv = $repos->div;
@@ -63,8 +50,8 @@ class Osso2007_Team_Sch_SchTeamImport extends Cerad_Import
 
     // Need the project ids
     $pidTeams    = 28;
-    $pidSchedule = 32;
-    $rowSchedule = $this->repoProject->getRowForId($pidSchedule);
+    $pidSchedule = $this->projectId;
+    $rowSchedule = $this->projectRow;
 
     // Lookup physical team if have one
     $phyTeamId = 0;
@@ -102,6 +89,20 @@ class Osso2007_Team_Sch_SchTeamImport extends Cerad_Import
       }
     }
     return;
+  }
+    // Needs to be a parameter array
+  public function process($params)
+  {
+    // Need project info
+    $pid = $params['project_id'];
+
+    $row = $this->repoProject->getRowForId($pid);
+    if (!$row) return;
+
+    $this->projectId  = $pid;
+    $this->projectRow = $row;
+
+    parent::process($params);
   }
 }
 ?>
