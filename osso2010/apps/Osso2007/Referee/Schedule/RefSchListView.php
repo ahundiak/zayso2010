@@ -67,7 +67,7 @@ class Osso2007_Referee_Schedule_RefSchListView extends Osso2007_View
             $search->dateGE = $date2;
             $search->dateLE = $date1;
         }
-        $search->unitId = $data->unitId;
+        // $search->unitId = $data->unitId;
         
         if ($data->showAge1 == -1) $showAge1 = $data->showAge2;
         else                       $showAge1 = $data->showAge1;
@@ -81,10 +81,10 @@ class Osso2007_Referee_Schedule_RefSchListView extends Osso2007_View
             $data->showGirl,
             $data->showCoed
         );
-        $search->eventTeamTypeId = $models->EventTeamTypeModel->getEventTeamTypeIds(
-            $data->showHome,
-            $data->showAway
-        );
+//        $search->eventTeamTypeId = $models->EventTeamTypeModel->getEventTeamTypeIds(
+//            $data->showHome,
+//            $data->showAway
+//        );
         $search->point2 = $data->point2;
 
         $searchx = array
@@ -175,14 +175,14 @@ class Osso2007_Referee_Schedule_RefSchListView extends Osso2007_View
         $personIds = $this->personIds;
         foreach($teams as $team) 
         {
-        	if ($event->scheduleTypeId != 3) $desc = $this->escape($team->schedDesc);
-        	else
-        	{
-        		$desc = $team->divisionDesc . ' ' . $team->schTeam->desc;
-        		//Zend_Debug::dump($team); die();
-        	}     
-             
-            // $desc = $this->escape($team->schedDesc);
+
+          if ($event->scheduleTypeId != 3) $desc = $this->escape($team->schedDesc);
+          else
+          {
+            $desc = $team->schTeam->desc . ' ' . $team->phyTeam->unitKey . ' ' . $team->coachHead->lastName;
+            //Zend_Debug::dump($team); die();
+          }
+        //$desc = $this->escape($team->schedDesc);
             
             if (in_array($team->coachHead->id,$personIds)) {
                 $desc = '<span style="color: green">' . $desc . '</span>';
