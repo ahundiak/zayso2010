@@ -61,7 +61,7 @@ class SchedDivListView extends Proj_View
             $search->dateGE = $date2;
             $search->dateLE = $date1;
         }
-        $search->unitId = $data->unitId;
+        // $search->unitId = $data->unitId;
         
         if ($data->showAge1 == -1) $showAge1 = $data->showAge2;
         else                       $showAge1 = $data->showAge1;
@@ -75,10 +75,10 @@ class SchedDivListView extends Proj_View
             $data->showGirl,
             $data->showCoed
         );
-        $search->eventTeamTypeId = $models->EventTeamTypeModel->getEventTeamTypeIds(
-            $data->showHome,
-            $data->showAway
-        );
+        //$search->eventTeamTypeId = $models->EventTeamTypeModel->getEventTeamTypeIds(
+        //    $data->showHome,
+        //    $data->showAway
+        //);
         
         // Need to check if team is in the division and unit
         if ($data->teamId) {
@@ -177,6 +177,7 @@ class SchedDivListView extends Proj_View
         	{
         		$desc = $team->divisionDesc . ' ' . $team->schTeam->desc;
         		//Zend_Debug::dump($team); die();
+            $desc = $team->schTeam->desc . ' ' . $team->phyTeam->unitKey . ' ' . $team->coachHead->lastName;
         	}     
             if (isset($personIds[$team->coachHead->id])) {
                 $desc = '<span style="color: green">' . $desc . '</span>';
