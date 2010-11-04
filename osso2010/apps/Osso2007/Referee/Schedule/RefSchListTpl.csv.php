@@ -6,7 +6,7 @@ Game,Date,Time,Field,Home Team, Away Team,Center,AR1,AR2,4th
     $date = substr($datex,4,2) . '/' . substr($datex,6,2) . '/' . substr($datex,0,4);
     
     $line = array();
-    $line[] = $event->id;
+    $line[] = $event->num;
     $line[] = $date;
     $line[] = $event->time;
     $line[] = $event->fieldDesc;
