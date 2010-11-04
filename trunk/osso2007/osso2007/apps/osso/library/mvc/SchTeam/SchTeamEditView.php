@@ -26,7 +26,7 @@ class SchTeamEditView extends Proj_View
         /* Physical team pick list */
         $search = new SearchData();
         $search->yearId       = $schTeam->yearId;
-        $search->unitId       = $schTeam->unitId;
+      //$search->unitId       = $schTeam->unitId;
         $search->divisionId   = $schTeam->divisionId;
         $search->seasonTypeId = $schTeam->seasonTypeId;
         
