@@ -15,6 +15,11 @@ mysql> SET PASSWORD FOR 'impd'@'localhost' = PASSWORD('impd894');
 
 mysql> FLUSH PRIVILEGES;
 
+mysql> CREATE DATABASE session;
+mysql> GRANT ALL ON    session.* TO "impd"@"localhost";
+mysql> CREATE DATABASE eayso;
+mysql> GRANT ALL ON    eayso.* TO "impd"@"localhost";
+
 ================================
 For backups
 
