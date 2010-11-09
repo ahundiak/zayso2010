@@ -58,10 +58,10 @@ class UnitModel extends BaseModel
         $item = $this->findCached($id);
         return $item->descPick;
     }
-    public function getKey($db,$id)
+    public function getKey($id)
     {
         $item = $this->findCached($id);
-        return $item->keyx;
+        return $item->key;
     }
     public function search($search)
     {
