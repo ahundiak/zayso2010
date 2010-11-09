@@ -103,9 +103,13 @@ class Osso2007_FrontEnd_FrontCont
 
     $context->fc->dispatch();
   }
-  protected $map = array(
+  protected $map = array
+  (
     'sched_ref_list' => 'Osso2007_Referee_Schedule_RefSchListAction',
-      
+//  'sched_div_list' => 'Osso2007_Div_Schedule_DivSchListAction',
+
+//  'event_edit'     => 'Osso2007_Event_EventEditAction',
+
     'home_index'     => 'Osso2007_Index_IndexHomeAction',
     'index_home'     => 'Osso2007_Index_IndexHomeAction',
 
@@ -118,7 +122,6 @@ class Osso2007_FrontEnd_FrontCont
 
     'report_proc' => 'Osso2007_Report_ReportProcAction',
     'import_proc' => 'Osso2007_Import_ImportProcAction',
-
   );
 }
 // Merge in additional config items
