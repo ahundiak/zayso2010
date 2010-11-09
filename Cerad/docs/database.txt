@@ -19,6 +19,8 @@ mysql> CREATE DATABASE session;
 mysql> GRANT ALL ON    session.* TO "impd"@"localhost";
 mysql> CREATE DATABASE eayso;
 mysql> GRANT ALL ON    eayso.* TO "impd"@"localhost";
+mysql> CREATE DATABASE osso;
+mysql> GRANT ALL ON    osso.* TO "impd"@"localhost";
 
 ================================
 For backups
@@ -32,3 +34,7 @@ To reset a root password, stop mysqld then restart with --skip-grant-tables
 I just edited the mysql.server file.
 
 --skip-grant-tables
+
+=================================
+Views don't back up and transfer well.  Avoid them but if used then search for
+CREATE ALG at the end of the dump file and change '%' <> 'localhost'
