@@ -68,6 +68,7 @@ class Arbiter_HISL_SchReportProcess
     'Union Chapel'   => array('paid' => 210, 'teams' => array('Union Chapel','Union Chapel 2')),
     'Valley'         => array('paid' => 150, 'teams' => array('Valley')),
     'Whitesburg'     => array('paid' =>   0, 'teams' => array('Whitesburg 1','Whitesburg 2','Whitesburg 3','Whitesburg 4')),
+    'TBD'            => array('paid' =>   0, 'teams' => array('TBD 5/6-1','TBD 5/6-2','TBD 5/6-3','TBD 5/6-4','TBD 7/8-1','TBD 7/8-2',))
   );
   function processTeam($date,$teamKey)
   {
@@ -94,6 +95,8 @@ class Arbiter_HISL_SchReportProcess
     // Only high school
     //Cerad_Debug::dump($row); die();
     if ($row->sport != 'HISL') return;
+    if ($row->game < 5027) return; // Regular seasonb only
+    
 
     $this->gameCount++;
 
@@ -136,9 +139,11 @@ class Arbiter_HISL_SchReportProcess
       $gamesPlayed = 0;
       foreach($teams as $team)
       {
-        $gamesTotal  += $this->teams[$team]['total'];
-        $gamesPlayed += $this->teams[$team]['played'];
-
+        if (isset($this->teams[$team]))
+        {
+          $gamesTotal  += $this->teams[$team]['total'];
+          $gamesPlayed += $this->teams[$team]['played'];
+        }
       }
       $costTotal = $gamesTotal * 15;
       $paid = $data['paid'];
