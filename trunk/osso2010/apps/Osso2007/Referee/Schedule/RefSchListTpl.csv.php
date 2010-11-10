@@ -7,10 +7,11 @@ Game,Date,Time,Field,Home Team, Away Team,Center,AR1,AR2,4th
     $datex = $event->date;
     $date = substr($datex,4,2) . '/' . substr($datex,6,2) . '/' . substr($datex,0,4);
 
-    $time = $event->time; // 1330 or 800
-
-    $hour   = $time / 100;
+    $time = (int)$event->time; // 1330 or 800
+    
+    $hour   = (int)   ($time / 100);
     $minute = $time - ($hour * 100);
+    
     if ($hour < 12) $suffix = 'AM';
     else
     {
