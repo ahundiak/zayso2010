@@ -62,7 +62,7 @@ class SchedRefSignupView extends Proj_View
         if (!$user->isAdmin || 0) $refereePickList = $user->refereePickList;
         else 
         {
-          $ids = array(1,4,5,7,9,11,28);
+          $ids = array(1,4,5,7,9,11,17,28);
           $search = array('unit_id' => $ids);
           
           $direct = new Osso2007_Referee_RefereeDirect($this->context);
