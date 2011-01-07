@@ -1,3 +1,7 @@
+07 Jan 2011
+
+Rebuilt laptop again, moved to 2012 namespace
+
 14 Sep 2010
 Dell Laptop rebuilt
 
