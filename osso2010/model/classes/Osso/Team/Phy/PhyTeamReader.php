@@ -9,7 +9,7 @@ class Osso_Team_Phy_PhyTeamReader extends Cerad_Reader_CSV
     'TeamID'          => 'teamId',
 
     'DivisionName'    => 'divName',
-    'RegionNumber'    => 'region',
+    'RegionNumber'    => 'org',
 
     'TeamCoachFName'      => 'headCoachFName',
     'TeamCoachLName'      => 'headCoachLName',

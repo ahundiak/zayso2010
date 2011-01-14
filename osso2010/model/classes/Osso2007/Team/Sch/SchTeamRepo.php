@@ -45,6 +45,23 @@ class Osso2007_Team_Sch_SchTeamRepo
 
     return $row;
   }
+
+  protected $cacheProjectPhyTeamRows = array();
+  public function getRowForProjectPhyTeam($pid,$key)
+  {
+    if (!$key) return NULL;
+
+    if (isset($this->cacheProjectPhyTeamRows[$pid][$key])) return $this->cacheProjectPhyTeamRows[$pid][$key];
+
+    $rows = $this->tableSchTeam->query('*',array('project_id' => $pid, 'phy_team_id' => $key));
+
+    if (isset($rows[0])) $row = $rows[0];
+    else                 $row = null;
+
+    $this->cacheProjectPhyTeamRows[$pid][$key] = $row;
+
+    return $row;
+  }
   public function insert($data)
   {
     return $this->tableSchTeam->insert($data);

@@ -22,6 +22,29 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
     $this->directSchTeam = new Osso2007_Team_Sch_SchTeamDirect($this->context);
 
     $this->directPhyTeamPerson = new Osso2007_Team_Phy_PhyTeamPersonDirect($this->context);
+
+    $repos = $this->context->repos;
+
+    $this->repoDiv = $repos->div;
+    $this->repoOrg = $repos->org;
+
+    $this->repoProject = $repos->project;
+    $this->repoSchTeam = $repos->schTeam;
+    $this->repoPhyTeam = $repos->phyTeam;
+  }
+  // Needs to be a parameter array
+  public function process($params)
+  {
+    // Need project info
+    $pid = $params['project_id'];
+
+    $row = $this->repoProject->getRowForId($pid);
+    if (!$row) return;
+
+    $this->projectId  = $pid;
+    $this->projectRow = $row;
+
+    parent::process($params);
   }
   protected $regTypeOsso = 101;
   protected $regTypeAyso = 102;
@@ -94,8 +117,11 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
 
     return $result->id;
   }
-  protected function savePhyTeam($data,$regionId,$teamKey)
+  protected function savePhyTeam($data,$orgId,$teamKey)
   {
+    $projectRow = $this->projectRow;
+    $projectId  = $this->projectId;
+
     // Gather up the data
     $datax = array();
     $datax['eayso_id']  = (int)$data['teamId'];
@@ -104,34 +130,41 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
     $datax['name']     = $data['teamName'];
     $datax['colors']   = $data['teamColors'];
 
-    $datax['unit_id']          = $regionId;
-    $datax['reg_year_id']      = 10;
-    $datax['season_type_id']   = 1;
+    $datax['unit_id']          = $orgId;
+    $datax['reg_year_id']      = $projectRow['cal_year'] - 2000;
+    $datax['season_type_id']   = $projectRow['season_type_id'];
     $datax['division_id']      = $this->divs[substr($teamKey,0,4)]['id'];
     $datax['division_seq_num'] = (int)substr($teamKey,4,2);
 
     // Have one already?
-    $result = $this->directPhyTeam->fetchRow(array('eayso_id' => $data['teamId']));
-    if ($result->row)
+    $row = $this->repoPhyTeam->getForEaysoId($data['teamId']);
+    if ($row)
     {
-      $id = $result->row['phy_team_id'];
+      $id = $row['phy_team_id'];
       $datax['phy_team_id'] = $id;
-      $this->directPhyTeam->update($datax);
+      $this->repoPhyTeam->update($datax);
       return $datax;
     }
     // New record
-    $result = $this->directPhyTeam->insert($datax);
-    $datax['phy_team_id'] = $result->id;
+    $id = $this->repoPhyTeam->insert($datax);
+    $datax['phy_team_id'] = $id;
+
+    if (!$id) die("Failed inserting physical team");
+    $this->repoProject->addOrg ($this->projectId,$orgId);
+    $this->repoProject->addTeam($this->projectId,$id);
 
     $this->count->inserted++;
 
-//  Cerad_Debug::dump($data);
-//  Cerad_Debug::dump($datax);
-
+    // Cerad_Debug::dump($id);
+    // Cerad_Debug::dump($datax);
+    // die('Inserted team');
+    
     return $datax;
   }
   protected function saveSchTeam($data)
   {
+    $teamKey = $this->repoPhyTeam->generateKey($data);
+    
     // Gather up the data
     $datax = array();
     $datax['phy_team_id']      = $data['phy_team_id'];
@@ -141,22 +174,20 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
     $datax['schedule_type_id'] = 1;
     $datax['division_id']      = $data['division_id'];
     $datax['sortx']            = $data['division_seq_num'];
-    $datax['desc_short']       = '';
+    $datax['desc_short']       = $teamKey;
+    $datax['project_id']       = $this->projectId;
 
     // Have one already?
-    $result = $this->directSchTeam->fetchRow(array('phy_team_id' => $datax['phy_team_id']));
-    if ($result->row)
+    $row = $this->repoSchTeam->getRowForProjectPhyTeam($this->projectId,$datax['phy_team_id']);
+    if ($row)
     {
-      $id = $result->row['sch_team_id'];
+      $id = $row['sch_team_id'];
       $datax['sch_team_id'] = $id;
-      $this->directSchTeam->update($datax);
+      $this->repoSchTeam->update($datax);
       return;
     }
     // New record
-    $result = $this->directSchTeam->insert($datax);
-
-    // die('Inserted sch team ' . $result->id);
-    // $this->count->inserted++;
+    $this->repoSchTeam->insert($datax);
 
     return;
   }
@@ -169,29 +200,17 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
     // Mess with the key
     $teamId  = $data['teamId'];
     $teamDes = $data['teamDes'];
-
-    $teamDes  = str_replace('FAY','',     $teamDes);
-    $teamDes  = str_replace('SL', '',     $teamDes);
-    $teamDes  = str_replace(' Team ', '', $teamDes);
-
-    $teamDes  = str_replace('R160-','', $teamDes);
-    $teamDes  = str_replace('160-', '', $teamDes);
-
-    $teamDes  = str_replace('-','', $teamDes);
-    $teamDes  = str_replace('_',' ',$teamDes);
-    $teamDess = explode(' ',$teamDes);
-    $teamDes  = $teamDess[0];
-
     $teamKey = $this->getTeamKey($teamDes);
+
   //printf("Key %s\n",$teamKey); return;
     if (!$teamKey) return;
 
-    // Get the region
-    $regionId = $this->getRegion($data['region']);
-    if (!$regionId) die('Invalid region id ' . $data['region']); // return;
-
+    // Need a organization
+    $orgId = $this->repoOrg->getIdForKey($data['org']);
+    if (!$orgId) return;
+    
     // And save
-    $phyTeamData = $this->savePhyTeam($data,$regionId,$teamKey);
+    $phyTeamData = $this->savePhyTeam($data,$orgId,$teamKey);
     $this->saveSchTeam($phyTeamData);
 
     // Get volunteers based on names
@@ -204,7 +223,7 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
     $vols = array();
     foreach($persons as $person)
     {
-      $personId = $this->getPersonForName($regionId,$data[$person['fname']],$data[$person['lname']]);
+      $personId = $this->getPersonForName($orgId,$data[$person['fname']],$data[$person['lname']]);
       if ($personId) $vols[$person['type_id']] = $personId;
     }
     return $this->insertPhyTeamPersons($phyTeamData,$vols);
@@ -268,31 +287,68 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
     }
     return;
   }
-  protected function getRegion($region)
-  {
-
-    if (!$region) return NULL;
-
-    // Need to find the org_id for the region
-    if (!isset($this->regions[$region]))
-    {
-      $result = $this->directOrg->getOrgForKey($region);
-
-      $org = $result->row;
-      if (!$org)
-      {
-        echo("Could not find region: $region\n"); // Some regions are revoked
-        $this->regions[$region] = 0;
-        return 0;
-      }
-      
-      $this->regions[$region] = $org['id'];
-    }
-    return $this->regions[$region];
-  }
   protected function getTeamKey($teamDes)
   {
-    foreach($this->divs as $divKey => $div)
+    $desigs = array
+    (
+      'U19indoor'    => 'U19C01',
+      'U16indoor'    => 'U16C01',
+      'IN_U14C2_LOO' => 'U14C02',
+      'IN_U14C4_ORT' => 'U14C04',
+      'IN_U14C6_DEN' => 'U14C06',
+      'IN_U14C5_WAL' => 'U14C05',
+      'IN_U14C1_WOR' => 'U14C01',
+      'IN_U14C3_MON' => 'U14C03',
+      'IN_U12C1_MOR' => 'U12C01',
+      'IN_U12C4_ROL' => 'U12C04',
+      'IN_U12C5_OWE' => 'U12C05',
+      'IN_U12C2_DEG' => 'U12C02',
+      'IN_U12C3_NOA' => 'U12C03',
+      'IN_U12C6_SWA' => 'U12C06',
+      'IN_U12C8_TOM' => 'U12C08',
+      'IN_U12C7_UND' => 'U12C07',
+      'IN_U10C1_BIE' => 'U10C01',
+      'IN_U10C2_RUS' => 'U10C02',
+      'IN_U10C3_WIL' => 'U10C03',
+      'IN_U10C4_PAU' => 'U10C04',
+      'IN_U10C5_LAN' => 'U10C05',
+      'IN_U10C6_SWA' => 'U10C06',
+      'Ind U5/U6 T1' => 'U06C01',
+      'Ind U5/U6 T2' => 'U06C02',
+      'Ind U5/U6 T3' => 'U06C03',
+      'Ind U5/U6 T4' => 'U06C04',
+      'Ind U5/U6 T5' => 'U06C05',
+      'Ind U5/U6 T6' => 'U06C06',
+      'Ind U5/U6 T7' => 'U06C07',
+      'Ind U5/U6 T8' => 'U06C08',
+      'In_U7/U8_C3'  => 'U08C03',
+      'In_U7/U8_C4'  => 'U08C04',
+      'In_U7/U8_C1'  => 'U08C01',
+      'In_U7/U8_C2'  => 'U08C02',
+      'In_U7/U8_C5'  => 'U08C05',
+      'In_U7/U8_C7'  => 'U08C07',
+      'In_U7/U8_C8'  => 'U08C08',
+      'In_U7/U8_C6'  => 'U08C06',
+    );
+    if (!isset($desigs[$teamDes])) die("Team Desig $teamDes");
+    return $desigs[$teamDes];
+  }
+  protected function getTeamKeyx($teamDes)
+  {
+/*
+    $teamDes  = str_replace('FAY','',     $teamDes);
+    $teamDes  = str_replace('SL', '',     $teamDes);
+    $teamDes  = str_replace(' Team ', '', $teamDes);
+
+    $teamDes  = str_replace('R160-','', $teamDes);
+    $teamDes  = str_replace('160-', '', $teamDes);
+
+    $teamDes  = str_replace('-','', $teamDes);
+    $teamDes  = str_replace('_',' ',$teamDes);
+    $teamDess = explode(' ',$teamDes);
+    $teamDes  = $teamDess[0];
+*/
+   foreach($this->divs as $divKey => $div)
     {
       $len = strlen($divKey);
       if (substr($teamDes,0,$len) == $divKey)

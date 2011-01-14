@@ -18,6 +18,15 @@ class Osso2007_Team_Phy_PhyTeamRepo
       case 'tablePhyTeam': return $this->tablePhyTeam = new Cerad_Repo_RepoTable($this->context->db,'osso2007.phy_team');
     }
   }
+  public function generateKey($data)
+  {
+    $orgKey = $this->context->repos->org->getKeyForId($data['unit_id']);
+    $divKey = $this->context->repos->div->getDivisionDesc($data['division_id']);
+    
+    $key = sprintf("%s%s%02u",$orgKey,$divKey,$data['division_seq_num']);
+
+    return $key;
+  }
   public function parseKey($key)
   {
     $data = array('org_id' => 0, 'div_id' => 0, 'seq_num' => 0);
@@ -72,6 +81,16 @@ class Osso2007_Team_Phy_PhyTeamRepo
     $cols = array('phy_team_id' => 'id','unit_id' => 'org_id');
     $rows = $this->tablePhyTeam->query($cols,$search);
     return $rows;
+  }
+  public function getForEaysoId($id)
+  {
+    $search = array
+    (
+      'eayso_id'    => $id,
+    );
+    $rows = $this->tablePhyTeam->query(NULL,$search);
+    if (count($rows) != 1) return NULL;
+    return $rows[0];
   }
   /* --------------------------------------------------------------------
    * This works through the schedule team to link project
@@ -169,6 +188,14 @@ EOT;
     $key = $data['key'];
 
     return $result;
+  }
+  public function insert($data)
+  {
+    return $this->tablePhyTeam->insert($data);
+  }
+  public function update($data)
+  {
+    return $this->tablePhyTeam->update($data);
   }
 }
 ?>

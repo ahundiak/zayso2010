@@ -12,8 +12,8 @@ class Osso2007_Team_Phy_PhyTeamRosterImport extends Osso2007_Team_Phy_PhyTeamImp
     $search = array(
       'unit_id'        => $regionId,
       'eayso_des'      => $teamDes,
-      'reg_year_id'    => 10,
-      'season_type_id' => 1,
+      'reg_year_id'    => 11,
+      'season_type_id' => 2,
     );
     $result = $this->directPhyTeam->fetchRow($search);
     return $result->row;
@@ -32,12 +32,12 @@ class Osso2007_Team_Phy_PhyTeamRosterImport extends Osso2007_Team_Phy_PhyTeamImp
 
     // Mess with the key
 
-    // Get the region
-    $regionId = $this->getRegion($data['region']);
-    if (!$regionId) die('Invalid region id ' . $data['region']); // return;
+    // Need a organization
+    $orgId = $this->repoOrg->getIdForKey($data['region']);
+    if (!$orgId) return;
 
     // Physical team should always exist
-    $phyTeamData = $this->getPhyTeam($regionId,$teamDes);
+    $phyTeamData = $this->getPhyTeam($orgId,$teamDes);
     if (!$phyTeamData) die('No existing physical team for ' . $teamDes);
 
     // Get volunteers based on aysoid
@@ -50,7 +50,7 @@ class Osso2007_Team_Phy_PhyTeamRosterImport extends Osso2007_Team_Phy_PhyTeamImp
     $vols = array();
     foreach($persons as $person)
     {
-      $personId = $this->getPersonForAysoid($regionId,$data[$person['aysoid']]);
+      $personId = $this->getPersonForAysoid($orgId,$data[$person['aysoid']]);
       if ($personId) $vols[$person['type_id']] = $personId;
     }
     $this->insertPhyTeamPersons($phyTeamData,$vols);
