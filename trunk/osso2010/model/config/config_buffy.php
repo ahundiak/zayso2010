@@ -3,7 +3,7 @@
 // or other development machines
 return array
 (
-  'ws'    => '/home/ahundiak/zayso2010/',
+  'ws'    => '/home/ahundiak/zayso2012/',
   'datax' => '/home/ahundiak/datax/',
 
   'dbParams' => array

@@ -33,6 +33,19 @@ class Osso2007_Org_OrgRepo
     $this->cacheIds[$key] = $id;
     return $id;
   }
+  protected $cacheKeys = array();
+  public function getKeyForId($id)
+  {
+    if (isset($this->cacheKeys[$id])) return $this->cacheKeys[$id];
+
+    $rows = $this->tableOrg->query(array('keyx'),array('unit_id' => $id));
+
+    if (isset($rows[0])) $key = $rows[0]['keyx'];
+    else                 $key = 0;
+
+    $this->cacheKeys[$id] = $key;
+    return $key;
+  }
   public function getPickList()
   {
     $sql = 'SELECT unit_id AS id, desc_pick AS desc1 FROM unit ORDER BY unit.keyx;';
