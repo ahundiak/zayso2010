@@ -19,22 +19,16 @@ class YearItem extends BaseItem
 }
 class YearModel extends BaseModel
 {
-    protected   $mapClassName = 'YearMap';
-    protected  $itemClassName = 'YearItem';
-    protected $tableClassName = 'YearTable';
+  protected   $mapClassName = 'YearMap';
+  protected  $itemClassName = 'YearItem';
+  protected $tableClassName = 'YearTable';
     
-    protected $pickList = array
-    (
-      '10' => '2010',
-       '9' => '2009',
-       '8' => '2008',
-       '7' => '2007',
-	     '6' => '2006',
-	     '5' => '2005',
-		   '4' => '2004',
-		   '3' => '2003',
-		   '2' => '2002',
-		   '1' => '2001',
+  protected $pickList = array
+  (
+    '11' => '2011',
+    '10' => '2010',
+     '9' => '2009', '8' => '2008', '7' => '2007', '6' => '2006',
+     '5' => '2005', '4' => '2004', '3' => '2003', '2' => '2002', '1' => '2001',
     );
     public function getPickList() { return $this->pickList; }
     
