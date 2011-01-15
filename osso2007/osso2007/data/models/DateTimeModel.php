@@ -28,6 +28,7 @@ class DateTimeModel extends BaseModel
 	function getYearPickList()
 	{
 		return array(
+                    '2011' => '2011',
       '2010' => '2010',
 		  '2009' => '2009',
       '2008' => '2008',
