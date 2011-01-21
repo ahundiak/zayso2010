@@ -77,7 +77,8 @@ class Arbiter_RefAvail_RefAvailProcess
   function processRow($row)
   {
     // Is it a date?
-    $dateKey = 'Referee Availability for';
+    // MSSL Avail Availability for Monday, 1/24/2011
+    $dateKey = 'Availability for';
     if (strstr($row->name,$dateKey) !== FALSE)
     {
       $data = explode(',',$row->name);
