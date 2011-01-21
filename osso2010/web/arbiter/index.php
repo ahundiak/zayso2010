@@ -2,7 +2,7 @@
 error_reporting(E_ALL);
 $config = array
 (
-  'ws'        => '/home/ahundiak/zayso2010/',
+  'ws'        => '/home/ahundiak/zayso2012/',
   'db_host'   => '127.0.0.1',
   'web_host'  => 'buffy',
   'web_path'  => '/arbiter/',
