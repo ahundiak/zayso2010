@@ -8,7 +8,7 @@ class Arbiter_RefAvail_RefAvailAction extends Cerad_FrontEnd_BaseAction
     $tmpFileName = $_SESSION['tmpFileName'] . 'x';
     $orgFileName = $_SESSION['orgFileName'];
 
-    $outFileName = basename($orgFileName,'.csv') . 'Week.csv';
+    $outFileName = basename($orgFileName,'.csv') . 'x.csv';
 
     //echo "FILES: {$tmpFileName} {$orgFileName} {$outFileName}\n";
     //return;
