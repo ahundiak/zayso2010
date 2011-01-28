@@ -1,11 +1,10 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
-<head>
-  <title>Index Page</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <link rel="stylesheet" type="text/css" href="osso.css" />
-</head>
-<body>
-<?php include 'user.html.php'; ?>
-</body>
-</html>
+<?php $title = 'Master Index'; ?>
+<div>
+  <ul>
+    <li><a href="index.php?page=user">User Information</a></li>
+    <li><a href="index.php?page=welcome">Welcome</a></li>
+    <li><a href="index.php?page=reg1">Registration Page 1</a></li>
+    <li><a href="index.php?page=reg2">Registration Page 2</a></li>
+    <li><a href="index.php?page=reg3">Registration Page 3</a></li>
+  </ul>
+</div>

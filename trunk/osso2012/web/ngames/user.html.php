@@ -1,4 +1,4 @@
-<?php ?>
+<?php $title = 'User Info'; ?>
 <div>
   <table border="1" class="form_table">
     <tr><th colspan="3">Volunteer Information</th></tr>
