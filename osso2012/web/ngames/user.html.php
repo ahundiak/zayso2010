@@ -24,6 +24,22 @@
   <table border="1" class="form_table">
     <tr><th colspan="2">Volunteer Game Plan </th></tr>
     <tr>
+      <td>I plan on attending the games</td>
+      <td><select name="gp[1]">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>I will only be at the games if my team is selected</td>
+      <td><select name="gp[1]">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
       <td>I plan on refereeing during the games</td>
       <td><select name="gp[1]">
           <option value="0">No</option>
@@ -77,6 +93,7 @@
         <select>
           <option>Select Relationship</option>
           <option>Child, sibling, family</option>
+          <option>I am the player</option>
           <option>Other</option>
         </select>
       </td>
@@ -164,6 +181,15 @@
       <td><select name="ra_sa_rr">
           <option value="0">Not available</option>
           <option value="1">Will referee</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>Saturday Afternoon, Qtr Finals</td>
+      <td><select name="ra_su_sf">
+          <option value="0">Not available</option>
+          <option value="1">Will referee</option>
+          <option value="2">Will referee if my team advances</option>
         </select>
       </td>
     </tr>
