@@ -16,4 +16,7 @@ GRANT ALL ON    eayso.* TO "impd"@"localhost";
 CREATE DATABASE osso;
 GRANT ALL ON    osso.* TO "impd"@"localhost";
 
+CREATE DATABASE s5games2010;
+GRANT ALL ON    s5games2010.* TO "impd"@"localhost";
+
 FLUSH PRIVILEGES;
