@@ -67,7 +67,7 @@ class Osso2007_Referee_Schedule_RefSchListView extends Osso2007_View
             $search->dateGE = $date2;
             $search->dateLE = $date1;
         }
-        // $search->unitId = $data->unitId;
+        $search->unitId = $data->unitId;
         
         if ($data->showAge1 == -1) $showAge1 = $data->showAge2;
         else                       $showAge1 = $data->showAge1;
