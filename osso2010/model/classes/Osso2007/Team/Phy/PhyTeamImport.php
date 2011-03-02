@@ -200,9 +200,9 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
     // Mess with the key
     $teamId  = $data['teamId'];
     $teamDes = $data['teamDes'];
-    $teamKey = $this->getTeamKey($teamDes);
+    $teamKey = $this->getTeamKeyx($teamDes);
 
-  //printf("Key %s\n",$teamKey); return;
+    // printf("Key %s\n",$teamKey); die(); return;
     if (!$teamKey) return;
 
     // Need a organization
@@ -335,7 +335,7 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
   }
   protected function getTeamKeyx($teamDes)
   {
-/*
+
     $teamDes  = str_replace('FAY','',     $teamDes);
     $teamDes  = str_replace('SL', '',     $teamDes);
     $teamDes  = str_replace(' Team ', '', $teamDes);
@@ -347,7 +347,7 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
     $teamDes  = str_replace('_',' ',$teamDes);
     $teamDess = explode(' ',$teamDes);
     $teamDes  = $teamDess[0];
-*/
+
    foreach($this->divs as $divKey => $div)
     {
       $len = strlen($divKey);
@@ -403,23 +403,23 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
     'U08B' => array('id' =>  4, 'age' =>  8, 'sex' => 'B'),
     'U08G' => array('id' =>  5, 'age' =>  8, 'sex' => 'G'),
 
-    'U10C' => array('id' =>  9, 'age' => 10, 'sex' => 'B'),
+    'U10C' => array('id' =>  9, 'age' => 10, 'sex' => 'C'),
     'U10B' => array('id' =>  7, 'age' => 10, 'sex' => 'B'),
     'U10G' => array('id' =>  8, 'age' => 10, 'sex' => 'G'),
 
-    'U12C' => array('id' => 12, 'age' => 12, 'sex' => 'B'),
+    'U12C' => array('id' => 12, 'age' => 12, 'sex' => 'C'),
     'U12B' => array('id' => 10, 'age' => 12, 'sex' => 'B'),
     'U12G' => array('id' => 11, 'age' => 12, 'sex' => 'G'),
 
-    'U14C' => array('id' => 15, 'age' => 14, 'sex' => 'B'),
+    'U14C' => array('id' => 15, 'age' => 14, 'sex' => 'C'),
     'U14B' => array('id' => 13, 'age' => 14, 'sex' => 'B'),
     'U14G' => array('id' => 14, 'age' => 14, 'sex' => 'G'),
 
-    'U16C' => array('id' => 18, 'age' => 16, 'sex' => 'B'),
+    'U16C' => array('id' => 18, 'age' => 16, 'sex' => 'C'),
     'U16B' => array('id' => 16, 'age' => 16, 'sex' => 'B'),
     'U16G' => array('id' => 17, 'age' => 16, 'sex' => 'G'),
 
-    'U19C' => array('id' => 21, 'age' => 19, 'sex' => 'B'),
+    'U19C' => array('id' => 21, 'age' => 19, 'sex' => 'C'),
     'U19B' => array('id' => 19, 'age' => 19, 'sex' => 'B'),
     'U19G' => array('id' => 20, 'age' => 19, 'sex' => 'G'),
 

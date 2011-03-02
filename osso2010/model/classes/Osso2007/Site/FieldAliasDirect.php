@@ -61,12 +61,20 @@ class Osso2007_Site_FieldAliasDirect extends Osso_Base_BaseDirect
     'JH13c'              => 'John Hunt 13C',
     'JH13d'              => 'John Hunt 13D',
 
+    'JH14'               => 'John Hunt 14',
+    'JH14a'              => 'John Hunt 14A',
+    'JH14b'              => 'John Hunt 14B',
+    'JH14c'              => 'John Hunt 14C',
+    'JH14d'              => 'John Hunt 14D',
+
     'JH15'               => 'John Hunt 15',
     'JH16'               => 'John Hunt 16',
     'JH17'               => 'John Hunt 17',
     'JH18'               => 'John Hunt 18',
     'JH19'               => 'John Hunt 19',
     'JH20'               => 'John Hunt 20',
+    'JH21'               => 'John Hunt 21',
+    'JH22'               => 'John Hunt 22',
 
     'IP1'                => 'Ice Plex 1',
     'IP2'                => 'Ice Plex 2',

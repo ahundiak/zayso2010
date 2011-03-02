@@ -96,7 +96,7 @@ class Osso2007_Misc_MiscRepo
   public function getEventClassIdForKey($key)
   {
     if (isset($this->mapEventClassKey[$key])) return $this->mapEventClassKey[$key];
-    return 0;
+    return self::EVENT_CLASS_RG;
   }
   /* ===================================================================
    * Event Type Stuff
