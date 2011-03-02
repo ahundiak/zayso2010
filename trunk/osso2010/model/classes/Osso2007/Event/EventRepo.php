@@ -192,6 +192,7 @@ EOT;
       // Need to do a controlled update to avoid overwriting existing games
       // Basically ignore for now
       $result->error = 'Event already in schedule';
+      echo "Duplicate $num<br />";
       return $result;
     }
     // Really is a new record
