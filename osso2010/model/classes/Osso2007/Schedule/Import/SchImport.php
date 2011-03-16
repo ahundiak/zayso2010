@@ -38,6 +38,13 @@ class Osso2007_Schedule_Import_SchImport extends Osso2007_Schedule_Import_SchImp
     return;
   }
   protected $teamMap = array(
+    '160-U14C01-Tillery'  => 'R0160U14B01',
+    '160-U14C02-Skinner'  => 'R0160U14B02',
+    '160-U14C03-Mokhtari' => 'R0160U14B03',
+    '160-U14C04-Dunning'  => 'R0160U14B04',
+    '160-U14G01-Noller'   => 'R0160U14G01',
+    '160-U14G02-Arriaga'  => 'R0160U14G02',
+
     '160-U12C01-Malek'         => 'R0160U12C01',
     '160-U12C02-Agrinzoni'     => 'R0160U12C02',
     '160-U12C03-Tichow'        => 'R0160U12C03',
