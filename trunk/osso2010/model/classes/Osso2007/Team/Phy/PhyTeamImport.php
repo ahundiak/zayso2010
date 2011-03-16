@@ -1,7 +1,32 @@
 <?php
+class Osso2007_Team_Phy_PhyTeamImportReader extends Cerad_Reader_CSV
+{
+  protected $map = array
+  (
+    'TeamDesignation' => 'teamDes',
+    'TeamID'          => 'teamId',
+
+    'DivisionName'    => 'divName',
+    'RegionNumber'    => 'org',
+
+    'TeamCoachFName'      => 'headCoachFName',
+    'TeamCoachLName'      => 'headCoachLName',
+    'TeamAsstCoachFName'  => 'asstCoachFName',
+    'TeamAsstCoachLName'  => 'asstCoachLName',
+    'TeamParentFName'     => 'managerFName',
+    'TeamParentLName'     => 'managerLName',
+
+    'TeamName'            => 'teamName',
+    'TeamColors'          => 'teamColors',
+  );
+  protected $mapOptional = array
+  (
+      'TeamKey' => 'teamKey',
+  );
+}
 class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
 {
-  protected $readerClassName = 'Osso_Team_Phy_PhyTeamReader';
+  protected $readerClassName = 'Osso2007_Team_Phy_PhyTeamImportReader';
   protected $regions = array();
 
   protected function init()
