@@ -11,8 +11,10 @@ class Osso2007_Team_Phy_PhyTeamImportReader extends Cerad_Reader_CSV
 
     'TeamCoachFName'      => 'headCoachFName',
     'TeamCoachLName'      => 'headCoachLName',
+
     'TeamAsstCoachFName'  => 'asstCoachFName',
     'TeamAsstCoachLName'  => 'asstCoachLName',
+
     'TeamParentFName'     => 'managerFName',
     'TeamParentLName'     => 'managerLName',
 
@@ -22,6 +24,9 @@ class Osso2007_Team_Phy_PhyTeamImportReader extends Cerad_Reader_CSV
   protected $mapOptional = array
   (
       'TeamKey' => 'teamKey',
+      'TeamCoachAysoid'     => 'headCoachAysoid',
+      'TeamAsstCoachAysoid' => 'asstCoachAysoid',
+      'TeamParentAysoid'    => 'managerAysoid',
   );
 }
 class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
@@ -87,8 +92,12 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
   }
 
   // Finds the eayso volunteer, adding it to person if necessary
-  protected function getPersonForName($regionId,$fname,$lname)
+  protected function getPersonForName($regionId,$fname,$lname,$aysoid)
   {
+    // Check if have aysoid
+    $result = $this->getPersonForAysoid($regionId,$aysoid);
+    if ($result) return $result;
+    
     // Need some data
     if (!$regionId) return 0;
     if (!$fname)    return 0;
@@ -158,6 +167,7 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
     $datax['unit_id']          = $orgId;
     $datax['reg_year_id']      = $projectRow['cal_year'] - 2000;
     $datax['season_type_id']   = $projectRow['season_type_id'];
+
     $datax['division_id']      = $this->divs[substr($teamKey,0,4)]['id'];
     $datax['division_seq_num'] = (int)substr($teamKey,4,2);
 
@@ -166,11 +176,16 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
     if ($row)
     {
       $id = $row['phy_team_id'];
-      $datax['phy_team_id'] = $id;
+      $datax['phy_team_id']      = $row['phy_team_id'];
+      $datax['division_id']      = $row['division_id'];
+      $datax['division_seq_num'] = $row['division_seq_num'];
       $this->repoPhyTeam->update($datax);
       return $datax;
     }
     // New record
+    if (!$teamKey) die('No physical team key');
+    $datax['division_id']      = $this->divs[substr($teamKey,0,4)]['id'];
+    $datax['division_seq_num'] = (int)substr($teamKey,4,2);
     $id = $this->repoPhyTeam->insert($datax);
     $datax['phy_team_id'] = $id;
 
@@ -222,13 +237,16 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
     if (!$data['teamId']) return;
     $this->count->total++;
 
+    // Cerad_Debug::dump($data); die();
+    
     // Mess with the key
     $teamId  = $data['teamId'];
     $teamDes = $data['teamDes'];
-    $teamKey = $this->getTeamKeyx($teamDes);
+    $teamKey = $data['teamKey'];
+  //$teamKey = $this->getTeamKeyx($teamDes);
 
     // printf("Key %s\n",$teamKey); die(); return;
-    if (!$teamKey) return;
+    // if (!$teamKey) return;
 
     // Need a organization
     $orgId = $this->repoOrg->getIdForKey($data['org']);
@@ -241,14 +259,14 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
     // Get volunteers based on names
     $persons = array
     (
-      array('type_id' => 16, 'fname' => 'headCoachFName', 'lname' => 'headCoachLName'),
-      array('type_id' => 17, 'fname' => 'asstCoachFName', 'lname' => 'asstCoachLName'),
-      array('type_id' => 18, 'fname' => 'managerFName',   'lname' => 'managerLName'),
+      array('type_id' => 16, 'fname' => 'headCoachFName', 'lname' => 'headCoachLName', 'aysoid' => 'headCoachAysoid'),
+      array('type_id' => 17, 'fname' => 'asstCoachFName', 'lname' => 'asstCoachLName', 'aysoid' => 'asstCoachAysoid'),
+      array('type_id' => 18, 'fname' => 'managerFName',   'lname' => 'managerLName',   'aysoid' => 'managerAysoid'),
     );
     $vols = array();
     foreach($persons as $person)
     {
-      $personId = $this->getPersonForName($orgId,$data[$person['fname']],$data[$person['lname']]);
+      $personId = $this->getPersonForName($orgId,$data[$person['fname']],$data[$person['lname']],$data[$person['aysoid']]);
       if ($personId) $vols[$person['type_id']] = $personId;
     }
     return $this->insertPhyTeamPersons($phyTeamData,$vols);
