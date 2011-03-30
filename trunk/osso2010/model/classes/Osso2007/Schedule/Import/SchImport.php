@@ -188,7 +188,7 @@ class Osso2007_Schedule_Import_SchImport extends Osso2007_Schedule_Import_SchImp
     'R0498-U19C02-TBD'         => 'R0498U19C01',
 
     'R1174-U10C01-Waller'      => 'R1174U10C01',
-    'R1174-U10C02-TBD'         => 'R1174U10C02',
+    'R1174-U10C02-Richardson'  => 'R1174U10C02',
     'R1174-U10G01-Stewart'     => 'R1174U10G01',
     'R1174-U10G02-Berry'       => 'R1174U10G02',
     'R1174-U12C01-Moore'       => 'R1174U12C01',
