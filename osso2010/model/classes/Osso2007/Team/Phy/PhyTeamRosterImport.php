@@ -1,11 +1,20 @@
 <?php
+class Osso2007_Team_Phy_PhyTeamRosterImportReader extends Cerad_Reader_CSV
+{
+  protected $map = array
+  (
+    'Team Designation'          => 'teamDes',
+    'Region #'                  => 'region',
+    'Team Coach AYSO ID'        => 'headCoachAysoid',
+    'Asst. Team Coach AYSO ID'  => 'asstCoachAysoid',
+    'Team Parent AYSOID'        => 'managerAysoid',
+  );
+}
+
 class Osso2007_Team_Phy_PhyTeamRosterImport extends Osso2007_Team_Phy_PhyTeamImport
 {
-  protected $readerClassName = 'Osso_Team_Phy_PhyTeamRosterReader';
+  protected $readerClassName = 'Osso2007_Team_Phy_PhyTeamRosterImportReader';
   protected $teams   = array();
-
-  protected $regTypeOsso = 101;
-  protected $regTypeAyso = 102;
 
   protected function getPhyTeam($regionId,$teamDes)
   {
@@ -13,7 +22,7 @@ class Osso2007_Team_Phy_PhyTeamRosterImport extends Osso2007_Team_Phy_PhyTeamImp
       'unit_id'        => $regionId,
       'eayso_des'      => $teamDes,
       'reg_year_id'    => 11,
-      'season_type_id' => 2,
+      'season_type_id' => 3,
     );
     $result = $this->directPhyTeam->fetchRow($search);
     return $result->row;
