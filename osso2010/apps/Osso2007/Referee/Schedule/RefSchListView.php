@@ -81,10 +81,10 @@ class Osso2007_Referee_Schedule_RefSchListView extends Osso2007_View
             $data->showGirl,
             $data->showCoed
         );
-//        $search->eventTeamTypeId = $models->EventTeamTypeModel->getEventTeamTypeIds(
-//            $data->showHome,
-//            $data->showAway
-//        );
+        $search->eventTeamTypeId = $models->EventTeamTypeModel->getEventTeamTypeIds(
+            $data->showHome,
+            $data->showAway
+        );
         $search->point2 = $data->point2;
 
         $searchx = array
