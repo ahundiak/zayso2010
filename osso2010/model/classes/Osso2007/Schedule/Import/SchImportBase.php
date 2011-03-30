@@ -297,6 +297,7 @@ class Osso2007_Schedule_Import_SchImportBase extends Cerad_Import
   protected function processTime($time)
   {
     if (strlen($time) == 23) return $this->getTimeFromExcelFormat($time);
+    $time = str_replace(':','',$time);
     if (strlen($time) ==  3) $time = '0' . $time;
     if (strlen($time) ==  4) return $time;  // Already in 24 hour format
     
