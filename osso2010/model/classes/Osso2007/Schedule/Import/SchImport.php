@@ -243,6 +243,8 @@ class Osso2007_Schedule_Import_SchImport extends Osso2007_Schedule_Import_SchImp
     'R0498-U08B13-TBD'        => 'R0498U08B13',
     'R0498-U08B14-TBD'        => 'R0498U08B14',
 
+      'R0778-U12C01-Estes'  => 'R0778U12C01',
+      'R0778-U14C01-Parker' => 'R0778U14C01',
   );
   protected function processTeam($team)
   {
