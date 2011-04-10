@@ -7,9 +7,10 @@ class Cerad_Reader_CSV
   protected $ts;
 
   protected $map  = array('FirstName' => 'fname','LastName' => 'lname');
-  protected $mapx;
+  protected $mapOptional = array(); // Optional
+  protected $mapDefaults = array();
 
-  protected $mapIndex = array();
+  protected $mapIndexes  = array();
 
   public function __construct($context,$fileName = NULL,$callback = NULL)
   {
@@ -55,23 +56,23 @@ class Cerad_Reader_CSV
     {
       // Cerad_Debug::dump($row); die();
       $data = array();
-      foreach($this->mapIndex as $index => $name)
+      foreach($this->mapIndexes as $index => $name)
       {
         if ($index < 0)
         {
-          if (isset($this->mapx[$name]['default'])) $default = $this->mapx[$name]['default'];
-          else                                      $default = NULL;
-          $data[$name] = $default;
+          if (isset($this->mapDefaults[$name])) $value = $this->mapDefaults[$name];
+          else                                  $value = NULL;
+          $data[$name] = NULL;
         }
         else
         {
           $value = $row[$index];
           if (!$value)
           {
-            if (isset($this->mapx[$name]['default'])) $value = $this->mapx[$name]['default'];
+            if (isset($this->mapDefaults[$name])) $value = $this->mapDefaults[$name];
           }
-          $data[$name] = $value;
         }
+        $data[$name] = $value;
       }
       $this->processRowData($data);
     }
@@ -83,26 +84,24 @@ class Cerad_Reader_CSV
   }
   protected function processRowHeader($header)
   {
-    $this->mapIndex = array();
+    $this->mapIndexes = array();
     $optionalIndex = 0;
 
     foreach($this->map as $csvName => $sqlName)
     {
       $csvIndex = array_search($csvName,$header);
-      if ($csvIndex !== FALSE) $this->mapIndex[$csvIndex] = $sqlName;
+      if ($csvIndex !== FALSE) $this->mapIndexes[$csvIndex] = $sqlName;
       else
       {
-        if (isset($this->mapx[$sqlName]) && !$this->mapx[$sqlName]['required'])
-        {
-          $this->mapIndex[--$optionalIndex] = $sqlName;
-        }
-        else
-        {
-          $this->errors[] = "*** Unable to find {$csvName} in header row.";
-        }
+        $this->errors[] = "*** Unable to find {$csvName} in header row.";
       }
+    }
+    foreach($this->mapOptional as $csvName => $sqlName)
+    {
+      $csvIndex = array_search($csvName,$header);
+      if ($csvIndex !== FALSE) $this->mapIndexes[$csvIndex]        = $sqlName;
+      else                     $this->mapIndexes[--$optionalIndex] = $sqlName;
     }
   }
 }
-
 ?>
