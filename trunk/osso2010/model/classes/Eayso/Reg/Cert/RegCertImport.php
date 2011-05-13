@@ -245,6 +245,7 @@ class Eayso_Reg_Cert_RegCertImport extends Eayso_Reg_Main_RegMainImport
     'B Coach'                              => array(),
     'National Coaching Course'             => array(),
     'VIP Coach/Referee'                    => array(),
+    'Z-Online Regional Referee without Safe Haven' => array(),
   );
 }
 ?>
