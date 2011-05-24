@@ -44,9 +44,9 @@ class Tests
   public function execute()
   { 
     $suite = new PHPUnit_Framework_TestSuite('OSSO2012 Model Tests');
-/*
+
     $suite->addTestSuite('Test\InitialTests');
-    
+/*
     $suite->addTestSuite('Test\DbTests');
     $suite->addTestSuite('Test\ServicesTests');
     
@@ -62,7 +62,7 @@ class Tests
     $suite->addTestSuite('Test\ExcelTests');
  * 
  */
-    $suite->addTestSuite('Test\ProjectTests');
+    // $suite->addTestSuite('Test\ProjectTests');
 
     PHPUnit_TextUI_TestRunner::run($suite, array());
 
