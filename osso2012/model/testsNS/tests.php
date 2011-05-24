@@ -50,7 +50,7 @@ class Tests
     $suite->addTestSuite('Test\DbTests');
     $suite->addTestSuite('Test\ServicesTests');
     
-//    $suite->addTestSuite('Test\OrmTests');
+    $suite->addTestSuite('Test\OrmTests');
 //    $suite->addTestSuite('Test\SchemaTests');
 //    $suite->addTestSuite('Test\AysoTests');
 //    $suite->addTestSuite('Test\UserTests');
