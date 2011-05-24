@@ -14,7 +14,16 @@ class MailTests extends \PHPUnit_Framework_TestCase
   }
   function test1()
   {
-    $this->assertTrue(true);
+    $to      = 'ahundiak@gmail.com';
+    $subject = 'the subject';
+    $message = 'hello';
+    $headers = 'From: contact@zayso.org' . "\r\n" .
+    'Reply-To: webmaster@example.com' . "\r\n" .
+    'X-Mailer: PHP/' . phpversion();
+
+    mail($to, $subject, $message, $headers);
+
+  $this->assertTrue(true);
   }
   function test2()
   {
