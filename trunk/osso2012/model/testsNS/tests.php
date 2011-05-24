@@ -47,7 +47,7 @@ class Tests
 
     $suite->addTestSuite('Test\InitialTests');
 
-//  $suite->addTestSuite('Test\DbTests');
+    $suite->addTestSuite('Test\DbTests');
 //    $suite->addTestSuite('Test\ServicesTests');
     
 //    $suite->addTestSuite('Test\OrmTests');
@@ -71,7 +71,7 @@ class Tests
 
 $configFileName = 'config.php';
 if ($_SERVER['HOSTNAME'] == 'locke.telavant.com') $configFileName = 'zayso.php';
-echo $configFileName;
+
 $config = require '../config/' . $configFileName;
 $tests  = new Tests($config);
 $tests->execute();
