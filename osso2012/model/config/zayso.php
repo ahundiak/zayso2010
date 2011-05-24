@@ -2,6 +2,7 @@
 return array
 (
   'app_mode'   => 'dev',
+  'sql_log'    => 0,
     
   'ws'         => '/home/ahundiak/zayso2012/',
   'datax'      => '/home/ahundiak/datax/',
