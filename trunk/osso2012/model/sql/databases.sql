@@ -1,0 +1,37 @@
+DROP DATABASE IF EXISTS ayso;
+
+CREATE DATABASE ayso;
+
+GRANT ALL ON ayso.* TO "impd"@"localhost";
+
+FLUSH PRIVILEGES;
+
+== View database
+DROP DATABASE IF EXISTS ossov;
+
+CREATE DATABASE ossov;
+
+GRANT ALL ON ossov.* TO "impd"@"localhost";
+
+== New development database
+DROP DATABASE IF EXISTS osso2012;
+
+CREATE DATABASE osso2012;
+
+GRANT ALL ON osso2012.* TO "impd"@"localhost";
+
+DROP DATABASE IF EXISTS osso2012v;
+
+CREATE DATABASE osso2012v;
+
+GRANT ALL ON osso2012v.* TO "impd"@"localhost";
+
+== Arbiter database
+DROP DATABASE IF EXISTS arbiter;
+
+CREATE DATABASE arbiter;
+
+GRANT ALL ON arbiter.* TO "impd"@"localhost";
+
+== Done
+FLUSH PRIVILEGES;
