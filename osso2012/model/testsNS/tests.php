@@ -48,7 +48,7 @@ class Tests
     $suite->addTestSuite('Test\InitialTests');
 
     $suite->addTestSuite('Test\DbTests');
-//    $suite->addTestSuite('Test\ServicesTests');
+    $suite->addTestSuite('Test\ServicesTests');
     
 //    $suite->addTestSuite('Test\OrmTests');
 //    $suite->addTestSuite('Test\SchemaTests');
