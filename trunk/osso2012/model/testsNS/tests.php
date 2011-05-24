@@ -67,8 +67,12 @@ class Tests
 
   }
 }
-print_r($_SERVER);
-$config = require '../config/config.php';
+// print_r($_SERVER);
+
+$configFileName = 'config.php';
+if ($_SERVER['HOSTNAME'] == 'locke.televant.com') $configFileName = 'zayso.php';
+
+$config = require '../config/' . $configFileName;
 $tests  = new Tests($config);
 $tests->execute();
 ?>
