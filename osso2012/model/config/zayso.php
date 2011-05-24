@@ -9,7 +9,7 @@ return array
 
   'db_params' => array
   (
-    'dbname'   => 'xxx',
+    'dbname'   => 'osso2007',
     'user'     => 'impd',
     'password' => 'impd894',
     'host'     => 'db.telavant.com',
