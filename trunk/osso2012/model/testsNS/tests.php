@@ -71,7 +71,7 @@ class Tests
 
 $configFileName = 'config.php';
 if ($_SERVER['HOSTNAME'] == 'locke.televant.com') $configFileName = 'zayso.php';
-
+echo $configFileName;
 $config = require '../config/' . $configFileName;
 $tests  = new Tests($config);
 $tests->execute();
