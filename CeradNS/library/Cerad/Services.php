@@ -73,7 +73,7 @@ class Services
     $config->setProxyDir($ws . $modelPath . 'Proxies');
     $config->setProxyNamespace('Proxies');
 
-    $logger = new \Cerad\EchoSqlLogger($sqlLog);
+    $logger = new \Cerad\EchoSQLLogger($sqlLog);
     $config->setSQLLogger($logger);
     
     if ($appMode == "dev") $config->setAutoGenerateProxyClasses(true);
