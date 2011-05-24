@@ -67,7 +67,7 @@ class Tests
 
   }
 }
-print_r($GLOBALS);
+print_r($_SERVER);
 $config = require '../config/config.php';
 $tests  = new Tests($config);
 $tests->execute();
