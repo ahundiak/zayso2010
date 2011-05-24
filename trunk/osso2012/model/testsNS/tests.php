@@ -70,7 +70,7 @@ class Tests
 // print_r($_SERVER);
 
 $configFileName = 'config.php';
-if ($_SERVER['HOSTNAME'] == 'locke.telavant.com') $configFileName = 'zayso.php';
+if (isset($_SERVER['HOSTNAME']) && $_SERVER['HOSTNAME'] == 'locke.telavant.com') $configFileName = 'zayso.php';
 
 $config = require '../config/' . $configFileName;
 $tests  = new Tests($config);
