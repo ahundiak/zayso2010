@@ -51,6 +51,7 @@ class Tests
     $suite->addTestSuite('Test\ServicesTests');
     
     $suite->addTestSuite('Test\OrmTests');
+    $suite->addTestSuite('Test\MailTests');
 //    $suite->addTestSuite('Test\SchemaTests');
 //    $suite->addTestSuite('Test\AysoTests');
 //    $suite->addTestSuite('Test\UserTests');
