@@ -46,28 +46,28 @@ class Tests
     $suite = new PHPUnit_Framework_TestSuite('OSSO2012 Model Tests');
 
     $suite->addTestSuite('Test\InitialTests');
-/*
-    $suite->addTestSuite('Test\DbTests');
-    $suite->addTestSuite('Test\ServicesTests');
-    
-    $suite->addTestSuite('Test\OrmTests');
-    $suite->addTestSuite('Test\SchemaTests');
-    $suite->addTestSuite('Test\AysoTests');
-    $suite->addTestSuite('Test\UserTests');
 
-    $suite->addTestSuite('Test\SessionTests');
-    $suite->addTestSuite('Test\ArbiterTests');
+    $suite->addTestSuite('Test\DbTests');
+//    $suite->addTestSuite('Test\ServicesTests');
     
-    $suite->addTestSuite('Test\EventTests');
-    $suite->addTestSuite('Test\ExcelTests');
- * 
- */
+//    $suite->addTestSuite('Test\OrmTests');
+//    $suite->addTestSuite('Test\SchemaTests');
+//    $suite->addTestSuite('Test\AysoTests');
+//    $suite->addTestSuite('Test\UserTests');
+
+//    $suite->addTestSuite('Test\SessionTests');
+//    $suite->addTestSuite('Test\ArbiterTests');
+    
+//    $suite->addTestSuite('Test\EventTests');
+//    $suite->addTestSuite('Test\ExcelTests');
+
     // $suite->addTestSuite('Test\ProjectTests');
 
     PHPUnit_TextUI_TestRunner::run($suite, array());
 
   }
 }
+print_r($_ENV);
 $config = require '../config/config.php';
 $tests  = new Tests($config);
 $tests->execute();
