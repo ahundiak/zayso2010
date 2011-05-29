@@ -101,7 +101,7 @@ class SchTeamModel extends BaseModel
         if ($search->divisionId)     $select->where("{$alias}.division_id      IN (?)",$search->divisionId);
         if ($search->phyTeamId)      $select->where("{$alias}.phy_team_id      IN (?)",$search->phyTeamId);
         if ($search->schTeamId)      $select->where("{$alias}.sch_team_id      IN (?)",$search->schTeamId);
-        
+        //echo $select; die();
         $select->order(array(
             "{$alias}.reg_year_id",
             "{$alias}.season_type_id",
