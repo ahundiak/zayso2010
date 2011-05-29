@@ -19,7 +19,7 @@ class SchTeamListView extends Proj_View
         $this->divisionPickList     = $models->DivisionModel    ->getDivisionPickList();
         $this->seasonTypePickList   = $models->SeasonTypeModel  ->getPickList();
         $this->scheduleTypePickList = $models->ScheduleTypeModel->getPickList();
-        
+
         /* Query for schedule teams if have enough data */
         $flag = TRUE;
         if (!$data->unitId)         $flag = FALSE;
