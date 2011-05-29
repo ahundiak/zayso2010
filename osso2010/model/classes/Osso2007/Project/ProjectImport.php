@@ -212,8 +212,11 @@ EOT;
 
     $this->processSchTeams($data);
 
+    if ($data['id'] == 39)
+    {
+      // print_r($data); die('insert');
+    }
     $this->directProject->insert($data);
-
     $regions = explode(' ',$regions);
     foreach($regions as $region)
     {

@@ -37,7 +37,7 @@ class Osso2007_Schedule_Import_SchImport extends Osso2007_Schedule_Import_SchImp
 
     return;
   }
-  protected $teamMap = array(
+  protected $teamMapx = array(
     'R0160-U14C01-Tillery'  => 'R0160U14B01',
     'R0160-U14C02-Skinner'  => 'R0160U14B02',
     'R0160-U14C03-Mokhtari' => 'R0160U14B03',
@@ -246,6 +246,34 @@ class Osso2007_Schedule_Import_SchImport extends Osso2007_Schedule_Import_SchImp
       'R0778-U12C01-Estes'  => 'R0778U12C01',
       'R0778-U14C01-Parker' => 'R0778U14C01',
   );
+  protected $teamMap = array
+  (
+    'R0498-U10G2-Willis'     => 'R0498U10G02',
+    'R0498-U10B2-Worcester'  => 'R0498U10B02',
+    'R0498-U10G1-Bierbauer'  => 'R0498U10G01',
+    'R0498-U10B1-Ramirez'    => 'R0498U10B01',
+    'R0160-U10G4-Kross'      => 'R0160U10G04',
+    'R0160-U10B4-Cox'        => 'R0160U10B04',
+    'R0160-U10B3-Meehan'     => 'R0160U10B03',
+    'R0894-U10G5-Richardson' => 'R0894U10G05',
+    'R0894-U10B5-Stovall'    => 'R0894U10B05',
+    'R0160-U10G3-Davis'      => 'R0160U10G03',
+
+    'R0160-U12G3-Phonthsad'  => 'R0160U12G03',
+    'R0894-U12G5-Steely'     => 'R0894U12G05',
+    'R0894-U12G6-Etzel'      => 'R0894U12G06',
+    'R0498-U12G2-Willis'     => 'R0498U12G02',
+    'R0498-U12B2-Parker'     => 'R0498U12B02',
+    'R0498-U12B1-Worley'     => 'R0498U12B01',
+    'R0160-U12B5-Hawke'      => 'R0160U12B05',
+    'R0160-U12B3-Buchannen'  => 'R0160U12B03',
+    'R0160-U12G4-Holder'     => 'R0160U12G04',
+    'R0778-U12G7-Golden'     => 'R0773U12G07',
+    'R1096-U12B4-Hess'       => 'R1096U12B04',
+    'R0498-U12G1-Rossetti'   => 'R0498U12G01',
+
+  );
+
   protected function processTeam($team)
   {
     // Use global cache
@@ -256,6 +284,8 @@ class Osso2007_Schedule_Import_SchImport extends Osso2007_Schedule_Import_SchImp
     if (!$row) die('Missing Team ' . $team);
     return $row;
   }
+  protected $date = '';
+
   public function processRowData($data)
   {
     $event = array();
@@ -267,7 +297,10 @@ class Osso2007_Schedule_Import_SchImport extends Osso2007_Schedule_Import_SchImp
     $homeTeam = $data['home'];
     $awayTeam = $data['away'];
     $eventNum = (int)$data['number'];
-   
+
+    if ($date) $this->date = $date;
+    else       $date = $this->date;
+    
     if (!$date)     return;
     if (!$time)     return;
     if (!$field)    return;
