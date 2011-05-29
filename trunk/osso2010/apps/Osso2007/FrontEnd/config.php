@@ -17,7 +17,7 @@ return array
     'season_type_id'   =>  3,
     'schedule_type_id' =>  1,
     'time_offset'      => -18000,
-    'project_id'       => 38,
+    'project_id'       => 39,
   ),
 );
 ?>

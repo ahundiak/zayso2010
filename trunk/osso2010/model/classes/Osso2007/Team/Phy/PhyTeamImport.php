@@ -23,7 +23,7 @@ class Osso2007_Team_Phy_PhyTeamImportReader extends Cerad_Reader_CSV
   );
   protected $mapOptional = array
   (
-      'TeamKey' => 'teamKey',
+      'TeamKey'             => 'teamKey',
       'TeamCoachAysoid'     => 'headCoachAysoid',
       'TeamAsstCoachAysoid' => 'asstCoachAysoid',
       'TeamParentAysoid'    => 'managerAysoid',
@@ -211,7 +211,7 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
     $datax['unit_id']          = $data['unit_id'];
     $datax['reg_year_id']      = $data['reg_year_id'];
     $datax['season_type_id']   = $data['season_type_id'];
-    $datax['schedule_type_id'] = 1;
+    $datax['schedule_type_id'] = 3;  // Need to pull this from project
     $datax['division_id']      = $data['division_id'];
     $datax['sortx']            = $data['division_seq_num'];
     $datax['desc_short']       = $teamKey;
@@ -246,7 +246,7 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
   //$teamKey = $this->getTeamKeyx($teamDes);
 
     // printf("Key %s\n",$teamKey); die(); return;
-    // if (!$teamKey) return;
+    if (!$teamKey) return;
 
     // Need a organization
     $orgId = $this->repoOrg->getIdForKey($data['org']);
