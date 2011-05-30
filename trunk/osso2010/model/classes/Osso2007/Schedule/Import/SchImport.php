@@ -269,8 +269,23 @@ class Osso2007_Schedule_Import_SchImport extends Osso2007_Schedule_Import_SchImp
     'R0160-U12B3-Buchannen'  => 'R0160U12B03',
     'R0160-U12G4-Holder'     => 'R0160U12G04',
     'R0778-U12G7-Golden'     => 'R0773U12G07',
+    'R0778-U12B5-Sexton'     => 'R0773U12B05',
     'R1096-U12B4-Hess'       => 'R1096U12B04',
     'R0498-U12G1-Rossetti'   => 'R0498U12G01',
+
+    'R0894-U14B1-McCoy'    => 'R0894U14B01',
+    'R0498-U14B3-Rossetti' => 'R0498U14B03',
+    'R0894-U14G1-Harness'  => 'R0894U14G01',
+    'R0160-U14B2-Skinner'  => 'R0160U14B02',
+    'R0778-U14B4-Carlisle' => 'R0773U14B04',
+    'R0160-U14G3-Noller'   => 'R0160U14G03',
+    'R0498-U14G2-Parker'   => 'R0498U14G02',
+
+    'R0498-U19G1-Miller'   => 'R0498U19G01',
+    'R0498-U16G4-Grady'    => 'R0498U16G04',
+    'R0894-U19G2-Sullivan' => 'R0894U19G02',
+    'R0894-U16G3-Harness'  => 'R0894U16G03',
+    'R0160-U19G5-Gant'     => 'R0160U19G05',
 
   );
 
