@@ -18,7 +18,7 @@ class Request
     $serverName = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : 'unit';
     $scriptName = isset($_SERVER['SRCIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : 'script';
 
-    if ($serverName == 'zayso.org') $serverName = 'www.zayso.org';
+    //if ($serverName == 'zayso.org') $serverName = 'www.zayso.org';
     
     $this->webPath =     dirname($_SERVER['SCRIPT_NAME']) . '/';
     $this->webBase = 'http://' . $serverName . $this->webPath;
