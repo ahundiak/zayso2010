@@ -1,19 +1,14 @@
 <?php ?>
 <div>
-<form method="post" action="signin">
-<table border="1" style="width: 700px;">
-<tr><th colspan="2">S5Games Sign In <?php echo date('YmdHis'); ?></th></tr>
-<tr>
-  <td style="width: 125px;">User Name</td>
-  <td style="width: 500px;">
-    <input type="text" name="signin_user_name" size="20"/>
-  </td>
-</tr>
-<tr>
-  <td>.</td>
-  <td align="center"><input type="submit" name="signin_submit" value="Sign In" />
-</tr>
-</table>
-</form>
-<br />
+  <h3>Welcome</h3>
+  <p>
+    Welcome to the S5Games 2011 Referee Scheduling Site.
+    This site will allow you to sign up to referee specific games during the tournament.
+  </p><p>
+    It's very similar to the one we have used for the past two years.
+    The main difference is that you must <a href="account-create">create yourself an account</a> before you can sign up.
+  </p><p>
+    If you already have an account then sign in below.
+    No account is needed to <a href="schedule-show">view the schedules.</a>
 </div>
+<?php echo $this->render('S5GamesApp/Account/Signin/SigninTpl.html.php'); ?>

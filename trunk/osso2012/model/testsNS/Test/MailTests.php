@@ -23,6 +23,10 @@ class MailTests extends \PHPUnit_Framework_TestCase
 
     mail($to, $subject, $message, $headers);
 
+    // $headers .= 'Cc: birthdayarchive@example.com' . "\r\n";
+    // $headers .= 'Bcc: birthdaycheck@example.com' . "\r\n";
+
+
   $this->assertTrue(true);
   }
   function test2()

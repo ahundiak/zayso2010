@@ -7,6 +7,45 @@
   <link rel="stylesheet" type="text/css" href="osso.css" />
 </head>
 <body>
+  <div>
+    <?php 
+      $user = $this->services->user;
+      if ($user->isGuest()) $userInfo = 'Guest';
+      else
+      {
+        $userInfo = sprintf('%s, %s, %s, %s, MY%s, %s, %s',
+                $user->getAccountName(),
+                $user->getName(),
+                $user->getRegion(),
+                $user->getAysoid(),
+                $user->getRegYear(),
+                $user->getRefereeBadgeDesc(),
+                $user->getSafeHavenDesc()
+        );
+      }
+    ?>
+    User: <?php echo $userInfo; ?>
+  </div>
+  <div>
+    <a href="welcome">Welcome</a>
+
+    <?php if ($user->isSignedIn()) { ?>
+      <a href="home">Home</a>
+    <?php } ?>
+    
+    <a href="schedule-show">Schedules</a>
+
+    <a href="account-create">Create Account</a>
+
+   <?php if ($user->isAdmin()) { ?>
+     <a href="admin-clear">Clear Cookies</a>
+    <?php } ?>
+    <?php if ($user->isSignedIn()) { ?>
+      <a href="account-signout">Sign Out</a>
+   <?php } else { ?>
+    <a href="account-signin">Sign In</a>
+    <?php } ?>
+  </div>
 <?php echo $this->content; ?>
 </body>
 </html>
