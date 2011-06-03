@@ -1,87 +1,59 @@
 <?php
 
-namespace Cerad\FrontEnd;
+namespace Cerad\Format;
 
-class View
+class HTML
 {
-  protected $tplPage    = '';
-  protected $tplTitle   = 'Base View';
-  
-  protected $tplContent = '';
-    
-  protected $tplRedirectDelay = 0;
-  protected $tplRedirectLink  = NULL;
+  protected $context;
 
-  protected $services;
-  protected $format;
-
-  public function __construct($services = null)
+  public function __construct($context)
   {
-    $this->services = $services;
+    $this->context = $context;
     $this->init();
   }
-  protected function init()
-  {
-    $this->format = new \Cerad\Format\HTML($this->services);
-  }
-  public function process($data = null) {}
-  
-  protected function render($tplName)
-  { 
-    // All I really should need is an include surrounded by some buffer saving
-    ob_start();
-    include $tplName;
-    return ob_get_clean();
-  }
-  /* -------------------------------------
-   * Renders the content
-   * Renders the master page with content
-   * Puts the result in the response obeject
-   */
-  protected function renderPage()
-  {
-    $this->content = $this->render($this->tplContent);
+  protected function init() {}
 
-    $this->services->response->setBody($this->render($this->tplPage));
-
-    return;
-  }
-  protected function renderPageToString()
+  public function escape($value)
   {
-    $this->content = $this->render($this->tplContent);
-
-    return $this->render($this->tplPage);
+    return htmlspecialchars($value);
   }
-  /* This stuff really should be replaced with html object */
-  public function formatDate($date)
+  public function date($date)
   {
-    return $this->format->date($date);
+    if (strlen($date) < 8) return $date;
+
+    $stamp = mktime(0,0,0,substr($date,4,2),substr($date,6,2),substr($date,0,4));
+
+    return date('D M d',$stamp);
   }
-  public function formatTime($time)
+  public function time($time)
   {
     switch(substr($time,0,2))
     {
       case 'BN': return 'BYE No Game';
       case 'BW': return 'BYE Want Game';
-      case 'TB': return 'TBD';   
+      case 'TB': return 'TBD';
     }
     $stamp = mktime(substr($time,0,2),substr($time,2,2));
-        
+
     return date('h:i a',$stamp);
   }
-  protected function formOptions($options, $value = null) { return $this->context->html->formOptions($options,$value); }
-
-  public function formOptionsx($options, $value = NULL)
+  public function formOptions($options, $value = NULL)
   {
     $html = NULL;
     foreach($options as $key => $content)
     {
+      if (is_array($content))
+      {
+        $key     = $content['id'];
+        $content = $content['value'];
+      }
       if ($key == $value) $select = ' selected="selected"';
       else                $select = NULL;
-            
-      $html .= 
-        '<option value="' . htmlspecialchars($key) . '"' . $select .
-                      '>' . htmlspecialchars($content) . '</option>' . "\n";
+
+      $html .=
+        '<option value="' . $this->escape($key) . '"' . $select .
+        '>' . $this->escape($content) . '</option>' . "\n";
+
     }
     return $html;
   }
@@ -89,9 +61,9 @@ class View
   {
     if ($checked) $check = 'checked="checked" ';
     else          $check = '';
-        
+
     $value = $this->escape($value);
-        
+
     return "<input type=\"checkbox\" name=\"{$name}\" value=\"{$value}\" {$check}\>\n";
   }
   public function formRadioBox($name,$checked = FALSE, $value='1')
@@ -100,7 +72,7 @@ class View
     else          $check = '';
 
     $value = $this->escape($value);
-        
+
     return "<input type=\"radio\" name=\"{$name}\" value=\"{$value}\" {$check}\>\n";
   }
   function formUDC($name,$id)
@@ -114,7 +86,7 @@ class View
     {
       $disable = 'disabled="disabled" ';
       $createValue = 'Create';
-    }    
+    }
     $html = NULL;
     $html .= "<input type=\"checkbox\" name=\"{$name}_confirm_delete\" value=\"1\"      {$disable}/>\n";
     $html .= "<input type=\"submit\"   name=\"{$name}_submit_delete\"  value=\"Delete\" {$disable}/>\n";
@@ -127,7 +99,7 @@ class View
   public function href($content,$routeName,$par1 = NULL,$par2 = NULL)
   {
     $link = $this->context->url->link($routeName,$par1,$par2);
-        
+
     return "<a href=\"{$link}\">{$content}</a>";
   }
   public function link($routeName = NULL,$par1 = NULL,$par2 = NULL )
@@ -138,6 +110,5 @@ class View
   {
     return $this->context->url->file($path);
   }
-  public function escape($content) { return $this->format->escape($content); }
 }
 ?>
