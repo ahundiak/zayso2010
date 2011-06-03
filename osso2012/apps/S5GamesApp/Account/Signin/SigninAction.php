@@ -3,23 +3,17 @@ namespace S5GamesApp\Account\Signin;
 
 class SigninAction extends \S5GamesApp\FrontEnd\Action
 {
-  public function processGetx($args)
-  {
-    $view = new WelcomeView($this->services);
-    $view->process();
-    return;
-  }
   public function processGet($args)
   {
     $services = $this->services;
     $request  = $services->request;
 
     $session  = $services->session;
-    $sessionData = $session->load('signin');
-
-    $userName = $sessionData->userName;
-
-    die('Signin get' . $userName);
+    $sessionData = $session->load('account-signin');
+    
+    $view = new SigninView($this->services);
+    $view->process(clone $sessionData);
+    return;
   }
   public function processPost($args)
   {
@@ -27,16 +21,34 @@ class SigninAction extends \S5GamesApp\FrontEnd\Action
     $request  = $services->request;
 
     $session  = $services->session;
-    $sessionData = $session->load('signin');
+    $data = $session->load('account-signin');
 
     $userName = $request->getPostStr('signin_user_name');
+    $userPass = $request->getPostStr('signin_user_pass');
 
-    $sessionData->userName = $userName;
+    $data->userName = $userName;
+    $data->errors = array();
 
-    $session->save($sessionData);
+    // Lookup account
+    $accountRepo = $this->services->em->getRepository('S5Games\Account\AccountItem');
+
+    $account = $accountRepo->findForUserName($userName,$userPass);
     
-    // die('Signin Post ' . $userName);
-    return $this->redirect('signin');
+    if (!$account)
+    {
+      $data->errors = $accountRepo->getErrors();
+      $session->save($data);
+      return $this->redirect('account-signin');
+    }
+    $session->save($data);
+
+    $data = $session->load('user');
+    $data->setData();
+    $data->accountId = $account->getId();
+    $session->save($data);
+
+    return $this->redirect('home');
+
   }
 }
 ?>

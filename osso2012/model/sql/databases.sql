@@ -33,5 +33,17 @@ CREATE DATABASE arbiter;
 
 GRANT ALL ON arbiter.* TO "impd"@"localhost";
 
+== S5Games database
+DROP DATABASE IF EXISTS s5games;
+
+CREATE DATABASE s5games;
+
+GRANT ALL ON s5games.* TO "impd"@"localhost";
+
+DROP DATABASE IF EXISTS s5gamesv;
+CREATE DATABASE         s5gamesv;
+GRANT ALL ON            s5gamesv.* TO "impd"@"localhost";
+FLUSH PRIVILEGES;
+
 == Done
 FLUSH PRIVILEGES;

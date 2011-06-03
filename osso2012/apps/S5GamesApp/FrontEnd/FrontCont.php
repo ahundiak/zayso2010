@@ -13,10 +13,15 @@ class FrontCont extends \Cerad\FrontEnd\FrontCont
   protected $actions = array
   (
     'welcome'   => 'S5GamesApp\Welcome\WelcomeAction',
-    'signin'    => 'S5GamesApp\Account\Signin\SigninAction',
+    'home'      => 'S5GamesApp\Home\HomeAction',
+    
+    'account-signin'  => 'S5GamesApp\Account\Signin\SigninAction',
+    'account-signout' => 'S5GamesApp\Account\Signout\SignoutAction',
+    'account-create'  => 'S5GamesApp\Account\Create\CreateAction',
 
-    'ref_avail' => 'S5GamesApp\RefAvail\RefAvailAction',
-    'schedule'  => 'S5GamesApp\Schedule\ScheduleAction',
+    'admin-clear'     => 'S5GamesApp\Admin\ClearAction',
+
+    'schedule-show'   => 'S5GamesApp\Schedule\Show\ShowAction',
   );
   protected function init()
   {
@@ -31,7 +36,7 @@ class FrontCont extends \Cerad\FrontEnd\FrontCont
     ClassLoader::createNS('S5GamesApp', $ws . 'osso2012/apps');
 
     // For templates
-    ini_set('include_path',PATH_SEPARATOR . $ws . 'osso2012/apps');
+    ini_set('include_path',$ws . 'osso2012/apps');
 
     // Make sure we get correct Service object
     $this->services = new Services($this->config);

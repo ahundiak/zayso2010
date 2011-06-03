@@ -1,13 +1,18 @@
 <?php
-namespace S5GamesApp\Welcome;
+namespace S5GamesApp\Account\Signin;
 
-class WelcomeView extends \S5GamesApp\FrontEnd\View
+use \Cerad\Debug as Debug;
+
+class SigninView extends \S5GamesApp\FrontEnd\View
 {
-  protected $tplTitle = 'Welcome to S5Games App';
-  protected $tplContent = 'S5GamesApp/Welcome/WelcomeTpl.html.php';
+  protected $tplTitle = 'S5Games Signin';
+  protected $tplContent = 'S5GamesApp/Account/Signin/SigninTpl.html.php';
 
-  public function process()
+  public function process($data)
   {
+    // Debug::dump($data);
+    $this->data = $data;
+    
     $this->renderPage();
   }
 }

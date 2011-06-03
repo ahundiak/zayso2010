@@ -43,7 +43,7 @@ class SessionDataItem
 
   public function saveData()  { $this->item = serialize($this->data); }
   public function loadData()  { $this->data = unserialize($this->item); }
-
+  public function setData($data = array()) { $this->data = $data; }
 
   public function __get($name)
   {
