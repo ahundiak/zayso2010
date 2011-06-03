@@ -1,7 +1,7 @@
 <?php
 return array
 (
-  'app_mode'   => 'dev',
+  'app_mode'   => 'prod',
   'sql_log'    => 0,
     
   'ws'         => '/home/ahundiak/zayso2012/',
