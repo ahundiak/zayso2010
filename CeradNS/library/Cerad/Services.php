@@ -33,6 +33,7 @@ class Services
 
     // Special case fo db adapters
     if (substr($name,0,2) == 'db') return $this->newDb($name);
+    if (substr($name,0,2) == 'em') return $this->newEm($name);
 
     // Create a class
     if (isset($this->classNames[$name]))
@@ -49,7 +50,7 @@ class Services
   /* ===============================================================
    * Fun code for Doctrine entity manager
    */
-  protected function newEm($name)
+  protected function newEm($name = null)
   {
     $configx = $this->config;
 
@@ -83,7 +84,9 @@ class Services
 
     $em = EntityManager::create($dbParams, $config, $eventManager);
 
-    return $this->data['em'] = $em;
+    if ($name) $this->data[$name] = $em;
+
+    return $em;
   }
   /* ===============================================================
    * Keep this for now, for accessing older style database adapter
