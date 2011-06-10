@@ -4,10 +4,9 @@
 ?>
 Game,Date,Time,Field,Div,Bracket,Home Team,Away Team,Center,AR1,AR2,Assessor,Assessor 2
 <?php
-  $game = new \S5GamesApp\Schedule\Show\GameView($this);
-  foreach($games as $gamex)
+  foreach($games as $gameItem)
   {
-    $game->set($gamex);
+    $game = $this->getGameDisplay($gameItem);
 
     $line = array();
     $line[] = $game->id;

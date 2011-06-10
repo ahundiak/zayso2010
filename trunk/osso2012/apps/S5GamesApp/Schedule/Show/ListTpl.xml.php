@@ -121,10 +121,10 @@
     <Cell ss:StyleID="s22"><Data ss:Type="String"></Data></Cell>
    </Row>
    <?php
-    $game = new \S5GamesApp\Schedule\Show\GameView($this);
-    foreach($games as $gamex)
-    {
-    $game->set($gamex); ?>
+     foreach($games as $gameItem)
+     {
+       $game = $this->getGameDisplay($gameItem);
+  ?>
    <Row ss:AutoFitHeight="0">
     <Cell ss:StyleID="s26"><Data ss:Type="Number"><?php echo $game->id;       ?></Data></Cell>
     <Cell ss:StyleID="s27"><Data ss:Type="String"><?php echo $game->date;     ?></Data></Cell>
