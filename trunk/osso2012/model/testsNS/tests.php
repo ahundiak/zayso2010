@@ -36,7 +36,7 @@ class Tests
      *
      */
     ini_set('include_path',
-       PATH_SEPARATOR . $ws . 'PHPUnit-3.5' .
+                        $ws . 'PHPUnit-3.5' .
        PATH_SEPARATOR . $ws . 'PHPExcel\Classes'
     );
     return;
@@ -47,11 +47,11 @@ class Tests
 
     $suite->addTestSuite('Test\InitialTests');
 
-    $suite->addTestSuite('Test\DbTests');
-    $suite->addTestSuite('Test\ServicesTests');
+//    $suite->addTestSuite('Test\DbTests');
+//    $suite->addTestSuite('Test\ServicesTests');
     
-    $suite->addTestSuite('Test\OrmTests');
-    $suite->addTestSuite('Test\MailTests');
+//    $suite->addTestSuite('Test\OrmTests');
+//    $suite->addTestSuite('Test\MailTests');
 //    $suite->addTestSuite('Test\SchemaTests');
 //    $suite->addTestSuite('Test\AysoTests');
 //    $suite->addTestSuite('Test\UserTests');
@@ -60,7 +60,7 @@ class Tests
 //    $suite->addTestSuite('Test\ArbiterTests');
     
 //    $suite->addTestSuite('Test\EventTests');
-//    $suite->addTestSuite('Test\ExcelTests');
+    $suite->addTestSuite('Test\ExcelTests');
 
     // $suite->addTestSuite('Test\ProjectTests');
 
@@ -70,7 +70,7 @@ class Tests
 }
 // print_r($_SERVER);
 
-$configFileName = 'config.php';
+$configFileName = 'buffy.php';
 if (isset($_SERVER['HOSTNAME']) && $_SERVER['HOSTNAME'] == 'locke.telavant.com') $configFileName = 'zayso.php';
 
 $config = require '../config/' . $configFileName;

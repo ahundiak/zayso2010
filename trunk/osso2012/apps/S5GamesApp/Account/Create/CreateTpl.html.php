@@ -2,13 +2,9 @@
   $data = $this->data;
 ?>
 <div>
-  <a href="account-signin">Signin</a>
-  <a href="account-create">Create</a>
-</div>
-<div>
 <form method="post" action="account-create">
 <table border="1" style="width: 700px;">
-<tr><th colspan="3">S5Games Create Account <?php echo date('YmdHis'); ?></th></tr>
+<tr><th colspan="3">S5Games Create Account</th></tr>
 <tr>
   <td style="width: 125px;">AYSOID (8 digits)</td>
   <td style="width: 200px;">

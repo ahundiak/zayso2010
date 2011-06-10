@@ -22,11 +22,11 @@ DROP TABLE IF EXISTS `accounts`;
 CREATE TABLE         `accounts` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `aysoid`     char(20) default NULL,
-  `uname`      char(20) default NULL,
-  `upass`      char(20) default NULL,
+  `uname`      char(40) default NULL,
+  `upass`      char(40) default NULL,
   `fname`      char(20) default NULL,
   `lname`      char(20) default NULL,
-  `email`      char(20) default NULL,
+  `email`      char(40) default NULL,
   `phonec`     char(20) default NULL,
   `verified`   char(20) default NULL,
 
