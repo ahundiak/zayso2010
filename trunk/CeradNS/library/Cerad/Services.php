@@ -32,8 +32,9 @@ class Services
     if (isset($this->data[$name])) return $this->data[$name];
 
     // Special case fo db adapters
-    if (substr($name,0,2) == 'db') return $this->newDb($name);
-    if (substr($name,0,2) == 'em') return $this->newEm($name);
+    if (substr($name,0,2) == 'db')   return $this->newDb($name);
+    if (substr($name,0,2) == 'em')   return $this->newEm($name);
+    if (substr($name,0,4) == 'repo') return $this->newRepo($name);
 
     // Create a class
     if (isset($this->classNames[$name]))
@@ -87,6 +88,27 @@ class Services
     if ($name) $this->data[$name] = $em;
 
     return $em;
+  }
+  /* ===============================================================
+   * Repos require am en
+   */
+  protected $repoMap = array
+  (
+    'repoAccount' => array('em' => 'em', 'item' => 'S5Games\Account\AccountItem'),
+  );
+  protected function newRepo($name)
+  {
+    if (!isset($this->repoMap[$name])) return null;
+
+    $emName   = $this->repoMap[$name]['em'];
+    $itemName = $this->repoMap[$name]['item'];
+
+    $em = $this->$emName;
+    $repo = $em->getRepository($itemName);
+
+    $this->data[$name] = $repo;
+    return $repo;
+    
   }
   /* ===============================================================
    * Keep this for now, for accessing older style database adapter
