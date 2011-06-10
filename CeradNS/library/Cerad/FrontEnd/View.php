@@ -69,7 +69,7 @@ class View
         
     return date('h:i a',$stamp);
   }
-  protected function formOptions($options, $value = null) { return $this->context->html->formOptions($options,$value); }
+  protected function formOptions($options, $value = null) { return $this->format->formOptions($options,$value); }
 
   public function formOptionsx($options, $value = NULL)
   {
