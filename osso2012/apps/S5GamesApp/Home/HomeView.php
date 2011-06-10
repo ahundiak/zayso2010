@@ -9,6 +9,11 @@ class HomeView extends \S5GamesApp\FrontEnd\View
   public function process($data)
   {
     $this->data = $data;
+
+    // Show account information
+    $accountx = new \Cerad\DataItem();
+    $accountId = $this->services->user->getAccountId();
+    
     $this->renderPage();
   }
 }

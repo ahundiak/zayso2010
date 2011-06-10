@@ -47,7 +47,7 @@ class SigninAction extends \S5GamesApp\FrontEnd\Action
     $data->accountId = $account->getId();
     $session->save($data);
 
-    return $this->redirect('home');
+    return $this->redirect('schedule-show');
 
   }
 }

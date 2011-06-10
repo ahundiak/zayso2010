@@ -61,7 +61,7 @@ class CreateAction extends \S5GamesApp\FrontEnd\Action
 
     // die('Account created: ' . $account->getId());
     
-    return $this->redirect('home');
+    return $this->redirect('schedule-show');
   }
 }
 ?>

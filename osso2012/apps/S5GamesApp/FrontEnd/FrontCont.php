@@ -18,10 +18,12 @@ class FrontCont extends \Cerad\FrontEnd\FrontCont
     'account-signin'  => 'S5GamesApp\Account\Signin\SigninAction',
     'account-signout' => 'S5GamesApp\Account\Signout\SignoutAction',
     'account-create'  => 'S5GamesApp\Account\Create\CreateAction',
+    'account-update'  => 'S5GamesApp\Account\Update\UpdateAction',
 
     'admin-clear'     => 'S5GamesApp\Admin\ClearAction',
 
     'schedule-show'   => 'S5GamesApp\Schedule\Show\ShowAction',
+    'schedule-assign' => 'S5GamesApp\Schedule\Assign\AssignAction',
   );
   protected function init()
   {

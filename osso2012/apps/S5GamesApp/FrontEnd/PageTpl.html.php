@@ -4,9 +4,12 @@
   <title><?php echo $this->tplTitle; ?></title>
   <base href="<?php echo $this->services->request->webBase; ?>" />
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <link rel="stylesheet" type="text/css" href="osso.css" />
+  <link rel="stylesheet" type="text/css" href="s5games.css" />
 </head>
-<body>
+<body id="layout-body">
+<div id="layout-page">
+  
+<div id="layout-banner">
   <div>
     <?php 
       $user = $this->services->user;
@@ -14,7 +17,7 @@
       else
       {
         $userInfo = sprintf('%s, %s, %s, %s, MY%s, %s, %s',
-                $user->getAccountName(),
+                $user->getAccountUserName(),
                 $user->getName(),
                 $user->getRegion(),
                 $user->getAysoid(),
@@ -26,6 +29,7 @@
     ?>
     User: <?php echo $userInfo; ?>
   </div>
+  <div id="layout-menu-top">
   <div>
     <a href="welcome">Welcome</a>
 
@@ -46,6 +50,11 @@
     <a href="account-signin">Sign In</a>
     <?php } ?>
   </div>
+</div>
+<div id="layout-content">
 <?php echo $this->content; ?>
+</div>
+</div>
+</div>
 </body>
 </html>
