@@ -14,7 +14,7 @@ class ShowAction extends \S5GamesApp\FrontEnd\Action
     if (!$search->posted)
     {
       $search->showFri = 1;
-      $search->showSat = 0;
+      $search->showSat = 1;
       $search->showSun = 1;
 
       $search->showU10  = 1;
@@ -22,7 +22,7 @@ class ShowAction extends \S5GamesApp\FrontEnd\Action
       $search->showU14  = 1;
       $search->showU16  = 1;
       $search->showU19  = 1;
-      $search->showCoed = 0;
+      $search->showCoed = 1;
       $search->showGirl = 1;
 
       $search->sort    = 1;
