@@ -98,6 +98,14 @@ class UserItem
   public function getCoachBadgeDesc()   { return $this->cert_type_coach_desc1; }
   public function getRefereeBadgeDesc() { return $this->cert_type_referee_desc1; }
 
+  public function getPersonFirstName()  { return $this->person_fname;  }
+  public function getPersonLastName ()  { return $this->person_lname;  }
+  public function getPersonNickName ()  { return $this->person_nname;  }
+  public function getPersonEmail()      { return $this->person_email;  }
+  public function getPersonCellPhone()  { return $this->person_phonec; }
+  public function getPersonDOB()        { return $this->person_dob;    }
+  public function getPersonGender()     { return $this->person_gender; }
+
   public function isReferee()
   {
     if (!$this->cert_type_referee_desc1) return FALSE;
