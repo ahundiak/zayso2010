@@ -12,5 +12,5 @@ UPDATE games SET
   away_name    = 'Rossetti-498'
 WHERE game_num = 64;
 
-DELETE FROM game_person WHERE game_num = 53;
+-- DELETE FROM game_person WHERE game_num = 53;
 DELETE FROM game_person WHERE game_num = 64;
