@@ -43,6 +43,7 @@
 
    <?php if ($user->isAdmin() || 1) { ?>
      <a href="admin-clear">Clear Cookies</a>
+     <a href="session-show">Sessions</a>
     <?php } ?>
     <?php if ($user->isSignedIn()) { ?>
       <a href="account-signout">Sign Out</a>

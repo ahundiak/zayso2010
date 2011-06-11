@@ -37,7 +37,11 @@ class SessionDataItem
   public function setTsCreated($value) { $this->ts_created = $value; }
   public function setTsUpdated($value) { $this->ts_updated = $value; }
 
+  public function getId()        { return $this->id; }
   public function getSessionId() { return $this->key; }
+  public function getName()      { return $this->name; }
+  public function getCreated()   { return $this->ts_created; }
+  public function getUpdated()   { return $this->ts_updated; }
 
   protected $data = array();
 
@@ -129,6 +133,25 @@ class SessionRepo extends EntityRepository
     $sessionData->setTsUpdated($this->getTimeStamp());
     $this->_em->persist($sessionData);
     $this->_em->flush();
+  }
+  public function search($search)
+  {
+    $names = array('account-signin');
+
+    $em = $this->_em;
+    $qb = $em->createQueryBuilder();
+    $qb->addSelect('data');
+    $qb->from('\Session\SessionDataItem','data');
+    $qb->andWhere($qb->expr()->in('data.name',$names));
+    $qb->addOrderBy('data.ts_updated','DESC');
+
+    $query = $qb->getQuery();
+    $items = $query->getResult();
+    foreach($items as $item)
+    {
+      $item->loadData();
+    }
+    return $items;
   }
 }
 ?>
