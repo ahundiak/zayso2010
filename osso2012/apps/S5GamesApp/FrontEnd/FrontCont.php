@@ -25,6 +25,7 @@ class FrontCont extends \Cerad\FrontEnd\FrontCont
     'session-show'    => 'S5GamesApp\Admin\Session\ShowAction',
 
     'schedule-show'   => 'S5GamesApp\Schedule\Show\ShowAction',
+    'schedule-stats'  => 'S5GamesApp\Schedule\Stats\StatsAction',
     'schedule-assign' => 'S5GamesApp\Schedule\Assign\AssignAction',
   );
   protected function init()
