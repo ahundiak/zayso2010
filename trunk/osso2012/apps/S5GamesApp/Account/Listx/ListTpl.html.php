@@ -6,8 +6,8 @@
 <table border = "1" width="900">
 <tr><th colspan="6">Account Information</th></tr>
 <tr>
-  <td width="50">ID</td>
-  <td width="100">User Name</td>
+  <td width="25">ID</td>
+  <td width="75">User Name</td>
   <td width="100">Account Information</td>
   <td width="50">AYSOID</td>
   <td width="100">AYSO Certs</td>
