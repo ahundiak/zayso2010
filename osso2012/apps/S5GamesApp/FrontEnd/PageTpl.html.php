@@ -41,9 +41,10 @@
 
     <a href="account-create">Create Account</a>
 
-   <?php if ($user->isAdmin() || 1) { ?>
-     <a href="admin-clear">Clear Cookies</a>
-     <a href="session-show">Sessions</a>
+    <?php if ($user->isAdmin() || 1) { ?>
+      <a href="account-list">Accounts</a>
+      <a href="session-show">Sessions</a>
+      <a href="admin-clear">Clear Cookies</a>
     <?php } ?>
     <?php if ($user->isSignedIn()) { ?>
       <a href="account-signout">Sign Out</a>
