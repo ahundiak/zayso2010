@@ -32,8 +32,15 @@ class SigninAction extends \S5GamesApp\FrontEnd\Action
     // Lookup account
     $accountRepo = $this->services->em->getRepository('S5Games\Account\AccountItem');
 
-    $account = $accountRepo->findForUserName($userName,$userPass);
-    
+    try {
+      $account = $accountRepo->findForUserName($userName,$userPass);
+    }
+    catch (\Exception $e)
+    {
+      // Got some strange exceptions
+      setcookie('s5games2011','',time - 36000);
+      return $this->redirect('welcome');
+    }
     if (!$account)
     {
       $data->errors = $accountRepo->getErrors();
