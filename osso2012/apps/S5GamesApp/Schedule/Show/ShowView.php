@@ -103,6 +103,9 @@ class GameDisplay
           break;
 
 	case 2:
+          $span = "<span style=\"color: magenta;\">";
+          break;
+        
         case 6:
           $span = "<span style=\"color: red;\">";
           break;
