@@ -21,6 +21,7 @@ class FrontCont extends \Cerad\FrontEnd\FrontCont
     'account-update'  => 'S5GamesApp\Account\Update\UpdateAction',
 
     'admin-clear'     => 'S5GamesApp\Admin\ClearAction',
+    'session-show'    => 'S5GamesApp\Admin\Session\ShowAction',
 
     'schedule-show'   => 'S5GamesApp\Schedule\Show\ShowAction',
     'schedule-assign' => 'S5GamesApp\Schedule\Assign\AssignAction',
