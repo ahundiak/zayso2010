@@ -4,14 +4,13 @@
 ?>
 <div>
 <table border = "1" width="900">
-<tr><th colspan="6">Account Information</th></tr>
+<tr><th colspan="5">Account Information</th></tr>
 <tr>
   <td width="25">ID</td>
   <td width="75">User Name</td>
   <td width="100">Account Information</td>
   <td width="50">AYSOID</td>
-  <td width="100">AYSO Certs</td>
-  <td width="100">AYSO Contact</td>
+  <td width="100">AYSO Information</td>
 </tr>
 <?php
   foreach($items as $item)
@@ -34,13 +33,29 @@
     $refBadge = $this->escape($item->getRefereeBadgeDesc());
     if (!$refBadge) $refBadge = '<span style="color: red">No Referee Cert</span>';
 
+    $dob = $item->getPersonDOB();
+    $dob = substr($dob,0,4);
+
+    $nname = $this->escape($item->getPersonNickName());
+
     $html = '';
-    $html .=        $this->escape($item->getRegion())        . ' ';
-    $html .= 'MY' . $this->escape($item->getRegYear())       . '<br />';
-    $html .=        $this->escape($item->getSafeHavenDesc()) . '<br />';
-    $html .=        $refBadge;
+
+    $html .=         $this->escape($item->getRegion())        . ' ';
+    $html .= 'MY'  . $this->escape($item->getRegYear())       . ' ';
+    $html .= 'DOB' . $dob . '<br />';
+
+    $html .=         $this->escape($item->getSafeHavenDesc()) . '<br />';
+    $html .=         $refBadge                                . '<br />';
+
+    if ($nname) {
+      $html .= 'Nick Name: ' . $this->escape($item->getPersonNickName())  . '<br />';
+    }
+    $html .= $this->escape($item->getPersonEmail())     . '<br />';
+    $html .= $this->escape($item->getPersonCellPhone());
+
     echo $html . "\n";;
-  ?>
+  ?></td>
+    <?php /*
   <td><?php
     $dob = $item->getPersonDOB();
     $dob = substr($dob,0,4);
@@ -51,6 +66,8 @@
     $html .= $this->escape($item->getPersonCellPhone());
     echo $html . "\n";;
   ?>
+     *
+     */ ?>
 </tr>
 <?php } ?>
 </table>
