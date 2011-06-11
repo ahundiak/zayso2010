@@ -65,7 +65,7 @@ class GameRepo extends EntityRepository
     if ($search->showFri) $dates[] = 'FRI';
     if ($search->showSat) $dates[] = 'SAT';
     if ($search->showSun) $dates[] = 'SUN';
-    if (!count($dates))   $dates[] = 'NONE';
+  //if (!count($dates))   $dates[] = 'NONE';
 
 
     $divs = array();
@@ -79,6 +79,7 @@ class GameRepo extends EntityRepository
     if ($search->showU16 && $search->showGirl) $divs[] = 'U16G';
     if ($search->showU19 && $search->showCoed) $divs[] = 'U19B';
     if ($search->showU19 && $search->showGirl) $divs[] = 'U19G';
+  //if (!count($divs))   $divs[] = 'NONE';
 
     $coaches  = explode(',',trim($search->coach));
     $referees = explode(',',trim($search->referee));
@@ -89,8 +90,8 @@ class GameRepo extends EntityRepository
     $qb->addSelect('person');
     $qb->from('\S5Games\Game\GameItem','game');
     $qb->leftJoin('game.persons','person');
-    $qb->andWhere($qb->expr()->in('game.date',$dates));
-    $qb->andWhere($qb->expr()->in('game.div', $divs));
+    if (count($dates)) $qb->andWhere($qb->expr()->in('game.date',$dates));
+    if (count($divs))  $qb->andWhere($qb->expr()->in('game.div', $divs));
 
     // Need to fool with referees once imnplemented
     // This almost worked but not quite, does not pick up all slots
