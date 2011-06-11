@@ -59,6 +59,7 @@ class UpdateAction extends \S5GamesApp\FrontEnd\Action
 
     $data->account = $account;
     $session->save($data);
+    return $this->redirect('home');
     return $this->redirect('account-update');
 
     // Create it
