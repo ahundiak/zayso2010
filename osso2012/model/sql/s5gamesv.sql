@@ -30,8 +30,8 @@ SELECT
   reg_email.valuex  AS person_email,
   reg_phonec.valuex AS person_phonec,
 
-  org.keyx      AS person_org_key,
-  org.desc_pick AS person_org_desc
+  org.keyx  AS person_org_key,
+  org.desc1 AS person_org_desc
 
 FROM      s5games.accounts         AS account
 LEFT JOIN eayso.reg_main           AS vol            ON vol.reg_num = account.aysoid
@@ -48,7 +48,8 @@ LEFT JOIN eayso.reg_prop           AS reg_email  ON vol.reg_num = reg_email.reg_
 LEFT JOIN eayso.reg_prop           AS reg_phonec ON vol.reg_num = reg_phonec.reg_num AND reg_phonec.typex = 13
 
 LEFT JOIN eayso.reg_org            AS reg_org ON reg_org.reg_num = vol.reg_num
-LEFT JOIN osso2007.unit            AS org ON org.unit_id = reg_org.org_id
+LEFT JOIN osso.org                 AS org     ON org.id          = reg_org.org_id
+
 ;
 
 -- 
