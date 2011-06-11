@@ -119,6 +119,19 @@ class AccountRepo extends EntityRepository
     }
     return $account;
   }
+  public function search($search)
+  {
+    $em = $this->_em;
+    $qb = $em->createQueryBuilder();
+    $qb->addSelect('user');
+    $qb->from('\S5Games\User\UserItem','user');
+    $qb->addOrderBy('user.account_uname');
 
+    $query = $qb->getQuery();
+
+    $items = $query->getResult();
+    return $items;
+
+  }
 }
 ?>

@@ -19,6 +19,7 @@ class FrontCont extends \Cerad\FrontEnd\FrontCont
     'account-signout' => 'S5GamesApp\Account\Signout\SignoutAction',
     'account-create'  => 'S5GamesApp\Account\Create\CreateAction',
     'account-update'  => 'S5GamesApp\Account\Update\UpdateAction',
+    'account-list'    => 'S5GamesApp\Account\Listx\ListAction',
 
     'admin-clear'     => 'S5GamesApp\Admin\ClearAction',
     'session-show'    => 'S5GamesApp\Admin\Session\ShowAction',
