@@ -38,8 +38,7 @@
     <?php } ?>
     
     <a href="schedule-show">Schedules</a>
-
-    <a href="account-create">Create Account</a>
+    <a href="schedule-stats">Stats</a>
 
     <?php if ($user->isAdmin() || 1) { ?>
       <a href="account-list">Accounts</a>
