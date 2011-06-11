@@ -4,7 +4,7 @@
 ?>
 <div>
 <table border = "1" width="900">
-<tr><th colspan="5">Account Information</th></tr>
+<tr><th colspan="5">Account Information <?php echo count($items); ?></th></tr>
 <tr>
   <td width="25">ID</td>
   <td width="75">User Name</td>
@@ -30,29 +30,41 @@
   </td>
   <td><?php echo $item->getAysoid();          ?></td>
   <td><?php
+    $safeHaven = $this->escape($item->getSafeHavenDesc());
+    if (!$safeHaven) $safeHaven = '<span style="color: red">No SafeHaven</span>';
+
     $refBadge = $this->escape($item->getRefereeBadgeDesc());
     if (!$refBadge) $refBadge = '<span style="color: red">No Referee Cert</span>';
+
+    $regYear = (int)$item->getRegYear();
+    if ($regYear < 2010) $regYear = '<span style="color: red">' . $regYear . '</span>';
 
     $dob = $item->getPersonDOB();
     $dob = substr($dob,0,4);
 
     $nname = $this->escape($item->getPersonNickName());
 
+    $cellPhone = $item->getPersonCellPhone();
+    if ($cellPhone)
+    {
+      $cellPhone = substr($cellPhone,0,3) . '.' . substr($cellPhone,3,3) . '.' . substr($cellPhone,6);
+    }
     $html = '';
 
-    $html .=         $this->escape($item->getRegion())        . ' ';
-    $html .= 'MY'  . $this->escape($item->getRegYear())       . ' ';
+    $html .=         $this->escape($item->getRegion()) . ' ';
+    $html .= 'MY'  . $regYear                          . ' ';
     $html .= 'DOB' . $dob . '<br />';
 
-    $html .=         $this->escape($item->getSafeHavenDesc()) . '<br />';
-    $html .=         $refBadge                                . '<br />';
+    $html .=         $safeHaven . '<br />';
+    $html .=         $refBadge  . '<br />';
 
     if ($nname) {
       $html .= 'Nick Name: ' . $this->escape($item->getPersonNickName())  . '<br />';
     }
     $html .= $this->escape($item->getPersonEmail())     . '<br />';
-    $html .= $this->escape($item->getPersonCellPhone());
-
+    if ($cellPhone) {
+      $html .= 'C: ' . $cellPhone;
+    }
     echo $html . "\n";;
   ?></td>
     <?php /*
