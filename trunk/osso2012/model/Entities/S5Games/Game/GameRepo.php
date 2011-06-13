@@ -84,15 +84,28 @@ class GameRepo extends EntityRepository
     $coaches  = explode(',',trim($search->coach));
     $referees = explode(',',trim($search->referee));
 
+    $gameNums = $search->gameNums;
+    if ($gameNums)
+    {
+      $coaches  = array();
+      $referees = array();
+    }
     $em = $this->_em;
     $qb = $em->createQueryBuilder();
     $qb->addSelect('game');
     $qb->addSelect('person');
     $qb->from('\S5Games\Game\GameItem','game');
     $qb->leftJoin('game.persons','person');
-    if (count($dates)) $qb->andWhere($qb->expr()->in('game.date',$dates));
-    if (count($divs))  $qb->andWhere($qb->expr()->in('game.div', $divs));
 
+    if ($gameNums)
+    {
+      $qb->andWhere($qb->expr()->in('game.id',$gameNums));
+    }
+    else
+    {
+      if (count($dates)) $qb->andWhere($qb->expr()->in('game.date',$dates));
+      if (count($divs))  $qb->andWhere($qb->expr()->in('game.div', $divs));
+    }
     // Need to fool with referees once imnplemented
     // This almost worked but not quite, does not pick up all slots
     $orPeople = $qb->expr()->orx();
