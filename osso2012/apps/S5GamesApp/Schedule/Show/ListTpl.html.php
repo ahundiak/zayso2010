@@ -1,6 +1,7 @@
 <?php
   $data  = $this->data;
   $games = $data->games;
+  $gameNums = $data->gameNums;
 ?>
 
 <table border = "1" width="800">
@@ -29,7 +30,18 @@
     }
 ?>
 <tr <?php echo $style; ?> >
-  <td align="center"><?php echo $game->id;     ?></td>
+  <td align="center">
+    <?php echo $game->id; ?> <br />
+    <?php
+      $selected = null;
+      if ($gameNums && isset($gameNums[$game->id])) $selected = 'checked="checked"';
+    ?>
+    <input 
+        type="checkbox"
+        name = "game_nums[<?php echo $game->id; ?>]"
+        value="<?php echo $game->id; ?>"
+        <?php echo $selected; ?> />
+  </td>
   <td><?php echo $game->date;    ?></td>
   <td><?php echo $game->time;    ?></td>
   <td><?php echo $game->field;   ?></td>
@@ -40,3 +52,4 @@
 </tr>
 <?php } ?>
 </table>
+</form>
