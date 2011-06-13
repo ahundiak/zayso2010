@@ -1,7 +1,11 @@
 <?php
   // Session Show Tpl
-  $items = $this->data->items;
+  $items  = $this->data->items;
+  $search = $this->data->search;
 ?>
+<div>
+  <?php echo $this->render('S5GamesApp/Account/Listx/SearchTpl.html.php'); ?>
+</div
 <div>
 <table border = "1" width="900">
 <tr><th colspan="5">Account Information <?php echo count($items); ?></th></tr>

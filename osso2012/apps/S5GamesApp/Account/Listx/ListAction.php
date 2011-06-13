@@ -25,25 +25,14 @@ class ListAction extends \S5GamesApp\FrontEnd\Action
     $data = $session->load('account-list');
 
     // Extract
-    $data->posted    = 1;
-    $data->showFri   = $request->getPostInt('sched_show_fri');
-    $data->showSat   = $request->getPostInt('sched_show_sat');
-    $data->showSun   = $request->getPostInt('sched_show_sun');
-    $data->showU10   = $request->getPostInt('sched_show_u10');
-    $data->showU12   = $request->getPostInt('sched_show_u12');
-    $data->showU14   = $request->getPostInt('sched_show_u14');
-    $data->showU16   = $request->getPostInt('sched_show_u16');
-    $data->showU19   = $request->getPostInt('sched_show_u19');
-    $data->showCoed  = $request->getPostInt('sched_show_coed');
-    $data->showGirl  = $request->getPostInt('sched_show_girl');
-    
-    $data->sort      = $request->getPostInt('sched_sort');
-    $data->coach     = $request->getPostStr('sched_search_coach');
-    $data->referee   = $request->getPostStr('sched_search_referee');
+    $data->uname   = $request->getPostStr('account_search_uname');
+    $data->lname   = $request->getPostStr('account_search_lname');
+    $data->aysoid  = $request->getPostStr('account_search_aysoid');
+    $data->filter  = $request->getPostInt('account_search_filter');
 
     $session->save($data);
 
-    return $this->redirect('schedule-show');
+    return $this->redirect('account-list');
   }
 }
 ?>
