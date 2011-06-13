@@ -120,18 +120,57 @@ class AccountRepo extends EntityRepository
     return $account;
   }
   public function search($search)
-  {
+  { 
     $em = $this->_em;
     $qb = $em->createQueryBuilder();
     $qb->addSelect('user');
     $qb->from('\S5Games\User\UserItem','user');
-    $qb->addOrderBy('user.account_uname');
+    $qb->addOrderBy('user.account_lname');
 
+    $filter = $search->filter;
+
+    if ($filter == 0)
+    {
+    if ($search->lname)
+    {
+      $lit = $qb->expr()->literal($search->lname . '%');
+      $qb->andWhere($qb->expr()->like('user.account_lname', $lit));
+    }
+    if ($search->uname)
+    {
+      $lit = $qb->expr()->literal($search->uname . '%');
+      $qb->andWhere($qb->expr()->like('user.account_uname', $lit));
+    }
+    if ($search->aysoid)
+    {
+      $lit = $qb->expr()->literal($search->aysoid . '%');
+      $qb->andWhere($qb->expr()->like('user.account_aysoid', $lit));
+    }
+    }
     $query = $qb->getQuery();
 
     $items = $query->getResult();
+
+    if ($filter > 1) $items = $this->filter($items,$filter);
+
     return $items;
 
+  }
+  protected function filter($items,$filter)
+  {
+    if ($filter != 2) return $items;
+    $itemsx = array();
+    foreach($items as $item)
+    {
+      $accept = false;
+
+      if ( $item->getRegYear() < 2010)   $accept = true;
+      if (!$item->getRefereeBadgeDesc()) $accept = true;
+      if (!$item->getSafeHavenDesc())    $accept = true;
+
+      if ($accept) $itemsx[] = $item;
+    }
+    return $itemsx;
   }
 }
 ?>
