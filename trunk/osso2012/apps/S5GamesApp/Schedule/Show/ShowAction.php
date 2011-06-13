@@ -28,6 +28,7 @@ class ShowAction extends \S5GamesApp\FrontEnd\Action
       $search->sort    = 1;
       $search->coach   = '';
       $search->referee = '';
+      $search->gameNums = null;
     }
     if (isset($args[0])) $search->out = $args[0];
     else                 $search->out = 'web';
@@ -61,6 +62,8 @@ class ShowAction extends \S5GamesApp\FrontEnd\Action
     $data->sort      = $request->getPostInt('sched_sort');
     $data->coach     = $request->getPostStr('sched_search_coach');
     $data->referee   = $request->getPostStr('sched_search_referee');
+
+    $data->gameNums =  $request->getPostInt('game_nums');
 
     $session->save($data);
 
