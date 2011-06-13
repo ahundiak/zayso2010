@@ -1,4 +1,5 @@
 <?php
+  $user  = $this->services->user;
   $data  = $this->data;
   $games = $data->games;
   $gameNums = $data->gameNums;
@@ -35,12 +36,14 @@
     <?php
       $selected = null;
       if ($gameNums && isset($gameNums[$game->id])) $selected = 'checked="checked"';
+      if ($user->isAdmin()) {
     ?>
     <input 
         type="checkbox"
         name = "game_nums[<?php echo $game->id; ?>]"
         value="<?php echo $game->id; ?>"
-        <?php echo $selected; ?> />
+        <?php echo $selected; } ?>
+        />
   </td>
   <td><?php echo $game->date;    ?></td>
   <td><?php echo $game->time;    ?></td>
