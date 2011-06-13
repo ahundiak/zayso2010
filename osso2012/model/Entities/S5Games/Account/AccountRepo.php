@@ -131,21 +131,23 @@ class AccountRepo extends EntityRepository
 
     if ($filter == 0)
     {
-    if ($search->lname)
-    {
-      $lit = $qb->expr()->literal($search->lname . '%');
-      $qb->andWhere($qb->expr()->like('user.account_lname', $lit));
-    }
-    if ($search->uname)
-    {
-      $lit = $qb->expr()->literal($search->uname . '%');
-      $qb->andWhere($qb->expr()->like('user.account_uname', $lit));
-    }
-    if ($search->aysoid)
-    {
-      $lit = $qb->expr()->literal($search->aysoid . '%');
-      $qb->andWhere($qb->expr()->like('user.account_aysoid', $lit));
-    }
+      $lit = null;
+      if ($search->lname)
+      {
+        $lit = $qb->expr()->literal($search->lname . '%');
+        $qb->andWhere($qb->expr()->like('user.account_lname', $lit));
+      }
+      if ($search->uname)
+      {
+        $lit = $qb->expr()->literal($search->uname . '%');
+        $qb->andWhere($qb->expr()->like('user.account_uname', $lit));
+      }
+      if ($search->aysoid)
+      {
+        $lit = $qb->expr()->literal($search->aysoid . '%');
+        $qb->andWhere($qb->expr()->like('user.account_aysoid', $lit));
+      }
+      if (!$lit) return array();
     }
     $query = $qb->getQuery();
 
