@@ -11,8 +11,14 @@ class ListView extends \S5GamesApp\FrontEnd\View
     $accountRepo = $this->services->repoAccount;
     $items = $accountRepo->search($data);
 
-    $data->items = $items;
+    $data->items  = $items;
+    $data->search = $data;
 
+    $data->filterPickList = array(
+      '0' => 'Show only searched accounts',
+      '1' => 'Show all accounts',
+      '2' => 'Show all accounts with issues',
+    );
     $this->data = $data;
     $this->renderPage();
   }
