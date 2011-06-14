@@ -8,7 +8,20 @@
 </head>
 <body>
 <header id="banner">
-  <h3>The Header</h3>
+  <img src="NatlGames_Logo_2012_sm.jpg" height="50" width="50"/>
+  <img src="NatlGames_Logo_2012_sm.jpg" height="50" width="50" align="right"/>
+
+  <div 
+    style="color: red; background-color: LightBlue; position: absolute; left: 60px; top: 5px;"
+  >THE Header<br />Header Line 2</div>
+
+</header>
+<header id="bannerxx">
+  
+  <div                      ><img src="NatlGames_Logo_2012_sm.jpg" height="200" width="200"/></div>
+  <div style="float: right;">The Header</div>
+  <div style="float: left;"><img src="NatlGames_Logo_2012_sm.jpg" height="100" width="100"/></div>
+
 </header>
 
 <nav id="menu-top">
