@@ -9,12 +9,10 @@
 <body>
 <header id="banner">
   <img src="NatlGames_Logo_2012_sm.jpg" height="50" width="50" alt="Logo Left"/>
-  <img src="NatlGames_Logo_2012_sm.jpg" height="50" width="50" alt="Logo Right" align="right"/>
-
+  <img src="NatlGames_Logo_2012_sm.jpg" height="50" width="50" alt="Logo Right" style="float: right;"/>
   <div 
     style="color: red; background-color: LightBlue; position: absolute; left: 60px; top: 5px;"
-  >THE Header<br />Header Line 2</div>
-
+  >Header Line 1<br />Header Line 2</div>
 </header>
 
 <nav id="menu-top">
