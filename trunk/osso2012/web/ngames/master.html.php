@@ -16,13 +16,6 @@
   >THE Header<br />Header Line 2</div>
 
 </header>
-<header id="bannerxx">
-  
-  <div                      ><img src="NatlGames_Logo_2012_sm.jpg" height="200" width="200"/></div>
-  <div style="float: right;">The Header</div>
-  <div style="float: left;"><img src="NatlGames_Logo_2012_sm.jpg" height="100" width="100"/></div>
-
-</header>
 
 <nav id="menu-top">
   <h3>The Top Menu</h3>
