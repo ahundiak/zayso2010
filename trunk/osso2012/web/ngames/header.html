@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="reset.css" />
+<title>Untitled Document</title>
+<style type="text/css">
+img {
+    display:block;
+    border:none
+}
+#header {
+    width:100%;
+    background:red; /* fcf */
+    overflow:hidden;/* contain floats*/
+    padding:2px 0px; /* Was 5 */
+    min-width:320px;
+}
+#header img{background:red;}
+
+#header h1 {
+    margin:0 0 1em;
+    text-align:center;
+    font-size:100%;
+}
+#header p {
+    margin: 5px 2px 0em /* 1 em makes big difference */
+}
+.logo1 { float:left;  margin: 0; }
+.logo2 { float:right; margin: 0; }
+.inner {
+    overflow:hidden;/* make a rectangular block between floats */
+    zoom:1.0;/* same effect for IE7 and under*/
+    padding: 0px; /* Was 10 */
+    color: red;
+    background:LightBlue;
+    height: 50px;
+}
+</style>
+</head>
+<body style="background-color: blue;">
+<div id="header">
+    <img class="logo1" src="NatlGames_Logo_2012_sm.jpg" height="50" width="50" alt="Logo Left"/>
+    <img class="logo2" src="NatlGames_Logo_2012_sm.jpg" height="50" width="50" alt="Logo Right"/>
+    <div class="inner">
+        <p>Heading here</p>
+        <p style="margin-top: 10px;">Heading Line 2</p>
+    </div>
+</div>
+  <div id="menu" style="background-color: yellow;">
+    <p> A Menu </p>
+  </div>
+</body>
+</html>
