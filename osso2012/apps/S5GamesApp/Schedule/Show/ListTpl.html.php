@@ -42,8 +42,9 @@
         type="checkbox"
         name = "game_nums[<?php echo $game->id; ?>]"
         value="<?php echo $game->id; ?>"
-        <?php echo $selected; } ?>
+        <?php echo $selected; ?>
         />
+    <?php } ?>
   </td>
   <td><?php echo $game->date;    ?></td>
   <td><?php echo $game->time;    ?></td>
