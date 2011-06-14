@@ -8,8 +8,8 @@
 </head>
 <body>
 <header id="banner">
-  <img src="NatlGames_Logo_2012_sm.jpg" height="50" width="50"/>
-  <img src="NatlGames_Logo_2012_sm.jpg" height="50" width="50" align="right"/>
+  <img src="NatlGames_Logo_2012_sm.jpg" height="50" width="50" alt="Logo Left"/>
+  <img src="NatlGames_Logo_2012_sm.jpg" height="50" width="50" alt="Logo Right" align="right"/>
 
   <div 
     style="color: red; background-color: LightBlue; position: absolute; left: 60px; top: 5px;"
