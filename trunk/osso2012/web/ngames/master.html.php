@@ -15,7 +15,7 @@
   <h3>The Top Menu</h3>
 </nav>
 
-<div id="content"
+<div id="content">
 <?php echo $content; ?>
 </div>
 </body>
