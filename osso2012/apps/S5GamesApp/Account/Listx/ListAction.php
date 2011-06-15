@@ -11,6 +11,9 @@ class ListAction extends \S5GamesApp\FrontEnd\Action
     $session  = $services->session;
     $search   = $session->load('account-list');
     
+    if (isset($args[0])) $search->out = $args[0];
+    else                 $search->out = 'web';
+    
     $view = new ListView($this->services);
     $view->process(clone $search);
 
