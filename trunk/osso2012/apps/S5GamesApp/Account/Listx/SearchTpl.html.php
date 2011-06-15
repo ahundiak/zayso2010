@@ -30,6 +30,7 @@
     </select>
   </td>
   <td align="right">
+    <a href="account-list/csv">Spreadsheet</a>
     <input type="submit" name="account_search_submit" value="Search"/>
   </td>
 </tr>

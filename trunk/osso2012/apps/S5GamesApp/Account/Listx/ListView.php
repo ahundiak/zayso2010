@@ -20,6 +20,22 @@ class ListView extends \S5GamesApp\FrontEnd\View
       '2' => 'Show all accounts with issues',
     );
     $this->data = $data;
+
+    switch($data->out)
+    {
+      case 'csv':
+        $response = $this->services->response;
+        $response->setBody($this->render('S5GamesApp/Account/Listx/ListTpl.csv.php'));
+        $response->setFileHeaders('Accounts.csv');
+        return;
+
+      case 'excel':
+        $response = $this->services->response;
+        $response->setBody($this->render('S5GamesApp/Schedule/Show/ListTpl.xml.php'));
+        $response->setFileHeaders('Schedule.xml');
+        return;
+
+    }
     $this->renderPage();
   }
 }
