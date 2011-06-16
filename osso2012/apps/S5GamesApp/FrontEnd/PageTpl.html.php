@@ -40,7 +40,7 @@
     <a href="schedule-show">Schedules</a>
     <a href="schedule-stats">Stats</a>
 
-    <?php if ($user->isAdmin() || 1) { ?>
+    <?php if ($user->isAdmin()) { ?>
       <a href="account-list">Accounts</a>
       <a href="session-show">Sessions</a>
       <a href="admin-clear">Clear Cookies</a>
