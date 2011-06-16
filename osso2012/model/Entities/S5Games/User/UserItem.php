@@ -125,6 +125,8 @@ class UserItem
     {
       case '99437977': // Me
       case '94038247': // Mike S
+      case '56016305': // David Groh
+      case '57025736': // Marlene Grog
         return true;
     }
     return false;
