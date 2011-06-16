@@ -38,7 +38,8 @@
     <?php } ?>
     
     <a href="schedule-show">Schedules</a>
-    <a href="schedule-stats">Stats</a>
+    <a target="_blank" href="http://www.tinyurl.com/s5games">Game Scores</a>
+    <a href="schedule-stats">Ref Stats</a>
 
     <?php if ($user->isAdmin()) { ?>
       <a href="account-list">Accounts</a>
