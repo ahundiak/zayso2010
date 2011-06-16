@@ -45,7 +45,7 @@ body {
 {
   display: table-row;
 }
-#layout-header-logo-cell
+.layout-header-logo-cell
 {
   display: table-cell;
 }
@@ -80,21 +80,21 @@ body {
   <div id="layout-document">
     <div id="layout-header-table">
       <div id="layout-header-row">
-        <p id="layout-header-logo-cell" >
-          <img src="NatlGames_Logo_2012_sm.jpg" height="50" width="50" alt="Logo Left"  />
+        <p class="layout-header-logo-cell" >
+          <img src="NatlGames_Logo_2012_sm.jpg" height="50" width="50" alt="Logo Left"  >
         </p>
         <div id="layout-header-center-cell">
           <p id="layout-header-center-cell-top"   >Header Line Along the Top</p>
           <p id="layout-header-center-cell-bottom">Header Line Along the Bottom</p>
         </div>
-        <p id="layout-header-logo-cell">
-          <img src="NatlGames_Logo_2012_sm.jpg" height="50" width="50" alt="Logo Right" />
+        <p class="layout-header-logo-cell">
+          <img src="NatlGames_Logo_2012_sm.jpg" height="50" width="50" alt="Logo Right" >
         </p>
       </div>
     </div>
     <div id="layout-content">
       <h1>Some content</h1>
-      <?php echo $content; ?>
+      <?php // echo $content; ?>
     </div>
   </div>
 </body>
