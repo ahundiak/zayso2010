@@ -40,43 +40,39 @@ body {
   display:    table;
   width:      100%;
   background: red;
-  
-  margin:  0;
-  padding: 0;
-  border:  0;
 }
-
 #layout-header-row
 {
   display: table-row;
-  
-  margin:  0;
-  padding: 0;
-  border:  0;
-}
-#layout-header-center-cell
-{
-  display: table-cell;
-  width:   100%;  /* To expand the center node */
-
-  background-color: LightBlue;
-  
-  vertical-align: top;
-
-  
-  margin:  0;
-  padding: 0;
-  border:  0;
 }
 #layout-header-logo-cell
 {
   display: table-cell;
-
-  margin:  0;
-  padding: 0;
-  border:  0;
 }
+#layout-header-center-cell
+{
+  display: table-cell;
+  background-color: LightBlue;
 
+  width:   100%;  /* To expand the center node */
+  
+  vertical-align: top; /* Key to getting the content pushed up */
+
+  position: relative; /* To allow positioning text along bottom of division */
+  
+  margin:       0;
+  padding-left: 5px;
+  padding-top:  3px;
+}
+#layout-header-center-cell-top
+{
+  font-size: 1.2em;  /* Make text a bit bigger */
+}
+#layout-header-center-cell-bottom
+{
+  position: absolute;  /* Position along bottom of cell */
+  bottom:   0px;
+}
 </style>
 
 </head>
@@ -88,19 +84,30 @@ body {
           <img src="NatlGames_Logo_2012_sm.jpg" height="50" width="50" alt="Logo Left"  />
         </p>
         <div id="layout-header-center-cell">
-          <p>Header Line 1</p>
-          <p>Header Line 1</p>
+          <p id="layout-header-center-cell-top"   >Header Line Along the Top</p>
+          <p id="layout-header-center-cell-bottom">Header Line Along the Bottom</p>
         </div>
         <p id="layout-header-logo-cell">
           <img src="NatlGames_Logo_2012_sm.jpg" height="50" width="50" alt="Logo Right" />
         </p>
       </div>
     </div>
-
     <div id="layout-content">
       <h1>Some content</h1>
-      <?php //echo $content; ?>
+      <?php echo $content; ?>
     </div>
   </div>
 </body>
 </html>
+<?php /* ?>
+          <div id="layout-header-center-cell">
+          <div style="display: table;">
+            <div style="display: table-row">
+              <p style="display: table-cell;" id="layout-header-center-cell-topx"   >Header Line Along the Top</p>
+            </div>
+            <div style="display: table-row">
+              <p style="display: table-cell; vertical-align: bottom;" id="layout-header-center-cell-bottomx">Header Line Along the Bottom</p>
+            </div>
+          </div>
+        </div>
+<?php */ ?>
