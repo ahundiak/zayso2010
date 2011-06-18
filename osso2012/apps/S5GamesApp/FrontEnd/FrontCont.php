@@ -10,6 +10,11 @@ require $config['ws'] . 'CeradNS/library/Cerad/FrontEnd/FrontCont.php';
 
 class FrontCont extends \Cerad\FrontEnd\FrontCont
 {
+  protected function getArgs()
+  {
+    return array('welcome');
+  }
+
   protected $actions = array
   (
     'welcome'   => 'S5GamesApp\Welcome\WelcomeAction',
