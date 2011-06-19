@@ -16,7 +16,9 @@
     And remember, this is fun.
   </p><p style="padding: 10px;">
     <a href="http://www.tinyurl.com/s5games2011sunday" target="_blank">The Sunday game schedule is posted here.</a>
-    Referee information has not yet been added.  Stay tuned.
+    Referee information is under "Referee Schedule" on the posted schedule.
+    In almost all cases I was able the keep referees on the same field at the same time.
+    For those of you whose games were dropped, we will need you on other games.
   </p>
 
   <p style="padding: 10px;">
