@@ -14,7 +14,11 @@
     Many of you still have kids playing.  We will work around the issues one game at a time.
     There will be plenty of games for everyone.
     And remember, this is fun.
+  </p><p style="padding: 10px;">
+    <a href="http://www.tinuurl.com/s5games2011sunday" target="_blank">The Sunday game schedule is posted here.</a>
+    Referee information has not yet been added.  Stay tuned.
   </p>
+
   <p style="padding: 10px;">
     Thanks: Art Hundiak, 256.457.5943
   </p>
