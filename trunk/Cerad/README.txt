@@ -1,3 +1,6 @@
+23 Jun 2011
+Dell laptop with Netbeans 10.0
+
 07 Jan 2011
 
 Rebuilt laptop again, moved to 2012 namespace
