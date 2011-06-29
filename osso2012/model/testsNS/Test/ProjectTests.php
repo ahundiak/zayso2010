@@ -3,25 +3,83 @@
 namespace Test;
 
 use \Cerad\Debug;
-use \OSSO2012\Project\ProjectSeqnItem;
+use \NatGames\Project\ProjectSeqnItem;
+use \NatGames\Project\ProjectPersonItem;
 
 class ProjectTests extends BaseTests
 {
-  protected $projectId = 38;
+  protected $projectId = 52;
   protected $seqnKey = 'event';
 
-  function getRepo()   { return $this->em->getRepository('OSSO2012\Project\ProjectItem'); }
+  function getRepo()   { return $this->em->getRepository('NatGames\Project\ProjectItem'); }
   function getLogger() { return $this->em->getConfiguration()->getSQLLogger();        }
-  
-  function testDelete()
+
+  /* ==================================================================
+   * Project person Stuff
+   */
+  function testProjectDeletePerson()
+  {
+    $em = $this->em;
+
+    $query = $em->createQuery('DELETE NatGames\Project\ProjectPersonItem item');
+    $query->getResult();
+  }
+  function testProjectCreatePerson()
+  {
+    $em   = $this->em;
+    $repo = $this->getRepo();
+
+    $item = new ProjectPersonItem();
+    $item->project = $em->getReference('NatGames\Project\ProjectItem',52);
+    $item->person  = $em->getReference('NatGames\Person\PersonItem',1);
+    $item->status  = 'Active';
+
+    $data = new \NatGames\DataItem;
+    $data->refBadge='Super Duper';
+    $data->region = 894;
+    
+    $item->info = $data;
+
+    // Somewhat conversly, this does not work
+    // $item->person = 1;
+    
+    $em->persist($item);
+    $em->flush();
+
+  }
+  function testProjectGetPerson()
+  {
+    $em   = $this->em;
+    $repo = $em->getRepository('NatGames\Project\ProjectPersonItem');
+
+    $project = $em->getReference('NatGames\Project\ProjectItem',52);
+    $person  = $em->getPartialReference('NatGames\Person\PersonItem',1);
+
+    // Even though they are relations, this does not work
+    $search = array('_project' => $project, '_person' => $person);
+
+    // Use regular keys
+    $search = array('_project' => $project->id, '_person' => 1);
+
+    $item = $repo->findOneBy($search);
+
+    $this->assertNotNull($item);
+    $this->assertEquals('Super Duper',$item->info->refBadge);
+    $this->assertEquals(894,$item->info->region);
+  }
+
+  /* ==================================================================
+   * SEQN Stuff
+   */
+  function testProjectDeleteSeqn()
   {
     $em = $this->em;
     $em->clear();
 
-    $query = $em->createQuery('DELETE OSSO2012\Project\ProjectSeqnItem item');
+    $query = $em->createQuery('DELETE NatGames\Project\ProjectSeqnItem item');
     $query->getResult();
   }
-  function sestCreate()
+  function testProjectCreateSeqn()
   {
     $item = new ProjectSeqnItem();
     $item->setProjectId($this->projectId);
@@ -32,7 +90,7 @@ class ProjectTests extends BaseTests
     $em->persist($item);
     $em->flush();
   }
-  function testGetSeqn()
+  function testProjectGetSeqn()
   {
     $repo = $this->getRepo();
     $next = $repo->getNextSeqn($this->projectId,$this->seqnKey);
@@ -46,119 +104,6 @@ class ProjectTests extends BaseTests
 
     $item = $repo->getSeqnItem($this->projectId,$this->seqnKey);
     $this->assertEquals(3,$item->getVersion());
-  }
-  function sestGetEventClass()
-  {
-    $em = $this->em;
-
-    $key = 'RG';
-    $search = array('key1' => $key);
-
-    $entity = $em->getRepository('OSSO2012\Event\EventClassItem')->findOneBy($search);
-    $this->assertEquals('RG - Regular Game', $entity->getDesc1());
-  }
-  function sestRepo()
-  {
-    // $em = $this->em;
-    $this->getLogger()->enable(false);
-
-    $repo = $this->getRepo(); // $em->getRepository('OSSO2012\Event\EventItem');
-    $this->assertNotNull($repo);
-
-    $entity = $repo->getClassForKey('RG');
-    $this->assertEquals('RG - Regular Game', $entity->getDesc1());
-
-    $entity = $repo->getClassForKey('RG');
-    $this->assertEquals('RG - Regular Game', $entity->getDesc1());
-
-    $entity = $repo->getClassForKey('RGx');
-    $this->assertNull($entity);
-
-    $this->getLogger()->enable(false);
-  }
-  function sestNewEvent()
-  {
-    $repo = $this->getRepo();
-    $event = $repo->newEvent();
-
-    $this->assertNotNull($event);
-    $this->assertEquals(1,$event->getType  ()->getId());
-    $this->assertEquals(1,$event->getClass ()->getId());
-    $this->assertEquals(1,$event->getStatus()->getId());
-
-    $field = $repo->getFieldForKey('John Hunt 1');
-    $event->setField($field);
-
-    $dtBeg = new \DateTime('2011-03-31');
-    $dtBeg->setTime(13,30);
-    $event->setDtBeg($dtBeg);
-
-    $dtEnd = clone($dtBeg);
-    $di = new \DateInterval('PT45M');
-    //$di->i = 45;
-    $dtEnd->add($di);
-    $event->setDtEnd($dtEnd);
-
-    $this->em->persist($event);
-    $this->em->flush();
-
-    // Works as expected
-    // echo "Event id " . $event->getId();
-  }
-  /* =======================================================
-   * So Mysql Date is not built in
-   * WHERE date(event.dtBeg) = '20110330'
-   * Using BETWEEN eliminates the DATE function and possible index issues
-   */
-  function sestQuery1()
-  {
-    $em = $this->em;
-    
-    $params = array('dt1' => '20110330000000', 'dt2' => '20110330235959');
-
-    $dql = <<<EOT
-SELECT DISTINCT partial event.{id}
-FROM \OSSO2012\Event\EventItem event
-WHERE (event.dtBeg BETWEEN :dt1 AND :dt2) AND ((1 = 2) OR (3 = 3))
-EOT;
-    $query  = $em->createQuery($dql);
-    $query->setParameters($params);
-    $events = $query->getArrayResult();
-
-    $this->assertEquals(3,count($events));
-
-    // Debug::dump($events);
-  }
-  /* =======================================================================
-   * If I don't explicitly join things like event_type then I get no event type info
-   * at all for array results, not even the id
-   */
-  function sestQuery2()
-  {
-    // $this->getLogger()->enable(true);
-    
-    $em = $this->em;
-
-    $ids = implode(',',array(2,3,5));
-
-    $dql = <<<EOT
-SELECT event, field
-FROM      \OSSO2012\Event\EventItem event
-LEFT JOIN event.field field
-WHERE event.id IN ($ids)
-EOT;
-
-    $query  = $em->createQuery($dql);
-
-    $events = $query->getResult();
-
-    $this->assertEquals(3,count($events));
-
-    $this->assertEquals('Game',$events[0]->getType()->getKey1());
-    $this->assertEquals('Game',$events[1]->getType()->getKey1());
-
-    // Debug::dump($events);
-
   }
 }
 ?>

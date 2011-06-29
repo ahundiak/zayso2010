@@ -30,6 +30,7 @@ class Tests
     ClassLoader::createNS('OSSO2012', $ws . 'osso2012/model/Entities');
     ClassLoader::createNS('Session',  $ws . 'osso2012/model/Entities');
     ClassLoader::createNS('Arbiter',  $ws . 'osso2012/model/Entities');
+    ClassLoader::createNS('NatGames', $ws . 'osso2012/model/Entities');
 
     /* --------------------------------------------------
      * PHPUnit classes use require_once so still need this
@@ -46,6 +47,7 @@ class Tests
     $suite = new PHPUnit_Framework_TestSuite('OSSO2012 Model Tests');
 
     $suite->addTestSuite('Test\InitialTests');
+//  $suite->addTestSuite('Test\PersonTests');
 
 //    $suite->addTestSuite('Test\DbTests');
 //    $suite->addTestSuite('Test\ServicesTests');
@@ -54,15 +56,15 @@ class Tests
 //    $suite->addTestSuite('Test\MailTests');
 //    $suite->addTestSuite('Test\SchemaTests');
 //    $suite->addTestSuite('Test\AysoTests');
-//    $suite->addTestSuite('Test\UserTests');
+      $suite->addTestSuite('Test\UserTests');
 
 //    $suite->addTestSuite('Test\SessionTests');
 //    $suite->addTestSuite('Test\ArbiterTests');
     
 //    $suite->addTestSuite('Test\EventTests');
-    $suite->addTestSuite('Test\ExcelTests');
+//  $suite->addTestSuite('Test\ExcelTests');
 
-    // $suite->addTestSuite('Test\ProjectTests');
+// $suite->addTestSuite('Test\ProjectTests');
 
     PHPUnit_TextUI_TestRunner::run($suite, array());
 
