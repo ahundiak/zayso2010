@@ -33,6 +33,9 @@
     <?php
       if ($user->isSignedIn()) echo '<li><a href="home">Home</a></li>' . "\n";
     ?>
+    <?php
+      if (!$user->isSignedIn()) echo '<li><a href="account-create">Create Account</a></li>' . "\n";
+    ?>
   </ul>
   <ul style="float: right">
     <li><a href="contact">Contact Us</a></li>
