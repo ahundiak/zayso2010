@@ -45,5 +45,15 @@ CREATE DATABASE         s5gamesv;
 GRANT ALL ON            s5gamesv.* TO "impd"@"localhost";
 FLUSH PRIVILEGES;
 
+== NatGames database
+DROP DATABASE IF EXISTS natgames;
+CREATE DATABASE         natgames;
+GRANT ALL ON            natgames.* TO "impd"@"localhost";
+
+DROP DATABASE IF EXISTS natgamesv;
+CREATE DATABASE         natgamesv;
+GRANT ALL ON            natgamesv.* TO "impd"@"localhost";
+FLUSH PRIVILEGES;
+
 == Done
 FLUSH PRIVILEGES;
