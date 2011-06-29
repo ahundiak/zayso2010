@@ -23,7 +23,7 @@
       <span style="color: blue;">zAYSO</span>
       <span style="color: red">National Games 2012 Referee Scheduling Site</span>
     </p>
-    <p style="margin-top: 8px; color: black; ">User: <?php echo $user->getName(); ?></p>
+    <p style="margin-top: 2px; color: black; ">User: <?php echo $user->getName(); ?></p>
   </div>
 </div>
   <?php ?>
