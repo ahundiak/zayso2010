@@ -71,7 +71,7 @@ body {
 #layout-header-center-cell-bottom
 {
   position: absolute;  /* Position along bottom of cell */
-  bottom:   0px;
+  bottom:   0px;       /* Firefox 3.6 goes to bottom of screen */
 }
 </style>
 

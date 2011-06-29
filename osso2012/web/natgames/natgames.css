@@ -1,187 +1,162 @@
-body#layout-body
-{
-  color:      black;
-  background: #CCFFCC; /* Pale Greem */
-  
-  margin:  0;  /* With respect to containing element */
-  padding: 0;  /* Around internal elements */
-}
-div#layout-page
-{
-  position: absolute;
-  left:         50%;
-  width:        900px;
-  margin-left: -450px;
-  padding:      0px;
-  
-  color:      black;
-  background: white;
-  
-  border-style: groove;
-  border-width: medium;
-  border-color: black;
-}
-div#layout-banner
-{
-  color:      black;
-  background: #99FF33;
-  
-  border-style: none;
-  border-width: medium;
-  border-color: green;
-}
-div#layout-banner-left
-{
-  color:      black;
-  background: #99FF33;
-  
-  float: left; 
-  width: 80%;
-}
-div#layout-banner-left span
-{
-  margin-left: 3px;
-}
-div#layout-banner-right
-{
-  color:      black;
-  background: #99FF33;
-  
-  float: right; 
-  width: 20%;
-    
-  text-align: right;
-}
-div#layout-banner-right span
-{
-  margin-right: 3px;
-}
-/* Top menu bar navigation */
-div#layout-menu-top
-{
-  color:      black;
-  background: yellow;
-  height:     30px;
-}
-div#layout-menu-top ul
-{
-  list-style-type: none;
-  margin:  0px;
-  padding: 5px;
-}
-div#layout-menu-top ul li
-{
-  display: inline;
-}  
-div#layout-menu-top ul li a
-{
-  padding: 0px  20px;
-  margin:  0px   2px;
-  
-  border:  1px solid #666;
-  
-  background-color: #CCC;
-  color:            black;
-  text-decoration:  none;
-  text-align:       center;
-} 
-div#layout-menu-top ul li a:hover
-{
-  background-color: #333;
-  color:            #FFF;
-}
-div#layout-content
-{
-  background-color: #FFFFCC; /* Pale yellow */
-  color:            black;
-  padding-left:     3px;
-  padding-bottom:   3px;
-}
-h1 {color:green;background:white}
-h2 {color:blue; background:white}
 
-h3 
-{
-  color:            green;
-  background-color: #FFFFCC;
-  margin:           4px;
-}
-h4
-{
-  color:            black;
+html, body, div, ul, li {
   background-color: white;
-  margin:           2px;
+  margin:  0;
+  padding: 0;
+  border:  0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
-p
+img
 {
-  margin:           2px;
+  display: block;
+  border:  none
+}
+/* ===========================================
+ * Header
+ */
+#layout-header {
+    width:     100%;
+    background:white; /* fcf */
+    overflow:  hidden;/* contain floats*/
+    padding:   2px 0px; /* Was 5 */
+    min-width: 500px;
+}
+#layout-header p {
+  margin: 5px 2px 0em /* 1 em makes big difference */
+}
+#layout-header .logo1 { float:left;  margin: 0; }
+#layout-header .logo2 { float:right; margin: 0; }
+
+#layout-header .inner-block {
+    overflow:   hidden;/* make a rectangular block between floats, blocks left/right overflow */
+    zoom:       1.0;        /* same effect for IE7 and under*/
+    padding:    0 10px; /* Was 10 */
+    color:      red;
+    background: white;
+    height:     50px; /* Otherwise might drop down, matches height of logo */
+}
+/* ==============================================
+ * Top Menu
+ */
+#layout-top-menu
+{
+  height:    20px;
+  width:     100%;
+  min-width: 500px;
+
+  overflow:       hidden; /* Contains floats */
+
+  background-color: blue;
+  padding: 0px; 
+}
+#layout-top-menu ul
+{
+  list-style-type:none;
+  margin:           0;
+  padding:          2px;
+  overflow:         hidden;
+  padding-top:      1px;
+  padding-bottom:   2px;
+  background-color: blue;
+}
+#layout-top-menu ul li
+{
+  display:inline;
+}
+#layout-top-menu ul li a:link
+{
+  font-weight:      bold;
+  color:            white;
+  background-color: Green;
+  text-align:       center;
+  padding:          6px;
+  text-decoration:  none;
+  font-size:80%;
+}
+#layout-top-menu ul li a:visited
+{
+  font-weight:      bold;
+  color:            white;
+  background-color: Green;
+  text-align:       center;
+  padding:          6px;
+  text-decoration:  none;
+  font-size:80%;
+}
+#layout-top-menu ul li a:hover
+{
+  background-color: black; /* #7A991A; */
+}
+#layout-top-menu ul li a:active
+{
+  background-color: black; /* #7A991A; */
 }
 
-fieldset.entry2
+/* ==================================================
+ * Content Layout
+ */
+#layout-content
 {
-  font-size:        12px;
-/*  color:            black; */
-/*  background-color: #CCCCCC; */
-  padding:          0px;
-  width:            35em;
+  padding: 0px;
+  margin:  5px;
+  background-color: white;
 }
-fieldset.entry2 legend
+#layout-content a:link, a:visited
 {
+  font-weight:      bold;
+  color:            blue;
+  background-color: white;
+  text-decoration:  underline;
 }
-fieldset.entry2 label
+/* ==================================================
+ * Basic data entry
+ */
+table.entry
 {
-  width:      10em;
-  float:      left;
-  clear:      both;
-  text-align: right;
-  margin:     .5em 1em;
-}
-fieldset.entry2 input, textarea
-{
-  width:      15em;
-  float:      left;
-  text-align: right;
-  margin:    .5em 0em;
-}
-fieldset.entry2 input.submit
-{
-  width:      auto;
-  float:      right;
-  clear:      both;
-  margin-bottom:  1em;
-  margin-left:    7em;
-  text-align:     center;
-}
-fieldset.entry2 br
-{
-  clear: both;
-}
-
-table.entry2
-{
-  width:        400px;
+  width:        500px;
   border-style: solid;
-  border-width: 1px;
+  border-width: 3px;
   border-color: black;
-  padding:      2px;
+  padding:      0px;
 }
-table.entry2 td.data
+table.entry th
 {
   border-bottom-style: solid;
-  border-width: 1px;
+  border-width: 2px;
   border-color: black;
-  
-  padding:     2px; 
+
+  padding:     2px;
   margin-left: 4px;
 }
-table.entry2 td.label
+table.entry tr
+{
+  border-bottom-style: solid;
+  border-width: 2px;
+  border-color: black;
+
+  padding:     2px;
+  margin-left: 4px;
+}
+table.entry td.data
+{
+  border-bottom-style: solid;
+  border-width: 1px;
+  border-color: black;
+
+  padding:     2px;
+  margin-left: 4px;
+}
+table.entry td.label
 {
   border-bottom-style: solid;
   border-width: 1px;
   border-color: black;
   
-  padding:      2px; 
+  padding:      2px;
   margin-right: 6px;
-  
+
   text-align: center;
 }
+
