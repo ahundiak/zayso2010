@@ -8,7 +8,14 @@ $config = array
   'web_tools' => '/tools/',
 );
 
-if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'zayso.org') $config['web_host'] = 'zayso';
+if (isset($_SERVER['SERVER_NAME']))
+{
+  $serverName = $_SERVER['SERVER_NAME'];
+  if (strstr($serverName,'zayso') !== FALSE)
+  {
+    $config['web_host'] = 'zayso';
+  }
+}
 
 require_once $config['ws'] . 'osso2012/apps/NatGamesApp/FrontEnd/FrontContWeb.php';
 exit();
