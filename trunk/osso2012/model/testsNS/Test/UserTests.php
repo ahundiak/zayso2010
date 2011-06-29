@@ -6,7 +6,27 @@ use \Cerad\Debug;
 
 class UserTests extends BaseTests
 {
-  function testCleanup()
+  function testUser()
+  {
+    $user = new \NatGames\UserItem($this->services);
+  }
+  function sestDQL()
+  {
+    $em = $this->em;
+    $dql = <<<EOT
+SELECT account, member
+FROM \NatGames\Account\AccountItem account
+LEFT JOIN  account._members member
+
+WHERE account._id = 1
+EOT;
+    $query = $em->createQuery($dql);
+
+    $accounts = $query->getResult();
+
+    $this->assertEquals(1,count($accounts));
+  }
+  function sestCleanup()
   {
     $em = $this->em;
     $em->clear();
@@ -24,7 +44,7 @@ class UserTests extends BaseTests
   /**
    * expectedException Exception
    */
-  function testAccountCreation()
+  function sestAccountCreation()
   {
     $em = $this->em;
     $em->clear();
@@ -62,7 +82,7 @@ class UserTests extends BaseTests
       return;
     }
   }
-  function testUserView()
+  function sestUserView()
   {
     $em = $this->em;
 
