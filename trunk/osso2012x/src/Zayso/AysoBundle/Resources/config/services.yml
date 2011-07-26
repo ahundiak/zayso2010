@@ -1,0 +1,6 @@
+## YAML Template.
+---
+services:
+    my_mailer:
+        class:        Zayso\AysoBundle\Mailer
+        arguments:    [sendmail]

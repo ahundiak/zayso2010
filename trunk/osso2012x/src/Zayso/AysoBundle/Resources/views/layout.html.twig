@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" href="{{ asset('bundles/zayso/css/zayso.css') }}" type="text/css" media="all" />
+  <title>{% block title %}Zayso Bundle{% endblock %}</title>
+</head>
+
+<body>
+<div>
+
+<div id="layout-header">
+  <a class="a-target-blank" href="http://soccer.org/events/national_games.aspx" target="_blank">
+    <img class="logo1" src="{{ asset('bundles/zayso/images/' ~ 'NatGamesLogo.jpg') }}" height="50" width="50" alt="National Games Site"/>
+  </a>
+  <a class="a-target-blank" href="http://www.soccer.org" target="_blank">
+    <img class="logo2" src="{{ asset('bundles/zayso/images/AysoLogo.gif') }}" height="50" width="50" alt="AYSO Site"/>
+  </a>
+  <div class="inner-block">
+    <p>
+      <span style="color: blue;">zAYSO</span>
+      <span style="color: red">National Games 2012 Referee Scheduling Site</span>
+    </p>
+    <p style="margin-top: 2px; color: black; ">User: {{ user.getName }} {{ format.name(user.getName()) }}</p>
+  </div>
+</div>
+
+<div id="layout-top-menu">
+  <ul style="float:left ">
+    <li><a href="welcome">Welcome</a></li>
+    <li><a href="home">Home</a></li>
+    <li><a href="account-create">Create Account</a></li>
+  </ul>
+  <ul style="float: right">
+    <li><a href="contact">Contact Us</a></li>
+    <li><a href="account-signin">Sign In</a></li>
+  </ul>
+  <div class="inner"></div>
+</div>
+
+<div id="layout-content">
+  {% block content %}
+  {% endblock %}
+</div>
+
+</div>
+</body>
+</html>
+
