@@ -1,3 +1,9 @@
+-- MySQL dump 10.13  Distrib 5.5.8, for Win32 (x86)
+--
+-- Host: localhost    Database: session
+-- ------------------------------------------------------
+-- Server version	5.5.8
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -9,49 +15,30 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- ==============================================
--- New database
-DROP DATABASE IF EXISTS session;
-CREATE DATABASE session;
-GRANT ALL ON session.* TO "impd"@"localhost";
-FLUSH PRIVILEGES;
-USE   session;
-
--- ==============================================
--- Table structure for eayso registered volunteer
 --
+-- Table structure for table `session_data`
+--
+
+USE session;
+
 DROP TABLE IF EXISTS `session_data`;
-CREATE TABLE         `session_data`
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `session_data`
 (
-  `id`         int (10) unsigned NOT NULL auto_increment,
-  `keyx`       char(32) default NULL, -- session_id
-  `name`       char(20) default NULL,
-  `item`           text NOT NULL,
-  `ts_created` char(16) default NULL,
-  `ts_updated` char(16) default NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY    `i0` (`keyx`,`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+  `sid` char(32) DEFAULT NULL,
+  `app` char(32) DEFAULT NULL,
+  `cat` char(20) DEFAULT NULL,
 
--- ================================================
--- Try the duplicate key stuff
-INSERT INTO session_data
+  `ts_created` char(16) DEFAULT NULL,
+  `ts_updated` char(16) DEFAULT NULL,
 
-(keyx,name,item,ts_created,ts_updated)
+  `datax` text NOT NULL,
 
-VALUES('session_id','name1','the item data','201001','201001')
+  PRIMARY KEY (`id`),
+  UNIQUE KEY  (`sid`,`app`,`cat`),
+  KEY         (`app`,`cat`)
+) ENGINE=MyISAM AUTO_INCREMENT=11873 DEFAULT CHARSET=utf8;
 
-ON DUPLICATE KEY UPDATE item=VALUES(item),ts_updated=VALUES(ts_updated);
-
-INSERT INTO session_data
-
-(keyx,name,item,ts_created,ts_updated)
-
-VALUES('session_id','name1','the item data 2','201001','201002')
-
-ON DUPLICATE KEY UPDATE item=VALUES(item),ts_updated=VALUES(ts_updated);
-
-
-SELECT * FROM session_data;
-DELETE   FROM session_data;
