@@ -4,6 +4,7 @@
 <form method="post" enctype="multipart/form-data" action="<?php echo $this->link('import_proc'); ?>">
 <table border="1">
 <tr><th colspan="2">Import Information</th></tr>
+<?php /* 
 <tr>
   <td style="width: 100px; ">Year</td>
   <td style="width: 500px;">
@@ -22,6 +23,7 @@
     </select>
   </td>
 </tr>
+<?php */ ?>
 <tr>
   <td>Project</td>
   <td>
