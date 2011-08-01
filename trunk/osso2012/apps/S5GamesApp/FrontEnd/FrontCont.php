@@ -10,7 +10,7 @@ require $config['ws'] . 'CeradNS/library/Cerad/FrontEnd/FrontCont.php';
 
 class FrontCont extends \Cerad\FrontEnd\FrontCont
 {
-  protected function getArgs()
+  protected function getArgsx()
   {
     return array('welcome');
   }
