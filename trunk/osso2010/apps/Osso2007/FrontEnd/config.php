@@ -4,7 +4,7 @@ return array
 (
   'session' => array
   (
-    'name'             => 'zayso',
+    'name'             => 'osso2007',
     'cookie_lifetime'  => 0,
   ),
   'user' => array
@@ -14,10 +14,10 @@ return array
     'role_id'          =>  1,
     'reg_year_id'      => 11,
     'event_type_id'    =>  1,
-    'season_type_id'   =>  3,
+    'season_type_id'   =>  1,
     'schedule_type_id' =>  1,
     'time_offset'      => -18000,
-    'project_id'       => 39,
+    'project_id'       => 70,
   ),
 );
 ?>
