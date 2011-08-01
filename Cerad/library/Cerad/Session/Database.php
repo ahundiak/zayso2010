@@ -5,6 +5,8 @@ class Cerad_Session_Database extends Cerad_Session_Base
   protected $db;
   protected $ts;
   
+  protected $app = 'osso2007';
+  
   protected function init()
   {
     parent::init();
@@ -40,8 +42,12 @@ class Cerad_Session_Database extends Cerad_Session_Base
     if (!$sessionId) return NULL;
 
     // Load the record
-    $search = array('session_id' => $sessionId,'name' => $name);
-    $sql = 'SELECT item FROM session_data WHERE keyx = :session_id AND name = :name;';
+    $search = array(
+        'sid' => $sessionId,
+        'app' => $this->app,
+        'cat' => $name);
+    
+    $sql = 'SELECT datax FROM session_data WHERE sid = :sid AND app = :app AND cat = :cat;';
     $row = $this->db->fetchRow($sql,$search);
     if ($row === FALSE)
     {
@@ -50,7 +56,7 @@ class Cerad_Session_Database extends Cerad_Session_Base
     }
 
     // Back to object
-    $item = unserialize($row['item']);
+    $item = unserialize($row['datax']);
     $this->data[$name] = $item;
     return $item;
   }
@@ -72,26 +78,30 @@ class Cerad_Session_Database extends Cerad_Session_Base
     // Delete if null
     if (!$item)
     {
-      $params = array('keyx' => $sessionId,'name' => $name);
-      $sql = 'DELETE FROM session_data WHERE keyx = :keyx AND name = :name;';
+      $params = array(
+        'sid' => $sessionId,
+        'app' => $this->app,
+        'cat' => $name);
+      $sql = 'DELETE FROM session_data WHERE sid = :sid AND app = :app AND cat = :cat;';
       $this->db->execute($sql,$params);
       return;
     }
     // Assume an update
     $params = array
     (
-      'keyx' => $sessionId,
-      'name' => $name,
-      'item' => serialize($item),
+      'sid' => $sessionId,
+      'app' => $this->app,
+      'cat' => $name,
+      'datax' => serialize($item),
       'ts_created' => $this->ts,
       'ts_updated' => $this->ts,
     );
     $sql = <<<EOT
-INSERT INTO session_data (keyx,name,item,ts_created,ts_updated)
+INSERT INTO session_data (sid,app,cat,ts_created,ts_updated,datax)
 
-VALUES(:keyx,:name,:item,:ts_created,:ts_updated)
+VALUES(:sid,:app,:cat,:ts_created,:ts_updated,:datax)
 
-ON DUPLICATE KEY UPDATE item = VALUES(item), ts_updated = VALUES(ts_updated);
+ON DUPLICATE KEY UPDATE datax = VALUES(datax), ts_updated = VALUES(ts_updated);
 EOT;
     $count = $this->db->execute($sql,$params);
     
