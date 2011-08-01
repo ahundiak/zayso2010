@@ -15,7 +15,7 @@ class SessionListener
     return $sessionId;
   }
 }
-class Services extends \Cerad\Services
+class Services extends \Cerad\ServicesS5Games
 {
   protected $repoMap = array
   (
@@ -32,7 +32,7 @@ class Services extends \Cerad\Services
     // Actually a repository
     $session = $em->getRepository('Session\SessionDataItem');
     $listener = new SessionListener();
-    $session->setListener($listener);
+    // $session->settListener($listener);
     
     // Done
     return $this->data['session'] = $session;
