@@ -5,6 +5,7 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 
 
 $ws = '/home/ahundiak/zayso2012/';
+$ws = __DIR__ . '/../../../';
 
 $loader = new UniversalClassLoader();
 $loader->registerNamespaces(array(
@@ -22,9 +23,14 @@ $loader->registerPrefixes(array(
     'Twig_Extensions_' => $ws.'Symfony/vendor/twig-extensions/lib',
     'Twig_'            => $ws.'Symfony/vendor/twig/lib',
 ));
-$loader->registerPrefixFallbacks(array(
-    $ws.'Symfony/vendor/symfony/src/Symfony/Component/Locale/Resources/stubs',
-));
+
+// intl
+if (!function_exists('intl_get_error_code')) {
+    require_once $ws.'Symfony/vendor/symfony/src/Symfony/Component/Locale/Resources/stubs/functions.php';
+
+    $loader->registerPrefixFallbacks(array($ws.'Symfony/vendor/symfony/src/Symfony/Component/Locale/Resources/stubs'));
+}
+
 $loader->registerNamespaceFallbacks(array(
     $ws.'osso2012x/src',
 ));
@@ -41,3 +47,4 @@ AnnotationRegistry::registerFile($ws.'doctrine-orm/Doctrine/ORM/Mapping/Driver/D
 require_once $ws.'Symfony/vendor/swiftmailer/lib/classes/Swift.php';
 Swift::registerAutoload($ws.'Symfony/vendor/swiftmailer/lib/swift_init.php');
 
+unset($ws);
