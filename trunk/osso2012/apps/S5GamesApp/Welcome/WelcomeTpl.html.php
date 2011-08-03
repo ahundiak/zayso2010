@@ -1,6 +1,7 @@
 <?php ?>
 <div>
   <h3>Welcome</h3>
+<?php /*
   <h1>STORM Schedules Changes</h1>
   <p style="padding: 10px;">
     As most of you probably know, the final round of games did not get played on Saturday.
@@ -24,7 +25,7 @@
   <p style="padding: 10px;">
     Thanks: Art Hundiak, 256.457.5943
   </p>
-  <?php /* ?>
+  <?php */ ?>
   <p>
     Welcome to the S5Games 2011 Referee Scheduling Site.
     This site will allow you to sign up to referee specific games during the tournament.
@@ -36,4 +37,3 @@
     No account is needed to <a href="schedule-show">view the schedules.</a>
 </div>
 <?php echo $this->render('S5GamesApp/Account/Signin/SigninTpl.html.php'); ?>
-<?php */ ?>
