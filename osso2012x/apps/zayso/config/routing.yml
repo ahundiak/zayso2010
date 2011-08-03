@@ -3,6 +3,44 @@
 #   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
 #   prefix:   /_internal
 
-_welcome:
+_zayso_welcome:
     pattern:  /
     defaults: { _controller: ZaysoBundle:Welcome:welcome }
+    
+# National Games Routes
+_natgames_welcome:
+    pattern:  /natgames
+    defaults: { _controller: NatGamesBundle:Welcome:welcome }
+    
+_natgames_home:
+    pattern:  /natgames/home
+    defaults: { _controller: NatGamesBundle:Welcome:home }
+    
+_natgames_welcomex:
+    pattern:  /natgames/welcome
+    defaults: { _controller: NatGamesBundle:Welcome:welcome }
+    
+_natgames_contact:
+    pattern:  /natgames/contact
+    defaults: { _controller: NatGamesBundle:Contact:contact }
+    
+_natgames_account_create:
+    pattern:  /natgames/account/create
+    defaults: { _controller: NatGamesBundle:Account:create }
+    requirements:
+        _method:  GET
+        
+_natgames_account_create_post:
+    pattern:  /natgames/account/create
+    defaults: { _controller: NatGamesBundle:Account:createPost }
+    requirements:
+        _method:  POST
+    
+_natgames_account_signin:
+    pattern:  /natgames/account/signin
+    defaults: { _controller: NatGamesBundle:Account:signin }
+    
+_natgames_account_signout:
+    pattern:  /natgames/account/signout
+    defaults: { _controller: NatGamesBundle:Account:signout }
+    
