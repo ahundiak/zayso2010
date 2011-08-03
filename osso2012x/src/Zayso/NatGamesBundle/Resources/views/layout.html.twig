@@ -22,7 +22,7 @@
     </p>
     <p style="margin-top: 2px; color: black; ">
       <span style="color: blue;">Zayso User: </span>
-      <span>The Name</span>
+      <span>{{ user.getName() }}</span>
     </p>
   </div>
 </div>
@@ -30,12 +30,19 @@
 <div id="layout-top-menu">
   <ul style="float:left ">
     <li><a href="{{ path('_natgames_welcomex')       }}">Welcome</a></li>
+{% if user.isSignedin() %}
     <li><a href="{{ path('_natgames_home')           }}">Home</a></li>
+{% else %}
     <li><a href="{{ path('_natgames_account_create') }}">Create Account</a></li>
+{% endif %}
   </ul>
   <ul style="float: right">
     <li><a href="{{ path('_natgames_contact')        }}">Contact Us</a></li>
+{% if user.isSignedin() %}
+    <li><a href="{{ path('_natgames_account_signout') }}">Sign Out</a></li>
+{% else %}
     <li><a href="{{ path('_natgames_account_signin') }}">Sign In</a></li>
+{% endif %}
   </ul>
   <div class="inner"></div>
 </div>
