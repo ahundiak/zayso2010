@@ -39,7 +39,15 @@ _natgames_account_create_post:
 _natgames_account_signin:
     pattern:  /natgames/account/signin
     defaults: { _controller: NatGamesBundle:Account:signin }
-    
+    requirements:
+        _method:  GET
+
+_natgames_account_signin_post:
+    pattern:  /natgames/account/signin
+    defaults: { _controller: NatGamesBundle:Account:signinPost }
+    requirements:
+        _method:  POST
+
 _natgames_account_signout:
     pattern:  /natgames/account/signout
     defaults: { _controller: NatGamesBundle:Account:signout }
