@@ -10,7 +10,7 @@ class WelcomeController extends Controller
   { 
     $env = $this->container->getParameter('kernel.environment');
     if ($env == 'prod') $base = 'http://zayso.org';
-    else                $base = 'local.osso2012x.org';
+    else                $base = 'http://local.osso2012x.org/zayso';
     
     $data = array
     (
