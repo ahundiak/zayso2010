@@ -56,48 +56,77 @@ class MySessionStorage extends NativeSessionStorage
     // Parent saves the options
     parent::__construct($options);
   }
-  public function read($key, $default = null)
-  {
-    //die('session.store.read ' . $key);
-    return array_key_exists($key, $_SESSION) ? $_SESSION[$key] : $default;
-  }
-  function write($key, $data)
-  {
-    $db = $this->db;
-    
-    // Assume an update
-    $params = array
-    (
-      'sid'   => $this->getId(),
-      'app'   => $this->name,
-      'cat'   => $key,
-      'datax' => serialize($data),
-      'ts_created' => $this->ts,
-      'ts_updated' => $this->ts,
-    );
-    
-    // Delete if null
-    if (!$data)
+    public function read($key, $default = null, $flash = false)
     {
-      $sql = 'DELETE FROM session_data WHERE sid = :sid AND app = :app AND cat = :cat;';
-      $stmt = $db->prepare($sql);
-      $stmt->execute($params);
-      return;
+        $db = $this->db;
+
+        $params = array
+        (
+            'sid' => $this->getId(),
+            'app' => $this->name,
+            'cat' => $key,
+        );
+        $sql = 'SELECT datax FROM session_data WHERE sid = :sid AND app = :app AND cat = :cat;';
+        $stmt = $db->prepare($sql);
+        $stmt->execute($params);
+        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        if ($row) 
+        {
+            if ($flash)
+            {
+                $sql = 'DELETE FROM session_data WHERE sid = :sid AND app = :app AND cat = :cat;';
+                $stmt = $db->prepare($sql);
+                $stmt->execute($params);
+            }
+            return unserialize($row['datax']);
+        }
+        return null;
+
     }
-    // Insert or update
-    $sql = <<<EOT
+    function write($key, $data)
+    {
+        $db = $this->db;
+    
+        // Assume an update
+        $params = array
+        (
+            'sid'   => $this->getId(),
+            'app'   => $this->name,
+            'cat'   => $key,
+            'datax' => serialize($data),
+            'ts_created' => $this->ts,
+            'ts_updated' => $this->ts,
+        );
+    
+        // Delete if null
+        if (!$data)
+        {
+            $params = array
+            (
+                'sid'   => $this->getId(),
+                'app'   => $this->name,
+                'cat'   => $key,
+            );
+            $sql = 'DELETE FROM session_data WHERE sid = :sid AND app = :app AND cat = :cat;';
+            $stmt = $db->prepare($sql);
+            $stmt->execute($params);
+            return;
+        }
+        // Insert or update
+        $sql = <<<EOT
 INSERT INTO session_data (sid,app,cat,ts_created,ts_updated,datax)
 
 VALUES(:sid,:app,:cat,:ts_created,:ts_updated,:datax)
 
 ON DUPLICATE KEY UPDATE datax = VALUES(datax), ts_updated = VALUES(ts_updated);
 EOT;
-   $stmt = $db->prepare($sql);
-   $stmt->execute($params);
+        $stmt = $db->prepare($sql);
+        $stmt->execute($params);
 
-    // print_r($params);
-    //die('session.store.write ' . $key . '<br />');      
-  }
+        // print_r($params);
+        //die('session.store.write ' . $key . '<br />');
+    }
 
     /**
      * Starts the session.

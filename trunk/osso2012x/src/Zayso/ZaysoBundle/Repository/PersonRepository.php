@@ -37,10 +37,10 @@ class PersonRepository extends EntityRepository
         $errors = array();
         if (is_array($data)) $data = new PersonCreateData($data);
 
-        if (!$data->aysoid) $errors[] = 'AYSOID is required';
-        if (!$data->fname)  $errors[] = 'AYSO First Name is required';
-        if (!$data->lname)  $errors[] = 'AYSO Last Name is required';
-        if (!$data->email)  $errors[] = 'Email is required';
+        if (!$data->aysoid)    $errors[] = 'AYSOID is required';
+        if (!$data->firstName) $errors[] = 'AYSO First Name is required';
+        if (!$data->lastName)  $errors[] = 'AYSO Last Name is required';
+        if (!$data->email)     $errors[] = 'Email is required';
 
         if (count($errors)) return $errors;
 
@@ -54,11 +54,11 @@ class PersonRepository extends EntityRepository
 
         $person = new Person();
 
-        $person->setFirstName($data->fname);
-        $person->setLastName ($data->lname);
-        $person->setNickName ($data->nname);
+        $person->setFirstName($data->firstName);
+        $person->setLastName ($data->lastName);
+        $person->setNickName ($data->nickName);
         $person->setEmail    ($data->email);
-        $person->setCellPhone($data->cphone);
+        $person->setCellPhone($data->cellPhone);
 
         $orgKey = (int)$data->region;
         if ($orgKey)
@@ -132,7 +132,7 @@ class PersonRepository extends EntityRepository
 
         if (!$personRegistered) return null;
 
-        $person = $personRegistered->person;
+        $person = $personRegistered->getPerson();
         if (!$person) return null;
 
         $person->addRegisteredPerson($personRegistered);

@@ -6,8 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- *  ORM\Entity(repositoryClass="NatGames\Project\ProjectRepo")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Zayso\ZaysoBundle\Repository\ProjectRepository")
  * @ORM\Table(name="project")
  */
 class Project

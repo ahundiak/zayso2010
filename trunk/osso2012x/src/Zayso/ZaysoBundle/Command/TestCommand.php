@@ -12,6 +12,8 @@ use Zayso\ZaysoBundle\Entity\Project;
 use Zayso\ZaysoBundle\Entity\Account;
 use Zayso\ZaysoBundle\Entity\AccountPerson;
 
+use Zayso\ZaysoBundle\Component\Security\Core\User\User as User;
+
 class TestCommand extends ContainerAwareCommand
 {
     protected function configure()
@@ -25,11 +27,23 @@ class TestCommand extends ContainerAwareCommand
     // Does not work as expected
     protected function testArray($output)
     {
-        $accountCreateData = array('uname' => 'User 2', 'upass' => 'zzz');
+        $accountCreateData = array('userName' => 'User 2', 'userPass' => 'zzz');
 
         $ao = new ArrayObject($accountCreateData);
         $output->writeln('AO ');
 
+    }
+    protected function testUser()
+    {
+        $em = $this->getContainer()->get('doctrine')->getEntityManager();
+
+        $user = new User($em);
+        $user->load(10,10,52);
+
+        $projectPerson = $user->getProjectPerson();
+        $accountCreateData = $projectPerson->get('accountCreateData');
+
+        echo 'User: ' . $user->getName() . ' ' . $accountCreateData['refBadge'] . "\n";
     }
     protected function initProject($output)
     {
@@ -59,6 +73,9 @@ class TestCommand extends ContainerAwareCommand
     }
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->testUser();
+        return;
+
         $this->initProject($output);
         
         $em = $this->getContainer()->get('doctrine')->getEntityManager();
@@ -78,7 +95,8 @@ class TestCommand extends ContainerAwareCommand
         $query->getResult();
 
         $account = new Account();
-        $account->setUname('user1');
+        $account->setUserName('user1');
+        $account->setUserPass('pass1');
         $account->setStatus('test');
 
         $accountPerson = new AccountPerson();
@@ -89,10 +107,10 @@ class TestCommand extends ContainerAwareCommand
         $em->flush();
 
         $accountRepo = $em->getRepository('ZaysoBundle:Account');
-        $account = $accountRepo->findOneByUname('user1');
+        $account = $accountRepo->findOneByUserName('user1');
 
         $output->writeln('REPO ' . get_class($accountRepo));
-        $output->writeln('User ' . $account->getUname());
+        $output->writeln('User ' . $account->getUserName());
 
         $members = $account->getMembers();
         foreach($members as $member)
@@ -104,14 +122,15 @@ class TestCommand extends ContainerAwareCommand
 
         // Try the creation interface
         $accountCreateData = array(
-            'uname'  => 'User 2',
-            'upass1' => 'zzz',
-            'upass2' => 'zzz',
-            'fname'  => 'First',
-            'lname'  => 'Last',
-            'email'  => 'ahundiak@gmail.com',
-            'aysoid' => '12345678',
-            'region' => 894,
+            'userName'  => 'User 2',
+            'userPass1' => 'zzz',
+            'userPass2' => 'zzz',
+            'firstName' => 'First',
+            'lastName'  => 'Last',
+            'email'     => 'ahundiak@gmail.com',
+            'cellPhone' => '2564575943',
+            'aysoid'    => '12345678',
+            'region'    => 894,
             'projectId' => 52,
         );
         $account = $accountRepo->create($accountCreateData);
@@ -122,7 +141,7 @@ class TestCommand extends ContainerAwareCommand
             print_r($errors);
             return;
         }
-        $output->writeln('User ' . $account->getUname());
+        $output->writeln('User ' . $account->getUserName());
         return;
     }
 }
