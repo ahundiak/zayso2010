@@ -95,15 +95,15 @@ class AccountRepository extends EntityRepository
         }
 
         // Some error checking
-        if (!$data->uname)  $errors[] = 'Account Name is required';
-        if (!$data->upass1) $errors[] = 'Password is required';
-        if ( $data->upass1 != $data->upass2) $errors[] = 'Passwords need to match';
+        if (!$data->userName)  $errors[] = 'Account Name is required';
+        if (!$data->userPass1) $errors[] = 'Password is required';
+        if ( $data->userPass1 != $data->userPass2) $errors[] = 'Passwords need to match';
 
         if (count($errors)) return $errors;
 
         $account = new Account();
-        $account->setUname($data->uname);
-        $account->setUpass(md5($data->upass1));
+        $account->setUserName($data->userName);
+        $account->setUserPass(md5($data->userPass1));
         $account->setStatus('Active');
 
         $accountPerson = new AccountPerson();

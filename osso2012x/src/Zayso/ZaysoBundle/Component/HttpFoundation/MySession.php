@@ -209,7 +209,7 @@ class MySession extends \Symfony\Component\HttpFoundation\Session
      */
     public function getFlash($name, $default = null)
     {
-        return array_key_exists($name, $this->flashes) ? $this->flashes[$name] : $default;
+        return $this->storage->read('flash.' . $name, $default, true);
     }
 
     /**
@@ -220,12 +220,9 @@ class MySession extends \Symfony\Component\HttpFoundation\Session
      */
     public function setFlash($name, $value)
     {
-        if (false === $this->started) {
-            $this->start();
-        }
-
-        $this->flashes[$name] = $value;
-        unset($this->oldFlashes[$name]);
+        if (false === $this->started) { $this->start(); }
+        
+        $this->storage->write('flash.' . $name,$value);
     }
 
     /**

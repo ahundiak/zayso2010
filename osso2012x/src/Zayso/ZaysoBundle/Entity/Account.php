@@ -19,11 +19,11 @@ class Account
    */
   protected $id;
 
-  /** @ORM\Column(name="uname",type="string",length=40,unique=true,nullable=false) */
-  protected $uname = '';
+  /** @ORM\Column(name="user_name",type="string",length=40,unique=true,nullable=false) */
+  protected $userName = '';
 
-  /** @ORM\Column(name="upass",type="string",length=32,nullable=false) */
-  protected $upass  = '';
+  /** @ORM\Column(name="user_pass",type="string",length=32,nullable=false) */
+  protected $userPass  = '';
 
   /** @ORM\Column(name="status",type="string",length=16,nullable=false) */
   protected $status = '';
@@ -73,49 +73,58 @@ class Account
     }
     return 0;
   }
-  /* ===========================================================================
-   * End of custom code, rest is generated
+  /* =====================================================================
+   * End of custom code
    */
 
-
     /**
-     * Set uname
+     * Get id
      *
-     * @param string $uname
+     * @return integer 
      */
-    public function setUname($uname)
+    public function getId()
     {
-        $this->uname = $uname;
+        return $this->id;
     }
 
     /**
-     * Get uname
+     * Set userName
+     *
+     * @param string $userName
+     */
+    public function setUserName($userName)
+    {
+        $this->userName = $userName;
+    }
+
+    /**
+     * Get userName
      *
      * @return string 
      */
-    public function getUname()
+    public function getUserName()
     {
-        return $this->uname;
+        return $this->userName;
     }
 
     /**
-     * Set upass
+     * Set userPass
      *
-     * @param string $upass
+     * @param string $userPass
      */
-    public function setUpass($upass)
+    public function setUserPass($userPass)
     {
-        $this->upass = $upass;
+        $this->userPass = $userPass;
     }
 
     /**
-     * Get upass
+     * Get userPass
      *
      * @return string 
      */
-    public function getUpass()
+    public function getUserPass()
     {
-        return $this->upass;
+        return $this->userPass;
     }
 
     /**
@@ -156,15 +165,5 @@ class Account
     public function getMembers()
     {
         return $this->members;
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 }

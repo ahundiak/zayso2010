@@ -60,30 +60,21 @@ class ProjectPerson
   {
     $this->data = unserialize($this->datax);
   }
-  public function __get($name)
+  public function get($name)
   {
-    switch($name)
-    {
-      case 'id':      return $this->id;
-      case 'project': return $this->project;
-      case 'person':  return $this->person;
-      case 'status':  return $this->status;
-    }
-    if (isset($this->data[$name])) return $this->data[$name];
-
-    return null;
+      if (isset($this->data[$name])) return $this->data[$name];
+      return null;
   }
-  public function __set($name,$value)
+  public function set($name,$value)
   {
-    switch($name)
-    {
-      case 'id':      $this->id      = $value; return;
-      case 'project': $this->project = $value; return;
-      case 'person':  $this->person  = $value; return;
-      case 'status':  $this->status  = $value; return;
-    }
-    $this->data[$name] = $value;
-    $this->datax = null;
+      if ($value === null)
+      {
+          if (isset($this->data[$name])) unset($this->data[$name]);
+          $this->datax = null;
+          return;
+      }
+      $this->data[$name] = $value;
+      $this->datax = null;
   }
   public function setPerson($person)
   {
