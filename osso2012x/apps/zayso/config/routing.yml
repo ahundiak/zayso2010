@@ -76,4 +76,10 @@ _natgames_project_levels_post:
     defaults: { _controller: NatGamesBundle:Project:levelsPost }
     requirements:
         _method:  POST
+
+_natgames_schedule:
+    pattern:  /natgames/schedule
+    defaults: { _controller: NatGamesBundle:Schedule:index }
+    requirements:
+        _method:  GET
     
