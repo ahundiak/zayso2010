@@ -2,13 +2,11 @@
 
 namespace Zayso\NatGamesBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
-class ContactController extends Controller
+class ContactController extends BaseController
 {
   public function contactAction()
   { 
-    $data = array();
-    return $this->render('NatGamesBundle:Contact:contact.html.twig',$data);
+    $tplData = $this->getTplData();
+    return $this->render('NatGamesBundle:Contact:contact.html.twig',$tplData);
   }
 }

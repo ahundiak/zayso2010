@@ -1,0 +1,98 @@
+{% extends 'NatGamesBundle::layout.html.twig' %}
+
+{% block title %}NatGames - Project - Referee Levels{% endblock %}
+
+{% block content %}
+<div>
+<form method="post" action="{{ path('_natgames_project_levels') | raw }}">
+<table border="1" class="form_table" width="800" id="project-levels">
+    <tr><th colspan="22">Age Groups to Referee</th></tr>
+    <tr>
+      <td>Category</td>
+      <td>NA</td>
+        {% for age in ages %}
+          <td colspan="4" align="center">{{ age }}</td>
+        {% endfor %}
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      {% for age in ages %}
+        <td colspan="2" align="center">Boys</td>
+        <td colspan="2" align="center">Girls</td>
+      {% endfor %}
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      {% for age in ages %}
+        <td align="center">CR</td>
+        <td align="center">AR</td>
+        <td align="center">CR</td>
+        <td align="center">AR</td>
+      {% endfor %}
+    </tr>
+    {% for level in levels %}
+    <tr>
+      <td>{{ level.desc }}</td>
+      {{ gen.genLevelCheckBox(level.cat,'NA')     | raw }}
+      {{ gen.genLevelCheckBox(level.cat,'U10BCR') | raw }}
+      {{ gen.genLevelCheckBox(level.cat,'U10BAR') | raw }}
+      {{ gen.genLevelCheckBox(level.cat,'U10GCR') | raw }}
+      {{ gen.genLevelCheckBox(level.cat,'U10GAR') | raw }}
+
+      {{ gen.genLevelCheckBox(level.cat,'U12BCR') | raw }}
+      {{ gen.genLevelCheckBox(level.cat,'U12BAR') | raw }}
+      {{ gen.genLevelCheckBox(level.cat,'U12GCR') | raw }}
+      {{ gen.genLevelCheckBox(level.cat,'U12GAR') | raw }}
+
+      {{ gen.genLevelCheckBox(level.cat,'U14BCR') | raw }}
+      {{ gen.genLevelCheckBox(level.cat,'U14BAR') | raw }}
+      {{ gen.genLevelCheckBox(level.cat,'U14GCR') | raw }}
+      {{ gen.genLevelCheckBox(level.cat,'U14GAR') | raw }}
+
+      {{ gen.genLevelCheckBox(level.cat,'U16BCR') | raw }}
+      {{ gen.genLevelCheckBox(level.cat,'U16BAR') | raw }}
+      {{ gen.genLevelCheckBox(level.cat,'U16GCR') | raw }}
+      {{ gen.genLevelCheckBox(level.cat,'U16GAR') | raw }}
+
+      {{ gen.genLevelCheckBox(level.cat,'U19BCR') | raw }}
+      {{ gen.genLevelCheckBox(level.cat,'U19BAR') | raw }}
+      {{ gen.genLevelCheckBox(level.cat,'U19GCR') | raw }}
+      {{ gen.genLevelCheckBox(level.cat,'U19GAR') | raw }}
+    </tr>
+    {% endfor %}
+  <tr>
+    <td colspan="18">Make changes then press Update at least once. Click <a href="{{ path('_natgames_home') }}">Home</a> when done.</td>
+    <td align="center" colspan="2"><input type="reset"  name="ref_level_reset"  value="Reset" />
+    <td align="center" colspan="2"><input type="submit" name="ref_level_submit" value="Update" />
+  </tr>
+  </table>
+</form>
+<div style="width: 800px;">
+<h3>Help</h3>
+<p>Press Update at least once even if don't plan on refereeing at all.  This lets the system know that you have seen the form. </p>
+<h3>Categories</h3>
+<p>Regular Pool Play - The main games of the tournament played on Thursday, Friday and Saturday morning.</p>
+<p>
+  Play Offs - Quarter finals, semi finals and finals starting Saturday afternoon and continuing through Sunday.
+</p>
+<p>Jamboree - Warmup games played on Wednesday. Teams are made up on the spot.  Good chance to check out the fields.
+  Referees are encouraged to work at whatever level they want.
+</p>
+<p>EXTRA - I'm not sure of all the details but for the first time the National Games will basically include a second tournament
+  involving the AYSO Flex programs.  So basically, we have certain teams competing among themselves.
+  I think they are supposed to supply their own referees but I am not sure.  So if you represent an EXTRA team then go ahead and check the
+  appropriate level.  If not, then ignore.
+</p>
+<h3>Which level can I referee?</h3>
+<p>
+  Start with the National Guidelines: Regional U10, Intermediate U12, Advanced U14, National U16/19.
+  Those referees that have put in the time and effort to earn the higher badges will get priority.
+  But that is not to say that you can't do the upper divisions with a lower badge.
+  Go ahead and indicate which levels you are comfortable with.
+  If you plan to referee above your badge level then we will have your Regional Referee Administrator confirm your experience.
+</p>
+</div>
+</div>
+{% endblock %}

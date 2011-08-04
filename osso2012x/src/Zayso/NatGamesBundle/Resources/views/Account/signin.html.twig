@@ -11,7 +11,7 @@
 <tr>
   <td style="width: 125px;">Account Name</td>
   <td style="width: 200px;">
-    <input type="text" name="userName" size="40" value="{{ userName }}"/>
+    <input type="text" name="accountSigninData[userName]" size="40" value="{{ accountSigninData.userName }}"/>
   </td>
   <td style="width: 375px;">
     Your account name.  <br />
@@ -20,7 +20,7 @@
 <tr>
   <td style="width: 125px;">Password</td>
   <td style="width: 200px;">
-    <input type="password" name="userPass" size="20" value=""/>
+    <input type="password" name="accountSigninData[userPass]" size="20" value=""/>
   </td>
   <td style="width: 375px;">Your Password</td>
 </tr>
@@ -29,10 +29,10 @@
   <td>&nbsp;</td>
   <td align="center"><input type="submit" name="accountSigninSubmit" value="Sign In" />
 </tr>
-{% if errors %}
+{% if accountSigninData.errors %}
 <tr>
   <td colspan="3" style="color: red;">
-  {% for error in errors %}
+  {% for error in accountSigninData.errors %}
     {{ error }}</br>
   {% endfor %}
   </td>
