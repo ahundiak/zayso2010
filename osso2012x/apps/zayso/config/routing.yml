@@ -51,4 +51,29 @@ _natgames_account_signin_post:
 _natgames_account_signout:
     pattern:  /natgames/account/signout
     defaults: { _controller: NatGamesBundle:Account:signout }
+
+# Project Person Information
+_natgames_project_plans:
+    pattern:  /natgames/project/plans
+    defaults: { _controller: NatGamesBundle:Project:plans }
+    requirements:
+        _method:  GET
+
+_natgames_project_plans_post:
+    pattern:  /natgames/project/plans
+    defaults: { _controller: NatGamesBundle:Project:plansPost }
+    requirements:
+        _method:  POST
+
+_natgames_project_levels:
+    pattern:  /natgames/project/levels
+    defaults: { _controller: NatGamesBundle:Project:levels }
+    requirements:
+        _method:  GET
+
+_natgames_project_levels_post:
+    pattern:  /natgames/project/levels
+    defaults: { _controller: NatGamesBundle:Project:levelsPost }
+    requirements:
+        _method:  POST
     
