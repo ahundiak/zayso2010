@@ -146,7 +146,7 @@ class AccountController extends BaseController
         $projectPerson = $projectRepo->loadProjectPerson($projectId,$personId);
         $projectPerson->set('accountCreateData',$accountCreateDatax);
 
-        $todo = array('todoPlans' => true, 'todoOpenid' => true, 'todoRefLevel' => true);
+        $todo = array('projectPlans' => true, 'openid' => true, 'projectLevels' => true);
         $projectPerson->set('todo',$todo);
         $em->flush();
 
