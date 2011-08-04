@@ -35,12 +35,11 @@ class ProjectPerson
    */
   protected $person;
   
-  /** @ORM\Column(type="text",name="datax") */
-  protected $datax = '';
-
   /** @ORM\Column(type="string",name="status",length=20) */
   protected $status = '';
 
+  /** @ORM\Column(type="text",name="datax") */
+  protected $datax = '';
   protected $data = array();
 
   /** @ORM\PrePersist */
