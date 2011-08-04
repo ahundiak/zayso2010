@@ -18,7 +18,7 @@ class User
     {
         $this->em = $em;
     }
-    public function load($accountId,$memberId,$projectId = 0)
+    public function load($accountId, $memberId = 0, $projectId = 0)
     {
         $em = $this->em;
         $qb = $em->createQueryBuilder();
@@ -46,7 +46,8 @@ class User
         }
         $this->account = $accounts[0];
 
-        $this->member = $this->account->getMember($memberId);
+        if ($memberId) $this->member = $this->account->getMember($memberId);
+        else           $this->member = $this->account->getPrimaryMember();
 
         $this->person = $this->member->getPerson();
 
@@ -56,12 +57,13 @@ class User
         return true;
 
     }
-    public function getProjectPerson()
+    public function getProjectPerson($projectId = 0)
     {
         if (!$this->projectPerson)
         {
+            if (!$projectId) $projectId = $this->projectId;
             $projectRepo = $this->em->getRepository('ZaysoBundle:Project');
-            $this->projectPerson = $projectRepo->loadProjectPerson($this->projectId,$this->person);
+            $this->projectPerson = $projectRepo->loadProjectPerson($projectId,$this->person);
         }
         return $this->projectPerson;
     }
