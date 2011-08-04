@@ -27,7 +27,15 @@ class WelcomeController extends BaseController
             $todo['projectLevels'] = false;
             $user->getProjectPerson()->set('todo',$todo);
             $this->getEntityManager()->flush();
-            return $this->redirect($this->generateUrl('_natgames_project_levels'));
+
+            $plans = $user->getProjectPerson()->get('plans');
+            if (isset($plans['attend'])) $attend = strtolower($plans['attend']);
+            else                         $attend = null;
+            
+            if (strpos($attend,'yes') !== false)
+            {
+                return $this->redirect($this->generateUrl('_natgames_project_levels'));
+            }
         }
         $tplData = $this->getTplData();
         return $this->render('NatGamesBundle:Welcome:home.html.twig',$tplData);
