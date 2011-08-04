@@ -11,7 +11,7 @@ class BaseController extends Controller
 {
     protected $user = null;
 
-    protected function getEm()
+    protected function getEntityManager()
     {
         return $this->getDoctrine()->getEntityManager();
     }
@@ -36,8 +36,9 @@ class BaseController extends Controller
 
         if (isset($userData['accountId'])) $accountId = $userData['accountId'];
         if (isset($userData['memberId' ])) $memberId  = $userData['memberId'];
+        if (isset($userData['projectId'])) $projectId = $userData['projectId'];
 
-        $this->user = new User($this->getEm());
+        $this->user = new User($this->getEntityManager());
         $this->user->load($accountId,$memberId,$projectId);
         return $this->user;
     }
