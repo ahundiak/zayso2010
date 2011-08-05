@@ -56,7 +56,7 @@ class AccountRepository extends EntityRepository
     {
         $em = $this->getEntityManager();
         $errors = array();
-        $account = $this->findOneByUserName(array($userName));
+        $account = $this->findOneByUserName($userName);
         if (!$account)
         {
             // $account = $this->checkAccount2007($name,$pass);
