@@ -160,7 +160,15 @@ class AccountController extends BaseController
             'projectId' => $projectId,
         );
         $session->set('userData',$userData);
-    
+
+        // Also save signin information
+        $accountSigninData = array
+        (
+            'userName' => $account->getUserName(),
+            'userPass' => '',
+        );
+        $session->set('accountSigninData',$userData);
+        //
         //print_r($accountCreateData); die();
     
         return $this->redirect($this->generateUrl('_natgames_home'));
