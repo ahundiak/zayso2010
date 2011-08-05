@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             
             new Zayso\ZaysoBundle\ZaysoBundle(),
+            new Zayso\EaysoBundle\EaysoBundle(),
             new Zayso\NatGamesBundle\NatGamesBundle(),
         );
 
