@@ -8,26 +8,11 @@ use Doctrine\Common\Collections\ArrayCollection,
     Doctrine\Common\PropertyChangedListener;
 
 /**
- * @Entity
- * @ChangeTrackingPolicy("NOTIFY")
- */
-class MyEntity implements NotifyPropertyChanged
-{
-    // ...
-
-    private $_listeners = array();
-
-    public function addPropertyChangedListener(PropertyChangedListener $listener)
-    {
-        $this->_listeners[] = $listener;
-    }
-}
-/**
  * @ORM\Entity()
  *  ORM\Entity(repositoryClass="Zayso\ZaysoBundle\Repository\PersonRepository")
  * @ORM\Table(name="eayso.volunteer")
  * @ORM\HasLifecycleCallbacks
- * @ChangeTrackingPolicy("NOTIFY")
+ * @ORM\ChangeTrackingPolicy("NOTIFY")
  */
 class Volunteer implements NotifyPropertyChanged
 {
@@ -40,6 +25,9 @@ class Volunteer implements NotifyPropertyChanged
     
     /** @ORM\Column(type="string",name="region",length=20,nullable=true) */
     protected $region = '';
+
+    /** @ORM\Column(type="string",name="mem_year",length=8,nullable=true) */
+    protected $memYear = '';
 
     /** @ORM\Column(type="string",name="first_name",length=40) */
     protected $firstName = '';
@@ -75,12 +63,12 @@ class Volunteer implements NotifyPropertyChanged
     protected $cellPhone = '';
     
     /** @ORM\Column(type="string",name="status",length=20) */
-    protected $status = '';
+    protected $status = 'Active';
 
     /**
-     *   ORM\OneToMany(targetEntity="VolunteerCertification", mappedBy="volunyeer", cascade={"persist","remove"})
+     *  @ORM\OneToMany(targetEntity="Certification", mappedBy="volunteer", indexBy="cat", cascade={"persist","remove"})
      */
-    protected $certs;
+    protected $certifications;
 
     private $listeners = array();
     private $changed = false;
@@ -88,6 +76,12 @@ class Volunteer implements NotifyPropertyChanged
     public function addPropertyChangedListener(PropertyChangedListener $listener)
     {
         $this->listeners[] = $listener;
+    }
+    protected function onPropertySet($name,$value)
+    {
+        if ($this->$name == $value) return;
+        $this->onPropertyChanged($name,$this->$name,$value);
+        $this->$name = $value;
     }
     protected function onPropertyChanged($propName, $oldValue, $newValue)
     {
@@ -101,238 +95,63 @@ class Volunteer implements NotifyPropertyChanged
     
     public function __construct()
     {
-      $this->certs = new ArrayCollection();
+      $this->certtifications = new ArrayCollection();
     }
- 
+    public function addCertification($cert)
+    {
+        $this->certifications[$cert->getCat()] = $cert;
+    }
+    public function getCertification($cat)
+    {
+        if (isset($this->certifications[$cat])) return $this->certifications[$cat];
+        return null;
+    }
     /* ============================================================
      * Generated Code
      */
 
-    /**
-     * Set id
-     *
-     * @param string $id
-     */
-    public function setId($id)
-    {
-        if ($this->id != $id)
-        {
-            $this->onPropertyChanged('id',$this->id,$id);
-            $this->id = $id;
-        }
-    }
+    public function setId($id) { $this->onPropertySet('id',$id); }
+    public function getId() { return $this->id; }
 
-    /**
-     * Get id
-     *
-     * @return string 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+    public function setFirstName($firstName) { $this->onPropertySet('firstName',$firstName); }
+    public function getFirstName() { return $this->firstName; }
 
-    /**
-     * Set firstName
-     *
-     * @param string $firstName
-     */
-    public function setFirstName($firstName)
-    {
-        if ($this->firstName != $firstName)
-        {
-            $this->onPropertyChanged('firstName',$this->firstName,$firstName);
-            $this->firstName = $firstName;
-        }
-    }
+    public function setLastName($lastName) { $this->onPropertySet('lastName',$lastName); }
+    public function getLastName() { return $this->lastName; }
 
-    /**
-     * Get firstName
-     *
-     * @return string 
-     */
-    public function getFirstName()
-    {
-        return $this->firstName;
-    }
+    public function setNickName($nickName) { $this->onPropertySet('nickName',$nickName); }
+    public function getNickName() { return $this->nickName; }
 
-    /**
-     * Set lastName
-     *
-     * @param string $lastName
-     */
-    public function setLastName($lastName)
-    {
-        $this->lastName = $lastName;
-    }
+    public function setMiddleName($middleName) { $this->onPropertySet('middleName',$middleName); }
+    public function getMiddleName() { return $this->middleName; }
 
-    /**
-     * Get lastName
-     *
-     * @return string 
-     */
-    public function getLastName()
-    {
-        return $this->lastName;
-    }
+    public function setSuffix($suffix) { $this->onPropertySet('suffix',$suffix); }
+    public function getSuffix() { return $this->suffix; }
 
-    /**
-     * Set nickName
-     *
-     * @param string $nickName
-     */
-    public function setNickName($nickName)
-    {
-        $this->nickName = $nickName;
-    }
+    public function setEmail($email) { $this->onPropertySet('email',$email); }
+    public function getEmail() { return $this->email; }
 
-    /**
-     * Get nickName
-     *
-     * @return string 
-     */
-    public function getNickName()
-    {
-        return $this->nickName;
-    }
+    public function setHomePhone($homePhone) { $this->onPropertySet('homePhone',$homePhone); }
+    public function getHomePhone() { return $this->homePhone; }
 
-    /**
-     * Set middleName
-     *
-     * @param string $middleName
-     */
-    public function setMiddleName($middleName)
-    {
-        $this->middleName = $middleName;
-    }
+    public function setWorkPhone($workPhone) { $this->onPropertySet('workPhone',$workPhone); }
+    public function getWorkPhone() { return $this->workPhone; }
 
-    /**
-     * Get middleName
-     *
-     * @return string 
-     */
-    public function getMiddleName()
-    {
-        return $this->middleName;
-    }
+    public function setCellPhone($cellPhone) { $this->onPropertySet('cellPhone',$cellPhone); }
+    public function getCellPhone() { return $this->cellPhone; }
 
-    /**
-     * Set suffix
-     *
-     * @param string $suffix
-     */
-    public function setSuffix($suffix)
-    {
-        $this->suffix = $suffix;
-    }
+    public function setRegion($region) { $this->onPropertySet('region',$region); }
+    public function getRegion() { return $this->region; }
 
-    /**
-     * Get suffix
-     *
-     * @return string 
-     */
-    public function getSuffix()
-    {
-        return $this->suffix;
-    }
+    public function setMemYear($memYear) { $this->onPropertySet('memYear',$memYear); }
+    public function getMemYear() { return $this->memYear; }
 
-    /**
-     * Set email
-     *
-     * @param string $email
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-    }
+    public function setDob($dob) { $this->onPropertySet('dob',$dob); }
+    public function getDob() { return $this->dob; }
 
-    /**
-     * Get email
-     *
-     * @return string 
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
+    public function setGender($gender) { $this->onPropertySet('gender',$gender); }
+    public function getGender() { return $this->gender; }
 
-    /**
-     * Set homePhone
-     *
-     * @param string $homePhone
-     */
-    public function setHomePhone($homePhone)
-    {
-        $this->homePhone = $homePhone;
-    }
-
-    /**
-     * Get homePhone
-     *
-     * @return string 
-     */
-    public function getHomePhone()
-    {
-        return $this->homePhone;
-    }
-
-    /**
-     * Set workPhone
-     *
-     * @param string $workPhone
-     */
-    public function setWorkPhone($workPhone)
-    {
-        $this->workPhone = $workPhone;
-    }
-
-    /**
-     * Get workPhone
-     *
-     * @return string 
-     */
-    public function getWorkPhone()
-    {
-        return $this->workPhone;
-    }
-
-    /**
-     * Set cellPhone
-     *
-     * @param string $cellPhone
-     */
-    public function setCellPhone($cellPhone)
-    {
-        $this->cellPhone = $cellPhone;
-    }
-
-    /**
-     * Get cellPhone
-     *
-     * @return string 
-     */
-    public function getCellPhone()
-    {
-        return $this->cellPhone;
-    }
-
-    /**
-     * Set region
-     *
-     * @param string $region
-     */
-    public function setRegion($region)
-    {
-        $this->region = $region;
-    }
-
-    /**
-     * Get region
-     *
-     * @return string 
-     */
-    public function getRegion()
-    {
-        return $this->region;
-    }
+    public function setStatus($status) { $this->onPropertySet('status',$status); }
+    public function getStatus() { return $this->status; }
 }
