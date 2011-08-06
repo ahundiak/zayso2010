@@ -167,7 +167,7 @@ class AccountController extends BaseController
             'userName' => $account->getUserName(),
             'userPass' => '',
         );
-        $session->set('accountSigninData',$userData);
+        $session->set('accountSigninData',$accountSigninData);
         //
         //print_r($accountCreateData); die();
     
