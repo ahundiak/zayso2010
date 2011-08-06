@@ -1,4 +1,5 @@
 <?php
+
 namespace Cerad;
 
 use
@@ -10,15 +11,11 @@ use
 class Services
 {
   protected $data = array();
+  
+  protected $classNames = array();
 
-  protected $classNames = array
-  (
-
-    'request'        => 'Cerad\Request',
-    'response'       => 'Cerad\Response',
-      
-    // 'session'        => 'Cerad_Session_Basic',
-  );
+  protected $repoMap = array ();
+  protected $itemMap = array ();
   
   public function __construct($config = array())
   {
@@ -31,11 +28,18 @@ class Services
   {
     if (isset($this->data[$name])) return $this->data[$name];
 
+    // Some predefined
+    switch($name)
+    {
+      case 'ts':       return $this->getTimeStamp(); break;
+      case 'dataItem': return $this->newDataItem();  break;
+    }
     // Special case fo db adapters
-    if (substr($name,0,2) == 'db')   return $this->newDb($name);
-    if (substr($name,0,2) == 'em')   return $this->newEm($name);
-    if (substr($name,0,4) == 'repo') return $this->newRepo($name);
-
+    if (substr($name,-2) == 'Db')   return $this->newDb  ($name);
+    if (substr($name,-2) == 'Em')   return $this->newEm  ($name);
+    if (substr($name,-4) == 'Item') return $this->newItem($name);
+    if (substr($name,-4) == 'Repo') return $this->newRepo($name);
+    
     // Create a class
     if (isset($this->classNames[$name]))
     {
@@ -77,7 +81,7 @@ class Services
 
     $logger = new \Cerad\EchoSQLLogger($sqlLog);
     $config->setSQLLogger($logger);
-    
+
     if ($appMode == "dev") $config->setAutoGenerateProxyClasses(true);
     else                   $config->setAutoGenerateProxyClasses(false);
 
@@ -89,13 +93,10 @@ class Services
 
     return $em;
   }
-  /* ===============================================================
-   * Repos require am en
+  /* ===========================================================
+   * Shared repos
+   * Need to be careful about unit of work
    */
-  protected $repoMap = array
-  (
-    'repoAccount' => array('em' => 'em', 'item' => 'S5Games\Account\AccountItem'),
-  );
   protected function newRepo($name)
   {
     if (!isset($this->repoMap[$name])) return null;
@@ -105,10 +106,21 @@ class Services
 
     $em = $this->$emName;
     $repo = $em->getRepository($itemName);
-
+    $repo->services = $this;
+    
     $this->data[$name] = $repo;
     return $repo;
-    
+  }
+  /* ==============================================================
+   * Just a way to abstract item classes
+   */
+  protected function newItem($name)
+  {
+    if (!isset($this->itemMap[$name])) return null;
+
+    $itemName = $this->itemMap[$name]['item'];
+
+    return new $itemName();
   }
   /* ===============================================================
    * Keep this for now, for accessing older style database adapter
@@ -116,7 +128,7 @@ class Services
   protected function newDb($name)
   {
     $dbParams = $this->config['dbParams'];
-    
+
     if (isset($dbParams['default'])) $default = $dbParams['default'];
     else                             $default = array();
 
@@ -126,11 +138,21 @@ class Services
     return $this->data[$name] = new $className($params);
   }
   /* ==========================================================
-   * Sort of goes here
+   * Sort of goes here, really should return same
    */
+  protected $ts = null;
+  
   public function getTimeStamp()
   {
-    return date('YmdHis');
+    if (!$this->ts) $this->ts = date('YmdHis');
+    
+    return $this->ts;
+
   }
+  /* ==========================================================
+   * DataItem is an awkward name as it conflicts with Doctrine Entity Items
+   * But it does the job so live with it
+   */
+  public function newDataItem() { return new \Cerad\DataItem(); }
 }
 ?>
