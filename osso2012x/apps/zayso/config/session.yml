@@ -21,7 +21,7 @@ services:
     session.pdo:
         class: PDO
         arguments:
-            dsn:      "mysql:dbname=session;host=" . %database_host%
+            dsn:      %session_dsn%
             user:     %database_user%
             password: %database_password%
             
