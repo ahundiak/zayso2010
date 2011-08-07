@@ -1,3 +1,6 @@
+06 Aug 2011
+From the ec2 cloud
+
 23 Jun 2011
 Dell laptop with Netbeans 10.0
 
