@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="phy_team_person")
+ * @ORM\Table(name="game_person")
  */
-class PhyTeamPerson
+class GamePerson
 {
     /**
      * @ORM\Id
@@ -19,10 +19,10 @@ class PhyTeamPerson
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="PhyTeam", inversedBy="persons")
-     * @ORM\JoinColumn(name="phy_team_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Game", inversedBy="persons")
+     * @ORM\JoinColumn(name="game_id", referencedColumnName="id")
      */
-    protected $phyTeam = null;
+    protected $game = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="Person")
@@ -47,6 +47,12 @@ class PhyTeamPerson
 
     /** @ORM\Column(type="string",name="phone",length=20,nullable=true) */
     protected $phone = '';
+
+    /** @ORM\Column(type="string",name="note",length=60) */
+    protected $note = '';
+
+    /** @ORM\Column(type="string",name="status",length=20) */
+    protected $status = '';
 
     public function __construct()
     {
@@ -209,5 +215,65 @@ class PhyTeamPerson
     public function getOrgKey()
     {
         return $this->orgKey;
+    }
+
+    /**
+     * Set note
+     *
+     * @param string $note
+     */
+    public function setNote($note)
+    {
+        $this->note = $note;
+    }
+
+    /**
+     * Get note
+     *
+     * @return string 
+     */
+    public function getNote()
+    {
+        return $this->note;
+    }
+
+    /**
+     * Set status
+     *
+     * @param string $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * Get status
+     *
+     * @return string 
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set game
+     *
+     * @param Zayso\ZaysoBundle\Entity\Game $game
+     */
+    public function setGame(\Zayso\ZaysoBundle\Entity\Game $game)
+    {
+        $this->game = $game;
+    }
+
+    /**
+     * Get game
+     *
+     * @return Zayso\ZaysoBundle\Entity\Game 
+     */
+    public function getGame()
+    {
+        return $this->game;
     }
 }
