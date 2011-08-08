@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Entity
  * @ORM\Table(name="person_registered")
+ * @ORM\HasLifecycleCallbacks
  */
 class PersonRegistered
 {
@@ -32,6 +33,36 @@ class PersonRegistered
 
   /** @ORM\Column(type="string",name="verified",length=20) */
   protected $verified = '';
+
+  /** @ORM\Column(type="text",name="datax") */
+  protected $datax = '';
+  protected $data = array();
+
+  /** @ORM\PrePersist */
+  public function onPrePersist() { $this->datax = serialize($this->data); }
+
+  /** @ORM\PreUpdate */
+  public function onPreUpdate() { $this->datax = serialize($this->data); }
+
+  /** @ORM\PostLoad */
+  public function onLoad() { $this->data = unserialize($this->datax); }
+
+  public function get($name,$default = null)
+  {
+      if (isset($this->data[$name])) return $this->data[$name];
+      return $default;
+  }
+  public function set($name,$value)
+  {
+      if ($value === null)
+      {
+          if (isset($this->data[$name])) unset($this->data[$name]);
+          $this->datax = null;
+          return;
+      }
+      $this->data[$name] = $value;
+      $this->datax = null;
+  }
 
   public function setPerson($person)
   {
@@ -121,5 +152,25 @@ class PersonRegistered
     public function getPerson()
     {
         return $this->person;
+    }
+
+    /**
+     * Set datax
+     *
+     * @param text $datax
+     */
+    public function setDatax($datax)
+    {
+        $this->datax = $datax;
+    }
+
+    /**
+     * Get datax
+     *
+     * @return text 
+     */
+    public function getDatax()
+    {
+        return $this->datax;
     }
 }
