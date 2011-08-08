@@ -65,14 +65,20 @@ class VolunteerImport extends BaseImport
         {
             $dob = substr($dob,6,4) . substr($dob,0,2) . substr($dob,3,2);
         }
+        $lastName   = ucfirst(strtolower($item->lastName));
+        $nickName   = ucfirst(strtolower($item->nickName));
+        $firstName  = ucfirst(strtolower($item->firstName));
+        $middleName = ucfirst(strtolower($item->middleName));
+        $email      =         strtolower($item->email);
+
         $vol->setRegion    ($region);
         $vol->setMemYear   ($item->memYear);
-        $vol->setFirstName ($item->firstName);
-        $vol->setLastName  ($item->lastName);
-        $vol->setMiddleName($item->middleName);
-        $vol->setNickName  ($item->nickName);
+        $vol->setFirstName ($firstName);
+        $vol->setLastName  ($lastName);
+        $vol->setMiddleName($middleName);
+        $vol->setNickName  ($nickName);
         $vol->setSuffix    ($item->suffix);
-        $vol->setEmail     ($item->email);
+        $vol->setEmail     ($email);
         $vol->setHomePhone ($item->homePhone);
         $vol->setWorkPhone ($item->workPhone);
         $vol->setCellPhone ($item->cellPhone);

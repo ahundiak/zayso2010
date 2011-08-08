@@ -47,13 +47,17 @@ class CertificationImport extends BaseImport
         $homePhone = preg_replace('/\D/','',$item->homePhone);
         $workPhone = preg_replace('/\D/','',$item->workPhone);
 
+        $firstName = ucfirst(strtolower($item->firstName));
+        $lastName  = ucfirst(strtolower($item->lastName));
+        $email     = strtolower($item->email);
+
         $vol = new Volunteer();
         $vol->setId($aysoid);
         $vol->setRegion($region);
 
         $vol->setMemYear   ($item->memYear);
-        $vol->setFirstName ($item->firstName);
-        $vol->setLastName  ($item->lastName);
+        $vol->setFirstName ($firstName);
+        $vol->setLastName  ($lastName);
 
         $vol->setEmail     ($item->email);
         $vol->setHomePhone ($homePhone);
