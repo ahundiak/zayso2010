@@ -8,38 +8,37 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use Zayso\ZaysoBundle\Import\PhyTeamImport;
+
 class ImportCommand extends ContainerAwareCommand
 {
+    protected function getEntityManager()
+    {
+        return $this->getContainer()->get('doctrine')->getEntityManager();
+    }
     protected function configure()
     {
         $this
             ->setName('zayso:import')
             ->setDescription('Import From Spreadsheets')
-            ->addArgument('file', InputArgument::REQUIRED, 'File Name')
-            ->addOption('yell', null, InputOption::VALUE_NONE, 'If set, the task will yell in uppercase letters')
+            ->addArgument('file', InputArgument::OPTIONAL, 'Input File Name','../datax/Teams0498.csv')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $inputFileName = $input->getArgument('file');
-        $output->writeln('Input FilE: ' . $inputFileName);
-        $output->writeln('Input FilE: ' . $inputFileName);
 
-        $em = $this->getContainer()->get('doctrine')->getEntityManager();
-        $output->writeln('EM ' . get_class($em));
-        
-        return;
-        if ($name) {
-            $text = 'Hello '.$name;
-        } else {
-            $text = 'Hello';
-        }
+        $params = array
+        (
+            'projectId'     => 70,
+            'inputFileName' => $inputFileName,
+        );
+        $import = new PhyTeamImport($this->getEntityManager());
+        $results = $import->process($params);
 
-        if ($input->getOption('yell')) {
-            $text = strtoupper($text);
-        }
+        echo "Zayso Import $inputFileName {$results['msg']} \n";
+        print_r($results);
 
-        $output->writeln($text);
     }
 }
