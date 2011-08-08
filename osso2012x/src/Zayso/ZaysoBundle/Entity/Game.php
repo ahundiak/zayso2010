@@ -62,13 +62,23 @@ class Game
      */
     protected $gameTeams;
 
+    /**
+     *  @ORM\OneToMany(targetEntity="GamePerson", mappedBy="game", indexBy="type", fetch="EXTRA_LAZY" )
+     */
+    protected $persons;
+
     public function __construct()
     {
         $this->gameTeams = new ArrayCollection();
+        $this->persons   = new ArrayCollection();
     }
     public function addGameTeam($gameTeam)
     {
         $this->gameTeams[] = $gameTeam;
+    }
+    public function addPerson($person)
+    {
+        $this->persons[] = $person;
     }
     public function setProject($project)
     {
@@ -339,5 +349,25 @@ class Game
     public function getGameTeams()
     {
         return $this->gameTeams;
+    }
+
+    /**
+     * Add persons
+     *
+     * @param Zayso\ZaysoBundle\Entity\GamePerson $persons
+     */
+    public function addPersons(\Zayso\ZaysoBundle\Entity\GamePerson $persons)
+    {
+        $this->persons[] = $persons;
+    }
+
+    /**
+     * Get persons
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getPersons()
+    {
+        return $this->persons;
     }
 }
