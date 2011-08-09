@@ -83,9 +83,4 @@ _natgames_schedule:
     requirements:
         _method:  GET
 
-
-# resource: routing_area5cf.yml
-_main:
-    resource: routing_area5cf.yml
-    
     
