@@ -77,7 +77,7 @@ class PhyTeamImport extends BaseImport
         if ($region)
         {
             $teamKey = sprintf('R%04u%s',$region,$teamKey);
-            $orgKey = sprintf('AYSOR-%04u',$region);
+            $orgKey = sprintf('AYSOR%04u',$region);
         }
         else
         {
@@ -127,7 +127,15 @@ class PhyTeamImport extends BaseImport
             $schTeam->setPhyTeam($phyTeam);
             $em->persist($schTeam);
         }
-        if ($teamKey) $schTeam->setTeamKey($teamKey);
+        if ($teamKey)
+        {
+            $schTeam->setTeamKey($teamKey);
+            $parts = explode(' ',$teamKey);
+            if ($parts[0])
+            {
+                $schTeam->setTeamKey2($parts[0]);
+            }
+        }
         if ($age)     $schTeam->setAge(   $age);
         if ($gender)  $schTeam->setGender($gender);
         if ($orgKey)  $schTeam->setOrgKey($orgKey);

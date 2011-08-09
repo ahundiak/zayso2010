@@ -81,36 +81,26 @@ class ProjectRepository extends EntityRepository
   //$em->flush($item);
 
         return $item;
-    }
-    public function getNextSeqn($project,$name,$count = 1)
-    {
-        $em = $this->getEntityManager();
+  }
+  public function getNextSeqn($project,$name,$count = 1)
+  {
+    $em = $this->getEntityManager();
 
-        $item = $this->loadProjectSeqn($project,$name);
+    $item = $this->loadProjectSeqn($project,$name);
 
-        $seqn = $item->getSeqn();
+    if (!$item) $item = $this->addSeqn($project,$name);
 
-        $item->setSeqn($seqn + $count);
+    $seqn = $item->getSeqn();
 
-        // Required for defered explicit
-        $em->persist($item);
+    $item->setSeqn($seqn + $count);
 
-        // This needs to be surrounded by try/catch version exception
-        // $em->flush();
+    // Required for defered explicit
+    $em->persist($item);
 
-        return $seqn + 1;
-    }
-    public function checkSeqn($project,$name,$seqn)
-    {
-        $em = $this->getEntityManager();
+    // This needs to be surrounded by try/catch version exception
+    // $em->flush();
 
-        $item = $this->loadProjectSeqn($project,$name);
-
-        if ($seqn > $item->getSeqn())
-        {
-            $item->setSeqn($seqn);
-            $em->persist($item);
-        }
-    }
+    return $seqn + 1;
+  }
 }
 ?>

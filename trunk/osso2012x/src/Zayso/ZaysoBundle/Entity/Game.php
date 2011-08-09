@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Zayso\ZaysoBundle\Repository\GameRepository")
  * @ORM\Table(name="game")
  */
 class Game
@@ -58,7 +58,7 @@ class Game
     protected $status = '';
 
     /**
-     *  @ORM\OneToMany(targetEntity="GameTeam", mappedBy="game", indexBy="type")
+     *  @ORM\OneToMany(targetEntity="GameTeam", mappedBy="game", indexBy="type", cascade={"persist","remove"})
      */
     protected $gameTeams;
 
@@ -74,7 +74,7 @@ class Game
     }
     public function addGameTeam($gameTeam)
     {
-        $this->gameTeams[] = $gameTeam;
+        $this->gameTeams[$gameTeam->getType()] = $gameTeam;
     }
     public function addPerson($person)
     {
@@ -84,6 +84,24 @@ class Game
     {
         $this->project = $project;
         if ($project) $project->addGame($this);
+    }
+
+    /* ===========================================================================
+     * Lots of special processing
+     *
+     */
+    public function getGameTeamForType($type)
+    {
+        if (isset($this->gameTeams[$type])) return $this->gameTeams[$type];
+        return null;
+    }
+    public function getHomeTeam() { return $this->getGameTeamForType('Home'); }
+    public function getAwayTeam() { return $this->getGameTeamForType('Away'); }
+
+    public function getGamePersonForType($type)
+    {
+        if (isset($this->persons[$type])) return $this->persons[$type];
+        return null;
     }
 
     /* ===========================================================================
