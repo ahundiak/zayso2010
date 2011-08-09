@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use Zayso\ZaysoBundle\Import\PhyTeamImport;
+use Zayso\ZaysoBundle\Import\ScheduleImport;
 
 class ImportCommand extends ContainerAwareCommand
 {
@@ -29,12 +30,25 @@ class ImportCommand extends ContainerAwareCommand
     {
         $inputFileName = $input->getArgument('file');
 
+        $inputFileName = '../datax/Teams0498.csv';
         $params = array
         (
             'projectId'     => 70,
             'inputFileName' => $inputFileName,
         );
         $import = new PhyTeamImport($this->getEntityManager());
+        // $results = $import->process($params);
+
+        // echo "Zayso Import $inputFileName {$results['msg']} \n";
+        // print_r($results);
+
+        $inputFileName = '../datax/Schedule.csv';
+        $params = array
+        (
+            'projectId'     => 70,
+            'inputFileName' => $inputFileName,
+        );
+        $import = new ScheduleImport($this->getEntityManager());
         $results = $import->process($params);
 
         echo "Zayso Import $inputFileName {$results['msg']} \n";

@@ -23,6 +23,9 @@ class GameTeam
      * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
      */
     protected $project = null;
+    
+    /** @ORM\Column(type="integer",name="num",nullable=false) */
+    protected $num = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity="Game", inversedBy="gameTeams")
@@ -47,6 +50,12 @@ class GameTeam
 
     /** @ORM\Column(type="integer",name="score",nullable=true) */
     protected $score = 0;
+
+    /** @ORM\Column(type="integer",name="sportsmanship",nullable=true) */
+    protected $sportsmanship = 0;
+
+    /** @ORM\Column(type="string",name="status",length="20",nullable=true) */
+    protected $status = '';
 
     /**
      * @ORM\ManyToOne(targetEntity="SchTeam")
@@ -238,5 +247,65 @@ class GameTeam
     public function getSchTeam()
     {
         return $this->schTeam;
+    }
+
+    /**
+     * Set num
+     *
+     * @param integer $num
+     */
+    public function setNum($num)
+    {
+        $this->num = $num;
+    }
+
+    /**
+     * Get num
+     *
+     * @return integer 
+     */
+    public function getNum()
+    {
+        return $this->num;
+    }
+
+    /**
+     * Set sportsmanship
+     *
+     * @param integer $sportsmanship
+     */
+    public function setSportsmanship($sportsmanship)
+    {
+        $this->sportsmanship = $sportsmanship;
+    }
+
+    /**
+     * Get sportsmanship
+     *
+     * @return integer 
+     */
+    public function getSportsmanship()
+    {
+        return $this->sportsmanship;
+    }
+
+    /**
+     * Set status
+     *
+     * @param string $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * Get status
+     *
+     * @return string 
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 }

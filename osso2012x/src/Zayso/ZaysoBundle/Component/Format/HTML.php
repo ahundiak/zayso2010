@@ -36,7 +36,7 @@ class HTML
     }
     $stamp = mktime(substr($time,0,2),substr($time,2,2));
 
-    return date('h:i a',$stamp);
+    return date('h:i A',$stamp);
   }
   public function formOptions($options, $value = NULL)
   {
