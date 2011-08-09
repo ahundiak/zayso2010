@@ -7,7 +7,7 @@ class Osso2007_Schedule_Import_SchImportBase extends Cerad_Import
   protected $fields  = array();
   protected $teams   = array();
 
-  protected $year    = 10;
+  protected $year    = 11;
   protected $seaType = 1;
   protected $schType = 1;
   
