@@ -75,10 +75,10 @@ class SchedDivListView extends Proj_View
             $data->showGirl,
             $data->showCoed
         );
-        //$search->eventTeamTypeId = $models->EventTeamTypeModel->getEventTeamTypeIds(
-        //    $data->showHome,
-        //    $data->showAway
-        //);
+        $search->eventTeamTypeId = $models->EventTeamTypeModel->getEventTeamTypeIds(
+            $data->showHome,
+            $data->showAway
+        );
         
         // Need to check if team is in the division and unit
         if ($data->teamId) {
