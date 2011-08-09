@@ -136,16 +136,16 @@ class PhyTeamImport extends BaseImport
         $schTeam->setType('RS');
 
         // People
-        $this->processPhyTeamPerson($phyTeam,'Head Coach',$item->headCoachFirstName,$item->headCoachLastName,$item->headCoachEmail,$item->headCoachPhone);
-        $this->processPhyTeamPerson($phyTeam,'Asst Coach',$item->asstCoachFirstName,$item->asstCoachLastName,$item->asstCoachEmail,$item->asstCoachPhone);
-        $this->processPhyTeamPerson($phyTeam,'Manager',   $item->managerFirstName,  $item->managerLastName,  $item->managerEmail,  $item->managerPhone);
+        $this->processPhyTeamPerson($phyTeam,$orgKey,'Head Coach',$item->headCoachFirstName,$item->headCoachLastName,$item->headCoachEmail,$item->headCoachPhone);
+        $this->processPhyTeamPerson($phyTeam,$orgKey,'Asst Coach',$item->asstCoachFirstName,$item->asstCoachLastName,$item->asstCoachEmail,$item->asstCoachPhone);
+        $this->processPhyTeamPerson($phyTeam,$orgKey,'Manager',   $item->managerFirstName,  $item->managerLastName,  $item->managerEmail,  $item->managerPhone);
 
         // Done
         $em->flush();
         
         return;        
    }
-   public function processPhyTeamPerson($phyTeam,$type,$firstName,$lastName,$email,$phone)
+   public function processPhyTeamPerson($phyTeam,$orgKey,$type,$firstName,$lastName,$email,$phone)
    {
        if (!$lastName) return;
 
@@ -167,6 +167,7 @@ class PhyTeamImport extends BaseImport
        if ($lastName)  $person->setLastName ($lastName);
        if ($email)     $person->setEmail    ($email);
        if ($phone)     $person->setPhone    ($phone);
+       if ($orgKey)    $person->setOrgKey   ($orgKey);
 
    }
 }
