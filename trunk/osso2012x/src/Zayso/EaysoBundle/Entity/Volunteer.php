@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection,
 /**
  * @ORM\Entity()
  *  ORM\Entity(repositoryClass="Zayso\ZaysoBundle\Repository\PersonRepository")
- * @ORM\Table(name="eayso.volunteer")
+ * @ORM\Table(name="volunteer")
  * @ORM\HasLifecycleCallbacks
  * @ORM\ChangeTrackingPolicy("NOTIFY")
  */
