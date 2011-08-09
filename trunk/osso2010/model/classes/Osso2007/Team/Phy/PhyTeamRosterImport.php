@@ -22,7 +22,7 @@ class Osso2007_Team_Phy_PhyTeamRosterImport extends Osso2007_Team_Phy_PhyTeamImp
       'unit_id'        => $regionId,
       'eayso_des'      => $teamDes,
       'reg_year_id'    => 11,
-      'season_type_id' => 3,
+      'season_type_id' => 1,
     );
     $result = $this->directPhyTeam->fetchRow($search);
     return $result->row;

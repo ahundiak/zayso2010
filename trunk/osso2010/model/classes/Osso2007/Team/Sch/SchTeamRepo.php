@@ -34,6 +34,9 @@ class Osso2007_Team_Sch_SchTeamRepo
   protected $cacheProjectKeyRows = array();
   public function getRowForProjectKey($pid,$key)
   {
+    $parts = explode(' ',$key);
+    $key = $parts[0];
+    
     if (isset($this->cacheProjectKeyRows[$pid][$key])) return $this->cacheProjectKeyRows[$pid][$key];
 
     $rows = $this->tableSchTeam->query('*',array('project_id' => $pid, 'desc_short' => $key));

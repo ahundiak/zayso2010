@@ -21,6 +21,7 @@ class Osso2007_Div_DivRepo
     '16' => 'U16B','17' => 'U16G','18' => 'U16C',
     '19' => 'U19B','20' => 'U19G','21' => 'U19C',
     '22' => 'U05B','23' => 'U05G','24' => 'U05C',
+    '25' => 'U07B','26' => 'U07G','27' => 'U07C',
   );
   function getDivisionPickList() { return $this->divisionPickList; }
     
