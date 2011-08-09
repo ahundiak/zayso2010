@@ -1,0 +1,57 @@
+{% extends 'Area5CFBundle::layout.html.twig' %}
+
+{% block title %}Area5CF - Schedule{% endblock %}
+
+{% block content %}
+<div>
+<h3>Schedules</h3>
+<div>
+<form method="post" action="{{ path('_area5cf_schedule') }}">
+<table border="1" class="form_table" width="800" id="search-referee-schedule">
+    <tr><th colspan="1">Search Referee Schedule</th></tr>
+    <tr><td>
+        <table border="1" style="margin: 0;"><tr>
+        {% for region in regions %}
+            <td width="75" align="center">{{ gen.genRegionCheckBox(region) | raw }}</td>
+        {% endfor %}
+        </tr></table>
+    </td></tr>
+    <tr><td>
+<table><tr><td>
+        <table border="1" style="margin: 0;"><tr>
+        {% for age in ages %}
+            <td width="40" align="center">{{ gen.genAgeCheckBox(age) | raw }}</td>
+        {% endfor %}
+        </tr></table>
+</td><td>
+        <table border="1" style="margin: 0;"><tr>
+        {% for gender in genders %}
+            <td width="40" align="center">{{ gen.genGenderCheckBox(gender) | raw }}</td>
+        {% endfor %}
+        </tr></table>
+</td></table>
+     </td></tr>
+    <tr>
+        <td align="center" colspan="1"><input type="submit" name="ref_schedule_submit" value="Search" />
+    </tr>
+</table>
+</form>
+</div>
+<div>
+<table border="1" class="form_table" width="800" id="referee-schedule">
+    <tr><th colspan="1">Referee Schedule</th></tr>
+    {% for game in games %}
+        <tr>
+            <td>{{ game.getNum()  }}</td>
+            <td>{{ format.date(game.getDate()) }}</td>
+            <td>{{ format.time(game.getTime()) }}</td>
+            <td>{{ game.getFieldKey() }}</td>
+            <td>{{ gen.genTeam(game.getHomeTeam()) }}<br />
+                {{ gen.genTeam(game.getAwayTeam()) }}</td>
+            <td>{{ gen.genReferees(game) | raw }}</td>
+        </tr>
+    {% endfor %}
+</table>
+</div>
+</div>
+{% endblock %}

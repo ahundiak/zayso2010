@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" href="{{ asset('bundles/zayso/css/zayso.css') }}" type="text/css" media="all" />
+  <title>{% block title %}NatGames Bundle{% endblock %}</title>
+</head>
+
+<body>
+<div>
+
+<div id="layout-header">
+  <a class="a-target-blank" href="http://soccer.org/events/national_games.aspx" target="_blank">
+    <img class="logo1" src="{{ asset('bundles/zayso/images/' ~ 'NatGamesLogo.jpg') }}" height="50" width="50" alt="National Games Site"/>
+  </a>
+  <a class="a-target-blank" href="http://www.soccer.org" target="_blank">
+    <img class="logo2" src="{{ asset('bundles/zayso/images/AysoLogo.gif') }}" height="50" width="50" alt="AYSO Site"/>
+  </a>
+  <div class="inner-block">
+    <p style="text-align: center;">
+      <span style="color: blue;">AYSO North Alabama Referee Scheduling Site</span>
+    </p>
+    <p style="margin-top: 2px; color: black; ">
+      <span style="color: blue;">Zayso User: </span>
+      <span>{{ user.getName() }}</span>
+    </p>
+  </div>
+</div>
+
+<div id="layout-top-menu">
+  <ul style="float:left ">
+    <li><a href="{{ path('_area5cf_welcomex')       }}">Welcome</a></li>
+{% if user.isSignedin() %}
+    <li><a href="{{ path('_area5cf_home')           }}">Home</a></li>
+{% else %}
+    <li><a href="{{ path('_area5cf_account_create') }}">Create Account</a></li>
+{% endif %}
+    <li><a href="{{ path('_area5cf_schedule')       }}">Game Schedule</a></li>
+  </ul>
+  <ul style="float: right">
+    <li><a href="{{ path('_area5cf_contact')        }}">Contact Us</a></li>
+{% if user.isSignedin() %}
+    <li><a href="{{ path('_area5cf_account_signout') }}">Sign Out</a></li>
+{% else %}
+    <li><a href="{{ path('_area5cf_account_signin') }}">Sign In</a></li>
+{% endif %}
+  </ul>
+  <div class="inner"></div>
+</div>
+
+<div id="layout-content">
+  {% block content %}
+  {% endblock %}
+</div>
+
+</div>
+</body>
+</html>
+
