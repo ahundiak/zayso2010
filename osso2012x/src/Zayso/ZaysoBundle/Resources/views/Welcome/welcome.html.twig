@@ -17,4 +17,14 @@
       </li>
     </ul>
    {# <p>User: {{ app.environment }} {{ app.user }}</p> #}
+{#
+    <h3>twig test</h3>
+<div id="header">
+    <h1 {% if data.h1Class %}class="{{data.h1Class}}"{% endif %}>{{data.h1Text}}</h1>
+    <p id="servertime">{{data.dater}}</p>
+    {% if data.h2Text %}
+      <h2>{{data.h2Text}}</h2>
+    {% endif %}
+</div>  
+#}
 {% endblock %}
