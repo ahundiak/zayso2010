@@ -4,6 +4,7 @@ class Eayso_Reg_Cert_RegCertRepo
     const TYPE_SAFE_HAVEN         = 100;
     const TYPE_SAFE_HAVEN_REFEREE = 101;
     const TYPE_SAFE_HAVEN_COACH   = 102;
+    const TYPE_SAFE_HAVEN_AYSO    = 103;
 
     const TYPE_REFEREE_BADGE              = 200;
     const TYPE_REFEREE_BADGE_U08          = 210;
@@ -27,6 +28,7 @@ class Eayso_Reg_Cert_RegCertRepo
         0 => NULL,
         self::TYPE_SAFE_HAVEN_REFEREE         => 'Safe Haven Referee',
         self::TYPE_SAFE_HAVEN_COACH           => 'Safe Haven Coach',
+        self::TYPE_SAFE_HAVEN_AYSO            => 'Safe Haven',
 
         self::TYPE_REFEREE_BADGE_U08          => 'U08 Official',
         self::TYPE_REFEREE_BADGE_ASSISTANT    => 'Assistant Referee',
@@ -49,6 +51,7 @@ class Eayso_Reg_Cert_RegCertRepo
         0 => NULL,
         self::TYPE_SAFE_HAVEN_REFEREE         => 'Referee',
         self::TYPE_SAFE_HAVEN_COACH           => 'Coach',
+        self::TYPE_SAFE_HAVEN_AYSO            => 'AYSO',
 
         self::TYPE_REFEREE_BADGE_U08          => 'U08',
         self::TYPE_REFEREE_BADGE_ASSISTANT    => 'Assistant',
