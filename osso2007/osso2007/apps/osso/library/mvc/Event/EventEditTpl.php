@@ -3,9 +3,14 @@
 <form method="post" action="<?php echo $this->link('event_edit'); ?>"> 
 <input type="hidden" name="event_id"         value="<?php echo $event->id; ?>" />
 <input type="hidden" name="event_num"        value="<?php echo $event->num; ?>" />
-<input type="hidden" name="event_project_id" value="<?php echo $event->projectId; ?>" />
+<input type="hidden" name="event_project_ix" value="<?php echo $event->projectId; ?>" />
 <input type="hidden" name="event_point1"     value="<?php echo $event->point1; ?>" />
-<table border="1" style="width: 775px">
+
+<input type="hidden" name="event_season_type_id"    value="<?php echo $event->seasonTypeId; ?>" />
+<input type="hidden" name="event_year_id"           value="<?php echo $event->yearTypeId; ?>" />
+<input type="hidden" name="event_schedule_type_id"  value="<?php echo $event->scheduleTypeId; ?>" />
+
+<table border="1" style="width: 875px">
 <tr>
     <th colspan="2">
         <?php
@@ -18,14 +23,8 @@
 <tr>
     <td>Type</td>
     <td colspan="1">
-        <select name="event_season_type_id">
-            <?php echo $this->formOptions($this->seasonTypePickList,$event->seasonTypeId); ?>
-        </select>
-        <select name="event_year_id">
-            <?php echo $this->formOptions($this->yearPickList,$event->yearId); ?>
-        </select>
-        <select name="event_schedule_type_id">
-            <?php echo $this->formOptions($this->scheduleTypePickList,$event->scheduleTypeId); ?>
+        <select name="event_project_id">
+            <?php echo $this->formOptions($this->projectPickList,$event->projectId); ?>
         </select>
         <select name="event_event_type_id">
             <?php echo $this->formOptions($this->eventTypePickList,$event->eventTypeId); ?>
