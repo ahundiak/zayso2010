@@ -6,6 +6,7 @@ CREATE DATABASE osso2007;
 GRANT ALL ON osso2007.* TO "impd"@"localhost";
 
 SET PASSWORD FOR 'impd'@'localhost' = PASSWORD('impd894');
+SET PASSWORD FOR 'impd'@'%' = PASSWORD('impd894');
 
 CREATE DATABASE session;
 GRANT ALL ON    session.* TO "impd"@"localhost";
