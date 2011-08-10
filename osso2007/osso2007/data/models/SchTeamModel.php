@@ -95,6 +95,7 @@ class SchTeamModel extends BaseModel
             $unitModel         ->joinUnitDesc      ($select,'person_coach_head');
         }                             
         if ($search->yearId)         $select->where("{$alias}.reg_year_id      IN (?)",$search->yearId);
+        if ($search->projectId)      $select->where("{$alias}.project_id       IN (?)",$search->projectId);
         if ($search->seasonTypeId)   $select->where("{$alias}.season_type_id   IN (?)",$search->seasonTypeId);
         if ($search->scheduleTypeId) $select->where("{$alias}.schedule_type_id IN (?)",$search->scheduleTypeId);
         if ($search->unitId)         $select->where("{$alias}.unit_id          IN (?)",$search->unitId);
@@ -144,7 +145,9 @@ class SchTeamModel extends BaseModel
             $desc = $item->desc;
             $key  = $item->phyTeam->key;
             $name = $item->phyTeam->coachHead->namex;
+          //echo "$desc $key $name";die();
             if ($key) {
+                $desc = null;
                 if ($desc) $desc .= ' ' . $key;
                 else       $desc  = $key;
                 
