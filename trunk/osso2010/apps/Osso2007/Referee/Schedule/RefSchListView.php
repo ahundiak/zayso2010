@@ -22,6 +22,8 @@ class Osso2007_Referee_Schedule_RefSchListView extends Osso2007_View
     $this->seasonTypePickList   = $models->SeasonTypeModel  ->getPickList();
     $this->scheduleTypePickList = $models->ScheduleTypeModel->getPickList();
     $this->eventPoint2PickList  = $models->EventPoint2Model ->getPickList();
+    
+    $this->projectPickList      = $this->context->repos->project->getActiveProjectsPickList();
         
     /* Date processing */
     $dtModel = $models->DateTimeModel;
