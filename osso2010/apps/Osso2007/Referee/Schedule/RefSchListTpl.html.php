@@ -4,17 +4,16 @@
 ?>
 
 <form method="post" action="<?php echo $this->link('sched_ref_list'); ?>">
-<table border="1" style="width: 700px">
+<input type="hidden" name="sched_div_season_type_id" value="<?php echo $data->seasonTypeId; ?>" />
+<input type="hidden" name="sched_div_year_id"        value="<?php echo $data->yearId;       ?>" />
+
+<table border="1" style="width: 875px">
 <tr><th colspan="2">Show Referee Schedules</th></tr>
 <tr>
     <td colspan="2">
-        <select name="sched_div_season_type_id">
+        <select name="sched_div_project_id">
             <option value="0">All</option>
-            <?php echo $html->formOptions($this->seasonTypePickList,$data->seasonTypeId); ?>
-        </select>
-        <select name="sched_div_year_id">
-            <option value="0">All</option>
-            <?php echo $html->formOptions($this->yearPickList,$data->yearId); ?>
+            <?php echo $html->formOptions($this->projectPickList,$data->projectId); ?>
         </select>
         <select name="sched_div_unit_id">
             <option value="0">All Regions</option>

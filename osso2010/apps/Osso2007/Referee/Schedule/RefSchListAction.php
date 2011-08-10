@@ -13,6 +13,7 @@ class Osso2007_Referee_Schedule_RefSchListAction extends Osso2007_Action
         
     $data->yearId         = $user->yearId;
     $data->unitId         = $user->unitId;
+    $data->projectId      = $user->projectId;
     $data->orderBy        = 1;
     $data->outputType     = 1;
             
@@ -51,6 +52,7 @@ class Osso2007_Referee_Schedule_RefSchListAction extends Osso2007_Action
       $data = $this->initSessionData();
       $session->schedRefListData = $data;
     }
+    if (!$data->projectId) $data->projectId = 70;
     /* Pull divisions and possibly unit out of url */
     if (isset($args[0])) $id = $args[0];
     else                 $id = -1;
@@ -102,6 +104,7 @@ class Osso2007_Referee_Schedule_RefSchListAction extends Osso2007_Action
     $data = new SessionData();
         
     $data->eventTypeId    = $request->getPost('sched_div_event_type_id');
+    $data->projectId      = $request->getPost('sched_div_project_id');
     $data->seasonTypeId   = $request->getPost('sched_div_season_type_id');
     $data->scheduleTypeId = $request->getPost('sched_div_schedule_type_id');
     $data->yearId         = $request->getPost('sched_div_year_id');
