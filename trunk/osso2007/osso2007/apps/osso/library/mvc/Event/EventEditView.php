@@ -198,9 +198,10 @@ class EventEditView extends Proj_View
         
         // Query any existing schedule teams
         $searchSchTeams = new SearchData();
-        $searchSchTeams->yearId         = $event->yearId;
-        $searchSchTeams->seasonTypeId   = $event->seasonTypeId;
-        $searchSchTeams->scheduleTypeId = $event->scheduleTypeId;
+
+        // Used to be year/season/schedule
+        $searchSchTeams->projectId      = $event->projectId;
+        
         $searchSchTeams->unitId     = 0;
         $searchSchTeams->divisionId = 0;
         $schTeamPickListLast = array();
@@ -272,6 +273,8 @@ class EventEditView extends Proj_View
 
         $this->eventPoint1PickList  = $models->EventPoint1Model->getPickList();
         $this->eventPoint2PickList  = $models->EventPoint2Model->getPickList();
+
+        $this->projectPickList    = $this->context->repos->project->getActiveProjectsPickList();
         
         /* And render it  */      
         return $this->renderx();

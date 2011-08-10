@@ -42,7 +42,7 @@ class EventEditCont extends Proj_Controller_Action
             
             $session->eventEditData = $data;   
         }
-        if (!$data->projectId) $data->projectId = 28;
+        if (!$data->projectId) $data->projectId = 70;
         
         $id = $request->getParam('id');
         if ($id >= 0) {
@@ -261,9 +261,10 @@ class EventEditCont extends Proj_Controller_Action
                     if ($eventTeamx->unitId     != $schTeam->unitId)     $eventTeamx->schTeamId = 0;
                     if ($eventTeamx->divisionId != $schTeam->divisionId) $eventTeamx->schTeamId = 0;
                     
-                    if ($eventx->yearId         != $schTeam->yearId)         $eventTeamx->schTeamId = 0;
-                    if ($eventx->seasonTypeId   != $schTeam->seasonTypeId)   $eventTeamx->schTeamId = 0;
-                    if ($eventx->scheduleTypeId != $schTeam->scheduleTypeId) $eventTeamx->schTeamId = 0;
+                    if ($eventx->projectId      != $schTeam->projectId)      $eventTeamx->schTeamId = 0;
+                  //if ($eventx->yearId         != $schTeam->yearId)         $eventTeamx->schTeamId = 0;
+                  //if ($eventx->seasonTypeId   != $schTeam->seasonTypeId)   $eventTeamx->schTeamId = 0;
+                  //if ($eventx->scheduleTypeId != $schTeam->scheduleTypeId) $eventTeamx->schTeamId = 0;
                 }
             } 
             // Make sure have required fields
