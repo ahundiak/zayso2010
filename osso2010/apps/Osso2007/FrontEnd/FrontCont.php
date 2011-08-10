@@ -108,7 +108,7 @@ class Osso2007_FrontEnd_FrontCont
     'sched_ref_list' => 'Osso2007_Referee_Schedule_RefSchListAction',
 //  'sched_div_list' => 'Osso2007_Div_Schedule_DivSchListAction',
 
-//  'event_edit'     => 'Osso2007_Event_EventEditAction',
+    'event_editx'     => 'Osso2007_Event_EventEditAction',
 
     'home_index'     => 'Osso2007_Index_IndexHomeAction',
     'index_home'     => 'Osso2007_Index_IndexHomeAction',
