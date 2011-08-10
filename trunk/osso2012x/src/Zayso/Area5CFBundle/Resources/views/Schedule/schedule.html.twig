@@ -10,6 +10,26 @@
 <table border="1" class="form_table" width="800" id="search-referee-schedule">
     <tr><th colspan="1">Search Referee Schedule</th></tr>
     <tr><td>
+<table border="1"><tr><td>
+      From:
+      <select name="refSchedData[date1]">
+        {{ format.formOptions(datesPickList,refSchedData.date1) | raw }}
+      </select>
+</td><td>
+      To:
+      <select name="refSchedData[date2]">
+        {{ format.formOptions(datesPickList,refSchedData.date2) | raw }}
+      </select>
+</td><td>
+       Sort By:
+      <select name="refSchedData[sortBy]">
+        {{ format.formOptions(sortByPickList,refSchedData.sortBy) | raw }}
+      </select>
+</td><td width="200" align="center">
+       Game Count: {{ gameCount }}
+</td></tr></table>
+    </td></tr>
+    <tr><td>
         <table border="1" style="margin: 0;"><tr>
         {% for region in regions %}
             <td width="75" align="center">{{ gen.genRegionCheckBox(region) | raw }}</td>
@@ -29,10 +49,10 @@
             <td width="40" align="center">{{ gen.genGenderCheckBox(gender) | raw }}</td>
         {% endfor %}
         </tr></table>
-</td></table>
+</td></tr></table>
      </td></tr>
     <tr>
-        <td align="center" colspan="1"><input type="submit" name="ref_schedule_submit" value="Search" />
+        <td align="center"><input type="submit" name="ref_schedule_submit" value="Search" /></td>
     </tr>
 </table>
 </form>

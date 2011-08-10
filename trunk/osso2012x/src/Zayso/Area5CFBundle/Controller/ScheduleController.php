@@ -7,30 +7,6 @@ use Zayso\ZaysoBundle\Entity\GamePerson;
 
 class ScheduleController extends BaseController
 {
-    public function getGames($refSchedData)
-    {
-        $em = $this->getEntityManager();
-        $qb = $em->createQueryBuilder();
-
-        $qb->addSelect('game');
-        $qb->addSelect('gameTeam');
-        $qb->addSelect('person');
-
-        $qb->from('ZaysoBundle:Game','game');
-
-        $qb->leftJoin('game.gameTeams','gameTeam');
-        $qb->leftJoin('game.persons',  'person');
-
-        $qb->addOrderBy('game.date');
-        $qb->addOrderBy('game.time');
-        $qb->addOrderBy('game.fieldKey');
-        $qb->addOrderBy('game.age');
-
-        $query = $qb->getQuery();
-
-        $items = $query->getResult();
-        return $items;
-    }
     public function indexAction()
     {
         $session = $this->getSession();
@@ -45,19 +21,48 @@ class ScheduleController extends BaseController
         {
             $refSchedData = array
             (
-                'errors'   => array(),
+                'sortBy' => 1,
+                'errors' => array(),
             );
         }
-        $games = $this->getGames($refSchedData);
+        if (!isset($refSchedData['sortBy'])) $refSchedData['sortBy'] = 1;
+        if (!isset($refSchedData['date1' ])) $refSchedData['date1'] = '20110813';
+        if (!isset($refSchedData['date2' ])) $refSchedData['date2'] = '20110830';
+        
+        // Grab the games
+        $gameRepo = $this->getEntityManager()->getRepository('ZaysoBundle:Game');
+        $games = $gameRepo->queryGames($refSchedData);
+        if (!$games) $games = array();
+
+        // For view processor
         $this->refSchedData = $refSchedData;
 
+        // Sort by
+        $sortByPickList = array(1 => 'Date,Time,Field', 2 => 'Date,Field,Time', 3 => 'Date,Age,Time');
+
+        // Dates
+        $day  = new \DateInterval('P1D');
+        $date = new \DateTime('08/01/2011');
+        
+        $dates = array();
+        for($i = 0; $i < 100; $i++)
+        {
+            $dates[$date->format('Ymd')] = $date->format('M d, D');
+            $date->add($day);
+        }
+
+        // Pass it all on
         $tplData = $this->getTplData();
 
-        $tplData['games']   = $games;
+        $tplData['games']     = $games;
+        $tplData['gameCount'] = count($games);
+
         $tplData['ages']    = array('All','U05','U06','U07','U08','U10','U12','U14','U16','U19');
         $tplData['genders'] = array('All','Boys','Coed','Girls');
         $tplData['regions'] = array('All','R0160','R0498','R0894','R0914','R1174');
-        
+        $tplData['sortByPickList'] = $sortByPickList;
+        $tplData['refSchedData']   = $refSchedData;
+        $tplData['datesPickList']  = $dates;
         $tplData['gen']  = $this;
         return $this->render('Area5CFBundle:Schedule:schedule.html.twig',$tplData);
     }
@@ -85,7 +90,8 @@ class ScheduleController extends BaseController
         if (isset($this->refSchedData['genders'][$gender])) $checked = 'checked="checked"';
         else                                                $checked = null;
 
-        $html = sprintf('%s<br /><input type="checkbox" name="refSchedData[genders][%s]" value="%s" %s />',$gender,$gender,$gender,$checked);
+        $html = sprintf('%s<br /><input type="checkbox" name="refSchedData[genders][%s]" value="%s" %s />',
+                $gender,$gender,substr($gender,0,1),$checked);
         return $html;
     }
     public function genRegionCheckBox($region)
@@ -93,7 +99,7 @@ class ScheduleController extends BaseController
         if (isset($this->refSchedData['regions'][$region])) $checked = 'checked="checked"';
         else                                                $checked = null;
 
-        $html = sprintf('%s<br /><input type="checkbox" name="refSchedData[regions][%s]" value="%s" %s />',$region,$region,$region,$checked);
+        $html = sprintf('%s<br /><input type="checkbox" name="refSchedData[regions][%s]" value="AYSO%s" %s />',$region,$region,$region,$checked);
         return $html;
     }
     public function genTeam($team)
