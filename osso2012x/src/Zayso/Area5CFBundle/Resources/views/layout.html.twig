@@ -32,10 +32,12 @@
     <li><a href="{{ path('_area5cf_welcomex')       }}">Welcome</a></li>
 {% if user.isSignedin() %}
     <li><a href="{{ path('_area5cf_home')           }}">Home</a></li>
+    <li><a href="{{ path('_area5cf_import')         }}">Import</a></li>
+    <li><a href="{{ path('_area5cf_schedule_edit')  }}">Edit Game Schedule</a></li>
 {% else %}
     <li><a href="{{ path('_area5cf_account_create') }}">Create Account</a></li>
 {% endif %}
-    <li><a href="{{ path('_area5cf_schedule')       }}">Game Schedule</a></li>
+    <li><a href="{{ path('_area5cf_schedule_view')  }}">View Game Schedule</a></li>
   </ul>
   <ul style="float: right">
     <li><a href="{{ path('_area5cf_contact')        }}">Contact Us</a></li>
