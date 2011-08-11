@@ -39,8 +39,11 @@ class Game
     /** @ORM\Column(type="integer",name="duration",nullable=true) */
     protected $duration = 0;
 
-    /** @ORM\Column(type="integer",name="field_id",nullable=true) */
-    protected $fieldId = 0;
+    /**
+     * @ORM\ManyToOne(targetEntity="ProjectField")
+     * @ORM\JoinColumn(name="project_field_id", referencedColumnName="id")
+     */
+    protected $field = null;
 
     /** @ORM\Column(type="string",name="field_key",length=20,nullable=true) */
     protected $fieldKey = '';
