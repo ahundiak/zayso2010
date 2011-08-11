@@ -103,6 +103,18 @@ class Game
         if (isset($this->persons[$type])) return $this->persons[$type];
         return null;
     }
+    public function getSchTeamIdForType($type)
+    {
+        $gameTeam = $this->getGameTeamForType($type);
+        if (!$gameTeam) return 0;
+
+        $schTeam = $gameTeam->getSchTeam();
+        if (!$schTeam) return 0;
+
+        return $schTeam->getId();
+    }
+    public function getHomeSchTeamId() { return $this->getSchTeamIdForType('Home'); }
+    public function getAwaySchTeamId() { return $this->getSchTeamIdForType('Away'); }
 
     /* ===========================================================================
      * Generated code follows

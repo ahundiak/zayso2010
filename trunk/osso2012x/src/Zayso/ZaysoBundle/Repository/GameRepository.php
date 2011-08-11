@@ -17,80 +17,150 @@ use Zayso\ZaysoBundle\Entity\AccountPerson;
  */
 class GameRepository extends EntityRepository
 {
-    // Schedule query
-    public function queryGames($refSchedData)
+    protected function getValues($search,$name,$default = null)
     {
-        if (isset($refSchedData['ages']))
+        if (!isset($search[$name])) return $default;
+
+        $values = $search[$name];
+        if (!is_array($values)) return $values;
+
+        if (isset($values['All'])) return $default;
+
+        $valuesIndexed = array();
+        foreach($values as $value)
         {
-            $ages = $refSchedData['ages'];
-            if (isset($ages['All'])) $ages = null;
+            if ($value) $valuesIndexed[$value] = $value;
         }
-        else $ages = null;
+        return $valuesIndexed;
+    }
+    /* ==========================================================
+     * Schedule Teams query
+     */
+    public function querySchTeams($search,$games = array())
+    {
+        // Pull params
+        $ages    = $this->getValues($search,'ages');
+        $regions = $this->getValues($search,'regions');
+        $genders = $this->getValues($search,'genders');
 
-        if (isset($refSchedData['regions']))
+        $projectId = $this->getValues($search,'projectId');
+
+        // Add in anyting from the games themselves
+        foreach($games as $game)
         {
-            $regions = $refSchedData['regions'];
-            if (isset($regions['All'])) $regions = null;
+            foreach($game->getGameTeams() as $team)
+            {
+                if ($ages)    $ages   [$team->getAge()]    = $team->getAge();
+                if ($regions) $regions[$team->getOrgKey()] = $team->getOrgKey();
+                if ($genders) $genders[$team->getGender()] = $team->getGender();
+            }
         }
-        else $regions = null;
-
-        if (isset($refSchedData['genders']))
-        {
-            $genders = $refSchedData['genders'];
-            if (isset($genders['All' ])) $genders = null;
-            if (isset($genders['Boys'])) $genders['Coed'] = 'C';
-        }
-        else $genders = null;
-
-        if (isset($refSchedData['sortBy'])) $sortBy = $refSchedData['sortBy'];
-        else                                $sortBy = 1;
-
-        if (isset($refSchedData['date1'])) $date1 = $refSchedData['date1'];
-        else                               $date1 = null;
-        if (isset($refSchedData['date2'])) $date2 = $refSchedData['date2'];
-        else                               $date2 = null;
-
+        // Build query
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
-        $qb->addSelect('game');
-        $qb->addSelect('gameTeam');
-        $qb->addSelect('person');
+        $qb->addSelect('schTeam');
 
-        $qb->from('ZaysoBundle:Game','game');
+        $qb->from('ZaysoBundle:SchTeam','schTeam');
 
-        $qb->leftJoin('game.gameTeams','gameTeam');
-        $qb->leftJoin('game.persons',  'person');
+        if ($projectId) $qb->andWhere($qb->expr()->in('schTeam.project',$projectId));
 
-        if ($date1) $qb->andWhere($qb->expr()->gte('game.date',$date1));
-        if ($date2) $qb->andWhere($qb->expr()->lte('game.date',$date2));
+        if (count($ages))    $qb->andWhere($qb->expr()->in('schTeam.age',   $ages));
+        if (count($regions)) $qb->andWhere($qb->expr()->in('schTeam.orgKey',$regions));
+        if (count($genders)) $qb->andWhere($qb->expr()->in('schTeam.gender',$genders));
 
-        if (count($ages))    $qb->andWhere($qb->expr()->in('gameTeam.age',   $ages));    // Only work if both teams the same
-        if (count($regions)) $qb->andWhere($qb->expr()->in('gameTeam.orgKey',$regions)); // Only work if both teams the same
-        if (count($genders)) $qb->andWhere($qb->expr()->in('gameTeam.gender',$genders)); // Only work if both teams the same
+        $qb->addOrderBy('schTeam.teamKey');
+
+        $teams = $qb->getQuery()->getResult();
+        return $teams;
+
+    }
+    public function querySchTeamsPickList($search,$games = array())
+    {
+        $teams = $this->querySchTeams($search,$games);
+        $options = array();
+        foreach($teams as $team)
+        {
+            $key = $team->getTeamKey();
+            $desc = sprintf('%s-%s-%s %s',substr($key,0,5),substr($key,5,4),substr($key,9,2),substr($key,12));
+           $options[$team->getId()] = $desc;
+        }
+        return $options;
+    }
+    /* ==========================================================
+     * Game Schedule query
+     */
+    public function queryGames($search)
+    {
+        // Pull params
+        $ages    = $this->getValues($search,'ages');
+        $regions = $this->getValues($search,'regions');
+        $genders = $this->getValues($search,'genders');
+
+        $sortBy  = $this->getValues($search,'sortBy',1);
+        $date1   = $this->getValues($search,'date1');
+        $date2   = $this->getValues($search,'date2');
+
+        $projectId = $this->getValues($search,'projectId');
+
+        // Build query
+        $em = $this->getEntityManager();
+        $qbGameId = $em->createQueryBuilder();
+
+        $qbGameId->addSelect('distinct gameGameId.id');
+
+        $qbGameId->from('ZaysoBundle:Game','gameGameId');
+
+        $qbGameId->leftJoin('gameGameId.gameTeams','gameTeamGameId');
+
+        if ($projectId) $qbGameId->andWhere($qbGameId->expr()->in('gameGameId.project',$projectId));
+
+        if ($date1) $qbGameId->andWhere($qbGameId->expr()->gte('gameGameId.date',$date1));
+        if ($date2) $qbGameId->andWhere($qbGameId->expr()->lte('gameGameId.date',$date2));
+
+        if (count($ages))    $qbGameId->andWhere($qbGameId->expr()->in('gameTeamGameId.age',   $ages));
+        if (count($regions)) $qbGameId->andWhere($qbGameId->expr()->in('gameTeamGameId.orgKey',$regions));
+        if (count($genders)) $qbGameId->andWhere($qbGameId->expr()->in('gameTeamGameId.gender',$genders));
+
+        //$gameIds = $qbGameId->getQuery()->getArrayResult();
+        //return $gameIds;
+
+        // Games
+        $qbGames = $em->createQueryBuilder();
+
+        $qbGames->addSelect('game');
+        $qbGames->addSelect('gameTeam');
+        $qbGames->addSelect('person');
+
+        $qbGames->from('ZaysoBundle:Game','game');
+
+        $qbGames->leftJoin('game.gameTeams','gameTeam');
+        $qbGames->leftJoin('game.persons',  'person');
+
+        $qbGames->andWhere($qbGames->expr()->in('game.id',$qbGameId->getDQL()));
 
         switch($sortBy)
         {
             case 1:
-                $qb->addOrderBy('game.date');
-                $qb->addOrderBy('game.time');
-                $qb->addOrderBy('game.fieldKey');
+                $qbGames->addOrderBy('game.date');
+                $qbGames->addOrderBy('game.time');
+                $qbGames->addOrderBy('game.fieldKey');
                 break;
             case 2:
-                $qb->addOrderBy('game.date');
-                $qb->addOrderBy('game.fieldKey');
-                $qb->addOrderBy('game.time');
+                $qbGames->addOrderBy('game.date');
+                $qbGames->addOrderBy('game.fieldKey');
+                $qbGames->addOrderBy('game.time');
                 break;
             case 3:
-                $qb->addOrderBy('game.date');
-                $qb->addOrderBy('game.age');
-                $qb->addOrderBy('game.time');
+                $qbGames->addOrderBy('game.date');
+                $qbGames->addOrderBy('game.age');
+                $qbGames->addOrderBy('game.time');
                 break;
         }
-
-        $query = $qb->getQuery();
-
+        // Always get an array even if no records found
+        $query = $qbGames->getQuery();
         $items = $query->getResult();
+        
         return $items;
     }
     /* ========================================================================
