@@ -73,14 +73,53 @@ _area5cf_project_levels_post:
     requirements:
         _method:  POST
 
+# Scheduling stuff
 _area5cf_schedule:
     pattern:  /area5cf/schedule
-    defaults: { _controller: Area5CFBundle:Schedule:index }
+    defaults: { _controller: Area5CFBundle:Schedule:viewRefSched }
     requirements:
         _method:  GET
 
 _area5cf_schedule_post:
     pattern:  /area5cf/schedule
-    defaults: { _controller: Area5CFBundle:Schedule:indexPost }
+    defaults: { _controller: Area5CFBundle:Schedule:viewRefSchedPost }
+    requirements:
+        _method:  POST
+
+_area5cf_schedule_view:
+    pattern:  /area5cf/schedule/view
+    defaults: { _controller: Area5CFBundle:Schedule:view }
+    requirements:
+        _method:  GET
+
+_area5cf_schedule_view_post:
+    pattern:  /area5cf/schedule/view
+    defaults: { _controller: Area5CFBundle:Schedule:viewPost }
+    requirements:
+        _method:  POST
+
+_area5cf_schedule_edit:
+    pattern:  /area5cf/schedule/edit
+    defaults: { _controller: Area5CFBundle:Schedule:editDivSched }
+    requirements:
+        _method:  GET
+
+_area5cf_schedule_edit_post:
+    pattern:  /area5cf/schedule/edit
+    defaults: { _controller: Area5CFBundle:Schedule:editDivSchedPost }
+    requirements:
+        _method:  POST
+
+# ========================================================
+# Import stuff
+_area5cf_import:
+    pattern:  /area5cf/import
+    defaults: { _controller: Area5CFBundle:Import:import }
+    requirements:
+        _method:  GET
+
+_area5cf_import_post:
+    pattern:  /area5cf/import
+    defaults: { _controller: Area5CFBundle:Import:importPost }
     requirements:
         _method:  POST
