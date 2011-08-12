@@ -50,8 +50,18 @@ class Osso2007_Report_ReportProcView extends Osso2007_View
       $result = $this->posted($data);
       if ($result) 
       {
+        switch($data['report_type_id'])
+        {
+            case 1: $reportFileName = 'TeamSummary.csv';        break;
+            case 2: $reportFileName = 'TeamKeys.csv';           break;
+            case 3: $reportFileName = 'CoachContactReport.csv'; break;
+            case 4: $reportFileName = 'RefereeUtilReport.csv';  break;
+            case 5: $reportFileName = 'RefPointsMonrovia.csv';  break;
+            case 6: $reportFileName = 'RefPointsMadison.csv';   break;
+            case 7: $reportFileName = 'ProjectSync.csv';        break;
+        }
             $this->context->response->setBody($result);
-            $this->context->response->setFileHeaders('TeamKeys.csv');
+            $this->context->response->setFileHeaders($reportFileName);
             return;
       }
     }
