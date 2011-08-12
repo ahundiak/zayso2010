@@ -1,0 +1,72 @@
+30 June 2011
+
+Need to better intergrate model and app stuff
+
+model
+  Entities
+    NatGames
+      DataItem - generic data class
+      EntityItem - base class
+      EntityRepo - base class
+      UserItem - Not really an item, user
+    S5Games
+    Area5CF
+    Zayso
+    OSSO2012
+    AYSO
+    Arbiter
+  Proxies
+  config
+  process
+  tests
+  testsNS
+  sql
+
+Part of it is wanting to share stuff among the various apps without tying them too close together
+
+OSSO2012 could act as base class
+
+Cerad
+  ClassLoader model and app
+  DataItem
+  Debug
+  Request
+  Response
+  Import
+  EchoSQLLogger
+  Services
+
+  FrontEnd
+    Action
+    View
+    FrontCont
+  Format
+    HTML
+  Reader
+    CSV
+
+
+repos are probably app specific.
+
+Cerad\FrontEnd\Action
+NatGamesApp\FrontEnd\Action
+NatGamesApp\Home\HomeAction
+
+App\FrontEnd
+  Action
+  View
+
+  FrontCont
+  FrontContWeb
+
+  PageTpl.html.php
+
+  Services
+  User
+
+add base directory to model and apps
+
+how about config?
+Had pretty good luck with just pulling in model\config
+
+
