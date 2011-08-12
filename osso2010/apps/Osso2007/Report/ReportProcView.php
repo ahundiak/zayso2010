@@ -13,8 +13,8 @@ class Osso2007_Report_ReportProcView extends Osso2007_View
     $reportClassName = NULL;
     switch($data['report_type_id'])
     {
-      case 10: $reportClassName = 'Osso2007_Report_ReportTeamSummaryCSV'; break;
-      case 20: $reportClassName = 'Osso2007_Report_ReportTeamKeysCSV';    break;
+      case 1: $reportClassName = 'Osso2007_Report_ReportTeamSummaryCSV'; break;
+      case 2: $reportClassName = 'Osso2007_Report_ReportTeamKeysCSV';    break;
 
       case 3: $reportClassName = 'Osso2007_Team_Coach_CoachContactReport';   break;
       case 4: $reportClassName = 'Osso2007_Referee_RefereeUtilReport';       break;
@@ -28,9 +28,10 @@ class Osso2007_Report_ReportProcView extends Osso2007_View
 
     $params = array
     (
-      'unit_id' => $data['org_id'],
-      'date_ge' => '20100801',
-      'date_le' => '20101231',
+      'project_id' => $data['project_id'],
+      'unit_id'    => $data['org_id'],
+      'date_ge'    => '20110801',
+      'date_le'    => '20111231',
     );
     $report = new $reportClassName($this->context);
 
@@ -47,7 +48,12 @@ class Osso2007_Report_ReportProcView extends Osso2007_View
       $this->context->session->reportProcData = $datax;
       
       $result = $this->posted($data);
-      if ($result) return;
+      if ($result) 
+      {
+            $this->context->response->setBody($result);
+            $this->context->response->setFileHeaders('TeamKeys.csv');
+            return;
+      }
     }
 
     // Usual page

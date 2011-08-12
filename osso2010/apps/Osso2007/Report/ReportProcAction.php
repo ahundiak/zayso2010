@@ -17,11 +17,17 @@ class Osso2007_Report_ReportProcAction extends Osso2007_Action
       $data['org_id']         = $user->unitId;
       $data['year_id']        = $user->yearId;
       $data['season_type_id'] = $user->seasonTypeId;
+      $data['project_id']     = $user->projectId;
       $data['report_type_id'] = 0;
       $data['posted']         = false;
 
       $session->reportProcData = $data;
     }         
+    if (!isset($data['project_id']) || !$data['project_id']) 
+    {
+        $user = $this->context->user;
+        $data['project_id'] = $user->projectId;
+    }
     $view = new Osso2007_Report_ReportProcView($this->context);
     $view->process($data);
 
@@ -42,6 +48,7 @@ class Osso2007_Report_ReportProcAction extends Osso2007_Action
     $data = array();
     $data['org_id']         = $request->getPostInt('report_unit_id');
     $data['year_id']        = $request->getPostInt('report_year_id');
+    $data['project_id']     = $request->getPostInt('project_id');
     $data['season_type_id'] = $request->getPostInt('report_season_type_id');
     $data['report_type_id'] = $request->getPostInt('report_type_id');
     $data['posted']         = true;
