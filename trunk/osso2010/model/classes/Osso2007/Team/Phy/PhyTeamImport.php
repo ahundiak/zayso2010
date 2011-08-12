@@ -246,6 +246,7 @@ class Osso2007_Team_Phy_PhyTeamImport extends Cerad_Import
   //$teamKey = $this->getTeamKeyx($teamDes);
 
     // printf("Key %s\n",$teamKey); die(); return;
+    // Note: Really should check by teamId to see of desig was changed
     if (!$teamKey) return;
 
     // Need a organization

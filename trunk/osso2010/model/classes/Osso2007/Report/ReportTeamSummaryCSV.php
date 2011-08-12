@@ -9,7 +9,7 @@ class Osso2007_Report_ReportTeamSummaryCSV extends Osso2007_Report_ReportTeamBas
     
     $lines[] = $this->genHeaderLine();
 
-    $data = $this->queryTeams();
+    $data = $this->queryTeams($params);
     
     foreach($this->rows as $row)
     {
