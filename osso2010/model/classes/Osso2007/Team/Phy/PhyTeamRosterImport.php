@@ -32,7 +32,7 @@ class Osso2007_Team_Phy_PhyTeamRosterImport extends Osso2007_Team_Phy_PhyTeamImp
     // Validation
     $teamDes = $data['teamDes'];
     if (!$teamDes) return;
-    if ($teamDes == 'VIP') return;
+    // if ($teamDes == 'VIP') return;
 
     if (isset($this->teams[$teamDes])) return;
     $this->teams[$teamDes] = true;
@@ -47,7 +47,7 @@ class Osso2007_Team_Phy_PhyTeamRosterImport extends Osso2007_Team_Phy_PhyTeamImp
 
     // Physical team should always exist
     $phyTeamData = $this->getPhyTeam($orgId,$teamDes);
-    if (!$phyTeamData) die('No existing physical team for ' . $teamDes);
+    if (!$phyTeamData) return; // die('No existing physical team for ' . $teamDes);
 
     // Get volunteers based on aysoid
     $persons = array
