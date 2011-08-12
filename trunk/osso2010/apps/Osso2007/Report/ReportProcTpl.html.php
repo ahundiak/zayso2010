@@ -2,6 +2,7 @@
   $data = $this->reportProcData;
 ?>
 <form method="post" action="<?php echo $this->link('report_proc'); ?>">
+<input type="hidden" name="project_id" value="<?php echo $data['project_id']; ?>" />
 <table border="1">
 <tr><th colspan="2">Generate Reports</th></tr>
 <tr>
