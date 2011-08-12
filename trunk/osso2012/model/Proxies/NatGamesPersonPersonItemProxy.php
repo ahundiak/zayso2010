@@ -15,7 +15,8 @@ class NatGamesPersonPersonItemProxy extends \NatGames\Person\PersonItem implemen
         $this->_entityPersister = $entityPersister;
         $this->_identifier = $identifier;
     }
-    private function _load()
+    /** @private */
+    public function __load()
     {
         if (!$this->__isInitialized__ && $this->_entityPersister) {
             $this->__isInitialized__ = true;
@@ -25,29 +26,29 @@ class NatGamesPersonPersonItemProxy extends \NatGames\Person\PersonItem implemen
             unset($this->_entityPersister, $this->_identifier);
         }
     }
-
+    
     
     public function __get($name)
     {
-        $this->_load();
+        $this->__load();
         return parent::__get($name);
     }
 
     public function addReg($reg)
     {
-        $this->_load();
+        $this->__load();
         return parent::addReg($reg);
     }
 
     public function getAysoid()
     {
-        $this->_load();
+        $this->__load();
         return parent::getAysoid();
     }
 
     public function __set($name, $value)
     {
-        $this->_load();
+        $this->__load();
         return parent::__set($name, $value);
     }
 

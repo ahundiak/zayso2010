@@ -10,9 +10,14 @@ class SigninAction extends \NatGamesApp\FrontEnd\Action
 
     $session  = $services->session;
     $sessionData = $session->load('account-signin');
-    
+    $sessionDatax = clone $sessionData;
+    if ($sessionData->errors)
+    {
+      $sessionData->errors = null;
+      $session->save($sessionData);
+    }
     $view = new SigninView($this->services);
-    $view->process(clone $sessionData);
+    $view->process($sessionDatax);
     return;
   }
   public function processPost($args)

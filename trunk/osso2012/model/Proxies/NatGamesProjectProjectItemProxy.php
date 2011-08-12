@@ -15,7 +15,8 @@ class NatGamesProjectProjectItemProxy extends \NatGames\Project\ProjectItem impl
         $this->_entityPersister = $entityPersister;
         $this->_identifier = $identifier;
     }
-    private function _load()
+    /** @private */
+    public function __load()
     {
         if (!$this->__isInitialized__ && $this->_entityPersister) {
             $this->__isInitialized__ = true;
@@ -25,17 +26,17 @@ class NatGamesProjectProjectItemProxy extends \NatGames\Project\ProjectItem impl
             unset($this->_entityPersister, $this->_identifier);
         }
     }
-
+    
     
     public function __get($name)
     {
-        $this->_load();
+        $this->__load();
         return parent::__get($name);
     }
 
     public function __set($name, $value)
     {
-        $this->_load();
+        $this->__load();
         return parent::__set($name, $value);
     }
 

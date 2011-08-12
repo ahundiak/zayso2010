@@ -6,11 +6,11 @@ return array
     
   'ws'         => '/home/ahundiak/zayso2012/',
   'datax'      => '/home/ahundiak/datax/',
-  'model_path' => 'osso2012/model/',
+  'model_path' => 'osso2012/model/', 
 
   'db_params' => array
   (
-    'dbname'   => 'ayso',
+    'dbname'   => 'ayso',      // Just needs to exist
     'user'     => 'impd',
     'password' => 'impd894',
     'host'     => 'localhost',

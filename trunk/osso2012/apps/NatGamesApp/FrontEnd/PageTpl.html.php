@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   
-  <link rel="stylesheet" type="text/css" href="natgames.css" />
+  <link rel="stylesheet" type="text/css" href="../css/osso2012.css" />
 
   <title><?php echo $this->tplTitle; ?></title>
   <base href="<?php echo $this->services->request->webBase; ?>" />
@@ -13,10 +13,10 @@
   <div>
 <div id="layout-header">
   <a class="a-target-blank" href="http://soccer.org/events/national_games.aspx" target="_blank">
-    <img class="logo1" src="NatGamesLogo.jpg" height="50" width="50" alt="National Games Site"/>
+    <img class="logo1" src="../images/NatGamesLogo.jpg" height="50" width="50" alt="National Games Site"/>
   </a>
   <a class="a-target-blank" href="http://www.soccer.org" target="_blank">
-    <img class="logo2" src="AysoLogo.gif"     height="50" width="50" alt="AYSO Site"/>
+    <img class="logo2" src="../images/AysoLogo.gif"     height="50" width="50" alt="AYSO Site"/>
   </a>
   <div class="inner-block">
     <p>
