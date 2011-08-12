@@ -14,15 +14,17 @@ class Osso2007_Report_ReportTeamSummaryCSV extends Osso2007_Report_ReportTeamBas
     foreach($this->rows as $row)
     {
       $line   = $row['name'];
-      $divId  = $row['divId'];
+    //$divId  = $row['divId'];
       $total = 0;
       foreach($this->cols as $col)
       {
         if ($col['skip']) continue;
         $regionId = $col['regionId'];
-
-        if (isset($data[$regionId][$divId])) $cnt = count($data[$regionId][$divId]);
-        else                                 $cnt = 0;
+        $cnt = 0;
+        foreach($row['divs'] as $divId => $divKey)
+        {
+            if (isset($data[$regionId][$divId])) $cnt += count($data[$regionId][$divId]);
+        }
         $line  .= ',' . $cnt;
         $total += $cnt;
       }
