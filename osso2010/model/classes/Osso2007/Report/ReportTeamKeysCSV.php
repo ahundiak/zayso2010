@@ -9,12 +9,16 @@ class Osso2007_Report_ReportTeamKeysCSV extends Osso2007_Report_ReportTeamBase
     
     $lines[] = $this->genHeaderLine();
 
-    $data = $this->queryTeams();
+    $data = $this->queryTeams($params);
     
+    // for each division
     foreach($this->rows as $row)
     {
-      $divId  = $row['divId'];
-      $divKey = $row['divKey'];
+        $divs = $row['divs'];
+        $divTBD = $row['divTBD'];
+        
+      //$divId  = $row['divId'];
+      //$divKey = $row['divKey'];
 
       $index = 0;
       $haveTeams = TRUE;
@@ -31,28 +35,36 @@ class Osso2007_Report_ReportTeamKeysCSV extends Osso2007_Report_ReportTeamBase
         foreach($this->cols as $col)
         {
           if ($col['skip']) continue;
-
-          $regionId   = $col['regionId'];
+          
+          if (isset($col['regionId'])) $regionId = $col['regionId'];
+          else                         $regionId = 0;
+          
           $regionKeys = explode(' ',$col['name']);
           $regionKey  = $regionKeys[0];
 
           if ($index == 0)
           {
-            $teamKey = sprintf('%s-%s-00 TBD',$regionKey,$divKey);
+            $teamKey = sprintf('%s-%s-00 TBD',$regionKey,$divTBD);
             $line .= ',' . $teamKey;
             $haveTeams = TRUE;
           }
           else
           {
-            if (isset($data[$regionId][$divId][$index-1])) $team = $data[$regionId][$divId][$index-1];
-            else                                           $team = null;
-            if (!$team) $line .= ',';
-            else
+            $foundTeam = false;
+            foreach($divs as $divId => $divKey) 
             {
-              $teamKey = sprintf('%s-%s-%02u %s',$regionKey,$divKey,$team['num'],$team['head_coach_lname']);
-              $line .= ',' . $teamKey;
-              $haveTeams = TRUE;
+                if (isset($data[$regionId][$divId][$index-1])) $team = $data[$regionId][$divId][$index-1];
+                else                                           $team = null;
+                
+                if ($team)
+                {
+                    $teamKey = sprintf('%s-%s-%02u %s',$regionKey,$divKey,$team['num'],$team['head_coach_lname']);
+                    $line .= ',' . $teamKey;
+                    $haveTeams = TRUE;
+                    $foundTeam = true;
+                }
             }
+            if (!$foundTeam) $line .= ',';
           }
         }
         if ($haveTeams) $lines[] = $line;
