@@ -48,6 +48,10 @@ class Osso2007_Schedule_Import_SchImport extends Osso2007_Schedule_Import_SchImp
     // Use global cache
     if (isset($this->teamMap[$team])) $team = $this->teamMap[$team];
     
+    $parts = explode(' ',$team);
+    $team = $parts[0];
+    $team = str_replace('-','',$team);
+    
     $row = $this->repoSchTeam->getRowForProjectKey($this->projectId,$team);
     if (!$row) die('Missing Team ' . $team);
     return $row;
@@ -66,15 +70,15 @@ class Osso2007_Schedule_Import_SchImport extends Osso2007_Schedule_Import_SchImp
     $awayTeam = $data['away'];
     $eventNum = (int)$data['number'];
 
-    if ($date) $this->date = $date;
-    else       $date = $this->date;
+    //if ($date) $this->date = $date;
+    //else       $date = $this->date;
     
     if (!$date)     return;
     if (!$time)     return;
     if (!$field)    return;
     if (!$homeTeam) return;
     if (!$eventNum) return;
-
+    
     $this->count->total++;
 
     $date    = $this->processDate ($date);
@@ -84,10 +88,11 @@ class Osso2007_Schedule_Import_SchImport extends Osso2007_Schedule_Import_SchImp
     $homeTeam = $this->processTeam($homeTeam);
     $awayTeam = $this->processTeam($awayTeam);
 
-    $eventClassId = $this->repoMisc->getEventClassIdForKey($data['type']);
-    if (!$eventClassId) $eventClassId = 1;
+    $eventClassId = 1;
+    
+    //$eventClassId = $this->repoMisc->getEventClassIdForKey($data['type']);
+    //if (!$eventClassId) $eventClassId = 1;
 
-    $eventNum = (int)$data['number'];
     if (!$eventNum)
     {
       $eventNum = $this->repoProject->getNextEventNumber($this->projectId);
