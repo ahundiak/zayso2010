@@ -33,7 +33,7 @@ class Osso2007_Import_ImportProcAction extends Osso2007_FrontEnd_Action
   protected $map = array
   (
     'Osso2007_Team_Sch_SchTeamImport'        => array('Region', 'Div','Schedule Team','Physical Team'),
-    'Osso2007_Schedule_Import_SchImport'     => array('Date','Time','Field','Home Team','Away Team','Type','Number'),
+    'Osso2007_Schedule_Import_SchImport'     => array('Date','Time','Field','Home Team','Away Team','Number'),
     'Eayso_Reg_Main_RegMainImport'           => array('AYSOID','WorkPhoneExt','Membershipyear'),
     'Eayso_Reg_Cert_RegCertImport'           => array('AYSOID','CertificationDesc','CertDate'),
     'Eayso_Reg_Cert_Type_RegCertTypeImport'  => array('id','desc1','desc2','desc3','table reg_cert_type'),
