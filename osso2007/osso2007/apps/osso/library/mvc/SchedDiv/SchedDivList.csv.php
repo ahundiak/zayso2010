@@ -1,4 +1,4 @@
-Game,Date,Time,Field,Home Team, Away Team
+ID,Number,Date,Time,Field,HREG,HDIV,Home Team, Away Team,ADIV,AREG
 <?php
   foreach($this->events as $event) 
   {
@@ -7,13 +7,29 @@ Game,Date,Time,Field,Home Team, Away Team
     
     $line = array();
     $line[] = $event->id;
+    $line[] = $event->num;
     $line[] = $date;
     $line[] = $event->time;
     $line[] = $event->fieldDesc;
 
+    $count = 1;
     foreach($event->teams as $team)
     {
-      $line[] = $team->schedDesc;
+        switch($count)
+        {
+            case 1:
+                $line[] = $team->phyTeam->unitKey;
+                $line[] = $team->divisionDesc;
+                $line[] = $team->schedDesc;
+                break;
+        
+            case 2:
+                $line[] = $team->schedDesc;
+                $line[] = $team->divisionDesc;
+                $line[] = $team->phyTeam->unitKey;
+                break;
+        }
+        $count++;
     }
     echo implode(',',$line) . "\n";
   }
