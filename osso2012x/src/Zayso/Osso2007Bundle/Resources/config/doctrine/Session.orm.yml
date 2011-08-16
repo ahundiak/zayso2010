@@ -1,0 +1,19 @@
+Zayso\Osso2007Bundle\Entity\Session:
+  type: entity
+  table: session
+  fields:
+    sessionId:
+      id: true
+      type: string
+      length: 32
+      fixed: true
+      nullable: false
+      column: session_id
+      generator:
+        strategy: IDENTITY
+    data:
+      type: string
+      length: 1000
+      fixed: false
+      nullable: false
+  lifecycleCallbacks: {  }

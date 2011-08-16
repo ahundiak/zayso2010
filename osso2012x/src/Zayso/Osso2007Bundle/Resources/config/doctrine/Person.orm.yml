@@ -1,0 +1,57 @@
+Zayso\Osso2007Bundle\Entity\Person:
+  type: entity
+  table: person
+  fields:
+    personId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: person_id
+      generator:
+        strategy: IDENTITY
+    uname:
+      type: string
+      length: 20
+      fixed: true
+      nullable: true
+    upass:
+      type: string
+      length: 40
+      fixed: true
+      nullable: true
+    fname:
+      type: string
+      length: 20
+      fixed: true
+      nullable: true
+    lname:
+      type: string
+      length: 20
+      fixed: true
+      nullable: true
+    mname:
+      type: string
+      length: 20
+      fixed: true
+      nullable: true
+    nname:
+      type: string
+      length: 20
+      fixed: true
+      nullable: true
+    unitId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: unit_id
+    status:
+      type: integer
+      unsigned: false
+      nullable: true
+    aysoid:
+      type: string
+      length: 20
+      fixed: true
+      nullable: true
+  lifecycleCallbacks: {  }

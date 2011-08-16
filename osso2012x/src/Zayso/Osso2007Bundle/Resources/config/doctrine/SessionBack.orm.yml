@@ -1,0 +1,46 @@
+Zayso\Osso2007Bundle\Entity\SessionBack:
+  type: entity
+  table: session_back
+  fields:
+    sessionBackId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: session_back_id
+      generator:
+        strategy: IDENTITY
+    sessionId:
+      type: string
+      length: 32
+      fixed: true
+      nullable: true
+      column: session_id
+    createdTs:
+      type: string
+      length: 16
+      fixed: true
+      nullable: true
+      column: created_ts
+    accessedTs:
+      type: string
+      length: 16
+      fixed: true
+      nullable: true
+      column: accessed_ts
+    name:
+      type: string
+      length: 32
+      fixed: true
+      nullable: true
+    data1:
+      type: string
+      length: 250
+      fixed: true
+      nullable: true
+    data2:
+      type: string
+      length: 250
+      fixed: true
+      nullable: true
+  lifecycleCallbacks: {  }

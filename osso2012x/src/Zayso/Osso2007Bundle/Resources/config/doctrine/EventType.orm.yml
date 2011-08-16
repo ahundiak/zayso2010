@@ -1,0 +1,18 @@
+Zayso\Osso2007Bundle\Entity\EventType:
+  type: entity
+  table: event_type
+  fields:
+    eventTypeId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: event_type_id
+      generator:
+        strategy: IDENTITY
+    descx:
+      type: string
+      length: 20
+      fixed: true
+      nullable: true
+  lifecycleCallbacks: {  }

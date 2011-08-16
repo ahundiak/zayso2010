@@ -1,0 +1,39 @@
+Zayso\Osso2007Bundle\Entity\Phone:
+  type: entity
+  table: phone
+  fields:
+    phoneId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: phone_id
+      generator:
+        strategy: IDENTITY
+    personId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: person_id
+    phoneTypeId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: phone_type_id
+    areaCode:
+      type: string
+      length: 4
+      fixed: true
+      nullable: true
+      column: area_code
+    num:
+      type: string
+      length: 8
+      fixed: true
+      nullable: true
+    ext:
+      type: string
+      length: 8
+      fixed: true
+      nullable: true
+  lifecycleCallbacks: {  }

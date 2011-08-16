@@ -1,0 +1,38 @@
+Zayso\Osso2007Bundle\Entity\EventNote:
+  type: entity
+  table: event_note
+  fields:
+    eventNoteId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: event_note_id
+      generator:
+        strategy: IDENTITY
+    eventId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: event_id
+    personId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: person_id
+    name:
+      type: string
+      length: 20
+      fixed: true
+      nullable: true
+    ts:
+      type: string
+      length: 16
+      fixed: true
+      nullable: true
+    data1:
+      type: string
+      length: 250
+      fixed: true
+      nullable: true
+  lifecycleCallbacks: {  }

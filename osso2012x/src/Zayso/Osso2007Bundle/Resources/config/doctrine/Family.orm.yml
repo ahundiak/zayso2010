@@ -1,0 +1,18 @@
+Zayso\Osso2007Bundle\Entity\Family:
+  type: entity
+  table: family
+  fields:
+    familyId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: family_id
+      generator:
+        strategy: IDENTITY
+    name:
+      type: string
+      length: 40
+      fixed: true
+      nullable: true
+  lifecycleCallbacks: {  }

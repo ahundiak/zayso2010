@@ -1,0 +1,72 @@
+Zayso\Osso2007Bundle\Entity\Project:
+  type: entity
+  table: project
+  fields:
+    id:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      generator:
+        strategy: IDENTITY
+    typeId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: type_id
+    eventNum:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: event_num
+    memYear:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: mem_year
+    calYear:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: cal_year
+    seasonTypeId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: season_type_id
+    adminOrgId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: admin_org_id
+    sportTypeId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: sport_type_id
+    sort1:
+      type: integer
+      unsigned: false
+      nullable: true
+    status:
+      type: integer
+      unsigned: false
+      nullable: true
+    desc1:
+      type: string
+      length: 80
+      fixed: true
+      nullable: true
+    dateBeg:
+      type: string
+      length: 8
+      fixed: true
+      nullable: true
+      column: date_beg
+    dateEnd:
+      type: string
+      length: 8
+      fixed: true
+      nullable: true
+      column: date_end
+  lifecycleCallbacks: {  }
