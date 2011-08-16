@@ -117,7 +117,7 @@
 <tr><th colspan="5">Division Schedule</th></tr>
 <tr>
     <td>Event</td>
-    <td>Date</td.
+    <td>Date</td>
     <td>Time</td>
     <td>Location</td>
     <td>Teams (Home/Away)</td>
@@ -128,8 +128,8 @@
         if ($odd) $odd = FALSE;
         else      $odd = TRUE;
         
-        $eventContent = $event->eventTypeDesc . ' ' . $event->id;
-//        if ($event->num) $eventContent .= '-' . $event->num;
+        if ($event->num) $eventContent = $event->eventTypeDesc . '-' . $event->num;
+        else             $eventContent = $event->eventTypeDesc . ' ' . $event->id;
         
         $eventDesc = $this->href($this->escape($eventContent),'event_edit',$event->id);;
 
