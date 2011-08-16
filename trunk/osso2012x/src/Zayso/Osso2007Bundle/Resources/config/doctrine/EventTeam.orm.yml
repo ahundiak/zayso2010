@@ -1,0 +1,52 @@
+Zayso\Osso2007Bundle\Entity\EventTeam:
+  type: entity
+  table: event_team
+  fields:
+    eventTeamId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: event_team_id
+      generator:
+        strategy: IDENTITY
+    eventId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: event_id
+    teamId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: team_id
+    eventTeamTypeId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: event_team_type_id
+    typeIndex:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: type_index
+    regYearId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: reg_year_id
+    unitId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: unit_id
+    divisionId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: division_id
+    score:
+      type: integer
+      unsigned: false
+      nullable: true
+  lifecycleCallbacks: {  }

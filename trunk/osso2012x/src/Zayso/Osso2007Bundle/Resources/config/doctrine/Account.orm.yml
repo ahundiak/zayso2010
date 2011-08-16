@@ -1,0 +1,49 @@
+Zayso\Osso2007Bundle\Entity\Account:
+  type: entity
+  table: account
+  uniqueConstraints:
+      UniqueConstraint:
+          name: account_user_index
+          columns: [ account_user, account_name ]
+  fields:
+    accountId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: account_id
+      generator:
+        strategy: IDENTITY
+    accountUser:
+      type: string
+      length: 40
+      fixed: true
+      nullable: true
+      column: account_user
+    accountPass:
+      type: string
+      length: 32
+      fixed: true
+      nullable: false
+      column: account_pass
+    accountName:
+      type: string
+      length: 40
+      fixed: true
+      nullable: false
+      column: account_name
+    email:
+      type: string
+      length: 40
+      fixed: true
+      nullable: true
+    status:
+      type: integer
+      unsigned: false
+      nullable: true
+  oneToMany:
+    members:
+      targetEntity: Member
+      mappedBy: account
+      cascade: ["persist", "merge","delete"]
+  lifecycleCallbacks: {  }

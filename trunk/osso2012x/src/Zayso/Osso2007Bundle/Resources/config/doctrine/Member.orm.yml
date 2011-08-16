@@ -1,0 +1,55 @@
+Zayso\Osso2007Bundle\Entity\Member:
+  type: entity
+  table: member
+  fields:
+    memberId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: member_id
+      generator:
+        strategy: IDENTITY
+    accountId:
+      type: integer
+      unsigned: false
+      nullable: false
+      column: account_id
+    personId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: person_id
+    unitId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: unit_id
+    memberName:
+      type: string
+      length: 40
+      fixed: true
+      nullable: false
+      column: member_name
+    memberPass:
+      type: string
+      length: 32
+      fixed: true
+      nullable: true
+      column: member_pass
+    level:
+      type: integer
+      unsigned: false
+      nullable: true
+    status:
+      type: integer
+      unsigned: false
+      nullable: true
+  manyToOne:
+    account:
+      targetEntity: Account
+      joinColumn:
+        name: account_idx
+        referencedColumnName: account_id
+
+  lifecycleCallbacks: {  }

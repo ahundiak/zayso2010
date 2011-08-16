@@ -1,0 +1,18 @@
+Zayso\Osso2007Bundle\Entity\SeasonType:
+  type: entity
+  table: season_type
+  fields:
+    seasonTypeId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: season_type_id
+      generator:
+        strategy: IDENTITY
+    descx:
+      type: string
+      length: 8
+      fixed: true
+      nullable: true
+  lifecycleCallbacks: {  }

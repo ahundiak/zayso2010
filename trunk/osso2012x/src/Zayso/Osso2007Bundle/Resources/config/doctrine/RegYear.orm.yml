@@ -1,0 +1,17 @@
+Zayso\Osso2007Bundle\Entity\RegYear:
+  type: entity
+  table: reg_year
+  fields:
+    regYearId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: reg_year_id
+      generator:
+        strategy: IDENTITY
+    descx:
+      type: integer
+      unsigned: false
+      nullable: true
+  lifecycleCallbacks: {  }

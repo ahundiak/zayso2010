@@ -1,0 +1,71 @@
+Zayso\Osso2007Bundle\Entity\Vol:
+  type: entity
+  table: vol
+  fields:
+    volId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: vol_id
+      generator:
+        strategy: IDENTITY
+    personId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: person_id
+    volTypeId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: vol_type_id
+    regYearId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: reg_year_id
+    seasonTypeId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: season_type_id
+    unitId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: unit_id
+    divisionId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: division_id
+    note:
+      type: string
+      length: 40
+      fixed: true
+      nullable: true
+    regForm:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: reg_form
+    refresher:
+      type: integer
+      unsigned: false
+      nullable: true
+    certified:
+      type: integer
+      unsigned: false
+      nullable: true
+    uniform:
+      type: string
+      length: 40
+      fixed: true
+      nullable: true
+    equipment:
+      type: string
+      length: 40
+      fixed: true
+      nullable: true
+  lifecycleCallbacks: {  }

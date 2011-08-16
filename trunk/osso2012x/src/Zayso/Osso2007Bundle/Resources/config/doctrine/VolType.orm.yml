@@ -1,0 +1,27 @@
+Zayso\Osso2007Bundle\Entity\VolType:
+  type: entity
+  table: vol_type
+  fields:
+    volTypeId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: vol_type_id
+      generator:
+        strategy: IDENTITY
+    sortx:
+      type: integer
+      unsigned: false
+      nullable: true
+    keyx:
+      type: string
+      length: 4
+      fixed: true
+      nullable: true
+    descx:
+      type: string
+      length: 40
+      fixed: true
+      nullable: true
+  lifecycleCallbacks: {  }

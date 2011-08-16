@@ -1,0 +1,40 @@
+Zayso\Osso2007Bundle\Entity\ProjectItem:
+  type: entity
+  table: project_item
+  fields:
+    id:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      generator:
+        strategy: IDENTITY
+    projectId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: project_id
+    itemId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: item_id
+    typeId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: type_id
+    sort1:
+      type: integer
+      unsigned: false
+      nullable: true
+    status:
+      type: integer
+      unsigned: false
+      nullable: true
+    desc1:
+      type: string
+      length: 80
+      fixed: true
+      nullable: true
+  lifecycleCallbacks: {  }

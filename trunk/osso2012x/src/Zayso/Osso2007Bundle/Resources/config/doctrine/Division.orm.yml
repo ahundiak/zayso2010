@@ -1,0 +1,29 @@
+Zayso\Osso2007Bundle\Entity\Division:
+  type: entity
+  table: division
+  fields:
+    divisionId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: division_id
+      generator:
+        strategy: IDENTITY
+    sortx:
+      type: integer
+      unsigned: false
+      nullable: true
+    descPick:
+      type: string
+      length: 20
+      fixed: true
+      nullable: true
+      column: desc_pick
+    descLong:
+      type: string
+      length: 20
+      fixed: true
+      nullable: true
+      column: desc_long
+  lifecycleCallbacks: {  }

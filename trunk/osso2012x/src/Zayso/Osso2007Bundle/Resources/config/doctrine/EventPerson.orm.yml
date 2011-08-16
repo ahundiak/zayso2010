@@ -1,0 +1,37 @@
+Zayso\Osso2007Bundle\Entity\EventPerson:
+  type: entity
+  table: event_person
+  fields:
+    eventPersonId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: event_person_id
+      generator:
+        strategy: IDENTITY
+    eventId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: event_id
+    personId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: person_id
+    eventPersonTypeId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: event_person_type_id
+    regYearId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: reg_year_id
+    status:
+      type: integer
+      unsigned: false
+      nullable: true
+  lifecycleCallbacks: {  }

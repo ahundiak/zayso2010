@@ -1,0 +1,50 @@
+Zayso\Osso2007Bundle\Entity\Unit:
+  type: entity
+  table: unit
+  fields:
+    unitId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: unit_id
+      generator:
+        strategy: IDENTITY
+    unitTypeId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: unit_type_id
+    parentId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: parent_id
+    keyx:
+      type: string
+      length: 8
+      fixed: true
+      nullable: true
+    sortx:
+      type: string
+      length: 8
+      fixed: true
+      nullable: true
+    descPick:
+      type: string
+      length: 24
+      fixed: true
+      nullable: true
+      column: desc_pick
+    prefix:
+      type: string
+      length: 8
+      fixed: true
+      nullable: true
+    descLong:
+      type: string
+      length: 40
+      fixed: true
+      nullable: true
+      column: desc_long
+  lifecycleCallbacks: {  }

@@ -1,0 +1,28 @@
+Zayso\Osso2007Bundle\Entity\Email:
+  type: entity
+  table: email
+  fields:
+    emailId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: email_id
+      generator:
+        strategy: IDENTITY
+    emailTypeId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: email_type_id
+    personId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: person_id
+    address:
+      type: string
+      length: 40
+      fixed: true
+      nullable: true
+  lifecycleCallbacks: {  }
