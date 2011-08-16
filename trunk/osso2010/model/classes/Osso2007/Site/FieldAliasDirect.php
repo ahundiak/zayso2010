@@ -96,6 +96,8 @@ class Osso2007_Site_FieldAliasDirect extends Osso_Base_BaseDirect
     'CS ES U12'          => 'Creekside ES U12',
     'CS ES U10'          => 'Creekside ES U10',
     'SL-E U12'           => 'SL-E',
+    'SL-C U10'           => 'SL-C',
+    'SL-D U10'           => 'SL-D',
 
     /* Not being used in 2010
     'Harvest Elementary' => 'Harvest',
