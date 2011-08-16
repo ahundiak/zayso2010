@@ -182,6 +182,7 @@ EOT;
       $id = $this->getIdForProjectNum($pid,$num);
       if ($id)
       {
+        die('Event Num Already Exists: ' . $num);
         $event['id'] = $id;
         return $this->update($event);
       }
@@ -192,7 +193,7 @@ EOT;
       // Need to do a controlled update to avoid overwriting existing games
       // Basically ignore for now
       $result->error = 'Event already in schedule';
-      echo "Duplicate $num<br />";
+      echo "Duplicate DateTimeField $num<br />";
       return $result;
     }
     // Really is a new record
@@ -200,6 +201,7 @@ EOT;
   }
   protected function update($event)
   {
+    echo "Got to update " . $event['event_num']; die();
     Cerad_Debug::dump($event);
     die('update');
     return $this->result;
