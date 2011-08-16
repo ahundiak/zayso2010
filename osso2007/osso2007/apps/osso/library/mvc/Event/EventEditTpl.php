@@ -15,7 +15,7 @@
     <th colspan="2">
         <?php
             $ts = $this->formatDate($event->date) . ' ' . $this->formatTime($event->time);
-            if ($event->id) echo "Edit Event - {$event->id} - {$ts}";
+            if ($event->id) echo "Edit Event - {$event->num } {$event->id} - {$ts}";
             else            echo "Create New Event - {$ts}";
         ?>
     </th>

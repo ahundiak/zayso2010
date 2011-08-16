@@ -93,7 +93,7 @@ class EventEditCont extends Proj_Controller_Action
         }
         if ($submitRefresh) return $this->processRefresh();            
         if ($submitUpdate)  return $this->processUpdate();            
-        if ($submitCreate)  return $this->processcreate();            
+        if ($submitCreate)  return $this->processCreate();            
         
         return $response->setRedirect($this->link('event_edit',$id));
     }
@@ -114,7 +114,7 @@ class EventEditCont extends Proj_Controller_Action
         
         /* Event is easy, form will not allow empty data except for field and thats okay for now */
         $event = $models->EventModel->newItem();
-
+        $event->num             = $models->EventModel->getNextEventNum($eventx->projectId);
         $event->projectId       = $eventx->projectId;
         $event->unitId          = $eventx->unitId;
         $event->yearId          = $eventx->yearId;
