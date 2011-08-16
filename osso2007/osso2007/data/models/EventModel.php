@@ -315,5 +315,11 @@ class EventModel extends BaseModel
         $this->context->models->EventPersonModel->deleteForEventId($id);
         return parent::delete($id);
     }
+    function getNextEventNum($projectId)
+    {
+        $sql = "SELECT max(event_num) AS next FROM event WHERE project_id = :project_id";
+        $row = $this->db->fetchRow($sql,array('project_id' => $projectId));
+        return $row['next'] + 1;
+    }
 }
 ?>
