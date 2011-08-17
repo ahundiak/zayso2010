@@ -1,4 +1,4 @@
-ID,Number,Date,Time,Field,HREG,HDIV,Home Team, Away Team,ADIV,AREG
+Number,Date,Time,Field,HREG,HDIV,Home Team, Away Team,ADIV,AREG
 <?php
   foreach($this->events as $event) 
   {
@@ -11,7 +11,7 @@ ID,Number,Date,Time,Field,HREG,HDIV,Home Team, Away Team,ADIV,AREG
     else                     $time = $event->time;
     
     $line = array();
-    $line[] = $event->id;
+  //$line[] = $event->id;
     $line[] = $event->num;
     $line[] = $date;
     $line[] = $time;
