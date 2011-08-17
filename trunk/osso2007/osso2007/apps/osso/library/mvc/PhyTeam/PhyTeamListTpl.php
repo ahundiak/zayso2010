@@ -45,7 +45,7 @@
 <tr><th colspan="7">Physical Team Listing</th></tr>
 <tr>
     <td>Year</td>
-    <td>Season</td.
+    <td>Season</td>
     <td>Team Key</td>
     <td>Name</td>
     <td>Colors</td>
