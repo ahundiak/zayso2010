@@ -1,4 +1,4 @@
-Number,Date,Time,Field,HREG,HDIV,Home Team, Away Team,ADIV,AREG
+Number,Date,Time,Field,Home Team, Away Team,HDIV,ADIV,HREF,AREG,AREA
 <?php
   foreach($this->events as $event) 
   {
@@ -17,25 +17,28 @@ Number,Date,Time,Field,HREG,HDIV,Home Team, Away Team,ADIV,AREG
     $line[] = $time;
     $line[] = $event->fieldDesc;
 
-    $count = 1;
-    foreach($event->teams as $team)
-    {
-        switch($count)
-        {
-            case 1:
-                $line[] = $team->phyTeam->unitKey;
-                $line[] = $team->divisionDesc;
-                $line[] = $team->schedDesc;
-                break;
-        
-            case 2:
-                $line[] = $team->schedDesc;
-                $line[] = $team->divisionDesc;
-                $line[] = $team->phyTeam->unitKey;
-                break;
-        }
-        $count++;
-    }
+    $homeTeam = $event->teamHome;
+    $awayTeam = $event->teamAway;
+    
+    if ($homeTeam) $line[] = $homeTeam->schedDesc;
+    else           $line[] = '';
+    if ($awayTeam) $line[] = $awayTeam->schedDesc;
+    else           $line[] = '';
+    
+    if ($homeTeam) $line[] = $homeTeam->divisionDesc;
+    else           $line[] = '';
+    if ($awayTeam) $line[] = $awayTeam->divisionDesc;
+    else           $line[] = '';
+    if ($homeTeam) $line[] = $homeTeam->phyTeam->unitKey;
+    else           $line[] = '';
+    if ($awayTeam) $line[] = $awayTeam->phyTeam->unitKey;
+    else           $line[] = '';
+    
+    $area = false;
+    if ($homeTeam && $awayTeam && ($homeTeam->unitKey != $awayTeam->unitKey)) $area = true;
+    if ($area) $line[] = 'A';
+    else       $line[] = '';
+    
     echo implode(',',$line) . "\n";
   }
 ?>
