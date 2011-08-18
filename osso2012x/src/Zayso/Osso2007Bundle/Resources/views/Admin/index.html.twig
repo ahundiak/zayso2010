@@ -1,0 +1,55 @@
+{% extends 'Osso2007Bundle::layout.html.twig' %}
+
+{% block title %}Osso2007 Admin{% endblock %}
+
+{% block content %}
+<div>
+<h3>Administrative Commands</h3>
+<table border="1">
+<tr>
+    <td>Search for and edit volunteers</td>
+    <td><a href="person/list">People</a></td>
+</tr>
+<tr>
+    <td>Create and edit season teams</td>
+    <td><a href="phy_team/list">Season Teams</a></td>
+</tr>
+<tr>
+    <td>Create and edit games, scrimmages and practices</td>
+    <td><a href="event/edit">Games</a></td>
+</tr>
+<tr>
+    <td>Create and edit schedule teams</td>
+    <td><a href="sch_team/list">Schedule Teams</a></td>
+</tr>
+<tr>
+    <td>Create and edit soccer fields and sites</td>
+    <td><a href="field_site/list">Fields and Sites</a></td>
+</tr>
+<tr>
+    <td>Create and edit regions and soccer clubs</td>
+    <td><a href="unit/list">Regions</a></td>
+</tr>
+<tr>
+    <td>Division Schedules</td>
+    <td><a href="sch_div/list">Division Schedules</a></td>
+</tr>
+<tr>
+    <td>Referee Schedules</td>
+    <td><a href="sched_ref/list">Schedule Referees</a></td>
+</tr>
+<tr>
+    <td>Import</td>
+    <td><a href="import/proc">Import Information</a></td>
+</tr>
+<tr>
+    <td>Reports</td>
+    <td><a href="report/proc">Reports</a></td>
+</tr>
+<tr>
+    <td>Account Management</td>
+    <td><a href="account/list">Accounts</a></td>
+</tr>
+</table>
+</div>
+{% endblock %}
