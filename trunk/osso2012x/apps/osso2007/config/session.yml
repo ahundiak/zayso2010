@@ -2,7 +2,7 @@
 
 # Session class and database schema info
 parameters:
-    session.class: Zayso\ZaysoBundle\Component\HttpFoundation\MySession
+    session.class: Zayso\Osso2007Bundle\Component\Session
 
 ## Not using these but keep as an example
     pdo.db_options:
@@ -14,8 +14,8 @@ parameters:
 ## My ver own services!!!
 services:
   
-    session.storage.my:
-        class:     Zayso\ZaysoBundle\Component\HttpFoundation\SessionStorage\MySessionStorage
+    session.storage.mine:
+        class:     Zayso\Osso2007Bundle\Component\SessionStorage
         arguments: [@session.pdo, %session.storage.options%, %pdo.db_options%]
   
     session.pdo:
@@ -29,5 +29,5 @@ framework:
     session:
         default_locale: %locale%
         auto_start:     true
-        name:           zayso2012x
-        storage_id:     session.storage.my
+        name:           osso2007
+        storage_id:     session.storage.mine
