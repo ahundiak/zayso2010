@@ -18,7 +18,7 @@ class Member
      * @var integer $accountId
      */
     private $accountId;
-    private $account = null;
+
     /**
      * @var integer $personId
      */
@@ -198,25 +198,5 @@ class Member
     public function getStatus()
     {
         return $this->status;
-    }
-
-    /**
-     * Set account
-     *
-     * @param Zayso\Osso2007Bundle\Entity\Account $account
-     */
-    public function setAccount(\Zayso\Osso2007Bundle\Entity\Account $account)
-    {
-        $this->account = $account;
-    }
-
-    /**
-     * Get account
-     *
-     * @return Zayso\Osso2007Bundle\Entity\Account 
-     */
-    public function getAccount()
-    {
-        return $this->account;
     }
 }

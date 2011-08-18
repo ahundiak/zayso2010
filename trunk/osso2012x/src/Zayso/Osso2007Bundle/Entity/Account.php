@@ -149,33 +149,4 @@ class Account
     {
         return $this->status;
     }
-    /**
-     * @var Zayso\Osso2007Bundle\Entity\Member
-     */
-    private $members;
-
-    public function __construct()
-    {
-        $this->members = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
-    /**
-     * Add members
-     *
-     * @param Zayso\Osso2007Bundle\Entity\Member $members
-     */
-    public function addMembers(\Zayso\Osso2007Bundle\Entity\Member $members)
-    {
-        $this->members[] = $members;
-    }
-
-    /**
-     * Get members
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getMembers()
-    {
-        return $this->members;
-    }
 }
