@@ -3,89 +3,58 @@
 #   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
 #   prefix:   /_internal
 
-_zayso_welcome:
+
+_osso2007_welcome:
     pattern:  /
-    defaults: { _controller: ZaysoBundle:Welcome:welcome }
-    
-# National Games Routes
-_natgames_welcome:
-    pattern:  /natgames
-    defaults: { _controller: NatGamesBundle:Welcome:welcome }
-    
-_natgames_home:
-    pattern:  /natgames/home
-    defaults: { _controller: NatGamesBundle:Welcome:home }
-    
-_natgames_welcomex:
-    pattern:  /natgames/welcome
-    defaults: { _controller: NatGamesBundle:Welcome:welcome }
-    
-_natgames_contact:
-    pattern:  /natgames/contact
-    defaults: { _controller: NatGamesBundle:Contact:contact }
-    
-_natgames_account_create:
-    pattern:  /natgames/account/create
-    defaults: { _controller: NatGamesBundle:Account:create }
-    requirements:
-        _method:  GET
-        
-_natgames_account_create_post:
-    pattern:  /natgames/account/create
-    defaults: { _controller: NatGamesBundle:Account:createPost }
-    requirements:
-        _method:  POST
-    
-_natgames_account_signin:
-    pattern:  /natgames/account/signin
-    defaults: { _controller: NatGamesBundle:Account:signin }
-    requirements:
-        _method:  GET
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
 
-_natgames_account_signin_post:
-    pattern:  /natgames/account/signin
-    defaults: { _controller: NatGamesBundle:Account:signinPost }
-    requirements:
-        _method:  POST
+_osso2007_admin_index:
+    pattern:  /admin/index
+    defaults: { _controller: Osso2007Bundle:Admin:index }
 
-_natgames_account_signout:
-    pattern:  /natgames/account/signout
-    defaults: { _controller: NatGamesBundle:Account:signout }
+_osso2007_legacy:
+    pattern:  /{cmd}/{action}/{id1}/{id2}
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy, cmd: '', action: '', id1: 0, id2: 0 }
 
-# Project Person Information
-_natgames_project_plans:
-    pattern:  /natgames/project/plans
-    defaults: { _controller: NatGamesBundle:Project:plans }
-    requirements:
-        _method:  GET
+_osso2007_account_logout:
+    pattern:  /home/logout
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
 
-_natgames_project_plans_post:
-    pattern:  /natgames/project/plans
-    defaults: { _controller: NatGamesBundle:Project:plansPost }
-    requirements:
-        _method:  POST
+_osso2007_account_login:
+    pattern:  /home/login
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
 
-_natgames_project_levels:
-    pattern:  /natgames/project/levels
-    defaults: { _controller: NatGamesBundle:Project:levels }
-    requirements:
-        _method:  GET
+# /
+# /account/index
+# /account/list
 
-_natgames_project_levels_post:
-    pattern:  /natgames/project/levels
-    defaults: { _controller: NatGamesBundle:Project:levelsPost }
-    requirements:
-        _method:  POST
+# /home/index
+# /home/login
+# /home/logout
 
-_natgames_schedule:
-    pattern:  /natgames/schedule
-    defaults: { _controller: NatGamesBundle:Schedule:index }
-    requirements:
-        _method:  GET
+# /sched_div/list/region#/div#
+# /sched_div/list
+
+# /sched_ref/list/region#/div#
+# /sched_ref/list
+# /sched_ref/signup/id
+
+# /event/edit/id
+# /event/edit
+
+# /ref_points/monrovia
+# /ref_points/madison
+
+# /admin/index
+
+# /person/list
+# /phy_team/list
+# /sch_team/list
+# /field_site/list
+# /unit/list
+# /import/proc
+# /report/proc
 
 
-# resource: routing_area5cf.yml
-_main:
-    resource: routing_area5cf.yml
-    
-    
+
+  
