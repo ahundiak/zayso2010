@@ -45,11 +45,4 @@ Zayso\Osso2007Bundle\Entity\Member:
       type: integer
       unsigned: false
       nullable: true
-  manyToOne:
-    account:
-      targetEntity: Account
-      joinColumn:
-        name: account_idx
-        referencedColumnName: account_id
-
   lifecycleCallbacks: {  }
