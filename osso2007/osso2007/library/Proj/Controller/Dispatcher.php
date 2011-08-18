@@ -13,7 +13,7 @@ class Proj_Controller_Dispatcher extends Zend_Controller_Dispatcher_Standard
         if ($request->isPost()) return $action . 'ActionPost';
         else                    return $action . 'Action';
     }
-    public function getControllerClass($request)
+    public function getControllerClass(Zend_Controller_Request_Abstract $request)
     {
         $className = '';
         $modules = explode('_',$request->getParam('module'));
