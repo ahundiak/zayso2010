@@ -1,4 +1,4 @@
-Number,Date,Time,Field,Home Team, Away Team,HDIV,ADIV,HREF,AREG,AREA
+Number,Date,Time,Field,Home Team, Away Team,HDIV,ADIV,HREG,AREG,AREA
 <?php
   foreach($this->events as $event) 
   {
