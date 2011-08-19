@@ -1,0 +1,23 @@
+; These parameters can be imported into other config files
+; by enclosing the key with % (like %database_user%)
+; Comments start with ';', as in php.ini
+[parameters]
+    database_driver   = pdo_mysql
+    database_host     = localhost
+    database_port     =
+    database_name     = osso2007
+    database_user     = 
+    database_password = 
+
+    session_dsn       = "mysql:dbname=session;host=localhost"
+
+    mailer_transport  = smtp
+    mailer_host       = localhost
+    mailer_user       =
+    mailer_password   =
+
+    locale            = en
+
+    secret            = ThisTokenIsNotSoSecretChangeIt
+
+    doctrine.orm.entity_manager.class = Zayso\Osso2007Bundle\Component\EntityManager
