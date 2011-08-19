@@ -62,6 +62,33 @@ class User
         }
         return false;
     }
+    public function isReferee($region = null)
+    {
+        return false;
+        die('isReferee ' . $region);
+    }
+    public function getAYSOCertsDescription()
+    {
+        $aysoid = $this->person->aysoid;
+        if (!$aysoid) return 'AYSOID Not Found';
+
+        $eaysoRepo = $this->em->getRepository('eayso');
+        $vol = $eaysoRepo->loadVolCerts($aysoid);
+        if (!$vol) return 'AYSO Record Not Found For ' . $aysoid;
+
+        $out = $vol->getId() . ', ' . $vol->getMemYear();
+
+        $cert = $vol->getRefereeBadgeCertification();
+        if ($cert) $out .= ', ' . $cert->getDescription();
+
+        $cert = $vol->getSafeHavenCertification();
+        if ($cert) $out .= ', ' . $cert->getDescription();
+        
+        return $out;
+        
+        die(get_class($eaysoRepo));
+        return 'User Certs';
+    }
 }
 class User2012
 {
