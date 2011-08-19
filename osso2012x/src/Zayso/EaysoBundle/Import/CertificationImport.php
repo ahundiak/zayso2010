@@ -31,7 +31,7 @@ class CertificationImport extends BaseImport
     }
     public function processVolunteer($item)
     {
-        $aysoid = 'AYSOV-' . $item->aysoid;
+        $aysoid = 'AYSOV' . $item->aysoid;
         
         $vol = $this->volRepo->find($aysoid);
         if ($vol)
@@ -42,7 +42,7 @@ class CertificationImport extends BaseImport
 
             return $vol;
         }
-        $region = sprintf('AYSOR-%04u',(int)$item->region);
+        $region = sprintf('AYSOR%04u',(int)$item->region);
 
         $homePhone = preg_replace('/\D/','',$item->homePhone);
         $workPhone = preg_replace('/\D/','',$item->workPhone);

@@ -49,21 +49,25 @@ class BaseImport
             array(\Doctrine\ORM\Events::postUpdate, \Doctrine\ORM\Events::postRemove,\Doctrine\ORM\Events::postPersist),
             $this);
 
-        $msg = 'Beware';
+        $msg = sprintf("%s %s, Total: %u, Inserted: %u, Updated: %u",
+            $this->importClass, $this->inputFileName,
+            $this->total,$this->inserted,$this->updated);
+
         return array
         (
-            'msg'      => $msg,
-            'errors'   => $this->errors,
-            'total'    => $this->total,
-            'inserted' => $this->inserted,
-            'updated'  => $this->updated,
-            'deleted'  => $this->deleted,
+            'msg'           => $msg,
+            'errors'        => $this->errors,
+            'total'         => $this->total,
+            'inserted'      => $this->inserted,
+            'updated'       => $this->updated,
+            'deleted'       => $this->deleted,
             'inputFileName' => $this->inputFileName,
             'importClass'   => $this->importClass,
         );
     }
     public function getResultMessage()
     {
+        die('Need to refactor getResultMessage');
         $file  = basename($this->innFileName);
         $count = $this->count;
         $class = get_class($this);
@@ -113,6 +117,7 @@ class BaseImport
                 }
             }
         }
+
         // Make sure all required attributes found
         foreach($record as $name => $params)
         {

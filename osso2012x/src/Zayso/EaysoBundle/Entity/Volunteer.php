@@ -2,15 +2,16 @@
 
 namespace Zayso\EaysoBundle\Entity;
 
+use Zayso\EaysoBundle\Repository\CertificationRepository as CertRepo;
+
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection,
     Doctrine\Common\NotifyPropertyChanged,
     Doctrine\Common\PropertyChangedListener;
 
 /**
- * @ORM\Entity()
- *  ORM\Entity(repositoryClass="Zayso\ZaysoBundle\Repository\PersonRepository")
- * @ORM\Table(name="volunteer")
+ * @ORM\Entity(repositoryClass="Zayso\EaysoBundle\Repository\VolunteerRepository")
+ * @ORM\Table(name="eayso.volunteer")
  * @ORM\HasLifecycleCallbacks
  * @ORM\ChangeTrackingPolicy("NOTIFY")
  */
@@ -105,6 +106,24 @@ class Volunteer implements NotifyPropertyChanged
     {
         if (isset($this->certifications[$cat])) return $this->certifications[$cat];
         return null;
+    }
+    public function getRefereeBadgeCertification()
+    {
+        return $this->getCertification(CertRepo::TYPE_REFEREE_BADGE);
+    }
+    public function getCoachBadgeCertification()
+    {
+        return $this->getCertification(CertRepo::TYPE_COACH_BADGE);
+    }
+    public function getSafeHavenCertification()
+    {
+        return $this->getCertification(CertRepo::TYPE_SAFE_HAVEN);
+    }
+    public function getRefBadgeDesc()
+    {
+        $cert = $this->getCertification(CertRepo::TYPE_REFEREE_BADGE);
+        if (!$cert) return 'No Ref Badge';
+        return CertRepo::getDesc($cert->getType());
     }
     /* ============================================================
      * Generated Code
