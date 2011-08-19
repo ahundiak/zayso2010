@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             
             new Zayso\Osso2007Bundle\Osso2007Bundle(),
+            new Zayso\EaysoBundle\EaysoBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
