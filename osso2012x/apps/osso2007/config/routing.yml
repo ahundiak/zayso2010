@@ -24,6 +24,34 @@ _osso2007_account_login:
     pattern:  /home/login
     defaults: { _controller: Osso2007Bundle:Welcome:legacy }
 
+_osso2007_account_index:
+    pattern:  /account/index
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+_osso2007_home_index:
+    pattern:  /home/index
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+_osso2007_sched_div_list:
+    pattern:  /sched_div/list
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+_osso2007_sched_ref_list:
+    pattern:  /sched_ref/list
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+_osso2007_ref_points_monrovia:
+    pattern:  /ref_points/monrovia
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+_osso2007_ref_points_madison:
+    pattern:  /ref_points/madison
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+_osso2007_ref_points_huntsville:
+    pattern:  /ref_points/huntsville
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
 # /
 # /account/index
 # /account/list
