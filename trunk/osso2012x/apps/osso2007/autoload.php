@@ -60,7 +60,27 @@ AnnotationRegistry::registerFile($ws.'doctrine-orm/Doctrine/ORM/Mapping/Driver/D
 require_once $ws.'Symfony/vendor/swiftmailer/lib/classes/Swift.php';
 Swift::registerAutoload($ws.'Symfony/vendor/swiftmailer/lib/swift_init.php');
 
-// Grabs the model files
+// Grabs the model files and the mvc files
+// Need the path set properly
+// Can remove once all the 2010/2007 stuff is gone
+ini_set('include_path','.' .
+
+    // Needed for Model files
+    PATH_SEPARATOR . $ws . 'osso2007/osso2007/data' .
+
+    // Neded for older controllers and templates
+    PATH_SEPARATOR . $ws . 'osso2007/osso2007/apps/osso/library' .
+
+    // Obvious for some Zend stuff, zend uses a bunch of includes
+    // Note that moved my copy of Zend_Db_Select to the actual Zend Framework
+    PATH_SEPARATOR . $ws . 'ZendFramework-1.0.0/library' .
+
+    // Osso2007_ model classes
+    PATH_SEPARATOR . $ws . 'osso2010/model/classes' .
+
+    // Need for including templates
+    PATH_SEPARATOR . $ws . 'osso2010/apps'
+);
 Osso2007ClassLoader::registerAutoload($ws . 'osso2007/osso2007/data');
 
 // Just for my own sanity
