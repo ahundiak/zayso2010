@@ -12,6 +12,18 @@ _osso2007_admin_index:
     pattern:  /admin/index
     defaults: { _controller: Osso2007Bundle:Admin:index }
 
+_osso2007_import_eayso:
+    pattern:  /import/eayso
+    defaults: { _controller: Osso2007Bundle:Import:eayso }
+    requirements:
+        _method:  GET
+
+_osso2007_import_eayso_post:
+    pattern:  /import/eayso
+    defaults: { _controller: Osso2007Bundle:Import:eaysoPost }
+    requirements:
+        _method:  POST
+
 _osso2007_legacy:
     pattern:  /{cmd}/{action}/{id1}/{id2}
     defaults: { _controller: Osso2007Bundle:Welcome:legacy, cmd: '', action: '', id1: 0, id2: 0 }
@@ -28,16 +40,44 @@ _osso2007_account_index:
     pattern:  /account/index
     defaults: { _controller: Osso2007Bundle:Welcome:legacy }
 
+_osso2007_account_list:
+    pattern:  /account/list
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
 _osso2007_home_index:
     pattern:  /home/index
     defaults: { _controller: Osso2007Bundle:Welcome:legacy }
 
 _osso2007_sched_div_list:
-    pattern:  /sched_div/list
+    pattern:  /sch_div/list
     defaults: { _controller: Osso2007Bundle:Welcome:legacy }
 
 _osso2007_sched_ref_list:
     pattern:  /sched_ref/list
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+_osso2007_person_list:
+    pattern:  /person/list
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+_osso2007_phy_team_list:
+    pattern:  /phy_team/list
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+_osso2007_sch_team_list:
+    pattern:  /sch_team/list
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+_osso2007_field_site_list:
+    pattern:  /field_site/list
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+_osso2007_unit_list:
+    pattern:  /unit/list
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+_osso2007_event_edit:
+    pattern:  /event/edit
     defaults: { _controller: Osso2007Bundle:Welcome:legacy }
 
 _osso2007_ref_points_monrovia:
@@ -51,6 +91,15 @@ _osso2007_ref_points_madison:
 _osso2007_ref_points_huntsville:
     pattern:  /ref_points/huntsville
     defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+_osso2007_import_proc:
+    pattern:  /import/proc
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+_osso2007_report_proc:
+    pattern:  /report/proc
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
 
 # /
 # /account/index
@@ -82,7 +131,3 @@ _osso2007_ref_points_huntsville:
 # /unit/list
 # /import/proc
 # /report/proc
-
-
-
-  
