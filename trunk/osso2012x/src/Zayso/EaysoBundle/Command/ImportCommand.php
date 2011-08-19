@@ -31,13 +31,13 @@ class ImportCommand extends ContainerAwareCommand
 
         $params = array
         (
-            'inputFileName' => $inputFileName,
+            'inputFileName' => '../datax/Vols.csv',
         );
         $import = new VolunteerImport($this->getEntityManager());
         $results = $import->process($params);
 
         echo "Zayso Import $inputFileName {$results['msg']} \n";
-        print_r($results);
+        // print_r($results);
 
         $params = array
         (
@@ -47,6 +47,6 @@ class ImportCommand extends ContainerAwareCommand
         $results = $import->process($params);
 
         echo "Zayso Import $inputFileName {$results['msg']} \n";
-        print_r($results);
+        // print_r($results);
     }
 }

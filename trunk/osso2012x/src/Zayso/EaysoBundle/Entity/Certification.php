@@ -2,6 +2,8 @@
 
 namespace Zayso\EaysoBundle\Entity;
 
+use Zayso\EaysoBundle\Repository\CertificationRepository as CertRepo;
+
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection,
     Doctrine\Common\NotifyPropertyChanged,
@@ -10,7 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection,
 /**
  * @ORM\Entity(repositoryClass="Zayso\EaysoBundle\Repository\CertificationRepository")
  * @ORM\Table(
- *   name="certification")
+ *   name="eayso.certification")
  *   uniqueConstraints={@ORM\UniqueConstraint(name="aysoid_cat", columns={"aysoid", "cert_cat"})}
  * )
  * @ORM\HasLifecycleCallbacks
@@ -69,7 +71,11 @@ class Certification implements NotifyPropertyChanged
         }
     }
     public function isChanged() { return $this->changed; }
-    
+
+    public function getDescription()
+    {
+        return CertRepo::getDesc($this->getType());
+    }
     /* ============================================================
      * Generated Code
      */

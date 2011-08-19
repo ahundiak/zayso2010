@@ -31,7 +31,7 @@ class CertificationRepository extends EntityRepository
     const TYPE_COACH_BADGE_ADVANCED       = 360;
     const TYPE_COACH_BADGE_NATIONAL       = 370;
 
-    protected $certs = array(
+    static protected $certs = array(
         0 => NULL,
         self::TYPE_SAFE_HAVEN_REFEREE         => 'Safe Haven Referee',
         self::TYPE_SAFE_HAVEN_COACH           => 'Safe Haven Coach',
@@ -53,7 +53,7 @@ class CertificationRepository extends EntityRepository
         self::TYPE_COACH_BADGE_NATIONAL       => 'National Coach',
 
     );
-    protected $certsx = array(
+    static protected $certsx = array(
         0 => NULL,
         self::TYPE_SAFE_HAVEN_REFEREE         => 'Referee',
         self::TYPE_SAFE_HAVEN_COACH           => 'Coach',
@@ -75,7 +75,7 @@ class CertificationRepository extends EntityRepository
         self::TYPE_COACH_BADGE_NATIONAL       => 'National',
 
     );
-    public function getDesc ($type) { return $this->certs [$type]; }
-    public function getDescx($type) { return $this->certsx[$type]; }
+    static public function getDesc ($type) { return self::$certs [$type]; }
+    static public function getDescx($type) { return self::$certsx[$type]; }
 }
 ?>

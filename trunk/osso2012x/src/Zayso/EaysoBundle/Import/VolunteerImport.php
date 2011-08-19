@@ -39,14 +39,14 @@ class VolunteerImport extends BaseImport
 
         $this->total++;
 
-        $aysoid = 'AYSOV-' . $item->aysoid;
+        $aysoid = 'AYSOV' . $item->aysoid;
         if (isset($this->aysoids[$aysoid]))
         {
             echo "Duplicate aysoid $aysoid\n";
         }
         $this->aysoids[$aysoid] = true;
 
-        $region = sprintf('AYSOR-%04u',(int)$item->region);
+        $region = sprintf('AYSOR%04u',(int)$item->region);
 
         $vol = $this->volRepo->find($aysoid);
         if (!$vol)
@@ -63,13 +63,29 @@ class VolunteerImport extends BaseImport
         $dob = $item->dob;
         if ($dob)
         {
-            $dob = substr($dob,6,4) . substr($dob,0,2) . substr($dob,3,2);
+            $parts = explode('/',$dob);
+            if (count($parts) == 3)
+            {
+                $year = (int)$parts[2];
+                if ($year < 100)
+                {
+                    if ($year < 30) $year += 1900;
+                    else            $year += 2000;
+                }
+                $dob = sprintf('%04d%02d%02d',$year,(int)$parts[0],(int)$parts[1]); // die($dob);
+            }
+            else die($dob); // $dob = substr($dob,6,4) . substr($dob,0,2) . substr($dob,3,2);
         }
         $lastName   = ucfirst(strtolower($item->lastName));
         $nickName   = ucfirst(strtolower($item->nickName));
         $firstName  = ucfirst(strtolower($item->firstName));
         $middleName = ucfirst(strtolower($item->middleName));
+
         $email      =         strtolower($item->email);
+
+        $homePhone = preg_replace('/\D/','',$item->homePhone);
+        $workPhone = preg_replace('/\D/','',$item->workPhone);
+        $cellPhone = preg_replace('/\D/','',$item->cellPhone);
 
         $vol->setRegion    ($region);
         $vol->setMemYear   ($item->memYear);
@@ -79,9 +95,9 @@ class VolunteerImport extends BaseImport
         $vol->setNickName  ($nickName);
         $vol->setSuffix    ($item->suffix);
         $vol->setEmail     ($email);
-        $vol->setHomePhone ($item->homePhone);
-        $vol->setWorkPhone ($item->workPhone);
-        $vol->setCellPhone ($item->cellPhone);
+        $vol->setHomePhone ($homePhone);
+        $vol->setWorkPhone ($workPhone);
+        $vol->setCellPhone ($cellPhone);
         $vol->setDob       ($dob);
         $vol->setGender    ($item->gender);
 
