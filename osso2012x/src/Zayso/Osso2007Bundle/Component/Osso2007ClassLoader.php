@@ -63,9 +63,11 @@ class Osso2007ClassLoader
         
     require self::$searchPath . $path;
   }
+  // Really should have array of search paths
   public static function registerAutoload($searchPath)
   {
     self::$searchPath = $searchPath . DIRECTORY_SEPARATOR;
+    self::$searchPath = '';
     spl_autoload_register(array('Osso2007ClassLoader', 'loadClass'));
   }
 }
