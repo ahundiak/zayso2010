@@ -74,6 +74,7 @@ class Osso2007_UserRepo
       case 1:       // Me
       
       case 611:     // Patrick Streeter
+      case 652:     // Debbie F
       case 609:     // David S
       case 1674:    // Ray Cassell
       case 1603:    // Martin Draper
@@ -95,6 +96,7 @@ class Osso2007_UserRepo
     {
       case 1:       // Me
       case 611:     // Patrick Streeter
+      case 652:     // Debbie F
       case 808:     // Vernon Paulett
       case 609:     // David S
       case 1695:    // Jim Meehan
