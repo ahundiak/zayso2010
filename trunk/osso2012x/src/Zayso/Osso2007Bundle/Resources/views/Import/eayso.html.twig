@@ -1,0 +1,29 @@
+{% extends 'Osso2007Bundle::layout.html.twig' %}
+
+{% block title %}Osso2007 - Import - Eayso{% endblock %}
+
+{% block content %}
+<div>
+<form method="post" enctype="multipart/form-data" action="{{ path('_osso2007_import_eayso') }}">
+<table border="1">
+<tr><th colspan="2">Import From Eayso</th></tr>
+<tr>
+  <td>Import File</td>
+  <td>
+    <input type="file" name="import_file" size="80"/>
+  </td>
+</tr>
+<tr>
+  <td>Processed File</td>
+  <td>
+    <input type="text" name="import_file_proc" readonly="readonly" size="40" value="Processed file name"/>
+  </td>
+</tr>
+<tr>
+  <td>.</td>
+  <td align="center"><input type="submit" name="import_submit" value="Import" />
+</tr>
+</table>
+</form>
+</div>
+{% endblock %}
