@@ -1,0 +1,253 @@
+
+.text_info
+{
+  color:        black;
+  background:   white;
+  text-align:   left;
+  font-size:    80%;
+}
+table.user_login
+{
+  border-width:    3px;
+  border-style:    solid;
+  border-color:    blue;
+  border-collapse: collapse;
+  width:           200px;
+}
+/* ----------------------------------------------
+ * Generic item Stuff
+ */
+table.item_table
+{
+  border-width:    3px;
+  border-style:    solid;
+  border-color:    blue;
+  border-collapse: collapse;
+  width:           672px;
+}
+th.item_title
+{
+  color:      black;
+  background: green;
+}
+
+th.item_header
+{
+  color:        black;
+  background:   blue;
+  border-width: 1px;
+  border-style: solid;
+  border-color: red;
+  text-align:   left;
+}
+th.item_header_small
+{
+  color:        black;
+  background:   blue;
+  border-width: 1px;
+  border-style: solid;
+  border-color: red;
+  text-align:   left;
+  font-size:    90%;
+}
+td.item_row
+{
+  color:        black;
+  background:   white;
+  border-width: 1px;
+  border-style: solid;
+  border-color: blue;
+  text-align:   left;
+}
+td.item_row_small
+{
+  color:        black;
+  background:   white;
+  border-width: 1px;
+  border-style: solid;
+  border-color: blue;
+  text-align:   left;
+  font-size:    75%;
+}
+/* ----------------------------------------------
+ * Account Member List Table
+ */
+table.account_member_list
+{
+  border-width:    3px 3px 3px 3px;
+  border-spacing:  0px;
+  border-style:    groove groove groove groove;
+  border-color:    blue blue blue blue;
+  border-collapse: separate;
+  
+  color:            black;
+  background-color: white;
+}
+table.account_member_list th.account_member_list_title
+{
+  color:            black;
+  background-color: #99CC00; /* Light Green */
+}
+table.account_member_list th
+{
+  border-style:    solid;
+  border-color:    black;
+  border-width:    1px;
+  
+  color:            black;
+  background-color: #99CCFF; /* Light Blue */
+  text-align:       left;
+}
+table.account_member_list td
+{
+  color:              black;
+  background-color:   white;
+  
+  padding:      1px 1px 1px 1px;
+  border-width: 1px 1px 1px 1px;
+  border-style: solid;
+  border-color: green;
+  
+  text-align:   left;
+  font-size:    90%;
+}
+/* ----------------------------------------------
+ * Account Create Table
+ */
+table.account_create
+{
+  border-width:    3px 3px 3px 3px;
+  border-spacing:  0px;
+  border-style:    groove groove groove groove;
+  border-color:    blue blue blue blue;
+  border-collapse: separate;
+  
+  color:            black;
+  background-color: white;
+}
+table.account_create th
+{
+  color:            black;
+  background-color: #99CC00; /* Light Green */
+}
+table.account_create td
+{
+  color:              black;
+  background-color:   white;
+  
+  padding:      1px 1px 1px 1px;
+  border-width: 1px 1px 1px 1px;
+  border-style: solid;
+  border-color: green;
+  
+  text-align:   left;
+  font-size:    90%;
+}
+/* ----------------------------------------------
+ * Ref Assign Show Table
+ */
+table.ref_assign_show
+{
+  border-width:    3px 3px 3px 3px;
+  border-spacing:  0px;
+  border-style:    groove groove groove groove;
+  border-color:    blue blue blue blue;
+  border-collapse: separate;
+  
+  color:            black;
+  background-color: white;
+}
+table.ref_assign_show th
+{
+  color:            black;
+  background-color: #99CC00; /* Light Green */
+}
+table.ref_assign_show td
+{
+  color:              black;
+  background-color:   white;
+  
+  padding:      1px 1px 1px 1px;
+  border-width: 1px 1px 1px 1px;
+  border-style: solid;
+  border-color: green;
+  
+  text-align:   left;
+  font-size:    90%;
+}
+/* ----------------------------------------------
+ * Ref Schedule Search Table
+ */
+table.ref_sched_search
+{
+  border-width:    3px 3px 3px 3px;
+  border-spacing:  0px;
+  border-style:    groove groove groove groove;
+  border-color:    blue blue blue blue;
+  border-collapse: separate;
+  
+  color:            black;
+  background-color: white;
+}
+table.ref_sched_search th
+{
+  color:            black;
+  background-color: #99CC00; /* Light Green */
+}
+table.ref_sched_search td
+{
+  color:              black;
+  background-color:   white;
+  
+  padding:      1px 1px 1px 1px;
+  border-width: 1px 1px 1px 1px;
+  border-style: solid;
+  border-color: green;
+  
+  text-align:   left;
+  font-size:    100%;
+}
+/* ----------------------------------------------
+ * Ref Schedule Show Table
+ */
+table.ref_sched_show
+{
+  border-width:    3px 3px 3px 3px;
+  border-spacing:  0px;
+  border-style:    groove groove groove groove;
+  border-color:    black black black black;
+  border-collapse: separate;
+  
+  color:            black;
+  background-color: white;
+}
+table.ref_sched_show th
+{
+  color:            black;
+  background-color: #99CC00; /* Light Green */
+}
+table.ref_sched_show th.ref_sched_show_col_hdr
+{
+  border-style:    solid;
+  border-color:    black;
+  border-width:    1px;
+  
+  color:            black;
+  background-color: #99CCFF; /* Light Blue */
+  text-align:       left;
+}
+table.ref_sched_show tr
+{
+  color:              black;
+  background-color:   white;
+}
+table.ref_sched_show td
+{  
+  padding:      1px 1px 1px 3px;
+  border-width: 1px 1px 1px 1px;
+  border-style: solid;
+  border-color: green;
+  
+  text-align:   left;
+  font-size:    75%;
+}
