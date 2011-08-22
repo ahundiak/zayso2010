@@ -50,7 +50,7 @@ class BaseImport
             $this);
 
         $msg = sprintf("%s %s, Total: %u, Inserted: %u, Updated: %u",
-            $this->importClass, $this->inputFileName,
+            $this->importClass, $this->clientFileName,
             $this->total,$this->inserted,$this->updated);
 
         return array
@@ -137,11 +137,12 @@ class BaseImport
     }
     public function process($params = array())
     {
+        // For tracking changes
         $this->getEntityManager()->getEventManager()->addEventListener(
             array(\Doctrine\ORM\Events::postUpdate, \Doctrine\ORM\Events::postRemove,\Doctrine\ORM\Events::postPersist),
             $this);
 
-        // Open the input file
+        // Need an input file
         if (isset($params['inputFileName'])) $inputFileName = $params['inputFileName'];
         else
         {
@@ -149,7 +150,12 @@ class BaseImport
             return $this->getResults();
         }
         $this->inputFileName = $inputFileName;
-        
+
+        // Client file name for web processing
+        if (isset($params['clientFileName'])) $this->clientFileName = $params['clientFileName'];
+        else                                  $this->clientFileName = $this->inputFileName;
+
+        // Open it
         $fp = fopen($inputFileName,'r');
         if (!$fp)
         {
