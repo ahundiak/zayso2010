@@ -12,6 +12,25 @@ _osso2007_admin_index:
     pattern:  /admin/index
     defaults: { _controller: Osso2007Bundle:Admin:index }
 
+_osso2007_event_edit_id:
+    pattern:  /event/edit/{id}
+    defaults: { _controller: Osso2007Bundle:Event:edit }
+    requirements:
+        _method:  GET
+        id: \d+
+
+_osso2007_event_edit:
+    pattern:  /event/edit
+    defaults: { _controller: Osso2007Bundle:Event:edit }
+    requirements:
+        _method:  GET
+
+_osso2007_event_edit_post:
+    pattern:  /event/edit
+    defaults: { _controller: Osso2007Bundle:Event:editPost }
+    requirements:
+        _method:  POST
+
 _osso2007_import_eayso:
     pattern:  /import/eayso
     defaults: { _controller: Osso2007Bundle:Import:eayso }
@@ -74,10 +93,6 @@ _osso2007_field_site_list:
 
 _osso2007_unit_list:
     pattern:  /unit/list
-    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
-
-_osso2007_event_edit:
-    pattern:  /event/edit
     defaults: { _controller: Osso2007Bundle:Welcome:legacy }
 
 _osso2007_ref_points_monrovia:
