@@ -15,7 +15,8 @@ class EntityManager extends EntityManagerBase
 {
     protected $map = array
     (
-        'eayso' => 'EaysoBundle:Volunteer'
+        'eayso' => 'EaysoBundle:Volunteer',
+        'game'  => 'Osso2007Bundle:Event',
     );
     public function getRepository($entityName)
     {

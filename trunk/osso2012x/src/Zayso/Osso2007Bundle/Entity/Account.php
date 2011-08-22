@@ -6,49 +6,57 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Zayso\Osso2007Bundle\Entity\Account
+ *
+ * @ORM\Table(name="account")
+ * @ORM\Entity
  */
 class Account
 {
     /**
      * @var integer $accountId
+     *
+     * @ORM\Column(name="account_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $accountId;
 
     /**
      * @var string $accountUser
+     *
+     * @ORM\Column(name="account_user", type="string", length=40, nullable=false)
      */
     private $accountUser;
 
     /**
      * @var string $accountPass
+     *
+     * @ORM\Column(name="account_pass", type="string", length=32, nullable=false)
      */
     private $accountPass;
 
     /**
      * @var string $accountName
+     *
+     * @ORM\Column(name="account_name", type="string", length=40, nullable=false)
      */
     private $accountName;
 
     /**
      * @var string $email
+     *
+     * @ORM\Column(name="email", type="string", length=40, nullable=true)
      */
     private $email;
 
     /**
      * @var integer $status
+     *
+     * @ORM\Column(name="status", type="integer", nullable=true)
      */
     private $status;
 
 
-    /**
-     * Get accountId
-     *
-     * @return integer 
-     */
-    public function getAccountId()
-    {
-        return $this->accountId;
-    }
 
     /**
      * Set accountUser
@@ -148,5 +156,15 @@ class Account
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * Get accountId
+     *
+     * @return integer 
+     */
+    public function getAccountId()
+    {
+        return $this->accountId;
     }
 }

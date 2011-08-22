@@ -6,39 +6,43 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Zayso\Osso2007Bundle\Entity\Email
+ *
+ * @ORM\Table(name="email")
+ * @ORM\Entity
  */
 class Email
 {
     /**
      * @var integer $emailId
+     *
+     * @ORM\Column(name="email_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $emailId;
 
     /**
      * @var integer $emailTypeId
+     *
+     * @ORM\Column(name="email_type_id", type="integer", nullable=true)
      */
     private $emailTypeId;
 
     /**
      * @var integer $personId
+     *
+     * @ORM\Column(name="person_id", type="integer", nullable=true)
      */
     private $personId;
 
     /**
      * @var string $address
+     *
+     * @ORM\Column(name="address", type="string", length=40, nullable=true)
      */
     private $address;
 
 
-    /**
-     * Get emailId
-     *
-     * @return integer 
-     */
-    public function getEmailId()
-    {
-        return $this->emailId;
-    }
 
     /**
      * Set emailTypeId
@@ -98,5 +102,15 @@ class Email
     public function getAddress()
     {
         return $this->address;
+    }
+
+    /**
+     * Get emailId
+     *
+     * @return integer 
+     */
+    public function getEmailId()
+    {
+        return $this->emailId;
     }
 }

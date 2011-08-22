@@ -6,34 +6,36 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Zayso\Osso2007Bundle\Entity\ProjectItemType
+ *
+ * @ORM\Table(name="project_item_type")
+ * @ORM\Entity
  */
 class ProjectItemType
 {
     /**
      * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var string $key1
+     *
+     * @ORM\Column(name="key1", type="string", length=10, nullable=false)
      */
     private $key1;
 
     /**
      * @var string $desc1
+     *
+     * @ORM\Column(name="desc1", type="string", length=80, nullable=true)
      */
     private $desc1;
 
 
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Set key1
@@ -73,5 +75,15 @@ class ProjectItemType
     public function getDesc1()
     {
         return $this->desc1;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 }

@@ -6,84 +6,106 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Zayso\Osso2007Bundle\Entity\Project
+ *
+ * @ORM\Table(name="project")
+ * @ORM\Entity
  */
 class Project
 {
     /**
      * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var integer $typeId
+     *
+     * @ORM\Column(name="type_id", type="integer", nullable=true)
      */
     private $typeId;
 
     /**
      * @var integer $eventNum
+     *
+     * @ORM\Column(name="event_num", type="integer", nullable=true)
      */
     private $eventNum;
 
     /**
      * @var integer $memYear
+     *
+     * @ORM\Column(name="mem_year", type="integer", nullable=true)
      */
     private $memYear;
 
     /**
      * @var integer $calYear
+     *
+     * @ORM\Column(name="cal_year", type="integer", nullable=true)
      */
     private $calYear;
 
     /**
      * @var integer $seasonTypeId
+     *
+     * @ORM\Column(name="season_type_id", type="integer", nullable=true)
      */
     private $seasonTypeId;
 
     /**
      * @var integer $adminOrgId
+     *
+     * @ORM\Column(name="admin_org_id", type="integer", nullable=true)
      */
     private $adminOrgId;
 
     /**
      * @var integer $sportTypeId
+     *
+     * @ORM\Column(name="sport_type_id", type="integer", nullable=true)
      */
     private $sportTypeId;
 
     /**
      * @var integer $sort1
+     *
+     * @ORM\Column(name="sort1", type="integer", nullable=true)
      */
     private $sort1;
 
     /**
      * @var integer $status
+     *
+     * @ORM\Column(name="status", type="integer", nullable=true)
      */
     private $status;
 
     /**
      * @var string $desc1
+     *
+     * @ORM\Column(name="desc1", type="string", length=80, nullable=true)
      */
     private $desc1;
 
     /**
      * @var string $dateBeg
+     *
+     * @ORM\Column(name="date_beg", type="string", length=8, nullable=true)
      */
     private $dateBeg;
 
     /**
      * @var string $dateEnd
+     *
+     * @ORM\Column(name="date_end", type="string", length=8, nullable=true)
      */
     private $dateEnd;
 
 
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Set typeId
@@ -323,5 +345,15 @@ class Project
     public function getDateEnd()
     {
         return $this->dateEnd;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 }

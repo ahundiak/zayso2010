@@ -2,73 +2,115 @@
 
 namespace Zayso\Osso2007Bundle\Entity;
 
+use Zayso\Osso2007Bundle\Repository\GameRepository as GameRepo;
+
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Zayso\Osso2007Bundle\Entity\PhyTeam
+ *
+ * @ORM\Table(name="phy_team")
+ * @ORM\Entity
  */
 class PhyTeam
 {
     /**
+     *  @ORM\OneToMany(targetEntity="PhyTeamPerson", mappedBy="phyTeam", indexBy="volTypeId", fetch="EXTRA_LAZY" )
+     */
+    private $persons;
+
+    public function __construct()
+    {
+        $this->persons  = new ArrayCollection();
+    }
+    public function getPerson($type)
+    {
+        if (isset($this->persons[$type])) return $this->persons[$type]->getPerson();
+
+        // Consider returning empty person object
+        return null;
+    }
+    public function getHeadCoach() { return $this->getPerson(GameRepo::TYPE_HEAD_COACH); }
+    public function getAsstCoach() { return $this->getPerson(GameRepo::TYPE_ASST_COACH); }
+    public function getManager  () { return $this->getPerson(GameRepo::TYPE_MANAGER); }
+
+    /* ===================================================================================
+     * Auto generated stuff
+     */
+    /**
      * @var integer $phyTeamId
+     *
+     * @ORM\Column(name="phy_team_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $phyTeamId;
 
     /**
      * @var integer $regYearId
+     *
+     * @ORM\Column(name="reg_year_id", type="integer", nullable=true)
      */
     private $regYearId;
 
     /**
      * @var integer $seasonTypeId
+     *
+     * @ORM\Column(name="season_type_id", type="integer", nullable=true)
      */
     private $seasonTypeId;
 
     /**
      * @var integer $unitId
+     *
+     * @ORM\Column(name="unit_id", type="integer", nullable=true)
      */
     private $unitId;
 
     /**
      * @var integer $divisionId
+     *
+     * @ORM\Column(name="division_id", type="integer", nullable=true)
      */
     private $divisionId;
 
     /**
      * @var integer $divisionSeqNum
+     *
+     * @ORM\Column(name="division_seq_num", type="integer", nullable=true)
      */
     private $divisionSeqNum;
 
     /**
      * @var string $name
+     *
+     * @ORM\Column(name="name", type="string", length=20, nullable=true)
      */
     private $name;
 
     /**
      * @var string $colors
+     *
+     * @ORM\Column(name="colors", type="string", length=20, nullable=true)
      */
     private $colors;
 
     /**
      * @var integer $eaysoId
+     *
+     * @ORM\Column(name="eayso_id", type="integer", nullable=true)
      */
     private $eaysoId;
 
     /**
      * @var string $eaysoDes
+     *
+     * @ORM\Column(name="eayso_des", type="string", length=20, nullable=true)
      */
     private $eaysoDes;
 
 
-    /**
-     * Get phyTeamId
-     *
-     * @return integer 
-     */
-    public function getPhyTeamId()
-    {
-        return $this->phyTeamId;
-    }
 
     /**
      * Set regYearId
@@ -248,5 +290,15 @@ class PhyTeam
     public function getEaysoDes()
     {
         return $this->eaysoDes;
+    }
+
+    /**
+     * Get phyTeamId
+     *
+     * @return integer 
+     */
+    public function getPhyTeamId()
+    {
+        return $this->phyTeamId;
     }
 }

@@ -6,69 +6,85 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Zayso\Osso2007Bundle\Entity\PhyTeamReferee
+ *
+ * @ORM\Table(name="phy_team_referee")
+ * @ORM\Entity
  */
 class PhyTeamReferee
 {
     /**
      * @var integer $phyTeamRefereeId
+     *
+     * @ORM\Column(name="phy_team_referee_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $phyTeamRefereeId;
 
     /**
      * @var integer $phyTeamId
+     *
+     * @ORM\Column(name="phy_team_id", type="integer", nullable=true)
      */
     private $phyTeamId;
 
     /**
      * @var integer $refereeId
+     *
+     * @ORM\Column(name="referee_id", type="integer", nullable=true)
      */
     private $refereeId;
 
     /**
      * @var integer $unitId
+     *
+     * @ORM\Column(name="unit_id", type="integer", nullable=true)
      */
     private $unitId;
 
     /**
      * @var integer $regYearId
+     *
+     * @ORM\Column(name="reg_year_id", type="integer", nullable=true)
      */
     private $regYearId;
 
     /**
      * @var integer $seasonTypeId
+     *
+     * @ORM\Column(name="season_type_id", type="integer", nullable=true)
      */
     private $seasonTypeId;
 
     /**
      * @var integer $priRegular
+     *
+     * @ORM\Column(name="pri_regular", type="integer", nullable=true)
      */
     private $priRegular;
 
     /**
      * @var integer $priTourn
+     *
+     * @ORM\Column(name="pri_tourn", type="integer", nullable=true)
      */
     private $priTourn;
 
     /**
      * @var integer $maxRegular
+     *
+     * @ORM\Column(name="max_regular", type="integer", nullable=true)
      */
     private $maxRegular;
 
     /**
      * @var integer $maxTourn
+     *
+     * @ORM\Column(name="max_tourn", type="integer", nullable=true)
      */
     private $maxTourn;
 
 
-    /**
-     * Get phyTeamRefereeId
-     *
-     * @return integer 
-     */
-    public function getPhyTeamRefereeId()
-    {
-        return $this->phyTeamRefereeId;
-    }
 
     /**
      * Set phyTeamId
@@ -248,5 +264,15 @@ class PhyTeamReferee
     public function getMaxTourn()
     {
         return $this->maxTourn;
+    }
+
+    /**
+     * Get phyTeamRefereeId
+     *
+     * @return integer 
+     */
+    public function getPhyTeamRefereeId()
+    {
+        return $this->phyTeamRefereeId;
     }
 }

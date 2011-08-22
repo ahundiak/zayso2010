@@ -6,49 +6,57 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Zayso\Osso2007Bundle\Entity\EventPerson
+ *
+ * @ORM\Table(name="event_person")
+ * @ORM\Entity
  */
 class EventPerson
 {
     /**
      * @var integer $eventPersonId
+     *
+     * @ORM\Column(name="event_person_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $eventPersonId;
 
     /**
      * @var integer $eventId
+     *
+     * @ORM\Column(name="event_id", type="integer", nullable=true)
      */
     private $eventId;
 
     /**
      * @var integer $personId
+     *
+     * @ORM\Column(name="person_id", type="integer", nullable=true)
      */
     private $personId;
 
     /**
      * @var integer $eventPersonTypeId
+     *
+     * @ORM\Column(name="event_person_type_id", type="integer", nullable=true)
      */
     private $eventPersonTypeId;
 
     /**
      * @var integer $regYearId
+     *
+     * @ORM\Column(name="reg_year_id", type="integer", nullable=true)
      */
     private $regYearId;
 
     /**
      * @var integer $status
+     *
+     * @ORM\Column(name="status", type="integer", nullable=true)
      */
     private $status;
 
 
-    /**
-     * Get eventPersonId
-     *
-     * @return integer 
-     */
-    public function getEventPersonId()
-    {
-        return $this->eventPersonId;
-    }
 
     /**
      * Set eventId
@@ -148,5 +156,15 @@ class EventPerson
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * Get eventPersonId
+     *
+     * @return integer 
+     */
+    public function getEventPersonId()
+    {
+        return $this->eventPersonId;
     }
 }

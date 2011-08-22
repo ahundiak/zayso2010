@@ -6,59 +6,71 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Zayso\Osso2007Bundle\Entity\Unit
+ *
+ * @ORM\Table(name="unit")
+ * @ORM\Entity
  */
 class Unit
 {
     /**
      * @var integer $unitId
+     *
+     * @ORM\Column(name="unit_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $unitId;
 
     /**
      * @var integer $unitTypeId
+     *
+     * @ORM\Column(name="unit_type_id", type="integer", nullable=true)
      */
     private $unitTypeId;
 
     /**
      * @var integer $parentId
+     *
+     * @ORM\Column(name="parent_id", type="integer", nullable=true)
      */
     private $parentId;
 
     /**
      * @var string $keyx
+     *
+     * @ORM\Column(name="keyx", type="string", length=8, nullable=true)
      */
     private $keyx;
 
     /**
      * @var string $sortx
+     *
+     * @ORM\Column(name="sortx", type="string", length=8, nullable=true)
      */
     private $sortx;
 
     /**
      * @var string $descPick
+     *
+     * @ORM\Column(name="desc_pick", type="string", length=24, nullable=true)
      */
     private $descPick;
 
     /**
      * @var string $prefix
+     *
+     * @ORM\Column(name="prefix", type="string", length=8, nullable=true)
      */
     private $prefix;
 
     /**
      * @var string $descLong
+     *
+     * @ORM\Column(name="desc_long", type="string", length=40, nullable=true)
      */
     private $descLong;
 
 
-    /**
-     * Get unitId
-     *
-     * @return integer 
-     */
-    public function getUnitId()
-    {
-        return $this->unitId;
-    }
 
     /**
      * Set unitTypeId
@@ -198,5 +210,15 @@ class Unit
     public function getDescLong()
     {
         return $this->descLong;
+    }
+
+    /**
+     * Get unitId
+     *
+     * @return integer 
+     */
+    public function getUnitId()
+    {
+        return $this->unitId;
     }
 }

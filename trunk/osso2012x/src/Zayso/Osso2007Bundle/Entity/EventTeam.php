@@ -4,66 +4,97 @@ namespace Zayso\Osso2007Bundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Zayso\Osso2007Bundle\Repository\GameRepository as GameRepo;
+
 /**
  * Zayso\Osso2007Bundle\Entity\EventTeam
+ *
+ * @ORM\Table(name="event_team")
+ * @ORM\Entity
  */
 class EventTeam
 {
-    /**
+    public function getPerson($type)
+    {
+        $schTeam = $this->getSchTeam();
+        if ($schTeam) return $this->schTeam->getPerson($type);
+    }
+    public function getHeadCoach() { return $this->getPerson(GameRepo::TYPE_HEAD_COACH); }
+    public function getAsstCoach() { return $this->getPerson(GameRepo::TYPE_ASST_COACH); }
+    public function getManager  () { return $this->getPerson(GameRepo::TYPE_MANAGER); }
+
+    public function getSchTeam() { return $this->schTeam; }
+
+    public function getTeamKey()
+    {
+        if ($this->schTeam) return $this->schTeam->getTeamKey();
+        return null;
+    }
+    /** =====================================================================
      * @var integer $eventTeamId
+     *
+     * @ORM\Column(name="event_team_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $eventTeamId;
 
     /**
-     * @var integer $eventId
+     * @ORM\ManyToOne(targetEntity="Event", inversedBy="eventTeams")
+     * @ORM\JoinColumn(name="event_id", referencedColumnName="event_id")
      */
-    private $eventId;
+    private $event = null;
 
     /**
-     * @var integer $teamId
+     *
+     * @ORM\ManyToOne(targetEntity="SchTeam")
+     * @ORM\JoinColumn(name="team_id", referencedColumnName="sch_team_id")
      */
-    private $teamId;
+    private $schTeam = null;
 
     /**
      * @var integer $eventTeamTypeId
+     *
+     * @ORM\Column(name="event_team_type_id", type="integer", nullable=true)
      */
     private $eventTeamTypeId;
 
     /**
      * @var integer $typeIndex
+     *
+     * @ORM\Column(name="type_index", type="integer", nullable=true)
      */
     private $typeIndex;
 
     /**
      * @var integer $regYearId
+     *
+     * @ORM\Column(name="reg_year_id", type="integer", nullable=true)
      */
     private $regYearId;
 
     /**
      * @var integer $unitId
+     *
+     * @ORM\Column(name="unit_id", type="integer", nullable=true)
      */
     private $unitId;
 
     /**
      * @var integer $divisionId
+     *
+     * @ORM\Column(name="division_id", type="integer", nullable=true)
      */
     private $divisionId;
 
     /**
      * @var integer $score
+     *
+     * @ORM\Column(name="score", type="integer", nullable=true)
      */
     private $score;
 
 
-    /**
-     * Get eventTeamId
-     *
-     * @return integer 
-     */
-    public function getEventTeamId()
-    {
-        return $this->eventTeamId;
-    }
 
     /**
      * Set eventId
@@ -223,5 +254,15 @@ class EventTeam
     public function getScore()
     {
         return $this->score;
+    }
+
+    /**
+     * Get eventTeamId
+     *
+     * @return integer 
+     */
+    public function getEventTeamId()
+    {
+        return $this->eventTeamId;
     }
 }

@@ -10,16 +10,22 @@ class ImportController extends BaseController
 {
     public function eaysoAction()
     {
+        // Permissions
         $user = $this->getUser();
         if (!$user->isSignedIn()) return $this->redirect($this->generateUrl('_osso2007_welcome'));
 
         $tplData = $this->getTplData();
+        $tplData['message'] = $this->getSession()->getFlash('message');
+        
         return $this->render('Osso2007Bundle:Import:eayso.html.twig',$tplData);
     }
     public function eaysoPostAction()
     {
+        // Permission check
         $user = $this->getUser();
-        if (!$user->isSignedIn()) return $this->redirect($this->generateUrl('_osso2007_welcome'));
+        if (!$user->isAdmin()) return $this->redirect($this->generateUrl('_osso2007_welcome'));
+
+        $session = $this->getSession();
 
         $files = $this->getRequest()->files;
 
@@ -31,13 +37,28 @@ class ImportController extends BaseController
             'inputFileName'  => $importFile->getPathName(), // /var/tmp/whatever
             'clientFileName' => $importFile->getClientOriginalName(),
         );
+        $importEaysoData = $params;
+
         // Get the class
         $importClassName = $this->getImportClassName($params['inputFileName'],$params['clientFileName']);
-
-        // Only do eayso stuff here
-        if (strpos($importClassname,'ZaysoBundle') === false) $importClassName = null;
         
-        die($importClassName);
+        // Only do eayso stuff here
+        if (strpos($importClassName,'EaysoBundle') === false) $importClassName = null;
+
+        if (!$importClassName)
+        {
+            // Unable to determine file type
+            $msg = 'Could not determine file type for: ' . $params['clientFileName'];
+            $session->setFlash('message',$msg);
+            return $this->redirect($this->generateUrl('_osso2007_import_eayso'));
+        }
+        $import = new $importClassName($this->getEntityManager($params));
+        $results = $import->process($params);
+
+        $session->setFlash('message',$results['msg']);
+
+        // $importEaysoData['message'] = $results['msg'];
+        // $session->set('importEaysoData',$importEaysoData);
         
         return $this->redirect($this->generateUrl('_osso2007_import_eayso'));
     }
