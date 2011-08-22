@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Zayso\Osso2007Bundle\Entity\PhyTeamReferee" table="phy_team_referee">
+    <change-tracking-policy>DEFERRED_IMPLICIT</change-tracking-policy>
+    <id name="phyTeamRefereeId" type="integer" column="phy_team_referee_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="phyTeamId" type="integer" column="phy_team_id"/>
+    <field name="refereeId" type="integer" column="referee_id"/>
+    <field name="unitId" type="integer" column="unit_id"/>
+    <field name="regYearId" type="integer" column="reg_year_id"/>
+    <field name="seasonTypeId" type="integer" column="season_type_id"/>
+    <field name="priRegular" type="integer" column="pri_regular"/>
+    <field name="priTourn" type="integer" column="pri_tourn"/>
+    <field name="maxRegular" type="integer" column="max_regular"/>
+    <field name="maxTourn" type="integer" column="max_tourn"/>
+    <lifecycle-callbacks/>
+  </entity>
+</doctrine-mapping>
