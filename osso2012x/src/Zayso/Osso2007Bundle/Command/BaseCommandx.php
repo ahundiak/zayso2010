@@ -14,4 +14,8 @@ class BaseCommandx extends ContainerAwareCommand
     {
         return $this->getContainer()->get('doctrine')->getEntityManager();
     }
+    protected function getGameManager()
+    {
+        return $this->getContainer()->get('game_manager');
+    }
 }

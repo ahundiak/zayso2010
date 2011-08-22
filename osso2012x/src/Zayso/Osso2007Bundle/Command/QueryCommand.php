@@ -25,6 +25,8 @@ class QueryCommand extends BaseCommandx
     }
     protected function queryGames()
     {
+        $gameManager = $this->getGameManager();
+
         $projectId = 70; //array(70);
         $ages    = array('U14','U16', 'U19',);
         $genders = array('B', 'C', 'G');
@@ -41,10 +43,8 @@ class QueryCommand extends BaseCommandx
             'date1'     => $date1,
             'date2'     => $date2
         );
-        $gameRepo = $this->getEntityManager()->getRepository('game');
-      //echo get_class($gameRepo) . "\n"; return;
 
-        $games = $gameRepo->queryGames($search);
+        $games = $gameManager->queryGames($search);
         $gameCount = count($games);
         echo "Game Count: {$gameCount}\n";
         foreach($games as $game)
@@ -68,12 +68,12 @@ class QueryCommand extends BaseCommandx
             }
         }
         
-        $teams = $gameRepo->querySchTeamsPickList($search,$games);
+        $teams = $gameManager->querySchTeamsPickList($search,$games);
         $teamCount = count($teams);
         echo "Team Count: {$teamCount}\n";
         foreach($teams as $team)
         {
-            // echo "{$team->getRegionKey()} {$team->getDivisionDesc()} {$team->getTeamKey()} {$team->getPhyTeam()->getHeadCoach()->getLastName()}\n";
+            ///echo "{$team->getRegionKey()} {$team->getDivisionDesc()} {$team->getTeamKey()} {$team->getPhyTeam()->getHeadCoach()->getLastName()}\n";
         }
         //print_r($teams);
     }
