@@ -6,69 +6,88 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Zayso\Osso2007Bundle\Entity\Person
+ *
+ * @ORM\Table(name="person")
+ * @ORM\Entity
  */
 class Person
 {
-    /**
+    public function getLastName()  { return $this->getLName(); }
+    public function getFirstName() { return $this->getFName(); }
+
+    /** =========================================================================
      * @var integer $personId
+     *
+     * @ORM\Column(name="person_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $personId;
 
     /**
      * @var string $uname
+     *
+     * @ORM\Column(name="uname", type="string", length=20, nullable=true)
      */
     private $uname;
 
     /**
      * @var string $upass
+     *
+     * @ORM\Column(name="upass", type="string", length=40, nullable=true)
      */
     private $upass;
 
     /**
      * @var string $fname
+     *
+     * @ORM\Column(name="fname", type="string", length=20, nullable=true)
      */
     private $fname;
 
     /**
      * @var string $lname
+     *
+     * @ORM\Column(name="lname", type="string", length=20, nullable=true)
      */
     private $lname;
 
     /**
      * @var string $mname
+     *
+     * @ORM\Column(name="mname", type="string", length=20, nullable=true)
      */
     private $mname;
 
     /**
      * @var string $nname
+     *
+     * @ORM\Column(name="nname", type="string", length=20, nullable=true)
      */
     private $nname;
 
     /**
      * @var integer $unitId
+     *
+     * @ORM\Column(name="unit_id", type="integer", nullable=true)
      */
     private $unitId;
 
     /**
      * @var integer $status
+     *
+     * @ORM\Column(name="status", type="integer", nullable=true)
      */
     private $status;
 
     /**
      * @var string $aysoid
+     *
+     * @ORM\Column(name="aysoid", type="string", length=20, nullable=true)
      */
     private $aysoid;
 
 
-    /**
-     * Get personId
-     *
-     * @return integer 
-     */
-    public function getPersonId()
-    {
-        return $this->personId;
-    }
 
     /**
      * Set uname
@@ -248,5 +267,15 @@ class Person
     public function getAysoid()
     {
         return $this->aysoid;
+    }
+
+    /**
+     * Get personId
+     *
+     * @return integer 
+     */
+    public function getPersonId()
+    {
+        return $this->personId;
     }
 }

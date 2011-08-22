@@ -6,124 +6,162 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Zayso\Osso2007Bundle\Entity\RefAvail
+ *
+ * @ORM\Table(name="ref_avail")
+ * @ORM\Entity
  */
 class RefAvail
 {
     /**
      * @var integer $refAvailId
+     *
+     * @ORM\Column(name="ref_avail_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $refAvailId;
 
     /**
      * @var integer $groupId
+     *
+     * @ORM\Column(name="group_id", type="integer", nullable=true)
      */
     private $groupId;
 
     /**
      * @var integer $personId
+     *
+     * @ORM\Column(name="person_id", type="integer", nullable=true)
      */
     private $personId;
 
     /**
      * @var integer $divCrId
+     *
+     * @ORM\Column(name="div_cr_id", type="integer", nullable=true)
      */
     private $divCrId;
 
     /**
      * @var integer $divArId
+     *
+     * @ORM\Column(name="div_ar_id", type="integer", nullable=true)
      */
     private $divArId;
 
     /**
      * @var string $phoneHome
+     *
+     * @ORM\Column(name="phone_home", type="string", length=40, nullable=true)
      */
     private $phoneHome;
 
     /**
      * @var string $phoneWork
+     *
+     * @ORM\Column(name="phone_work", type="string", length=40, nullable=true)
      */
     private $phoneWork;
 
     /**
      * @var string $phoneCell
+     *
+     * @ORM\Column(name="phone_cell", type="string", length=40, nullable=true)
      */
     private $phoneCell;
 
     /**
      * @var string $emailHome
+     *
+     * @ORM\Column(name="email_home", type="string", length=40, nullable=true)
      */
     private $emailHome;
 
     /**
      * @var string $emailWork
+     *
+     * @ORM\Column(name="email_work", type="string", length=40, nullable=true)
      */
     private $emailWork;
 
     /**
      * @var integer $availDay1
+     *
+     * @ORM\Column(name="avail_day1", type="integer", nullable=true)
      */
     private $availDay1;
 
     /**
      * @var integer $availDay2
+     *
+     * @ORM\Column(name="avail_day2", type="integer", nullable=true)
      */
     private $availDay2;
 
     /**
      * @var integer $availDay3
+     *
+     * @ORM\Column(name="avail_day3", type="integer", nullable=true)
      */
     private $availDay3;
 
     /**
      * @var integer $availDay4
+     *
+     * @ORM\Column(name="avail_day4", type="integer", nullable=true)
      */
     private $availDay4;
 
     /**
      * @var integer $availDay5
+     *
+     * @ORM\Column(name="avail_day5", type="integer", nullable=true)
      */
     private $availDay5;
 
     /**
      * @var integer $availDay6
+     *
+     * @ORM\Column(name="avail_day6", type="integer", nullable=true)
      */
     private $availDay6;
 
     /**
      * @var integer $teamId1
+     *
+     * @ORM\Column(name="team_id1", type="integer", nullable=true)
      */
     private $teamId1;
 
     /**
      * @var integer $teamId2
+     *
+     * @ORM\Column(name="team_id2", type="integer", nullable=true)
      */
     private $teamId2;
 
     /**
      * @var integer $teamId3
+     *
+     * @ORM\Column(name="team_id3", type="integer", nullable=true)
      */
     private $teamId3;
 
     /**
      * @var string $modified
+     *
+     * @ORM\Column(name="modified", type="string", length=16, nullable=false)
      */
     private $modified;
 
     /**
      * @var string $notes
+     *
+     * @ORM\Column(name="notes", type="string", length=1000, nullable=false)
      */
     private $notes;
 
 
-    /**
-     * Get refAvailId
-     *
-     * @return integer 
-     */
-    public function getRefAvailId()
-    {
-        return $this->refAvailId;
-    }
 
     /**
      * Set groupId
@@ -523,5 +561,15 @@ class RefAvail
     public function getNotes()
     {
         return $this->notes;
+    }
+
+    /**
+     * Get refAvailId
+     *
+     * @return integer 
+     */
+    public function getRefAvailId()
+    {
+        return $this->refAvailId;
     }
 }

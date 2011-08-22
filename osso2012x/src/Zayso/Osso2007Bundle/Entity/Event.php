@@ -3,102 +3,159 @@
 namespace Zayso\Osso2007Bundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+
+use Zayso\Osso2007Bundle\Repository\GameRepository as GameRepo;
 
 /**
  * Zayso\Osso2007Bundle\Entity\Event
+ *
+ * @ORM\Table(name="event")
+ * @ORM\Entity(repositoryClass="Zayso\Osso2007Bundle\Repository\GameRepository")
  */
 class Event
 {
     /**
+     *  @ORM\OneToMany(targetEntity="EventTeam", mappedBy="event", indexBy="eventTeamTypeId", cascade={"persist","remove"})
+     */
+    private $eventTeams;
+
+    public function getEventTeams() { return $this->eventTeams; }
+    public function getGameTeams () { return $this->eventTeams; }
+
+    public function getGameTeamForType($type)
+    {
+        if (isset($this->eventTeams[$type])) return $this->eventTeams[$type];
+        return null;
+    }
+    public function getHomeTeam() { return $this->getGameTeamForType(GameRepo::TYPE_TEAM_HOME); }
+    public function getAwayTeam() { return $this->getGameTeamForType(GameRepo::TYPE_TEAM_AWAY); }
+
+    public function getFieldKey()
+    {
+        if ($this->field) return $this->field->getDescx();
+        return null;
+    }
+    public function __construct()
+    {
+        $this->eventTeams = new ArrayCollection();
+    }
+
+    /** =======================================================================
      * @var integer $eventId
+     *
+     * @ORM\Column(name="event_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $eventId;
 
     /**
      * @var integer $eventNum
+     *
+     * @ORM\Column(name="event_num", type="integer", nullable=true)
      */
     private $eventNum;
 
     /**
      * @var integer $projectId
+     *
+     * @ORM\Column(name="project_id", type="integer", nullable=true)
      */
     private $projectId;
 
     /**
      * @var integer $regYearId
+     *
+     * @ORM\Column(name="reg_year_id", type="integer", nullable=true)
      */
     private $regYearId;
 
     /**
      * @var integer $seasonTypeId
+     *
+     * @ORM\Column(name="season_type_id", type="integer", nullable=true)
      */
     private $seasonTypeId;
 
     /**
      * @var integer $scheduleTypeId
+     *
+     * @ORM\Column(name="schedule_type_id", type="integer", nullable=true)
      */
     private $scheduleTypeId;
 
     /**
      * @var integer $eventTypeId
+     *
+     * @ORM\Column(name="event_type_id", type="integer", nullable=true)
      */
     private $eventTypeId;
 
     /**
      * @var integer $classId
+     *
+     * @ORM\Column(name="class_id", type="integer", nullable=true)
      */
     private $classId;
 
     /**
      * @var integer $unitId
+     *
+     * @ORM\Column(name="unit_id", type="integer", nullable=true)
      */
     private $unitId;
 
     /**
      * @var integer $status
+     *
+     * @ORM\Column(name="status", type="integer", nullable=true)
      */
     private $status;
 
     /**
-     * @var integer $fieldId
+     *
+     * @ORM\ManyToOne(targetEntity="Field")
+     * @ORM\JoinColumn(name="field_id", referencedColumnName="field_id")
      */
-    private $fieldId;
+    private $field = null;
 
     /**
      * @var string $eventDate
+     *
+     * @ORM\Column(name="event_date", type="string", length=8, nullable=true)
      */
     private $eventDate;
 
     /**
      * @var string $eventTime
+     *
+     * @ORM\Column(name="event_time", type="string", length=4, nullable=true)
      */
     private $eventTime;
 
     /**
      * @var integer $eventDuration
+     *
+     * @ORM\Column(name="event_duration", type="integer", nullable=true)
      */
     private $eventDuration;
 
     /**
      * @var integer $point1
+     *
+     * @ORM\Column(name="point1", type="integer", nullable=false)
      */
     private $point1;
 
     /**
      * @var integer $point2
+     *
+     * @ORM\Column(name="point2", type="integer", nullable=false)
      */
     private $point2;
 
 
-    /**
-     * Get eventId
-     *
-     * @return integer 
-     */
-    public function getEventId()
-    {
-        return $this->eventId;
-    }
 
     /**
      * Set eventNum
@@ -398,5 +455,15 @@ class Event
     public function getPoint2()
     {
         return $this->point2;
+    }
+
+    /**
+     * Get eventId
+     *
+     * @return integer 
+     */
+    public function getEventId()
+    {
+        return $this->eventId;
     }
 }

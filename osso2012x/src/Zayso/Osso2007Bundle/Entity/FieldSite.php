@@ -6,44 +6,50 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Zayso\Osso2007Bundle\Entity\FieldSite
+ *
+ * @ORM\Table(name="field_site")
+ * @ORM\Entity
  */
 class FieldSite
 {
     /**
      * @var integer $fieldSiteId
+     *
+     * @ORM\Column(name="field_site_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $fieldSiteId;
 
     /**
      * @var integer $unitId
+     *
+     * @ORM\Column(name="unit_id", type="integer", nullable=true)
      */
     private $unitId;
 
     /**
      * @var string $keyx
+     *
+     * @ORM\Column(name="keyx", type="string", length=20, nullable=true)
      */
     private $keyx;
 
     /**
      * @var string $sortx
+     *
+     * @ORM\Column(name="sortx", type="string", length=10, nullable=true)
      */
     private $sortx;
 
     /**
      * @var string $descx
+     *
+     * @ORM\Column(name="descx", type="string", length=20, nullable=true)
      */
     private $descx;
 
 
-    /**
-     * Get fieldSiteId
-     *
-     * @return integer 
-     */
-    public function getFieldSiteId()
-    {
-        return $this->fieldSiteId;
-    }
 
     /**
      * Set unitId
@@ -123,5 +129,15 @@ class FieldSite
     public function getDescx()
     {
         return $this->descx;
+    }
+
+    /**
+     * Get fieldSiteId
+     *
+     * @return integer 
+     */
+    public function getFieldSiteId()
+    {
+        return $this->fieldSiteId;
     }
 }

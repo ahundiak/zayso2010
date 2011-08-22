@@ -6,54 +6,64 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Zayso\Osso2007Bundle\Entity\ProjectOrg
+ *
+ * @ORM\Table(name="project_org")
+ * @ORM\Entity
  */
 class ProjectOrg
 {
     /**
      * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var integer $projectId
+     *
+     * @ORM\Column(name="project_id", type="integer", nullable=true)
      */
     private $projectId;
 
     /**
      * @var integer $orgId
+     *
+     * @ORM\Column(name="org_id", type="integer", nullable=true)
      */
     private $orgId;
 
     /**
      * @var integer $typeId
+     *
+     * @ORM\Column(name="type_id", type="integer", nullable=true)
      */
     private $typeId;
 
     /**
      * @var integer $sort1
+     *
+     * @ORM\Column(name="sort1", type="integer", nullable=true)
      */
     private $sort1;
 
     /**
      * @var integer $status
+     *
+     * @ORM\Column(name="status", type="integer", nullable=true)
      */
     private $status;
 
     /**
      * @var string $desc1
+     *
+     * @ORM\Column(name="desc1", type="string", length=80, nullable=true)
      */
     private $desc1;
 
 
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Set projectId
@@ -173,5 +183,15 @@ class ProjectOrg
     public function getDesc1()
     {
         return $this->desc1;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 }

@@ -6,84 +6,106 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Zayso\Osso2007Bundle\Entity\Vol
+ *
+ * @ORM\Table(name="vol")
+ * @ORM\Entity
  */
 class Vol
 {
     /**
      * @var integer $volId
+     *
+     * @ORM\Column(name="vol_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $volId;
 
     /**
      * @var integer $personId
+     *
+     * @ORM\Column(name="person_id", type="integer", nullable=true)
      */
     private $personId;
 
     /**
      * @var integer $volTypeId
+     *
+     * @ORM\Column(name="vol_type_id", type="integer", nullable=true)
      */
     private $volTypeId;
 
     /**
      * @var integer $regYearId
+     *
+     * @ORM\Column(name="reg_year_id", type="integer", nullable=true)
      */
     private $regYearId;
 
     /**
      * @var integer $seasonTypeId
+     *
+     * @ORM\Column(name="season_type_id", type="integer", nullable=true)
      */
     private $seasonTypeId;
 
     /**
      * @var integer $unitId
+     *
+     * @ORM\Column(name="unit_id", type="integer", nullable=true)
      */
     private $unitId;
 
     /**
      * @var integer $divisionId
+     *
+     * @ORM\Column(name="division_id", type="integer", nullable=true)
      */
     private $divisionId;
 
     /**
      * @var string $note
+     *
+     * @ORM\Column(name="note", type="string", length=40, nullable=true)
      */
     private $note;
 
     /**
      * @var integer $regForm
+     *
+     * @ORM\Column(name="reg_form", type="integer", nullable=true)
      */
     private $regForm;
 
     /**
      * @var integer $refresher
+     *
+     * @ORM\Column(name="refresher", type="integer", nullable=true)
      */
     private $refresher;
 
     /**
      * @var integer $certified
+     *
+     * @ORM\Column(name="certified", type="integer", nullable=true)
      */
     private $certified;
 
     /**
      * @var string $uniform
+     *
+     * @ORM\Column(name="uniform", type="string", length=40, nullable=true)
      */
     private $uniform;
 
     /**
      * @var string $equipment
+     *
+     * @ORM\Column(name="equipment", type="string", length=40, nullable=true)
      */
     private $equipment;
 
 
-    /**
-     * Get volId
-     *
-     * @return integer 
-     */
-    public function getVolId()
-    {
-        return $this->volId;
-    }
 
     /**
      * Set personId
@@ -323,5 +345,15 @@ class Vol
     public function getEquipment()
     {
         return $this->equipment;
+    }
+
+    /**
+     * Get volId
+     *
+     * @return integer 
+     */
+    public function getVolId()
+    {
+        return $this->volId;
     }
 }

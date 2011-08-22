@@ -6,34 +6,36 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Zayso\Osso2007Bundle\Entity\ScheduleType
+ *
+ * @ORM\Table(name="schedule_type")
+ * @ORM\Entity
  */
 class ScheduleType
 {
     /**
      * @var integer $scheduleTypeId
+     *
+     * @ORM\Column(name="schedule_type_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $scheduleTypeId;
 
     /**
      * @var string $keyx
+     *
+     * @ORM\Column(name="keyx", type="string", length=4, nullable=true)
      */
     private $keyx;
 
     /**
      * @var string $descx
+     *
+     * @ORM\Column(name="descx", type="string", length=20, nullable=true)
      */
     private $descx;
 
 
-    /**
-     * Get scheduleTypeId
-     *
-     * @return integer 
-     */
-    public function getScheduleTypeId()
-    {
-        return $this->scheduleTypeId;
-    }
 
     /**
      * Set keyx
@@ -73,5 +75,15 @@ class ScheduleType
     public function getDescx()
     {
         return $this->descx;
+    }
+
+    /**
+     * Get scheduleTypeId
+     *
+     * @return integer 
+     */
+    public function getScheduleTypeId()
+    {
+        return $this->scheduleTypeId;
     }
 }

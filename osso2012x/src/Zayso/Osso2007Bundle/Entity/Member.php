@@ -6,59 +6,71 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Zayso\Osso2007Bundle\Entity\Member
+ *
+ * @ORM\Table(name="member")
+ * @ORM\Entity
  */
 class Member
 {
     /**
      * @var integer $memberId
+     *
+     * @ORM\Column(name="member_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $memberId;
 
     /**
      * @var integer $accountId
+     *
+     * @ORM\Column(name="account_id", type="integer", nullable=false)
      */
     private $accountId;
 
     /**
      * @var integer $personId
+     *
+     * @ORM\Column(name="person_id", type="integer", nullable=true)
      */
     private $personId;
 
     /**
      * @var integer $unitId
+     *
+     * @ORM\Column(name="unit_id", type="integer", nullable=true)
      */
     private $unitId;
 
     /**
      * @var string $memberName
+     *
+     * @ORM\Column(name="member_name", type="string", length=40, nullable=false)
      */
     private $memberName;
 
     /**
      * @var string $memberPass
+     *
+     * @ORM\Column(name="member_pass", type="string", length=32, nullable=true)
      */
     private $memberPass;
 
     /**
      * @var integer $level
+     *
+     * @ORM\Column(name="level", type="integer", nullable=true)
      */
     private $level;
 
     /**
      * @var integer $status
+     *
+     * @ORM\Column(name="status", type="integer", nullable=true)
      */
     private $status;
 
 
-    /**
-     * Get memberId
-     *
-     * @return integer 
-     */
-    public function getMemberId()
-    {
-        return $this->memberId;
-    }
 
     /**
      * Set accountId
@@ -198,5 +210,15 @@ class Member
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * Get memberId
+     *
+     * @return integer 
+     */
+    public function getMemberId()
+    {
+        return $this->memberId;
     }
 }

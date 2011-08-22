@@ -6,69 +6,85 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Zayso\Osso2007Bundle\Entity\Openid
+ *
+ * @ORM\Table(name="openid")
+ * @ORM\Entity
  */
 class Openid
 {
     /**
      * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var integer $accountId
+     *
+     * @ORM\Column(name="account_id", type="integer", nullable=true)
      */
     private $accountId;
 
     /**
      * @var integer $memberId
+     *
+     * @ORM\Column(name="member_id", type="integer", nullable=true)
      */
     private $memberId;
 
     /**
      * @var integer $personId
+     *
+     * @ORM\Column(name="person_id", type="integer", nullable=true)
      */
     private $personId;
 
     /**
      * @var integer $status
+     *
+     * @ORM\Column(name="status", type="integer", nullable=true)
      */
     private $status;
 
     /**
      * @var string $displayName
+     *
+     * @ORM\Column(name="display_name", type="string", length=80, nullable=true)
      */
     private $displayName;
 
     /**
      * @var string $userName
+     *
+     * @ORM\Column(name="user_name", type="string", length=80, nullable=true)
      */
     private $userName;
 
     /**
      * @var string $email
+     *
+     * @ORM\Column(name="email", type="string", length=80, nullable=true)
      */
     private $email;
 
     /**
      * @var string $provider
+     *
+     * @ORM\Column(name="provider", type="string", length=80, nullable=true)
      */
     private $provider;
 
     /**
      * @var string $identifier
+     *
+     * @ORM\Column(name="identifier", type="string", length=120, nullable=true)
      */
     private $identifier;
 
 
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Set accountId
@@ -248,5 +264,15 @@ class Openid
     public function getIdentifier()
     {
         return $this->identifier;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 }

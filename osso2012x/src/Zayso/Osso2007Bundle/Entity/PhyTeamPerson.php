@@ -6,48 +6,48 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Zayso\Osso2007Bundle\Entity\PhyTeamPerson
+ *
+ * @ORM\Table(name="phy_team_person")
+ * @ORM\Entity
  */
 class PhyTeamPerson
 {
     /**
      * @var integer $phyTeamPersonId
+     *
+     * @ORM\Column(name="phy_team_person_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $phyTeamPersonId;
 
     /**
-     * @var integer $phyTeamId
+     * @ORM\ManyToOne(targetEntity="PhyTeam", inversedBy="persons")
+     * @ORM\JoinColumn(name="phy_team_id", referencedColumnName="phy_team_id")
      */
-    private $phyTeamId;
+    private $phyTeam = null;
 
     /**
-     * @var integer $personId
+     * @ORM\ManyToOne(targetEntity="Person")
+     * @ORM\JoinColumn(name="person_id", referencedColumnName="person_id")
      */
-    private $personId;
+    private $person = null;
 
     /**
      * @var integer $volTypeId
+     *
+     * @ORM\Column(name="vol_type_id", type="integer", nullable=true)
      */
     private $volTypeId;
-
-
-    /**
-     * Get phyTeamPersonId
-     *
-     * @return integer 
-     */
-    public function getPhyTeamPersonId()
-    {
-        return $this->phyTeamPersonId;
-    }
 
     /**
      * Set phyTeamId
      *
      * @param integer $phyTeamId
      */
-    public function setPhyTeamId($phyTeamId)
+    public function setPhyTeam($phyTeam)
     {
-        $this->phyTeamId = $phyTeamId;
+        $this->phyTeam = $phyTeam;
     }
 
     /**
@@ -55,9 +55,9 @@ class PhyTeamPerson
      *
      * @return integer 
      */
-    public function getPhyTeamId()
+    public function getPhyTeam()
     {
-        return $this->phyTeamId;
+        return $this->phyTeam;
     }
 
     /**
@@ -65,9 +65,9 @@ class PhyTeamPerson
      *
      * @param integer $personId
      */
-    public function setPersonId($personId)
+    public function setPerson($person)
     {
-        $this->personId = $personId;
+        $this->person = $person;
     }
 
     /**
@@ -75,9 +75,9 @@ class PhyTeamPerson
      *
      * @return integer 
      */
-    public function getPersonId()
+    public function getPerson()
     {
-        return $this->personId;
+        return $this->person;
     }
 
     /**
@@ -98,5 +98,15 @@ class PhyTeamPerson
     public function getVolTypeId()
     {
         return $this->volTypeId;
+    }
+
+    /**
+     * Get phyTeamPersonId
+     *
+     * @return integer 
+     */
+    public function getPhyTeamPersonId()
+    {
+        return $this->phyTeamPersonId;
     }
 }
