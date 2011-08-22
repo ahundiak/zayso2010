@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Zayso\Osso2007Bundle\Entity\Person" table="person">
+    <change-tracking-policy>DEFERRED_IMPLICIT</change-tracking-policy>
+    <id name="personId" type="integer" column="person_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="uname" type="string" column="uname" length="20"/>
+    <field name="upass" type="string" column="upass" length="40"/>
+    <field name="fname" type="string" column="fname" length="20"/>
+    <field name="lname" type="string" column="lname" length="20"/>
+    <field name="mname" type="string" column="mname" length="20"/>
+    <field name="nname" type="string" column="nname" length="20"/>
+    <field name="unitId" type="integer" column="unit_id"/>
+    <field name="status" type="integer" column="status"/>
+    <field name="aysoid" type="string" column="aysoid" length="20"/>
+    <lifecycle-callbacks/>
+  </entity>
+</doctrine-mapping>

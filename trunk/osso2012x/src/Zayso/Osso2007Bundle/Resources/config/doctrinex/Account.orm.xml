@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Zayso\Osso2007Bundle\Entity\Account" table="account">
+    <change-tracking-policy>DEFERRED_IMPLICIT</change-tracking-policy>
+    <id name="accountId" type="integer" column="account_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="accountUser" type="string" column="account_user" length="40"/>
+    <field name="accountPass" type="string" column="account_pass" length="32"/>
+    <field name="accountName" type="string" column="account_name" length="40"/>
+    <field name="email" type="string" column="email" length="40"/>
+    <field name="status" type="integer" column="status"/>
+    <lifecycle-callbacks/>
+  </entity>
+</doctrine-mapping>
