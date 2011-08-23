@@ -57,6 +57,6 @@ jms_security_extra:
     secure_all_services: false
 
 services:
-    game_manager:
+    game.managerx:
         class:        Zayso\Osso2007Bundle\Service\GameManager
         arguments:    [@doctrine.orm.entity_manager]
