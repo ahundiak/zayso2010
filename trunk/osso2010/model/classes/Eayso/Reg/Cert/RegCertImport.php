@@ -225,11 +225,23 @@ class Eayso_Reg_Cert_RegCertImport extends Eayso_Reg_Main_RegMainImport
       Eayso_VolCertRepo::TYPE_SAFE_HAVEN    => Eayso_VolCertRepo::TYPE_SAFE_HAVEN_REFEREE,
       Eayso_VolCertRepo::TYPE_REFEREE_BADGE => Eayso_VolCertRepo::TYPE_REFEREE_BADGE_U08,
     ),
+    'U-8 Official &amp; Safe Haven Referee'      => array(
+      Eayso_VolCertRepo::TYPE_SAFE_HAVEN    => Eayso_VolCertRepo::TYPE_SAFE_HAVEN_REFEREE,
+      Eayso_VolCertRepo::TYPE_REFEREE_BADGE => Eayso_VolCertRepo::TYPE_REFEREE_BADGE_U08,
+    ),
     'Assistant Referee & Safe Haven Referee' => array(
       Eayso_VolCertRepo::TYPE_SAFE_HAVEN    => Eayso_VolCertRepo::TYPE_SAFE_HAVEN_REFEREE,
       Eayso_VolCertRepo::TYPE_REFEREE_BADGE => Eayso_VolCertRepo::TYPE_REFEREE_BADGE_ASSISTANT,
     ),
+    'Assistant Referee &amp; Safe Haven Referee' => array(
+      Eayso_VolCertRepo::TYPE_SAFE_HAVEN    => Eayso_VolCertRepo::TYPE_SAFE_HAVEN_REFEREE,
+      Eayso_VolCertRepo::TYPE_REFEREE_BADGE => Eayso_VolCertRepo::TYPE_REFEREE_BADGE_ASSISTANT,
+    ),
     'Regional Referee & Safe Haven Referee'  => array(
+      Eayso_VolCertRepo::TYPE_SAFE_HAVEN    => Eayso_VolCertRepo::TYPE_SAFE_HAVEN_REFEREE,
+      Eayso_VolCertRepo::TYPE_REFEREE_BADGE => Eayso_VolCertRepo::TYPE_REFEREE_BADGE_REGIONAL,
+    ),
+    'Regional Referee &amp; Safe Haven Referee'  => array(
       Eayso_VolCertRepo::TYPE_SAFE_HAVEN    => Eayso_VolCertRepo::TYPE_SAFE_HAVEN_REFEREE,
       Eayso_VolCertRepo::TYPE_REFEREE_BADGE => Eayso_VolCertRepo::TYPE_REFEREE_BADGE_REGIONAL,
     ),
