@@ -16,6 +16,6 @@ class BaseCommandx extends ContainerAwareCommand
     }
     protected function getGameManager()
     {
-        return $this->getContainer()->get('game_manager');
+        return $this->getContainer()->get('game.manager');
     }
 }
