@@ -156,6 +156,16 @@ class Eayso_Reg_Cert_RegCertImport extends Eayso_Reg_Main_RegMainImport
     'Z-Online AYSOs Safe Haven' => array(
       Eayso_VolCertRepo::TYPE_SAFE_HAVEN => Eayso_VolCertRepo::TYPE_SAFE_HAVEN_AYSO,
     ),
+    'AYSOs Safe Haven' => array(
+      Eayso_VolCertRepo::TYPE_SAFE_HAVEN => Eayso_VolCertRepo::TYPE_SAFE_HAVEN_AYSO,
+    ),
+    'Z-Online Safe Haven Coach, Z-Online AYSOs Safe Haven' => array(
+      Eayso_VolCertRepo::TYPE_SAFE_HAVEN => Eayso_VolCertRepo::TYPE_SAFE_HAVEN_AYSO,
+    ),
+    'Z-Online Safe Haven Coach, AYSOs Safe Haven' => array(
+      Eayso_VolCertRepo::TYPE_SAFE_HAVEN => Eayso_VolCertRepo::TYPE_SAFE_HAVEN_AYSO,
+    ),
+      
     'U-6 Coach'         => array(
       Eayso_VolCertRepo::TYPE_COACH_BADGE => Eayso_VolCertRepo::TYPE_COACH_BADGE_U06,
     ),
