@@ -1,0 +1,51 @@
+{% extends 'Osso2007Bundle::layout.html.twig' %}
+
+{% block title %}Osso2007 - Game - Edit{% endblock %}
+
+{% block content %}
+<div>
+<form method="post" enctype="multipart/form-data" action="{{ path('_osso2007_event_edit_post') }}">
+<input type="hidden" name="id"        value="{{game.id}}" />
+<input type="hidden" name="num"       value="{{game.num}}" />
+<input type="hidden" name="projectId" value="{{game.projectId}}" />
+<table border="1">
+<tr><th colspan="2">Edit Game</th></tr>
+<tr>
+  <td>Id,Project,Num</td>
+  <td>{{game.id}} {{game.projectId}} {{game.num}}</td>
+</tr>
+<tr>
+  <td>Date</td>
+  <td>
+    <select name="date">
+        <option value="0">Select Date</option>
+        {{ format.formOptions(datePickList,game.date) | raw }}
+    </select>
+  </td>
+</tr>
+<tr>
+  <td>Time</td>
+  <td>
+    <select name="time">
+        <option value="0">Select Time</option>
+        {{ format.formOptions(timePickList,game.time) | raw }}
+    </select>
+  </td>
+</tr>
+<tr>
+  <td>Field</td>
+  <td>
+    <select name="field">
+        <option value="0">Select Field</option>
+        {{ format.formOptions(fieldPickList,game.fieldId) | raw }}
+    </select>
+  </td>
+</tr>
+<tr>
+  <td>&nbsp;</td>
+  <td align="center"><input type="submit" name="import_submit" value="Import" />
+</tr>
+</table>
+</form>
+</div>
+{% endblock %}

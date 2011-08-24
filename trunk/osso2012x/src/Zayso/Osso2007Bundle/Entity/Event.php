@@ -5,7 +5,7 @@ namespace Zayso\Osso2007Bundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
-use Zayso\Osso2007Bundle\Repository\GameRepository as GameRepo;
+use Zayso\Osso2007Bundle\Service\GameManager;
 
 /**
  * Zayso\Osso2007Bundle\Entity\Event
@@ -28,9 +28,18 @@ class Event
         if (isset($this->eventTeams[$type])) return $this->eventTeams[$type];
         return null;
     }
-    public function getHomeTeam() { return $this->getGameTeamForType(GameRepo::TYPE_TEAM_HOME); }
-    public function getAwayTeam() { return $this->getGameTeamForType(GameRepo::TYPE_TEAM_AWAY); }
+    public function getHomeTeam() { return $this->getGameTeamForType(GameManager::TYPE_TEAM_HOME); }
+    public function getAwayTeam() { return $this->getGameTeamForType(GameManager::TYPE_TEAM_AWAY); }
 
+    public function getRegionKey()
+    {
+        return GameManager::getRegionKey($this->unitId);
+    }
+    public function getFieldId()
+    {
+        if ($this->field) return $this->field->getFieldId();
+        return 0;
+    }
     public function getFieldKey()
     {
         if ($this->field) return $this->field->getDescx();
@@ -41,6 +50,12 @@ class Event
         $this->eventTeams = new ArrayCollection();
     }
 
+    // Osso2012 Compatibility
+    public function getId()   { return $this->eventId;   }
+    public function getNum()  { return $this->eventNum;  }
+    public function getDate() { return $this->eventDate; }
+    public function getTime() { return $this->eventTime; }
+    
     /** =======================================================================
      * @var integer $eventId
      *
@@ -335,26 +350,6 @@ class Event
     public function getStatus()
     {
         return $this->status;
-    }
-
-    /**
-     * Set fieldId
-     *
-     * @param integer $fieldId
-     */
-    public function setFieldId($fieldId)
-    {
-        $this->fieldId = $fieldId;
-    }
-
-    /**
-     * Get fieldId
-     *
-     * @return integer 
-     */
-    public function getFieldId()
-    {
-        return $this->fieldId;
     }
 
     /**

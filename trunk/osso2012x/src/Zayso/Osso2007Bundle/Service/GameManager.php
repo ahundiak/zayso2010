@@ -182,6 +182,116 @@ class GameManager
 
         return $items;
     }
+    public function getFieldPickList($search,$games = array())
+    {
+        // Pull params
+        $ages    = $this->getValues($search,'ages');
+        $regions = $this->getValues($search,'regions');
+        $genders = $this->getValues($search,'genders');
+
+        // Convert keys to ids
+        $divisionIds = $this->getDivisionIds($ages,$genders);
+        $regionIds   = $this->getRegionIds  ($regions);
+
+        $projectId = $this->getValues($search,'projectId');
+
+        // Add in anyting from the games themselves
+        foreach($games as $game)
+        {
+            foreach($game->getGameTeams() as $team)
+            {
+                if (count($divisionIds))
+                {
+                    $divId = $team->getDivisionId();
+                    $divisionIds[$divId] = $divId;
+                }
+                if (count($regionIds))
+                {
+                    $regionId = $team->getUnitId();
+                    $regionIds[$regionId] = $regionId;
+                }
+            }
+        }
+        // Build query
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->addSelect('field');
+
+        $qb->from('Osso2007Bundle:Field','field');
+
+        // if ($projectId) $qb->andWhere($qb->expr()->in('schTeam.projectId',$projectId));
+
+        // if (count($divisionIds)) $qb->andWhere($qb->expr()->in('schTeam.divisionId',$divisionIds));
+        if (count($regionIds))   $qb->andWhere($qb->expr()->in('field.unitId',$regionIds));
+
+        $qb->addOrderBy('field.descx');
+
+        $fields = $qb->getQuery()->getResult();
+        $fieldPickList = array();
+        foreach($fields as $field)
+        {
+            $fieldPickList[$field->getFieldId()] = $field->getDescx();
+        }
+        return $fieldPickList;
+
+    }
+    public function loadGameForId($id)
+    {
+        $em = $this->getEntityManager();
+
+        $qb = $em->createQueryBuilder();
+
+        $qb->addSelect('game');
+        $qb->addSelect('field');
+        $qb->addSelect('gameTeam');
+        $qb->addSelect('schTeam');
+      //$qbGames->addSelect('person');
+
+        $qb->from('Osso2007Bundle:Event','game');
+
+        $qb->leftJoin('game.field',     'field');
+        $qb->leftJoin('game.eventTeams','gameTeam');
+
+        $qb->leftJoin('gameTeam.schTeam','schTeam');
+
+      //$qbGames->leftJoin('game.persons',  'person');
+
+        $qb->andWhere($qb->expr()->in('game.eventId',array($id)));
+
+        $gameRepo = $em->getRepository('Osso2007Bundle:Event');
+
+        return $qb->getQuery()->getSingleResult();
+    }
+    public function getDatePickList($projectId)
+    {
+        // Dates
+        $day  = new \DateInterval('P1D');
+        $date = new \DateTime('08/01/2011');
+
+        $datePickList = array();
+        for($i = 0; $i < 100; $i++)
+        {
+            $datePickList[$date->format('Ymd')] = $date->format('M d, D');
+            $date->add($day);
+        }
+        return $datePickList;
+    }
+    public function getTimePickList($projectId)
+    {
+        $qtr  = new \DateInterval('PT5M');
+        $time = new \DateTime('07:00');
+
+        $timePickList = array();
+        $timePickList['TBD'] = 'TBD';
+        $timePickList['BYE'] = 'BYE';
+        for($i = 0; $i < 181; $i++)
+        {
+            $timePickList[$time->format('Hi')] = $time->format('H:i A');
+            $time->add($qtr);
+        }
+        return $timePickList;
+    }
     /* =================================================================================================
      * Region mapping information
      */
