@@ -12,6 +12,10 @@ class BaseController extends Controller
 {
     protected $user = null;
 
+    protected function getGameManager()
+    {
+        return $this->get('game.manager');
+    }
     protected function getEntityManager()
     {
         return $this->getDoctrine()->getEntityManager();

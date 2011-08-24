@@ -10,10 +10,24 @@ class EventController extends BaseController
 {
     public function editAction($id = 0)
     {
+        // Permissions
         $user = $this->getUser();
         if (!$user->isAdmin()) return $this->redirect($this->generateUrl('_osso2007_welcome'));
-die('id ' . $id);
+
+        $gameManager = $this->getGameManager();
+        $game = $gameManager->loadGameForId($id);
+        $projectId = $game->getProjectId();
+
+        $search = array();
+        $search['projectId'] = $projectId;
+        $search['regions'] = array($game->getRegionKey());
+
         $tplData = $this->getTplData();
-        return $this->render('Osso2007Bundle:Admin:index.html.twig',$tplData);
+        $tplData['game'] = $game;
+        $tplData['datePickList']  = $gameManager->getDatePickList($projectId);
+        $tplData['timePickList']  = $gameManager->getTimePickList($projectId);
+        $tplData['fieldPickList'] = $gameManager->getFieldPickList($search);
+        
+        return $this->render('Osso2007Bundle:Game:edit.html.twig',$tplData);
     }
 }
