@@ -12,24 +12,19 @@ _osso2007_admin_index:
     pattern:  /admin/index
     defaults: { _controller: Osso2007Bundle:Admin:index }
 
-_osso2007_event_edit_id:
+_osso2007_event_edit:
     pattern:  /event/edit/{id}
     defaults: { _controller: Osso2007Bundle:Event:edit }
     requirements:
         _method:  GET
         id: \d+
 
-_osso2007_event_edit:
-    pattern:  /event/edit
-    defaults: { _controller: Osso2007Bundle:Event:edit }
-    requirements:
-        _method:  GET
-
 _osso2007_event_edit_post:
-    pattern:  /event/edit
+    pattern:  /event/edit/{id}
     defaults: { _controller: Osso2007Bundle:Event:editPost }
     requirements:
         _method:  POST
+        id: \d+
 
 _osso2007_import_eayso:
     pattern:  /import/eayso
