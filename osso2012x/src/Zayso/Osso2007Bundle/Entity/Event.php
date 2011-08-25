@@ -45,6 +45,11 @@ class Event
         if ($this->field) return $this->field->getDescx();
         return null;
     }
+    public function getFieldRegionKey()
+    {
+        if ($this->field) return $this->field->getRegionKey();
+        return null;
+    }
     public function __construct()
     {
         $this->eventTeams = new ArrayCollection();

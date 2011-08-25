@@ -4,7 +4,7 @@ namespace Zayso\Osso2007Bundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-use Zayso\Osso2007Bundle\Repository\GameRepository as GameRepo;
+use Zayso\Osso2007Bundle\Service\GameManager as GameManager;
 
 /**
  * Zayso\Osso2007Bundle\Entity\EventTeam
@@ -19,17 +19,47 @@ class EventTeam
         $schTeam = $this->getSchTeam();
         if ($schTeam) return $this->schTeam->getPerson($type);
     }
-    public function getHeadCoach() { return $this->getPerson(GameRepo::TYPE_HEAD_COACH); }
-    public function getAsstCoach() { return $this->getPerson(GameRepo::TYPE_ASST_COACH); }
-    public function getManager  () { return $this->getPerson(GameRepo::TYPE_MANAGER); }
+    public function getHeadCoach() { return $this->getPerson(GameManager::TYPE_HEAD_COACH); }
+    public function getAsstCoach() { return $this->getPerson(GameManager::TYPE_ASST_COACH); }
+    public function getManager  () { return $this->getPerson(GameManager::TYPE_MANAGER); }
 
     public function getSchTeam() { return $this->schTeam; }
 
+    public function getSchTeamId()
+    {
+        if ($this->schTeam) return $this->schTeam->getId();
+        return null;
+    }
     public function getTeamKey()
     {
         if ($this->schTeam) return $this->schTeam->getTeamKey();
         return null;
     }
+    public function getRegionKey()
+    {
+        return GameManager::getRegionKey($this->unitId);
+    }
+    public function getGenderKey()
+    {
+        return GameManager::getGenderKey($this->divisionId);
+    }
+    public function getAgeKey()
+    {
+        return GameManager::getAgeKey($this->divisionId);
+    }
+    public function getTeamType()
+    {
+        switch($this->eventTeamTypeId)
+        {
+            case 1: return 'Home';
+            case 2: return 'Away';
+            case 3: return 'Away 2';
+            case 4: return 'Away 3';
+        }
+        return 'Unknown';
+    }
+    public function getId() { return $this->eventTeamId; }
+    
     /** =====================================================================
      * @var integer $eventTeamId
      *

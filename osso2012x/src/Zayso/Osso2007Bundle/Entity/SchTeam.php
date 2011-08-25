@@ -33,7 +33,7 @@ class SchTeam
     public function getAsstCoach() { return $this->getPerson(Gamerepo::TYPE_ASST_COACH); }
     public function getManager  () { return $this->getPerson(Gamerepo::TYPE_MANAGER); }
 
-    public function getId() { return $this->getSchTeamId(); }
+    public function getId() { return $this->schTeamId; }
 
     public function getTeamKey() { return $this->descShort; }
 
