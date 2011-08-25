@@ -23,7 +23,9 @@ class GameManager
         $values = $search[$name];
         if (!is_array($values)) return $values;
 
+        // This will eventually bite me
         if (isset($values['All'])) return $default;
+        if (isset($values['A'  ])) return $default;
 
         $valuesIndexed = array();
         foreach($values as $value)
@@ -38,33 +40,15 @@ class GameManager
     public function querySchTeams($search,$games = array())
     {
         // Pull params
-        $ages    = $this->getValues($search,'ages');
-        $regions = $this->getValues($search,'regions');
-        $genders = $this->getValues($search,'genders');
+        $ages      = $this->getValues($search,'ages');
+        $regions   = $this->getValues($search,'regions');
+        $genders   = $this->getValues($search,'genders');
+        $projectId = $this->getValues($search,'projectId');
 
         // Convert keys to ids
         $divisionIds = $this->getDivisionIds($ages,$genders);
         $regionIds   = $this->getRegionIds  ($regions);
 
-        $projectId = $this->getValues($search,'projectId');
-
-        // Add in anyting from the games themselves
-        foreach($games as $game)
-        {
-            foreach($game->getGameTeams() as $team)
-            {
-                if (count($divisionIds))
-                {
-                    $divId = $team->getDivisionId();
-                    $divisionIds[$divId] = $divId;
-                }
-                if (count($regionIds))
-                {
-                    $regionId = $team->getUnitId();
-                    $regionIds[$regionId] = $regionId;
-                }
-            }
-        }
         // Build query
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
@@ -84,7 +68,7 @@ class GameManager
         return $teams;
 
     }
-    public function querySchTeamsPickList($search,$games = array())
+    public function getSchTeamPickList($search,$games = array())
     {
         $teams = $this->querySchTeams($search,$games);
         $options = array();
@@ -185,33 +169,15 @@ class GameManager
     public function getFieldPickList($search,$games = array())
     {
         // Pull params
-        $ages    = $this->getValues($search,'ages');
-        $regions = $this->getValues($search,'regions');
-        $genders = $this->getValues($search,'genders');
+        $ages      = $this->getValues($search,'ages');
+        $regions   = $this->getValues($search,'regions');
+        $genders   = $this->getValues($search,'genders');
+        $projectId = $this->getValues($search,'projectId');
 
         // Convert keys to ids
         $divisionIds = $this->getDivisionIds($ages,$genders);
         $regionIds   = $this->getRegionIds  ($regions);
 
-        $projectId = $this->getValues($search,'projectId');
-
-        // Add in anyting from the games themselves
-        foreach($games as $game)
-        {
-            foreach($game->getGameTeams() as $team)
-            {
-                if (count($divisionIds))
-                {
-                    $divId = $team->getDivisionId();
-                    $divisionIds[$divId] = $divId;
-                }
-                if (count($regionIds))
-                {
-                    $regionId = $team->getUnitId();
-                    $regionIds[$regionId] = $regionId;
-                }
-            }
-        }
         // Build query
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
@@ -423,6 +389,21 @@ class GameManager
       'U16' => array('B' => 16, 'G' => 17, 'C' => 18),
       'U19' => array('B' => 19, 'G' => 20, 'C' => 21),
     );
+    static public function getGenderKey($id)
+    {
+        if (isset(self::$divisionPickList[$id])) return substr(self::$divisionPickList[$id],3,1);
+        return null;
+    }
+    static public function getAgeKey($id)
+    {
+        if (isset(self::$divisionPickList[$id])) return substr(self::$divisionPickList[$id],0,3);
+        return null;
+    }
+    static public function getDivKey($id)
+    {
+        if (isset(self::$divisionPickList[$id])) return self::$divisionPickList[$id];
+        return null;
+    }
     static public function getDivisionDesc($id)
     {
         if (isset(self::$divisionPickList[$id])) return self::$divisionPickList[$id];
@@ -436,7 +417,21 @@ class GameManager
         if (!count($ages) && !count($genders)) return $ids;
 
         // Handle ages but no gender
-
+        if (count($ages) && !count($genders))
+        {
+            foreach($ages as $age)
+            {
+                if (isset(self::$divisionAgeGenderMap[$age]))
+                {
+                    $genders = self::$divisionAgeGenderMap[$age];
+                    foreach($genders as $gender => $id)
+                    {
+                        $ids[$id] = $id;
+                    }
+                }
+            }
+            return $ids;
+        }
         // Handle gender but no ages
 
         // Handle both
@@ -444,8 +439,11 @@ class GameManager
         {
             foreach($genders as $gender)
             {
-                $id = self::$divisionAgeGenderMap[$age][$gender];
-                $ids[$id] = $id;
+                if (isset(self::$divisionAgeGenderMap[$age][$gender]))
+                {
+                    $id = self::$divisionAgeGenderMap[$age][$gender];
+                    $ids[$id] = $id;
+                }
             }
         }
         return $ids;

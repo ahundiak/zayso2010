@@ -2,6 +2,8 @@
 
 namespace Zayso\Osso2007Bundle\Entity;
 
+use Zayso\Osso2007Bundle\Service\GameManager;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,6 +14,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Field
 {
+    public function getRegionKey()
+    {
+        return GameManager::getRegionKey($this->unitId);
+    }
     /**
      * @var integer $fieldId
      *

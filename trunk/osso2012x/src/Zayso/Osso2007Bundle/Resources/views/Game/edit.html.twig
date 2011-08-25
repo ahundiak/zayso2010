@@ -4,7 +4,36 @@
 
 {% block content %}
 <div>
-<form method="post" enctype="multipart/form-data" action="{{ path('_osso2007_event_edit_post') }}">
+<form method="post" action="{{ path('_osso2007_event_edit_post', { 'id': game.id }) }}">
+<table border="1">
+    <tr><th colspan="2">Which fields and teams to show in the select lists</th></tr>
+    <tr><td>Ages</td><td>
+        <table border="1" style="margin: 0;"><tr>
+        {% for age in ages %}
+            <td width="75" align="center">{{ format.genCheckBox('searchData[ages]',searchData.ages,age) | raw }}</td>
+        {% endfor %}
+        </tr></table>
+    </td></tr>
+    <tr><td>Genders</td><td>
+        <table border="1" style="margin: 0;"><tr>
+        {% for gender in genders %}
+            <td width="75" align="center">{{ format.genCheckBox('searchData[genders]',searchData.genders,gender) | raw }}</td>
+        {% endfor %}
+        </tr></table>
+    </td></tr>
+    <tr><td>Regions</td><td>
+        <table border="1" style="margin: 0;"><tr>
+        {% for region in regions %}
+            <td width="75" align="center">{{ format.genCheckBox('searchData[regions]',searchData.regions,region) | raw }}</td>
+        {% endfor %}
+        </tr></table>
+    </td></tr>
+    <tr><td>&nbsp;</td>
+        <td align="right"><input type="submit" name="search_submit" value="Update Teams or Fields" />
+    </tr>
+</table>
+</form>
+<form method="post" action="{{ path('_osso2007_event_edit_post', { 'id': game.id }) }}">
 <input type="hidden" name="id"        value="{{game.id}}" />
 <input type="hidden" name="num"       value="{{game.num}}" />
 <input type="hidden" name="projectId" value="{{game.projectId}}" />
@@ -41,9 +70,25 @@
     </select>
   </td>
 </tr>
+<tr><td colspan="2">
+    <table border="1">
+    <tr><td>Team Type</td><td>Score</td><td>Schedule Team Name</td></tr>
+        {% for team in game.gameTeams %}
+        <input type="hidden" name="teams[{{team.id}}][gameTeamId]" value="{{team.id}}" />
+        <tr>
+            <td>{{team.teamType}}</td>
+            <td><input type="text" name="teams[{{team.id}}][score]" size="3" value="{{team.score}}" />
+            <td><select name="teams[{{team.id}}][schTeamId]">
+                <option value="0">Select Team</option>
+                {{ format.formOptions(schTeamPickList,team.schTeamId) | raw }}
+            </select></td>
+        </tr>
+        {% endfor %}
+    </table>
+</td></tr>
 <tr>
   <td>&nbsp;</td>
-  <td align="center"><input type="submit" name="import_submit" value="Import" />
+  <td align="center"><input type="submit" name="update_submit" value="Update" />
 </tr>
 </table>
 </form>
