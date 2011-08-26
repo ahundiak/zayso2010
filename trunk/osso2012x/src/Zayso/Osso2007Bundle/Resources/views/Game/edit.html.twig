@@ -16,8 +16,8 @@
     </td></tr>
     <tr><td>Genders</td><td>
         <table border="1" style="margin: 0;"><tr>
-        {% for gender in genders %}
-            <td width="75" align="center">{{ format.genCheckBox('searchData[genders]',searchData.genders,gender) | raw }}</td>
+        {% for key, desc in genders %}
+            <td width="75" align="center">{{ format.genCheckBox('searchData[genders]',searchData.genders,key,desc) | raw }}</td>
         {% endfor %}
         </tr></table>
     </td></tr>

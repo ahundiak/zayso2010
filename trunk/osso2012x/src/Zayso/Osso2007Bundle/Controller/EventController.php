@@ -13,8 +13,10 @@ class Format extends BaseFormat
 
     public function setSearchData($searchData) { $this->searchData = $searchData; }
 
-    public function genCheckBox($name,$data,$value)
+    public function genCheckBox($name,$data,$value,$desc = null)
     {
+        if ($desc) { echo "$value $desc\n"; die(); }
+
         if (is_array($value)) { $key = $value['key']; $desc = $value['desc']; }
         else                  { $key = $value;        $desc = $value; }
 
@@ -59,6 +61,71 @@ class Format extends BaseFormat
 }
 class EventController extends BaseController
 {
+    /* ==================================================================
+     * Kind of a messy function designed to build an array which can be used
+     * for searching by the game manager
+     * 
+     * searchData - Posted by the form itself, only selected check boxes will be present
+     * xxxKeys - List of available keys for a given category, used to process the All check box
+     *           Currently does double duty for building the check boxes themselves
+     *           The regionKeys in particular should be generated from the project
+     */
+    protected function getSearchParams($searchData,$regionKeys,$ageKeys,$genderKeys)
+    {
+        // Start with regions
+        if (isset($searchData['regions'])) $regions = $searchData['regions'];
+        else                               $regions = null;
+        if ($regions)
+        {
+            if (isset($regions['All']))
+            {
+                $regions = array();
+                foreach($regionKeys as $regionKey)
+                {
+                    if ($regionKey != 'All') $regions[$regionKey] = $regionKey;
+                }
+            }
+            // else use posted data
+        }
+        // Pretty much the same for ages
+        if (isset($searchData['ages'])) $ages = $searchData['ages'];
+        else                            $ages = null;
+        if ($ages)
+        {
+            if (isset($ages['All']))
+            {
+                $ages = array();
+                foreach($ageKeys as $ageKey)
+                {
+                    if ($ageKey != 'All') $ages[$ageKey] = $ageKey;
+                }
+            }
+            // else use posted data
+        }
+        // For genders, have a description different from the keys
+        if (isset($searchData['genders'])) $genders = $searchData['genders'];
+        else                               $genders = null;
+        if ($genders)
+        {
+            if (isset($genders['All']))
+            {
+                $genders = array();
+                foreach($genderKeys as $key => $desc)
+                {
+                    if ($key != 'All') $genders[$key] = $key;
+                }
+            }
+            // else use posted data
+        }
+        if (isset($genders['B'])) $genders['C'] = 'C';
+        return array
+        (
+            'regions' => $regions,
+            'ages'    => $ages,
+            'genders' => $genders,
+        );
+        // Debug::dump($regions); die();
+    }
     public function editAction($id = 0)
     {
         // Permissions
@@ -69,6 +136,24 @@ class EventController extends BaseController
         $session = $this->getSession();
         $searchData = $session->get('gameEditSearchData');
         if (!is_array($searchData)) $searchData = array();
+
+        // Eventually come from the project
+        $ages  = array('All' => 'All',
+            'U05' => 'U05', 'U06' => 'U06', 'U07' => 'U07',
+            'U08' => 'U08', 'U10' => 'U10', 'U12' => 'U12',
+            'U14' => 'U14', 'U16' => 'U16', 'U19' => 'U19');
+
+        $regions = array('All' => 'All',
+            'R0160' => 'R0160', 'R0498' => 'R0498', 'R0557' => 'R0557',
+            'R0991' => 'R0991', 'R0894' => 'R0894', 'R0914' => 'R0914',
+            'R1174' => 'R1174', 'R1564' => 'R1565');
+
+        $genders = array(
+            'All' => 'All',
+            'B'   => 'Boys',
+            'C'   => 'Coed',
+            'G'   => 'Girls',
+        );
 
         // Load in the data
         $gameManager = $this->getGameManager();
@@ -95,11 +180,13 @@ class EventController extends BaseController
             $genderKey = $team->getGenderKey(); if ($genderKey) $searchData['genders'][$genderKey] = $genderKey;
             $ageKey    = $team->getAgeKey();    if ($ageKey)    $searchData['ages']   [$ageKey]    = $ageKey;
         }
-      //if (isset($searchData['genders']['B']) && $searchData['genders']['B']) $searchData['genders']['C'] = 'C';
-      //if (isset($searchData['genders']['C']) && $searchData['genders']['C']) $searchData['genders']['B'] = 'B';
 
         //Debug::dump($searchData); die();
         $searchData['projectId'] = $projectId;
+
+        // For the game manager queries
+        $searchx = $this->getSearchParams($searchData,$regions,$ages,$genders);
+        $searchx['projectId'] = $projectId;
 
         // Put together template
         $tplData = array();
@@ -112,19 +199,8 @@ class EventController extends BaseController
         $tplData['datePickList']    = $gameManager->getDatePickList($projectId);
         $tplData['timePickList']    = $gameManager->getTimePickList($projectId);
 
-        $tplData['fieldPickList']   = $gameManager->getFieldPickList  ($searchData);
-        $tplData['schTeamPickList'] = $gameManager->getSchTeamPickList($searchData);
-
-        // Eventually come from the project
-        $ages    = array('All','U05','U06','U07','U08','U10','U12','U14','U16','U19');
-        $regions = array('All','R0160','R0498','R0557','R0991','R0894','R0914','R1174');
-
-        $genders = array(
-            array('key' => 'A', 'desc' => 'All'),
-            array('key' => 'B', 'desc' => 'Boys'),
-            array('key' => 'C', 'desc' => 'Coed'),
-            array('key' => 'G', 'desc' => 'Girls'),
-        );
+        $tplData['fieldPickList']   = $gameManager->getFieldPickList  ($searchx);
+        $tplData['schTeamPickList'] = $gameManager->getSchTeamPickList($searchx);
 
         $tplData['ages']    = $ages;
         $tplData['genders'] = $genders;
