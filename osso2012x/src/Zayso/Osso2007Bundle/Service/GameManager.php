@@ -16,6 +16,36 @@ class GameManager
     {
         $this->em = $em;
     }
+    protected function getSearchParams($search)
+    {
+        // Master template of all search options
+        $searchx = array
+        (
+            'regionKeys'  => null,
+            'regionIds'   => null,
+            'ageKeys'     => null,
+            'genderKeys'  => null,
+            'divisionIds' => null,
+            'projectIds'  => null,
+            // dates,dateGTE,dateLTE
+            // times,timeGTE,timeLTE
+        );
+        if (isset($search['regions'])) $searchx['regionKeys'] = $search['regions'];
+        if (isset($search['ages'   ])) $searchx['ageKeys'   ] = $search['ages'];
+        if (isset($search['genders'])) $searchx['genderKeys'] = $search['genders'];
+
+        if (isset($search['projectIds'])) $searchx['projectIds'] = $search['projectIds'];
+        if (isset($search['projectId' ])) $searchx['projectIds'] = array($search['projectId']);
+
+        // Maybe process teams???
+        //
+
+        // Convert to ids for osso2007
+        $searchx['regionIds']   = $this->getRegionIds  ($searchx['regionKeys']);
+        $searchx['divisionIds'] = $this->getDivisionIds($searchx['ageKeys'],$searchx['genderKeys']);
+
+        return $searchx;
+    }
     protected function getValues($search,$name,$default = null)
     {
         if (!isset($search[$name])) return $default;
@@ -49,6 +79,8 @@ class GameManager
         $divisionIds = $this->getDivisionIds($ages,$genders);
         $regionIds   = $this->getRegionIds  ($regions);
 
+        $searchx = $this->getSearchParams($search);
+
         // Build query
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
@@ -57,10 +89,10 @@ class GameManager
 
         $qb->from('Osso2007Bundle:SchTeam','schTeam');
 
-        if ($projectId) $qb->andWhere($qb->expr()->in('schTeam.projectId',$projectId));
+        if (count($searchx['projectIds']))  $qb->andWhere($qb->expr()->in('schTeam.projectId', $searchx['projectIds']));
 
-        if (count($divisionIds)) $qb->andWhere($qb->expr()->in('schTeam.divisionId',$divisionIds));
-        if (count($regionIds))   $qb->andWhere($qb->expr()->in('schTeam.unitId',    $regionIds));
+        if (count($searchx['divisionIds'])) $qb->andWhere($qb->expr()->in('schTeam.divisionId',$searchx['divisionIds']));
+        if (count($searchx['regionIds']))   $qb->andWhere($qb->expr()->in('schTeam.unitId',    $searchx['regionIds']));
 
         $qb->addOrderBy('schTeam.descShort');
 
@@ -328,8 +360,11 @@ class GameManager
         if (!count($regions)) return $ids;
         foreach($regions as $region)
         {
-            $id = self::$regionKeyMap[$region];
-            $ids[$id] = $id;
+            if (isset(self::$regionKeyMap[$region]))
+            {
+                $id = self::$regionKeyMap[$region];
+                $ids[$id] = $id;
+            }
         }
         return $ids;
     }
