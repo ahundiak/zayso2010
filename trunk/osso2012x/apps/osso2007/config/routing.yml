@@ -14,14 +14,14 @@ _osso2007_admin_index:
 
 _osso2007_event_edit:
     pattern:  /event/edit/{id}
-    defaults: { _controller: Osso2007Bundle:Event:edit }
+    defaults: { _controller: Osso2007Bundle:Event:edit, id: 0 }
     requirements:
         _method:  GET
         id: \d+
 
 _osso2007_event_edit_post:
     pattern:  /event/edit/{id}
-    defaults: { _controller: Osso2007Bundle:Event:editPost }
+    defaults: { _controller: Osso2007Bundle:Event:editPost, id: 0 }
     requirements:
         _method:  POST
         id: \d+
