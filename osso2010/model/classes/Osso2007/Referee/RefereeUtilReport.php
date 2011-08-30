@@ -24,6 +24,7 @@ class Osso2007_Referee_RefereeUtilReport
 
     $result = $directEvent->getPersons(array('event_id' => $eventIds));
     $events = $result->records;
+    
 
     // Referees are indexed by person_id, count their games
     foreach($events AS $event)
@@ -61,7 +62,7 @@ class Osso2007_Referee_RefereeUtilReport
 
     foreach($referees AS $referee)
     {
-      // Cerad_Debug::dump($referee); die();
+      //Cerad_Debug::dump($referee); die();
 
       $personId = $referee['person_id'];
 
@@ -85,9 +86,11 @@ class Osso2007_Referee_RefereeUtilReport
       );
       $lines[] = implode(',',$line);
     }
-    $response = $this->context->response;
-    $response->setBody(implode("\n",$lines));
-    $response->setFileHeaders('RefUtil.csv');
+    return implode("\n",$lines);
+    
+    //$response = $this->context->response;
+    //$response->setBody(implode("\n",$lines));
+    //$response->setFileHeaders('RefUtil.csv');
 
     return true;
   }

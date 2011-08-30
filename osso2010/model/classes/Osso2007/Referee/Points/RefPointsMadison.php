@@ -116,6 +116,8 @@ class Osso2007_Referee_Points_RefPointsMadison extends Osso2007_Referee_Points_R
     if (isset($params['unit_id'])) $this->unitId = $params['unit_id'];
     else                           $this->unitId = 4;
 
+    $this->unitId = 4;
+    
     $teams    = $this->getTeams();
     $referees = $this->getReferees();
     $events   = $this->getEventReferees();
