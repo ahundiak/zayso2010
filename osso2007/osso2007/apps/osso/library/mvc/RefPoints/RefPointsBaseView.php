@@ -280,8 +280,8 @@ EOT;
 			EventPersonTypeModel::TYPE_4TH,
 		));
 			
-		$select->where("event.event_date >= ?",'20100801');
-		$select->where("event.event_date <= ?",'20101031');
+		$select->where("event.event_date >= ?",'20110801');
+		$select->where("event.event_date <= ?",'20111031');
 		
         $rows = $db->fetchAll($select);
 	//  Zend_Debug::dump($rows); die();
