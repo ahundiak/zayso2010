@@ -8,7 +8,7 @@ class Osso2007_Referee_Points_RefPointsBase
   protected $db;
 
   protected $unitId       =  0;
-  protected $regYearId    = 10;
+  protected $regYearId    = 11;
   protected $seasonTypeId =  1;
 
   public function __construct($context)
@@ -167,8 +167,8 @@ LEFT JOIN event_team ON event_team.event_id = event.event_id
 WHERE
   event_person.event_person_type_id IN (10,11,12,13) AND
 
-  event.event_date >= '20100801' AND
-  event.event_date <= '20101031' AND
+  event.event_date >= '20110801' AND
+  event.event_date <= '20111031' AND
   event.schedule_type_id IN (1,2)
 
 ORDER BY event_person.event_id, event_person.event_person_type_id
