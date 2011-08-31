@@ -6,6 +6,9 @@ namespace Zayso\Osso2007Bundle\Service;
 
 use Zayso\Osso2007Bundle\Component\Debug;
 
+use Zayso\Osso2007Bundle\Entity\Event;
+use Zayso\Osso2007Bundle\Entity\EventTeam;
+
 class GameManager
 {
     protected $em = null;
@@ -289,6 +292,42 @@ class GameManager
             $time->add($qtr);
         }
         return $timePickList;
+    }
+    /* =================================================================================================
+     * A new games should always be created with home/away teams
+     */
+    public function newGame()
+    {
+        $game = new Event();
+
+        $team = new EventTeam();
+        $team->setTeamType('Home');
+        $team->setEvent($game);
+
+        $team = new EventTeam();
+        $team->setTeamType('Away');
+        $team->setEvent($game);
+
+        return $game;
+    }
+    /* =================================================================================================
+     * Contain a few em routines
+     */
+    public function getFieldReference($id)
+    {
+        return $this->getEntityManager()->getReference('Osso2007Bundle:Field',$id);
+    }
+    public function getSchTeamReference($id)
+    {
+        return $this->getEntityManager()->getReference('Osso2007Bundle:SchTeam',$id);
+    }
+    public function flush()
+    {
+        return $this->getEntityManager()->flush();
+    }
+    public function persist($entity)
+    {
+        return $this->getEntityManager()->persist($entity);
     }
     /* =================================================================================================
      * Region mapping information

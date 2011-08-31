@@ -28,9 +28,23 @@ class Event
         if (isset($this->eventTeams[$type])) return $this->eventTeams[$type];
         return null;
     }
+    public function getGameTeamForId($id)
+    {
+        foreach($this->eventTeams as $team)
+        {
+            if ($id == $team->getId()) return $team;
+        }
+        return null;
+    }
+
     public function getHomeTeam() { return $this->getGameTeamForType(GameManager::TYPE_TEAM_HOME); }
     public function getAwayTeam() { return $this->getGameTeamForType(GameManager::TYPE_TEAM_AWAY); }
 
+    public function addTeam($team)
+    {
+        if (!$team) return;
+        $this->eventTeams[$team->getEventTeamTypeId()] = $team;
+    }
     public function getRegionKey()
     {
         return GameManager::getRegionKey($this->unitId);
@@ -50,6 +64,8 @@ class Event
         if ($this->field) return $this->field->getRegionKey();
         return null;
     }
+    public function setField($field) { $this->field = $field; }
+    
     public function __construct()
     {
         $this->eventTeams = new ArrayCollection();
@@ -60,6 +76,10 @@ class Event
     public function getNum()  { return $this->eventNum;  }
     public function getDate() { return $this->eventDate; }
     public function getTime() { return $this->eventTime; }
+
+    public function setNum ($value) { $this->eventNum  = $value; }
+    public function setDate($value) { $this->eventDate = $value; }
+    public function setTime($value) { $this->eventTime = $value; }
     
     /** =======================================================================
      * @var integer $eventId
@@ -75,7 +95,7 @@ class Event
      *
      * @ORM\Column(name="event_num", type="integer", nullable=true)
      */
-    private $eventNum;
+    private $eventNum = 0;
 
     /**
      * @var integer $projectId
@@ -89,35 +109,35 @@ class Event
      *
      * @ORM\Column(name="reg_year_id", type="integer", nullable=true)
      */
-    private $regYearId;
+    private $regYearId = 11;
 
     /**
      * @var integer $seasonTypeId
      *
      * @ORM\Column(name="season_type_id", type="integer", nullable=true)
      */
-    private $seasonTypeId;
+    private $seasonTypeId = 1;
 
     /**
      * @var integer $scheduleTypeId
      *
      * @ORM\Column(name="schedule_type_id", type="integer", nullable=true)
      */
-    private $scheduleTypeId;
+    private $scheduleTypeId = 1;
 
     /**
      * @var integer $eventTypeId
      *
      * @ORM\Column(name="event_type_id", type="integer", nullable=true)
      */
-    private $eventTypeId;
+    private $eventTypeId = 1;
 
     /**
      * @var integer $classId
      *
      * @ORM\Column(name="class_id", type="integer", nullable=true)
      */
-    private $classId;
+    private $classId = 1;
 
     /**
      * @var integer $unitId
@@ -131,7 +151,7 @@ class Event
      *
      * @ORM\Column(name="status", type="integer", nullable=true)
      */
-    private $status;
+    private $status = 1;
 
     /**
      *
@@ -159,21 +179,21 @@ class Event
      *
      * @ORM\Column(name="event_duration", type="integer", nullable=true)
      */
-    private $eventDuration;
+    private $eventDuration = 60;
 
     /**
      * @var integer $point1
      *
      * @ORM\Column(name="point1", type="integer", nullable=false)
      */
-    private $point1;
+    private $point1 = 1;
 
     /**
      * @var integer $point2
      *
      * @ORM\Column(name="point2", type="integer", nullable=false)
      */
-    private $point2;
+    private $point2 = 1;
 
 
 

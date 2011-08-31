@@ -11,51 +11,13 @@ class Format extends BaseFormat
 {
     protected $searchData = array();
 
-    public function setSearchData($searchData) { $this->searchData = $searchData; }
-
-    public function genCheckBox($name,$data,$value,$desc = null)
+    public function genCheckBox($name,$data,$key,$desc)
     {
-        if ($desc) { echo "$value $desc\n"; die(); }
-
-        if (is_array($value)) { $key = $value['key']; $desc = $value['desc']; }
-        else                  { $key = $value;        $desc = $value; }
-
         if (isset($data[$key]) && $data[$key]) $checked = 'checked="checked"';
         else                                   $checked = null;
 
-        $html = sprintf('%s<br /><input type="checkbox" name="%s[%s]" value="%s" %s />',
-                $desc,$name,$key,$key,$checked);
         $html = sprintf('<input type="checkbox" name="%s[%s]" value="%s" %s />%s',
                 $name,$key,$key,$checked,$desc);
-        return $html;
-    }
-    public function genAgeCheckBox($age)
-    {
-        if (isset($this->searchData['ages'][$age])) $checked = 'checked="checked"';
-        else                                        $checked = null;
-
-        $html = sprintf('%s<br /><input type="checkbox" name="searchData[ages][%s]" value="%s" %s />',
-                $age,$age,$age,$checked);
-        return $html;
-    }
-    public function genGenderCheckBox($gender)
-    {
-        $genderKey = substr($gender,0,1);
-
-        if (isset($this->searchData['genders'][$genderKey])) $checked = 'checked="checked"';
-        else                                                 $checked = null;
-
-        $html = sprintf('%s<br /><input type="checkbox" name="searchData[genders][%s]" value="%s" %s />',
-                $gender,$gender,$genderKey,$checked);
-        return $html;
-    }
-    public function genRegionCheckBox($region)
-    {
-        if (isset($this->searchData['regions'][$region])) $checked = 'checked="checked"';
-        else                                              $checked = null;
-
-        $html = sprintf('%s<br /><input type="checkbox" name="searchData[regions][%s]" value="%s" %s />',
-                $region,$region,$region,$checked);
         return $html;
     }
 }
@@ -126,6 +88,15 @@ class EventController extends BaseController
         );
         // Debug::dump($regions); die();
     }
+    /* =================================================================
+     * ages,genders,regions are key/description for all possible items
+     *
+     * searchData starts with posted check boxes
+     * add to searchData and relevant game infomation
+     * if any All boxes are checked then use the key/desc list to set all the values
+     *
+     * Kind of a mess but seems to work
+     */
     public function editAction($id = 0)
     {
         // Permissions
@@ -181,12 +152,9 @@ class EventController extends BaseController
             $ageKey    = $team->getAgeKey();    if ($ageKey)    $searchData['ages']   [$ageKey]    = $ageKey;
         }
 
-        //Debug::dump($searchData); die();
+        // Process the All check
+        $searchData = $this->getSearchParams($searchData,$regions,$ages,$genders);
         $searchData['projectId'] = $projectId;
-
-        // For the game manager queries
-        $searchx = $this->getSearchParams($searchData,$regions,$ages,$genders);
-        $searchx['projectId'] = $projectId;
 
         // Put together template
         $tplData = array();
@@ -199,8 +167,8 @@ class EventController extends BaseController
         $tplData['datePickList']    = $gameManager->getDatePickList($projectId);
         $tplData['timePickList']    = $gameManager->getTimePickList($projectId);
 
-        $tplData['fieldPickList']   = $gameManager->getFieldPickList  ($searchx);
-        $tplData['schTeamPickList'] = $gameManager->getSchTeamPickList($searchx);
+        $tplData['fieldPickList']   = $gameManager->getFieldPickList  ($searchData);
+        $tplData['schTeamPickList'] = $gameManager->getSchTeamPickList($searchData);
 
         $tplData['ages']    = $ages;
         $tplData['genders'] = $genders;
@@ -224,8 +192,122 @@ class EventController extends BaseController
             $session->set('gameEditSearchData',$searchData);
             return $this->redirect($this->generateUrl('_osso2007_event_edit', array('id' => $id)));
         }
+        if ($request->request->get('update_submit'))
+        {
+            $editData = $request->request->get('editData');
+            $this->updateGame($editData);
+            return $this->redirect($this->generateUrl('_osso2007_event_edit', array('id' => $id)));
+        }
+        if ($request->request->get('clone_submit'))
+        {
+            $editData = $request->request->get('editData');
+            $id = $this->cloneGame($editData);
+            return $this->redirect($this->generateUrl('_osso2007_event_edit', array('id' => $id)));
+        }
 
+        // Not handled
         return $this->redirect($this->generateUrl('_osso2007_event_edit',array('id' => $id)));
 
+    }
+    /* =========================================================================
+     * Do this in the controller for now though eventually it should maybe be in the
+     * game manager?
+     */
+    protected function cloneGame($editData)
+    {
+        // Load in the game
+        $gameManager = $this->getGameManager();
+        $gameId = $editData['id'];
+
+        if ($gameId) $game = $gameManager->loadGameForId($gameId);
+        else         $game = null;
+
+        if (!$game)
+        {
+            // Think we can just create empty team and game teams
+            die('New game not yet handled');
+        }
+        $gamex = $gameManager->newGame();
+        $homeTeamx = $gamex->getHomeTeam();
+        $awayTeamx = $gamex->getAwayTeam();
+
+        $gamex->setProjectId($editData['projectId']);
+
+        $gamex->setDate($editData['date']);
+        $gamex->setTime($editData['time']);
+
+        $field = $gameManager->getFieldReference($editData['fieldId']);
+        $gamex->setField($field);
+
+        $gameManager->persist($gamex);
+      //$gameManager->persist($homeTeamx);
+      //$gameManager->persist($awayTeamx);
+        $gameManager->flush();
+        return $gamex->getId();
+
+        if (isset($editData['teams'])) $teams = $editData['teams'];
+        else                           $teams = array();
+        foreach($teams as $teamId => $teamData)
+        {
+            //print_r($teamId); Debug::dump($teamData); die();
+            $team = $game->getGameTeamForId($teamId);
+            if ($team)
+            {
+                $team->setTeamType($teamData['type' ]);
+                $team->setScore   ($teamData['score']);
+
+                $schTeam = $gameManager->getSchTeamReference($teamData['schTeamId']);
+                $team->setSchTeam($schTeam);
+            }
+        }
+        $gameManager->flush();
+
+        return;
+    }
+    /* =========================================================================
+     * Do this in the controller for now though eventually it should maybe be in the
+     * game manager?
+     */
+    protected function updateGame($editData)
+    {
+        // Debug::dump($editData); die();
+
+        // Load in the game
+        $gameManager = $this->getGameManager();
+        $gameId = $editData['id'];
+
+        if ($gameId) $game = $gameManager->loadGameForId($gameId);
+        else         $game = null;
+
+        if (!$game)
+        {
+            // Think we can just create empty team and game teams
+            die('New game not yet handled');
+        }
+
+        $game->setDate($editData['date']);
+        $game->setTime($editData['time']);
+
+        $field = $gameManager->getFieldReference($editData['fieldId']);
+        $game->setField($field);
+
+        if (isset($editData['teams'])) $teams = $editData['teams'];
+        else                           $teams = array();
+        foreach($teams as $teamId => $teamData)
+        {
+            //print_r($teamId); Debug::dump($teamData); die();
+            $team = $game->getGameTeamForId($teamId);
+            if ($team)
+            {
+                $team->setTeamType($teamData['type' ]);
+                $team->setScore   ($teamData['score']);
+
+                $schTeam = $gameManager->getSchTeamReference($teamData['schTeamId']);
+                $team->setSchTeam($schTeam);
+            }
+        }
+        $gameManager->flush();
+
+        return;
     }
 }
