@@ -70,7 +70,14 @@ class EventTeam
     }
     public function getId() { return $this->eventTeamId; }
 
-    public function setSchTeam($schTeam) { $this->schTeam = $schTeam; }
+    public function setSchTeam($schTeam) 
+    {
+        $this->schTeam = $schTeam;
+        if (!$schTeam) return;
+        
+        $this->unitId     = $schTeam->getUnitId();
+        $this->divisionId = $schTeam->getDivisionId();
+    }
 
     public function setEvent($event)
     {

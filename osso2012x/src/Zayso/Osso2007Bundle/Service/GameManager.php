@@ -9,6 +9,8 @@ use Zayso\Osso2007Bundle\Component\Debug;
 use Zayso\Osso2007Bundle\Entity\Event;
 use Zayso\Osso2007Bundle\Entity\EventTeam;
 
+use Zayso\Osso2007Bundle\Entity\SchTeam;
+
 class GameManager
 {
     protected $em = null;
@@ -295,6 +297,8 @@ class GameManager
     }
     /* =================================================================================================
      * A new games should always be created with home/away teams
+     *
+     * What about event_num?
      */
     public function newGame()
     {
@@ -317,9 +321,18 @@ class GameManager
     {
         return $this->getEntityManager()->getReference('Osso2007Bundle:Field',$id);
     }
+    public function getSchTeam($id)
+    {
+        return $this->getEntityManager()->find('Osso2007Bundle:SchTeam',$id);
+    }
     public function getSchTeamReference($id)
     {
         return $this->getEntityManager()->getReference('Osso2007Bundle:SchTeam',$id);
+    }
+    public function getNextGameNum($projectId)
+    {
+        $sql = "SELECT max(event_num) FROM event WHERE project_id = $projectId";
+        
     }
     public function flush()
     {
