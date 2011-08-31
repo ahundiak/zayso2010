@@ -215,7 +215,7 @@ class EventController extends BaseController
      */
     protected function cloneGame($editData)
     {
-        // Load in the game
+        // Load in the game, probably don't need to do this
         $gameManager = $this->getGameManager();
         $gameId = $editData['id'];
 
@@ -227,6 +227,27 @@ class EventController extends BaseController
             // Think we can just create empty team and game teams
             die('New game not yet handled');
         }
+        // Force date/time/field
+
+        // Require at least home team be picked
+        // Debug::dump($editData); die();
+        $schTeamHomeId = 0;
+        $schTeamAwayId = 0;
+        foreach($editData['teams'] as $teamData)
+        {
+            if ($teamData['type'] == 'Home') $schTeamHomeId = $teamData['schTeamId'];
+            if ($teamData['type'] == 'Away') $schTeamAwayId = $teamData['schTeamId'];
+
+        }
+        if (!$schTeamHomeId) return $gameId;
+        $schTeamHome = $gameManager->getSchTeam($schTeamHomeId);
+        if (!$schTeamHome) return $gameId;
+
+        if ($schTeamAwayId) $schTeamAway = $gameManager->getSchTeam($schTeamAwayId);
+        else                $schTeamAway = null;
+        if (!$schTeamAway) $schTeamAway = $schTeamHome;
+
+        // Create new stuff
         $gamex = $gameManager->newGame();
         $homeTeamx = $gamex->getHomeTeam();
         $awayTeamx = $gamex->getAwayTeam();
@@ -238,6 +259,11 @@ class EventController extends BaseController
 
         $field = $gameManager->getFieldReference($editData['fieldId']);
         $gamex->setField($field);
+
+        $gamex->setUnitId($schTeamHome->getUnitId());
+
+        $homeTeamx->setSchTeam($schTeamHome);
+        $awayTeamx->setSchTeam($schTeamAway);
 
         $gameManager->persist($gamex);
       //$gameManager->persist($homeTeamx);
