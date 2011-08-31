@@ -47,6 +47,16 @@ class EventTeam
     {
         return GameManager::getAgeKey($this->divisionId);
     }
+    public function setTeamType($type)
+    {
+        switch($type)
+        {
+            case 'Home'  : $this->eventTeamTypeId = 1; return;
+            case 'Away'  : $this->eventTeamTypeId = 2; return;
+            case 'Away 2': $this->eventTeamTypeId = 3; return;
+            case 'Away 3': $this->eventTeamTypeId = 4; return;
+        }
+    }
     public function getTeamType()
     {
         switch($this->eventTeamTypeId)
@@ -59,6 +69,14 @@ class EventTeam
         return 'Unknown';
     }
     public function getId() { return $this->eventTeamId; }
+
+    public function setSchTeam($schTeam) { $this->schTeam = $schTeam; }
+
+    public function setEvent($event)
+    {
+        $this->event = $event;
+        if ($event) $event->addTeam($this);
+    }
     
     /** =====================================================================
      * @var integer $eventTeamId
@@ -94,14 +112,14 @@ class EventTeam
      *
      * @ORM\Column(name="type_index", type="integer", nullable=true)
      */
-    private $typeIndex;
+    private $typeIndex = 0;
 
     /**
      * @var integer $regYearId
      *
      * @ORM\Column(name="reg_year_id", type="integer", nullable=true)
      */
-    private $regYearId;
+    private $regYearId = 11;
 
     /**
      * @var integer $unitId
@@ -122,7 +140,7 @@ class EventTeam
      *
      * @ORM\Column(name="score", type="integer", nullable=true)
      */
-    private $score;
+    private $score = 0;
 
 
 
@@ -144,26 +162,6 @@ class EventTeam
     public function getEventId()
     {
         return $this->eventId;
-    }
-
-    /**
-     * Set teamId
-     *
-     * @param integer $teamId
-     */
-    public function setTeamId($teamId)
-    {
-        $this->teamId = $teamId;
-    }
-
-    /**
-     * Get teamId
-     *
-     * @return integer 
-     */
-    public function getTeamId()
-    {
-        return $this->teamId;
     }
 
     /**
