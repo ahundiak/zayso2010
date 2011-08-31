@@ -63,7 +63,7 @@ _osso2007_home_index:
     defaults: { _controller: Osso2007Bundle:Welcome:legacy }
 
 _osso2007_sched_div_list:
-    pattern:  /sch_div/list
+    pattern:  /sched_div/list
     defaults: { _controller: Osso2007Bundle:Welcome:legacy }
 
 _osso2007_sched_ref_list:
