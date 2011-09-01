@@ -77,8 +77,15 @@ class QueryCommand extends BaseCommandx
         }
         //print_r($teams);
     }
+    protected function queryNextEventNum()
+    {
+        $gameManager = $this->getGameManager();
+        $num = $gameManager->getNextGameNum(70);
+        echo "Next Num: $num\n";
+    }
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->queryGames($output);
+        // $this->queryGames($output);
+        $this->queryNextEventNum();
     }
 }

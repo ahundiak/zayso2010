@@ -228,6 +228,7 @@ class EventController extends BaseController
             die('New game not yet handled');
         }
         // Force date/time/field
+        $projectId = $editData['projectId'];
 
         // Require at least home team be picked
         // Debug::dump($editData); die();
@@ -252,8 +253,9 @@ class EventController extends BaseController
         $homeTeamx = $gamex->getHomeTeam();
         $awayTeamx = $gamex->getAwayTeam();
 
-        $gamex->setProjectId($editData['projectId']);
-
+        $gamex->setProjectId($projectId);
+        $gamex->setNum($gameManager->getNextGameNum($projectId));
+        
         $gamex->setDate($editData['date']);
         $gamex->setTime($editData['time']);
 
@@ -328,7 +330,10 @@ class EventController extends BaseController
                 $team->setTeamType($teamData['type' ]);
                 $team->setScore   ($teamData['score']);
 
-                $schTeam = $gameManager->getSchTeamReference($teamData['schTeamId']);
+                $schTeamId = $teamData['schTeamId'];
+                if ($schTeamId) $schTeam = $gameManager->getSchTeamReference($schTeamId);
+                else            $schTeam = null;
+                
                 $team->setSchTeam($schTeam);
             }
         }

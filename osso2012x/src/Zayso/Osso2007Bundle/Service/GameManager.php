@@ -260,9 +260,10 @@ class GameManager
 
       //$qbGames->leftJoin('game.persons',  'person');
 
-        $qb->andWhere($qb->expr()->in('game.eventId',array($id)));
+      //$qb->andWhere($qb->expr()->in('game.eventId',array($id)));
+        $qb->andWhere($qb->expr()->eq('game.eventId',$id));
 
-        $gameRepo = $em->getRepository('Osso2007Bundle:Event');
+        $qb->addOrderBy('gameTeam.eventTeamTypeId');
 
         return $qb->getQuery()->getSingleResult();
     }
@@ -331,8 +332,25 @@ class GameManager
     }
     public function getNextGameNum($projectId)
     {
-        $sql = "SELECT max(event_num) FROM event WHERE project_id = $projectId";
-        
+        $qb = $this->getEntityManager()->createQueryBuilder();
+
+        $qb->addSelect($qb->expr()->max('event.eventNum'));
+
+        $qb->from('Osso2007Bundle:Event','event');
+
+        $qb->andWhere($qb->expr()->eq('event.projectId',$projectId));
+        $query = $qb->getQuery();
+      //$query->setParameter('projectId',$projectId);
+        $num = $query->getSingleScalarResult();
+        return ++$num;
+
+        // dql just for reference
+        $dql = "SELECT MAX(event.eventNum) FROM Zayso\Osso2007Bundle\Entity\Event event WHERE event.projectId = :projectid";
+        $dql = "SELECT MAX(event.eventNum) FROM Osso2007Bundle:Event event WHERE event.projectId = :projectId";
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('projectId',$projectId);
+        $num = $query->getSingleScalarResult();
+        return ++$num;
     }
     public function flush()
     {
