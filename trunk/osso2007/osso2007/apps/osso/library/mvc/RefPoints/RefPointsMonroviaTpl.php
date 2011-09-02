@@ -1,12 +1,12 @@
 <h3>Monrovia Referee Points Information</h3>
 <?php $referees = $this->referees; ?>
 <?php if (count($referees) < 1) { ?>
-<p>No active Monrovia referees for this account.  Contact your Regional referee Administrator if you feel this is an error.
+<p>No active Monrovia referees for this account.  Contact your Regional Referee Administrator if you feel this is an error.
 </p>
 <?php } else {  ?>
 
 <table border="1">
-<tr><th colspan="2">Referee Points Sumary</th></tr>
+<tr><th colspan="2">Referee Points Summary</th></tr>
 <tr>
   <th>Name</th>
   <th>Regular Season<br />Game Count</th>
@@ -83,10 +83,10 @@
 </form>
 <br />
 <h3>Instructions</h3>
-<p>Use the Represent team buttom to select the team to represent.  
+<p>Use the Represent team button to select the team to represent.  
 For purposes of the point system, a referee is only allowed to represent one team.
 However the system will allow you to pick up to three teams.  
-If your first team aleady has a referee then your representation will shift to the second team.
+If your first team already has a referee then your representation will shift to the second team.
 </p>
 <p>The summary table at the top shows how many games you have done so far.  
 All you need is six to satisfy the points requirement.
