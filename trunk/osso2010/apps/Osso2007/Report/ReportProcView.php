@@ -21,8 +21,9 @@ class Osso2007_Report_ReportProcView extends Osso2007_View
 
       case 5: $reportClassName = 'Osso2007_Referee_Points_RefPointsMonrovia';   break;
       case 6: $reportClassName = 'Osso2007_Referee_Points_RefPointsMadison';    break;
+      case 7: $reportClassName = 'Osso2007_Referee_Points_RefPointsHuntsville'; break;
 
-      case 7: $reportClassName = 'Osso2007_Project_ProjectSync2';    break;
+      case 9: $reportClassName = 'Osso2007_Project_ProjectSync2';    break;
     }
     if (!$reportClassName) return FALSE;
 
@@ -58,7 +59,9 @@ class Osso2007_Report_ReportProcView extends Osso2007_View
             case 4: $reportFileName = 'RefereeUtilReport.csv';  break;
             case 5: $reportFileName = 'RefPointsMonrovia.csv';  return; break;
             case 6: $reportFileName = 'RefPointsMadison.csv';   return; break;
-            case 7: $reportFileName = 'ProjectSync.csv';        break;
+            case 7: $reportFileName = 'RefPointsHuntsville.csv';return; break;
+            
+            case 9: $reportFileName = 'ProjectSync.csv';        break;
         }
             $this->context->response->setBody($result);
             $this->context->response->setFileHeaders($reportFileName);
@@ -81,10 +84,11 @@ class Osso2007_Report_ReportProcView extends Osso2007_View
         4 => 'Referee Utilization',
         5 => 'Referee Points Monrovia',
         6 => 'Referee Points Madison RS',
+        7 => 'Referee Points Huntsville',
     );
     if ($this->context->user->personId == 1)
     {
-      $this->reportTypePickList[7] = 'Project Sync Report';
+      $this->reportTypePickList[9] = 'Project Sync Report';
     }
     /* And render it  */      
     return $this->context->response->setBody($this->renderPage());
