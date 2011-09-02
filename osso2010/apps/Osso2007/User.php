@@ -102,6 +102,9 @@ class Osso2007_User
                 
       case 'isMadisonReferee': 
          return $this->repo->isRegionReferee($this,4);
+          
+      case 'isHuntsvilleReferee': 
+         return $this->repo->isRegionReferee($this,7);
                 
       case 'isMonroviaReferee': 
          return $this->repo->isRegionReferee($this,1);
