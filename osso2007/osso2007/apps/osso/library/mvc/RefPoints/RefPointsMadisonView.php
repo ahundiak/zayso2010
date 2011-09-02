@@ -43,12 +43,12 @@ class RefPointsMadisonView extends RefPointsBaseView
 		
 		foreach($events as $event) 
 		{
-			$points = 0;
+                    $points = 0;
 
-			$eventPersonType = $event['type'];
+                    $eventPersonType = $event['type'];
 			
-			switch($eventPersonType)
-			{
+                    switch($eventPersonType)
+                    {
 			case EventPersonTypeModel::TYPE_CR:
 				$div = $divCR;
 				break;
@@ -75,7 +75,7 @@ class RefPointsMadisonView extends RefPointsBaseView
 			
 			// Filter
 			if ($event['use'] == 0) $points = 0;
-			switch($event['sch_type']) {
+                        switch($event['sch_type']) {
 			case 1:
 				if ($event['point2'] == 1) $pending   += $points;
 				if ($event['point2'] == 3) $processed += $points;

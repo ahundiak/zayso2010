@@ -113,6 +113,20 @@ class SchedRefSignupCont extends Proj_Controller_Action
         }
         // Should do delete from team_person where person_id = 0
         
+        // Check scores
+        $scores = $request->getPost('scores');
+        
+        foreach($scores as $teamId => $score)
+        {
+            $teamId = (int)$teamId;
+            if ($teamId)
+            {
+                $score = (int)$score;
+                $sql = "UPDATE event_team SET score = $score WHERE event_team_id = $teamId;";
+                $this->context->db->execute($sql);
+                //die($teamId . ' ' . $score . ' ' . $sql);
+            }
+        }
         /* Redirect */
         $response->setRedirect($this->link('sched_ref_signup',$eventId));
     }
