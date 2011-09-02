@@ -6,7 +6,7 @@
 <tr><th colspan="2">Referee Signup</th></tr>
 <tr>
     <td>Game Number</td>
-    <td><?php echo $event->id; ?></td>
+    <td><?php echo $event->id . ' ' . $event->num; ?></td>
     <input type="hidden" name="referee_signup_event_id" value="<?php echo $event->id; ?>" />
 </tr>
 <tr>
@@ -36,8 +36,10 @@
 </tr>
 <?php $teams = $event->teams; foreach($teams as $team) { ?>
 <tr>
-    <td>Team <?php echo $this->escape($team->eventTeamTypeDesc); ?></td>
-    <td>     <?php echo $this->escape($team->schedDesc); ?></td>
+    <td>Team <?php echo $this->escape($team->eventTeamTypeDesc); ?>
+        <input type="text" maxlength="2" size="2" name="scores[<?php echo $team->id; ?>]" value="<?php echo $team->score; ?>" />
+    </td>
+    <td><?php echo $this->escape($team->schedDesc); ?></td>
 </tr>
 <?php } ?>
 <?php foreach($this->eventPersons as $eventPerson) { $eventPersonId = $eventPerson->id; ?>

@@ -97,6 +97,11 @@
       <?php echo $this->href('Ref Points 894','ref_points_monrovia'); ?>
     </li>
   <?php } ?>  
+  <?php if (($user->isHuntsvilleReferee) && 1) { ?>
+    <li>
+      <?php echo $this->href('Ref Points 160','ref_points_huntsville'); ?>
+    </li>
+  <?php } ?>  
   <?php if ($user->isReferee && 0) { ?>
     <li>
       <?php echo $this->href('Area Tourn Avail','ref_avail_signup'); ?>
