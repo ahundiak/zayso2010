@@ -70,7 +70,18 @@ class Eayso_Reg_Cert_RegCertRepo
         self::TYPE_COACH_BADGE_NATIONAL       => 'National',
         
     );
-    function getDesc ($type) { return $this->certs [$type]; }
-    function getDescx($type) { return $this->certsx[$type]; }
+    function getDesc ($type) 
+    { 
+        if (isset($this->certs[$type])) return $this->certs[$type];
+        return null;
+        
+        die('CertRepo::getDesc ' . $type);
+        return $this->certs [$type];     
+    }
+    function getDescx($type) 
+    { 
+        if (isset($this->certsx[$type])) return $this->certsx[$type]; 
+        return null;
+    }
 }
 ?>
