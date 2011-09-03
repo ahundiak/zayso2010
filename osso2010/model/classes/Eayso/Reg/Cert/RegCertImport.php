@@ -41,6 +41,9 @@ class Eayso_Reg_Cert_RegCertImport extends Eayso_Reg_Main_RegMainImport
     // Make sure know about the cert
     $certDesc = $data['certDesc'];
 
+    if (strpos($certDesc,'AYSOs Safe Haven') !== FALSE) $certDesc = 'Safe Haven AYSOs';
+    if (strpos($certDesc,'Safe Haven Coach') !== FALSE) $certDesc = 'Safe Haven Coach';
+    
     if (!isset($this->certs[$certDesc]))
     {
       $error = "{$data['reg_num']} {$data['lname']} '{$certDesc}'";
@@ -150,6 +153,10 @@ class Eayso_Reg_Cert_RegCertImport extends Eayso_Reg_Main_RegMainImport
     'Safe Haven Coach' => array(
       Eayso_VolCertRepo::TYPE_SAFE_HAVEN => Eayso_VolCertRepo::TYPE_SAFE_HAVEN_COACH,
     ),
+    'Safe Haven AYSOs' => array(
+      Eayso_VolCertRepo::TYPE_SAFE_HAVEN => Eayso_VolCertRepo::TYPE_SAFE_HAVEN_AYSO,
+    ),
+      /*
     'Z-Online Safe Haven Coach' => array(
       Eayso_VolCertRepo::TYPE_SAFE_HAVEN => Eayso_VolCertRepo::TYPE_SAFE_HAVEN_COACH,
     ),
@@ -165,7 +172,13 @@ class Eayso_Reg_Cert_RegCertImport extends Eayso_Reg_Main_RegMainImport
     'Z-Online Safe Haven Coach, AYSOs Safe Haven' => array(
       Eayso_VolCertRepo::TYPE_SAFE_HAVEN => Eayso_VolCertRepo::TYPE_SAFE_HAVEN_AYSO,
     ),
-      
+    'AYSOs Safe Haven, Z-Online AYSOs Safe Haven' => array(
+      Eayso_VolCertRepo::TYPE_SAFE_HAVEN => Eayso_VolCertRepo::TYPE_SAFE_HAVEN_AYSO,
+    ),
+    'Safe Haven Coach, AYSOs Safe Haven' => array(
+      Eayso_VolCertRepo::TYPE_SAFE_HAVEN => Eayso_VolCertRepo::TYPE_SAFE_HAVEN_AYSO,
+    ),
+      */
     'U-6 Coach'         => array(
       Eayso_VolCertRepo::TYPE_COACH_BADGE => Eayso_VolCertRepo::TYPE_COACH_BADGE_U06,
     ),
