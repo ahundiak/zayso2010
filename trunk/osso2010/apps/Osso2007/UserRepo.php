@@ -84,6 +84,8 @@ class Osso2007_UserRepo
       case 1880:    // Paul Sapp
       case 1544:    // Gen Uhl
       case 1552:    // Bob Ellington 
+      case 2732:    // Daryl Granbois
+      case 3219:    // Helen Connor
         return TRUE;
     }
     return FALSE;
@@ -105,6 +107,8 @@ class Osso2007_UserRepo
       case 1552:    // Bob Ellington
       case 1603:    // Martin Draper
       case 1674:    // Ray Cassell    
+      case 2732:    // Daryl Granbois
+      case 3219:    // Helen Connor
         return TRUE;
     }
     return FALSE;
