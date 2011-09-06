@@ -29,11 +29,30 @@ class CertificationImport extends BaseImport
         $this->volRepo  = $em->getRepository('EaysoBundle:Volunteer');
         $this->certRepo = $em->getRepository('EaysoBundle:Certification');
     }
+    /* ======================================================================
+     * All this currently does is to make sure have a volunteer
+     * Assume all volunteer contact info is done through volunteer import
+     */
     public function processVolunteer($item)
     {
+        // Ignore anyting before 2008
+        $memYear = $this->processMemYear($item->memYear);
+        if ($memYear < 2008) return null;
+        
         $aysoid = 'AYSOV' . $item->aysoid;
         
         $vol = $this->volRepo->find($aysoid);
+        
+        return $vol;
+        
+        // For now, ignore cert of we have not volunteer
+        if (!$vol) return;
+        
+        // And never do anything to the volunteer
+        return;
+        
+        $memYear = $this->processMemYear($item->memYear);
+        
         if ($vol)
         {
             // Update membership year if newer
@@ -81,6 +100,10 @@ class CertificationImport extends BaseImport
         // Make sure know about the cert
         $certDesc = $item->certDesc;
 
+        if (strpos($certDesc,'AYSOs Safe Haven') !== FALSE) $certDesc = 'Safe Haven AYSOs';
+        if (strpos($certDesc,'Safe Haven Coach') !== FALSE) $certDesc = 'Safe Haven Coach';
+        $certDesc = str_replace('&amp;','&',$certDesc);
+        
         if (!isset($this->certs[$certDesc]))
         {
             $error = "{$item->aysoid} {$item->lastName} '{$certDesc}'";
@@ -95,24 +118,26 @@ class CertificationImport extends BaseImport
         if (!$vol) return;
 
         // Process the date
-        $date = $item->certDate;
-        if ($date)
-        {
-            $date = substr($date,6,4) . substr($date,0,2) . substr($date,3,2);
-        }
+        $date = $this->processDate($item->certDate);
     
         // Process each cert
-        foreach($this->certs[$item->certDesc] as $cat => $type)
+        foreach($this->certs[$certDesc] as $cat => $type)
         {
             $this->processCert($vol,$cat,$type,$date);
         }
-        $this->getEntityManager()->flush();
+        $vol = null;
+        if (($this->total % 100) == 0) 
+        {
+            $this->getEntityManager()->flush();
+            $this->getEntityManager()->clear();
+        }
     }
     protected function processCert($vol,$cat,$type,$date)
     {
         $cert = $vol->getCertification($cat);
         if (!$cert)
         {
+          //echo "{$vol->getId()} $cat $type\n";
             $cert = new Certification();
             $cert->setVolunteer($vol);
             $cert->setCat($cat);
@@ -121,7 +146,11 @@ class CertificationImport extends BaseImport
             $this->getEntityManager()->persist($cert);
             return;
         }
-        if ($type > $cert->getType()) $cert->setType($type);
+        if ($type > $cert->getType()) 
+        {
+            $cert->setType($type);
+            $cert->setDate($date);
+        }
         if ($date > $cert->getDate()) $cert->setDate($date);
 
         return;
@@ -130,8 +159,8 @@ class CertificationImport extends BaseImport
     protected $certs = array
     (
         // Coaches
+        'Safe Haven AYSOs'                         => array(CertRepo::TYPE_SAFE_HAVEN  => CertRepo::TYPE_SAFE_HAVEN_AYSO,),
         'Safe Haven Coach'                         => array(CertRepo::TYPE_SAFE_HAVEN  => CertRepo::TYPE_SAFE_HAVEN_COACH,),
-        'Z-Online Safe Haven Coach'                => array(CertRepo::TYPE_SAFE_HAVEN  => CertRepo::TYPE_SAFE_HAVEN_COACH,),
         'U-6 Coach'                                => array(CertRepo::TYPE_COACH_BADGE => CertRepo::TYPE_COACH_BADGE_U06,),
         'Z-Online U-6 Coach'                       => array(CertRepo::TYPE_COACH_BADGE => CertRepo::TYPE_COACH_BADGE_U06,),
         'U-8 Coach'                                => array(CertRepo::TYPE_COACH_BADGE => CertRepo::TYPE_COACH_BADGE_U08,),

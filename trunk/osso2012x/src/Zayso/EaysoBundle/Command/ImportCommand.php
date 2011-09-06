@@ -25,28 +25,53 @@ class ImportCommand extends ContainerAwareCommand
             ->addArgument('file', InputArgument::OPTIONAL, 'Input File Name','../datax/Vols.csv')
         ;
     }
+    protected function importVol($file)
+    {
+        $params = array('inputFileName' => $file);
+        $import = new VolunteerImport($this->getEntityManager());
+        $results = $import->process($params);
+
+        echo "Zayso Import {$results['msg']} \n";
+    }
+    protected function importVols($datax)
+    {
+        $files = array('Vols2008.csv','Vols2009.csv','Vols2010.csv','Vols.csv');
+        foreach($files as $file)
+        {
+            $this->importVol($datax . $file);
+        }
+    }
+    protected function importCert($file)
+    {
+        $params = array('inputFileName' => $file);
+        $import = new CertificationImport($this->getEntityManager());
+        $results = $import->process($params);
+
+        echo "Zayso Import {$results['msg']} \n";
+    }
+    protected function importCerts($datax)
+    {
+        $files = array(
+            'CoachBadge.csv',
+            'SafeHaven.csv',
+            'CoachSafeHaven.csv',
+            'RefSafeHaven.csv',
+            'RefNat.csv','RefNat2.csv','RefAdvanced.csv','RefInt.csv',
+            'RefReg.csv','RefAssistant.csv','RefAssistant2.csv','RefU8.csv',
+        );
+        foreach($files as $file)
+        {
+            $this->importCert($datax . $file);
+        }
+    }
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $inputFileName = $input->getArgument('file');
 
-        $params = array
-        (
-            'inputFileName' => '../datax/Vols.csv',
-        );
-        $import = new VolunteerImport($this->getEntityManager());
-        $results = $import->process($params);
-
-        echo "Zayso Import $inputFileName {$results['msg']} \n";
-        // print_r($results);
-
-        $params = array
-        (
-            'inputFileName' => '../datax/RefCerts.csv',
-        );
-        $import = new CertificationImport($this->getEntityManager());
-        $results = $import->process($params);
-
-        echo "Zayso Import $inputFileName {$results['msg']} \n";
-        // print_r($results);
+        $datax = "C:/home/ahundiak/datax/eayso/vols/";
+        
+      //$this->importVols($datax);
+        $this->importCerts($datax);
+        return;        
     }
 }

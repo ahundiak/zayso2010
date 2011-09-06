@@ -21,6 +21,8 @@ class VolunteerImport extends BaseImport
       'cellPhone'  => array('cols' => 'CellPhone',      'req' => false, 'default' => ''),
       'dob'        => array('cols' => 'DOB',            'req' => false, 'default' => ''),
       'gender'     => array('cols' => 'Gender',         'req' => false, 'default' => ''),
+      'registered' => array('cols' => 'Registered Date','req' => false, 'default' => ''),
+      'changed'    => array('cols' => 'Changed Date',   'req' => false, 'default' => ''),
     );
 
     protected function init() 
@@ -42,12 +44,14 @@ class VolunteerImport extends BaseImport
         $aysoid = 'AYSOV' . $item->aysoid;
         if (isset($this->aysoids[$aysoid]))
         {
-            echo "Duplicate aysoid $aysoid\n";
+            // echo "Duplicate aysoid $aysoid\n";
         }
         $this->aysoids[$aysoid] = true;
 
         $region = sprintf('AYSOR%04u',(int)$item->region);
 
+        $memYear = $this->processMemYear($item->memYear);
+        
         $vol = $this->volRepo->find($aysoid);
         if (!$vol)
         {
@@ -58,37 +62,27 @@ class VolunteerImport extends BaseImport
         else
         {
             // Do not update existing records if older membership year
-            if ($vol->getMemYear() > $item->memYear) return;
+            if ($vol->getMemYear() > $memYear) return;
+            
+            // Check registered/changed here if memYear matches?
         }
-        $dob = $item->dob;
-        if ($dob)
-        {
-            $parts = explode('/',$dob);
-            if (count($parts) == 3)
-            {
-                $year = (int)$parts[2];
-                if ($year < 100)
-                {
-                    if ($year < 30) $year += 1900;
-                    else            $year += 2000;
-                }
-                $dob = sprintf('%04d%02d%02d',$year,(int)$parts[0],(int)$parts[1]); // die($dob);
-            }
-            else die($dob); // $dob = substr($dob,6,4) . substr($dob,0,2) . substr($dob,3,2);
-        }
-        $lastName   = ucfirst(strtolower($item->lastName));
-        $nickName   = ucfirst(strtolower($item->nickName));
-        $firstName  = ucfirst(strtolower($item->firstName));
-        $middleName = ucfirst(strtolower($item->middleName));
+        $dob        = $this->processDate($item->dob);
+        $registered = $this->processDate($item->registered);
+        $changed    = $this->processDate($item->changed);
 
-        $email      =         strtolower($item->email);
+        $lastName   = $this->processName($item->lastName);
+        $nickName   = $this->processName($item->nickName);
+        $firstName  = $this->processName($item->firstName);
+        $middleName = $this->processName($item->middleName);
 
-        $homePhone = preg_replace('/\D/','',$item->homePhone);
-        $workPhone = preg_replace('/\D/','',$item->workPhone);
-        $cellPhone = preg_replace('/\D/','',$item->cellPhone);
+        $email      = $this->processEmail($item->email);
+
+        $homePhone = $this->processPhone($item->homePhone);
+        $workPhone = $this->processPhone($item->workPhone);
+        $cellPhone = $this->processPhone($item->cellPhone);
 
         $vol->setRegion    ($region);
-        $vol->setMemYear   ($item->memYear);
+        $vol->setMemYear   ($memYear);
         $vol->setFirstName ($firstName);
         $vol->setLastName  ($lastName);
         $vol->setMiddleName($middleName);
@@ -100,8 +94,10 @@ class VolunteerImport extends BaseImport
         $vol->setCellPhone ($cellPhone);
         $vol->setDob       ($dob);
         $vol->setGender    ($item->gender);
+        $vol->setRegistered($registered);
+        $vol->setChanged   ($changed);
 
-        $em->flush();
+        if (($this->total % 100) == 0) $em->flush();
     }
 }
 

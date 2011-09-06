@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection,
 
 /**
  * @ORM\Entity(repositoryClass="Zayso\EaysoBundle\Repository\VolunteerRepository")
- * @ORM\Table(name="eayso.volunteer")
+ * @ORM\Table(name="eayso2012.volunteer")
  * @ORM\HasLifecycleCallbacks
  * @ORM\ChangeTrackingPolicy("NOTIFY")
  */
@@ -27,8 +27,8 @@ class Volunteer implements NotifyPropertyChanged
     /** @ORM\Column(type="string",name="region",length=20,nullable=true) */
     protected $region = '';
 
-    /** @ORM\Column(type="string",name="mem_year",length=8,nullable=true) */
-    protected $memYear = '';
+    /** @ORM\Column(type="integer",name="mem_year",nullable=false) */
+    protected $memYear = 0;
 
     /** @ORM\Column(type="string",name="first_name",length=40) */
     protected $firstName = '';
@@ -65,6 +65,13 @@ class Volunteer implements NotifyPropertyChanged
     
     /** @ORM\Column(type="string",name="status",length=20) */
     protected $status = 'Active';
+    
+    /** @ORM\Column(type="string",name="registered",length=8) */
+    protected $registered = '';
+    
+    /** @ORM\Column(type="string",name="changed",length=8) */
+    protected $changed = '';
+    
 
     /**
      *  @ORM\OneToMany(targetEntity="Certification", mappedBy="volunteer", indexBy="cat", cascade={"persist","remove"})
@@ -72,7 +79,7 @@ class Volunteer implements NotifyPropertyChanged
     protected $certifications;
 
     private $listeners = array();
-    private $changed = false;
+    private $modified = false;
     
     public function addPropertyChangedListener(PropertyChangedListener $listener)
     {
@@ -86,13 +93,13 @@ class Volunteer implements NotifyPropertyChanged
     }
     protected function onPropertyChanged($propName, $oldValue, $newValue)
     {
-        $this->changed = true;
+        $this->modified = true;
         foreach ($this->listeners as $listener) 
         {
             $listener->propertyChanged($this, $propName, $oldValue, $newValue);
         }
     }
-    public function isChanged() { return $this->changed; }
+    public function isModified() { return $this->modified; }
     
     public function __construct()
     {
@@ -167,6 +174,12 @@ class Volunteer implements NotifyPropertyChanged
 
     public function setDob($dob) { $this->onPropertySet('dob',$dob); }
     public function getDob() { return $this->dob; }
+
+    public function setRegistered($date) { $this->onPropertySet('registered',$date); }
+    public function getRegistered()      { return $this->registered; }
+
+    public function setChanged($date) { $this->onPropertySet('changed',$date); }
+    public function getChanged()      { return $this->changed; }
 
     public function setGender($gender) { $this->onPropertySet('gender',$gender); }
     public function getGender() { return $this->gender; }

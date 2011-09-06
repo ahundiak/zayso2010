@@ -12,7 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection,
 /**
  * @ORM\Entity(repositoryClass="Zayso\EaysoBundle\Repository\CertificationRepository")
  * @ORM\Table(
- *   name="eayso.certification")
+ *   name="eayso2012.certification")
  *   uniqueConstraints={@ORM\UniqueConstraint(name="aysoid_cat", columns={"aysoid", "cert_cat"})}
  * )
  * @ORM\HasLifecycleCallbacks

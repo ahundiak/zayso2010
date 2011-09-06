@@ -175,10 +175,12 @@ class BaseImport
         {
             $item = $this->processDataRow($row);
             $this->processItem($item);
-            // echo $item->aysoid . ' ' . $item->lastName . "\n";
+            $item = null;
+            $row  = null;
         }
         // Finish up
         $this->getEntityManager()->flush();
+        $this->getEntityManager()->clear(); // Need for multiple files
 
         fclose($fp);
         return $this->getResults();
@@ -186,6 +188,44 @@ class BaseImport
     public function processItem($item)
     {
         $this->total++;
+    }
+    /* ======================================================================
+     * Assorted field specific processing
+     */
+    protected function processDate($date)
+    {
+        if (!$date) return '';
+        
+        $parts = explode('/',$date);
+        if (count($parts) == 3)
+        {
+            $year = (int)$parts[2];
+            if ($year < 100)
+            {
+                if ($year < 30) $year += 1900;
+                else            $year += 2000;
+            }
+            $datex = sprintf('%04d%02d%02d',$year,(int)$parts[0],(int)$parts[1]); // die($datex);
+            return $datex;
+        }
+        die('Date: ' . $date); // $dob = substr($dob,6,4) . substr($dob,0,2) . substr($dob,3,2);
+    }
+    protected function processPhone($phone)
+    {
+        return preg_replace('/\D/','',$phone);
+    }
+    protected function processName($name)
+    {
+        return ucfirst(strtolower($name));
+    }
+    protected function processEmail($email)
+    {
+        return strtolower($email);
+    }
+    protected function processMemYear($year)
+    {
+        $year = substr($year,-4);
+        return (int)$year;
     }
 }
 ?>
