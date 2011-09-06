@@ -12,6 +12,7 @@ class CertificationRepository extends EntityRepository
     const TYPE_SAFE_HAVEN         = 100;
     const TYPE_SAFE_HAVEN_REFEREE = 101;
     const TYPE_SAFE_HAVEN_COACH   = 102;
+    const TYPE_SAFE_HAVEN_AYSO    = 103;
 
     const TYPE_REFEREE_BADGE              = 200;
     const TYPE_REFEREE_BADGE_U08          = 210;
@@ -35,6 +36,7 @@ class CertificationRepository extends EntityRepository
         0 => NULL,
         self::TYPE_SAFE_HAVEN_REFEREE         => 'Safe Haven Referee',
         self::TYPE_SAFE_HAVEN_COACH           => 'Safe Haven Coach',
+        self::TYPE_SAFE_HAVEN_AYSO            => 'Safe Haven AYSO',
 
         self::TYPE_REFEREE_BADGE_U08          => 'U08 Official',
         self::TYPE_REFEREE_BADGE_ASSISTANT    => 'Assistant Referee',
@@ -57,6 +59,7 @@ class CertificationRepository extends EntityRepository
         0 => NULL,
         self::TYPE_SAFE_HAVEN_REFEREE         => 'Referee',
         self::TYPE_SAFE_HAVEN_COACH           => 'Coach',
+        self::TYPE_SAFE_HAVEN_AYSO            => 'AYSO',
 
         self::TYPE_REFEREE_BADGE_U08          => 'U08',
         self::TYPE_REFEREE_BADGE_ASSISTANT    => 'Assistant',
@@ -75,7 +78,15 @@ class CertificationRepository extends EntityRepository
         self::TYPE_COACH_BADGE_NATIONAL       => 'National',
 
     );
-    static public function getDesc ($type) { return self::$certs [$type]; }
-    static public function getDescx($type) { return self::$certsx[$type]; }
+    static public function getDesc ($type) 
+    { 
+        if (isset(self::$certs[$type])) return self::$certs [$type]; 
+        return null;
+    }
+    static public function getDescx($type) 
+    { 
+        if (isset(self::$certsx[$type])) return self::$certsx[$type];
+        return null;
+    }
 }
 ?>
