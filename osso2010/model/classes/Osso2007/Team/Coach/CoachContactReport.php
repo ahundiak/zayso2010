@@ -63,7 +63,7 @@ ORDER BY
   phy_team_seq_num
 ;
 EOT;
-    $rows = $this->context->db->fetchRows($sql,array('project_id' => 28));
+    $rows = $this->context->db->fetchRows($sql,array('project_id' => 70));
     return $rows;
 
     Cerad_Debug::dump($rows[0]);

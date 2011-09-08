@@ -55,7 +55,7 @@ class Osso2007_Report_ReportProcView extends Osso2007_View
         {
             case 1: $reportFileName = 'TeamSummary.csv';        break;
             case 2: $reportFileName = 'TeamKeys.csv';           break;
-            case 3: $reportFileName = 'CoachContactReport.csv'; break;
+            case 3: $reportFileName = 'CoachContactReport.csv'; return; break;
             case 4: $reportFileName = 'RefereeUtilReport.csv';  break;
             case 5: $reportFileName = 'RefPointsMonrovia.csv';  return; break;
             case 6: $reportFileName = 'RefPointsMadison.csv';   return; break;
