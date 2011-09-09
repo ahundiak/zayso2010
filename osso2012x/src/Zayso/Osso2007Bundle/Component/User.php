@@ -5,9 +5,13 @@
  */
 namespace Zayso\Osso2007Bundle\Component;
 
+/* ===========================================================
+ * This is based on Osso2007 objects such as account and person
+ * Be sort of nice to have access to eayso service?
+ */
 class User
 {
-    protected $em = null;
+    protected $services = null;
 
     protected $member   = null;
     protected $account  = null;
@@ -15,9 +19,12 @@ class User
     protected $defaults = null;
     protected $projectId = 0;
 
-    public function __construct($em,$data = array())
+    protected function getEntityManager() { return $this->services->get('doctrine')->getEntityManager(); }
+    protected function getEaysoManager()  { return $this->services->get('eayso.manager'); }
+
+    public function __construct($services,$data = array())
     {
-        $this->em = $em;
+        $this->services = $services;
 
         if (isset($data['member']))    $this->member    = $data['member'];
         if (isset($data['account']))   $this->account   = $data['account'];
@@ -69,14 +76,14 @@ class User
     }
     public function getAYSOCertsDescription()
     {
+
         $aysoid = $this->person->aysoid;
         if (!$aysoid) return 'AYSOID Not Found';
 
-        $eaysoRepo = $this->em->getRepository('eayso');
-        $vol = $eaysoRepo->loadVolCerts($aysoid);
+        $vol = $this->getEaysoManager()->loadVolCerts($aysoid);
         if (!$vol) return 'AYSO Record Not Found For ' . $aysoid;
 
-        $out = $vol->getId() . ', ' . $vol->getMemYear();
+        $out = $vol->getId() . ', ' . $vol->getRegion() . ', MY' . $vol->getMemYear();
 
         $cert = $vol->getRefereeBadgeCertification();
         if ($cert) $out .= ', ' . $cert->getDescription();
@@ -85,9 +92,6 @@ class User
         if ($cert) $out .= ', ' . $cert->getDescription();
         
         return $out;
-        
-        die(get_class($eaysoRepo));
-        return 'User Certs';
     }
 }
 class User2012
