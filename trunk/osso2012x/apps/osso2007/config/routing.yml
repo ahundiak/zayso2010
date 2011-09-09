@@ -12,6 +12,18 @@ _osso2007_admin_index:
     pattern:  /admin/index
     defaults: { _controller: Osso2007Bundle:Admin:index }
 
+_osso2007_phy_team_list:
+    pattern:  /phy_team/list
+    defaults: { _controller: Osso2007Bundle:Team:phyTeamsList }
+    requirements:
+        _method:  GET
+
+_osso2007_phy_team_list_post:
+    pattern:  /phy_team/list
+    defaults: { _controller: Osso2007Bundle:Team:phyTeamsList }
+    requirements:
+        _method:  POST
+
 _osso2007_event_edit:
     pattern:  /event/edit/{id}
     defaults: { _controller: Osso2007Bundle:Event:edit, id: 0 }
@@ -72,10 +84,6 @@ _osso2007_sched_ref_list:
 
 _osso2007_person_list:
     pattern:  /person/list
-    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
-
-_osso2007_phy_team_list:
-    pattern:  /phy_team/list
     defaults: { _controller: Osso2007Bundle:Welcome:legacy }
 
 _osso2007_sch_team_list:
