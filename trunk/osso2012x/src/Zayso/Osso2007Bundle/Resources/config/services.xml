@@ -10,5 +10,9 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
 
+        <service id="team.manager" class="Zayso\Osso2007Bundle\Service\TeamManager" public="true">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
     </services>
 </container>

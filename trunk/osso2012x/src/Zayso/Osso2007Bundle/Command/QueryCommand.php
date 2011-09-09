@@ -83,9 +83,35 @@ class QueryCommand extends BaseCommandx
         $num = $gameManager->getNextGameNum(70);
         echo "Next Num: $num\n";
     }
+    protected function queryTeams()
+    {
+        $teamManager = $this->getTeamManager();
+
+        $projectId = 70; //array(70);
+        $ages    = array('U08',);
+        $genders = array('B', 'C');
+        $regions = array('R0894');
+
+        $search = array(
+            'projectId' => $projectId,
+            'ages'      => $ages,
+            'genders'   => $genders,
+            'regions'   => $regions,
+        );
+        $teams = $teamManager->queryPhyTeams($search);
+        echo 'Team Count ' . count($teams) . "\n";
+        foreach($teams as $team)
+        {
+            $coach = $team->getHeadCoach();
+            echo $team->getDivisionSeqNum() . ' ';
+            if ($coach) echo $coach->getLastName();
+            echo "\n";
+        }
+    }
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // $this->queryGames($output);
-        $this->queryNextEventNum();
+        // $this->queryNextEventNum();
+        $this->queryTeams();
     }
 }
