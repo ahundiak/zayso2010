@@ -2,7 +2,7 @@
 
 namespace Zayso\Osso2007Bundle\Entity;
 
-use Zayso\Osso2007Bundle\Repository\GameRepository as GameRepo;
+use Zayso\Osso2007Bundle\Service\TeamManager as TeamManager;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -31,10 +31,29 @@ class PhyTeam
         // Consider returning empty person object
         return null;
     }
-    public function getHeadCoach() { return $this->getPerson(GameRepo::TYPE_HEAD_COACH); }
-    public function getAsstCoach() { return $this->getPerson(GameRepo::TYPE_ASST_COACH); }
-    public function getManager  () { return $this->getPerson(GameRepo::TYPE_MANAGER); }
+    public function getHeadCoach() { return $this->getPerson(TeamManager::TYPE_HEAD_COACH); }
+    public function getAsstCoach() { return $this->getPerson(TeamManager::TYPE_ASST_COACH); }
+    public function getManager  () { return $this->getPerson(TeamManager::TYPE_MANAGER); }
 
+    public function getId() { return $this->phyTeamId; }
+
+    public function getDivKey()
+    {
+        return $this->division->getDescPick();
+    }
+    public function getRegionKey()
+    {
+        return $this->unit->getKeyx();
+    }
+    public function getDesc()
+    {
+        $coach  = $this->getHeadCoach();
+        if ($coach) $name = $coach->getLastName();
+        else        $name = '';
+
+        $desc = sprintf('%s-%s-%02d %s',$this->getRegionKey(),$this->getDivKey(),$this->divisionSeqNum,$name);
+        return $desc;
+    }
     /* ===================================================================================
      * Auto generated stuff
      */
@@ -64,16 +83,22 @@ class PhyTeam
     /**
      * @var integer $unitId
      *
-     * @ORM\Column(name="unit_id", type="integer", nullable=true)
+     *  ORM\Column(name="unit_id", type="integer", nullable=true)
+     *
+     * @ORM\ManyToOne(targetEntity="Unit")
+     * @ORM\JoinColumn(name="unit_id", referencedColumnName="unit_id")
      */
-    private $unitId;
+    private $unit;
 
     /**
      * @var integer $divisionId
      *
-     * @ORM\Column(name="division_id", type="integer", nullable=true)
+     *  ORM\Column(name="division_id", type="integer", nullable=true)
+     *
+     * @ORM\ManyToOne(targetEntity="Division")
+     * @ORM\JoinColumn(name="division_id", referencedColumnName="division_id")
      */
-    private $divisionId;
+    private $division;
 
     /**
      * @var integer $divisionSeqNum
@@ -111,6 +136,13 @@ class PhyTeam
     private $eaysoDes;
 
 
+    /**
+     * @ORM\OneToOne(targetEntity="ProjectItem")
+     * @ORM\JoinColumn(name="phy_team_id", referencedColumnName="item_id")
+     *
+     * Still a bit of a hack, need Projectitem.type = 2
+     */
+    private $projectItem;
 
     /**
      * Set regYearId

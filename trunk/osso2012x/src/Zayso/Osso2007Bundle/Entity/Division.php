@@ -21,6 +21,8 @@ class Division
      */
     private $divisionId;
 
+    public function getId() { return $this->divisionId; }
+
     /**
      * @var integer $sortx
      *
