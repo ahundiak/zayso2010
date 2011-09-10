@@ -5,12 +5,12 @@ class Row
   {
     $this->name   = trim($data[0]);
     $this->rank   = (int)trim($data[1]);
-    $this->games  = (int)trim($data[2]);
-    $this->city   = trim($data[3]);
-    $this->avail  = trim($data[5]);
-    $this->phone1 = trim($data[8]);
-    $this->phone2 = trim($data[10]);
-    $this->pageCount = (int)trim($data[11]);
+    $this->games  = (int)trim($data[3]);
+    $this->city   = trim($data[4]);
+    $this->avail  = trim($data[7]);
+    $this->phone1 = trim($data[10]);
+    $this->phone2 = trim($data[12]);
+    $this->pageCount = (int)trim($data[13]);
   }
 }
 class Item
