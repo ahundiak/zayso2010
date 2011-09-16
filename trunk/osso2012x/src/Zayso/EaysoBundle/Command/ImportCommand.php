@@ -11,11 +11,20 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Zayso\EaysoBundle\Import\VolunteerImport;
 use Zayso\EaysoBundle\Import\CertificationImport;
 
+use Zayso\EaysoBundle\Component\Debug;
+
 class ImportCommand extends ContainerAwareCommand
 {
     protected function getEntityManager()
     {
-        return $this->getContainer()->get('doctrine')->getEntityManager();
+        /*
+        $doctrine = $this->getContainer()->get('doctrine');
+        $ems = $doctrine->getEntityManagers();
+        echo $doctrine->getDefaultEntityManagerName() . "\n";
+        print_r(array_keys($ems));
+        die();
+        */
+        return $this->getContainer()->get('doctrine')->getEntityManager('eayso');
     }
     protected function configure()
     {
@@ -66,12 +75,15 @@ class ImportCommand extends ContainerAwareCommand
     }
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $em = $this->getEntityManager();
+
         $inputFileName = $input->getArgument('file');
 
         $datax = "C:/home/ahundiak/datax/eayso/vols/";
         
-      //$this->importVols($datax);
-        $this->importCerts($datax);
+        $this->importVol('../datax/Vols.csv');
+
+        //$this->importCerts($datax);
         return;        
     }
 }
