@@ -80,7 +80,10 @@ class User
         $aysoid = $this->person->aysoid;
         if (!$aysoid) return 'AYSOID Not Found';
 
+        $manager = $this->getEaysoManager();
+        
         $vol = $this->getEaysoManager()->loadVolCerts($aysoid);
+        
         if (!$vol) return 'AYSO Record Not Found For ' . $aysoid;
 
         $out = $vol->getId() . ', ' . $vol->getRegion() . ', MY' . $vol->getMemYear();
