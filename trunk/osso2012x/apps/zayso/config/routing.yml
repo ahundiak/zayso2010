@@ -20,6 +20,10 @@ _natgames_welcomex:
     pattern:  /natgames/welcome
     defaults: { _controller: NatGamesBundle:Welcome:welcome }
     
+_natgames_form:
+    pattern:  /natgames/form
+    defaults: { _controller: NatGamesBundle:Form:form }
+
 _natgames_contact:
     pattern:  /natgames/contact
     defaults: { _controller: NatGamesBundle:Contact:contact }
