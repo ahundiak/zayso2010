@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection,
 
 /**
  * @ORM\Entity(repositoryClass="Zayso\EaysoBundle\Repository\VolunteerRepository")
- * @ORM\Table(name="eayso2012.volunteer")
+ * @ORM\Table(name="volunteer")
  * @ORM\HasLifecycleCallbacks
  * @ORM\ChangeTrackingPolicy("NOTIFY")
  */

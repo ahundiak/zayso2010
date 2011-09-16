@@ -10,11 +10,20 @@ class EaysoManager
 {
     protected $em = null;
     
-    protected function getEntityManager() { return $this->em; }
+    protected function getEntityManager()
+    {
+        return $this->em;
+        return $this->services->get('doctrine')->getEntityManager('eayso');
+    }
 
-    public function __construct($em)
+    public function __construct($em,$services)
     {
         $this->em = $em;
+        $this->services = $services;
+
+        //$ids = $services->getServiceIds();
+        //print_r($ids);
+        //die(get_class($services));
     }
     public function loadVolCerts($aysoid)
     {
