@@ -1,0 +1,26 @@
+{% extends 'NatGamesBundle::layout.html.twig' %}
+
+{% block title %}NatGames - Form{% endblock %}
+
+{% block content %}
+<table border="1">
+<form action="{{ path('_natgames_form') }}" method="post" {{ form_enctype(form) }}>
+
+<tr><td>Form Errors: {{ form_errors(form) }}</td></tr>
+
+<tr><td>
+    {{ form_label (form.task, 'Task Description') }}
+    {{ form_errors(form.task) }}
+    {{ form_widget(form.task) }}
+
+</td></tr>
+<tr><td>{{ form_row(form.dueDate) }}</td></tr>
+
+<tr><td>{{ form_rest(form) }}</td></tr>
+
+
+<tr><td><input type="submit" /></td></tr>
+</form>
+</table>
+
+{% endblock %}
