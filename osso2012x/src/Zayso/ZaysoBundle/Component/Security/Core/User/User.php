@@ -14,13 +14,17 @@ class User
     protected $projectId = 0;
     protected $projectPerson = null;
 
-    public function __construct($em)
+    protected $services;
+    protected function getEntityManager() { return $this->services->get('doctrine')->getEntityManager(); }
+    protected function getEaysoManager()  { return $this->services->get('eayso.manager'); }
+
+    public function __construct($services)
     {
-        $this->em = $em;
+        $this->services = $services;
     }
     public function load($accountId, $memberId = 0, $projectId = 0)
     {
-        $em = $this->em;
+        $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
         $qb->addSelect('account');
@@ -62,7 +66,7 @@ class User
         if (!$this->projectPerson)
         {
             if (!$projectId) $projectId = $this->projectId;
-            $projectRepo = $this->em->getRepository('ZaysoBundle:Project');
+            $projectRepo = $this->getEntityManager()->getRepository('ZaysoBundle:Project');
             $this->projectPerson = $projectRepo->loadProjectPerson($projectId,$this->person);
         }
         return $this->projectPerson;
@@ -89,6 +93,27 @@ class User
         if ($nname) $fname = $nname;
 
         return $fname . ' ' . $lname;
+    }
+    public function getAYSOCertsDescription()
+    {
+        $aysoid = $this->person->getAysoid();
+        if (!$aysoid) return 'AYSOID Not Found';
+
+        $manager = $this->getEaysoManager();
+
+        $vol = $this->getEaysoManager()->loadVolCerts($aysoid);
+
+        if (!$vol) return 'AYSO Record Not Found For ' . $aysoid;
+
+        $out = $vol->getId() . ', ' . $vol->getRegion() . ', MY' . $vol->getMemYear();
+
+        $cert = $vol->getRefereeBadgeCertification();
+        if ($cert) $out .= ', ' . $cert->getDescription();
+
+        $cert = $vol->getSafeHavenCertification();
+        if ($cert) $out .= ', ' . $cert->getDescription();
+
+        return $out;
     }
 }
 ?>

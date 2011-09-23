@@ -71,9 +71,26 @@ class TestCommand extends ContainerAwareCommand
         $em->flush();
 
     }
+    protected function testAccount2007()
+    {
+        $accountManager = $this->getContainer()->get('account2007.manager');
+        $account = $accountManager->checkAccount('ahundiak','zzz');
+
+        if (!$account) die('no account');
+        echo $account->getAccountUser() . "\n";
+
+        $member = $account->getPrimaryMember();
+        echo $member->getMemberName() . "\n";
+
+        $person = $member->getPerson();
+        if (!$person) die('no person');
+
+        echo $person->getLastName() . "\n";
+        
+    }
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->testUser();
+        $this->testAccount2007();
         return;
 
         $this->initProject($output);
