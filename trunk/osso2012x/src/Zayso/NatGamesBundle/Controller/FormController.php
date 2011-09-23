@@ -11,6 +11,16 @@ use Symfony\Component\Validator\Constraints\Type;
 use Symfony\Component\Form\AbstractType as AbstractFormType;
 use Symfony\Component\Form\FormBuilder;
 
+use Zayso\ZaysoBundle\Entity\Account;
+use Zayso\ZaysoBundle\Entity\AccountPerson;
+use Zayso\ZaysoBundle\Entity\Person;
+
+use Zayso\ZaysoBundle\Component\Form\Type\AccountType;
+use Zayso\ZaysoBundle\Component\Form\Type\AccountPersonType;
+use Zayso\ZaysoBundle\Component\Form\Type\PersonType;
+
+use Zayso\ZaysoBundle\Component\Debug;
+
 class Task
 {
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -59,6 +69,44 @@ class TaskFormType extends AbstractFormType
 class FormController extends BaseController
 {
     public function formAction(Request $request)
+    {
+        $account = new Account();
+        $account->setUserName('uname');
+        $account->setUserPass('upass');
+        $account->setStatus  ('ac status');
+
+        $person = new Person();
+        $person->setNickName('Hondo');
+
+        $accountPerson = new AccountPerson();
+        $accountPerson->setStatus('ap status');
+        $accountPerson->setAccount($account);
+        $accountPerson->setPerson ($person);
+        
+        $form = $this->createForm(new AccountType(), $account);
+
+        if ($request->getMethod() == 'POST')
+        {
+            $form->bindRequest($request);
+
+            // $refBadge = $form['refBadge']->getData(); die($refBadge);
+            
+            if ($form->isValid())
+            {
+                // perform some action, such as saving the task to the database
+
+                return $this->redirect($this->generateUrl('_natgames_form'));
+            }
+            // else die('Not Valid');
+        }
+
+        $tplData = $this->getTplData();
+        $tplData['form'] = $form->createView();
+
+        //Debug::dump($tplData['form']); die();
+        return $this->render('NatGamesBundle:Form:account.html.twig', $tplData);
+    }
+    public function formTaskAction(Request $request)
     {
        // create a task and give it some dummy data for this example
         $task = new Task();

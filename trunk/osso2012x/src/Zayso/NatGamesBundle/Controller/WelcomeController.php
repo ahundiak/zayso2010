@@ -11,6 +11,8 @@ class WelcomeController extends BaseController
     }
     public function homeAction()
     {
+        // die($this->getRequest()->server->get('HTTP_USER_AGENT'));
+        
         $user = $this->getUser();
         if (!$user->isSignedIn()) return $this->redirect($this->generateUrl('_natgames_welcomex'));
 

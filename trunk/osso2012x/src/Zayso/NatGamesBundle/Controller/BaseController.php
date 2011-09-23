@@ -38,7 +38,7 @@ class BaseController extends Controller
         if (isset($userData['memberId' ])) $memberId  = $userData['memberId'];
         if (isset($userData['projectId'])) $projectId = $userData['projectId'];
 
-        $this->user = new User($this->getEntityManager());
+        $this->user = new User($this->container);
         $this->user->load($accountId,$memberId,$projectId);
         return $this->user;
     }
