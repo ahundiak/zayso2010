@@ -116,7 +116,7 @@ class Person
         {
             if ($reg->getRegType() == 'AYSOV')
             {
-                return substr($reg->getRegKey,-8);
+                return substr($reg->getRegKey(),-8);
             }
         }
         return null;

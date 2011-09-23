@@ -67,7 +67,7 @@ class PersonRegistered
   public function setPerson($person)
   {
     $this->person = $person;
-    $person->addRegisteredPerson($this);
+    if ($person) $person->addRegisteredPerson($this);
   }
 
   /* =====================================================================

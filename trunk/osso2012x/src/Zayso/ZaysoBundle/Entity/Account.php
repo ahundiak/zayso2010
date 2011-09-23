@@ -33,6 +33,8 @@ class Account
    */
   protected $members;
 
+  public $accountPerson;
+
   public function __construct()
   {
     $this->members = new ArrayCollection();
@@ -40,6 +42,7 @@ class Account
   public function addAccountPerson($member)
   {
     $this->members[] = $member;
+    $this->accountPerson = $member;
   }
   public function getMember($memberId)
   {

@@ -63,7 +63,7 @@ class PersonRepository extends EntityRepository
         $orgKey = (int)$data->region;
         if ($orgKey)
         {
-            $orgKey = sprintf('AYSOR-%04u',$orgKey);
+            $orgKey = sprintf('AYSOR%04u',$orgKey);
             $person->setOrgKey($orgKey);
         }
         $person->setStatus('Active');
@@ -74,7 +74,7 @@ class PersonRepository extends EntityRepository
         // Registered Person
         $personReg = new PersonRegistered();
         $personReg->setRegType('AYSOV');
-        $personReg->setRegKey ('AYSOV-' . $data->aysoid);
+        $personReg->setRegKey ('AYSOV' . $data->aysoid);
         $personReg->setPerson($person);
         $personReg->setVerified('No');
 
