@@ -68,6 +68,15 @@ doctrine:
                 password: %database_password%
                 charset:  UTF8
 
+            osso2007:
+                driver:   %database_driver%
+                host:     %database_host%
+                port:     %database_port%
+                dbname:   %database_osso2007_name%
+                user:     %database_user%
+                password: %database_password%
+                charset:  UTF8
+
     orm:
         default_entity_manager:   default
         auto_generate_proxy_classes: %kernel.debug%
@@ -81,6 +90,10 @@ doctrine:
                 connection: eayso
                 mappings:
                     EaysoBundle: ~
+            osso2007:
+                connection: osso2007
+                mappings:
+                    Osso2007Bundle: ~
 
 # Swiftmailer Configuration
 swiftmailer:
