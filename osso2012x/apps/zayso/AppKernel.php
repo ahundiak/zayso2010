@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             
             new Zayso\ZaysoBundle\ZaysoBundle(),
             new Zayso\EaysoBundle\EaysoBundle(),
+            new Zayso\Osso2007Bundle\Osso2007Bundle(),
             new Zayso\Area5CFBundle\Area5CFBundle(),
             new Zayso\NatGamesBundle\NatGamesBundle(),
         );

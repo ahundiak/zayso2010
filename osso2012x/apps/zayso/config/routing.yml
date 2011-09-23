@@ -30,13 +30,11 @@ _natgames_contact:
     
 _natgames_account_create:
     pattern:  /natgames/account/create
-    defaults: { _controller: NatGamesBundle:Account:create }
-    requirements:
-        _method:  GET
+    defaults: { _controller: NatGamesBundle:Account\Edit:create }
         
 _natgames_account_create_post:
     pattern:  /natgames/account/create
-    defaults: { _controller: NatGamesBundle:Account:createPost }
+    defaults: { _controller: NatGamesBundle:Account\Edit:createPost }
     requirements:
         _method:  POST
     
