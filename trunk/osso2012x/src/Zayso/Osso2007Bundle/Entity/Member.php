@@ -22,19 +22,20 @@ class Member
     private $memberId;
 
     /**
-     * @var integer $accountId
-     *
-     * @ORM\Column(name="account_id", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Account", inversedBy="members")
+     * @ORM\JoinColumn(name="account_id", referencedColumnName="account_id")
      */
-    private $accountId;
+    private $account = null;
 
     /**
-     * @var integer $personId
      *
-     * @ORM\Column(name="person_id", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Person")
+     * @ORM\JoinColumn(name="person_id", referencedColumnName="person_id", nullable=true)
      */
-    private $personId;
+    private $person = null;
 
+    public function getPerson() { return $this->person; }
+    
     /**
      * @var integer $unitId
      *

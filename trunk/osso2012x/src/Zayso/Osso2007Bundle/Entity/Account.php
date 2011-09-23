@@ -3,6 +3,7 @@
 namespace Zayso\Osso2007Bundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Zayso\Osso2007Bundle\Entity\Account
@@ -12,6 +13,25 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Account
 {
+    /**
+     *  @ORM\OneToMany(targetEntity="Member", mappedBy="account", cascade={"persist","remove"})
+     */
+    private $members;
+
+    public function getMembers() { return $this->members; }
+    public function getPrimaryMember()
+    {
+        foreach($this->members as $member)
+        {
+            if ($member->getLevel() == 1) return $member;
+        }
+        return null;
+    }
+    public function __construct()
+    {
+        $this->members = new ArrayCollection();
+    }
+
     /**
      * @var integer $accountId
      *
