@@ -116,6 +116,7 @@ class AccountCreateType extends AbstractType
         $builder->add('region', 'integer', array('label' => 'AYSO Region Number', 'attr' => array('size' => 4)));
 
         $builder->add('projectId','hidden');
+        $builder->add('projectIdx','hidden',array('data' => 123, 'property_path' => false));
 
         $builder->add('refBadge', 'choice', array(
             'label'         => 'AYSO Referee Badge',
@@ -169,6 +170,15 @@ class EditController extends BaseController
 
         if ($request->getMethod() == 'POST')
         {
+            $message = \Swift_Message::newInstance();
+            $message->setSubject('Hello Email');
+            $message->setFrom('ahundiak@zayso.org');
+            $message->setTo  ('ahundiak@gmail.com');
+            $message->setBody('The Body');
+//      ->setBody($this->renderView('HelloBundle:Hello:email.txt.twig', array('name' => $name)))
+    
+            $this->get('mailer')->send($message);
+
             $form->bindRequest($request);
 
             if ($form->isValid())
