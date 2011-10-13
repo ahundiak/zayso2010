@@ -10,7 +10,7 @@ class Osso2007_Schedule_Import_SchImportReader extends Cerad_Reader_CSV
     'Away Team' => 'away',
     'Home Team' => 'home',
     'Number'    => 'number',
-  //'Type'      => 'type',
+    'Type'      => 'type',
   );
 }
 ?>
