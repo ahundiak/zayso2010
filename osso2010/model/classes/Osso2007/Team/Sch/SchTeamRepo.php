@@ -34,8 +34,9 @@ class Osso2007_Team_Sch_SchTeamRepo
   protected $cacheProjectKeyRows = array();
   public function getRowForProjectKey($pid,$key)
   {
-    $parts = explode(' ',$key);
-    $key = $parts[0];
+      // 12 Oct 2011 No more internal majic
+    //$parts = explode(' ',$key);
+    //$key = $parts[0];
     
     if (isset($this->cacheProjectKeyRows[$pid][$key])) return $this->cacheProjectKeyRows[$pid][$key];
 

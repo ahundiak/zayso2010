@@ -49,7 +49,7 @@ class Osso2007_Team_Sch_SchTeamImport extends Cerad_Import
     $this->count->total++;
 
     // Need the project ids
-    $pidTeams    = 28;
+    $pidTeams    = 70;
     $pidSchedule = $this->projectId;
     $rowSchedule = $this->projectRow;
 

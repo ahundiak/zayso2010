@@ -41,19 +41,23 @@ class Osso2007_Schedule_Import_SchImport extends Osso2007_Schedule_Import_SchImp
   (
   );
 
-  protected function processTeam($team)
+  protected function processTeam($teamKey)
   {
-    if (!$team) return null;
+    if (!$teamKey) return null;
     
-    // Use global cache
-    if (isset($this->teamMap[$team])) $team = $this->teamMap[$team];
+    // Old style mapping
+    // if (isset($this->teamMap[$team])) $team = $this->teamMap[$team];
     
-    $parts = explode(' ',$team);
-    $team = $parts[0];
-    $team = str_replace('-','',$team);
+    $row = $this->repoSchTeam->getRowForProjectKey($this->projectId,$teamKey);
+    if (!$row) 
+    {
+        $parts = explode(' ',$teamKey);
+        $team = $parts[0];
+        $team = str_replace('-','',$team);
+        $row = $this->repoSchTeam->getRowForProjectKey($this->projectId,$team);
+    }
+    if (!$row) die('Missing Team ' . $teamKey);
     
-    $row = $this->repoSchTeam->getRowForProjectKey($this->projectId,$team);
-    if (!$row) die('Missing Team ' . $team);
     return $row;
   }
   protected $date = '';
@@ -90,8 +94,8 @@ class Osso2007_Schedule_Import_SchImport extends Osso2007_Schedule_Import_SchImp
 
     $eventClassId = 1;
     
-    //$eventClassId = $this->repoMisc->getEventClassIdForKey($data['type']);
-    //if (!$eventClassId) $eventClassId = 1;
+    $eventClassId = $this->repoMisc->getEventClassIdForKey($data['type']);
+    if (!$eventClassId) $eventClassId = 1;
 
     if (!$eventNum)
     {

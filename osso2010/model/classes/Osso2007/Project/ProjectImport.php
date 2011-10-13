@@ -1,4 +1,18 @@
 <?php
+/* =========================================================
+ * 12 Oct 2011
+ * Needed to load regional and area tournament projects
+ * Found the spreadsheet and added the entries
+ * First try pretty much wiped out schedule teams for current season
+ * 
+ * Code looks like it attempts to add assosrted things to project
+ * 
+ * Schedule types for 2011 are set to 3 and not 1?
+ * 
+ * So it only updates the project_org list
+ * Not seeing it really do anything for schedule teams or physical teams
+ * Need to look at the tournament import stuff for that
+ */
 class Osso2007_Project_ProjectImport extends Cerad_Import
 {
   protected $readerClassName = 'Osso2007_Project_ProjectImportReader';
@@ -86,7 +100,8 @@ EOT;
         'project_id' => $data['id'],
         'event_num'  => $eventNumx,
       );
-      $this->directEvent->update($datax);
+      // 12 Oct 2011 Don't see any reason to update this
+      // $this->directEvent->update($datax);
     }
     return $eventNum;
   }
@@ -199,7 +214,7 @@ EOT;
     return $row['id'];
   }
   public function processRowData($data)
-  {   
+  {  
     // Validation
     if (!$data['id']) return;
     $this->count->total++;
@@ -207,10 +222,12 @@ EOT;
     $regions = $data['regions'];
     unset($data['regions']);
 
-    $eventNum = $this->processEvents($data);
-    if ($eventNum) $data['event_num'] = $eventNum;
-
-    $this->processSchTeams($data);
+    // Set event number to max existing event
+    //$eventNum = $this->processEvents($data);
+    //if ($eventNum) $data['event_num'] = $eventNum;
+    
+    // All this did was to update existing schedule teams
+    // $this->processSchTeams($data);
 
     if ($data['id'] == 39)
     {
@@ -232,6 +249,7 @@ EOT;
         $this->directProjectOrg->insert($datax);
       }
     }
+    // 12 Oct 2012 - Think this was already commented out
     // $this->processPhyTeams();
   }
   protected $regions = array();
