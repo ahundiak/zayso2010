@@ -47,7 +47,7 @@ class Osso2007_Schedule_Import_SchImport extends Osso2007_Schedule_Import_SchImp
     
     // Old style mapping
     // if (isset($this->teamMap[$team])) $team = $this->teamMap[$team];
-    
+ 
     $row = $this->repoSchTeam->getRowForProjectKey($this->projectId,$teamKey);
     if (!$row) 
     {
