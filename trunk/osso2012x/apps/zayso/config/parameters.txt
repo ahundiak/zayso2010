@@ -1,0 +1,24 @@
+; These parameters can be imported into other config files
+; by enclosing the key with % (like %database_user%)
+; Comments start with ';', as in php.ini
+[parameters]
+    database_driver   = pdo_mysql
+    database_host     = localhost
+    database_port     =
+    database_name     = osso2012
+    database_user     = impd
+    database_password = 
+
+    database_eayso_name    = eayso2012
+    database_osso2007_name = osso2007
+
+    session_dsn       = "mysql:dbname=session;host=localhost"
+
+    mailer_transport  = gmail
+    mailer_host       = localhost
+    mailer_user       = ahundiak@zayso.org
+    mailer_password   = 
+
+    locale            = en
+
+    secret            = ThisTokenIsNotSoSecretChangeIt
