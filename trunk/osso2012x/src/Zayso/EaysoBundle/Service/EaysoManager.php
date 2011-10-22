@@ -6,6 +6,8 @@ namespace Zayso\EaysoBundle\Service;
 
 use Zayso\EaysoBundle\Component\Debug;
 
+use Doctrine\ORM\ORMException;
+
 class EaysoManager
 {
     protected $em = null;
@@ -44,7 +46,14 @@ class EaysoManager
         $qb->setParameter('aysoid',$aysoid);
 
         $query = $qb->getQuery();
-        $item = $query->getSingleResult();
+        try
+        {
+            $item = $query->getSingleResult();
+        }
+        catch (ORMException $e)
+        {
+            return null; // If none found
+        }
         return $item;
     }
 }

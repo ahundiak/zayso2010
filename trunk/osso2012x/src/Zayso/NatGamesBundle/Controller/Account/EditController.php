@@ -113,7 +113,7 @@ class AccountCreateType extends AbstractType
         $builder->add('aysoid',    'text', array('label' => 'AYSO ID',    'attr' => array('size' => 10)));
         $builder->add('email',     'text', array('label' => 'Email',      'attr' => array('size' => 35)));
         $builder->add('cellPhone', 'text', array('label' => 'Cell Phone', 'attr' => array('size' => 20)));
-        $builder->add('region', 'integer', array('label' => 'AYSO Region Number', 'attr' => array('size' => 4)));
+        $builder->add('region',    'text', array('label' => 'AYSO Region Number', 'attr' => array('size' => 4)));
 
         $builder->add('projectId','hidden');
         $builder->add('projectIdx','hidden',array('data' => 123, 'property_path' => false));
@@ -177,12 +177,16 @@ class EditController extends BaseController
             $message->setBody('The Body');
 //      ->setBody($this->renderView('HelloBundle:Hello:email.txt.twig', array('name' => $name)))
     
-            $this->get('mailer')->send($message);
+            // $this->get('mailer')->send($message);
 
             $form->bindRequest($request);
 
             if ($form->isValid())
             {
+                $account = $this->createAccount($accountData);
+                
+                if ($account) return $this->redirect($this->generateUrl('_natgames_home'));
+                
                 // perform some action, such as saving the task to the database
                 return $this->redirect($this->generateUrl('_natgames_account_create'));
             }
@@ -192,27 +196,15 @@ class EditController extends BaseController
 
         return $this->render('NatGamesBundle:Account:create.html.twig',$tplData);
     }
-    public function createPostAction()
+    public function createAccount($accountCreateData)
     {
         $em = $this->getEntityManager();
-
-        $request = $this->getRequest();
-    
-        $accountCreateData = $request->request->get('accountCreateData');
-
-        // Really don't want to store the passwords
-        $accountCreateDatax = $accountCreateData;
-        $accountCreateDatax['userPass1'] = '';
-        $accountCreateDatax['userPass2'] = '';
-        $session = $this->getRequest()->getSession();
-        $session->set('accountCreateData',$accountCreateDatax);
 
         $accountRepo = $em->getRepository('ZaysoBundle:Account');
         $account = $accountRepo->create($accountCreateData);
         if (is_array($account))
         {
-            $session->setFlash('errors',$account);
-            return $this->redirect($this->generateUrl('_natgames_account_create'));
+            return null; // Hopefully never happens
         }
 
         // Setup project person
@@ -222,10 +214,23 @@ class EditController extends BaseController
         $projectRepo = $em->getRepository('ZaysoBundle:Project');
 
         $projectPerson = $projectRepo->loadProjectPerson($projectId,$personId);
-        $projectPerson->set('accountCreateData',$accountCreateDatax);
-
-        $todo = array('projectPlans' => true, 'openid' => true, 'projectLevels' => true);
-        $projectPerson->set('todo',$todo);
+        
+        // Save initial creation information sans password
+        $alreadyHave = $projectPerson->set('accountCreateData');
+        if (!$alreadyHave)
+        {
+            $accountCreateDatax = $accountCreateData;
+            $accountCreateDatax['userPass1'] = '';
+            $accountCreateDatax['userPass2'] = '';
+            $projectPerson->set('accountCreateData',$accountCreateDatax);
+        }
+        // Same for todo
+        $alreadyHave = $projectPerson->set('todo');
+        if (!$alreadyHave)
+        {
+            $todo = array('projectPlans' => true, 'openid' => true, 'projectLevels' => true);
+            $projectPerson->set('todo',$todo);
+        }
         $em->flush();
 
         // Signin
@@ -237,7 +242,7 @@ class EditController extends BaseController
             'personId'  => $personId,
             'projectId' => $projectId,
         );
-        $session->set('userData',$userData);
+        $this->getSession()->set('userData',$userData);
 
         // Also save signin information
         $accountSigninData = array
@@ -245,10 +250,12 @@ class EditController extends BaseController
             'userName' => $account->getUserName(),
             'userPass' => '',
         );
-        $session->set('accountSigninData',$accountSigninData);
+        $this->getSession()->set('accountSigninData',$accountSigninData);
         //
         //print_r($accountCreateData); die();
     
+        return $account;
+        
         return $this->redirect($this->generateUrl('_natgames_home'));
   }
 }
