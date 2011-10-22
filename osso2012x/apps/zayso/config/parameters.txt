@@ -11,6 +11,7 @@
 
     database_eayso_name    = eayso2012
     database_osso2007_name = osso2007
+    database_osso2012_name = osso2012
 
     session_dsn       = "mysql:dbname=session;host=localhost"
 

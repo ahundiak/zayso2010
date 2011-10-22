@@ -85,6 +85,20 @@ _natgames_schedule:
     requirements:
         _method:  GET
 
+# =================================================
+# Admin stuff
+_natgames_admin:
+    pattern:  /natgames/admin
+    defaults: { _controller: NatGamesBundle:Admin:index }
+    requirements:
+        _method:  GET
+        
+_natgames_admin_accounts:
+    pattern:  /natgames/admin/accounts.{_format}
+    defaults: { _controller: NatGamesBundle:Admin:accounts, _format: html }
+    requirements:
+        _method:  GET
+        _format:  html|csv
 
 # resource: routing_area5cf.yml
 _main:

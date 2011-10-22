@@ -1,0 +1,46 @@
+{% extends 'NatGamesBundle::layout.html.twig' %}
+
+{% block title %}NatGames - Admin{% endblock %}
+
+{% block content %}
+<div>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Account</th>
+        <th>Ver</th>
+        <th>First Name</th>
+        <th>Last  Name</th>
+        <th>Nick  Name</th>
+        <th>Email</th>
+        <th>Cell Phone</th>
+        <th>Region</th>
+        <th>AYSOID</th>
+        <th>Attend</th>
+        <th>Referee</th>
+        <th></th>
+    </tr>
+    {% for account in accounts %}
+    {% for member  in account.getMembers() %}
+    {{ memberx.setMember(member) }}
+    <tr>
+        <td>{{ member.account.id }}</td>
+        <td>{{ member.account.userName   }}</td>
+        <td>{{ member.verified   }}</td>
+        <td>{{ memberx.firstName }}</td>
+        <td>{{ memberx.lastName  }}</td>
+        <td>{{ memberx.nickName  }}</td>
+        <td>{{ memberx.email     }}</td>
+        <td>{{ memberx.cellPhone }}</td>
+        <td>{{ memberx.region    }}</td>
+        <td>{{ memberx.aysoid    }}</td>
+        <td>{{ memberx.getPlan('attend') }}</td>
+        <td>{{ memberx.getPlan('will_referee') }}</td>
+
+        <td><input type="checkbox" name="editData[selects][{{account.id}}]" value="{{account.id}}" /></td>
+    </tr>
+    {% endfor %}
+    {% endfor %}
+</table>
+</div>
+{% endblock %}

@@ -107,6 +107,17 @@ class Person
     {
         $this->registereds[$reg->getRegType()] = $reg;
     }
+    public function getNatGamesProjectPerson()
+    {
+        foreach($this->projects as $projectPerson)
+        {
+            if ($projectPerson->getProject()->getId() == 52)
+            {
+                return $projectPerson;
+            }
+        }
+        return new \Zayso\ZaysoBundle\Entity\ProjectPerson();        
+    }
     public function getAysoid()
     {
         // die('Count: ' . count($this->_regs));
