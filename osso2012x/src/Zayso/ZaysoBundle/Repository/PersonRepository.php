@@ -122,7 +122,7 @@ class PersonRepository extends EntityRepository
   }
     public function findForAysoid($aysoid)
     {
-        if (strlen($aysoid) == 8) $aysoid = 'AYSOV-' . $aysoid;
+        if (strlen($aysoid) == 8) $aysoid = 'AYSOV' . $aysoid;
 
         $em = $this->_em;
 

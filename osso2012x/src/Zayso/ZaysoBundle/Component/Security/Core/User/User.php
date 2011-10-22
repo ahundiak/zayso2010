@@ -96,16 +96,19 @@ class User
     }
     public function getAYSOCertsDescription()
     {
-        $aysoid = $this->person->getAysoid();
+        $person = $this->person;
+        if (!$person) return '';
+        
+        $aysoid = $person->getAysoid();
         if (!$aysoid) return 'AYSOID Not Found';
 
         $manager = $this->getEaysoManager();
-
+        
         $vol = $this->getEaysoManager()->loadVolCerts($aysoid);
 
-        if (!$vol) return 'AYSO Record Not Found For ' . $aysoid;
+        if (!$vol) return 'AYSO Record Not Yet Verified For ' . $aysoid;
 
-        $out = $vol->getId() . ', ' . $vol->getRegion() . ', MY' . $vol->getMemYear();
+        $out = substr($vol->getId(),5) . ', ' . substr($vol->getRegion(),4) . ', MY' . $vol->getMemYear();
 
         $cert = $vol->getRefereeBadgeCertification();
         if ($cert) $out .= ', ' . $cert->getDescription();
