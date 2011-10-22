@@ -216,7 +216,7 @@ class EditController extends BaseController
         $projectPerson = $projectRepo->loadProjectPerson($projectId,$personId);
         
         // Save initial creation information sans password
-        $alreadyHave = $projectPerson->set('accountCreateData');
+        $alreadyHave = $projectPerson->get('accountCreateData');
         if (!$alreadyHave)
         {
             $accountCreateDatax = $accountCreateData;
@@ -225,7 +225,7 @@ class EditController extends BaseController
             $projectPerson->set('accountCreateData',$accountCreateDatax);
         }
         // Same for todo
-        $alreadyHave = $projectPerson->set('todo');
+        $alreadyHave = $projectPerson->get('todo');
         if (!$alreadyHave)
         {
             $todo = array('projectPlans' => true, 'openid' => true, 'projectLevels' => true);
