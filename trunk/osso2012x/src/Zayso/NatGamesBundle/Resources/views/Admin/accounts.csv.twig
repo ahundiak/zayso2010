@@ -1,0 +1,8 @@
+{% spaceless %}
+{% block content %}
+ID,Account,Ver,First Name,Last  Name,Nick  Name,Email,Cell Phone,Region,AYSOID,Attend,Referee
+{% for account in accounts %}{% for member  in account.getMembers() %}{{ memberx.setMember(member) }}{{ member.account.id }},{{ member.account.userName }},{{ member.verified }},{{ memberx.firstName }},{{ memberx.lastName }},{{ memberx.nickName }},{{ memberx.email }},{{ memberx.cellPhone }},{{ memberx.region    }},{{ memberx.aysoid    }},{{ memberx.getPlan('attend') }},{{ memberx.getPlan('will_referee') }}
+{% endfor %}
+{% endfor %}
+{% endblock %}
+{% endspaceless %}

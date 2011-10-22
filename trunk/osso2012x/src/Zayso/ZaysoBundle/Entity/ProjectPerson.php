@@ -59,6 +59,18 @@ class ProjectPerson
   {
     $this->data = unserialize($this->datax);
   }
+  public function getPlans()
+  {
+      $plans = $this->get('plans');
+      
+      if ($plans) return $plans;
+      
+      return array(
+          'attend'       => 'NS',
+          'will_referee' => 'NS',
+      );
+      
+  }
   public function get($name)
   {
       if (isset($this->data[$name])) return $this->data[$name];

@@ -118,5 +118,24 @@ class User
 
         return $out;
     }
+    public function isAdmin()
+    {
+        $person = $this->person;
+        if (!$person) return false;
+        
+        $aysoid = $person->getAysoid();
+        if (!$aysoid) return false;
+        
+        switch($aysoid)
+        {
+            case '99437977': // Art H
+            case '90001476': // David Holt
+            case '98037803': // Jack Graham
+            case '53319472': // Diane S
+                    
+                return true;
+        }
+        return false;
+    }
 }
 ?>
