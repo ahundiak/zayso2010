@@ -100,6 +100,10 @@ _natgames_admin_accounts:
         _method:  GET
         _format:  html|csv
 
+_natgames_admin_import:
+    pattern:  /natgames/admin/import
+    defaults: { _controller: NatGamesBundle:Admin\Import:index }
+
 # resource: routing_area5cf.yml
 _main:
     resource: routing_area5cf.yml
