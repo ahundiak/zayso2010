@@ -51,5 +51,12 @@ class BaseController extends Controller
         );
         return $tplData;
     }
+    protected function isAdmin()
+    {
+        $user = $this->getUser();
+        if (!$user->isSignedIn()) return false;
+        if (!$user->isAdmin   ()) return false;
+        return true;
+    }
 }
 ?>
