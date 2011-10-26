@@ -87,7 +87,7 @@ class AccountImport extends BaseImport
 
         $memYear = $this->processMemYear($item->memYear);
         if ($memYear) $registeredPerson->setMemYear($memYear);
-
+        
         return;
         
         Debug::dump($item); die();

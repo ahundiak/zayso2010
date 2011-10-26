@@ -19,11 +19,19 @@ class MemberViewHelper
         $this->registeredPerson = $this->person->getAysoRegisteredPerson();
         return;
     }
+    public function getUserName  () { return $this->account->getUserName(); }
     public function getFirstName () { return $this->person->getFirstName(); }
     public function getLastName  () { return $this->person->getLastName(); }
     public function getNickName  () { return $this->person->getNickName(); }
     public function getAysoid    () { return substr($this->registeredPerson->getRegKey(),5); }
     public function getEmail     () { return $this->person->getEmail(); }
+    public function getDob       () { return $this->person->getDob(); }
+    public function getGender    () { return $this->person->getGender(); }
+    
+    public function getRefBadge  () { return $this->registeredPerson->getRefBadge(); }
+    public function getRefDate   () { return $this->registeredPerson->getRefDate(); }
+    public function getSafeHaven () { return $this->registeredPerson->getSafeHaven(); }
+    public function getMemYear   () { return 'MY' . $this->registeredPerson->getMemYear(); }
 
     public function getGenderYob () { return $this->person->getGender() . substr($this->person->getDob(),0,4); }
     
@@ -133,7 +141,8 @@ class AdminController extends BaseController
         if ($_format == 'html') return $this->render('NatGamesBundle:Admin:accounts.html.twig',$tplData);
         
         $response = $this->render('NatGamesBundle:Admin:accounts.csv.php',$tplData);
-        $response->headers->set('Content-Type', 'application/csv');
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', 'attachment; filename="accounts.csv"');
         return $response;
     }
 }
