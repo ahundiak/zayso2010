@@ -85,6 +85,8 @@ class Person
             $this->datax = null;
             return;
         }
+        if (isset($this->data[$name]) && $this->data[$name] == $value) return;
+
         $this->data[$name] = $value;
         $this->datax = null;
     }
@@ -132,6 +134,23 @@ class Person
         }
         return null;
     }
+    public function getAysoRegisteredPerson()
+    {
+        // die('Count: ' . count($this->_regs));
+
+        // Should be able to use that key stuff
+        foreach($this->registereds as $reg)
+        {
+            if ($reg->getRegType() == 'AYSOV') return $reg;
+        }
+        return null;
+    }
+    public function setDob($dob) { return $this->set('dob',$dob); }
+    public function getDob()     { return $this->get('dob'); }
+    
+    public function setGender($gender) { return $this->set('gender',$gender); }
+    public function getGender()        { return $this->get('gender'); }
+
     /* ======================================================================
      * Generated code follows
      */

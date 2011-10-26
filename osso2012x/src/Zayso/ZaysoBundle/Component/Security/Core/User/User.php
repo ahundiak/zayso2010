@@ -98,10 +98,29 @@ class User
     {
         $person = $this->person;
         if (!$person) return '';
-        
-        $aysoid = $person->getAysoid();
+
+        $registeredPerson = $person->getAysoRegisteredPerson();
+        if (!$registeredPerson) return 'Not registered in ayso';
+
+        $aysoid = substr($registeredPerson->getRegKey(),4);
         if (!$aysoid) return 'AYSOID Not Found';
 
+        $region = substr($person->getOrgKey(),4);
+
+        $memYear = 'MY' . $registeredPerson->getMemYear();
+        if ($memYear == 'MY')
+        {
+            return $region  . ', ' . $aysoid . ', ' . 'AYSO Information Not Yet Verified';
+        }
+        $refBadge = 'Referee Badge: ' . $registeredPerson->getRefBadge();
+
+        $safeHaven = $registeredPerson->getSafeHaven();
+        if (($safeHaven == 'Coach') || ($safeHaven == 'Referee') || ($safeHaven == 'AYSO')) $safeHaven = 'Yes';
+        else                                                                                $safeHaven = 'No';
+        $safeHaven = 'Safe Haven: ' . $safeHaven;
+
+        return $region  . ', ' . $aysoid . ', ' . $memYear . ', ' . $refBadge . ', ' . $safeHaven;
+        
         $manager = $this->getEaysoManager();
         
         $vol = $this->getEaysoManager()->loadVolCerts($aysoid);
