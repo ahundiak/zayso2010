@@ -67,6 +67,9 @@ class BaseImport
     }
     public function getResultMessage()
     {
+        $results = $this->getResults();
+        return $results['msg'];
+        
         die('Need to refactor getResultMessage');
         $file  = basename($this->innFileName);
         $count = $this->count;
@@ -196,13 +199,18 @@ class BaseImport
     {
         if (!$date) return '';
         
+        // YYYYMMDD
+        $datex = preg_replace('/\D/','',$date);
+        if (($datex == $date) && (strlen($datex) == 8)) return $datex;
+        
+        // MM/DD/YY or MM/DD/YYYY
         $parts = explode('/',$date);
         if (count($parts) == 3)
         {
             $year = (int)$parts[2];
             if ($year < 100)
             {
-                if ($year < 30) $year += 1900;
+                if ($year > 20) $year += 1900; // Think this is backwards?
                 else            $year += 2000;
             }
             $datex = sprintf('%04d%02d%02d',$year,(int)$parts[0],(int)$parts[1]); // die($datex);

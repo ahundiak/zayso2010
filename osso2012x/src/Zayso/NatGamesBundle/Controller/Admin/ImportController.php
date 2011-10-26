@@ -42,6 +42,8 @@ class ImportType extends AbstractType
 
         $builder->add('attachment', 'file', array('label' => 'Import File', 'attr' => array('size' => 40)));
         
+        // $builder->add('results','text');
+        
         $builder->addValidator(new ImportFileValidator());
     }
     public function getName()
@@ -89,10 +91,11 @@ class ImportController extends BaseController
             if ($form->isValid())
             {
                 $importClassName = $importData->importClassName;
-                $import = new $importClassName($this->getEntityManager());
-                $import->process($importData);
+                $import = new $importClassName($this->getEntityManager(),$this->get('account.manager'));
+                $results = $import->process($importData);
                 
-                die('Valid ' . $importData->inputFileName);
+                $importData->results = $results;
+                die($import->getResultMessage());
             }
         }
         $tplData = $this->getTplData();
