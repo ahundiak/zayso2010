@@ -90,6 +90,7 @@ class ImportController extends BaseController
             {
                 $importClassName = $importData->importClassName;
                 $import = new $importClassName($this->getEntityManager());
+                $import->process($importData);
                 
                 die('Valid ' . $importData->inputFileName);
             }

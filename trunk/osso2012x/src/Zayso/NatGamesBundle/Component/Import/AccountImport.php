@@ -2,45 +2,96 @@
 namespace Zayso\NatGamesBundle\Component\Import;
 
 use Zayso\ZaysoBundle\Component\Import\BaseImport;
+use Zayso\ZaysoBundle\Component\Debug;
 
 class AccountImport extends BaseImport
 {
+    //ID,Account,Ver,First Name,Last  Name,Nick  Name,Email,Cell Phone,Region,AYSOID,DOB,Gender,Ref Badge,Ref Date,Safe Haven,MY,Attend,Referee
+
     protected $record = array
     (
-      'region'     => array('cols' => 'Region',         'req' => true,  'default' => 0),
-      'aysoid'     => array('cols' => 'AYSOID',         'req' => true,  'default' => ''),
-      'firstName'  => array('cols' => 'FirstName',      'req' => true,  'default' => ''),
-      'lastName'   => array('cols' => 'LastName',       'req' => true,  'default' => ''),
-      'middleName' => array('cols' => 'MI',             'req' => false, 'default' => ''),
-      'suffix'     => array('cols' => 'suffix',         'req' => false, 'default' => ''),
-      'nickName'   => array('cols' => 'NickName',       'req' => false, 'default' => ''),
-      'memYear'    => array('cols' => 'Membershipyear', 'req' => true,  'default' => 'MY0000'),
-      'email'      => array('cols' => 'Email',          'req' => false, 'default' => ''),
-      'homePhone'  => array('cols' => 'HomePhone',      'req' => false, 'default' => ''),
-      'workPhone'  => array('cols' => 'WorkPhone',      'req' => false, 'default' => ''),
-      'cellPhone'  => array('cols' => 'CellPhone',      'req' => false, 'default' => ''),
-      'dob'        => array('cols' => 'DOB',            'req' => false, 'default' => ''),
-      'gender'     => array('cols' => 'Gender',         'req' => false, 'default' => ''),
-      'registered' => array('cols' => 'Registered Date','req' => false, 'default' => ''),
-      'changed'    => array('cols' => 'Changed Date',   'req' => false, 'default' => ''),
+      'id'        => array('cols' => 'ID',        'req' => true,  'default' => 0),
+      'userName'  => array('cols' => 'Account',   'req' => true,  'default' => ''),
+      'ver'       => array('cols' => 'Ver',       'req' => true,  'default' => ''),
+      'firstName' => array('cols' => 'First Name','req' => true,  'default' => ''),
+      'lastName'  => array('cols' => 'Last  Name','req' => false, 'default' => ''),
+      'nickName'  => array('cols' => 'Nick  Name','req' => false, 'default' => ''),
+      'email'     => array('cols' => 'Email',     'req' => false, 'default' => ''),
+      'cellPhone' => array('cols' => 'Cell Phone','req' => true,  'default' => ''),
+      'region'    => array('cols' => 'Region',    'req' => false, 'default' => ''),
+      'aysoid'    => array('cols' => 'AYSOID',    'req' => false, 'default' => ''),
+      'dob'       => array('cols' => 'DOB',       'req' => false, 'default' => ''),
+      'gender'    => array('cols' => 'Gender',    'req' => false, 'default' => ''),
+      'refBadge'  => array('cols' => 'Ref Badge', 'req' => false, 'default' => ''),
+      'refDate'   => array('cols' => 'Ref Date',  'req' => false, 'default' => ''),
+      'safeHaven' => array('cols' => 'Safe Haven','req' => false, 'default' => ''),
+      'memYear'   => array('cols' => 'MY',        'req' => false, 'default' => ''),
     );
-
-    protected function init() 
+    public function __construct($em,$accountManager)
     {
-        parent::init(); die('Init AccountImport');
-        // $em = $this->getEntityManager();
-        // $this->volRepo = $em->getRepository('EaysoBundle:Volunteer');
+        parent::__construct($em);
+        $this->accountManager = $accountManager;
     }
+    
     protected $aysoids = array();
     public function processItem($item)
     {
         $em = $this->getEntityManager();
+        $accountManager = $this->accountManager;
 
-        if (!$item->aysoid) return;
-        if (!$item->region) return;
+        if (!$item->id) return;
 
         $this->total++;
 
+        // Grab the account person
+        $accountPersons = $accountManager->getAccountPersons(array('accountPersonId' => $item->id));
+        if (count($accountPersons) != 1) die('No account person for ' . $item->id);
+        $accountPerson = $accountPersons[0];
+
+        $person = $accountPerson->getPerson();
+        if (!$person) die('No person for ' . $item->id);
+
+        $registeredPerson = $person->getAysoRegisteredPerson();
+        if (!$registeredPerson) die('No registered person for ' . $item->id);
+
+        $dob = $this->processDate($item->dob);
+        if ($dob) $person->setDob($dob);
+
+        $gender = $item->gender;
+        if ($gender) $person->setGender($gender);
+
+        $email = $this->processEmail($item->email);
+        if ($email) $person->setEmail($email);
+
+        $cellPhone = $this->processPhone($item->cellPhone);
+        if ($cellPhone) $person->setCellPhone($cellPhone);
+
+        $region = $item->region;
+        if ($region) $person->setOrgKey('AYSO' . $region);
+
+        if ($item->firstName) $person->setFirstName($item->firstName);
+        if ($item->lastName)  $person->setLastName ($item->lastName);
+        if ($item->nickName)  $person->setNickName ($item->nickName);
+
+        $aysoid = $item->aysoid;
+        if ($aysoid) $registeredPerson->setRegKey('AYSOV' . $aysoid);
+
+        $refBadge = $item->refBadge;
+        if ($refBadge && $refBadge != 'Nonex') $registeredPerson->setRefBadge($refBadge);
+
+        $refDate = $this->processDate($item->refDate);
+        if ($refDate) $registeredPerson->setRefDate($refDate);
+
+        $safeHaven = $item->safeHaven;
+        if ($safeHaven) $registeredPerson->setSafeHaven($safeHaven);
+
+        $memYear = $this->processMemYear($item->memYear);
+        if ($memYear) $registeredPerson->setMemYear($memYear);
+
+        return;
+        
+        Debug::dump($item); die();
+        
         $aysoid = 'AYSOV' . $item->aysoid;
         if (isset($this->aysoids[$aysoid]))
         {
@@ -98,6 +149,11 @@ class AccountImport extends BaseImport
         $vol->setChanged   ($changed);
 
         if (($this->total % 100) == 0) $em->flush();
+    }
+    public function process($params = array())
+    {
+        $this->projectId = $params['projectId'];
+        return parent::process($params);
     }
 }
 

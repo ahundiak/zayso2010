@@ -52,27 +52,40 @@ class PersonRegistered
       if (isset($this->data[$name])) return $this->data[$name];
       return $default;
   }
-  public function set($name,$value)
-  {
-      if ($value === null)
-      {
-          if (isset($this->data[$name])) unset($this->data[$name]);
-          $this->datax = null;
-          return;
-      }
-      $this->data[$name] = $value;
-      $this->datax = null;
-  }
+    public function set($name,$value)
+    {
+        if ($value === null)
+        {
+            if (isset($this->data[$name])) unset($this->data[$name]);
+            $this->datax = null;
+            return;
+        }
+        if (isset($this->data[$name]) && $this->data[$name] == $value) return;
 
-  public function setPerson($person)
-  {
-    $this->person = $person;
-    if ($person) $person->addRegisteredPerson($this);
-  }
+        $this->data[$name] = $value;
+        $this->datax = null;
+    }
 
-  /* =====================================================================
-   * Generated Code
-   */
+    public function setPerson($person)
+    {
+        $this->person = $person;
+        if ($person) $person->addRegisteredPerson($this);
+    }
+    public function setRefBadge($refBadge) { return $this->set('ref_badge',$refBadge); }
+    public function getRefBadge()          { return $this->get('ref_badge'); }
+
+    public function setRefDate($refDate)  { return $this->set('ref_date',$refDate); }
+    public function getRefDate()          { return $this->get('ref_date'); }
+
+    public function setSafeHaven($safeHaven) { return $this->set('safe_haven',$safeHaven); }
+    public function getSafeHaven()           { return $this->get('safe_haven'); }
+
+    public function setMemYear($memYear)  { return $this->set('mem_year',$memYear); }
+    public function getMemYear()          { return $this->get('mem_year'); }
+
+    /* =====================================================================
+     * Generated Code
+     */
 
     /**
      * Get id

@@ -27,7 +27,44 @@ class AccountManager
         //print_r($ids);
         //die(get_class($services));
     }
-    public function getAccounts()
+    public function getAccountPersons($params = array())
+    {
+        // Build query
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->addSelect('accountPerson');
+        $qb->addSelect('account');
+        $qb->addSelect('person');
+        $qb->addSelect('registered');
+        $qb->addSelect('projectPerson');
+
+        $qb->from('ZaysoBundle:AccountPerson','accountPerson'); // memberx
+
+        $qb->leftJoin('accountPerson.account','account');
+        $qb->leftJoin('accountPerson.person', 'person');
+        $qb->leftJoin('person.registereds',   'registered');
+        $qb->leftJoin('person.projects',      'projectPerson');
+        $qb->leftJoin('projectPerson.project','project');
+
+        if (isset($params['accountId']))
+        {
+            $qb->andWhere($qb->expr()->in('account.id',$params['accountId']));
+        }
+        if (isset($params['accountPersonId']))
+        {
+            $qb->andWhere($qb->expr()->in('accountPerson.id',$params['accountPersonId']));
+        }
+        if (isset($params['projectId']))
+        {
+            $qb->andWhere($qb->expr()->in('project.id',$params['projectId']));
+        }
+        $query = $qb->getQuery();
+        
+      //die('DQL ' . $query->getSQL());
+        return $query->getResult();        
+    }
+    public function getAccounts($params = array())
     {
         // Build query
         $em = $this->getEntityManager();
@@ -47,10 +84,18 @@ class AccountManager
         $qb->leftJoin('person.projects',      'projectPerson');
         $qb->leftJoin('projectPerson.project','project');
 
+        if (isset($params['accountId']))
+        {
+            $qb->andWhere($qb->expr()->in('account.id',$params['accountId']));
+        }
+        if (isset($params['projectId']))
+        {
+            $qb->andWhere($qb->expr()->in('project.id',$params['projectId']));
+        }
         $query = $qb->getQuery();
+
       //die('DQL ' . $query->getSQL());
         return $query->getResult();
-        
     }
     public function loadVolCerts($aysoid)
     {

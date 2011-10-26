@@ -38,7 +38,7 @@ class BaseImport
 
         $this->init();
     }
-    protected function init() { return; }
+    protected function init() {}
 
     protected function getEntityManager() { return $this->em; }
 
