@@ -15,7 +15,7 @@ class User
     protected $projectPerson = null;
 
     protected $services;
-    protected function getEntityManager() { return $this->services->get('doctrine')->getEntityManager(); }
+    protected function getEntityManager() { return $this->services->get('doctrine')->getEntityManager('osso2012'); }
     protected function getEaysoManager()  { return $this->services->get('eayso.manager'); }
 
     public function __construct($services)
