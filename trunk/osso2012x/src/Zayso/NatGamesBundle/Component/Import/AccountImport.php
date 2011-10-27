@@ -12,7 +12,6 @@ class AccountImport extends BaseImport
     (
       'id'        => array('cols' => 'ID',        'req' => true,  'default' => 0),
       'userName'  => array('cols' => 'Account',   'req' => true,  'default' => ''),
-      'ver'       => array('cols' => 'Ver',       'req' => true,  'default' => ''),
       'firstName' => array('cols' => 'First Name','req' => true,  'default' => ''),
       'lastName'  => array('cols' => 'Last  Name','req' => false, 'default' => ''),
       'nickName'  => array('cols' => 'Nick  Name','req' => false, 'default' => ''),
