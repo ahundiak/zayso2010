@@ -122,6 +122,8 @@ class Account
      */
     public function setUserPass($userPass)
     {
+        // Not going to allow blank passwords
+        if (!$userPass) return;
         $this->userPass = $userPass;
     }
 

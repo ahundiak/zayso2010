@@ -54,6 +54,9 @@ class AccountPerson
     /** @Assert\NotBlank() */
     public function getUserName () { return $this->account->getUserName(); }
 
+    /** @Assert\NotBlank() */
+    public function getUserPass () { return $this->account->getUserPass(); }
+
   public function getFirstName() { return $this->person->getFirstName(); }
   public function getLastName()  { return $this->person->getLastName();  }
   public function getNickName()  { return $this->person->getNickName();  }
@@ -64,6 +67,7 @@ class AccountPerson
   public function getCellPhone() { return $this->person->getCellPhone();  }
 
   public function setUserName ($value) { return $this->account->setUserName($value); }
+  public function setUserPass ($value) { return $this->account->setUserPass($value); }
   public function setFirstName($value) { return $this->person->setFirstName($value); }
   public function setLastName ($value) { return $this->person->setLastName ($value); }
   public function setNickName ($value) { return $this->person->setNickName ($value); }
