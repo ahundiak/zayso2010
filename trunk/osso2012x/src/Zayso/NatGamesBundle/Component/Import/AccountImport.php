@@ -28,7 +28,7 @@ class AccountImport extends BaseImport
     );
     public function __construct($em,$accountManager)
     {
-        parent::__construct($em);
+        parent::__construct($accountManager->getEntityManager());
         $this->accountManager = $accountManager;
     }
     
