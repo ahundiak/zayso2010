@@ -13,7 +13,7 @@ class AccountManager
     protected $em = null;
     protected $eaysoManager = null;
     
-    protected function getEntityManager()
+    public function getEntityManager()
     {
         return $this->em;
     }
@@ -63,6 +63,12 @@ class AccountManager
         
       //die('DQL ' . $query->getSQL());
         return $query->getResult();        
+    }
+    public function getAccountPerson($params = array())
+    {
+        $accountPersons = $this->getAccountPersons($params);
+        if (count($accountPersons) == 1) return $accountPersons[0];
+        return null;
     }
     public function getAccounts($params = array())
     {
