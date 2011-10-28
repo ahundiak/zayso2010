@@ -12,16 +12,27 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\CallbackValidator;
 use Symfony\Component\Form\FormValidatorInterface;
+use Symfony\Component\Form\DataTransformerInterface;
 
-class AccountCreateData implements \ArrayAccess
+class PhoneTransformer implements DataTransformerInterface
+{
+    public function transform($value)
+    {
+        if (!$value) return $value;
+
+        return substr($value,0,3) . '.' . substr($value,3,3) . '.' . substr($value,6,4);
+    }
+    public function reverseTransform($value)
+    {
+        return preg_replace('/\D/','',$value);
+    }
+}
+class AccountEditData implements \ArrayAccess
 {
     /** @Assert\NotBlank() */
     public $userName;
 
-    /** @Assert\NotBlank() */
     public $userPass1;
-
-    /** @Assert\NotBlank() */
     public $userPass2;
 
     /** @Assert\NotBlank() */
@@ -51,17 +62,24 @@ class AccountCreateData implements \ArrayAccess
     /** @Assert\NotBlank() */
     public $region;
 
-    public $refBadge = 'None';
+    public $refBadge  = 'None';
+    public $refDate   = '';
+    public $safeHaven = '';
+    public $memYear   = '';
+    public $dob       = '';
+    public $gender    = '';
+
     public $projectId = 52;
-    
-    /**
-     * Assert\True(message = "Passwords do not match")
-     * Results in a form (not specific field) error
-     */
-    public function isPasswordLegal()
+
+    public function bind($accountPerson)
     {
-        if ( $this->userPass1 != $this->userPass2) return false;
-        return true;
+        $this->userName  = $accountPerson->getUserName();
+        $this->firstName = $accountPerson->getFirstName();
+        $this->lastName  = $accountPerson->getLastName();
+        $this->nickName  = $accountPerson->getNickName();
+        $this->aysoid    = $accountPerson->getAysoid();
+        $this->email     = $accountPerson->getEmail();
+        $this->cellPhone = $accountPerson->getCellPhone();
     }
     // Array access
     public function offsetGet   ($name) { return $this->$name; }
@@ -69,42 +87,29 @@ class AccountCreateData implements \ArrayAccess
     public function offsetSet   ($name, $value) { $this->$name = $value; }
     public function offsetUnset ($name) { unset($this->$name); }
 }
-class UserNameValidator implements FormValidatorInterface
+class AccountEditType extends AbstractType
 {
+    protected $refBadgePickList = array
+    (
+        'None'         => 'None',
+        'Regional'     => 'Regional',
+        'Intermediate' => 'Intermediate',
+        'Advanced'     => 'Advanced',
+        'National'     => 'National',
+        'National 2'   => 'National 2',
+        'Assistant'    => 'Assistant',
+        'U8 Official'  => 'U8',
+    );
     public function __construct($em)
     {
         $this->em = $em;
-    }
-    public function validate(FormInterface $form)
-    {
-        $userName = $form['userName']->getData();
-
-        $conn = $this->em->getConnection();
-
-        $sql = 'SELECT id FROM account WHERE user_name = :userName';
-        $stmt = $conn->prepare($sql);
-        $stmt->execute(array('userName' => $userName));
-        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
-        if (isset($row['id']))
-        {
-            // print_r($row); die(count($row));
-            $form['userName']->addError(new FormError('Account Name is already being used. Please select another name.'));
-        }
-    }
-}
-class AccountCreateType extends AbstractType
-{
-    public function __construct($em,$refBadgePickList)
-    {
-        $this->em = $em;
-        $this->refBadgePickList = $refBadgePickList;
     }
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder->add('userName', 'text', array('label' => 'User Name', 'attr' => array('size' => 35)));
 
-        $builder->add('userPass1', 'password', array('label' => 'Password'));
-        $builder->add('userPass2', 'password', array('label' => 'Password(confirm)'));
+        $builder->add('userPass1', 'password', array('property_path' => false, 'label' => 'Password'));
+        $builder->add('userPass2', 'password', array('property_path' => false, 'label' => 'Password(confirm)'));
 
         $builder->add('firstName', 'text', array('label' => 'AYSO First Name'));
         $builder->add('lastName',  'text', array('label' => 'AYSO Last Name'));
@@ -113,17 +118,19 @@ class AccountCreateType extends AbstractType
         $builder->add('aysoid',    'text', array('label' => 'AYSO ID',    'attr' => array('size' => 10)));
         $builder->add('email',     'text', array('label' => 'Email',      'attr' => array('size' => 35)));
         $builder->add('cellPhone', 'text', array('label' => 'Cell Phone', 'attr' => array('size' => 20)));
-        $builder->add('region',    'text', array('label' => 'AYSO Region Number', 'attr' => array('size' => 4)));
+        $builder->add('region',    'text', array('property_path' => false, 'label' => 'AYSO Region Number', 'attr' => array('size' => 4)));
 
-        $builder->add('projectId','hidden');
-        $builder->add('projectIdx','hidden',array('data' => 123, 'property_path' => false));
+//        $builder->add('projectId','hidden');
+      //$builder->add('projectIdx','hidden',array('data' => 123, 'property_path' => false));
 
         $builder->add('refBadge', 'choice', array(
             'label'         => 'AYSO Referee Badge',
             'required'      => true,
           //'empty_value'   => false,
             'choices'       => $this->refBadgePickList,
+            'property_path' => false,
         ));
+        /*
         $builder->addValidator(new CallbackValidator(function($form)
         {
             if($form['userPass1']->getData() != $form['userPass2']->getData())
@@ -139,62 +146,57 @@ class AccountCreateType extends AbstractType
                 $form['region']->addError(new FormError('Invalid region number'));
             }
         }));
-        $builder->addValidator(new UserNameValidator($this->em));
+        $builder->addValidator(new AccountUserNameValidator($this->em));
+
+         */
+        $builder->get('cellPhone')->appendClientTransformer(new PhoneTransformer());
     }
     public function getName()
     {
-        return 'accountCreate';
+        return 'account';
     }
 }
+
 class EditController extends BaseController
 {
-    public function createAction(Request $request)
+    public function editAction(Request $request, $id)
     {
-        $refBadgePickList = array
-        (
-            'None'         => 'None',
-            'Regional'     => 'Regional',
-            'Intermediate' => 'Intermediate',
-            'Advanced'     => 'Advanced',
-            'National'     => "National",
-            'National 2'   => 'National 2',
-            'Assistant'    => 'Assistant',
-            'U8 Official'  => 'U8',
-        );
+        // Verify authorized to edit this account
 
         // New form stuff
-        $accountData = new AccountCreateData();
-        $accountType = new AccountCreateType($this->getEntityManager(),$refBadgePickList);
+        $accountData = new AccountEditData();
+        $accountData->projectId = $this->getProjectId();
 
+        $accountType = new AccountEditType($this->getEntityManager());
+
+        //die($id);
+        $accountManager = $this->getAccountManager();
+        $accountPerson = $accountManager->getAccountPerson(array('accountPersonId' => $id, 'projectId' => $this->getProjectId()));
+        if (!$accountPerson)
+        {
+            die('Invalid account person id ' . $id);
+        }
+        $accountData = $accountPerson;
+        
         $form = $this->createForm($accountType, $accountData);
 
         if ($request->getMethod() == 'POST')
         {
-            $message = \Swift_Message::newInstance();
-            $message->setSubject('Hello Email');
-            $message->setFrom('ahundiak@zayso.org');
-            $message->setTo  ('ahundiak@gmail.com');
-            $message->setBody('The Body');
-//      ->setBody($this->renderView('HelloBundle:Hello:email.txt.twig', array('name' => $name)))
-    
-            // $this->get('mailer')->send($message);
 
             $form->bindRequest($request);
 
             if ($form->isValid())
             {
-                $account = $this->createAccount($accountData);
+                $accountManager->getEntityManager()->flush();
                 
-                if ($account) return $this->redirect($this->generateUrl('_natgames_home'));
-                
-                // perform some action, such as saving the task to the database
-                return $this->redirect($this->generateUrl('_natgames_account_create'));
+                return $this->redirect($this->generateUrl('_natgames_admin_accounts'));
             }
         }
         $tplData = $this->getTplData();
+        $tplData['id']   = $id;
         $tplData['form'] = $form->createView();
 
-        return $this->render('NatGamesBundle:Account:create.html.twig',$tplData);
+        return $this->render('NatGamesBundle:Account:edit.html.twig',$tplData);
     }
     public function createAccount($accountCreateData)
     {
