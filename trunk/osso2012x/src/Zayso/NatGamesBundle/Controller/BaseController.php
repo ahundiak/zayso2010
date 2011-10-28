@@ -15,6 +15,10 @@ class BaseController extends Controller
     {
         return $this->getDoctrine()->getEntityManager('osso2012');
     }
+    protected function getAccountManager()
+    {
+        return $this->get('account.manager');
+    }
     protected function getSession()
     {
         return $this->getRequest()->getSession();
