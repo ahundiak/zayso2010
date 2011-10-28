@@ -134,6 +134,10 @@ class Person
         }
         return null;
     }
+    public function setAysoid($aysoid)
+    {
+        return;
+    }
     public function getAysoRegisteredPerson()
     {
         // die('Count: ' . count($this->_regs));

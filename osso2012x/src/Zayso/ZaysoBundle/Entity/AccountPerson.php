@@ -5,6 +5,8 @@ namespace Zayso\ZaysoBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @ORM\Entity
  * @ORM\Table(name="account_person")
@@ -49,6 +51,26 @@ class AccountPerson
     $this->person = $person;
     $person->addAccountPerson($this);
   }
+    /** @Assert\NotBlank() */
+    public function getUserName () { return $this->account->getUserName(); }
+
+  public function getFirstName() { return $this->person->getFirstName(); }
+  public function getLastName()  { return $this->person->getLastName();  }
+  public function getNickName()  { return $this->person->getNickName();  }
+  public function getAysoid()    { return $this->person->getAysoid();  }
+
+
+  public function getEmail()     { return $this->person->getEmail();  }
+  public function getCellPhone() { return $this->person->getCellPhone();  }
+
+  public function setUserName ($value) { return $this->account->setUserName($value); }
+  public function setFirstName($value) { return $this->person->setFirstName($value); }
+  public function setLastName ($value) { return $this->person->setLastName ($value); }
+  public function setNickName ($value) { return $this->person->setNickName ($value); }
+  public function setAysoid   ($value) { return $this->person->setAysoid   ($value); }
+  public function setEmail    ($value) { return $this->person->setEmail    ($value); }
+  public function setCellPhone($value) { return $this->person->setCellPhone($value); }
+  
   /* ===========================================================================
    * Generated code follows
    */

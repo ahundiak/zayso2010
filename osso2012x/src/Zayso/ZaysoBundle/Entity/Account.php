@@ -5,6 +5,8 @@ namespace Zayso\ZaysoBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  *  ORM\Entity()
  * @ORM\Entity(repositoryClass="Zayso\ZaysoBundle\Repository\AccountRepository")
@@ -19,7 +21,9 @@ class Account
    */
   protected $id;
 
-  /** @ORM\Column(name="user_name",type="string",length=40,unique=true,nullable=false) */
+  /** @ORM\Column(name="user_name",type="string",length=40,unique=true,nullable=false)
+   *  @Assert\NotBlank()
+   */
   protected $userName = '';
 
   /** @ORM\Column(name="user_pass",type="string",length=32,nullable=false) */
@@ -104,6 +108,7 @@ class Account
      * Get userName
      *
      * @return string 
+     * @Assert\NotBlank()
      */
     public function getUserName()
     {
