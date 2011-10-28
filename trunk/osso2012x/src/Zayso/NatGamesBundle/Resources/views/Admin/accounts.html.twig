@@ -20,7 +20,7 @@
     {% for member  in members %}
     {{ memberx.setMember(member) }}
     <tr>
-        <td>{{ member.id }}</td>
+        <td><a href="{{ path('_natgames_account_edit', { 'id': member.id }) }}">{{ member.id }}</a></td>
         <td>{{ member.verified   }}</td>
         <td>{{ memberx.accountInfo | raw }}</td>
         <td>{{ memberx.contactInfo | raw }}</td>
