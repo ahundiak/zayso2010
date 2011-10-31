@@ -37,6 +37,12 @@ _natgames_account_edit:
     defaults: { _controller: NatGamesBundle:Account\Edit:edit, id: 0}
     requirements:
         id: \d+
+        
+_natgames_admin_account_edit:
+    pattern:  /natgames/admin/account/edit/{id}
+    defaults: { _controller: NatGamesBundle:Admin\Account\Edit:edit, id: 0}
+    requirements:
+        id: \d+
 
 _natgames_account_signin:
     pattern:  /natgames/account/signin
