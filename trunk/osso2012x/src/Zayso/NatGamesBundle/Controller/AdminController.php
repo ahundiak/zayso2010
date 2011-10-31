@@ -60,9 +60,10 @@ class MemberViewHelper
     }
     public function getPlans()
     {
-        $attend = $this->getPlan('attend');
-        $referee= $this->getPlan('will_referee');
-        
+        $attend = 'Attend: ' . $this->getPlan('attend');
+        $referee= 'Referee: ' . $this->getPlan('will_referee');
+        return $attend . '<br />' . $referee;
+
     }
     public function getContactInfo()
     {
