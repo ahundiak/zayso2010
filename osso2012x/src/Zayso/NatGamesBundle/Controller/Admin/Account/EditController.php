@@ -5,6 +5,8 @@ namespace Zayso\NatGamesBundle\Controller\Admin\Account;
 use Zayso\NatGamesBundle\Controller\BaseController;
 
 use Zayso\ZaysoBundle\Component\DataTransformer\PhoneTransformer;
+use Zayso\ZaysoBundle\Component\DataTransformer\AysoidTransformer;
+use Zayso\ZaysoBundle\Component\DataTransformer\RegionTransformer;
 use Zayso\ZaysoBundle\Component\DataTransformer\PasswordTransformer;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -56,6 +58,28 @@ class AdminAccountEditType extends AbstractType
         'Assistant'    => 'Assistant',
         'U8 Official'  => 'U8',
     );
+    protected $safeHavenPickList = array
+    (
+        'None'    => 'None',
+        'AYSO'    => 'AYSO',
+        'Coach'   => 'Coach',
+        'Referee' => 'Referee',
+    );
+    protected $memYearPickList = array
+    (
+        'None' => 'None',
+        '2011' => 'MY2011',
+        '2010' => 'MY2010',
+        '2009' => 'FS2009',
+        '2008' => 'FS2008',
+        '2007' => 'FS2007',
+        '2006' => 'FS2006',
+        '2005' => 'FS2005',
+        '2004' => 'FS2004',
+        '2003' => 'FS2003',
+        '2002' => 'FS2002',
+        '2001' => 'FS2001',
+    );
     public function __construct($em)
     {
         $this->em = $em;
@@ -75,7 +99,8 @@ class AdminAccountEditType extends AbstractType
         $builder->add('aysoid',    'text', array('label' => 'AYSO ID',    'attr' => array('size' => 10)));
         $builder->add('email',     'text', array('label' => 'Email',      'attr' => array('size' => 35)));
         $builder->add('cellPhone', 'text', array('label' => 'Cell Phone', 'attr' => array('size' => 20)));
-        $builder->add('region',    'text', array('property_path' => false, 'label' => 'AYSO Region Number', 'attr' => array('size' => 4)));
+        $builder->add('region',    'text', array('label' => 'AYSO Region Number', 'attr' => array('size' => 6)));
+        $builder->add('refDate',   'text', array('label' => 'AYSO Referee Date',  'attr' => array('size' => 8)));
 
 //        $builder->add('projectId','hidden');
       //$builder->add('projectIdx','hidden',array('data' => 123, 'property_path' => false));
@@ -83,9 +108,17 @@ class AdminAccountEditType extends AbstractType
         $builder->add('refBadge', 'choice', array(
             'label'         => 'AYSO Referee Badge',
             'required'      => true,
-          //'empty_value'   => false,
             'choices'       => $this->refBadgePickList,
-            'property_path' => false,
+        ));
+        $builder->add('safeHaven', 'choice', array(
+            'label'         => 'AYSO Safe Haven',
+            'required'      => true,
+            'choices'       => $this->safeHavenPickList,
+        ));
+        $builder->add('memYear', 'choice', array(
+            'label'         => 'AYSO Mem Year',
+            'required'      => true,
+            'choices'       => $this->memYearPickList,
         ));
         
         $builder->addValidator(new CallbackValidator(function($form)
@@ -94,20 +127,14 @@ class AdminAccountEditType extends AbstractType
             {
                 $form['userPass2']->addError(new FormError('Passwords do not match'));
             }
-        }));/*
-        $builder->addValidator(new CallbackValidator(function($form)
-        {
-            $region = (int)$form['region']->getData();
-            if (($region < 1) || ($region > 1999))
-            {
-                $form['region']->addError(new FormError('Invalid region number'));
-            }
-        }));*/
+        }));
         $builder->addValidator(new AdminAccountEditUserNameValidator($this->em));
 
         $builder->get('userPass1')->appendClientTransformer(new PasswordTransformer());
         $builder->get('userPass2')->appendClientTransformer(new PasswordTransformer());
         $builder->get('cellPhone')->appendClientTransformer(new PhoneTransformer());
+        $builder->get('region'   )->appendClientTransformer(new RegionTransformer());
+        $builder->get('aysoid'   )->appendClientTransformer(new AysoidTransformer());
     }
     public function getName()
     {
@@ -142,13 +169,13 @@ class EditController extends BaseController
             {
                 $accountManager->getEntityManager()->flush();
                 
-                return $this->redirect($this->generateUrl('_natgames_admin_accounts'));
+                return $this->redirect($this->generateUrl('_natgames_admin_account_edit',array('id' => $id)));
             }
         }
         $tplData = $this->getTplData();
         $tplData['id']   = $id;
         $tplData['form'] = $form->createView();
 
-        return $this->render('NatGamesBundle:Account:edit.html.twig',$tplData);
+        return $this->render('NatGamesBundle:Admin:Account/edit.html.twig',$tplData);
     }
 }
