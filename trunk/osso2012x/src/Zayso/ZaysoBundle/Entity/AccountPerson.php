@@ -57,24 +57,58 @@ class AccountPerson
     /** @Assert\NotBlank() */
     public function getUserPass () { return $this->account->getUserPass(); }
 
-  public function getFirstName() { return $this->person->getFirstName(); }
-  public function getLastName()  { return $this->person->getLastName();  }
-  public function getNickName()  { return $this->person->getNickName();  }
-  public function getAysoid()    { return $this->person->getAysoid();  }
+    /** @Assert\NotBlank() */
+    public function getFirstName() { return $this->person->getFirstName(); }
+
+    /** @Assert\NotBlank() */
+    public function getLastName()  { return $this->person->getLastName();  }
+
+    public function getNickName()  { return $this->person->getNickName();  }
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Regex(
+     *     pattern="/^(AYSOV)?\d{8}$/",
+     *     message="Must be 8-digit number")
+     */
+    public function getAysoid()    { return $this->person->getAysoid();  }
 
 
-  public function getEmail()     { return $this->person->getEmail();  }
-  public function getCellPhone() { return $this->person->getCellPhone();  }
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Regex(
+     *     pattern="/^(AYSOR)?\d{4}$/",
+     *     message="Must be 4-digit number")
+     */
+    public function getRegion()    { return $this->person->getOrgKey();  }
 
-  public function setUserName ($value) { return $this->account->setUserName($value); }
-  public function setUserPass ($value) { return $this->account->setUserPass($value); }
-  public function setFirstName($value) { return $this->person->setFirstName($value); }
-  public function setLastName ($value) { return $this->person->setLastName ($value); }
-  public function setNickName ($value) { return $this->person->setNickName ($value); }
-  public function setAysoid   ($value) { return $this->person->setAysoid   ($value); }
-  public function setEmail    ($value) { return $this->person->setEmail    ($value); }
-  public function setCellPhone($value) { return $this->person->setCellPhone($value); }
-  
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Email()
+     */
+    public function getEmail()     { return $this->person->getEmail();  }
+
+    public function getCellPhone() { return $this->person->getCellPhone(); }
+    public function getRefBadge () { return $this->person->getRefBadge();  }
+    public function getRefDate  () { return $this->person->getRefDate();   }
+    public function getSafeHaven() { return $this->person->getSafeHaven(); }
+    public function getMemYear  () { return $this->person->getMemYear(); }
+
+    public function setUserName ($value) { return $this->account->setUserName($value); }
+    public function setUserPass ($value) { return $this->account->setUserPass($value); }
+    public function setFirstName($value) { return $this->person->setFirstName($value); }
+    public function setLastName ($value) { return $this->person->setLastName ($value); }
+    public function setNickName ($value) { return $this->person->setNickName ($value); }
+    public function setEmail    ($value) { return $this->person->setEmail    ($value); }
+    public function setCellPhone($value) { return $this->person->setCellPhone($value); }
+
+    public function setAysoid   ($value) { return $this->person->setAysoid   ($value); }
+    public function setRegion   ($value) { return $this->person->setOrgKey   ($value); }
+    public function setRefBadge ($value) { return $this->person->setRefBadge ($value); }
+    public function setRefDate  ($value) { return $this->person->setRefDate  ($value); }
+    public function setSafeHaven($value) { return $this->person->setSafeHaven($value); }
+    public function setMemYear  ($value) { return $this->person->setMemYear  ($value); }
+    
   /* ===========================================================================
    * Generated code follows
    */
