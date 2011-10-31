@@ -10,9 +10,8 @@
         <th>Account</th>
         <th>Contact Info</th>
         <th>Region</th>
-        <th>AYSO Info</th>
-        <th>Attend</th>
-        <th>Referee</th>
+        <th>eAYSO Info</th>
+        <th>Plans</th>
         <th></th>
     </tr>
     {% for member  in members %}
@@ -23,8 +22,7 @@
         <td>{{ memberx.contactInfo | raw }}</td>
         <td>{{ memberx.region    }}</td>
         <td>{{ memberx.aysoInfo | raw }}</td>
-        <td>{{ memberx.getPlan('attend') }}</td>
-        <td>{{ memberx.getPlan('will_referee') }}</td>
+        <td>{{ memberx.getPlans | raw }}</td>
 
         <td><input type="checkbox" name="editData[selects][{{member.id}}]" value="{{member.id}}" /></td>
     </tr>
