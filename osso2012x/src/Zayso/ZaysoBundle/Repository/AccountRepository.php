@@ -71,7 +71,7 @@ class AccountRepository extends EntityRepository
         if (strlen($userPass) != 32) $userPass = md5($userPass);
         if ($userPass != $account->getUserPass())
         {
-            $errors[] = 'Invalid password ' . $userPass;
+            $errors[] = 'Invalid password';
             return $errors;
         }
         return $account;
