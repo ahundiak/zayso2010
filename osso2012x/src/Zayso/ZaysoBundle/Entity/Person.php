@@ -122,20 +122,62 @@ class Person
     }
     public function getAysoid()
     {
-        // die('Count: ' . count($this->_regs));
-
-        // Should be able to use that key stuff
-        foreach($this->registereds as $reg)
-        {
-            if ($reg->getRegType() == 'AYSOV')
-            {
-                return substr($reg->getRegKey(),-8);
-            }
-        }
+        $rp = $this->getAysoRegisteredPerson();
+        if ($rp) return $rp->getRegKey();
+        return null;
+    }
+    public function getRefBadge()
+    {
+        $rp = $this->getAysoRegisteredPerson();
+        if ($rp) return $rp->getRefBadge();
+        return null;
+    }
+    public function getRefDate()
+    {
+        $rp = $this->getAysoRegisteredPerson();
+        if ($rp) return $rp->getRefDate();
+        return null;
+    }
+    public function getSafeHaven()
+    {
+        $rp = $this->getAysoRegisteredPerson();
+        if ($rp) return $rp->getSafeHaven();
+        return null;
+    }
+    public function getMemYear()
+    {
+        $rp = $this->getAysoRegisteredPerson();
+        if ($rp) return $rp->getMemYear();
         return null;
     }
     public function setAysoid($aysoid)
     {
+        $rp = $this->getAysoRegisteredPerson();
+        if ($rp) $rp->setRegKey($aysoid);
+        return;
+    }
+    public function setRefBadge($badge)
+    {
+        $rp = $this->getAysoRegisteredPerson();
+        if ($rp) $rp->setRefBadge($badge);
+        return;
+    }
+    public function setRefDate($date)
+    {
+        $rp = $this->getAysoRegisteredPerson();
+        if ($rp) $rp->setRefDate($date);
+        return;
+    }
+     public function setSafeHaven($value)
+    {
+        $rp = $this->getAysoRegisteredPerson();
+        if ($rp) $rp->setSafeHaven($value);
+        return;
+    }
+     public function setMemYear($value)
+    {
+        $rp = $this->getAysoRegisteredPerson();
+        if ($rp) $rp->setMemYear($value);
         return;
     }
     public function getAysoRegisteredPerson()

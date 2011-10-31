@@ -147,12 +147,12 @@ class User
         
         switch($aysoid)
         {
-            case '99437977': // Art H
-            case '90001476': // David Holt
-            case '98037803': // Jack Graham
-            case '53319472': // Diane S
-            case '56063435': // Bob Deene
-            case '96286066': // Tom B   
+            case 'AYSOV99437977': // Art H
+            case 'AYSOV90001476': // David Holt
+            case 'AYSOV98037803': // Jack Graham
+            case 'AYSOV53319472': // Diane S
+            case 'AYSOV56063435': // Bob Deene
+            case 'AYSOV96286066': // Tom B
                 return true;
         }
         return false;
