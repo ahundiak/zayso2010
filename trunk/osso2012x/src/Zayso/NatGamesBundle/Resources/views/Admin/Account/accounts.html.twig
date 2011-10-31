@@ -1,16 +1,14 @@
 {% extends 'NatGamesBundle::layout.html.twig' %}
 
-{% block title %}NatGames - Admin{% endblock %}
+{% block title %}NatGames - Accounts{% endblock %}
 
 {% block content %}
 <div>
 <table border="1">
     <tr>
         <th>ID</th>
-        <th>Ver</th>
         <th>Account</th>
         <th>Contact Info</th>
-        <th>YOB</th>
         <th>Region</th>
         <th>AYSO Info</th>
         <th>Attend</th>
@@ -21,10 +19,8 @@
     {{ memberx.setMember(member) }}
     <tr>
         <td><a href="{{ path('_natgames_admin_account_edit', { 'id': member.id }) }}">{{ member.id }}</a></td>
-        <td>{{ member.verified   }}</td>
         <td>{{ memberx.accountInfo | raw }}</td>
         <td>{{ memberx.contactInfo | raw }}</td>
-        <td>{{ memberx.genderYob }}</td>
         <td>{{ memberx.region    }}</td>
         <td>{{ memberx.aysoInfo | raw }}</td>
         <td>{{ memberx.getPlan('attend') }}</td>
