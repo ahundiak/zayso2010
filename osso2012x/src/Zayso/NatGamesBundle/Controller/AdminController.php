@@ -58,6 +58,12 @@ class MemberViewHelper
         if (isset($this->plans[$name])) return $this->plans[$name];
         return 'NS';
     }
+    public function getPlans()
+    {
+        $attend = $this->getPlan('attend');
+        $referee= $this->getPlan('will_referee');
+        
+    }
     public function getContactInfo()
     {
         $cellPhone = $this->getCellPhone();
@@ -100,7 +106,9 @@ class MemberViewHelper
         {
             $memYear = '<span style="background: yellow;">' . $memYear . '</span>';
         }
-        $html  =  $memYear . ' ' . $aysoid . '<br />';
+        $yob = $this->getGenderYob();
+        
+        $html  =  $memYear . ' ' . $aysoid . ' ' . $yob . '<br />';
         $html .= 'Ref Badge: '  . $refDate . ' ' . $refBadge . '<br />';
         $html .= 'Safe Haven: ' . $safeHaven;
 
@@ -138,9 +146,9 @@ class AdminController extends BaseController
         $tplData['members'] = $members;
         $tplData['memberx'] = new MemberViewHelper();
         
-        if ($_format == 'html') return $this->render('NatGamesBundle:Admin:accounts.html.twig',$tplData);
+        if ($_format == 'html') return $this->render('NatGamesBundle:Admin:Account/accounts.html.twig',$tplData);
         
-        $response = $this->render('NatGamesBundle:Admin:accounts.csv.php',$tplData);
+        $response = $this->render('NatGamesBundle:Admin:Account/accounts.csv.php',$tplData);
         $response->headers->set('Content-Type', 'text/csv');
         $response->headers->set('Content-Disposition', 'attachment; filename="accounts.csv"');
         return $response;
