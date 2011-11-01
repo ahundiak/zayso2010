@@ -45,7 +45,7 @@ class Person
     protected $orgKey = '';
 
     /**
-     *  @ORM\OneToMany(targetEntity="PersonRegistered", mappedBy="person", cascade={"persist","remove"})
+     *  @ORM\OneToMany(targetEntity="PersonRegistered", mappedBy="person", cascade={"persist"})
      */
     protected $registereds;
 
@@ -55,7 +55,7 @@ class Person
     protected $members;
 
     /**
-     * @ORM\OneToMany(targetEntity="ProjectPerson", mappedBy="person", cascade={"persist","remove"})
+     * @ORM\OneToMany(targetEntity="ProjectPerson", mappedBy="person", cascade={"persist"})
      */
     protected $projects;
 

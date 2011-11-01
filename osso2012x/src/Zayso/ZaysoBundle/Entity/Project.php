@@ -25,7 +25,7 @@ class Project
     protected $status = '';
 
     /**
-     *  @ORM\OneToMany(targetEntity="ProjectPerson", mappedBy="project", cascade={"persist","remove"}, fetch="EXTRA_LAZY")
+     *  @ORM\OneToMany(targetEntity="ProjectPerson", mappedBy="project", fetch="EXTRA_LAZY")
      */
     protected $persons;
 

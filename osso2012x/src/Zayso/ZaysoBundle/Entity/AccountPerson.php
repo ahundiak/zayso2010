@@ -24,13 +24,13 @@ class AccountPerson
   protected $relId;
   
   /**
-   * @ORM\ManyToOne(targetEntity="Person", inversedBy="members")
+   * @ORM\ManyToOne(targetEntity="Person", inversedBy="members", cascade={"persist"})
    * @ORM\JoinColumn(name="person_id", referencedColumnName="id")
    */
   protected $person;
 
   /**
-   * @ORM\ManyToOne(targetEntity="Account", inversedBy="members")
+   * @ORM\ManyToOne(targetEntity="Account", inversedBy="members", cascade={"persist"})
    * @ORM\JoinColumn(name="account_id", referencedColumnName="id", nullable=false)
    */
   protected $account;
@@ -41,16 +41,16 @@ class AccountPerson
   /** @ORM\Column(name="status",type="string",length=16,nullable=false) */
   protected $status = '';
 
-  public function setAccount($account)
-  {
-    $this->account = $account;
-    $account->addAccountPerson($this);
-  }
-  public function setPerson($person)
-  {
-    $this->person = $person;
-    $person->addAccountPerson($this);
-  }
+    public function setAccount($account)
+    {
+        $this->account = $account;
+        if ($account) $account->addAccountPerson($this);
+    }
+    public function setPerson($person)
+    {
+        $this->person = $person;
+        if ($person) $person->addAccountPerson($this);
+    }
     /** @Assert\NotBlank() */
     public function getUserName () { return $this->account->getUserName(); }
 
@@ -86,7 +86,9 @@ class AccountPerson
      * @Assert\NotBlank()
      * @Assert\Email()
      */
-    public function getEmail()     { return $this->person->getEmail();  }
+    public function getEmail()     { return $this->person->getEmail();   }
+    public function getDob()       { return $this->person->getDob();     }
+    public function getGender()    { return $this->person->getGender();  }
 
     public function getCellPhone() { return $this->person->getCellPhone(); }
     public function getRefBadge () { return $this->person->getRefBadge();  }
@@ -101,6 +103,8 @@ class AccountPerson
     public function setNickName ($value) { return $this->person->setNickName ($value); }
     public function setEmail    ($value) { return $this->person->setEmail    ($value); }
     public function setCellPhone($value) { return $this->person->setCellPhone($value); }
+    public function setDob      ($value) { return $this->person->setDob      ($value); }
+    public function setGender   ($value) { return $this->person->setGender   ($value); }
 
     public function setAysoid   ($value) { return $this->person->setAysoid   ($value); }
     public function setRegion   ($value) { return $this->person->setOrgKey   ($value); }

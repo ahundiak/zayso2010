@@ -33,7 +33,7 @@ class Account
   protected $status = '';
 
   /**
-   * @ORM\OneToMany(targetEntity="AccountPerson", mappedBy="account", cascade={"persist","remove"})
+   * @ORM\OneToMany(targetEntity="AccountPerson", mappedBy="account")
    */
   protected $members;
 
