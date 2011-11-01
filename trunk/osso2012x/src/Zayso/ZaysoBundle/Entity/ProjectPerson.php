@@ -92,10 +92,15 @@ class ProjectPerson
     $this->person = $person;
     $person->addProjectPerson($this);
   }
+  /* ====================================================================
+   * 01 Nov 2011
+   * Important not to automatically add project person to project because
+   * If a person already exists then swap out the new project person but it stays hanging on the project
+   */
   public function setProject($project)
   {
     $this->project = $project;
-    $project->addProjectPerson($this);
+  //$project->addProjectPerson($this);
   }
    /* ===================================================================
    * Generated Data
