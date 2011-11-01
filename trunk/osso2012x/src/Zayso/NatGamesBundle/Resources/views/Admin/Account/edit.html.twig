@@ -9,7 +9,7 @@
 <form action="{{ path('_natgames_admin_account_edit', { 'id': id }) }}" method="post" {{ form_enctype(form) }}>
 <input type="hidden" name="project_id" value="52" />
 <table border="1" style="width: 800px;">
-<tr><th colspan="3">National Games 2012 Admin Edit Account</th></tr>
+<tr><th colspan="3">National Games 2012 Admin Edit Account {{ id }}</th></tr>
 <tr>
     <td style="width: 175px;">{{ form_label (form.userName) }}</td>
     <td style="width: 275px;">{{ form_widget(form.userName) }}</td>
@@ -40,9 +40,7 @@
     <td> {{ form_label (form.aysoid) }}</td>
     <td> {{ form_widget(form.aysoid) }}</td>
     <td>
-        Required.<br />
-        8 digit AYSO volunteer number. <br />
-        Available from www.eayso.org<br />
+        Be careful about changing!<br />
         {{ form_errors(form.aysoid) }}
     </td>
 </tr>
@@ -75,7 +73,6 @@
     <td> {{ form_widget(form.email) }}</td>
     <td>
         Required.<br />
-        Needs to match your eAYSO email.<br />
         {{ form_errors(form.email) }}
     </td>
 </tr>
@@ -84,8 +81,21 @@
     <td> {{ form_widget(form.cellPhone) }}</td>
     <td>
         Highly recommended.<br />
-        Some text messages may be sent.<br />
         {{ form_errors(form.cellPhone) }}
+    </td>
+</tr>
+<tr>
+    <td> {{ form_label (form.gender) }}</td>
+    <td> {{ form_widget(form.gender) }}</td>
+    <td>
+        {{ form_errors(form.gender) }}
+    </td>
+</tr>
+<tr>
+    <td> {{ form_label (form.dob) }}</td>
+    <td> {{ form_widget(form.dob) }}</td>
+    <td>
+        {{ form_errors(form.dob) }}
     </td>
 </tr>
 <tr><td colspan="3"></td></tr>
