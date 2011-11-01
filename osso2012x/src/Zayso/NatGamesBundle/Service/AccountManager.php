@@ -8,6 +8,13 @@ use Zayso\ZaysoBundle\Component\Debug;
 
 use Doctrine\ORM\ORMException;
 
+use Zayso\ZaysoBundle\Entity\Account;
+use Zayso\ZaysoBundle\Entity\AccountPerson;
+use Zayso\ZaysoBundle\Entity\Person;
+use Zayso\ZaysoBundle\Entity\PersonRegistered;
+use Zayso\ZaysoBundle\Entity\ProjectPerson;
+use Zayso\ZaysoBundle\Entity\Project;
+
 class AccountManager
 {
     protected $em = null;
@@ -26,6 +33,47 @@ class AccountManager
         //$ids = $services->getServiceIds();
         //print_r($ids);
         //die(get_class($services));
+    }
+    // Idea is to build up a new account person model
+    public function newAccountPerson($params = array())
+    {
+        // Basic ap
+        $accountPerson = new AccountPerson();
+        $accountPerson->setRelId(1);
+        $accountPerson->setVerified('No');
+        $accountPerson->setStatus('Active');
+
+        // New account
+        $account       = new Account();
+        $account->setStatus('Active');
+        $accountPerson->setAccount($account);
+
+        // New person
+        $person = new Person();
+        $person->setStatus('Active');
+        $person->setVerified('No');
+        $accountPerson->setPerson($person);
+
+        // Assume one will be registered
+        $registeredPerson = new PersonRegistered();
+        $registeredPerson->setRegType ('AYSOV');
+        $registeredPerson->setVerified('No');
+        $registeredPerson->setPerson($person);
+
+        // Assume assigned to a project
+        $projectPerson = new ProjectPerson();
+        $projectPerson->setStatus('Active');
+        $projectPerson->setPerson($person);
+
+        $todo = array('projectPlans' => true, 'openid' => true, 'projectLevels' => true);
+        $projectPerson->set('todo',$todo);
+        
+        if (isset($params['projectId']))
+        {
+            $project = $this->getEntityManager()->getReference('ZaysoBundle:Project',$params['projectId']);
+            $projectPerson->setProject($project);
+        }
+        return $accountPerson;
     }
     public function getAccountPersons($params = array())
     {
@@ -102,6 +150,43 @@ class AccountManager
 
       //die('DQL ' . $query->getSQL());
         return $query->getResult();
+    }
+    /* ===========================================================
+     * Allow multiple accounts per person
+     * Still need to fool with the projectId
+     * If person but no project then return just the person
+     */
+    public function getPerson($params)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->addSelect('person');
+        $qb->addSelect('registered');
+        $qb->addSelect('projectPerson');
+
+        $qb->from('ZaysoBundle:Person','person');
+
+        $qb->leftJoin('person.registereds',   'registered');
+        $qb->leftJoin('person.projects',      'projectPerson');
+        $qb->leftJoin('projectPerson.project','project');
+
+        if (isset($params['aysoid']))
+        {
+            $qb->andWhere($qb->expr()->eq('registered.regKey',':aysoid'));
+        }
+        if (isset($params['projectId']))
+        {
+            $qb->andWhere($qb->expr()->in('project.id',$params['projectId']));
+        }
+        $query = $qb->getQuery();
+        $query->setParameter('aysoid',$params['aysoid']);
+        
+        $persons = $query->getResult();
+
+        if (count($persons) == 1) return $persons[0];
+
+        return null;
     }
     public function loadVolCerts($aysoid)
     {

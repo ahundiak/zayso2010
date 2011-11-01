@@ -9,6 +9,8 @@ use Zayso\ZaysoBundle\Component\DataTransformer\AysoidTransformer;
 use Zayso\ZaysoBundle\Component\DataTransformer\RegionTransformer;
 use Zayso\ZaysoBundle\Component\DataTransformer\PasswordTransformer;
 
+use Zayso\ZaysoBundle\Component\Form\Validator\UserNameValidator;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\AbstractType;
@@ -19,32 +21,6 @@ use Symfony\Component\Form\CallbackValidator;
 use Symfony\Component\Form\FormValidatorInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 
-class AdminAccountEditUserNameValidator implements FormValidatorInterface
-{
-    public function __construct($em)
-    {
-        $this->em = $em;
-    }
-    public function validate(FormInterface $form)
-    {
-        // Only check if username was changed
-        $userName  = $form['userName']->getData();
-        $userNamex = $form['userNamex']->getData();
-        if ($userName == $userNamex) return;
-
-        $conn = $this->em->getConnection();
-
-        $sql = 'SELECT id FROM account WHERE user_name = :userName';
-        $stmt = $conn->prepare($sql);
-        $stmt->execute(array('userName' => $userName));
-        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
-        if (isset($row['id']))
-        {
-            // print_r($row); die(count($row));
-            $form['userName']->addError(new FormError('Account Name is already being used. Please select another name.'));
-        }
-    }
-}
 class AdminAccountEditType extends AbstractType
 {
     protected $refBadgePickList = array
@@ -64,6 +40,12 @@ class AdminAccountEditType extends AbstractType
         'AYSO'    => 'AYSO',
         'Coach'   => 'Coach',
         'Referee' => 'Referee',
+    );
+    protected $genderPickList = array
+    (
+        'N' => 'None',
+        'M' => 'Male',
+        'F' => 'Female',
     );
     protected $memYearPickList = array
     (
@@ -101,6 +83,7 @@ class AdminAccountEditType extends AbstractType
         $builder->add('cellPhone', 'text', array('label' => 'Cell Phone', 'attr' => array('size' => 20)));
         $builder->add('region',    'text', array('label' => 'AYSO Region Number', 'attr' => array('size' => 6)));
         $builder->add('refDate',   'text', array('label' => 'AYSO Referee Date',  'attr' => array('size' => 8)));
+        $builder->add('dob',       'text', array('label' => 'Date of Birth',      'attr' => array('size' => 8)));
 
 //        $builder->add('projectId','hidden');
       //$builder->add('projectIdx','hidden',array('data' => 123, 'property_path' => false));
@@ -120,7 +103,12 @@ class AdminAccountEditType extends AbstractType
             'required'      => true,
             'choices'       => $this->memYearPickList,
         ));
-        
+        $builder->add('gender', 'choice', array(
+            'label'         => 'Gender',
+            'required'      => true,
+            'choices'       => $this->genderPickList,
+        ));
+       
         $builder->addValidator(new CallbackValidator(function($form)
         {
             if($form['userPass1']->getData() != $form['userPass2']->getData())
@@ -128,7 +116,7 @@ class AdminAccountEditType extends AbstractType
                 $form['userPass2']->addError(new FormError('Passwords do not match'));
             }
         }));
-        $builder->addValidator(new AdminAccountEditUserNameValidator($this->em));
+        $builder->addValidator(new UserNameValidator($this->em));
 
         $builder->get('userPass1')->appendClientTransformer(new PasswordTransformer());
         $builder->get('userPass2')->appendClientTransformer(new PasswordTransformer());
@@ -144,9 +132,17 @@ class AdminAccountEditType extends AbstractType
 
 class EditController extends BaseController
 {
+    protected function isAdminAuth()
+    {
+        $user = $this->getUser();
+        if (!$user->isSignedIn()) return false;
+        if (!$user->isAdmin   ()) return false;
+        return true;
+    }
     public function editAction(Request $request, $id)
     {
         // Verify authorized to edit this account
+        if (!$this->isAdminAuth()) return $this->redirect($this->generateUrl('_natgames_welcomex'));
 
         // Load in tha account person
         $accountManager = $this->getAccountManager();
@@ -162,7 +158,6 @@ class EditController extends BaseController
 
         if ($request->getMethod() == 'POST')
         {
-
             $form->bindRequest($request);
 
             if ($form->isValid())
