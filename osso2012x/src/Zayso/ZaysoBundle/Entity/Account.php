@@ -26,7 +26,9 @@ class Account
    */
   protected $userName = '';
 
-  /** @ORM\Column(name="user_pass",type="string",length=32,nullable=false) */
+  /** @ORM\Column(name="user_pass",type="string",length=32,nullable=false)
+   *  @Assert\NotBlank(message="Missing Password")
+   */
   protected $userPass  = '';
 
   /** @ORM\Column(name="status",type="string",length=16,nullable=false) */
