@@ -44,6 +44,12 @@ class Person
     /** @ORM\Column(type="string",name="org_key",length=20,nullable=true) */
     protected $orgKey = '';
 
+    /**  ORM\Column(type="string",name="dob",length=8,nullable=true) */
+    protected $dob = '';
+
+    /**  ORM\Column(type="string",name="gender",length=8,nullable=true) */
+    protected $gender = '';
+
     /**
      *  @ORM\OneToMany(targetEntity="PersonRegistered", mappedBy="person", cascade={"persist"})
      */
