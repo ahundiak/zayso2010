@@ -61,7 +61,7 @@ class SchedDivListView extends Proj_View
             $search->dateGE = $date2;
             $search->dateLE = $date1;
         }
-        $search->unitId = $data->unitId;
+      //$search->unitId = $data->unitId;
         
         if ($data->showAge1 == -1) $showAge1 = $data->showAge2;
         else                       $showAge1 = $data->showAge1;
