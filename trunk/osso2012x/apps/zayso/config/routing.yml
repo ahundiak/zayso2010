@@ -46,19 +46,11 @@ _natgames_admin_account_edit:
 
 _natgames_account_signin:
     pattern:  /natgames/account/signin
-    defaults: { _controller: NatGamesBundle:Account:signin }
-    requirements:
-        _method:  GET
-
-_natgames_account_signin_post:
-    pattern:  /natgames/account/signin
-    defaults: { _controller: NatGamesBundle:Account:signinPost }
-    requirements:
-        _method:  POST
+    defaults: { _controller: NatGamesBundle:Account\Signin:signin }
 
 _natgames_account_signout:
     pattern:  /natgames/account/signout
-    defaults: { _controller: NatGamesBundle:Account:signout }
+    defaults: { _controller: NatGamesBundle:Account\Signin:signout }
 
 # Project Person Information
 _natgames_project_plans:
