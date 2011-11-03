@@ -51,7 +51,7 @@
     <td> {{ form_label (form.firstName) }}</td>
     <td> {{ form_widget(form.firstName) }}</td>
     <td>
-        Legal name, must match eAYSO.<br />
+        Legal name, should match eAYSO.<br />
         {{ form_errors(form.firstName) }}
     </td>
 </tr>
@@ -59,7 +59,7 @@
     <td> {{ form_label (form.lastName) }}</td>
     <td> {{ form_widget(form.lastName) }}</td>
     <td>
-        Legal name, must match eAYSO.<br />
+        Legal name, should match eAYSO.<br />
         {{ form_errors(form.lastName) }}
     </td>
 </tr>
@@ -67,7 +67,7 @@
     <td> {{ form_label (form.nickName) }}</td>
     <td> {{ form_widget(form.nickName) }}</td>
     <td>
-        Will be used for assignments.<br />
+        Used in place of first name for assignments.<br />
         {{ form_errors(form.nickName) }}
     </td>
 </tr>
