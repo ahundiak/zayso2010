@@ -71,19 +71,22 @@ class AdminAccountEditType extends AbstractType
         $builder->add('userName', 'text',  array('label' => 'User Name', 'attr' => array('size' => 35)));
         $builder->add('userNamex','hidden',array('data' => $builder->getData()->getUserName(), 'property_path' => false));
 
-        $builder->add('userPass1', 'password', array('property_path' => 'userPass', 'label' => 'Password'));
-        $builder->add('userPass2', 'password', array('property_path' => false, 'label' => 'Password(confirm)'));
+        $builder->add('userPass1', 'password', 
+                array('required' => false, 'property_path' => 'userPass', 'label' => 'Password'));
+        $builder->add('userPass2', 'password', 
+                array('required' => false, 'property_path' => false,      'label' => 'Password(confirm)'));
 
         $builder->add('firstName', 'text', array('label' => 'AYSO First Name'));
         $builder->add('lastName',  'text', array('label' => 'AYSO Last Name'));
-        $builder->add('nickName',  'text', array('label' => 'Nick Name'));
+        
+        $builder->add('nickName',  'text', array('label' => 'Nick Name','required' => false,));
 
         $builder->add('aysoid',    'text', array('label' => 'AYSO ID',    'attr' => array('size' => 10)));
         $builder->add('email',     'text', array('label' => 'Email',      'attr' => array('size' => 35)));
-        $builder->add('cellPhone', 'text', array('label' => 'Cell Phone', 'attr' => array('size' => 20)));
+        $builder->add('cellPhone', 'text', array('label' => 'Cell Phone', 'attr' => array('size' => 20), 'required' => false,));
         $builder->add('region',    'text', array('label' => 'AYSO Region Number', 'attr' => array('size' => 6)));
-        $builder->add('refDate',   'text', array('label' => 'AYSO Referee Date',  'attr' => array('size' => 8)));
-        $builder->add('dob',       'text', array('label' => 'Date of Birth',      'attr' => array('size' => 8)));
+        $builder->add('refDate',   'text', array('label' => 'AYSO Referee Date',  'attr' => array('size' => 8),'required' => false,));
+        $builder->add('dob',       'text', array('label' => 'Date of Birth',      'attr' => array('size' => 8),'required' => false,));
 
 //        $builder->add('projectId','hidden');
       //$builder->add('projectIdx','hidden',array('data' => 123, 'property_path' => false));
