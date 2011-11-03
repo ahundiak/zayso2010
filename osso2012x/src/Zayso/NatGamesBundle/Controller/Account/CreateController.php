@@ -46,11 +46,11 @@ class AccountCreateType extends AbstractType
 
         $builder->add('firstName', 'text', array('label' => 'AYSO First Name'));
         $builder->add('lastName',  'text', array('label' => 'AYSO Last Name'));
-        $builder->add('nickName',  'text', array('label' => 'Nick Name'));
+        $builder->add('nickName',  'text', array('label' => 'Nick Name', 'required' => false,));
 
         $builder->add('aysoid',    'text', array('label' => 'AYSO ID',    'attr' => array('size' => 10)));
         $builder->add('email',     'text', array('label' => 'Email',      'attr' => array('size' => 35)));
-        $builder->add('cellPhone', 'text', array('label' => 'Cell Phone', 'attr' => array('size' => 20)));
+        $builder->add('cellPhone', 'text', array('label' => 'Cell Phone', 'attr' => array('size' => 20),'required' => false,));
         $builder->add('region',    'text', array('label' => 'AYSO Region Number', 'attr' => array('size' => 4)));
 
         $builder->add('refBadge', 'choice', array(
