@@ -23,6 +23,9 @@ class BaseImport
     public function postUpdate (\Doctrine\ORM\Event\LifecycleEventArgs $e) { $this->updated++;  }
     public function postRemove (\Doctrine\ORM\Event\LifecycleEventArgs $e) { $this->deleted++;  }
     public function postPersist(\Doctrine\ORM\Event\LifecycleEventArgs $e) { $this->inserted++; }
+    
+    protected $project = null;
+    protected $projectId = 0;
 
     //
     public function __construct($em)
@@ -138,12 +141,38 @@ class BaseImport
         // print_r($row);
         // print_r($this->map);
     }
+    protected function processFile($fp)
+    {
+        // Process the header
+        $header = fgetcsv($fp);
+        $this->processHeaderRow($header);
+        if (count($this->errors)) return;
+
+        // Process the data
+        while($row = fgetcsv($fp))
+        {
+            $item = $this->processDataRow($row);
+            $this->processItem($item);
+            // echo $item->aysoid . ' ' . $item->lastName . "\n";
+        }
+    }
     public function process($params = array())
     {
         // For tracking changes
         $this->getEntityManager()->getEventManager()->addEventListener(
             array(\Doctrine\ORM\Events::postUpdate, \Doctrine\ORM\Events::postRemove,\Doctrine\ORM\Events::postPersist),
             $this);
+
+        // Often have a project
+        if (isset($params['projectId']) && $params['projectId']) $projectId = $params['projectId'];
+        else                                                     $projectId = 0;
+
+        $this->project = null;
+        $this->projectId = $projectId;
+        if ($projectId)
+        {
+            $this->project = $this->getEntityManager()->getReference('ZaysoBundle:Project',$projectId);
+        }
 
         // Need an input file
         if (isset($params['inputFileName'])) $inputFileName = $params['inputFileName'];
@@ -165,22 +194,9 @@ class BaseImport
             $this->errors[] = "Could not open $inputFileName";
             return $this->getResults();
         }
-        // Process the header
-        $header = fgetcsv($fp);
-        $this->processHeaderRow($header);
-        if (count($this->errors))
-        {
-            fclose($fp);
-            return $this->getResults();
-        }
-        // Process the data
-        while($row = fgetcsv($fp))
-        {
-            $item = $this->processDataRow($row);
-            $this->processItem($item);
-            $item = null;
-            $row  = null;
-        }
+        // Process it
+        $this->processFile($fp);
+
         // Finish up
         $this->getEntityManager()->flush();
         $this->getEntityManager()->clear(); // Need for multiple files
