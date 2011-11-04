@@ -51,10 +51,10 @@ class Game
     /** @ORM\Column(type="string",name="org_key",length=20,nullable=true) */
     protected $orgKey = '';
 
-    /** @ORM\Column(type="string",name="age",length=8,nullable=false) */
+    /** @ORM\Column(type="string",name="age",length=8,nullable=true) */
     protected $age = '';
 
-    /** @ORM\Column(type="string",name="gender",length=8,nullable=false) */
+    /** @ORM\Column(type="string",name="gender",length=8,nullable=true) */
     protected $gender = '';
     
     /** @ORM\Column(type="string",name="status",length="20",nullable=true) */
@@ -86,7 +86,7 @@ class Game
     public function setProject($project)
     {
         $this->project = $project;
-        if ($project) $project->addGame($this);
+      //if ($project) $project->addGame($this);
     }
 
     /* ===========================================================================
