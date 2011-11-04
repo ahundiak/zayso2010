@@ -48,13 +48,28 @@ class ImportCommand extends ContainerAwareCommand
         
         echo 'Account Count ' . count($accounts) . "\n";
     }
+    protected function importSchedule2010($fileName)
+    {
+        $params = array(
+            'inputFileName'  => $fileName,
+            'projectId'      => 50);
+
+        $import = $this->getContainer()->get('schedule2010.import');
+        $results = $import->process($params);
+        echo "Zayso Import {$results['msg']} \n";
+    }
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $inputFileName = $input->getArgument('file');
+        $date = '11/a1/ 34';
+        $datex = preg_replace('#\d#','',$date);
+        die($datex);
+        //$inputFileName = $input->getArgument('file');
 
-        $this->getAccounts();
+        //$this->getAccounts();
 
-        $this->importAccounts($inputFileName);
+        //$this->importAccounts($inputFileName);
+
+        $this->importSchedule2010('../datax/Schedule2010.csv');
 
         return;        
     }
