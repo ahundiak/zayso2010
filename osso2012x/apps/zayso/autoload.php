@@ -22,6 +22,7 @@ $loader->registerNamespaces(array(
 $loader->registerPrefixes(array(
     'Twig_Extensions_' => $ws.'Symfony/vendor/twig-extensions/lib',
     'Twig_'            => $ws.'Symfony/vendor/twig/lib',
+    'Zend_'            => $ws.'ZendFramework-1.11.11/library',
 ));
 
 // intl
@@ -46,5 +47,11 @@ AnnotationRegistry::registerFile($ws.'doctrine-orm/Doctrine/ORM/Mapping/Driver/D
 // the lazy loading of the init file (which is expensive)
 require_once $ws.'Symfony/vendor/swiftmailer/lib/classes/Swift.php';
 Swift::registerAutoload($ws.'Symfony/vendor/swiftmailer/lib/swift_init.php');
+
+ini_set('include_path','.' .
+
+    // Needed for Zend because it uses includes
+    PATH_SEPARATOR . $ws . 'ZendFramework-1.11.11/library'
+);
 
 unset($ws);
