@@ -7,11 +7,11 @@
     <services>
 
         <service id="game.manager" class="Zayso\Osso2007Bundle\Service\GameManager" public="true">
-            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="doctrine.orm.osso2007_entity_manager" />
         </service>
 
         <service id="team.manager" class="Zayso\Osso2007Bundle\Service\TeamManager" public="true">
-            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="doctrine.orm.osso2007_entity_manager" />
         </service>
 
         <service id="account2007.manager" class="Zayso\Osso2007Bundle\Service\AccountManager" public="true">

@@ -88,7 +88,7 @@ class QueryCommand extends BaseCommandx
         $teamManager = $this->getTeamManager();
 
         $projectId = 70; //array(70);
-        $ages    = array('U08',);
+        $ages    = array('U14',);
         $genders = array('B', 'C');
         $regions = array('R0894');
 

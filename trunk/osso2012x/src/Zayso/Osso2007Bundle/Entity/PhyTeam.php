@@ -20,9 +20,15 @@ class PhyTeam
      */
     private $persons;
 
+    /**
+     *  @ORM\OneToMany(targetEntity="PhyTeamPlayer", mappedBy="phyTeam", indexBy="aysoid", fetch="EXTRA_LAZY" )
+     */
+    private $players;
+
     public function __construct()
     {
-        $this->persons  = new ArrayCollection();
+        $this->persons = new ArrayCollection();
+        $this->players = new ArrayCollection();
     }
     public function getPerson($type)
     {
@@ -45,6 +51,8 @@ class PhyTeam
     {
         return $this->unit->getKeyx();
     }
+    public function getPlayers() { return $this->players; }
+    
     public function getDesc()
     {
         $coach  = $this->getHeadCoach();
