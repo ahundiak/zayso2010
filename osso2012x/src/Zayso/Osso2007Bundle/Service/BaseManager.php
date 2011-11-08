@@ -10,7 +10,7 @@ class BaseManager
 {
     protected $em = null;
     
-    protected function getEntityManager() { return $this->em; }
+    public function getEntityManager() { return $this->em; }
 
     public function __construct($em)
     {
@@ -105,7 +105,13 @@ class BaseManager
     );
     static public function getRegionIdForKey($key)
     {
-        if (isset(self::$regionKeyMap[$key])) return self::$regionMap[$key];
+        if (isset(self::$regionKeyMap[$key])) return self::$regionKeyMap[$key];
+        $region = (int)$key;
+        if (!$region) return null;
+
+        $key = sprintf('R%04u',$region);
+        if (isset(self::$regionKeyMap[$key])) return self::$regionKeyMap[$key];
+
         return null;
     }
     static public function getRegionKey($id)
