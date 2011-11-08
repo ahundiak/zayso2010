@@ -27,24 +27,25 @@ class PdfCommand extends BaseCommandx
     {
         $gameManager = $this->getGameManager();
 
-        $projectId = 70; //array(70);
-        $ages    = array('U14','U16', 'U19',);
+        $projectId = 75; //array(70);
+        $ages    = array('U16','U19',);
         $genders = array('B', 'C', 'G');
-        $regions = array('R0894', 'R1174','R0160','R0498');
         
-        $date1   = '20110818';
-        $date2   = '20110818';
+        $date1   = '20111112';
+        $date2   = '20111112';
 
         $search = array(
             'projectId' => $projectId,
             'ages'      => $ages,
             'genders'   => $genders,
-            'regions'   => $regions,
+          //'regions'   => $regions,
             'date1'     => $date1,
             'date2'     => $date2
         );
 
         $games = $gameManager->queryGames($search);
+        return $games;
+
         $gameCount = count($games);
         echo "Game Count: {$gameCount}\n";
         foreach($games as $game)
@@ -67,17 +68,8 @@ class PdfCommand extends BaseCommandx
                 echo "AWAY {$team->getTeamKey()} {$name}\n";
             }
         }
-        
-        $teams = $gameManager->querySchTeamsPickList($search,$games);
-        $teamCount = count($teams);
-        echo "Team Count: {$teamCount}\n";
-        foreach($teams as $team)
-        {
-            ///echo "{$team->getRegionKey()} {$team->getDivisionDesc()} {$team->getTeamKey()} {$team->getPhyTeam()->getHeadCoach()->getLastName()}\n";
-        }
-        //print_r($teams);
     }
-    protected function drawMatrix($page)
+    protected function drawMatrix($page,$players)
     {
         $xLeft   = 40.0;
         $yBottom = 50.0;
@@ -135,26 +127,225 @@ class PdfCommand extends BaseCommandx
         }
         $page->drawText('Goals',$x + 5,$yTopText);
 
-        $players = array('Hundiak, Ethan', 'McReynolds, Connor','Jones, Shadrach');
         $x = $xLeft + $widthSlots + $widthSlots + 3;
         $y = $yTop - $heightRow - $heightRow + 3;
         $page->setFont($font,10);
         foreach($players as $player)
         {
-            $player = substr($player,0,20);
-            $page->drawText($player,$x,$y);
+            $name = $player->getLastName() . ', ' . $player->getFirstName();
+            $name = substr($name,0,20);
+            $page->drawText($name,$x,$y);
+
+            $number = $player->getJersey();
+            if ($number)
+            {
+                $page->drawText($umber,$x - $widthSlot,$y);
+            }
             $y -= $heightRow;
         }
     }
+    protected function drawTeamRow($page,$teamx,$team,$yTop)
+    {
+        $xLeft   =  40.0;
+
+        $yHeight = 25;
+        $yBot  = $yTop - $yHeight;
+        $yText = $yBot + 4;
+
+        $xTeam  = $xLeft + 45;
+
+        $font1 = \Zend_Pdf_Font::fontWithName(\Zend_Pdf_Font::FONT_HELVETICA);
+        $font2 = \Zend_Pdf_Font::fontWithName(\Zend_Pdf_Font::FONT_COURIER_BOLD);
+
+        if ($teamx->getTeamType() == $team->getTeamType()) $page->setFont($font2,14);
+        else                                               $page->setFont($font1,12);
+
+        $page->drawText($team->getTeamType(),$xLeft + 3,$yText);
+
+        // Coach Info
+        $coach = $team->getHeadCoach();
+        if ($coach) $name = $coach->getLastName();
+        else        $name = '';
+        $teamDesc = $team->getTeamKey() . ' ' . $name;
+
+        $page->drawText($teamDesc,$xTeam + 3,$yText);
+    }
+    protected function drawTeams($page,$game,$team,$yTop)
+    {
+        $xLeft   =  40.0;
+        $xRight  = 540.0;
+
+        $yHeight = 25;
+        $yBot  = $yTop - ($yHeight * 3);
+        $yText = $yTop -  $yHeight + 4;
+
+        $xTeam     = $xLeft     +  45;
+        $xGoals    = $xTeam     + 150;
+        $xCautions = $xGoals    +  50;
+        $xSendoffs = $xCautions +  50;
+        $xInjuries = $xSendoffs +  50;
+        $xNotes    = $xInjuries +  50;
+
+        $y = $yTop;
+        for($i = 0; $i < 4; $i++)
+        {
+            $page->drawLine($xLeft,$y,$xRight,$y);
+            $y -= $yHeight;
+        }
+        $xs = array($xLeft,$xTeam,$xGoals,$xCautions,$xSendoffs,$xInjuries,$xNotes,$xRight);
+        $labels = array('','Team','Goals','Cautions','Sendoffs','Injuries','Notes','');
+        foreach($xs as $i => $x)
+        {
+            $page->drawLine($x,$yTop,$x,$yBot);
+            if ($labels[$i])
+            {
+                $page->drawText($labels[$i],$x+2,$yText);
+            }
+        }
+        $font1 = \Zend_Pdf_Font::fontWithName(\Zend_Pdf_Font::FONT_HELVETICA);
+        $font2 = \Zend_Pdf_Font::fontWithName(\Zend_Pdf_Font::FONT_COURIER_BOLD);
+
+        $this->drawTeamRow($page,$team,$game->getHomeTeam(),$yTop - $yHeight);
+        $this->drawTeamRow($page,$team,$game->getAwayTeam(),$yTop - $yHeight - $yHeight);
+    }
+    protected function processGameTeam($doc,$game,$team)
+    {
+        // New page
+        $page = new \Zend_Pdf_Page(\Zend_Pdf_Page::SIZE_A4);
+        $doc->pages[] = $page;
+
+        $font1 = \Zend_Pdf_Font::fontWithName(\Zend_Pdf_Font::FONT_HELVETICA);
+        $font2 = \Zend_Pdf_Font::fontWithName(\Zend_Pdf_Font::FONT_COURIER_BOLD);
+
+        $xLeft   =  40.0;
+        $xRight  = 540.0;
+
+        $yTop    = 800.0;
+        $yDrop   = 4;
+
+        $x1GameNum = $xLeft +  40;
+        $x2GameNum = $xLeft +  40 + 40;
+
+        $xLeftWork = $x2GameNum;
+        $x0Date = $xLeftWork + 10;
+        $x1Date = $xLeftWork + 10 + 40;
+        $x2Date = $xLeftWork + 10 + 40 + 90;
+
+        $xLeftWork = $x2Date;
+        $x0Time = $xLeftWork + 10;
+        $x1Time = $xLeftWork + 10 + 40;
+        $x2Time = $xLeftWork + 10 + 40 + 80;
+
+        $xLeftWork = $x2Time;
+        $x0Field = $xLeftWork + 10;
+        $x1Field = $xLeftWork + 10 + 40;
+        $x2Field = $xLeftWork + 10 + 40 + 100;
+
+        // Game number
+        $page->setFont($font1,12);
+        $page->drawText('Game: ',$xLeft,$yTop);
+
+        $page->setFont($font2,14);
+        $page->drawText($game->getEventNum(),$x1GameNum,$yTop);
+        $page->drawLine($x1GameNum,$yTop-$yDrop,$x2GameNum,$yTop-$yDrop);
+
+        // Date
+        $date = $game->getEventDate();
+        $stamp = mktime(0,0,0,substr($date,4,2),substr($date,6,2),substr($date,0,4));
+        $date = date('D M d',$stamp);
+
+        $page->setFont($font1,12);
+        $page->drawText('Date: ',$x0Date,$yTop);
+
+        $page->setFont($font2,14);
+        $page->drawText($date,$x1Date,$yTop);
+        $page->drawLine($x1Date,$yTop-$yDrop,$x2Date,$yTop-$yDrop);
+
+        // Time
+        $time = $game->getEventTime();
+        $stamp = mktime(substr($time,0,2),substr($time,2,2));
+        $time = date('h:i a',$stamp);
+
+        $page->setFont($font1,12);
+        $page->drawText('Time: ',$x0Time,$yTop);
+
+        $page->setFont($font2,14);
+        $page->drawText($time,$x1Time,$yTop);
+        $page->drawLine($x1Time,$yTop-$yDrop,$x2Time,$yTop-$yDrop);
+
+        // Field
+        $page->setFont($font1,12);
+        $page->drawText('Field: ',$x0Field,$yTop);
+
+        $page->setFont($font2,14);
+        $page->drawText($game->getFieldKey(),$x1Field,$yTop);
+        $page->drawLine($x1Field,$yTop-$yDrop,$x2Field,$yTop-$yDrop);
+
+        // Teams
+        $page->setFont($font1,12);
+        $this->drawTeams($page,$game,$team,$yTop - 25);
+/*
+        $yHeight = 25;
+        $yTop = $yTop - $yHeight;
+        $yBot = $yTop - $yHeight - $yHeight;
+
+        $y = $yTop;
+        $page->drawLine($xLeft,$y,$xRight,$y);
+
+        $y -= $yHeight;
+        $page->drawLine($xLeft,$y,$xRight,$y);
+        
+        $y -= $yHeight;
+        $page->drawLine($xLeft,$y,$xRight,$y);
+
+        $page->drawLine($xLeft, $yTop,$xLeft, $yBot);
+        $page->drawLine($xRight,$yTop,$xRight,$yBot);
+
+        $xTeam = $xLeft + 40;
+        $y = $yTop - $yHeight;
+
+        $coach = $team->getHeadCoach();
+        if ($coach) $name = $coach->getLastName();
+        else        $name = '';
+        $teamDesc = $team->getTeamKey() . ' ' . $name;
+
+        $page->setFont($font1,12);
+        $page->drawText($teamDesc,$xTeam,$y+$yDrop);
+
+        $page->setFont($font1,12);
+        $page->drawText($team->getTeamType(),$xLeft + 3,$y+$yDrop);
+*/
+       // The Monitored sub form
+        $this->drawMatrix($page,$team->getSchTeam()->getPhyTeam()->getPlayers());
+    }
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->addPlayer();
-        return;
+        // Get the games
+        $games = $this->queryGames();
         
         // New document
         $doc = new \Zend_Pdf();
 
-        // A page
+        $game = $games[0];
+        //$this->processGameTeam($doc,$game,$game->getHomeTeam());
+        //$this->processGameTeam($doc,$game,$game->getAwayTeam());
+
+        foreach($games AS $game)
+        {
+            $this->processGameTeam($doc,$game,$game->getHomeTeam());
+            $this->processGameTeam($doc,$game,$game->getAwayTeam());
+        }
+
+        // Finish up
+        $doc->save('../datax/games.pdf');
+
+        return;
+        
+        foreach($games AS $game)
+        {
+            $this->processGame($doc,$game,$game->getHomeTeam());
+            $this->processGame($doc,$game,$game->getAwayTeam());
+        }
         $pageTemplate = $doc->newPage(\Zend_Pdf_Page::SIZE_A4);
  
         $pagex = new \Zend_Pdf_Page($pageTemplate);
@@ -225,17 +416,5 @@ class PdfCommand extends BaseCommandx
 
         $doc->save('../datax/pages.pdf',false);
 
-    }
-    protected function addPlayer()
-    {
-        $player = new PhyTeamPlayer();
-        $player->setFirstName('Ethan');
-        $player->setLastName ('Hundiak');
-        $player->setAysoid('12345678');
-        $player->setJersey(5);
-
-        $em = $this->getContainer()->get('doctrine')->getEntityManager('osso2007');
-        $em->persist($player);
-        $em->flush();
     }
 }
