@@ -12,7 +12,7 @@ class BaseCommandx extends ContainerAwareCommand
 {
     protected function getEntityManager()
     {
-        return $this->getContainer()->get('doctrine')->getEntityManager();
+        return $this->getContainer()->get('doctrine')->getEntityManager('osso2007');
     }
     protected function getGameManager()
     {
