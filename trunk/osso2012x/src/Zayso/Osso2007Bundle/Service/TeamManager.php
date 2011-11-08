@@ -15,7 +15,58 @@ use Zayso\Osso2007Bundle\Entity\PhyTeam;
 class TeamManager extends BaseManager
 {
     protected $em = null;
-    
+
+    public function getPhyTeamForEaysoDes($projectId,$region,$eaysoDes)
+    {
+        $unitId = self::getRegionIdForKey($region);
+
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->addSelect('phyTeam');
+
+        $qb->from('Osso2007Bundle:PhyTeam', 'phyTeam');
+        $qb->leftJoin('phyTeam.projectItem','projectItem'); // Hack, need type=2
+        $qb->leftJoin('phyTeam.unit',       'unit');
+
+        $qb->andWhere($qb->expr()->in('projectItem.projectId',$projectId));
+        $qb->andWhere($qb->expr()->in('projectItem.typeId', array(2)));
+
+        $qb->andWhere($qb->expr()->in('unit.unitId',$unitId));
+
+      //$qb->andWhere($qb->expr()->in('phyTeam.eaysoDes', $qb->expr()->literal($eaysoDes)));
+
+        $qb->andWhere($qb->expr()->eq('phyTeam.eaysoDes',':eaysoDes'));
+        $qb->setParameter('eaysoDes',$eaysoDes);
+
+        $teams = $qb->getQuery()->getResult();
+        if (count($teams) == 1) return $teams[0];
+        return null;
+
+    }
+    public function getPhyTeamForEaysoId($projectId,$eaysoId)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->addSelect('phyTeam');
+
+        $qb->from('Osso2007Bundle:PhyTeam', 'phyTeam');
+        $qb->leftJoin('phyTeam.projectItem','projectItem'); // Hack, need type=2
+
+        $qb->andWhere($qb->expr()->in('projectItem.projectId',$projectId));
+        $qb->andWhere($qb->expr()->in('projectItem.typeId', array(2)));
+
+      //$qb->andWhere($qb->expr()->in('phyTeam.eaysoDes', $qb->expr()->literal($eaysoDes)));
+
+        $qb->andWhere($qb->expr()->eq('phyTeam.eaysoId',':eaysoId'));
+        $qb->setParameter('eaysoId',$eaysoId);
+
+        $teams = $qb->getQuery()->getResult();
+        if (count($teams) == 1) return $teams[0];
+        return null;
+
+    }
     /* ==========================================================
      * Physical Teams query
      * Might want to join the coaches since always want them anyways
