@@ -52,7 +52,11 @@ class PhyTeam
         return $this->unit->getKeyx();
     }
     public function getPlayers() { return $this->players; }
-    
+    public function getPlayer($aysoid)
+    {
+        if (isset($this->players[$aysoid])) return $this->players[$aysoid];
+        return null;
+    }
     public function getDesc()
     {
         $coach  = $this->getHeadCoach();
