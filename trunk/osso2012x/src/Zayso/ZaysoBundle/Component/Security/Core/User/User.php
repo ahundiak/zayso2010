@@ -61,6 +61,11 @@ class User
         return true;
 
     }
+    public function getAccountPersonId()
+    {
+        if (!$this->member) return 0;
+        return $this->member->getId();
+    }
     public function getProjectPerson($projectId = 0)
     {
         if (!$this->projectPerson)
