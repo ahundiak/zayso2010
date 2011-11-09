@@ -5,8 +5,8 @@
 {% block content %}
 <div>
   <h3>Admin Links</h3>
-  <p><a href="{{ path('_natgames_admin_accounts')  }}">List of Accounts and Referees</a></p>
-  <p><a href="{{ path('_natgames_admin_accounts', { '_format': 'csv' })  }}">List of Accounts and Referees(Excel)</a></p>
+  <p><a href="{{ path('_natgames_admin_account_list') }}">List of Accounts and Referees</a></p>
+  <p><a href="{{ path('_natgames_admin_account_list', { '_format': 'csv' })  }}">List of Accounts and Referees(Excel)</a></p>
   
   <p><a href="{{ path('_natgames_admin_import') }}">Import AYSO Information</a></p>
 </div>

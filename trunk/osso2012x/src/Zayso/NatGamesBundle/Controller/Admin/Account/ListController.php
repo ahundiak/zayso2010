@@ -1,9 +1,12 @@
 <?php
 
-namespace Zayso\NatGamesBundle\Controller;
+namespace Zayso\NatGamesBundle\Controller\Admin\Account;
+
+use Zayso\NatGamesBundle\Controller\BaseController;
+
 use Zayso\ZaysoBundle\Component\Debug;
 
-class MemberViewHelper
+class AdminAccountListViewHelper
 {
     protected function escape($value)
     {
@@ -117,7 +120,7 @@ class MemberViewHelper
         return $html;
     }
 }
-class AdminController extends BaseController
+class ListController extends BaseController
 {
     protected function isAuth()
     {
@@ -126,15 +129,7 @@ class AdminController extends BaseController
         if (!$user->isAdmin   ()) return false;
         return true;
     }
-    public function indexAction()
-    {
-        // Check auth
-        if (!$this->isAuth()) return $this->redirect($this->generateUrl('_natgames_welcomex'));
-
-        $tplData = $this->getTplData();
-        return $this->render('NatGamesBundle:Admin:index.html.twig',$tplData);
-    }
-    public function accountsAction($_format)
+    public function listAction($_format)
     {
         
         // Check auth
@@ -145,11 +140,11 @@ class AdminController extends BaseController
         
         $tplData = $this->getTplData();
         $tplData['members'] = $members;
-        $tplData['memberx'] = new MemberViewHelper();
+        $tplData['memberx'] = new AdminAccountListViewHelper();
         
-        if ($_format == 'html') return $this->render('NatGamesBundle:Admin:Account/accounts.html.twig',$tplData);
+        if ($_format == 'html') return $this->render('NatGamesBundle:Admin:Account/list.html.twig',$tplData);
         
-        $response = $this->render('NatGamesBundle:Admin:Account/accounts.csv.php',$tplData);
+        $response = $this->render('NatGamesBundle:Admin:Account/list.csv.php',$tplData);
         $response->headers->set('Content-Type', 'text/csv');
         $response->headers->set('Content-Disposition', 'attachment; filename="accounts.csv"');
         return $response;
