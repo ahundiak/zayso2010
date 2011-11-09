@@ -39,25 +39,25 @@ class PlayersCommand extends BaseCommandx
     }
      protected function execute(InputInterface $input, OutputInterface $output)
     {
-      //$this->importPhyTeam('Teams0160.csv');
-      //$this->importPhyTeam('Teams0498.csv');
-      //$this->importPhyTeam('Teams0557.csv');
-      //$this->importPhyTeam('Teams0622.csv');
-      //$this->importPhyTeam('Teams0894.csv');
-      //$this->importPhyTeam('Teams0914.csv');
-      //$this->importPhyTeam('Teams0991.csv');
-      //$this->importPhyTeam('Teams1174.csv');
+      $this->importPhyTeam('Teams0160.csv');
+      $this->importPhyTeam('Teams0498.csv');
+      $this->importPhyTeam('Teams0557.csv');
+      $this->importPhyTeam('Teams0622.csv');
+      $this->importPhyTeam('Teams0894.csv');
+      $this->importPhyTeam('Teams0914.csv');
+      $this->importPhyTeam('Teams0991.csv');
+      $this->importPhyTeam('Teams1174.csv');
 
-      //$this->importPlayer ('Rosters0160.csv');
-      //$this->importPlayer ('Rosters0498.csv');
-      //$this->importPlayer ('Rosters0557.csv');
-      //$this->importPlayer ('Rosters0622.csv');
-      //$this->importPlayer ('Rosters0894.csv');
-      //$this->importPlayer ('Rosters0914.csv');
-      //$this->importPlayer ('Rosters0991.csv');
-      //$this->importPlayer ('Rosters1174.csv');
+      $this->importPlayer ('Rosters0160.csv');
+      $this->importPlayer ('Rosters0498.csv');
+      $this->importPlayer ('Rosters0557.csv');
+      $this->importPlayer ('Rosters0622.csv');
+      $this->importPlayer ('Rosters0894.csv');
+      $this->importPlayer ('Rosters0914.csv');
+      $this->importPlayer ('Rosters0991.csv');
+      $this->importPlayer ('Rosters1174.csv');
 
-        return;
+      return;
         $import = new PlayerImport($this->getTeamManager());
         
         $params = array('projectId' => 70, 'inputFileName' => '../datax/teamsx/Rosters0894.csv');
