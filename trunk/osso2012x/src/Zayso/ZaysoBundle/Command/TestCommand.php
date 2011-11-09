@@ -88,8 +88,24 @@ class TestCommand extends ContainerAwareCommand
         echo $person->getLastName() . "\n";
         
     }
+    protected function testNameExp()
+    {
+        $exp = '/^([A-Z]+\s[A-Z]+|[a-z]+\s[a-z]+)$/';
+
+        $names = array('Bill Smith','BILL SMITH','bILL SMITH',
+            'bill smith','von Richter',"O'Rielly",'Greg McReynold','Joe-Schmoe');
+        foreach($names as $name)
+        {
+            $matched = preg_match($exp,$name);
+            if ($matched) echo "Matched:  $name\n";
+            else          echo "No Match: $name\n";
+        }
+    }
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->testNameExp();
+        return;
+        
         $this->testAccount2007();
         return;
 
