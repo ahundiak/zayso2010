@@ -22,6 +22,10 @@ class AccountPerson
 
   /** @ORM\Column(type="integer",name="rel_id") */
   protected $relId;
+
+  /** @ORM\Column(name="account_rel",type="string",length=20,nullable=false) */
+  /* Primary Family Peer */
+  protected $accountRel;
   
   /**
    * @ORM\ManyToOne(targetEntity="Person", inversedBy="members", cascade={"persist"})
@@ -112,7 +116,7 @@ class AccountPerson
     public function setRefDate  ($value) { return $this->person->setRefDate  ($value); }
     public function setSafeHaven($value) { return $this->person->setSafeHaven($value); }
     public function setMemYear  ($value) { return $this->person->setMemYear  ($value); }
-    
+
   /* ===========================================================================
    * Generated code follows
    */
@@ -206,5 +210,25 @@ class AccountPerson
     public function getPerson()
     {
         return $this->person;
+    }
+
+    /**
+     * Set accountRel
+     *
+     * @param string $accountRel
+     */
+    public function setAccountRel($accountRel)
+    {
+        $this->accountRel = $accountRel;
+    }
+
+    /**
+     * Get accountRel
+     *
+     * @return string 
+     */
+    public function getAccountRel()
+    {
+        return $this->accountRel;
     }
 }
