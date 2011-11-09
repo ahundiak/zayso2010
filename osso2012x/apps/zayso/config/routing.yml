@@ -27,20 +27,28 @@ _natgames_form:
 _natgames_contact:
     pattern:  /natgames/contact
     defaults: { _controller: NatGamesBundle:Contact:contact }
-    
+
+# ===============================================================
+# Account stuff
 _natgames_account_create:
     pattern:  /natgames/account/create
     defaults: { _controller: NatGamesBundle:Account\Create:create }
 
+_natgames_account_profile:
+    pattern:  /natgames/account/profile
+    defaults: { _controller: NatGamesBundle:Account\Profile:index }
+    requirements:
+        _method:  GET
+
+_natgames_account_profile_post:
+    pattern:  /natgames/account/profile
+    defaults: { _controller: NatGamesBundle:Account\Profile:post }
+    requirements:
+        _method:  POST
+
 _natgames_account_edit:
     pattern:  /natgames/account/edit/{id}
     defaults: { _controller: NatGamesBundle:Account\Edit:edit, id: 0}
-    requirements:
-        id: \d+
-        
-_natgames_admin_account_edit:
-    pattern:  /natgames/admin/account/edit/{id}
-    defaults: { _controller: NatGamesBundle:Admin\Account\Edit:edit, id: 0}
     requirements:
         id: \d+
 
@@ -87,13 +95,19 @@ _natgames_schedule:
 # Admin stuff
 _natgames_admin:
     pattern:  /natgames/admin
-    defaults: { _controller: NatGamesBundle:Admin:index }
+    defaults: { _controller: NatGamesBundle:Admin\Admin:index }
     requirements:
         _method:  GET
+
+_natgames_admin_account_edit:
+    pattern:  /natgames/admin/account/edit/{id}
+    defaults: { _controller: NatGamesBundle:Admin\Account\Edit:edit, id: 0}
+    requirements:
+        id: \d+
         
-_natgames_admin_accounts:
-    pattern:  /natgames/admin/accounts.{_format}
-    defaults: { _controller: NatGamesBundle:Admin:accounts, _format: html }
+_natgames_admin_account_list:
+    pattern:  /natgames/admin/account/list.{_format}
+    defaults: { _controller: NatGamesBundle:Admin\Account\List:list, _format: html }
     requirements:
         _method:  GET
         _format:  html|csv
