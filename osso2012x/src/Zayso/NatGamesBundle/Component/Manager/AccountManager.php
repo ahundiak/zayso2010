@@ -39,7 +39,7 @@ class AccountManager
     {
         // Basic ap
         $accountPerson = new AccountPerson();
-        $accountPerson->setRelId(1);
+        $accountPerson->setAccountRelation('Primary');
         $accountPerson->setVerified('No');
         $accountPerson->setStatus('Active');
 

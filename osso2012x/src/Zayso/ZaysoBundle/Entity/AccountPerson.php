@@ -20,12 +20,9 @@ class AccountPerson
    */
   protected $id;
 
-  /** @ORM\Column(type="integer",name="rel_id") */
-  protected $relId;
-
-  /** @ORM\Column(name="account_rel",type="string",length=20,nullable=false) */
+  /** @ORM\Column(name="account_relation",type="string",length=20,nullable=false) */
   /* Primary Family Peer */
-  protected $accountRel;
+  protected $accountRelation;
   
   /**
    * @ORM\ManyToOne(targetEntity="Person", inversedBy="members", cascade={"persist"})
@@ -133,26 +130,6 @@ class AccountPerson
     }
 
     /**
-     * Set relId
-     *
-     * @param integer $relId
-     */
-    public function setRelId($relId)
-    {
-        $this->relId = $relId;
-    }
-
-    /**
-     * Get relId
-     *
-     * @return integer 
-     */
-    public function getRelId()
-    {
-        return $this->relId;
-    }
-
-    /**
      * Set verified
      *
      * @param string $verified
@@ -217,9 +194,9 @@ class AccountPerson
      *
      * @param string $accountRel
      */
-    public function setAccountRel($accountRel)
+    public function setAccountRelation($value)
     {
-        $this->accountRel = $accountRel;
+        $this->accountRelation = $value;
     }
 
     /**
@@ -227,8 +204,8 @@ class AccountPerson
      *
      * @return string 
      */
-    public function getAccountRel()
+    public function getAccountRelation()
     {
-        return $this->accountRel;
+        return $this->accountRelation;
     }
 }
