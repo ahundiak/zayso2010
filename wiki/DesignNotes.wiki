@@ -46,7 +46,9 @@ Chap 1
     Line 1
     Line 2
 
-<code language="php">
+This does not work so good: code language="php"
+
+{{{
 namespace Zayso\ZaysoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -64,4 +66,4 @@ class Project
      *  ORM\GeneratedValue
      */
     protected $id;
-</code>
+}}}
