@@ -23,6 +23,7 @@ class AccountProfileContactFormType extends AbstractType
 {
     public function getName() { return 'accountProfileContact'; }
     public function __construct($em) { $this->em = $em; }
+    public function getDefaultOptions(array $options) { return array('validation_groups' => array('edit') ); }
     
     public function buildForm(FormBuilder $builder, array $options)
     {
