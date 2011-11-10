@@ -15,5 +15,23 @@
             <argument type="service" id="doctrine.orm.osso2012_entity_manager" />
         </service>
 
+        <service id="account.create.formtype" class="Zayso\NatGamesBundle\Component\Form\Type\Account\AccountCreateFormType" public="true">
+            <argument type="service" id="doctrine.orm.osso2012_entity_manager" />
+        </service>
+
+        <service
+            id     = "admin.account.edit.formtype"
+            class  = "Zayso\NatGamesBundle\Component\Form\Type\Account\AdminAccountEditFormType"
+            public = "true">
+            <argument type="service" id="doctrine.orm.osso2012_entity_manager" />
+        </service>
+
+        <service
+            id     = "account.person.add.formtype"
+            class  = "Zayso\NatGamesBundle\Component\Form\Type\Account\AccountPersonAddFormType"
+            public = "true">
+            <argument type="service" id="doctrine.orm.osso2012_entity_manager" />
+        </service>
+
     </services>
 </container>
