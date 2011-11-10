@@ -46,3 +46,22 @@ Chap 1
     Line 1
     Line 2
 
+<code language="php">
+namespace Zayso\ZaysoBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+
+/**
+ * @ORM\Entity(repositoryClass="Zayso\ZaysoBundle\Repository\ProjectRepository")
+ * @ORM\Table(name="project")
+ */
+class Project
+{
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer",name="id")
+     *  ORM\GeneratedValue
+     */
+    protected $id;
+</code>
