@@ -47,6 +47,7 @@ Chap 1
     Line 2
 
 This does not work so good: code language="php"
+Three squigglies work fine.
 
 {{{
 namespace Zayso\ZaysoBundle\Entity;
