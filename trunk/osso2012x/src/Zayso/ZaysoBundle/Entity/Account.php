@@ -78,6 +78,15 @@ class Account
       if ($primary) return $primary->getPerson()->getId();
       return null;
   }
+  public function getPersonForId($personId)
+  {
+        foreach($this->members as $member)
+        {
+            $person = $member->getPerson();
+            if ($person && $person->getId() == $personId) return $person;
+        }
+        return null;
+  }
   /* =====================================================================
    * End of custom code
    */

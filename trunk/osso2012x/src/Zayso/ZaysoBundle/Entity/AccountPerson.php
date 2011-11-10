@@ -13,34 +13,34 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class AccountPerson
 {
-  /**
-   * @ORM\Id
-   * @ORM\Column(type="integer",name="id")
-   * @ORM\GeneratedValue
-   */
-  protected $id;
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer",name="id")
+     * @ORM\GeneratedValue
+     */
+    protected $id;
 
-  /** @ORM\Column(name="account_relation",type="string",length=20,nullable=false) */
-  /* Primary Family Peer */
-  protected $accountRelation;
+    /** @ORM\Column(name="account_relation",type="string",length=20,nullable=false) */
+    /* Primary Family Peer */
+    protected $accountRelation;
   
-  /**
-   * @ORM\ManyToOne(targetEntity="Person", inversedBy="members", cascade={"persist"})
-   * @ORM\JoinColumn(name="person_id", referencedColumnName="id")
-   */
-  protected $person;
+    /**
+     * @ORM\ManyToOne(targetEntity="Person", inversedBy="members", cascade={"persist"})
+     * @ORM\JoinColumn(name="person_id", referencedColumnName="id")
+     */
+    protected $person;
 
-  /**
-   * @ORM\ManyToOne(targetEntity="Account", inversedBy="members", cascade={"persist"})
-   * @ORM\JoinColumn(name="account_id", referencedColumnName="id", nullable=false)
-   */
-  protected $account;
+    /**
+     * @ORM\ManyToOne(targetEntity="Account", inversedBy="members", cascade={"persist"})
+     * @ORM\JoinColumn(name="account_id", referencedColumnName="id", nullable=false)
+     */
+    protected $account;
 
-  /** @ORM\Column(name="verified",type="string",length=16,nullable=false) */
-  protected $verified = '';
+    /** @ORM\Column(name="verified",type="string",length=16,nullable=false) */
+    protected $verified = '';
 
-  /** @ORM\Column(name="status",type="string",length=16,nullable=false) */
-  protected $status = '';
+    /** @ORM\Column(name="status",type="string",length=16,nullable=false) */
+    protected $status = '';
 
     public function setAccount($account)
     {
@@ -52,23 +52,32 @@ class AccountPerson
         $this->person = $person;
         if ($person) $person->addAccountPerson($this);
     }
-    /** @Assert\NotBlank() */
-    public function getUserName () { return $this->account->getUserName(); }
+    /** @Assert\NotBlank(groups={"create","edit"}) */
+    public function getUserName () 
+    {
+        if ($this->account) return $this->account->getUserName();
+        return null;
+    }
 
-    /** @Assert\NotBlank() */
-    public function getUserPass () { return $this->account->getUserPass(); }
+    /** @Assert\NotBlank(groups={"create","edit"}) */
+    public function getUserPass ()
+    {
+        if ($this->account) return $this->account->getUserPass();
+        return null;
+    }
 
-    /** @Assert\NotBlank() */
+    /** @Assert\NotBlank(groups={"create","edit","add"}) */
     public function getFirstName() { return $this->person->getFirstName(); }
 
-    /** @Assert\NotBlank() */
+    /** @Assert\NotBlank(groups={"create","edit","add"}) */
     public function getLastName()  { return $this->person->getLastName();  }
 
     public function getNickName()  { return $this->person->getNickName();  }
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"create","edit","add"})
      * @Assert\Regex(
+     *     groups={"create","edit","add"},
      *     pattern="/^(AYSOV)?\d{8}$/",
      *     message="Must be 8-digit number")
      */
@@ -76,16 +85,29 @@ class AccountPerson
 
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"create","edit","add"})
      * @Assert\Regex(
+     *     groups={"create","edit","add"},
      *     pattern="/^(AYSOR)?\d{4}$/",
      *     message="Must be 4-digit number")
      */
     public function getRegion()    { return $this->person->getOrgKey();  }
 
     /**
-     * @Assert\NotBlank()
-     * @Assert\Email()
+     * @Assert\Choice(
+     *     groups={"create","edit","add"},
+     *     choices = { "Primary", "Family", "Peer" },
+     *     message = "Select account relation."
+     * )
+     */
+    public function getAccountRelation()
+    {
+        return $this->accountRelation;
+    }
+
+    /**
+     * @Assert\NotBlank(groups={"create","edit","add"})
+     * @Assert\Email(groups={"create","edit","add"})
      */
     public function getEmail()     { return $this->person->getEmail();   }
     public function getDob()       { return $this->person->getDob();     }
@@ -117,8 +139,6 @@ class AccountPerson
   /* ===========================================================================
    * Generated code follows
    */
-
-
     /**
      * Get id
      *
@@ -197,15 +217,5 @@ class AccountPerson
     public function setAccountRelation($value)
     {
         $this->accountRelation = $value;
-    }
-
-    /**
-     * Get accountRel
-     *
-     * @return string 
-     */
-    public function getAccountRelation()
-    {
-        return $this->accountRelation;
     }
 }

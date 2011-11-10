@@ -66,6 +66,8 @@ class User
         if (!$this->member) return 0;
         return $this->member->getId();
     }
+    public function getAccount() { return $this->account; }
+    
     public function getProjectPerson($projectId = 0)
     {
         if (!$this->projectPerson)
