@@ -1,83 +1,10 @@
 <?php
-
 namespace Zayso\NatGamesBundle\Controller\Account;
 
 use Zayso\NatGamesBundle\Controller\BaseController;
 
-use Zayso\ZaysoBundle\Component\DataTransformer\PhoneTransformer;
-use Zayso\ZaysoBundle\Component\DataTransformer\AysoidTransformer;
-use Zayso\ZaysoBundle\Component\DataTransformer\RegionTransformer;
-use Zayso\ZaysoBundle\Component\DataTransformer\PasswordTransformer;
-
-use Zayso\ZaysoBundle\Component\Form\Validator\UserNameValidator;
-
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormError;
-use Symfony\Component\Form\CallbackValidator;
-use Symfony\Component\Form\FormValidatorInterface;
 
-class AccountCreateType extends AbstractType
-{
-    protected $refBadgePickList = array
-    (
-        'None'         => 'None',
-        'Regional'     => 'Regional',
-        'Intermediate' => 'Intermediate',
-        'Advanced'     => 'Advanced',
-        'National'     => 'National',
-        'National 2'   => 'National 2',
-        'Assistant'    => 'Assistant',
-        'U8 Official'  => 'U8',
-    );
-    public function __construct($em)
-    {
-        $this->em = $em;
-    }
-    public function buildForm(FormBuilder $builder, array $options)
-    {
-        $builder->add('userName', 'text', array('label' => 'User Name', 'attr' => array('size' => 35)));
-
-        $builder->add('userPass1', 'password', array('property_path' => 'userPass', 'label' => 'Password'));
-        $builder->add('userPass2', 'password', array('property_path' => false,      'label' => 'Password(confirm)'));
-
-        $builder->add('firstName', 'text', array('label' => 'AYSO First Name'));
-        $builder->add('lastName',  'text', array('label' => 'AYSO Last Name'));
-        $builder->add('nickName',  'text', array('label' => 'Nick Name', 'required' => false,));
-
-        $builder->add('aysoid',    'text', array('label' => 'AYSO ID',    'attr' => array('size' => 10)));
-        $builder->add('email',     'text', array('label' => 'Email',      'attr' => array('size' => 35)));
-        $builder->add('cellPhone', 'text', array('label' => 'Cell Phone', 'attr' => array('size' => 20),'required' => false,));
-        $builder->add('region',    'text', array('label' => 'AYSO Region Number', 'attr' => array('size' => 4)));
-
-        $builder->add('refBadge', 'choice', array(
-            'label'         => 'AYSO Referee Badge',
-            'required'      => true,
-            'choices'       => $this->refBadgePickList,
-        ));
-        $builder->addValidator(new CallbackValidator(function($form)
-        {
-            if($form['userPass1']->getData() != $form['userPass2']->getData())
-            {
-                $form['userPass2']->addError(new FormError('Passwords do not match'));
-            }
-        }));
-        $builder->addValidator(new UserNameValidator($this->em));
-
-        $builder->get('userPass1')->appendClientTransformer(new PasswordTransformer());
-        $builder->get('userPass2')->appendClientTransformer(new PasswordTransformer());
-        $builder->get('cellPhone')->appendClientTransformer(new PhoneTransformer());
-        $builder->get('region'   )->appendClientTransformer(new RegionTransformer());
-        $builder->get('aysoid'   )->appendClientTransformer(new AysoidTransformer());
-    }
-    public function getName()
-    {
-        return 'accountCreate';
-    }
-}
 class CreateController extends BaseController
 {
     public function createAction(Request $request)
@@ -86,10 +13,9 @@ class CreateController extends BaseController
         $accountManager = $this->getAccountManager();
         $accountPerson = $accountManager->newAccountPerson(array('projectId' => $this->getProjectId()));
 
-        $accountData = $accountPerson; // new AccountCreateData();
-        $accountType = new AccountCreateType($this->getEntityManager());
+        $accountFormType = $this->get('account.create.formtype'); // new AccountCreateType($this->getEntityManager());
 
-        $form = $this->createForm($accountType, $accountPerson);
+        $form = $this->createForm($accountFormType, $accountPerson);
 
         if ($request->getMethod() == 'POST')
         {

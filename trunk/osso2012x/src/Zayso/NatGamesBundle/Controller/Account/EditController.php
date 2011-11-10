@@ -1,5 +1,7 @@
 <?php
-
+/* ==================================================================
+ * This is not actually being used
+ */
 namespace Zayso\NatGamesBundle\Controller\Account;
 
 use Zayso\NatGamesBundle\Controller\BaseController;
@@ -19,10 +21,7 @@ use Symfony\Component\Form\DataTransformerInterface;
 
 class AccountEditUserNameValidator implements FormValidatorInterface
 {
-    public function __construct($em)
-    {
-        $this->em = $em;
-    }
+    public function __construct($em) { $this->em = $em; }
     public function validate(FormInterface $form)
     {
         // Only check if username was changed

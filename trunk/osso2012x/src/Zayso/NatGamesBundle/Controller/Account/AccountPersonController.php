@@ -4,74 +4,8 @@ namespace Zayso\NatGamesBundle\Controller\Account;
 
 use Zayso\NatGamesBundle\Controller\BaseController;
 
-use Zayso\ZaysoBundle\Component\DataTransformer\PhoneTransformer;
-use Zayso\ZaysoBundle\Component\DataTransformer\AysoidTransformer;
-use Zayso\ZaysoBundle\Component\DataTransformer\RegionTransformer;
-use Zayso\ZaysoBundle\Component\DataTransformer\PasswordTransformer;
-
-use Zayso\ZaysoBundle\Component\Form\Validator\UserNameValidator;
-
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormError;
-use Symfony\Component\Form\CallbackValidator;
-use Symfony\Component\Form\FormValidatorInterface;
 
-class AccountPersonAddFormType extends AbstractType
-{
-    protected $refBadgePickList = array
-    (
-        'None'         => 'None',
-        'Regional'     => 'Regional',
-        'Intermediate' => 'Intermediate',
-        'Advanced'     => 'Advanced',
-        'National'     => 'National',
-        'National 2'   => 'National 2',
-        'Assistant'    => 'Assistant',
-        'U8 Official'  => 'U8',
-    );
-    protected $accountRelationPickList = array
-    (
-        'Family' => 'Family - Full control over account',
-        'Peer'   => 'Peer - Only to signup for games'
-    );
-
-    public function __construct($em) { $this->em = $em; }
-    public function getName() { return 'accountPersonAdd'; }
-    public function getDefaultOptions(array $options)
-    {
-        return array('validation_groups' => array('add') );
-    }
-
-    public function buildForm(FormBuilder $builder, array $options)
-    {
-        $builder->add('firstName', 'text', array('label' => 'AYSO First Name'));
-        $builder->add('lastName',  'text', array('label' => 'AYSO Last Name'));
-        $builder->add('nickName',  'text', array('label' => 'Nick Name', 'required' => false,));
-
-        $builder->add('aysoid',    'text', array('label' => 'AYSO ID',    'attr' => array('size' => 10)));
-        $builder->add('email',     'text', array('label' => 'Email',      'attr' => array('size' => 35)));
-        $builder->add('cellPhone', 'text', array('label' => 'Cell Phone', 'attr' => array('size' => 20),'required' => false,));
-        $builder->add('region',    'text', array('label' => 'AYSO Region Number', 'attr' => array('size' => 4)));
-
-        $builder->add('accountRelation', 'choice', array(
-            'label'         => 'Account Relation',
-            'required'      => true,
-            'choices'       => $this->accountRelationPickList,
-        ));
-        $builder->add('refBadge', 'choice', array(
-            'label'         => 'AYSO Referee Badge',
-            'required'      => true,
-            'choices'       => $this->refBadgePickList,
-        ));
-        $builder->get('cellPhone')->appendClientTransformer(new PhoneTransformer());
-        $builder->get('region'   )->appendClientTransformer(new RegionTransformer());
-        $builder->get('aysoid'   )->appendClientTransformer(new AysoidTransformer());
-    }
-}
 class AccountPersonController extends BaseController
 {
     public function addAction(Request $request)
@@ -81,7 +15,7 @@ class AccountPersonController extends BaseController
         $accountPerson = $accountManager->newAccountPerson(array('projectId' => $this->getProjectId()));
         $accountPerson->setAccountRelation('Family');
         
-        $formType = new AccountPersonAddFormType($this->getEntityManager());
+        $formType = $this->get('account.person.add.formtype');
 
         $form = $this->createForm($formType, $accountPerson);
 
@@ -96,7 +30,7 @@ class AccountPersonController extends BaseController
                 //if ($accountPerson) return $this->redirect($this->generateUrl('_natgames_account_profile'));
                 
             }
-            else die('Not validated');
+            // else die('Not validated');
         }
         $tplData = $this->getTplData();
         $tplData['form'] = $form->createView();
