@@ -2,6 +2,10 @@
 
 == 10 Nov 2011 ==
 
+=== AccountPerson Relations ===
+Dropped the rel_id and replaced with accountRelation.
+Values: 'Primary','Family','Peer'
+
 === Initial Post ===
 Trying various ways to document the progress of my work.
 Neither google docs nor google blogs work in my solaris 10 enviroment.
@@ -11,3 +15,19 @@ Wiki might get the job done.
 svn checkout https://zayso2010.googlecode.com/svn/wiki wiki --username ahundiak@gmail.com
 }}}
 Can't use folders.  Kind of sad.
+
+== 09 Nov 2011 ==
+
+=== Hints - Entity Update Workflow ===
+{{{
+1. Modify entity file
+2. console doctrine:schema:update --dump-sql
+3. console doctrine:generate:entities ZaysoBundle:AccountPerson
+}}}
+
+=== Hints - Usefil consle commands ===
+{{{
+console router:debug
+console container:debug
+}}}
+
