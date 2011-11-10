@@ -28,7 +28,7 @@ SELECT
     member.id         AS memberId,
     member.status     AS memberStatus
 FROM account
-LEFT JOIN account_person AS member ON member.account_id = account.id AND member.rel_id = 1
+LEFT JOIN account_person AS member ON member.account_id = account.id AND member.account_relation = 'Primary'
 WHERE user_name = :userName
 EOT;
         

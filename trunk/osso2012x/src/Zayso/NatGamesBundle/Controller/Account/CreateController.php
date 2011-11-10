@@ -141,7 +141,7 @@ class CreateController extends BaseController
 
         // Signin
         $account = $accountPerson->getAccount();
-        $member  = $account->getPrimaryMember();
+        $member  = $accountPerson; // $account->getPrimaryMember();
         $userData = array
         (
             'accountId' => $account->getId(),

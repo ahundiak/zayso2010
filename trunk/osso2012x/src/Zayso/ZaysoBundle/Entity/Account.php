@@ -62,25 +62,21 @@ class Account
   {
     foreach($this->members as $member)
     {
-      if ($member->getRelId() == 1) return $member;
+      if ($member->getAccountRelation() == 'Primary') return $member;
     }
     return null;
   }
   public function getPrimaryMemberId()
   {
-    foreach($this->members as $member)
-    {
-      if ($member->getRelId() == 1) return $member->getId();
-    }
-    return 0;
+      $primary = $this->getPrimaryMember();
+      if ($primary) return $primary->getId();
+      return null;
   }
   public function getPrimaryPersonId()
   {
-    foreach($this->members as $member)
-    {
-      if ($member->getRelId() == 1) return $member->getPerson()->getId();
-    }
-    return 0;
+      $primary = $this->getPrimaryMember();
+      if ($primary) return $primary->getPerson()->getId();
+      return null;
   }
   /* =====================================================================
    * End of custom code
