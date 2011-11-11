@@ -11,9 +11,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="game_pool")
+ * @ORM\Table(name="game_group")
  */
-class GamePool
+class GameGroup
 {
     /**
      * @ORM\Id
@@ -28,10 +28,10 @@ class GamePool
      */
     protected $project = null;
 
-    /** @ORM\Column(type="string",name="pool_key",length=40,nullable=false) */
+    /** @ORM\Column(type="string",name="group_key",length=40,nullable=false) */
     protected $poolKey = '';
 
-    /** @ORM\Column(type="string",name="pool_desc",length=40,nullable=false) */
+    /** @ORM\Column(type="string",name="group_desc",length=40,nullable=false) */
     protected $poolDesc = '';
 
     /** @ORM\Column(type="integer",name="calc_id",nullable=false) */
@@ -39,7 +39,7 @@ class GamePool
 
     /**
      *   Need to add pool relation to game
-     *   ORM\OneToMany(targetEntity="Game", mappedBy="pool", fetch="EXTRA_LAZY" )
+     *   ORM\OneToMany(targetEntity="Game", mappedBy="group", fetch="EXTRA_LAZY" )
      */
     protected $games;
 
