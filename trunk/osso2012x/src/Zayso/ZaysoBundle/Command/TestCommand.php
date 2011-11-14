@@ -90,10 +90,15 @@ class TestCommand extends ContainerAwareCommand
     }
     protected function testNameExp()
     {
+        // Does not do what I wanted to do
         $exp = '/^([A-Z]+\s[A-Z]+|[a-z]+\s[a-z]+)$/';
 
-        $names = array('Bill Smith','BILL SMITH','bILL SMITH',
-            'bill smith','von Richter',"O'Rielly",'Greg McReynold','Joe-Schmoe');
+        $names = array(
+            'Bill Smith','BILL SMITH','bILL SMITH',
+            'bill smith','von Richter',"O'Rielly",'Greg McReynold','Joe-Schmoe',
+            'JOE berthera',
+            'PRINCE', 'BILLY JOE JNR',"PETER O'PETERSON", // Should match but does not
+        );
         foreach($names as $name)
         {
             $matched = preg_match($exp,$name);
