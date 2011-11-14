@@ -32,6 +32,42 @@
             public = "true">
             <argument type="service" id="doctrine.orm.osso2012_entity_manager" />
         </service>
+        
+       <service
+            id     = "account.person.listitem.formtype"
+            class  = "Zayso\NatGamesBundle\Component\Form\Type\Account\AccountPersonListItemFormType"
+            public = "true">
+            <argument type="service" id="doctrine.orm.osso2012_entity_manager" />
+        </service>
+        
+       <service
+            id     = "account.person.list.formtype"
+            class  = "Zayso\NatGamesBundle\Component\Form\Type\Account\AccountPersonListFormType"
+            public = "true">
+            <argument type="service" id="doctrine.orm.osso2012_entity_manager" />
+            <argument type="service" id="account.person.listitem.formtype" />
+        </service>
+        
+        <service
+            id     = "account.profile.contact.formtype"
+            class  = "Zayso\NatGamesBundle\Component\Form\Type\Account\AccountProfileContactFormType"
+            public = "true">
+            <argument type="service" id="doctrine.orm.osso2012_entity_manager" />
+        </service>
+        
+        <service
+            id     = "account.profile.password.formtype"
+            class  = "Zayso\NatGamesBundle\Component\Form\Type\Account\AccountProfilePasswordFormType"
+            public = "true">
+            <argument type="service" id="doctrine.orm.osso2012_entity_manager" />
+        </service>
+        
+        <service
+            id     = "account.profile.ayso.formtype"
+            class  = "Zayso\NatGamesBundle\Component\Form\Type\Account\AccountProfileAysoFormType"
+            public = "true">
+            <argument type="service" id="doctrine.orm.osso2012_entity_manager" />
+        </service>
 
     </services>
 </container>

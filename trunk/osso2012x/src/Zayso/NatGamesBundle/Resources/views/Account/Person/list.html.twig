@@ -1,0 +1,33 @@
+<div>
+<table border="1" style="width: 800px;">
+    <tr><th colspan="9">National Games 2012 - People Attached to Account</th></tr>
+    <tr>
+        <th>Type</th>
+        <th>Nick Name</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>AYSOID</th>
+        <th>Region</th>
+        <th>Mem Year</th>
+        <th>Safe Haven</th>
+        <th>Ref Badge</th>
+    </tr>
+    {% for item  in accountPersonListForm.members %}
+    <tr>
+        <td>{{ form_widget(item.accountRelation) }}</td>
+        <td>{{ form_widget(item.nickName)  }}</td>
+        <td>{{ form_widget(item.firstName) }}</td>
+        <td>{{ form_widget(item.lastName)  }}</td>
+        <td>{{ form_widget(item.aysoid)    }}</td>
+        <td>{{ form_widget(item.region)    }}</td>
+        <td>{{ form_widget(item.memYear)   }}</td>
+        <td>{{ form_widget(item.safeHaven) }}</td>
+        <td>{{ form_widget(item.refBadge)  }}</td>
+    </tr>
+    {% endfor %}
+    <tr><td colspan="9">
+        <a href="{{ path('_natgames_account_person_add') }}">Click here</a> to add additional person to account.
+    </td></tr>
+</table>
+</div>
+
