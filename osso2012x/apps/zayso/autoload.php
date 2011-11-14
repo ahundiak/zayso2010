@@ -10,10 +10,13 @@ $ws = __DIR__ . '/../../../';
 $loader = new UniversalClassLoader();
 $loader->registerNamespaces(array(
     'Symfony'          => array($ws.'Symfony/vendor/symfony/src', $ws.'Symfony/vendor/bundles'),
-    'Doctrine'         => $ws.'doctrine-orm',
 
     'Sensio'           => $ws.'Symfony/vendor/bundles',
     'JMS'              => $ws.'Symfony/vendor/bundles',
+    
+    'Doctrine\\Common' => $ws.'Symfony/vendor/doctrine-common/lib',
+    'Doctrine\\DBAL'   => $ws.'Symfony/vendor/doctrine-dbal/lib',
+    'Doctrine'         => $ws.'Symfony/vendor/doctrine/lib',
 
     'Monolog'          => $ws.'Symfony/vendor/monolog/src',  // Some sort of logging package
     'Assetic'          => $ws.'Symfony/vendor/assetic/src',  // Asset management (js, css etc)
@@ -41,7 +44,7 @@ AnnotationRegistry::registerLoader(function($class) use ($loader) {
     $loader->loadClass ($class);
     return class_exists($class, false);
 });
-AnnotationRegistry::registerFile($ws.'doctrine-orm/Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php');
+AnnotationRegistry::registerFile($ws.'Symfony/vendor/doctrine/lib/Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php');
 
 // Swiftmailer needs a special autoloader to allow
 // the lazy loading of the init file (which is expensive)
