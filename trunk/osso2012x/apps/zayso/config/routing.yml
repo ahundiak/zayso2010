@@ -12,7 +12,7 @@ _natgames_routing:
     resource: "@NatGamesBundle/Resources/config/routing.yml"
 
 # resource: routing_area5cf.yml
-_main:
-    resource: routing_area5cf.yml
+#_main:
+#    resource: routing_area5cf.yml
     
     
