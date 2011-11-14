@@ -51,7 +51,7 @@ class Person
     protected $gender = '';
 
     /**
-     *  @ORM\OneToMany(targetEntity="PersonRegistered", mappedBy="person", cascade={"persist"})
+     *  @ORM\OneToMany(targetEntity="PersonRegistered", mappedBy="person", indexBy="regType", cascade={"persist"})
      */
     protected $registereds;
 
@@ -190,6 +190,8 @@ class Person
     {
         // die('Count: ' . count($this->_regs));
 
+        if ($this->registereds['AYSOV']) return $this->registereds['AYSOV'];
+        return null;
         // Should be able to use that key stuff
         foreach($this->registereds as $reg)
         {
