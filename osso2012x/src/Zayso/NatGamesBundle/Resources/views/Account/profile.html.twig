@@ -12,7 +12,7 @@
 <form action="{{ path('_natgames_account_profile_post') }}" method="post" {{ form_enctype(contactForm) }}>
 
 <table border="1" style="width: 800px;">
-<tr><th colspan="3">National Games 2012 - Update Contact Information {{ id }}</th></tr>
+<tr><th colspan="3">National Games 2012 - Update Contact Information</th></tr>
 
 <tr>
     <td>{{ form_label (contactForm.firstName) }}</td>
@@ -48,10 +48,12 @@
 </table>
 {{ form_rest(contactForm) }}
 </form>
-
+        
+{% include 'NatGamesBundle:Account/Person:list.html.twig' %}
+        
 <form action="{{ path('_natgames_account_profile_post') }}" method="post" {{ form_enctype(passwordForm) }}>
 <table border="1" style="width: 800px;">
-<tr><th colspan="3">National Games 2012 - Update User Name or Password {{ id }}</th></tr>
+<tr><th colspan="3">National Games 2012 - Update User Name or Password</th></tr>
 
 <tr>
     <td>{{ form_label (passwordForm.userName) }}</td>
@@ -81,7 +83,7 @@
 </form>
 <form action="{{ path('_natgames_account_profile_post') }}" method="post" {{ form_enctype(aysoForm) }}>
 <table border="1" style="width: 800px;">
-<tr><th colspan="3">National Games 2012 - Review AYSO Information {{ id }}</th></tr>
+<tr><th colspan="3">National Games 2012 - Review eAYSO Information</th></tr>
 <tr>
     <td style="width: 250px;">{{ form_label (aysoForm.aysoid) }}</td>
     <td>{{ form_widget(aysoForm.aysoid) }}</td>
@@ -112,7 +114,7 @@
     <td>{{ form_widget(aysoForm.refDate) }}</td>
     <td>&nbsp;<br />{{ form_errors(aysoForm.refDate) }}</td>
 </tr>
-<tr><td colspan="3">{{ form_errors(aysoForm) }}</td></tr>
+<tr><td colspan="3">Review only.  Send email if the information shown does not match eAYSO.</td></tr>
 </table>
 {{ form_rest(passwordForm) }}
 </form>
