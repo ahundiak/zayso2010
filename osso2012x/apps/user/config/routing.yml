@@ -1,0 +1,22 @@
+# Internal routing configuration to handle ESI
+#_internal:
+#   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
+#   prefix:   /_internal
+
+welcome:
+    pattern:  /
+    defaults: { _controller: UserBundle:Welcome:index }
+
+admin:
+    pattern:  /admin
+    defaults: { _controller: UserBundle:Welcome:index }
+
+login:
+    pattern:   /login
+    defaults:  { _controller: UserBundle:Security:login }
+
+login_check:
+    pattern:   /login_check
+
+logout:
+    pattern:   /logout
