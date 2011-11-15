@@ -1,0 +1,25 @@
+{% extends 'UserBundle::layout.html.twig' %}
+
+{% block title %}User - Welcome{% endblock %}
+
+{% block content_header '' %}
+
+{% block content %}
+    <h1>Welcome to here</h1>
+    <p>{{ userClass }}</p>
+    <p>{{ userName  }}</p>
+
+{% if is_granted('ROLE_ADMIN') %}
+    <a href="...">My Admin Stuff</a>
+{% endif %}
+
+{% if is_granted('ROLE_USER') %}
+    <a href="...">My User Stuff</a>
+{{ app.user.username }}
+{% endif %}
+
+{% if not is_granted('ROLE_USER') %}
+    <a href="...">My Guest Stuff</a>
+{% endif %}
+
+{% endblock %}
