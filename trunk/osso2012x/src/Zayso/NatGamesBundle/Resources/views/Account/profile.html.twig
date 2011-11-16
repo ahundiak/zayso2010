@@ -42,14 +42,14 @@
 <tr>
   <td><a href="{{ path('_natgames_home')  }}">Home</a></td>
   <td>{% if contactFlash %}{{ contactFlash }}{% else %} &nbsp; {% endif %}</td>
-  <td align="center"><input type="submit" name="accountProfileContactSubmit" value="Update Contact Information" />
+  <td align="center"><input type="submit" name="accountProfileContactSubmit" value="Update Contact Information" /></td>
 </tr>
 <tr><td colspan="3">{{ form_errors(contactForm) }}</td></tr>
 </table>
 {{ form_rest(contactForm) }}
 </form>
         
-{% include 'NatGamesBundle:Account/Person:list.html.twig' %}
+{# include 'NatGamesBundle:Account/Person:list.html.twig' #}
         
 <form action="{{ path('_natgames_account_profile_post') }}" method="post" {{ form_enctype(passwordForm) }}>
 <table border="1" style="width: 800px;">
@@ -74,7 +74,7 @@
 <tr>
   <td><a href="{{ path('_natgames_home')  }}">Home</a></td>
   <td>{% if passwordFlash %}{{ passwordFlash }}{% else %} &nbsp; {% endif %}</td>
-  <td align="center"><input type="submit" name="accountProfilePasswordSubmit" value="Update User Name or Password" />
+  <td align="center"><input type="submit" name="accountProfilePasswordSubmit" value="Update User Name or Password" /></td>
 </tr>
 <tr><td colspan="3">{{ form_errors(passwordForm) }}</td></tr>
 </table>
