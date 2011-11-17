@@ -1,0 +1,16 @@
+{# src/Acme/SecurityBundle/Resources/views/Security/login.html.twig #}
+<table border="1">
+<tr><td>Identifier    </td><td>{{ profile.identifier }}</td></tr>
+<tr><td>Provider      </td><td>{{ profile.providerName }}</td></tr>
+
+<tr><td>User Name     </td><td>{{ profile.preferredUsername }}</td></tr>
+<tr><td>Display Name  </td><td>{{ profile.displayName }}</td></tr>
+
+<tr><td>Formatted Name</td><td>{{ profile.name.formatted }}</td></tr>
+<tr><td>Given Name    </td><td>{{ profile.name.givenName }}</td></tr>
+<tr><td>Family Name   </td><td>{{ profile.name.familyName }}</td></tr>
+
+<tr><td>Email         </td><td>{{ profile.email }}</td></tr>
+<tr><td>Verified Email</td><td>{{ profile.verifiedEmail }}</td></tr>
+
+</table>
