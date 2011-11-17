@@ -7,6 +7,10 @@ welcome:
     pattern:  /
     defaults: { _controller: UserBundle:Welcome:index }
 
+user_anna:
+    pattern:  /anna
+    defaults: { _controller: UserBundle:Welcome:userAnna }
+
 admin:
     pattern:  /admin
     defaults: { _controller: UserBundle:Welcome:index }
@@ -20,3 +24,7 @@ login_check:
 
 logout:
     pattern:   /logout
+
+rpx:
+    pattern:   /rpx
+    defaults: { _controller: UserBundle:Security:rpx }
