@@ -2,12 +2,16 @@
 
 {% block title %}User - Welcome{% endblock %}
 
-{% block content_header '' %}
+{# block content_header '' #}
 
 {% block content %}
     <h1>Welcome to here</h1>
     <p>{{ userClass }}</p>
     <p>{{ userName  }}</p>
+    <p>{{ tokenClass  }}</p>
+    <p>Key: {{ tokenKey  }}</p>
+    <p>Creds: {{ tokenCreds  }}</p>
+    <p>{{ secContextClass  }}</p>
 
 {% if is_granted('ROLE_ADMIN') %}
     <a href="...">My Admin Stuff</a>
