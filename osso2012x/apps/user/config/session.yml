@@ -6,7 +6,7 @@ parameters:
 
 ## Not using these but keep as an example
     pdo.db_options:
-        db_table:    session_data
+        db_table:    session
         db_id_col:   session_id
         db_data_col: session_value
         db_time_col: session_time
@@ -15,7 +15,7 @@ parameters:
 services:
   
     session.storage.my:
-        class:     Zayso\UserBundle\Component\HttpFoundation\SessionStorage\MySessionStorage
+        class:     Zayso\UserBundle\Component\HttpFoundation\MySessionStorage
         arguments: [@session.pdo, %session.storage.options%, %pdo.db_options%]
   
     session.pdo:
