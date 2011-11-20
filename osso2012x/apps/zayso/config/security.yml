@@ -1,16 +1,21 @@
 security:
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
+        Zayso\UserBundle\Component\Security\User\MyUser:
+            id: security.user.encoder.zayso
 
     role_hierarchy:
-        ROLE_ADMIN:       ROLE_USER
+        ROLE_ADMIN:        ROLE_USER
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
-        in_memory:
-            users:
-                user:  { password: userpass, roles: [ 'ROLE_USER' ] }
-                admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
+        my_provider:
+            id: security.user.provider.zayso
+
+#       in_memory:
+#           users:
+#               user:  { password: userx,  roles: [ 'ROLE_USER'  ] }
+#               admin: { password: adminx, roles: [ 'ROLE_ADMIN' ] }
 
     firewalls:
         dev:
@@ -21,18 +26,41 @@ security:
             pattern:  ^/demo/secured/login$
             security: false
 
+# These are no good because no security context is created which means layout throws exceptions
+        account_create:
+            pattern: ^/natgames/account/createxxx
+            security: false
+            
+        account_signin:
+            pattern: ^/natgames/account/signinxxx
+            security: false
+            
+        # Example from the book
+        # The anonymous means anyone can get to all pages by default
         secured_area:
-            pattern:    ^/demo/secured/
+            pattern:    ^/
+            access_denied_url: /natgames/welcome
+            anonymous: ~
             form_login:
-                check_path: /demo/secured/login_check
-                login_path: /demo/secured/login
+                login_path:  /natgames/account/signin
+                check_path:  /login_check
             logout:
-                path:   /demo/secured/logout
-                target: /demo/
-            #anonymous: ~
-            #http_basic:
-            #    realm: "Secured Demo Area"
+               path:   /logout
+               target: /natgames/welcome
+#              invalidate_session: false
 
+    # If signed in as user, then get access denied exception
     access_control:
+        - { path: ^/natgames/admin/import,   roles: ROLE_SUPER_ADMIN }
+        - { path: ^/natgames/admin,          roles: ROLE_ADMIN }     
+        - { path: ^/natgames/home,           roles: ROLE_USER }
+        - { path: ^/natgames/project,        roles: ROLE_USER }
+        - { path: ^/natgames/account/create, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/natgames/account/signin, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/natgames/account,        roles: ROLE_USER }
+        
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         #- { path: ^/_internal, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }
+
+
+

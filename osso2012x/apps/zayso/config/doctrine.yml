@@ -66,11 +66,11 @@ doctrine:
             eayso:
                 connection: eayso
                 mappings:
-                    EaysoBundle: ~
+                    ZaysoBundle: ~
             osso2007:
                 connection: osso2007
                 mappings:
-                    Osso2007Bundle: ~
+                    ZaysoBundle: ~
             osso2012:
                 connection: osso2012
                 mappings:

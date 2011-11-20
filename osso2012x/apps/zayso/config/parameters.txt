@@ -5,21 +5,27 @@
     database_driver   = pdo_mysql
     database_host     = localhost
     database_port     =
-    database_name     = osso2012
-    database_user     = impd
-    database_password = 
+    database_name     = symfony
+    database_user     = root
+    database_password =
 
-    database_eayso_name    = eayso2012
-    database_osso2007_name = osso2007
-    database_osso2012_name = osso2012
-
-    session_dsn       = "mysql:dbname=session;host=localhost"
-
-    mailer_transport  = gmail
+    mailer_transport  = smtp
     mailer_host       = localhost
-    mailer_user       = ahundiak@zayso.org
-    mailer_password   = 
+    mailer_user       =
+    mailer_password   =
+    mailer_enabled    = true
 
     locale            = en
 
     secret            = ThisTokenIsNotSoSecretChangeIt
+
+# Session class and database schema info
+parameters:
+    session.class: Zayso\ZaysoBundle\Component\HttpFoundation\MySession
+
+    session.pdo.db_options:
+        db_table:    session
+        db_id_col:   session_id
+        db_data_col: session_value
+        db_time_col: session_time
+        

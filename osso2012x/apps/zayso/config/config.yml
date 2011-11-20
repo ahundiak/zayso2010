@@ -1,19 +1,24 @@
 imports:
     - { resource: parameters.ini }
-    - { resource: security.yml }
     - { resource: session.yml }
+    - { resource: security.yml }
     - { resource: doctrine.yml }
-
+ 
 framework:
     #esi:             ~
-    #translator:      { fallback: en }
+    #translator:      { fallback: %locale% }
     secret:          %secret%
     charset:         UTF-8
     router:          { resource: "%kernel.root_dir%/config/routing.yml" }
     form:            true
     csrf_protection: true
-    validation:      { enabled: true, enable_annotations: true }
+    validation:      { enable_annotations: true }
     templating:      { engines: ['twig','php'] } #assets_version: SomeVersionScheme
+    session:
+        default_locale: %locale%
+        auto_start:     true
+        name:           zayso2012x
+        storage_id:     session.storage.my
 
 # Twig Configuration
 twig:
@@ -24,6 +29,7 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
+    # java: /usr/bin/java
     filters:
         cssrewrite: ~
         # closure:
@@ -34,6 +40,7 @@ assetic:
 # Swiftmailer Configuration
 swiftmailer:
     transport: %mailer_transport%
+    host:      %mailer_host%
     username:  %mailer_user%
     password:  %mailer_password%
 
