@@ -2,6 +2,8 @@
 
 namespace Zayso\NatGamesBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
+
 class WelcomeController extends BaseController
 {
     public function welcomeAction()
@@ -9,34 +11,40 @@ class WelcomeController extends BaseController
         $tplData = $this->getTplData();
         return $this->render('NatGamesBundle:Welcome:welcome.html.twig',$tplData);
     }
-    public function homeAction()
-    {
-        // die($this->getRequest()->server->get('HTTP_USER_AGENT'));
+    public function homeAction(Request $request)
+    {   
+        $em = $this->getAccountManager()->getEntityManager();
+        $projectPerson = $this->getProjectPerson();
         
-        $user = $this->getUser();
-        if (!$user->isSignedIn()) return $this->redirect($this->generateUrl('_natgames_welcomex'));
+        // Really should not happen
+        if (!$projectPerson)
+        {
+            $tplData = $this->getTplData();
+            return $this->render('NatGamesBundle:Welcome:home.html.twig',$tplData);
+        }
 
-        $todo = $user->getProjectPerson()->get('todo');
+        $todo = $projectPerson->get('todo');
+        
         if (isset($todo['projectPlans']) && $todo['projectPlans'])
         {
             $todo['projectPlans'] = false;
-            $user->getProjectPerson()->set('todo',$todo);
-            $this->getEntityManager()->flush();
-            return $this->redirect($this->generateUrl('_natgames_project_plans'));
+            $projectPerson->set('todo',$todo);
+            $em->flush();
+            return $this->redirect($this->generateUrl('natgames_project_plans'));
         }
         if (isset($todo['projectLevels']) && $todo['projectLevels'])
         {
             $todo['projectLevels'] = false;
-            $user->getProjectPerson()->set('todo',$todo);
-            $this->getEntityManager()->flush();
+            $projectPerson->set('todo',$todo);
+            $em->flush();
 
-            $plans = $user->getProjectPerson()->get('plans');
+            $plans = $projectPerson->get('plans');
             if (isset($plans['attend'])) $attend = strtolower($plans['attend']);
             else                         $attend = null;
             
             if (strpos($attend,'yes') !== false)
             {
-                return $this->redirect($this->generateUrl('_natgames_project_levels'));
+                return $this->redirect($this->generateUrl('natgames_project_levels'));
             }
         }
         $tplData = $this->getTplData();

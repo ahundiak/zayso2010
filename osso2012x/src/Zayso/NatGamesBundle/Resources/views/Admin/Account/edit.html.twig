@@ -6,7 +6,7 @@
 
 {% block content %}
 <div>
-<form action="{{ path('_natgames_admin_account_edit', { 'id': id }) }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ path('natgames_admin_account_edit', { 'id': id }) }}" method="post" {{ form_enctype(form) }}>
 <input type="hidden" name="project_id" value="52" />
 <table border="1" style="width: 800px;">
 <tr><th colspan="3">National Games 2012 Admin Edit Account {{ id }}</th></tr>
@@ -136,7 +136,7 @@
     </td>
 </tr>
 <tr>
-  <td><a href="{{ path('_natgames_admin_account_list') }}">Accounts</a></td>
+  <td><a href="{{ path('natgames_admin_account_list') }}">Accounts</a></td>
   <td>&nbsp;</td>
   <td align="center"><input type="submit" name="accountEditSubmit" value="Update Account" />
 </tr>

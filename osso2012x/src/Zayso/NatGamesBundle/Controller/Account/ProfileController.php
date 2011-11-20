@@ -32,7 +32,6 @@ class ProfileController extends BaseController
     {
         $tplData = $this->getTplData();
         
-        $tplData['id']          = $accountPerson->getId();
         $tplData['account']     = $accountPerson->getAccount();
         
         $tplData['contactForm'] = $this->getContactForm($accountPerson)->createView();
@@ -51,11 +50,10 @@ class ProfileController extends BaseController
     }
     public function indexAction()
     {
-        // Must be signed in
         $user = $this->getUser();
-        if (!$user->isSignedIn()) return $this->redirect($this->generateUrl('_natgames_welcomex'));
-
-        $accountPerson = $user->getAccountPerson();
+        $accountManager = $this->getAccountManager();
+        $params = array('accountPersonId' => $user->getAccountPersonId());
+        $accountPerson = $accountManager->getAccountPerson($params);
 
         // Render
         $tplData = $this->getTplDatax($accountPerson);
@@ -70,7 +68,7 @@ class ProfileController extends BaseController
         $submit = $request->get('accountProfilePasswordSubmit');
         if ($submit) return $this->postPasswordAction($request);
 
-        return $this->redirect($this->generateUrl('_natgames_account_profile'));
+        return $this->redirect($this->generateUrl('natgames_account_profile'));
         
     }
     public function postContactAction($request)
@@ -78,18 +76,16 @@ class ProfileController extends BaseController
         // Pull user
         $postedData = $request->get('accountProfileContact'); // Just an array
         $accountPersonId = $postedData['accountPersonId'];
-
-        // Authorize
-        $user = $this->getUser();
-        if (!$user->isSignedIn()) return $this->redirect($this->generateUrl('_natgames_welcomex'));
         
         // Get the current id
-        if ($accountPersonId != $user->getAccountPersonId()) return $this->redirect($this->generateUrl('_natgames_welcomex'));
+        // Really just a double check
+        $user = $this->getUser();
+        if ($accountPersonId != $user->getAccountPersonId()) return $this->redirect($this->generateUrl('natgames_welcome'));
 
         // Get the account
         $accountManager = $this->getAccountManager();
-        $accountPerson = $accountManager->getAccountPerson(array('accountPersonId' => $accountPersonId, 'projectId' => $this->getProjectId()));
-        if (!$accountPerson) return $this->redirect($this->generateUrl('_natgames_welcomex'));
+        $accountPerson = $accountManager->getAccountPerson(array('accountPersonId' => $accountPersonId));
+        if (!$accountPerson) return $this->redirect($this->generateUrl('natgames_welcome'));
 
         // Validate
         $form = $this->getContactForm($accountPerson);
@@ -97,21 +93,28 @@ class ProfileController extends BaseController
         
         if ($form->isValid())
         {
+            // Store results
             $accountManager->getEntityManager()->flush();
-            $this->getSession()->setFlash('accountProfileContactUpdated','Profile has been updated.');
-            return $this->redirect($this->generateUrl('_natgames_account_profile'));
+            $request->getSession()->setFlash('accountProfileContactUpdated','Profile has been updated.');
+            
+            // Need to update user with possible changes
+            $this->setUser($accountPerson->getUserName());
+            
+            // Be better to refresh entire user?
+            //$user->setFirstName($accountPerson->getFirstName());
+            //$user->setLastName ($accountPerson->getLastName());
+            //$user->setNickName ($accountPerson->getNickName());
+            
+            // Redirect
+            return $this->redirect($this->generateUrl('natgames_account_profile'));
         }
         // Render Errors
         $tplData = $this->getTplDatax($accountPerson);
         
-        $tplData['id']           = $accountPersonId;
         $tplData['contactForm']  = $form->createView();
 
         return $this->render('NatGamesBundle:Account:profile.html.twig',$tplData);
 
-        //Debug::dump($postedData);
-        //die('postContactAction');
-        //$accountPersonId =
     }
     public function postPasswordAction($request)
     {
@@ -119,17 +122,14 @@ class ProfileController extends BaseController
         $postedData = $request->get('accountProfilePassword');
         $accountPersonId = $postedData['accountPersonId'];
 
-        // Authorize
-        $user = $this->getUser();
-        if (!$user->isSignedIn()) return $this->redirect($this->generateUrl('_natgames_welcomex'));
-
         // Get the current id
-        if ($accountPersonId != $user->getAccountPersonId()) return $this->redirect($this->generateUrl('_natgames_welcomex'));
+        $user = $this->getUser();
+        if ($accountPersonId != $user->getAccountPersonId()) return $this->redirect($this->generateUrl('natgames_welcome'));
 
         // Get the account
         $accountManager = $this->getAccountManager();
-        $accountPerson = $accountManager->getAccountPerson(array('accountPersonId' => $accountPersonId, 'projectId' => $this->getProjectId()));
-        if (!$accountPerson) return $this->redirect($this->generateUrl('_natgames_welcomex'));
+        $accountPerson = $accountManager->getAccountPerson(array('accountPersonId' => $accountPersonId));
+        if (!$accountPerson) return $this->redirect($this->generateUrl('natgames_welcome'));
 
         // Validate
         $form = $this->getPasswordForm($accountPerson);
@@ -137,9 +137,15 @@ class ProfileController extends BaseController
 
         if ($form->isValid())
         {
+            // Save the changes
             $accountManager->getEntityManager()->flush();
             $this->getSession()->setFlash('accountProfilePasswordUpdated','User Name or Password has been updated.');
-            return $this->redirect($this->generateUrl('_natgames_account_profile'));
+            
+            // Update the user
+            $this->setUser($accountPerson->getUserName());
+            
+            // Done
+            return $this->redirect($this->generateUrl('natgames_account_profile'));
         }
         // Render Errors
         $tplData = $this->getTplDatax($accountPerson);
@@ -147,9 +153,5 @@ class ProfileController extends BaseController
         $tplData['passwordForm'] = $form->createView();
         
         return $this->render('NatGamesBundle:Account:profile.html.twig',$tplData);
-
-        //Debug::dump($postedData);
-        //die('postContactAction');
-        //$accountPersonId =
     }
 }

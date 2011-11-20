@@ -13,7 +13,7 @@ class CreateController extends BaseController
         $accountManager = $this->getAccountManager();
         $accountPerson = $accountManager->newAccountPerson(array('projectId' => $this->getProjectId()));
 
-        $accountFormType = $this->get('account.create.formtype'); // new AccountCreateType($this->getEntityManager());
+        $accountFormType = $this->get('account.create.formtype');
 
         $form = $this->createForm($accountFormType, $accountPerson);
 
@@ -25,10 +25,11 @@ class CreateController extends BaseController
             {
                 $account = $this->createAccount($accountPerson);
                 
-                if ($account) return $this->redirect($this->generateUrl('_natgames_home'));
-                
-                // Try again!
-                // return $this->redirect($this->generateUrl('_natgames_account_create'));
+                if ($account) 
+                {
+                    $this->setUser($account->getUserName());
+                    return $this->redirect($this->generateUrl('natgames_home'));
+                }
             }
         }
         $tplData = $this->getTplData();
@@ -39,55 +40,38 @@ class CreateController extends BaseController
     public function createAccount($accountPerson)
     {
         $accountManager = $this->getAccountManager();
-        $em = $accountManager->getEntityManager();
 
+        // See if already have a person
         $person = $accountManager->getPerson(array('projectId' => $this->getProjectId(),'aysoid' => $accountPerson->getAysoid()));
-        //die('Count ' . count($person->getMembers()));
         if ($person) {
             $accountPerson->setPerson($person);
-            // $projectPerson = $person->getNatGamesProjectPerson();
-            //die($projectPerson->getId() . ' ' . $projectPerson->getPerson()->getId() . ' ' . $projectPerson->getProject()->getId());
         }
         else
         {
             // Check for same person, different project
             // If found copy existing newProjectPerson and set it
         }
-        // $members = $accountPerson->getPerson()->getMembers();
-        //die('Count ' . count($accountPerson->getPerson()->getNatGamesProjectPerson()->getProject()->getPersons()));
 
-        $em->persist($accountPerson);
-      //$em->persist($accountPerson->getAccount());
-      //$em->persist($accountPerson->getPerson());
-      //$em->persist($accountPerson->getPerson()->getNatGamesProjectPerson());
-      //$em->persist($accountPerson->getPerson()->getAysoRegisteredPerson());
-
-        // Should be try/catch
+        $em = $accountManager->getEntityManager();
+        $em->persist($accountPerson); // Everything cascades
         $em->flush();
-
-        // Signin
-        $account = $accountPerson->getAccount();
-        $member  = $accountPerson; // $account->getPrimaryMember();
-        $userData = array
-        (
-            'accountId' => $account->getId(),
-            'memberId'  => $member->getId(),
-          //'personId'  => $member->getPerson()->getId(),
-            'projectId' => $this->getProjectId(),
-        );
-        $this->getSession()->set('userData',$userData);
-
-        // Also save signin information
-        $accountSigninData = array
-        (
-            'userName' => $account->getUserName(),
-            'userPass' => '',
-        );
-        $this->getSession()->set('accountSigninData',$accountSigninData);
-    
-        return $account;
         
-        return $this->redirect($this->generateUrl('_natgames_home'));
+        $mailerEnabled = $this->container->getParameter('mailer_enabled');
+        if (!$mailerEnabled) return $accountPerson->getAccount();
+        
+        $message = \Swift_Message::newInstance();
+        $message->setSubject('[NatGames2012] New Account ' . $accountPerson->getUserName());
+        $message->setFrom('ahundiak@zayso.org');
+        $message->setTo  ('ahundiak@gmail.com');
+        
+        //$message->setBody('The Body');
+        
+        $message->setBody($this->renderView('NatGamesBundle:Account:email.txt.twig', array('ap' => $accountPerson)));
+
+        $this->get('mailer')->send($message);
+
+
+        return $accountPerson->getAccount();
   }
   /*
    *             $message = \Swift_Message::newInstance();

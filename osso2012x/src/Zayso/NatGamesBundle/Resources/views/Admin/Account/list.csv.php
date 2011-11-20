@@ -1,7 +1,8 @@
 <?php
-echo "ID,Account,First Name,Last  Name,Nick  Name,Email,Cell Phone,Region,AYSOID,DOB,Gender,Ref Badge,Ref Date,Safe Haven,MY,Attend,Referee\n";
+echo "AP ID,Account,First Name,Last  Name,Nick  Name,Email,Cell Phone,Region,AYSOID,DOB,Gender,Ref Badge,Ref Date,Safe Haven,MY,Attend,Referee\n";
 foreach($members as $member)
 {
+    if (1) {
     $memberx->setMember($member);
     echo $member->getId() . ',';
     echo $memberx->getUserName()  . ',';
@@ -20,6 +21,6 @@ foreach($members as $member)
     echo $memberx->getMemYear()   . ',';
     echo $memberx->getPlan('attend') . ',';
     echo $memberx->getPlan('will_referee');
-    echo "\n";
+    echo "\n"; }
 }
 ?>

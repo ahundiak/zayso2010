@@ -6,11 +6,11 @@ use Zayso\ZaysoBundle\Component\Debug;
 
 class AccountImport extends BaseImport
 {
-    //ID,Account,Ver,First Name,Last  Name,Nick  Name,Email,Cell Phone,Region,AYSOID,DOB,Gender,Ref Badge,Ref Date,Safe Haven,MY,Attend,Referee
+    //AP ID,Account,Ver,First Name,Last  Name,Nick  Name,Email,Cell Phone,Region,AYSOID,DOB,Gender,Ref Badge,Ref Date,Safe Haven,MY,Attend,Referee
 
     protected $record = array
     (
-      'id'        => array('cols' => 'ID',        'req' => true,  'default' => 0),
+      'id'        => array('cols' => 'AP ID',     'req' => true,  'default' => 0),
       'userName'  => array('cols' => 'Account',   'req' => true,  'default' => ''),
       'firstName' => array('cols' => 'First Name','req' => true,  'default' => ''),
       'lastName'  => array('cols' => 'Last  Name','req' => false, 'default' => ''),

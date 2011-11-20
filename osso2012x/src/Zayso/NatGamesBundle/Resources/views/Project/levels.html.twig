@@ -4,7 +4,7 @@
 
 {% block content %}
 <div>
-<form method="post" action="{{ path('_natgames_project_levels') | raw }}">
+<form method="post" action="{{ path('natgames_project_levels') }}">
 <table border="1" class="form_table" width="800" id="project-levels">
     <tr><th colspan="22">Age Groups to Referee</th></tr>
     <tr>
@@ -63,7 +63,7 @@
     </tr>
     {% endfor %}
   <tr>
-    <td colspan="18">Make changes then press Update at least once. Click <a href="{{ path('_natgames_home') }}">Home</a> when done.</td>
+    <td colspan="18">Make changes then press Update at least once. Click <a href="{{ path('natgames_home') }}">Home</a> when done.</td>
     <td align="center" colspan="2"><input type="reset"  name="ref_level_reset"  value="Reset" />
     <td align="center" colspan="2"><input type="submit" name="ref_level_submit" value="Update" />
   </tr>

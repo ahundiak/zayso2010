@@ -4,88 +4,85 @@
 #   prefix:   /_internal
     
 # National Games Routes
-_natgames_welcome:
+natgames_index:
     pattern:  /natgames
     defaults: { _controller: NatGamesBundle:Welcome:welcome }
     
-_natgames_home:
-    pattern:  /natgames/home
-    defaults: { _controller: NatGamesBundle:Welcome:home }
-    
-_natgames_welcomex:
+natgames_welcome:
     pattern:  /natgames/welcome
     defaults: { _controller: NatGamesBundle:Welcome:welcome }
     
-_natgames_form:
-    pattern:  /natgames/form
-    defaults: { _controller: NatGamesBundle:Form:form }
+natgames_home:
+    pattern:  /natgames/home
+    defaults: { _controller: NatGamesBundle:Welcome:home }
 
-_natgames_contact:
+
+natgames_contact:
     pattern:  /natgames/contact
     defaults: { _controller: NatGamesBundle:Contact:contact }
 
 # ===============================================================
 # Account stuff
-_natgames_account_create:
+natgames_account_create:
     pattern:  /natgames/account/create
     defaults: { _controller: NatGamesBundle:Account\Create:create }
 
-_natgames_account_profile:
+natgames_account_profile:
     pattern:  /natgames/account/profile
     defaults: { _controller: NatGamesBundle:Account\Profile:index }
     requirements:
         _method:  GET
 
-_natgames_account_profile_post:
+natgames_account_profile_post:
     pattern:  /natgames/account/profile
     defaults: { _controller: NatGamesBundle:Account\Profile:post }
     requirements:
         _method:  POST
 
-_natgames_account_edit:
+natgames_account_edit:
     pattern:  /natgames/account/edit/{id}
     defaults: { _controller: NatGamesBundle:Account\Edit:edit, id: 0}
     requirements:
         id: \d+
 
-_natgames_account_signin:
+natgames_account_signin:
     pattern:  /natgames/account/signin
     defaults: { _controller: NatGamesBundle:Account\Signin:signin }
 
-_natgames_account_signout:
+natgames_account_signout:
     pattern:  /natgames/account/signout
     defaults: { _controller: NatGamesBundle:Account\Signin:signout }
 
-_natgames_account_person_add:
+natgames_account_person_add:
     pattern:  /natgames/account/person/add
     defaults: { _controller: NatGamesBundle:Account\AccountPerson:add }
 
 # Project Person Information
-_natgames_project_plans:
+natgames_project_plans:
     pattern:  /natgames/project/plans
     defaults: { _controller: NatGamesBundle:Project:plans }
     requirements:
         _method:  GET
 
-_natgames_project_plans_post:
+natgames_project_plans_post:
     pattern:  /natgames/project/plans
     defaults: { _controller: NatGamesBundle:Project:plansPost }
     requirements:
         _method:  POST
 
-_natgames_project_levels:
+natgames_project_levels:
     pattern:  /natgames/project/levels
     defaults: { _controller: NatGamesBundle:Project:levels }
     requirements:
         _method:  GET
 
-_natgames_project_levels_post:
+natgames_project_levels_post:
     pattern:  /natgames/project/levels
     defaults: { _controller: NatGamesBundle:Project:levelsPost }
     requirements:
         _method:  POST
 
-_natgames_schedule:
+natgames_schedule:
     pattern:  /natgames/schedule
     defaults: { _controller: NatGamesBundle:Schedule:index }
     requirements:
@@ -93,25 +90,25 @@ _natgames_schedule:
 
 # =================================================
 # Admin stuff
-_natgames_admin:
+natgames_admin:
     pattern:  /natgames/admin
     defaults: { _controller: NatGamesBundle:Admin\Admin:index }
     requirements:
         _method:  GET
 
-_natgames_admin_account_edit:
+natgames_admin_account_edit:
     pattern:  /natgames/admin/account/edit/{id}
     defaults: { _controller: NatGamesBundle:Admin\Account\Edit:edit, id: 0}
     requirements:
         id: \d+
         
-_natgames_admin_account_list:
+natgames_admin_account_list:
     pattern:  /natgames/admin/account/list.{_format}
     defaults: { _controller: NatGamesBundle:Admin\Account\List:list, _format: html }
     requirements:
         _method:  GET
         _format:  html|csv
 
-_natgames_admin_import:
+natgames_admin_import:
     pattern:  /natgames/admin/import
     defaults: { _controller: NatGamesBundle:Admin\Import:index }
