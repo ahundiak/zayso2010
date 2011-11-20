@@ -8,7 +8,6 @@
 
         <service id="account.manager" class="Zayso\NatGamesBundle\Component\Manager\AccountManager" public="true">
             <argument type="service" id="doctrine.orm.osso2012_entity_manager" />
-            <argument type="service" id="eayso.manager" />
         </service>
 
         <service id="schedule2010.import" class="Zayso\NatGamesBundle\Component\Import\Schedule2010Import" public="true">

@@ -14,6 +14,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 
+use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+
 class AccountSigninFormType extends AbstractType
 {
     public function getName() { return 'accountSignin'; }
@@ -33,22 +37,31 @@ class AccountSigninFormType extends AbstractType
 }
 class SigninController extends BaseController
 {
-    public function signoutAction()
-    {
-        $session = $this->getSession();
-        $session->set('userData',null);
-        return $this->redirect($this->generateUrl('_natgames_welcomex'));
+    public function signoutAction(Request $request)
+    {   
+        // So easy once the secret is known, need both
+        $this->get('security.context')->setToken(null);
+        $request->getSession()->remove('_security_secured_area');
+        return $this->redirect($this->generateUrl('natgames_welcome'));
     }
     public function signinAction(Request $request)
     {
+        $session = $request->getSession();
         $account = new Account();
 
         // Remember me
         if ($request->getMethod() == 'GET')
-        {
-            $session = $this->getSession();
-            $accountSigninData = $session->get('accountSigninData');
-            if (isset($accountSigninData['userName'])) $account->setUserName($accountSigninData['userName']);
+        {   
+            // get the login error if there is one from login_check
+            if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) 
+            {
+                $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
+            } else 
+            {
+                $error = $request->getSession()->get(SecurityContext::AUTHENTICATION_ERROR);
+            }
+            // This does not work, no session attributes after signing out
+            $account->setUserName($session->get(SecurityContext::LAST_USERNAME));
         }
         // Form
         $formType = new AccountSigninFormType($this->getEntityManager());
@@ -58,22 +71,12 @@ class SigninController extends BaseController
         {
             $form->bindRequest($request);
 
-            if ($form->isValid())
+            if ($form->isValid()) // Checks username and password
             {
-                $session = $this->getSession();
-
-                $userData = array
-                (
-                    'accountId' => $form['accountId']->getData(),
-                    'memberId'  => $form['memberId' ]->getData(),
-                    'projectId' => $this->getProjectId(),
-                );
-                $session->set('userData',$userData);
-
-                // Remeber me
-                $session->set('accountSigninData',array('userName' => $form['userName']->getData()));
-
-                return $this->redirect($this->generateUrl('_natgames_home'));
+                $userName = $account->getUserName();
+                $session->set(SecurityContext::LAST_USERNAME,$userName);
+                $this->setUser($userName);
+                return $this->redirect($this->generateUrl('natgames_home'));
             }
         }
         $tplData = $this->getTplData();

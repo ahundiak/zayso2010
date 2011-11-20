@@ -2,6 +2,8 @@
 
 namespace Zayso\NatGamesBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
+
 class ProjectController extends BaseController
 {
     protected $plansData  = null;
@@ -10,12 +12,11 @@ class ProjectController extends BaseController
     protected $pickLists = null;
 
     public function plansAction()
-    {
-        // Check user
-        $user = $this->getUser();
-        if (!$user->isSignedIn()) return $this->redirect($this->generateUrl('_natgames_welcomex'));
+    {   
+        $projectPerson = $this->getProjectPerson();
+        if (!$projectPerson) return $this->redirect($this->generateUrl('natgames_home'));
         
-        $plansData = $user->getProjectPerson()->get('plans');
+        $plansData = $projectPerson->get('plans');
         if (!$plansData) $plansData = array();
 
         $this->plansData = $plansData;
@@ -27,11 +28,10 @@ class ProjectController extends BaseController
     }
     public function levelsAction()
     {
-        // Check user
-        $user = $this->getUser();
-        if (!$user->isSignedIn()) return $this->redirect($this->generateUrl('_natgames_welcomex'));
-
-        $levelsData = $user->getProjectPerson()->get('levels');
+        $projectPerson = $this->getProjectPerson();
+        if (!$projectPerson) return $this->redirect($this->generateUrl('natgames_home'));
+        
+        $levelsData = $projectPerson->get('levels');
         if (!$levelsData) $levelsData = array();
         $this->levelsData = $levelsData;
 
@@ -49,37 +49,31 @@ class ProjectController extends BaseController
         $tplData['ages']   = array('U10','U12','U14','U16','U19');
         return $this->render('NatGamesBundle:Project:levels.html.twig',$tplData);
     }
-    public function plansPostAction()
+    public function plansPostAction(Request $request)
     {
-        // Check user
-        $user = $this->getUser();
-        if (!$user->isSignedIn()) return $this->redirect($this->generateUrl('_natgames_welcomex'));
-
-        $request = $this->getRequest();
-
         $plansData = $request->request->get('plansData');
         if (!$plansData) $plansData = array();
+        
+        $projectPerson = $this->getProjectPerson();
+        if (!$projectPerson) return $this->redirect($this->generateUrl('natgames_home'));
 
-        $user->getProjectPerson()->set('plans',$plansData);
-        $this->getEntityManager()->flush();
+        $projectPerson->set('plans',$plansData);
+        $this->getAccountManager()->getEntityManager()->flush();
 
-        return $this->redirect($this->generateUrl('_natgames_project_plans'));
+        return $this->redirect($this->generateUrl('natgames_project_plans'));
     }
-    public function levelsPostAction()
+    public function levelsPostAction(Request $request)
     {
-        // Check user
-        $user = $this->getUser();
-        if (!$user->isSignedIn()) return $this->redirect($this->generateUrl('_natgames_welcomex'));
-
-        $request = $this->getRequest();
-
         $levelsData = $request->request->get('levelsData');
         if (!$levelsData) $levelsData = array();
+        
+        $projectPerson = $this->getProjectPerson();
+        if (!$projectPerson) return $this->redirect($this->generateUrl('natgames_home'));
 
-        $user->getProjectPerson()->set('levels',$levelsData);
-        $this->getEntityManager()->flush();
+        $projectPerson->set('levels',$levelsData);
+        $this->getAccountManager()->getEntityManager()->flush();
 
-        return $this->redirect($this->generateUrl('_natgames_project_levels'));
+        return $this->redirect($this->generateUrl('natgames_project_levels'));
     }
     protected function getPlansDataValue($name)
     {

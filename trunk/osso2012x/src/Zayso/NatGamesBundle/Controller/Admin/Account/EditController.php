@@ -8,18 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 class EditController extends BaseController
 {
-    protected function isAdminAuth()
-    {
-        $user = $this->getUser();
-        if (!$user->isSignedIn()) return false;
-        if (!$user->isAdmin   ()) return false;
-        return true;
-    }
     public function editAction(Request $request, $id)
     {
-        // Verify authorized to edit this account
-        if (!$this->isAdminAuth()) return $this->redirect($this->generateUrl('_natgames_welcomex'));
-
         // Load in tha account person
         $accountManager = $this->getAccountManager();
         $accountPerson = $accountManager->getAccountPerson(array('accountPersonId' => $id, 'projectId' => $this->getProjectId()));
@@ -40,7 +30,7 @@ class EditController extends BaseController
             {
                 $accountManager->getEntityManager()->flush();
                 
-                return $this->redirect($this->generateUrl('_natgames_admin_account_edit',array('id' => $id)));
+                return $this->redirect($this->generateUrl('natgames_admin_account_edit',array('id' => $id)));
             }
         }
         $tplData = $this->getTplData();

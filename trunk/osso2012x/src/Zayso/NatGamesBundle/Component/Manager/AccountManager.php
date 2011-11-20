@@ -25,14 +25,9 @@ class AccountManager
         return $this->em;
     }
 
-    public function __construct($em,$eaysoManager)
+    public function __construct($em)
     {
         $this->em = $em;
-        $this->eaysoManager = $eaysoManager;
-
-        //$ids = $services->getServiceIds();
-        //print_r($ids);
-        //die(get_class($services));
     }
     // Idea is to build up a new account person model
     public function newAccountPerson($params = array())
@@ -185,6 +180,33 @@ class AccountManager
         $persons = $query->getResult();
 
         if (count($persons) == 1) return $persons[0];
+
+        return null;
+    }
+    public function getProjectPerson($params)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->addSelect('projectPerson');
+
+        $qb->from('ZaysoBundle:ProjectPerson','projectPerson');
+        $qb->leftJoin('projectPerson.person', 'person');
+        $qb->leftJoin('projectPerson.project','project');
+
+        if (isset($params['personId']))
+        {
+            $qb->andWhere($qb->expr()->in('person.id',$params['personId']));
+        }
+        if (isset($params['projectId']))
+        {
+            $qb->andWhere($qb->expr()->in('project.id',$params['projectId']));
+        }
+        $query = $qb->getQuery();
+        
+        $items = $query->getResult();
+
+        if (count($items) == 1) return $items[0];
 
         return null;
     }

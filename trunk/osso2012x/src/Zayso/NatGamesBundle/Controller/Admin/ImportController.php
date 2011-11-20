@@ -77,9 +77,6 @@ class ImportController extends BaseController
 {
     public function indexAction(Request $request)
     {
-        // Check auth
-        if (!$this->isAdmin()) return $this->redirect($this->generateUrl('_natgames_welcomex'));
-
         $importData = new ImportData();
         $importType = new ImportType();
         $form = $this->createForm($importType, $importData);

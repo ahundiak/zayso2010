@@ -4,7 +4,7 @@
 
 {% block content %}
 <div>
-<form method="post" action="{{ path('_natgames_project_plans') | raw }}">
+<form method="post" action="{{ path('natgames_project_plans') }}">
 <table border="1" class="form_table" width="600" id="project-plans">
     <tr><th colspan="2">Volunteer Tournament Plans</th></tr>
     <tr>
@@ -132,10 +132,10 @@
   </table>
 <br />
 </form>
-<div style=width: 800px;>
+<div style="width: 800px;">
 <h3>Notes</h3>
 <p>Please try to keep these plans up to date as tournament time approaches.</p>
-<p>When you are done answering these questions, press Update then <a href="{{ path('_natgames_home') }}">Click on Home.</a></p>
+<p>When you are done answering these questions, press Update then <a href="{{ path('natgames_home') }}">Click on Home.</a></p>
 </div>
 </div>
 {% endblock %}
