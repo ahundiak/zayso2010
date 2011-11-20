@@ -21,6 +21,14 @@
 
 USE session;
 
+DROP TABLE IF EXISTS `session`;
+CREATE TABLE `session` (
+    `session_id` varchar(255) NOT NULL,
+    `session_value` text NOT NULL,
+    `session_time` int(11) NOT NULL,
+    PRIMARY KEY (`session_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `session_data`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;

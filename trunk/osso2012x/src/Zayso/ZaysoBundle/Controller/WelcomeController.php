@@ -3,9 +3,14 @@
 namespace Zayso\ZaysoBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 class WelcomeController extends Controller
 {
+    public function welcomeTestAction()
+    {
+        return new Response("<h3>Hello There</h3>");
+    }
   public function welcomeAction()
   { 
     $env = $this->container->getParameter('kernel.environment');
