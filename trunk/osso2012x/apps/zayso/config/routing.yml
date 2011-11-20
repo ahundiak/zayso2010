@@ -3,16 +3,13 @@
 #   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
 #   prefix:   /_internal
 
-_zayso_welcome:
+welcome:
     pattern:  /
     defaults: { _controller: ZaysoBundle:Welcome:welcome }
     
-# National Games Routes
-_natgames_routing:
-    resource: "@NatGamesBundle/Resources/config/routing.yml"
+logout:
+    pattern:  /logout
 
-# resource: routing_area5cf.yml
-#_main:
-#    resource: routing_area5cf.yml
-    
-    
+# National Games Routes
+natgames_routing:
+    resource: "@NatGamesBundle/Resources/config/routing.yml"

@@ -1,4 +1,7 @@
-# Note that this overrides routing.yml
+_welcome:
+    pattern:  /
+    defaults: { _controller: ZaysoBundle:Welcome:welcome }
+
 _assetic:
     resource: .
     type:     assetic
