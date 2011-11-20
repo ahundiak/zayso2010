@@ -25,6 +25,7 @@ class BaseController extends Controller
     }
     protected function getUser()
     {
+        die('getUser');
         if ($this->user) return $this->user;
 
         $session = $this->getRequest()->getSession();
