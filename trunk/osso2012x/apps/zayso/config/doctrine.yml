@@ -70,7 +70,7 @@ doctrine:
             osso2007:
                 connection: osso2007
                 mappings:
-                    ZaysoBundle: ~
+                    Osso2007Bundle: ~
             osso2012:
                 connection: osso2012
                 mappings:
