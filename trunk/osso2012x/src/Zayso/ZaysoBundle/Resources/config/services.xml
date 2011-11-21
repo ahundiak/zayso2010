@@ -25,5 +25,13 @@
             <argument type="string">%database_password%</argument>
         </service>
 
+        <service id="zayso.core.project.manager" class="Zayso\ZaysoBundle\Component\Manager\ProjectManager" public="true">
+            <argument type="service" id="doctrine.orm.osso2012_entity_manager" />
+        </service>
+
+        <service id="zayso.core.project.import" class="Zayso\ZaysoBundle\Component\Import\ProjectImport" public="true">
+            <argument type="service" id="zayso.core.project.manager" />
+        </service>
+
     </services>
 </container>
