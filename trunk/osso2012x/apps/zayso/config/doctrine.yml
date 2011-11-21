@@ -66,7 +66,7 @@ doctrine:
             eayso:
                 connection: eayso
                 mappings:
-                    ZaysoBundle: ~
+                    EaysoBundle: ~
             osso2007:
                 connection: osso2007
                 mappings:
