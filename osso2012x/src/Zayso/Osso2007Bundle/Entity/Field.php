@@ -18,6 +18,8 @@ class Field
     {
         return GameManager::getRegionKey($this->unitId);
     }
+    public function getFieldSite() { return $this->fieldSite; }
+    
     /**
      * @var integer $fieldId
      *
@@ -30,9 +32,11 @@ class Field
     /**
      * @var integer $fieldSiteId
      *
-     * @ORM\Column(name="field_site_id", type="integer", nullable=true)
+     *  ORM\Column(name="field_site_id", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="FieldSite")
+     * @ORM\JoinColumn(name="field_site_id", referencedColumnName="field_site_id")
      */
-    private $fieldSiteId;
+    private $fieldSite;
 
     /**
      * @var integer $unitId

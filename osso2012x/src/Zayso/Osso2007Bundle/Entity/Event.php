@@ -59,6 +59,15 @@ class Event
         if ($this->field) return $this->field->getDescx();
         return null;
     }
+    public function getFieldSiteKey()
+    {
+        if ($this->field)
+        {
+            $fieldSite = $this->field->getFieldSite();
+            if ($fieldSite) return $fieldSite->getDescx();
+        }
+        return null;
+    }
     public function getFieldRegionKey()
     {
         if ($this->field) return $this->field->getRegionKey();
@@ -80,7 +89,63 @@ class Event
     public function setNum ($value) { $this->eventNum  = $value; }
     public function setDate($value) { $this->eventDate = $value; }
     public function setTime($value) { $this->eventTime = $value; }
-    
+
+    public function getEventType()
+    {
+        switch($this->eventTypeId)
+        {
+            case 1: return 'Game';
+            case 2: return 'Practice';
+            case 3: return 'Scrimmage';
+            case 4: return 'Jamboree';
+            case 5: return 'Unified Practice';
+            case 6: return 'Tryouts';
+            case 9: return 'Other';
+        }
+        return 'Unknown';
+    }
+    public function getSeasonType()
+    {
+        switch($this->seasonTypeId)
+        {
+            case 1:  return 'Fall';
+            case 2:  return 'Winter';
+            case 3:  return 'Spring';
+            case 4:  return 'Summer';
+        }
+        return 'Unknown';
+    }
+    public function getScheduleType()
+    {
+        switch($this->scheduleTypeId)
+        {
+            case 1:  return 'RS';
+            case 2:  return 'RT';
+            case 3:  return 'AT';
+            case 4:  return 'ST';
+            case 5:  return 'SG';
+            case 6:  return 'NG';
+        }
+        return 'Unknown';
+    }
+    public function getEventClass()
+    {
+        switch($this->scheduleTypeId)
+        {
+            case 1:  return 'RG';
+            case 2:  return 'PP';
+            case 3:  return 'QF';
+            case 4:  return 'SF';
+            case 5:  return 'FF';
+            case 6:  return 'CM';
+        }
+        return 'Unknown';
+    }
+    public function getRegYear()
+    {
+        if ($this->regYearId) return $this->regYearId + 2000;
+        return 0;
+    }
     /** =======================================================================
      * @var integer $eventId
      *

@@ -3,7 +3,7 @@
 namespace Zayso\Osso2007Bundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Zayso\Osso2007Bundle\Service\GameManager as GameManager;
 /**
  * Zayso\Osso2007Bundle\Entity\Person
  *
@@ -14,6 +14,10 @@ class Person
 {
     public function getLastName()  { return $this->getLName(); }
     public function getFirstName() { return $this->getFName(); }
+    public function getRegionKey()
+    {
+        return GameManager::getRegionKey($this->unitId);
+    }
 
     /** =========================================================================
      * @var integer $personId
