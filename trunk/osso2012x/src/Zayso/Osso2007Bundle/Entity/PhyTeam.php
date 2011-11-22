@@ -3,6 +3,7 @@
 namespace Zayso\Osso2007Bundle\Entity;
 
 use Zayso\Osso2007Bundle\Service\TeamManager as TeamManager;
+use Zayso\Osso2007Bundle\Service\GameManager as GameManager;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -37,20 +38,30 @@ class PhyTeam
         // Consider returning empty person object
         return null;
     }
+    public function getProjectId()
+    {
+        if ($this->projectItem) return $this->projectItem->getProjectId();
+        return 0;
+    }
     public function getHeadCoach() { return $this->getPerson(TeamManager::TYPE_HEAD_COACH); }
     public function getAsstCoach() { return $this->getPerson(TeamManager::TYPE_ASST_COACH); }
     public function getManager  () { return $this->getPerson(TeamManager::TYPE_MANAGER); }
 
     public function getId() { return $this->phyTeamId; }
 
-    public function getDivKey()
-    {
-        return $this->division->getDescPick();
-    }
     public function getRegionKey()
     {
-        return $this->unit->getKeyx();
+        return GameManager::getRegionKey($this->unitId);
     }
+    public function getGenderKey()
+    {
+        return GameManager::getGenderKey($this->divisionId);
+    }
+    public function getAgeKey()
+    {
+        return GameManager::getAgeKey($this->divisionId);
+    }
+
     public function getPlayers() { return $this->players; }
     public function getPlayer($aysoid)
     {
@@ -95,22 +106,22 @@ class PhyTeam
     /**
      * @var integer $unitId
      *
-     *  ORM\Column(name="unit_id", type="integer", nullable=true)
+     * @ORM\Column(name="unit_id", type="integer", nullable=true)
      *
-     * @ORM\ManyToOne(targetEntity="Unit")
-     * @ORM\JoinColumn(name="unit_id", referencedColumnName="unit_id")
+     *  ORM\ManyToOne(targetEntity="Unit")
+     *  ORM\JoinColumn(name="unit_id", referencedColumnName="unit_id")
      */
-    private $unit;
+    private $unitId;
 
     /**
      * @var integer $divisionId
      *
-     *  ORM\Column(name="division_id", type="integer", nullable=true)
+     * @ORM\Column(name="division_id", type="integer", nullable=true)
      *
-     * @ORM\ManyToOne(targetEntity="Division")
-     * @ORM\JoinColumn(name="division_id", referencedColumnName="division_id")
+     *  ORM\ManyToOne(targetEntity="Division")
+     *  ORM\JoinColumn(name="division_id", referencedColumnName="division_id")
      */
-    private $division;
+    private $divisionId;
 
     /**
      * @var integer $divisionSeqNum

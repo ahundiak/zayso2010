@@ -4,7 +4,7 @@ namespace Zayso\Osso2007Bundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-use Zayso\Osso2007Bundle\Repository\GameRepository as GameRepo;
+use Zayso\Osso2007Bundle\Service\GameManager as GameManager;
 
 /**
  * Zayso\Osso2007Bundle\Entity\SchTeam
@@ -17,12 +17,19 @@ class SchTeam
     public function getDivisionDesc()
     {
         $divId = $this->getDivisionId();
-        return GameRepo::getDivisionDesc($divId);
+        return GameManager::getDivisionDesc($divId);
     }
     public function getRegionKey()
     {
-        $regionId = $this->getUnitId();
-        return GameRepo::getRegionKey($regionId);
+        return GameManager::getRegionKey($this->unitId);
+    }
+    public function getGenderKey()
+    {
+        return GameManager::getGenderKey($this->divisionId);
+    }
+    public function getAgeKey()
+    {
+        return GameManager::getAgeKey($this->divisionId);
     }
     public function getPerson($type)
     {
