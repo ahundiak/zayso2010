@@ -1,57 +1,57 @@
-"PID","PPID","Project Group","Type","Description","Status","Date Begin","Date End","Mem Year","Cal Year","Season"
-1,,"AYSO Area5CF","RS","CY2002 Fall Regular Season Area 5C/5F","Past",20020801,20021130,2002,2002,"Fall"
-2,,"AYSO Area5CF","RS","CY2003 Fall Regular Season Area 5C/5F","Past",20030801,20031130,2003,2003,"Fall"
-3,1,"AYSO Area5CF","RT","CY2003 Fall Regional Tournament R0894 Monrovia","Past",20030801,20031130,2003,2003,"Fall"
-4,,"AYSO Area5CF","RS","CY2004 Fall Regular Season Area 5C/5F","Past",20040801,20041130,2004,2004,"Fall"
-5,4,"AYSO Area5CF","RT","CY2004 Fall Regional Tournament R0894 Monrovia","Past",20040801,20041130,2004,2004,"Fall"
-6,,"AYSO Area5CF","RS","CY2004 Spring Regular Season Area 5C/5F","Past",20040201,20040731,2003,2004,"Spring"
-7,,"AYSO Area5CF","RS","CY2005 Fall Regular Season Area 5C/5F","Past",20050801,20051130,2005,2005,"Fall"
-8,7,"AYSO Area5CF","RT","CY2005 Fall Regional Tournament R0894 Monrovia","Past",20050801,20051130,2005,2005,"Fall"
-9,,"AYSO Area5CF","RS","CY2006 Fall Regular Season Area 5C/5F","Past",20060801,20061130,2006,2006,"Fall"
-10,9,"AYSO Area5CF","RT","CY2006 Fall Regional Tournament R0894 Monrovia","Past",20060801,20061130,2006,2006,"Fall"
-11,,"AYSO Area5CF","RS","CY2006 Spring Regular Season Area 5C/5F","Past",20060201,20060731,2005,2006,"Spring"
-12,,"AYSO Area5CF","RS","CY2007 Fall Regular Season Area 5C/5F","Past",20070801,20071130,2007,2007,"Fall"
-13,12,"AYSO Area5CF","RT","CY2007 Fall Regional Tournament R0894 Monrovia","Past",20070801,20071130,2007,2007,"Fall"
-14,12,"AYSO Area5CF","RT","CY2007 Fall Regional Tournament R0498 Madison","Past",20070801,20071130,2007,2007,"Fall"
-15,,"AYSO Area5CF","RS","CY2007 Spring Regular Season Area 5C/5F","Past",20070201,20070731,2006,2007,"Spring"
-16,,"AYSO Area5CF","RS","CY2008 Fall Regular Season Area 5C/5F","Past",20080801,20081130,2008,2008,"Fall"
-17,16,"AYSO Area5CF","RT","CY2008 Fall Regional Tournament R0894 Monrovia","Past",20080801,20081130,2008,2008,"Fall"
-18,16,"AYSO Area5CF","RT","CY2008 Fall Regional Tournament R0498 Madison","Past",20080801,20081130,2008,2008,"Fall"
-19,,"AYSO Area5CF","RS","CY2008 Winter Regular Season R0498 Madison","Past",20080101,20080331,2007,2008,"Winter"
-20,,"AYSO Area5CF","RS","CY2008 Spring Regular Season Area 5C/5F","Past",20080201,20080731,2007,2008,"Spring"
-21,,"AYSO Area5CF","RS","CY2009 Fall Regular Season Area 5C/5F","Past",20090801,20091130,2009,2009,"Fall"
-22,21,"AYSO Area5CF","RT","CY2009 Fall Regional Tournament R0894 Monrovia","Past",20090801,20091130,2009,2009,"Fall"
-23,21,"AYSO Area5CF","RT","CY2009 Fall Regional Tournament R0498 Madison","Past",20090801,20091130,2009,2009,"Fall"
-24,21,"AYSO Area5CF","RT","CY2009 Fall Regional Tournament R0160 Huntsville","Past",20090801,20091130,2009,2009,"Fall"
-25,21,"AYSO Area5CF","AT","CY2009 Fall Area Tournament Area 5C","Past",20090801,20091130,2009,2009,"Fall"
-26,,"AYSO Area5CF","RS","CY2009 Winter Regular Season R0498 Madison","Past",20090101,20090331,2008,2009,"Winter"
-27,,"AYSO Area5CF","RS","CY2009 Spring Regular Season Area 5C/5F","Past",20090201,20090731,2008,2009,"Spring"
-28,,"AYSO Area5CF","RS","CY2010 Fall Regular Season Area 5C/5F","Past",20100801,20101130,2010,2010,"Fall"
-29,,"AYSO Area5CF","RS","CY2010 Winter Regular Season R0498 Madison","Past",20100101,20100331,2009,2010,"Winter"
-30,,"AYSO Area5CF","RS","CY2010 Spring Regular Season Area 5C/5F","Past",20100201,20100731,2009,2010,"Spring"
-31,28,"AYSO Area5CF","RT","CY2010 Fall Regional Tournament R0894 Monrovia","Past",20100801,20101130,2010,2010,"Fall"
-32,28,"AYSO Area5CF","RT","CY2010 Fall Regional Tournament R0498 Madison","Past",20100801,20101130,2010,2010,"Fall"
-33,28,"AYSO Area5CF","RT","CY2010 Fall Regional Tournament R0160 Huntsville","Past",20100801,20101130,2010,2010,"Fall"
-34,28,"AYSO Area5CF","RT","CY2010 Fall Regional Tournament R1174 NEMC","Past",20100801,20101130,2010,2010,"Fall"
-35,28,"AYSO Area5CF","AT","CY2010 Fall Area Tournament Area 5C","Past",20100801,20101130,2010,2010,"Fall"
-36,28,"AYSO Area5CF","ST","CY2010 Fall State Tournament Area 5C/5F","Past",20100801,20101130,2010,2010,"Fall"
-37,,"AYSO Area5CF","RS","CY2011 Winter Regular Season R0498 Madison","Past",20110101,20110331,2010,2011,"Winter"
-38,,"AYSO Area5CF","RS","CY2011 Spring Regular Season Area 5C/5F","Past",20110301,20110630,2010,2011,"Spring"
-39,38,"AYSO Area5CF","AT","CY2011 Spring Sendoff Tournament Area 5C/5F","Past",20110601,20110613,2010,2011,"Spring"
-50,,"AYSO NatGames","NG","National Games 2010","Past",20100701,20100730,2009,2010,"Summer"
-52,,"AYSO NatGames","NG","National Games 2012","Active",20120701,20120730,2011,2012,"Summer"
-54,,"AYSO NatGames","NG","National Games 2014","Future",20140701,20140730,2013,2014,"Summer"
-60,,"AYSO S5Games","SG","Section 5 Games 2010","Past",20100601,20100630,2009,2010,"Summer"
-61,,"AYSO S5Games","SG","Section 5 Games 2011","Past",20110601,20110630,2010,2011,"Summer"
-62,,"AYSO S5Games","SG","Section 5 Games 2012","Active",20120601,20120630,2011,2012,"Summer"
-63,,"AYSO S5Games","SG","Section 5 Games 2013","Future",20130601,20130630,2011,2012,"Summer"
-70,,"AYSO Area5CF","RS","CY2011 Fall Regular Season Area 5C/5F","Past",20110801,20111130,2011,2011,"Fall"
-71,70,"AYSO Area5CF","RT","CY2011 Fall Regional Tournament R0894 Monrovia","Past",20110801,20111130,2011,2011,"Fall"
-72,70,"AYSO Area5CF","RT","CY2011 Fall Regional Tournament R0498 Madison","Past",20110801,20111130,2011,2011,"Fall"
-73,70,"AYSO Area5CF","RT","CY2011 Fall Regional Tournament R0160 Huntsville","Past",20110801,20111130,2011,2011,"Fall"
-74,70,"AYSO Area5CF","RT","CY2011 Fall Regional Tournament R1174 NEMC","Past",20110801,20111130,2011,2011,"Fall"
-75,70,"AYSO Area5CF","AT","CY2011 Fall Area Tournament Area 5C","Past",20110801,20111130,2011,2011,"Fall"
-76,70,"AYSO Area5CF","ST","CY2011 Fall State Tournament Area 5C/5F","Past",20110801,20111130,2011,2011,"Fall"
-77,,"AYSO Area5CF","RS","CY2012 Winter Regular Season R0498 Madison","Active",20120101,20120331,2011,2012,"Winter"
-78,,"AYSO Area5CF","RS","CY2012 Spring Regular Season Area 5C/5F","Future",20120301,20120630,2011,2012,"Spring"
-79,78,"AYSO Area5CF","AT","CY2012 Spring Sendoff Tournament Area 5C/5F","Future",20120601,20120613,2011,2012,"Spring"
+PID,PPID,Project Group,Type,Description,Status,Date Begin,Date End,Mem Year,Cal Year,Season
+1,,AYSOGArea5CF,RS,CY2002 Fall Regular Season Area 5C/5F,Past,20020801,20021130,2002,2002,Fall
+2,,AYSOGArea5CF,RS,CY2003 Fall Regular Season Area 5C/5F,Past,20030801,20031130,2003,2003,Fall
+3,1,AYSOGArea5CF,RT,CY2003 Fall Regional Tournament R0894 Monrovia,Past,20030801,20031130,2003,2003,Fall
+4,,AYSOGArea5CF,RS,CY2004 Fall Regular Season Area 5C/5F,Past,20040801,20041130,2004,2004,Fall
+5,4,AYSOGArea5CF,RT,CY2004 Fall Regional Tournament R0894 Monrovia,Past,20040801,20041130,2004,2004,Fall
+6,,AYSOGArea5CF,RS,CY2004 Spring Regular Season Area 5C/5F,Past,20040201,20040731,2003,2004,Spring
+7,,AYSOGArea5CF,RS,CY2005 Fall Regular Season Area 5C/5F,Past,20050801,20051130,2005,2005,Fall
+8,7,AYSOGArea5CF,RT,CY2005 Fall Regional Tournament R0894 Monrovia,Past,20050801,20051130,2005,2005,Fall
+9,,AYSOGArea5CF,RS,CY2006 Fall Regular Season Area 5C/5F,Past,20060801,20061130,2006,2006,Fall
+10,9,AYSOGArea5CF,RT,CY2006 Fall Regional Tournament R0894 Monrovia,Past,20060801,20061130,2006,2006,Fall
+11,,AYSOGArea5CF,RS,CY2006 Spring Regular Season Area 5C/5F,Past,20060201,20060731,2005,2006,Spring
+12,,AYSOGArea5CF,RS,CY2007 Fall Regular Season Area 5C/5F,Past,20070801,20071130,2007,2007,Fall
+13,12,AYSOGArea5CF,RT,CY2007 Fall Regional Tournament R0894 Monrovia,Past,20070801,20071130,2007,2007,Fall
+14,12,AYSOGArea5CF,RT,CY2007 Fall Regional Tournament R0498 Madison,Past,20070801,20071130,2007,2007,Fall
+15,,AYSOGArea5CF,RS,CY2007 Spring Regular Season Area 5C/5F,Past,20070201,20070731,2006,2007,Spring
+16,,AYSOGArea5CF,RS,CY2008 Fall Regular Season Area 5C/5F,Past,20080801,20081130,2008,2008,Fall
+17,16,AYSOGArea5CF,RT,CY2008 Fall Regional Tournament R0894 Monrovia,Past,20080801,20081130,2008,2008,Fall
+18,16,AYSOGArea5CF,RT,CY2008 Fall Regional Tournament R0498 Madison,Past,20080801,20081130,2008,2008,Fall
+19,,AYSOGArea5CF,RS,CY2008 Winter Regular Season R0498 Madison,Past,20080101,20080331,2007,2008,Winter
+20,,AYSOGArea5CF,RS,CY2008 Spring Regular Season Area 5C/5F,Past,20080201,20080731,2007,2008,Spring
+21,,AYSOGArea5CF,RS,CY2009 Fall Regular Season Area 5C/5F,Past,20090801,20091130,2009,2009,Fall
+22,21,AYSOGArea5CF,RT,CY2009 Fall Regional Tournament R0894 Monrovia,Past,20090801,20091130,2009,2009,Fall
+23,21,AYSOGArea5CF,RT,CY2009 Fall Regional Tournament R0498 Madison,Past,20090801,20091130,2009,2009,Fall
+24,21,AYSOGArea5CF,RT,CY2009 Fall Regional Tournament R0160 Huntsville,Past,20090801,20091130,2009,2009,Fall
+25,21,AYSOGArea5CF,AT,CY2009 Fall Area Tournament Area 5C,Past,20090801,20091130,2009,2009,Fall
+26,,AYSOGArea5CF,RS,CY2009 Winter Regular Season R0498 Madison,Past,20090101,20090331,2008,2009,Winter
+27,,AYSOGArea5CF,RS,CY2009 Spring Regular Season Area 5C/5F,Past,20090201,20090731,2008,2009,Spring
+28,,AYSOGArea5CF,RS,CY2010 Fall Regular Season Area 5C/5F,Past,20100801,20101130,2010,2010,Fall
+29,,AYSOGArea5CF,RS,CY2010 Winter Regular Season R0498 Madison,Past,20100101,20100331,2009,2010,Winter
+30,,AYSOGArea5CF,RS,CY2010 Spring Regular Season Area 5C/5F,Past,20100201,20100731,2009,2010,Spring
+31,28,AYSOGArea5CF,RT,CY2010 Fall Regional Tournament R0894 Monrovia,Past,20100801,20101130,2010,2010,Fall
+32,28,AYSOGArea5CF,RT,CY2010 Fall Regional Tournament R0498 Madison,Past,20100801,20101130,2010,2010,Fall
+33,28,AYSOGArea5CF,RT,CY2010 Fall Regional Tournament R0160 Huntsville,Past,20100801,20101130,2010,2010,Fall
+34,28,AYSOGArea5CF,RT,CY2010 Fall Regional Tournament R1174 NEMC,Past,20100801,20101130,2010,2010,Fall
+35,28,AYSOGArea5CF,AT,CY2010 Fall Area Tournament Area 5C,Past,20100801,20101130,2010,2010,Fall
+36,28,AYSOGArea5CF,ST,CY2010 Fall State Tournament Area 5C/5F,Past,20100801,20101130,2010,2010,Fall
+37,,AYSOGArea5CF,RS,CY2011 Winter Regular Season R0498 Madison,Past,20110101,20110331,2010,2011,Winter
+38,,AYSOGArea5CF,RS,CY2011 Spring Regular Season Area 5C/5F,Past,20110301,20110630,2010,2011,Spring
+39,38,AYSOGArea5CF,AT,CY2011 Spring Sendoff Tournament Area 5C/5F,Past,20110601,20110613,2010,2011,Spring
+50,,AYSOGNatGames,NG,National Games 2010,Past,20100701,20100730,2009,2010,Summer
+52,,AYSOGNatGames,NG,National Games 2012,Active,20120701,20120730,2011,2012,Summer
+54,,AYSOGNatGames,NG,National Games 2014,Future,20140701,20140730,2013,2014,Summer
+60,,AYSOGS5Games,SG,Section 5 Games 2010,Past,20100601,20100630,2009,2010,Summer
+61,,AYSOGS5Games,SG,Section 5 Games 2011,Past,20110601,20110630,2010,2011,Summer
+62,,AYSOGS5Games,SG,Section 5 Games 2012,Active,20120601,20120630,2011,2012,Summer
+63,,AYSOGS5Games,SG,Section 5 Games 2013,Future,20130601,20130630,2011,2012,Summer
+70,,AYSOGArea5CF,RS,CY2011 Fall Regular Season Area 5C/5F,Past,20110801,20111130,2011,2011,Fall
+71,70,AYSOGArea5CF,RT,CY2011 Fall Regional Tournament R0894 Monrovia,Past,20110801,20111130,2011,2011,Fall
+72,70,AYSOGArea5CF,RT,CY2011 Fall Regional Tournament R0498 Madison,Past,20110801,20111130,2011,2011,Fall
+73,70,AYSOGArea5CF,RT,CY2011 Fall Regional Tournament R0160 Huntsville,Past,20110801,20111130,2011,2011,Fall
+74,70,AYSOGArea5CF,RT,CY2011 Fall Regional Tournament R1174 NEMC,Past,20110801,20111130,2011,2011,Fall
+75,70,AYSOGArea5CF,AT,CY2011 Fall Area Tournament Area 5C,Past,20110801,20111130,2011,2011,Fall
+76,70,AYSOGArea5CF,ST,CY2011 Fall State Tournament Area 5C/5F,Past,20110801,20111130,2011,2011,Fall
+77,,AYSOGArea5CF,RS,CY2012 Winter Regular Season R0498 Madison,Active,20120101,20120331,2011,2012,Winter
+78,,AYSOGArea5CF,RS,CY2012 Spring Regular Season Area 5C/5F,Future,20120301,20120630,2011,2012,Spring
+79,78,AYSOGArea5CF,AT,CY2012 Spring Sendoff Tournament Area 5C/5F,Future,20120601,20120613,2011,2012,Spring
