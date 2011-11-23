@@ -276,6 +276,7 @@ class AccountManager
     }
     public function deleteOpenid($id)
     {
+        // $em->remove($entity)
         $dql = 'DELETE FROM ZaysoBundle:AccountOpenid openid WHERE openid.id = :id';
         $query = $this->getEntityManager()->createQuery($dql);
         $query->setParameter('id',$id);
