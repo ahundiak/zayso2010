@@ -84,4 +84,25 @@ class SigninController extends BaseController
         
         return $this->render('NatGamesBundle:Account:signin.html.twig',$tplData);
     }
+    public function signinRpxAction(Request $request)
+    {
+        // Load the profile
+        $profile = $this->getOpenidprofile($request);
+        if (!is_array($profile))
+        {
+            $request->getSession()->setFlash('account_signin_error',$profile);
+            return $this->redirect($this->generateUrl('natgames_account_signin'));
+        }
+        $identifier = $profile['identifier'];
+
+        $openid = $this->getAccountManager()->getOpenidForIdentifier($identifier);
+        if (!$openid)
+        {
+             return $this->redirect($this->generateUrl('natgames_account_signin'));
+        }
+        $userName = $openid->getAccountPerson()->getUserName();
+        $request->getSession()->set(SecurityContext::LAST_USERNAME,$userName);
+        $this->setUser($userName);
+        return $this->redirect($this->generateUrl('natgames_home'));
+    }
 }
