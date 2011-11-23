@@ -45,10 +45,19 @@ class Game
      */
     protected $field = null;
 
-    /** @ORM\Column(type="string",name="field_key",length=20,nullable=true) */
+    /** @ORM\Column(type="string",name="field_key",length=40,nullable=true) */
     protected $fieldKey = '';
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="GameGroup")
+     * @ORM\JoinColumn(name="game_group_id", referencedColumnName="id")
+     */
+    protected $gameGroup = null;
+    
+    /** @ORM\Column(type="string",name="group_key",length=40,nullable=true) */
+    protected $gameGroupKey = '';
 
-    /** @ORM\Column(type="string",name="org_key",length=20,nullable=true) */
+    /** @ORM\Column(type="string",name="org_key",length=40,nullable=true) */
     protected $orgKey = '';
 
     /** @ORM\Column(type="string",name="age",length=8,nullable=true) */
@@ -69,6 +78,38 @@ class Game
      *  @ORM\OneToMany(targetEntity="GamePerson", mappedBy="game", indexBy="type", fetch="EXTRA_LAZY" )
      */
     protected $persons;
+    
+    /** @ORM\Column(type="text",name="datax") */
+    protected $datax = '';
+    protected $data = array();
+
+    /** @ORM\PrePersist */
+    public function onPrePersist() { $this->datax = serialize($this->data); }
+
+    /** @ORM\PreUpdate */
+    public function onPreUpdate()  { $this->datax = serialize($this->data); }
+
+    /** @ORM\PostLoad */
+    public function onLoad()       { $this->data = unserialize($this->datax); }
+
+    public function get($name)
+    {
+        if (isset($this->data[$name])) return $this->data[$name];
+        return null;
+    }
+    public function set($name,$value)
+    {
+        if ($value === null)
+        {
+            if (isset($this->data[$name])) unset($this->data[$name]);
+            $this->datax = null;
+            return;
+        }
+        if (isset($this->data[$name]) && $this->data[$name] == $value) return;
+
+        $this->data[$name] = $value;
+        $this->datax = null;
+    }
 
     public function __construct()
     {
@@ -254,45 +295,17 @@ class Game
         return $this->fieldId;
     }
 
-    /**
-     * Set fieldKey
-     *
-     * @param string $fieldKey
-     */
-    public function setFieldKey($fieldKey)
-    {
-        $this->fieldKey = $fieldKey;
-    }
+    public function setFieldKey($fieldKey) { $this->fieldKey = $fieldKey; }
 
-    /**
-     * Get fieldKey
-     *
-     * @return string 
-     */
-    public function getFieldKey()
-    {
-        return $this->fieldKey;
-    }
+    public function getFieldKey() { return $this->fieldKey; }
+    
+    public function setGroupKey($groupKey) { $this->groupKey = $groupKey; }
 
-    /**
-     * Set orgKey
-     *
-     * @param string $orgKey
-     */
-    public function setOrgKey($orgKey)
-    {
-        $this->orgKey = $orgKey;
-    }
+    public function getGroupKey() { return $this->groupKey; }
 
-    /**
-     * Get orgKey
-     *
-     * @return string 
-     */
-    public function getOrgKey()
-    {
-        return $this->orgKey;
-    }
+    public function setOrgKey($orgKey) { $this->orgKey = $orgKey; }
+
+    public function getOrgKey() { return $this->orgKey; }
 
     /**
      * Set age

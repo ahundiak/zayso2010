@@ -29,13 +29,16 @@ class GameGroup
     protected $project = null;
 
     /** @ORM\Column(type="string",name="group_key",length=40,nullable=false) */
-    protected $poolKey = '';
+    protected $groupKey = '';
 
     /** @ORM\Column(type="string",name="group_desc",length=40,nullable=false) */
-    protected $poolDesc = '';
+    protected $groupDesc = '';
 
-    /** @ORM\Column(type="integer",name="calc_id",nullable=false) */
-    protected $calcId = 0;
+    /** @ORM\Column(type="string",name="group_type",length=40,nullable=false) */
+    protected $groupType = '';
+
+    /** @ORM\Column(type="string",name="calc_key",length=40,nullable=false) */
+    protected $calcKey = '';
 
     /**
      *   Need to add pool relation to game

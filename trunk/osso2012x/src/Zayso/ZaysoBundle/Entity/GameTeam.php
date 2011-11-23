@@ -62,6 +62,38 @@ class GameTeam
      * @ORM\JoinColumn(name="sch_team_id", referencedColumnName="id")
      */
     protected $schTeam;
+    
+    /** @ORM\Column(type="text",name="datax") */
+    protected $datax = '';
+    protected $data = array();
+
+    /** @ORM\PrePersist */
+    public function onPrePersist() { $this->datax = serialize($this->data); }
+
+    /** @ORM\PreUpdate */
+    public function onPreUpdate()  { $this->datax = serialize($this->data); }
+
+    /** @ORM\PostLoad */
+    public function onLoad()       { $this->data = unserialize($this->datax); }
+
+    public function get($name)
+    {
+        if (isset($this->data[$name])) return $this->data[$name];
+        return null;
+    }
+    public function set($name,$value)
+    {
+        if ($value === null)
+        {
+            if (isset($this->data[$name])) unset($this->data[$name]);
+            $this->datax = null;
+            return;
+        }
+        if (isset($this->data[$name]) && $this->data[$name] == $value) return;
+
+        $this->data[$name] = $value;
+        $this->datax = null;
+    }
 
     public function __construct()
     {
