@@ -8,6 +8,7 @@ use Zayso\ZaysoBundle\Component\Debug;
 
 use Doctrine\ORM\ORMException;
 
+use Zayso\ZaysoBundle\Entity\AccountOpenid;
 use Zayso\ZaysoBundle\Entity\Account;
 use Zayso\ZaysoBundle\Entity\AccountPerson;
 use Zayso\ZaysoBundle\Entity\Person;
@@ -72,6 +73,9 @@ class AccountManager
     }
     public function getAccountPersons($params = array())
     {
+        if (isset($params['projectId'])) $wantProject = true;
+        else                             $wantProject = false;
+
         // Build query
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
@@ -80,16 +84,19 @@ class AccountManager
         $qb->addSelect('account');
         $qb->addSelect('person');
         $qb->addSelect('registered');
-        $qb->addSelect('projectPerson');
+
+        if ($wantProject) $qb->addSelect('projectPerson');
 
         $qb->from('ZaysoBundle:AccountPerson','accountPerson'); // memberx
 
         $qb->leftJoin('accountPerson.account','account');
         $qb->leftJoin('accountPerson.person', 'person');
         $qb->leftJoin('person.registereds',   'registered');
-        $qb->leftJoin('person.projects',      'projectPerson');
-        $qb->leftJoin('projectPerson.project','project');
-
+        if ($wantProject)
+        {
+            $qb->leftJoin('person.projects',      'projectPerson');
+            $qb->leftJoin('projectPerson.project','project');
+        }
         if (isset($params['accountId']))
         {
             $qb->andWhere($qb->expr()->in('account.id',$params['accountId']));
@@ -98,7 +105,7 @@ class AccountManager
         {
             $qb->andWhere($qb->expr()->in('accountPerson.id',$params['accountPersonId']));
         }
-        if (isset($params['projectId']))
+        if ($wantProject)
         {
             $qb->andWhere($qb->expr()->in('project.id',$params['projectId']));
         }
@@ -209,6 +216,70 @@ class AccountManager
         if (count($items) == 1) return $items[0];
 
         return null;
+    }
+    public function getOpenidsForAccount($accountId = 0)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->addSelect('openid');
+        $qb->addSelect('account');
+        $qb->addSelect('accountPerson');
+        $qb->addSelect('person');
+
+        $qb->from('ZaysoBundle:AccountOpenid','openid');
+        
+        $qb->leftJoin('openid.accountPerson', 'accountPerson');
+        $qb->leftJoin('accountPerson.account','account');
+        $qb->leftJoin('accountPerson.person', 'person');
+
+        $qb->andWhere($qb->expr()->eq('account.id',':accountId'));
+
+        $query = $qb->getQuery();
+        $query->setParameter('accountId',$accountId);
+
+        return $query->getResult();
+    }
+    public function getOpenidForIdentifier($identifier)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->addSelect('openid');
+        $qb->addSelect('account');
+        $qb->addSelect('accountPerson');
+        $qb->addSelect('person');
+
+        $qb->from('ZaysoBundle:AccountOpenid','openid');
+
+        $qb->leftJoin('openid.accountPerson', 'accountPerson');
+        $qb->leftJoin('accountPerson.account','account');
+        $qb->leftJoin('accountPerson.person', 'person');
+
+        $qb->andWhere($qb->expr()->eq('openid.identifier',':identifier'));
+
+        $query = $qb->getQuery();
+        $query->setParameter('identifier',$identifier);
+
+        $items = $query->getResult();
+
+        if (count($items) == 1) return $items[0];
+
+        return null;
+    }
+    public function newOpenid($profile = array())
+    {
+        $openid = new AccountOpenid();
+        $openid->setProfile($profile);
+
+        return $openid;
+    }
+    public function deleteOpenid($id)
+    {
+        $dql = 'DELETE FROM ZaysoBundle:AccountOpenid openid WHERE openid.id = :id';
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('id',$id);
+        $query->getResult();
     }
     public function loadVolCerts($aysoid)
     {
