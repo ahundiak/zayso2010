@@ -74,6 +74,8 @@ class AccountPerson
 
     public function getNickName()  { return $this->person->getNickName();  }
 
+    public function getPersonName()  { return $this->person->getPersonName();  }
+
     /**
      * @Assert\NotBlank(groups={"create","edit","add"})
      * @Assert\Regex(

@@ -205,6 +205,17 @@ class Person
     public function setGender($gender) { return $this->set('gender',$gender); }
     public function getGender()        { return $this->get('gender'); }
 
+    public function getPersonName()
+    {
+        $fname = $this->getFirstName();
+        $lname = $this->getLastName();
+        $nname = $this->getNickName();
+
+        if ($nname) $name =  $nname . ' ' . $lname;
+        else        $name =  $fname . ' ' . $lname;
+
+        return $name;
+    }
     /* ======================================================================
      * Generated code follows
      */
