@@ -49,9 +49,21 @@ natgames_account_signin:
     pattern:  /natgames/account/signin
     defaults: { _controller: NatGamesBundle:Account\Signin:signin }
 
+natgames_account_signin_rpx:
+    pattern:  /natgames/account/signin/rpx
+    defaults: { _controller: NatGamesBundle:Account\Signin:signinRpx }
+
 natgames_account_signout:
     pattern:  /natgames/account/signout
     defaults: { _controller: NatGamesBundle:Account\Signin:signout }
+
+natgames_account_openid_add:
+    pattern:  /natgames/account/openid/add
+    defaults: { _controller: NatGamesBundle:Account\Openid:add }
+
+natgames_account_openid_add_rpx:
+    pattern:  /natgames/account/openid/add/rpx
+    defaults: { _controller: NatGamesBundle:Account\Openid:addRpx }
 
 natgames_account_person_add:
     pattern:  /natgames/account/person/add
