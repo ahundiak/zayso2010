@@ -46,6 +46,8 @@ class ProfileController extends BaseController
         $form     = $this->createForm($formType,$accountPerson->getAccount());
         $tplData['accountPersonListForm'] = $form->createView();
         
+        $tplData['openids'] = $this->getAccountManager()->getOpenidsForAccount($this->getUser()->getAccountId());
+        
         return $tplData;
     }
     public function indexAction()
