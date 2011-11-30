@@ -57,7 +57,7 @@
     <tr>
         <th>Account User Name</th>
         <th>Account Person Name</th>
-        <th>Provider</th>
+        <th>Social Network</th>
     </tr>
     {% for openid  in openids %}
     <tr>
@@ -68,8 +68,9 @@
     {% endfor %}
     <tr>
       <td colspan="3">
-        <a href="{{ path('natgames_account_openid_add') }}">Click here</a> to add a social network to account.
-        This will allow you to sign in to zayso without using a password.
+        <a href="{{ path('natgames_account_openid_add') }}">Click here</a> 
+        to link a social network (Google, Facebook, Twitter etc) to your Zayso account.
+        This will allow you to sign in to Zayso without using a password or needing to remember your Zayso user name.
       </td>
     </tr>
 </table>
