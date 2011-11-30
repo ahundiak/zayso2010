@@ -51,6 +51,28 @@
 </table>
 {{ form_rest(contactForm) }}
 </form>
+
+<table border="1" style="width: 800px;">
+    <tr><th colspan="3">National Games 2012 - Social Networks</th></tr>
+    <tr>
+        <th>Account User Name</th>
+        <th>Account Person Name</th>
+        <th>Provider</th>
+    </tr>
+    {% for openid  in openids %}
+    <tr>
+        <td>{{ openid.accountPerson.userName   }}</td>
+        <td>{{ openid.accountPerson.personName }}</td>
+        <td>{{ openid.provider }}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+      <td colspan="3">
+        <a href="{{ path('natgames_account_openid_add') }}">Click here</a> to add a social network to account.
+        This will allow you to sign in to zayso without using a password.
+      </td>
+    </tr>
+</table>
         
 {# include 'NatGamesBundle:Account/Person:list.html.twig' #}
         
