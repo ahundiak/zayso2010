@@ -35,10 +35,15 @@ class BaseController extends Controller
     {
         return $this->get('security.context')->getToken()->getUser();
     }
+    // Takes either userName or an actual user object
     protected function setUser($userName)
     {
-        $userProvider = $this->get('security.user.provider.zayso');
-        $user = $userProvider->loadUserByUsername($userName);
+        if (is_object($userName)) $user = $userName;
+        else
+        {
+            $userProvider = $this->get('security.user.provider.zayso');
+            $user = $userProvider->loadUserByUsername($userName);
+        }
         $providerKey = 'secured_area';
         $token = new UsernamePasswordToken($user, null, $providerKey, $user->getRoles());
         $this->get('security.context')->setToken($token);

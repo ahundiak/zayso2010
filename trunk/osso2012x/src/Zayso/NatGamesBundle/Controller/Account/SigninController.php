@@ -95,14 +95,21 @@ class SigninController extends BaseController
         }
         $identifier = $profile['identifier'];
 
+        $userProvider = $this->get('security.user.provider.zayso');
+        
+        $user = $userProvider->loadUserByOpenidIdentifier($identifier);
+/*
         $openid = $this->getAccountManager()->getOpenidForIdentifier($identifier);
         if (!$openid)
         {
              return $this->redirect($this->generateUrl('natgames_account_signin'));
         }
         $userName = $openid->getAccountPerson()->getUserName();
-        $request->getSession()->set(SecurityContext::LAST_USERNAME,$userName);
-        $this->setUser($userName);
+ * */
+
+        $request->getSession()->set(SecurityContext::LAST_USERNAME,$user->getUserName());
+        $this->setUser($user);
+
         return $this->redirect($this->generateUrl('natgames_home'));
     }
 }
