@@ -39,7 +39,7 @@ class Account
    */
   protected $members;
 
-  public $accountPerson;
+//  public $accountPerson;
 
   public function __construct()
   {
@@ -48,7 +48,7 @@ class Account
   public function addAccountPerson($member)
   {
     $this->members[] = $member;
-    $this->accountPerson = $member;
+//    $this->accountPerson = $member;
   }
   public function getMember($memberId)
   {
@@ -183,4 +183,5 @@ class Account
     {
         return $this->members;
     }
+    public function getAccountPersons() { return $this->members; }
 }
