@@ -6,7 +6,7 @@
 
 {% block content %}
 <div>
-<form action="{{ path('_natgames_account_person_add') }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ path('natgames_account_person_add') }}" method="post" {{ form_enctype(form) }}>
 <input type="hidden" name="project_id" value="52" />
 <table border="1" style="width: 800px;">
 <tr><th colspan="3">National Games 2012 - Add Person to Account</th></tr>
@@ -88,7 +88,7 @@
     </td>
 </tr>
 <tr>
-  <td><a href="{{ path('_natgames_account_profile') }}">Account Profile</a></td>
+  <td><a href="{{ path('natgames_account_profile') }}">Account Profile</a></td>
   <td>&nbsp;</td>
   <td align="center"><input type="submit" name="accountPersonAddSubmit" value="Add Person to Account" />
 </tr>
