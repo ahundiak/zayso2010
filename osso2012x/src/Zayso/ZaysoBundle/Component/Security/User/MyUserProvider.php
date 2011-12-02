@@ -116,6 +116,46 @@ EOT;
 
         return $user;
     }
+    /* =========================================================
+     * This is fne for now but this will alwys load the primary accunt holder
+     * and not any secondary ones that were connected
+     * But only support promary for not anyways
+     */
+    public function loadUserByOpenidIdentifier($identifier)
+    {
+        $userName = $this->getUsernameForOpenidIdentifier($identifier);
+        return $this->loadUserByUsername($userName);
+    }
+    /* ========================================================
+     * Break this out for now
+     */
+    public function getUsernameForOpenidIdentifier($identifier)
+    {
+        $sql = <<<EOT
+SELECT
+  account.user_name AS userName
+
+FROM account_openid
+
+LEFT JOIN account_person ON account_person.id = account_openid.account_person_id
+LEFT JOIN account        ON account.id        = account_person.account_id
+
+WHERE account_openid.identifier = :identifier
+;
+EOT;
+        $db = $this->em->getConnection();
+        $stmt = $db->prepare($sql);
+        $params = array('identifier' => $identifier);
+        $stmt->execute($params);
+        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        // Make sure got one
+        if (!$row)
+        {
+            throw new UsernameNotFoundException(sprintf('User Openid Identifier not found.'));
+        }
+        return $row['userName'];
+    }
 
     /**
      * {@inheritDoc}
