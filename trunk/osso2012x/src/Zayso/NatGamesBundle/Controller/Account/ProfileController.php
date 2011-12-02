@@ -31,8 +31,10 @@ class ProfileController extends BaseController
     protected function getTplDatax($accountPerson)
     {
         $tplData = $this->getTplData();
+
+        $tplData['helper'] = $this;
         
-        $tplData['account']     = $accountPerson->getAccount();
+        $tplData['account'] = $accountPerson->getAccount();
         
         $tplData['contactForm'] = $this->getContactForm($accountPerson)->createView();
         $tplData['contactFlash']= $this->getSession()->getFlash('accountProfileContactUpdated');
@@ -155,5 +157,43 @@ class ProfileController extends BaseController
         $tplData['passwordForm'] = $form->createView();
         
         return $this->render('NatGamesBundle:Account:profile.html.twig',$tplData);
+    }
+    /* ==================================================================
+     * Try using a call back for this
+     * {% render "NatGamesBundle:Account/Profile:renderEaysoInfo" with {'accountPerson': accountPerson} %}
+     *
+     * Very verbose and needs to have the controller be in a different file
+     */
+    public function renderEaysoInfoAction($accountPerson)
+    {
+        return 'eayso info';
+    }
+    public function renderEaysoInfo($accountPerson)
+    {
+        $aysoid = substr($accountPerson->getAysoid(),4);
+        $region = substr($accountPerson->getRegion(),4);
+
+        $refBadge  = $accountPerson->getRefBadge();
+        if ($refBadge == 'None')
+        {
+            $refBadge = '<span style="background: yellow;">' . $refBadge . '</span>';
+        }
+        $safeHaven = $accountPerson->getSafeHaven();
+        if ($safeHaven == 'None')
+        {
+            $safeHaven = '<span style="background: yellow;">' . $safeHaven . '</span>';
+        }
+
+        $memYear = 'MY' . $accountPerson->getMemYear();
+        if ($memYear < 'MY2011')
+        {
+            $memYear = '<span style="background: yellow;">' . $memYear . '</span>';
+        }
+
+        $html  =  $aysoid . ' ' . $memYear  . ' ' . $region . '<br />';
+        $html .= 'Ref Badge: '  . $refBadge . '<br />' ;
+        $html .= 'Safe Haven: ' . $safeHaven;
+
+        return $html;
     }
 }
