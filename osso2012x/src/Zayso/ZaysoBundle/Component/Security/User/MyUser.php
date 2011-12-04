@@ -49,6 +49,7 @@ class MyUser implements UserInterface
             case 'AYSOV53319472': // Diane S
             case 'AYSOV56063435': // Bob Deene
             case 'AYSOV96286066': // Tom B
+            case 'AYSOV91000961': // Mike F
                 return array(new Role('ROLE_ADMIN'));
         }
         return array(new Role('ROLE_USER'));
