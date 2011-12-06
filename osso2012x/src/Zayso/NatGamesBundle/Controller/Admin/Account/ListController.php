@@ -8,6 +8,10 @@ use Zayso\ZaysoBundle\Component\Debug;
 
 class AdminAccountListViewHelper
 {
+    public function __construct($projectManager)
+    {
+        $this->projectManager = $projectManager;
+    }
     protected function escape($value)
     {
         return htmlspecialchars($value);
@@ -112,11 +116,15 @@ class AdminAccountListViewHelper
             $memYear = '<span style="background: yellow;">' . $memYear . '</span>';
         }
         $yob = $this->getGenderYob();
-        
+
+        $org = $this->projectManager->getOrgForKey($this->person->getOrgKey());
+        if ($org) $orgDesc = $org->getDesc2();
+        else      $orgDesc = '<span style="background: yellow;">' . 'REGION DESCRIPTION' . '</span>';
+
         $html  =  $memYear . ' ' . $aysoid . ' ' . $yob . '<br />';
         $html .= 'Ref Badge: '  . $refDate . ' ' . $refBadge . '<br />';
-        $html .= 'Safe Haven: ' . $safeHaven;
-
+        $html .= 'Safe Haven: ' . $safeHaven . '<br />';
+        $html .= $orgDesc;
 
         return $html;
     }
@@ -130,7 +138,7 @@ class ListController extends BaseController
         
         $tplData = $this->getTplData();
         $tplData['members'] = $members;
-        $tplData['memberx'] = new AdminAccountListViewHelper();
+        $tplData['memberx'] = new AdminAccountListViewHelper($this->getProjectManager());
         
         if ($_format == 'html') return $this->render('NatGamesBundle:Admin:Account/list.html.twig',$tplData);
         

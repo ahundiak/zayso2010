@@ -6,10 +6,6 @@ use Zayso\ZaysoBundle\Component\Debug;
 
 use Doctrine\ORM\ORMException;
 
-use Zayso\ZaysoBundle\Entity\Account;
-use Zayso\ZaysoBundle\Entity\AccountPerson;
-use Zayso\ZaysoBundle\Entity\Person;
-use Zayso\ZaysoBundle\Entity\PersonRegistered;
 use Zayso\ZaysoBundle\Entity\ProjectPerson;
 use Zayso\ZaysoBundle\Entity\Project;
 
@@ -50,6 +46,24 @@ class ProjectManager
 
         $query = $qb->getQuery();
         $query->setParameter('key',$key);
+
+        $items = $query->getResult();
+
+        if (count($items) == 1) return $items[0];
+
+        return null;
+    }
+    public function getOrgForKey($key)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+
+        $qb->addSelect('org');
+
+        $qb->from('ZaysoBundle:Org','org');
+        $qb->andWhere($qb->expr()->eq('org.id',':orgId'));
+
+        $query = $qb->getQuery();
+        $query->setParameter('orgId',$key);
 
         $items = $query->getResult();
 

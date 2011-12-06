@@ -21,6 +21,10 @@ class BaseController extends Controller
     {
         return $this->get('account.manager');
     }
+    protected function getProjectManager()
+    {
+        return $this->get('zayso.core.project.manager');
+    }
     protected function getSession(Request $request = null)
     {
         if ($request) return $request->getSession();
