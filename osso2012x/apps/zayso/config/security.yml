@@ -5,8 +5,9 @@ security:
             id: security.user.encoder.zayso
 
     role_hierarchy:
-        ROLE_ADMIN:        ROLE_USER
-        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_BOARD:        ROLE_USER
+        ROLE_ADMIN:       [ROLE_USER, ROLE_BOARD]
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_BOARD, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
         my_provider:
