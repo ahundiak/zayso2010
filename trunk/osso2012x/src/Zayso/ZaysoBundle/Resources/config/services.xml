@@ -33,5 +33,9 @@
             <argument type="service" id="zayso.core.project.manager" />
         </service>
 
+        <service id="zayso.core.region.import" class="Zayso\ZaysoBundle\Component\Import\RegionImport" public="true">
+            <argument type="service" id="zayso.core.project.manager" />
+        </service>
+
     </services>
 </container>
