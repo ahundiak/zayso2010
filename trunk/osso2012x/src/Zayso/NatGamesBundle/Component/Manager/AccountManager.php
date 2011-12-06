@@ -84,6 +84,7 @@ class AccountManager
         $qb->addSelect('account');
         $qb->addSelect('person');
         $qb->addSelect('registered');
+      //$qb->addSelect('org');
 
         if ($wantProject) $qb->addSelect('projectPerson');
 
@@ -92,6 +93,7 @@ class AccountManager
         $qb->leftJoin('accountPerson.account','account');
         $qb->leftJoin('accountPerson.person', 'person');
         $qb->leftJoin('person.registereds',   'registered');
+      //$qb->leftJoin('person.orgKey',        'org');
         if ($wantProject)
         {
             $qb->leftJoin('person.projects',      'projectPerson');
