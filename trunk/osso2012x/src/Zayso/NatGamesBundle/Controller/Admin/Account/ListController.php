@@ -59,6 +59,7 @@ class AdminAccountListViewHelper
     public function getPlan($name)
     {
         if (isset($this->plans[$name])) return $this->plans[$name];
+        if (!strcmp('room_',substr($name,0,5))) return null;
         return 'NS';
     }
     public function getPlans()
