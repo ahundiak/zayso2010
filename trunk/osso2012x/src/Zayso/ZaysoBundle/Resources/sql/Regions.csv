@@ -1,0 +1,43 @@
+"org_key","parent_key","desc1","desc2","city","state"
+"AYSONational",,"AYSO Natonal",,,
+"AYSOS01","AYSONational","AYSO Section 01",,,
+"AYSOS02","AYSONational","AYSO Section 02",,,
+"AYSOS03","AYSONational","AYSO Section 03",,,
+"AYSOS04","AYSONational","AYSO Section 04",,,
+"AYSOS05","AYSONational","AYSO Section 05",,,
+"AYSOS06","AYSONational","AYSO Section 06",,,
+"AYSOS07","AYSONational","AYSO Section 07",,,
+"AYSOS08","AYSONational","AYSO Section 08",,,
+"AYSOS09","AYSONational","AYSO Section 09",,,
+"AYSOS10","AYSONational","AYSO Section 10",,,
+"AYSOS11","AYSONational","AYSO Section 11",,,
+"AYSOS12","AYSONational","AYSO Section 12",,,
+"AYSOS13","AYSONational","AYSO Section 13",,,
+"AYSOS14","AYSONational","AYSO Section 14",,,
+,,,,,
+"AYSOA05A","AYSOS05","AYSO Area 05A",,,
+"AYSOA05B","AYSOS05","AYSO Area 05B",,,
+"AYSOA05C","AYSOS05","AYSO Area 05C",,,"AL"
+"AYSOA05D","AYSOS05","AYSO Area 05D",,,
+"AYSOA05E","AYSOS05","AYSO Area 05E",,,
+"AYSOA05F","AYSOS05","AYSO Area 05F",,,
+,,,,,
+"AYSOR0160","AYSOA05C","AYSO Region 0160","A05C-R0160 Huntsville, AL","Huntsville","AL"
+"AYSOR0498","AYSOA05C","AYSO Region 0498","A05C-R0498 Madison, AL","Madison","AL"
+"AYSOR0894","AYSOA05C","AYSO Region 0894","A05C-R0894 Monrovia, AL","Monrovia","AL"
+,,,,,
+"AYSOR0124","AYSOA05B","AYSO Region 0124","A05B-R0124 NW Knoxville, TN","Knoxville","TN"
+"AYSOR0128","AYSOA05B","AYSO Region 0128","A05B-R0128 West Knoxville, TN","Knoxville","TN"
+"AYSOR0263","AYSOA05B","AYSO Region 0263","A05B-R0263,South Knoxville, TN","Knoxville","TN"
+"AYSOR0275","AYSOA05B","AYSO Region 0275","A05B-R0275 Cedar Bluff, TN","Knoxville","TN"
+"AYSOR0279","AYSOA05B","AYSO Region 0279","A05B-R0279 Bearden, TN","Knoxville","TN"
+"AYSOR0335","AYSOA05B","AYSO Region 0335","A05B-R0335 Bulls Gap, TN","Bulls Gap","TN"
+"AYSOR0337","AYSOA05B","AYSO Region 0337","A05B-R0337 North Knoxville, TN","Knoxville","TN"
+"AYSOR0440","AYSOA05B","AYSO Region 0440","A05B-R0440 Gatlinburg, TN","Gatlinburg","TN"
+"AYSOR0551","AYSOA05B","AYSO Region 0551","A05B-R0551 Harrogate, TN","Harrogate","TN"
+"AYSOR0796","AYSOA05B","AYSO Region 0796","A05B-R0796 Andersonville, TN","Andersonville","TN"
+"AYSOR1159","AYSOA05B","AYSO Region 1159","A05B-R1159 Maryville, TN","Maryville","TN"
+"AYSOR1165","AYSOA05B","AYSO Region 1165","A05B-R1165 Cocke County TN","Cocke County","TN"
+"AYSOR1266","AYSOA05B","AYSO Region 1266","A05B-R1266 Seymour, TN","Seymour","TN"
+"AYSOR1336","AYSOA05B","AYSO Region 1336","A05B-R1336 Rogersville, TN","Rogersville","TN"
+"AYSOR1390","AYSOA05B","AYSO Region 1390","A05B-R1390 East Knoxville, TN","Knoxville","TN"
