@@ -175,11 +175,12 @@ class ProjectController extends BaseController
                 'No'    => 'No',
                 'Maybe' => 'Maybe - Not sure yet',
             ),
-            'will_referee'   => $yesno,
-            'do_assessments' => $yesno,
-            'coaching'       => $yesno,
-            'other_jobs'     => $yesno,
-
+            'will_referee'     => $yesno,
+            'do_assessments'   => $yesno,
+            'coaching'         => $yesno,
+            'other_jobs'       => $yesno,
+            'ground_transport' => $yesno,
+            
             'have_player' => array
             (
                 'NA'    => 'Select Answer',
@@ -199,6 +200,19 @@ class ProjectController extends BaseController
                 'NationalCR'    => 'National CR',
                 'NationalAR'    => 'National AR',
                 'NationalCRAR'  => 'National CR and AR',
+            ),
+            't_shirt_size' => array
+            (
+                'NA'  => 'Select Size',
+                'YM'  => 'Youth Medium',
+                'YL'  => 'Youth Large',
+                'AS'  => 'Adult Small',
+                'AM'  => 'Adult Medium',
+                'AL'  => 'Adult Large',
+                'AXL' => 'Adult Large X',
+                'A2X' => 'Adult Large XX',
+                'A3X' => 'Adult Large XXX',
+                'A4X' => 'Adult Large XXXX',
             ),
             'attend_open' => array
             (
