@@ -21,6 +21,7 @@ class RegionImport extends BaseImport
       'desc2'     => array('cols' => 'desc2',      'req' => true, 'default' => ''),
       'city'      => array('cols' => 'city',       'req' => true, 'default' => ''),
       'state'     => array('cols' => 'state',      'req' => true, 'default' => ''),
+      'status'    => array('cols' => 'status',     'req' => true, 'default' => 'Active'),
     );
     public function __construct(ProjectManager $projectManager)
     {
@@ -46,6 +47,8 @@ class RegionImport extends BaseImport
         $org->setDesc2($item->desc2);
         $org->setCity ($item->city);
         $org->setState($item->state);
+
+        if ($item->status) $org->setStatus($item->status);
 
         // $project->setProjectGroup($this->getProjectGroup($item->group));
 
