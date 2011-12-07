@@ -36,6 +36,9 @@ class Org
     /** @ORM\Column(type="string",name="state",nullable=true) */
     protected $state = '';
 
+    /** @ORM\Column(type="string",name="status") */
+    protected $status = 'Active';
+
     /** @ORM\Column(type="text",name="datax") */
     protected $datax = '';
     protected $data = array();
@@ -193,5 +196,25 @@ class Org
     public function getParent()
     {
         return $this->parent;
+    }
+
+    /**
+     * Set status
+     *
+     * @param string $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * Get status
+     *
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 }
