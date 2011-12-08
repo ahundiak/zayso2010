@@ -29,19 +29,27 @@ class RegionImport extends BaseImport
 
         parent::__construct($projectManager->getEntityManager());
     }
+    protected $orgs = array();
     public function processItem($item)
     {
         $em = $this->getEntityManager();
 
-        if (!$item->orgKey) return;
+        $id = $item->orgKey;
+        if (!$id) return;
+
         $this->total++;
         
-        $org = $this->projectManager->getOrgForKey($item->orgKey);
-        if (!$org)
+        if (isset($this->orgs[$id])) $org = $this->orgs[$id];
+        else
         {
-            $org = new Org();
-            $org->setId($item->orgKey);
-            $em->persist($org);
+            $org = $this->projectManager->getOrgForId($id);
+            if (!$org)
+            {
+                $org = new Org();
+                $org->setId($id);
+                $em->persist($org);
+            }
+            $this->orgs[$id] = $org;
         }
         $org->setDesc1($item->desc1);
         $org->setDesc2($item->desc2);
@@ -50,18 +58,25 @@ class RegionImport extends BaseImport
 
         if ($item->status) $org->setStatus($item->status);
 
-        // $project->setProjectGroup($this->getProjectGroup($item->group));
-
-        if ($item->parentKey)
+        $parentId = $item->parentKey;
+        if ($parentId)
         {
-            $parentOrg = $this->projectManager->getOrgForKey($item->parentKey);
-            if ($parentOrg) $org->setParent($parentOrg);
-            else die('Parent Org: ' . $item->parentKey);
+            if (isset($this->orgs[$parentId])) $parentOrg = $this->orgs[$parentId];
+            else
+            {
+                $parentOrg = $this->projectManager->getOrgForId($parentId);
+                if (!$parentOrg) die('Parent Org: ' . $parentId);
+                else
+                {
+                    $this->orgs[$parentId] = $parentOrg;
+                }
+            }
+            $org->setParent($parentOrg);
         }
         //else $org->setParent(null);
-        $em->flush();
+        // $em->flush();
 
-        // if (($this->total % 100) == 0) $em->flush();
+        if (($this->total % 100) == 0) $em->flush();
     }
     public function process($params = array())
     {

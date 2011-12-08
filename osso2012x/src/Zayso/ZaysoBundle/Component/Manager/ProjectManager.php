@@ -53,7 +53,7 @@ class ProjectManager
 
         return null;
     }
-    public function getOrgForKey($key)
+    public function getOrgForId($id)
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
 
@@ -63,7 +63,7 @@ class ProjectManager
         $qb->andWhere($qb->expr()->eq('org.id',':orgId'));
 
         $query = $qb->getQuery();
-        $query->setParameter('orgId',$key);
+        $query->setParameter('orgId',$id);
 
         $items = $query->getResult();
 

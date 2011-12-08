@@ -13,8 +13,9 @@ class Org
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="string",length="40",name="id")
+     * @ORM\Column(type="string",name="id")
      *  ORM\GeneratedValue
+     *  GUID
      */
     protected $id;
 
