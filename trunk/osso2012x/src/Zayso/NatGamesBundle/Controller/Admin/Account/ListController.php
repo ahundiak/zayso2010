@@ -117,7 +117,7 @@ class AdminAccountListViewHelper
         }
         $yob = $this->getGenderYob();
 
-        $org = $this->projectManager->getOrgForKey($this->person->getOrgKey());
+        $org = $this->projectManager->getOrgForId($this->person->getOrgKey());
         if ($org) $orgDesc = $org->getDesc2();
         else      $orgDesc = '<span style="background: yellow;">' . 'REGION DESCRIPTION' . '</span>';
 
