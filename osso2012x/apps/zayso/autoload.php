@@ -26,6 +26,7 @@ $loader->registerPrefixes(array(
     'Twig_Extensions_' => $ws.'Symfony/vendor/twig-extensions/lib',
     'Twig_'            => $ws.'Symfony/vendor/twig/lib',
     'Zend_'            => $ws.'ZendFramework-1.11.11/library',
+    'PHPExcel'         => $ws.'PHPExcel/Classes'
 ));
 
 // intl
