@@ -1,5 +1,8 @@
 <?php
-echo "AP ID,Account,First Name,Last  Name,Nick  Name,Email,Cell Phone,Region,AYSOID,DOB,Gender,Ref Badge,Ref Date,Safe Haven,MY,Attend,Referee,Sun,Mon,Tue,Wed,Thu,Fri,Sat,Sun\n";
+echo "AP ID,Account,First Name,Last  Name,Nick  Name,Email,Cell Phone,";
+echo "Region,Region Desc,State,AYSOID,DOB,Gender,Ref Badge,Ref Date,Safe Haven,MY,";
+echo "Attend,Referee,Sun,Mon,Tue,Wed,Thu,Fri,Sat,Sun\n";
+
 foreach($members as $member)
 {
     if (1) {
@@ -11,7 +14,13 @@ foreach($members as $member)
     echo $memberx->getNickName()  . ',';
     echo $memberx->getEmail()     . ',';
     echo $memberx->getCellPhone() . ',';
-    echo $memberx->getRegion()    . ',';
+    
+    echo $memberx->getRegion()      . ',';
+    
+    echo '"' . $memberx->getRegionDesc() . '"'  . ',';
+    
+    echo $memberx->getRegionState() . ',';
+    
     echo $memberx->getAysoid()    . ',';
     echo $memberx->getDob()       . ',';
     echo $memberx->getGender()    . ',';
