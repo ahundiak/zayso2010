@@ -20,9 +20,8 @@ class ImportData implements \ArrayAccess
     public $projectId = 52;
     public $inputFileName;
     public $clientFileName;
-    public $importClassName;
-
-    public $results;
+    public $importServiceId;
+    
     public $attachment;
 
     // Array access
@@ -40,9 +39,10 @@ class ImportType extends AbstractType
     {
         $builder->add('projectId', 'hidden');
 
-        $builder->add('attachment', 'file', array('label' => 'Import File', 'attr' => array('size' => 40)));
+        $builder->add('attachment', 'file', array('label' => 'Import File','attr' => array('size' => 60)));
         
-        // $builder->add('results','text');
+        // Really don't need and would probably be a session variable
+        // $builder->add('processed', 'text',  array('label' => 'Processed File', 'attr' => array('size' => 40, 'readonly'=>true)));
         
         $builder->addValidator(new ImportFileValidator());
     }
@@ -53,6 +53,32 @@ class ImportType extends AbstractType
 }
 class ImportFileValidator implements FormValidatorInterface
 {
+    protected $importServiceIdMap = array
+    (
+        'zayso.natgames.account.import'  => array('AP ID', 'Account', 'AYSOID'),
+        'zayso.core.region.import'       => array('org_key','parent_key','desc1','desc2'),
+        
+        'Eayso_Reg_Main_RegMainImport'           => array('AYSOID','WorkPhoneExt','Membershipyear'),
+    );
+    protected function getImportServiceId($tmpFileName)
+    {
+        $fp = fopen($tmpFileName,'r');
+        if (!$fp) return null;
+
+        $header = fgetcsv($fp);
+        fclose($fp);
+
+        foreach($this->importServiceIdMap as $serviceId => $names)
+        {
+            $haveAll = true;
+            foreach($names as $name)
+            {
+                if (array_search($name,$header) === false) $haveAll = false;
+            }
+            if ($haveAll) return $serviceId;
+        }
+        return null;
+    }
     public function validate(FormInterface $form)
     {
         $attachment = $form['attachment']->getData();
@@ -69,7 +95,14 @@ class ImportFileValidator implements FormValidatorInterface
         $importData->inputFileName  = $inputFileName;
         $importData->clientFileName = $clientFileName;
         
-        $importData->importClassName = 'Zayso\NatGamesBundle\Component\Import\AccountImport';
+        // Match file with import service id
+        $serviceId = $this->getImportServiceId($inputFileName);
+        if (!$serviceId)
+        {
+            $form['attachment']->addError(new FormError('Cannot determine type of file to import.'));
+            return;            
+        }
+        $importData->importServiceId = $serviceId;
 
     }
 }
@@ -87,16 +120,25 @@ class ImportController extends BaseController
 
             if ($form->isValid())
             {
-                $importClassName = $importData->importClassName;
-                $import = new $importClassName($this->getEntityManager(),$this->get('account.manager'));
+                //$importClassName = $importData->importClassName;
+                //$import = new $importClassName($this->getEntityManager(),$this->get('account.manager'));
+                
+                $import = $this->get($importData->importServiceId);
+                
                 $results = $import->process($importData);
                 
-                $importData->results = $results;
+                // $importData->results = $results;
+                $msg = $import->getResultMessage();
+                $request->getSession()->setFlash('importMsg',$msg);
+                
+                return $this->redirect($this->generateUrl('natgames_admin_import'));
+                
                 die($import->getResultMessage());
             }
         }
         $tplData = $this->getTplData();
-        $tplData['form'] = $form->createView();
+        $tplData['form']      = $form->createView();
+        $tplData['importMsg'] = $request->getSession()->getFlash('importMsg');
         return $this->render('NatGamesBundle:Admin:import.html.twig',$tplData);
     }
     public function accountsAction($_format)
