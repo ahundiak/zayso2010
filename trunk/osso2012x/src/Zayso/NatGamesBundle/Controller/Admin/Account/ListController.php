@@ -60,6 +60,18 @@ class AdminAccountListViewHelper
         $region = str_replace('-','',$region);
         return $region;
     }
+    public function getRegionDesc()
+    {
+        $org = $this->projectManager->getOrgForId($this->person->getOrgKey());
+        if ($org) return $org->getDesc2();
+        return null;
+    }
+    public function getRegionState()
+    {
+        $org = $this->projectManager->getOrgForId($this->person->getOrgKey());
+        if ($org) return $org->getState();
+        return null;
+    }
     public function getPlan($name)
     {
         if (isset($this->plans[$name])) return $this->plans[$name];
@@ -117,10 +129,11 @@ class AdminAccountListViewHelper
         }
         $yob = $this->getGenderYob();
 
-        $org = $this->projectManager->getOrgForId($this->person->getOrgKey());
-        if ($org) $orgDesc = $org->getDesc2();
-        else      $orgDesc = '<span style="background: yellow;">' . 'REGION DESCRIPTION' . '</span>';
-
+        $orgDesc = $this->getRegionDesc();
+        if (!$orgDesc)
+        {
+            $orgDesc = '<span style="background: yellow;">' . 'REGION DESCRIPTION' . '</span>';
+        }
         $html  =  $memYear . ' ' . $aysoid . ' ' . $yob . '<br />';
         $html .= 'Ref Badge: '  . $refDate . ' ' . $refBadge . '<br />';
         $html .= 'Safe Haven: ' . $safeHaven . '<br />';
