@@ -9,6 +9,10 @@
         <service id="account.manager" class="Zayso\NatGamesBundle\Component\Manager\AccountManager" public="true">
             <argument type="service" id="doctrine.orm.osso2012_entity_manager" />
         </service>
+        
+        <service id="zayso.natgames.account.import" class="Zayso\NatGamesBundle\Component\Import\AccountImport" public="true">
+            <argument type="service" id="account.manager" />
+        </service>
 
         <service id="schedule2010.import" class="Zayso\NatGamesBundle\Component\Import\Schedule2010Import" public="true">
             <argument type="service" id="doctrine.orm.osso2012_entity_manager" />
