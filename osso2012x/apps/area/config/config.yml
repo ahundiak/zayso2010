@@ -1,5 +1,6 @@
 imports:
     - { resource: parameters.ini }
+    - { resource: session.yml }
     - { resource: security.yml }
 
 framework:
@@ -15,6 +16,8 @@ framework:
     session:
         default_locale: %locale%
         auto_start:     true
+        name:           zaysoarea2012
+        storage_id:     zayso_core.session.storage
 
 # Twig Configuration
 twig:
