@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        
+        <service id="zayso_core.session.storage" class="Zayso\ZaysoCoreBundle\Component\Session\SessionStorage" public="true">
+            <argument type="service" id="zayso_core.session.storage.pdo" />
+            <argument type="string">%session.storage.options%</argument>
+            <argument type="string">%session.storage.db_options%</argument>
+        </service>
+  
+        <service id="zayso_core.session.storage.pdo" class="PDO" public="false">
+            <argument type="string">%session.dsn%</argument>
+            <argument type="string">%database_user%</argument>
+            <argument type="string">%database_password%</argument>
+        </service>
+
+        <service id="zayso_core.user.provider" class="Zayso\ZaysoCoreBundle\Component\User\UserProvider" public="true">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="zayso_core.user.encoder" class="Zayso\ZaysoCoreBundle\Component\User\Encoder" public="true">
+        </service>
+
+    </services>
+</container>
