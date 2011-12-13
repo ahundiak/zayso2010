@@ -28,11 +28,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class UserProvider implements UserProviderInterface
 {
     private $em;
+    private $userClass;
 
     // Started as a clone of EntityUserManager
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $em, $userClass)
     {
         $this->em = $em;
+        $this->userClass = $userClass;
         return;
     }
 
@@ -95,7 +97,7 @@ EOT;
             $row = array_merge($row,$datax);
         }
         // Build the user
-        $user = new MyUser($row);
+        $user = new $this->userClass($row);
 
         //print_r($row);
         //die('load user ' . $username);
