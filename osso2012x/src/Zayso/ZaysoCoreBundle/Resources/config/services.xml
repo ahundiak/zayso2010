@@ -20,6 +20,7 @@
 
         <service id="zayso_core.user.provider" class="Zayso\ZaysoCoreBundle\Component\User\UserProvider" public="true">
             <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="string">%zayso_core.user.class%</argument>
         </service>
 
         <service id="zayso_core.user.encoder" class="Zayso\ZaysoCoreBundle\Component\User\Encoder" public="true">
