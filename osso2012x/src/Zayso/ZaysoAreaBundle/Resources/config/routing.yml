@@ -1,0 +1,7 @@
+zayso_area_index:
+    pattern:  /
+    defaults: { _controller: ZaysoAreaBundle:Welcome:welcome }
+
+zayso_area_welcome:
+    pattern:  /welcome
+    defaults: { _controller: ZaysoAreaBundle:Welcome:welcome }
