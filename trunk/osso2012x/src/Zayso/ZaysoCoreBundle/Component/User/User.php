@@ -107,9 +107,5 @@ class User implements UserInterface
         die('user.equals failed'); 
         return false;     
     }
-
-}
-
-
 }
 ?>
