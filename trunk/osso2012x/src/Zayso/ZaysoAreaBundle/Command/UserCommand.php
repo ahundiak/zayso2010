@@ -22,10 +22,59 @@ class UserCommand extends ContainerAwareCommand
         $provider = $this->getContainer()->get('zayso_core.user.provider');
         $user = $provider->loadUserByUsername('ahundiak');
         echo 'User ' . get_class($user) . "\n";
+        echo 'User ' . $user->getName() . "\n";
 
+    }
+    protected function test2()
+    {
+        $accountManager = $this->getContainer()->get('zayso_osso2007.account.manager');
+        $account = $accountManager->checkAccount('ahundiak','');
+        $accountPerson = $account->getPrimaryMember();
+        $person = $accountPerson->getPerson();
+
+        echo 'Account2007 ' .
+            $account->getAccountUser() . ' ' .
+            $account->getAccountName() . ' ' .
+            $accountPerson->getMemberName() . '' .
+            "\n";
+
+        echo 'Person ' .
+            $person->getFirstName() . ' ' .
+            $person->getLastName()  . ' ' .
+            $person->getRegionKey() . ' ' .
+            $person->getAysoid() .
+            "\n";
+
+        $openids = $account->getOpenids();
+        $openid = $openids[0];
+        echo 'Openid ' . $openid->getIdentifier() . "\n";
+
+        $volManager = $this->getContainer()->get('zayso_eayso.vol.manager');
+        $vol = $volManager->loadVolCerts($person->getAysoid());
+        echo 'Vol ' . $vol->getMemYear() . ' ' . $vol->getRefBadgeDesc() . "\n";
+
+    }
+    protected function test3()
+    {
+        $accountManager = $this->getContainer()->get('zayso_area.account.manager2007');
+        $accountPerson = $accountManager->newAccountPerson(array());
+        $accountPerson = $accountManager->getAccountPerson(array('accountId' => 1));
+
+        echo 'account2012 ' . $accountPerson->getPersonName() . ' ' . $accountPerson->getRefBadge() . "\n";
+    }
+    protected function test4()
+    {
+        $accountManager = $this->getContainer()->get('zayso_osso2007.account.manager');
+        $account2007 = $accountManager->checkAccount('ahundiak','');
+
+        $accountManager = $this->getContainer()->get('zayso_area.account.manager2007');
+        $accountManager->importAccount2007($account2007);
     }
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->test1();
+        $this->test2();
+        $this->test3();
+        $this->test4();
     }
 }

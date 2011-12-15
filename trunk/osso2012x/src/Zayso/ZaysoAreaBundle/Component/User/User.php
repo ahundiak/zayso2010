@@ -8,7 +8,7 @@ use Zayso\ZaysoCoreBundle\Component\User\User as BaseUser;
 
 use Symfony\Component\Security\Core\Role\Role;
 
-class User implements BaseUser
+class User extends BaseUser
 {
     public function getRoles() 
     {
