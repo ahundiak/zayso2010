@@ -15,17 +15,11 @@ class EaysoManager
     protected function getEntityManager()
     {
         return $this->em;
-        return $this->services->get('doctrine')->getEntityManager('eayso');
     }
 
-    public function __construct($em,$services)
+    public function __construct($em,$services = null)
     {
         $this->em = $em;
-        $this->services = $services;
-
-        //$ids = $services->getServiceIds();
-        //print_r($ids);
-        //die(get_class($services));
     }
     public function loadVolCerts($aysoid)
     {
@@ -46,6 +40,10 @@ class EaysoManager
         $qb->setParameter('aysoid',$aysoid);
 
         $query = $qb->getQuery();
+        $items = $query->getResult();
+        if (count($items) == 1) return $items[0];
+        return null;
+        
         try
         {
             $item = $query->getSingleResult();
