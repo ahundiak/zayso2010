@@ -10,6 +10,10 @@
             <argument type="service" id="doctrine.orm.eayso_entity_manager" />
             <argument type="service" id="service_container" />
         </service>
+        
+        <service id="zayso_eayso.vol.manager" class="Zayso\EaysoBundle\Service\EaysoManager" public="true">
+            <argument type="service" id="doctrine.orm.eayso_entity_manager" />
+        </service>
 
     </services>
 </container>
