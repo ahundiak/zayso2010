@@ -18,5 +18,9 @@
             <argument type="service" id="doctrine.orm.osso2007_entity_manager" />
         </service>
 
+        <service id="zayso_osso2007.account.manager" class="Zayso\Osso2007Bundle\Service\AccountManager" public="true">
+            <argument type="service" id="doctrine.orm.osso2007_entity_manager" />
+        </service>
+
     </services>
 </container>
