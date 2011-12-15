@@ -24,7 +24,7 @@ class AccountManager
     {
         return $this->getEntityManager()->persist($entity);
     }
-    public function checkAccount($uname,$upass)
+    public function checkAccount($uname,$upass = null)
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
@@ -32,25 +32,23 @@ class AccountManager
         $qb->addSelect('account');
         $qb->addSelect('memberx'); // member does not work?
         $qb->addSelect('person');
+        $qb->addSelect('openid');
 
         $qb->from('Osso2007Bundle:Account','account');
 
         $qb->leftJoin('account.members','memberx');
         $qb->leftJoin('memberx.person', 'person');
+        $qb->leftJoin('account.openids','openid');
 
         $qb->andWhere($qb->expr()->eq('account.accountUser',':uname'));
         $qb->setParameter('uname',$uname);
 
         $query = $qb->getQuery();
-        $item = $query->getSingleResult();
+        $items = $query->getResult();
 
-        return $item;
-        
-        $repo = $em->getRepository('Osso2007Bundle:Account');
-        $account = $repo->findOneBy(array('accountUser' => $uname));
-        if (!$account) return null;
+        if (count($items) == 1) return $items[0];
 
-        return $account;
+        return null;
     }
 }
 ?>

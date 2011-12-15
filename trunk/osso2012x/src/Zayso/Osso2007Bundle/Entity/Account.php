@@ -18,6 +18,13 @@ class Account
      */
     private $members;
 
+    /**
+     *  @ORM\OneToMany(targetEntity="Openid", mappedBy="account")
+     */
+    private $openids;
+
+    public function getOpenids() { return $this->openids; }
+
     public function getMembers() { return $this->members; }
     public function getPrimaryMember()
     {

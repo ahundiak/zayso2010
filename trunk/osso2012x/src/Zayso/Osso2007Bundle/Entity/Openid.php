@@ -24,9 +24,15 @@ class Openid
     /**
      * @var integer $accountId
      *
-     * @ORM\Column(name="account_id", type="integer", nullable=true)
+     *  ORM\Column(name="account_id", type="integer", nullable=true)
      */
     private $accountId;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Account", inversedBy="openids")
+     * @ORM\JoinColumn(name="account_id", referencedColumnName="account_id")
+     */
+    private $account = null;
 
     /**
      * @var integer $memberId
