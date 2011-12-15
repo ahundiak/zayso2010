@@ -20,6 +20,10 @@ class AppKernel extends Kernel
 
             new Zayso\ZaysoAreaBundle\ZaysoAreaBundle(),
             new Zayso\ZaysoCoreBundle\ZaysoCoreBundle(),
+
+            // For pulling old account info
+            new Zayso\EaysoBundle\EaysoBundle(),
+            new Zayso\Osso2007Bundle\Osso2007Bundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
