@@ -12,9 +12,14 @@ use Zayso\Osso2007Bundle\Service\GameManager as GameManager;
  */
 class Person
 {
-    public function getNickName()  { return $this->getNName(); }
-    public function getLastName()  { return $this->getLName(); }
-    public function getFirstName() { return $this->getFName(); }
+    protected function noNull($value)
+    {
+        if ($value !== null) return $value;
+        return '';
+    }
+    public function getNickName()  { return $this->noNull($this->getNName()); }
+    public function getLastName()  { return $this->noNull($this->getLName()); }
+    public function getFirstName() { return $this->noNull($this->getFName()); }
     public function getRegionKey()
     {
         return GameManager::getRegionKey($this->unitId);

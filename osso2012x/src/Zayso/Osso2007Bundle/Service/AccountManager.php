@@ -43,6 +43,8 @@ class AccountManager
         $qb->andWhere($qb->expr()->eq('account.accountUser',':uname'));
         $qb->setParameter('uname',$uname);
 
+        $qb->orderBy('memberx.level');
+        
         $query = $qb->getQuery();
         $items = $query->getResult();
 
