@@ -126,11 +126,41 @@ class Volunteer implements NotifyPropertyChanged
     {
         return $this->getCertification(CertRepo::TYPE_SAFE_HAVEN);
     }
+    public function getSafeHaven()
+    {
+        $cert = $this->getCertification(CertRepo::TYPE_SAFE_HAVEN);
+        if (!$cert) return 'None';
+        return CertRepo::getDescx($cert->getType());
+    }
     public function getRefBadgeDesc()
     {
         $cert = $this->getCertification(CertRepo::TYPE_REFEREE_BADGE);
         if (!$cert) return 'No Ref Badge';
         return CertRepo::getDesc($cert->getType());
+    }
+    public function getRefBadge()
+    {
+        $cert = $this->getCertification(CertRepo::TYPE_REFEREE_BADGE);
+        if (!$cert) return 'None';
+        return CertRepo::getDescx($cert->getType());
+    }
+    public function getRefDate()
+    {
+        $cert = $this->getCertification(CertRepo::TYPE_REFEREE_BADGE);
+        if (!$cert) return null;
+        return $cert->getDate();
+    }
+    public function getCoachBadge()
+    {
+        $cert = $this->getCertification(CertRepo::TYPE_COACH_BADGE);
+        if (!$cert) return 'None';
+        return CertRepo::getDescx($cert->getType());
+    }
+    public function getCoachDate()
+    {
+        $cert = $this->getCertification(CertRepo::TYPE_COACH_BADGE);
+        if (!$cert) return null;
+        return $cert->getDate();
     }
     /* ============================================================
      * Generated Code
