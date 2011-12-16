@@ -26,31 +26,200 @@ class AccountManager2007
 {
     protected $em                 = null; // Accounts em 2012
     protected $account2007Manager = null; // osso2007 account manager
+    protected $account2012Manager = null; // osso2012 account manager
     protected $volEaysoManager    = null; // eayso 2007 volunteer manager
 
-    public function getEntityManager() { return $this->em; }
-
-    public function __construct($em, $account2007Manager = null, $volEaysoManager = null)
+    public function __construct($em, $account2012Manager, $account2007Manager, $volEaysoManager)
     {
-        $this->em                 = $em;
+        $this->em = $em;
+        $this->account2012Manager = $account2012Manager;
         $this->account2007Manager = $account2007Manager;
         $this->volEaysoManager    = $volEaysoManager;
     }
+    protected function getEntityManager() { return $this->em; }
+    
+    /* =======================================================
+     * Call this when checking to see if there is an account in 2007
+     * And that the account has all the needed info to copy into 2012
+     */
+    public function checkAccount2007($userName,$userPass = null)
+    {
+        // First see if an account exists
+        $account2007 = $this->account2007Manager->checkAccount($userName);
+        if (!$account2007) return sprintf('Account does not exist %s.',$userName);
 
-    public function importAccount2007($account2007)
+        // Check if the passwords match
+        if ($userPass && ($userPass != $account2007->getAccountPass()))
+        {
+            return sprintf('Invalid password for %s.',$userName);
+        }
+        // Must have a primary member
+        $accountPerson2007 = $account2007->getPrimaryMember();
+        if (!$accountPerson2007)
+        {
+            return sprintf('No primary account person for %s.',$userName);
+        }
+        // Must have a person
+        $person2007 = $accountPerson2007->getPerson();
+        if (!$person2007)
+        {
+            return sprintf('No person for %s.',$userName);
+        }
+        // Need some sort of region
+        $region = $person2007->getRegionKey();
+        if (!$region)
+        {
+            return sprintf('No region for %s.',$userName);
+        }
+
+        // Person must have aysoid
+        $aysoid = $person2007->getAysoid();
+        if (!$aysoid)
+        {
+            return sprintf('Person does not have an AYSOID for %s.',$userName);
+        }
+        // Need volunteer information
+        $vol2007 = $this->volEaysoManager->loadVolCerts($aysoid);
+        if (!$vol2007)
+        {
+            return sprintf('Invalid AYSOID %s for %s.',$aysoid,$userName);
+        }
+        // Make sure primary account for aysoid does not already exist
+        $account2012 = $this->account2012Manager->loadAccountForAysoid('AYSOV' . $aysoid);
+        if ($account2012)
+        {
+            return sprintf('Already have account for aysoid %s, %s, %s.',$aysoid,$account2012->getUserName(),$userName);
+        }
+        // Make sure account does not already exist
+        $account2012 = $this->account2012Manager->loadAccountForUserName($userName);
+        if ($account2012)
+        {
+            return sprintf('Already have account for %s.',$userName);
+        }
+
+        // Everything seems hunky and or dory
+        return $account2007;
+    }
+    /* =======================================================
+     * Given an 2007 account, import it into 2012
+     * Return account on success
+     * Return error message on failure
+     *
+     * However, by the time this gets called, the check routine shuld already
+     * have been run and so there really should not be any errors
+     */
+    protected function importAccountPerson2007($accountPerson2007,$account2012,$project)
+    {
+        $em = $this->getEntityManager();
+
+        // Must have a person
+        $person2007 = $accountPerson2007->getPerson();
+        if (!$person2007) return null;
+
+        // Person must have aysoid
+        $aysoid = $person2007->getAysoid();
+        if (!$aysoid) return null;
+
+        // Need volunteer information
+        $vol2007 = $this->volEaysoManager->loadVolCerts($aysoid);
+        if (!$vol2007) return null;
+
+        // Translate the account relation
+        switch($accountPerson2007->getLevel())
+        {
+            case 1:  $relation = 'Primary'; break;
+            case 2:  $relation = 'Family'; break;
+            default: $relation = 'Unknown';
+        }
+        // Have enough for the account person
+        $accountPerson2012 = new AccountPerson();
+        $accountPerson2012->setAccountRelation($relation);
+        $accountPerson2012->setVerified('2007');
+        $accountPerson2012->setStatus('Active');
+        $accountPerson2012->setAccount($account2012);
+        $em->persist($accountPerson2012);
+
+        // See if already have a person for this aysoid
+        $person2012 = $this->account2012Manager->loadPersonForAysoid($aysoid);
+        if ($person2012)
+        {
+            // Fool with project stuff
+            return;
+        }
+        // New person
+        $person2012 = new Person();
+        $person2012->setStatus('Active');
+        $person2012->setVerified('2007');
+        $accountPerson2012->setPerson($person2012);
+
+        $person2012->setFirstName($person2007->getFirstName());
+        $person2012->setLastName ($person2007->getLastName());
+        $person2012->setNickName ($person2007->getNickName());
+
+        $person2012->setOrgKey   ('AYSO' . $person2007->getRegionKey());
+
+        // Registered
+        $registeredPerson2012 = new PersonRegistered();
+        $registeredPerson2012->setRegType ('AYSOV');
+        $registeredPerson2012->setRegKey  ('AYSOV' . $aysoid);
+        $registeredPerson2012->setVerified('2007');
+        $registeredPerson2012->setPerson($person2012);
+
+        // Vol info
+        $registeredPerson2012->setMemYear  ($vol2007->getMemYear());
+        $registeredPerson2012->setRefBadge ($vol2007->getRefBadge());
+        $registeredPerson2012->setRefDate  ($vol2007->getRefDate());
+        $registeredPerson2012->setSafeHaven($vol2007->getSafeHaven());
+
+      //$registeredPerson->setCoachBadge($vol->getCoachBadge());
+      //$registeredPerson->setCoachDate ($vol->getSafeHaven());
+
+        $person2012->setGender($vol2007->getGender());
+        $person2012->setDob   ($vol2007->getDob());
+
+        // Persist
+        $em->persist($person2012);
+        $em->persist($registeredPerson2012);
+
+        // Project
+        if ($project)
+        {
+
+        }
+        // Done
+        return $accountPerson2012;
+
+    }
+    public function importAccount2007($account2007,$project = null)
     {
         $em = $this->getEntityManager();
 
         // Account
-        $account = new Account();
-        $em->persist($account);
-        $account->setStatus('Active');
-        $account->setUserName($account2007->getAccountUser() . 'XXX');
-        $account->setUserPass($account2007->getAccountPass());
+        $account2012 = new Account();
+        $account2012->setStatus('Active');
+        $account2012->setUserName($account2007->getAccountUser());
+        $account2012->setUserPass($account2007->getAccountPass());
+        $em->persist($account2012);
+
+        // Bring in each person
+        foreach($account2007->getMembers() as $accountPerson2007)
+        {
+            $this->importAccountPerson2007($accountPerson2007,$account2012,$project);
+        }
+        // And save
+        try
+        {
+            $em->flush();
+        }
+        catch (\Exception $e)
+        {
+            // QLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '123456789' for key 'aysoid'
+            return $e->getMessage();
+        }
+        return $account2012;
 
         // Account Person
         $accountPerson = new AccountPerson();
-        $em->persist($accountPerson);
         $accountPerson->setAccountRelation('Primary');
         $accountPerson->setVerified('No');
         $accountPerson->setStatus('Active');
@@ -58,7 +227,6 @@ class AccountManager2007
 
         // Person
         $person = new Person();
-        $em->persist($person);
         $person->setStatus('Active');
         $person->setVerified('No');
         $accountPerson->setPerson($person);
@@ -75,295 +243,33 @@ class AccountManager2007
         // Registered
         $aysoid = $person2007->getAysoid();
         $registeredPerson = new PersonRegistered();
-        $em->persist($registeredPerson);
         $registeredPerson->setRegType ('AYSOV');
+        $registeredPerson->setRegKey  ('AYSOV' . $aysoid);
         $registeredPerson->setVerified('No');
         $registeredPerson->setPerson($person);
-        $registeredPerson->setRegKey('AYSOVV' . $aysoid);
-        
+
+        // Vol into
+        $vol = $this->volEaysoManager->loadVolCerts($aysoid);
+
+        $registeredPerson->setMemYear  ($vol->getMemYear());
+        $registeredPerson->setRefBadge ($vol->getRefBadge());
+        $registeredPerson->setRefDate  ($vol->getRefDate());
+        $registeredPerson->setSafeHaven($vol->getSafeHaven());
+
+      //$registeredPerson->setCoachBadge($vol->getCoachBadge());
+      //$registeredPerson->setCoachDate ($vol->getSafeHaven());
+
+        $person->setGender($vol->getGender());
+        $person->setDob   ($vol->getDob());
+
         // And save
-        $em->flush();
+        $em->persist($account);
+        $em->persist($accountPerson);
+        $em->persist($person);
+        $em->persist($registeredPerson);
+        //$em->flush();
         return $account;
     }
-    // Idea is to build up a new account person model
-    public function newAccountPerson($params = array())
-    {
-        // New account
-        $account       = new Account();
-        $account->setStatus('Active');
 
-        // Basic ap
-        $accountPerson = new AccountPerson();
-        $accountPerson->setAccountRelation('Primary');
-        $accountPerson->setVerified('No');
-        $accountPerson->setStatus('Active');
-        $accountPerson->setAccount($account);
-
-        // New person
-        $person = new Person();
-        $person->setStatus('Active');
-        $person->setVerified('No');
-        $accountPerson->setPerson($person);
-
-        // Assume one will be registered
-        $registeredPerson = new PersonRegistered();
-        $registeredPerson->setRegType ('AYSOV');
-        $registeredPerson->setVerified('No');
-        $registeredPerson->setPerson($person);
-
-        // Assume assigned to a project
-        $projectPerson = new ProjectPerson();
-        $projectPerson->setStatus('Active');
-        $projectPerson->setPerson($person);
-        
-        if (isset($params['projectId']))
-        {
-            $project = $this->getEntityManager()->getReference('ZaysoBundle:Project',$params['projectId']);
-            $projectPerson->setProject($project);
-        }
-        return $accountPerson;
-    }
-    public function getAccountPersons($params = array())
-    {
-        if (isset($params['projectId'])) $wantProject = true;
-        else                             $wantProject = false;
-
-        // Build query
-        $em = $this->getEntityManager();
-        $qb = $em->createQueryBuilder();
-
-        $qb->addSelect('accountPerson');
-        $qb->addSelect('account');
-        $qb->addSelect('person');
-        $qb->addSelect('registered');
-      //$qb->addSelect('org');
-
-        if ($wantProject) $qb->addSelect('projectPerson');
-
-        $qb->from('ZaysoCoreBundle:AccountPerson','accountPerson'); // memberx
-
-        $qb->leftJoin('accountPerson.account','account');
-        $qb->leftJoin('accountPerson.person', 'person');
-        $qb->leftJoin('person.registereds',   'registered');
-      //$qb->leftJoin('person.orgKey',        'org');
-        if ($wantProject)
-        {
-            $qb->leftJoin('person.projects',      'projectPerson');
-            $qb->leftJoin('projectPerson.project','project');
-        }
-        if (isset($params['accountId']))
-        {
-            $qb->andWhere($qb->expr()->in('account.id',$params['accountId']));
-        }
-        if (isset($params['accountPersonId']))
-        {
-            $qb->andWhere($qb->expr()->in('accountPerson.id',$params['accountPersonId']));
-        }
-        if ($wantProject)
-        {
-            $qb->andWhere($qb->expr()->in('project.id',$params['projectId']));
-        }
-        $query = $qb->getQuery();
-        
-      //die('DQL ' . $query->getSQL());
-        return $query->getResult();        
-    }
-    public function getAccountPerson($params = array())
-    {
-        $accountPersons = $this->getAccountPersons($params);
-        if (count($accountPersons) == 1) return $accountPersons[0];
-        return null;
-    }
-    public function getAccounts($params = array())
-    {
-        // Build query
-        $em = $this->getEntityManager();
-        $qb = $em->createQueryBuilder();
-
-        $qb->addSelect('account');
-        $qb->addSelect('memberx');
-        $qb->addSelect('person');
-        $qb->addSelect('registered');
-        $qb->addSelect('projectPerson');
-
-        $qb->from('ZaysoBundle:Account','account');
-
-        $qb->leftJoin('account.members',      'memberx');
-        $qb->leftJoin('memberx.person',       'person');
-        $qb->leftJoin('person.registereds',   'registered');
-        $qb->leftJoin('person.projects',      'projectPerson');
-        $qb->leftJoin('projectPerson.project','project');
-
-        if (isset($params['accountId']))
-        {
-            $qb->andWhere($qb->expr()->in('account.id',$params['accountId']));
-        }
-        if (isset($params['projectId']))
-        {
-            $qb->andWhere($qb->expr()->in('project.id',$params['projectId']));
-        }
-        $query = $qb->getQuery();
-
-      //die('DQL ' . $query->getSQL());
-        return $query->getResult();
-    }
-    /* ===========================================================
-     * Allow multiple accounts per person
-     * Still need to fool with the projectId
-     * If person but no project then return just the person
-     */
-    public function getPerson($params)
-    {
-        $em = $this->getEntityManager();
-        $qb = $em->createQueryBuilder();
-
-        $qb->addSelect('person');
-        $qb->addSelect('registered');
-        $qb->addSelect('projectPerson');
-
-        $qb->from('ZaysoBundle:Person','person');
-
-        $qb->leftJoin('person.registereds',   'registered');
-        $qb->leftJoin('person.projects',      'projectPerson');
-        $qb->leftJoin('projectPerson.project','project');
-
-        if (isset($params['aysoid']))
-        {
-            $qb->andWhere($qb->expr()->eq('registered.regKey',':aysoid'));
-        }
-        if (isset($params['projectId']))
-        {
-            $qb->andWhere($qb->expr()->in('project.id',$params['projectId']));
-        }
-        $query = $qb->getQuery();
-        $query->setParameter('aysoid',$params['aysoid']);
-        
-        $persons = $query->getResult();
-
-        if (count($persons) == 1) return $persons[0];
-
-        return null;
-    }
-    public function getProjectPerson($params)
-    {
-        $em = $this->getEntityManager();
-        $qb = $em->createQueryBuilder();
-
-        $qb->addSelect('projectPerson');
-
-        $qb->from('ZaysoBundle:ProjectPerson','projectPerson');
-        $qb->leftJoin('projectPerson.person', 'person');
-        $qb->leftJoin('projectPerson.project','project');
-
-        if (isset($params['personId']))
-        {
-            $qb->andWhere($qb->expr()->in('person.id',$params['personId']));
-        }
-        if (isset($params['projectId']))
-        {
-            $qb->andWhere($qb->expr()->in('project.id',$params['projectId']));
-        }
-        $query = $qb->getQuery();
-        
-        $items = $query->getResult();
-
-        if (count($items) == 1) return $items[0];
-
-        return null;
-    }
-    public function getOpenidsForAccount($accountId = 0)
-    {
-        $em = $this->getEntityManager();
-        $qb = $em->createQueryBuilder();
-
-        $qb->addSelect('openid');
-        $qb->addSelect('account');
-        $qb->addSelect('accountPerson');
-        $qb->addSelect('person');
-
-        $qb->from('ZaysoBundle:AccountOpenid','openid');
-        
-        $qb->leftJoin('openid.accountPerson', 'accountPerson');
-        $qb->leftJoin('accountPerson.account','account');
-        $qb->leftJoin('accountPerson.person', 'person');
-
-        $qb->andWhere($qb->expr()->eq('account.id',':accountId'));
-
-        $query = $qb->getQuery();
-        $query->setParameter('accountId',$accountId);
-
-        return $query->getResult();
-    }
-    public function getOpenidForIdentifier($identifier)
-    {
-        $em = $this->getEntityManager();
-        $qb = $em->createQueryBuilder();
-
-        $qb->addSelect('openid');
-        $qb->addSelect('account');
-        $qb->addSelect('accountPerson');
-        $qb->addSelect('person');
-
-        $qb->from('ZaysoBundle:AccountOpenid','openid');
-
-        $qb->leftJoin('openid.accountPerson', 'accountPerson');
-        $qb->leftJoin('accountPerson.account','account');
-        $qb->leftJoin('accountPerson.person', 'person');
-
-        $qb->andWhere($qb->expr()->eq('openid.identifier',':identifier'));
-
-        $query = $qb->getQuery();
-        $query->setParameter('identifier',$identifier);
-
-        $items = $query->getResult();
-
-        if (count($items) == 1) return $items[0];
-
-        return null;
-    }
-    public function newOpenid($profile = array())
-    {
-        $openid = new AccountOpenid();
-        $openid->setProfile($profile);
-
-        return $openid;
-    }
-    public function deleteOpenid($id)
-    {
-        // $em->remove($entity)
-        $dql = 'DELETE FROM ZaysoBundle:AccountOpenid openid WHERE openid.id = :id';
-        $query = $this->getEntityManager()->createQuery($dql);
-        $query->setParameter('id',$id);
-        $query->getResult();
-    }
-    public function loadVolCerts($aysoid)
-    {
-        if (substr($aysoid,0,5) != 'AYSOV') $aysoid = 'AYSOV' . $aysoid;
-
-        // Build query
-        $em = $this->getEntityManager();
-        $qb = $em->createQueryBuilder();
-
-        $qb->addSelect('vol');
-        $qb->addSelect('cert');
-
-        $qb->from('EaysoBundle:Volunteer','vol');
-
-        $qb->leftJoin('vol.certifications','cert');
-
-        $qb->andWhere($qb->expr()->eq('vol.id',':aysoid'));
-        $qb->setParameter('aysoid',$aysoid);
-
-        $query = $qb->getQuery();
-        try
-        {
-            $item = $query->getSingleResult();
-        }
-        catch (ORMException $e)
-        {
-            return null; // If none found
-        }
-        return $item;
-    }
 }
 ?>

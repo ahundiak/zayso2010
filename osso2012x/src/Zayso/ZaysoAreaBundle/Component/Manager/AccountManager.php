@@ -2,29 +2,25 @@
 /* ========================================================================
  * The basic idea is to encapsulate as much of this stuff as possible in a service
  */
-namespace Zayso\NatGamesBundle\Component\Manager;
+namespace Zayso\ZaysoAreaBundle\Component\Manager;
 
 use Zayso\ZaysoBundle\Component\Debug;
 
 use Doctrine\ORM\ORMException;
 
-use Zayso\ZaysoBundle\Entity\AccountOpenid;
-use Zayso\ZaysoBundle\Entity\Account;
-use Zayso\ZaysoBundle\Entity\AccountPerson;
-use Zayso\ZaysoBundle\Entity\Person;
-use Zayso\ZaysoBundle\Entity\PersonRegistered;
-use Zayso\ZaysoBundle\Entity\ProjectPerson;
-use Zayso\ZaysoBundle\Entity\Project;
+use Zayso\ZaysoCoreBundle\Entity\AccountOpenid;
+use Zayso\ZaysoCoreBundle\Entity\Account;
+use Zayso\ZaysoCoreBundle\Entity\AccountPerson;
+use Zayso\ZaysoCoreBundle\Entity\Person;
+use Zayso\ZaysoCoreBundle\Entity\PersonRegistered;
+use Zayso\ZaysoCoreBundle\Entity\ProjectPerson;
+use Zayso\ZaysoCoreBundle\Entity\Project;
 
 class AccountManager
 {
     protected $em = null;
-    protected $eaysoManager = null;
     
-    public function getEntityManager()
-    {
-        return $this->em;
-    }
+    public function getEntityManager() { return $this->em; }
 
     public function __construct($em)
     {
@@ -88,7 +84,7 @@ class AccountManager
 
         if ($wantProject) $qb->addSelect('projectPerson');
 
-        $qb->from('ZaysoBundle:AccountPerson','accountPerson'); // memberx
+        $qb->from('ZaysoCoreBundle:AccountPerson','accountPerson'); // memberx
 
         $qb->leftJoin('accountPerson.account','account');
         $qb->leftJoin('accountPerson.person', 'person');
@@ -134,7 +130,7 @@ class AccountManager
         $qb->addSelect('registered');
         $qb->addSelect('projectPerson');
 
-        $qb->from('ZaysoBundle:Account','account');
+        $qb->from('ZaysoCoreBundle:Account','account');
 
         $qb->leftJoin('account.members',      'memberx');
         $qb->leftJoin('memberx.person',       'person');
@@ -160,7 +156,11 @@ class AccountManager
      * Still need to fool with the projectId
      * If person but no project then return just the person
      */
-    public function getPerson($params)
+    public function loadPersonForAysoid($aysoid)
+    {
+        return $this->loadPerson(array('aysoid' => $aysoid));
+    }
+    public function loadPerson($params)
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
@@ -169,7 +169,7 @@ class AccountManager
         $qb->addSelect('registered');
         $qb->addSelect('projectPerson');
 
-        $qb->from('ZaysoBundle:Person','person');
+        $qb->from('ZaysoCoreBundle:Person','person');
 
         $qb->leftJoin('person.registereds',   'registered');
         $qb->leftJoin('person.projects',      'projectPerson');
@@ -177,18 +177,17 @@ class AccountManager
 
         if (isset($params['aysoid']))
         {
-            $qb->andWhere($qb->expr()->eq('registered.regKey',':aysoid'));
+            $qb->andWhere($qb->expr()->eq('registered.regKey',$qb->expr()->literal($params['aysoid'])));
         }
         if (isset($params['projectId']))
         {
             $qb->andWhere($qb->expr()->in('project.id',$params['projectId']));
         }
         $query = $qb->getQuery();
-        $query->setParameter('aysoid',$params['aysoid']);
         
-        $persons = $query->getResult();
+        $items = $query->getResult();
 
-        if (count($persons) == 1) return $persons[0];
+        if (count($items) == 1) return $items[0];
 
         return null;
     }
@@ -199,7 +198,7 @@ class AccountManager
 
         $qb->addSelect('projectPerson');
 
-        $qb->from('ZaysoBundle:ProjectPerson','projectPerson');
+        $qb->from('ZaysoCoreBundle:ProjectPerson','projectPerson');
         $qb->leftJoin('projectPerson.person', 'person');
         $qb->leftJoin('projectPerson.project','project');
 
@@ -229,7 +228,7 @@ class AccountManager
         $qb->addSelect('accountPerson');
         $qb->addSelect('person');
 
-        $qb->from('ZaysoBundle:AccountOpenid','openid');
+        $qb->from('ZaysoCoreBundle:AccountOpenid','openid');
         
         $qb->leftJoin('openid.accountPerson', 'accountPerson');
         $qb->leftJoin('accountPerson.account','account');
@@ -252,7 +251,7 @@ class AccountManager
         $qb->addSelect('accountPerson');
         $qb->addSelect('person');
 
-        $qb->from('ZaysoBundle:AccountOpenid','openid');
+        $qb->from('ZaysoCoreBundle:AccountOpenid','openid');
 
         $qb->leftJoin('openid.accountPerson', 'accountPerson');
         $qb->leftJoin('accountPerson.account','account');
@@ -284,34 +283,56 @@ class AccountManager
         $query->setParameter('id',$id);
         $query->getResult();
     }
-    public function loadVolCerts($aysoid)
+    /* ================================================================
+     * Various ways to load basic account information
+     */
+    public function loadAccountForUserName($userName)
     {
-        if (substr($aysoid,0,5) != 'AYSOV') $aysoid = 'AYSOV' . $aysoid;
+        return $this->loadAccount(array('userName' => $userName));
+    }
+    public function loadAccountForAysoid($aysoid)
+    {
+        return $this->loadAccount(array('aysoid' => $aysoid));
+    }
+    public function loadAccount($params)
+    {
+        if (isset($params['userName'])) $userName = $params['userName'];
+        else                            $userName = null;
+
+        if (isset($params['aysoid']))   $aysoid = $params['aysoid'];
+        else                            $aysoid = null;
+
+        // Avoid loading everything
+        if (!$userName && !$aysoid) return null;
 
         // Build query
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
-        $qb->addSelect('vol');
-        $qb->addSelect('cert');
+        $qb->addSelect('account');
+        $qb->addSelect('accountPerson');
+        $qb->addSelect('person');
+        $qb->addSelect('registered');
+        
+        $qb->from('ZaysoCoreBundle:Account','account');
 
-        $qb->from('EaysoBundle:Volunteer','vol');
+        $qb->leftJoin('account.members',      'accountPerson');
+        $qb->leftJoin('accountPerson.person', 'person');
+        $qb->leftJoin('person.registereds',   'registered');
 
-        $qb->leftJoin('vol.certifications','cert');
-
-        $qb->andWhere($qb->expr()->eq('vol.id',':aysoid'));
-        $qb->setParameter('aysoid',$aysoid);
-
+        if ($userName)
+        {
+            $qb->andWhere($qb->expr()->eq('account.userName',$qb->expr()->literal($userName)));
+        }
+        if ($aysoid)
+        {
+            $qb->andWhere($qb->expr()->eq('registered.regKey',           $qb->expr()->literal($aysoid)));
+            $qb->andWhere($qb->expr()->eq('accountPerson.accountRelation',$qb->expr()->literal('Primary')));
+        }
         $query = $qb->getQuery();
-        try
-        {
-            $item = $query->getSingleResult();
-        }
-        catch (ORMException $e)
-        {
-            return null; // If none found
-        }
-        return $item;
+        $items = $query->getResult();
+        if (count($items) == 1) return $items[0];
+        return null;
     }
 }
 ?>
