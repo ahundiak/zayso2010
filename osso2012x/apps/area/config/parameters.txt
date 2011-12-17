@@ -24,3 +24,5 @@
     locale            = en
 
     secret            = zaysoAreaSecretToken
+
+    zayso_core.openid.rpxApiKey = ""
