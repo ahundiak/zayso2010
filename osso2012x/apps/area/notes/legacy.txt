@@ -1,0 +1,97 @@
+zayso_area_welcome
+  WelcomeController.welcomeAction
+  Welcome:home.html.twig
+  Shows rpx frame
+    zayso_area_account_signup_rpx
+
+zayso_area_account_signup_rpx
+
+    Account/SignupController.rpx
+
+    openidProfile using zayso_coer.openid.rpx
+
+    userProvider using zayso_core.user.provider
+
+    user = userProvider.loadUserByOpenidIdentifier
+
+    If have user
+
+        BaseController: setUser(user)
+
+        account2012Manager (zayso_area.account.manager) addProjectPerson 70 if needed
+
+        redirect: zayso_area_home
+
+    2012 openid for user not found
+        session.openidProfile = openidProfile
+        redirect: zayso_area_account_legacy_profile
+
+zayso_area_account_legacy_profile
+
+    Account/Legacy.profileAction
+
+    Verify have a valid openid profile in session
+        If not, redirect: zayso_area_welcome
+
+    TODO: 
+        Check for openid record on 2007
+        If found, copy over and sign in
+
+    Build signin form with new account entity
+
+    If GET
+        Render: Account:openid.html.twig
+            Shows openidProfile information
+            Account:signin.html.twig
+        This will post back to zayso_area_account_legacy_profile
+        TODO: Better template names
+
+    If POST
+        LegacyController.process(userName,userPass,openidProfile)
+        If all went well, redirect object is returned and end up on home page
+        If not, error is passed to login form and user tries again
+
+LegacyController.process(userName,userPass,openidProfile)
+
+    // First check for existing 2012 account with correct pasword
+    account2012 = account2012Manager.loadAccountForUserName(userName)
+    If Have account2012
+        If password is not correct, return error message
+        LegacyController.processAccount(account2012,openidProfile);
+
+    // Now see if have fully functional 2007 account
+    account2007 = account2007Manager.checkAccount2007(userName,userPass);
+    If Not return error message, 
+        let user try account name again 
+
+    // Copy account and process
+    account2012 = account20007Manager.copyAccount2007(account2007)
+    LegacyController.processAccount(account2012,openidProfile)
+
+======================================================================
+LegacyController.processAccount(account2012,openidProfile)
+
+    // Make sure account is linked to openid creating openid record if necessary
+    account2012Manager.linkAccountToOpenid(account2012,openidProfile)
+
+    // Add each person in account to current master project
+    account2012Manager.addProjectPerson(project,accountPerson)
+
+    // Grab user fom zayso_core.user.provider
+
+    If User
+  
+        // Use BaseController.setUser
+
+        // Send a success email
+
+        // Redirect zayso_area_home
+
+     If NOT User - Very unexpected
+
+        // TODO Send email
+
+        // TODO Inform user of problem
+
+        // Redirect to zayso_area_account_legacy_profile
+
