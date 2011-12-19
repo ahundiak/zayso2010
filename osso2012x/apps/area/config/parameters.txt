@@ -16,13 +16,15 @@
 
     session.dsn       = "mysql:dbname=session;host=localhost"
 
-    mailer_transport  = smtp
+    mailer_transport  = gmail
     mailer_host       = localhost
-    mailer_user       =
-    mailer_password   =
+    mailer_user       = 
+    mailer_password   = 
+    mailer_enabled    = true
 
     locale            = en
 
     secret            = zaysoAreaSecretToken
 
     zayso_core.openid.rpxApiKey = ""
+    zayso_core.user.password    = ""
