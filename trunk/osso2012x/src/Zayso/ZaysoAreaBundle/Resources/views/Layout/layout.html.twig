@@ -30,9 +30,9 @@
     <p style="text-align: center;">
       <span style="color: blue;">AYSO Area 5CF Referee Schedling Site</span>
     </p>
-    <p style="margin-top: 2px; color: black; ">
+    <p style="margin-top: 2px; color: black; width: 800px;">
       <span style="color: blue;">Zayso User: </span>
-      <span style="color: greenx;">       
+      <span style="color: greenx; font-size: 14px;">
         {% if     is_granted('ROLE_USER') %}{{ app.user.name }} {{ app.user.getAYSOCertsDescription }}{% endif %}
         {% if not is_granted('ROLE_USER') %}Guest{% endif %}          
       </span>
@@ -45,7 +45,7 @@
     <li><a href="{{ path('zayso_area_welcome') }}">Welcome</a></li>
     
 {% if is_granted('ROLE_USER') %}
-    <li><a href="{{ path('zayso_area_welcome') }}">Home</a></li>
+    <li><a href="{{ path('zayso_area_home') }}">Home</a></li>
 {% endif %}
     
 {% if not is_granted('ROLE_USER') %}    

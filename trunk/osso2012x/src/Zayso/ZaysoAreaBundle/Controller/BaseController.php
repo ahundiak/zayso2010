@@ -19,6 +19,7 @@ class BaseController extends Controller
     }
     protected function getProjectId()
     {
+        return $this->container->getParameter('zayso_area.project.master');
         return 70;
     }
     // Be aware that this returns the string anon for non users
@@ -37,6 +38,8 @@ class BaseController extends Controller
             $user = $userProvider->loadUserByUsername($userName);
         }
         $providerKey = 'secured_area';
+        $providerKey = $this->container->getParameter('zayso_area.provider.key'); // secured_area
+        
         $token = new UsernamePasswordToken($user, null, $providerKey, $user->getRoles());
         $this->get('security.context')->setToken($token);
         return $user;
@@ -48,43 +51,6 @@ class BaseController extends Controller
         $params = array('personId' => $user->getPersonId(),'projectId' => $this->getProjectId());
         $projectPerson = $accountManager->getProjectPerson($params);
         return $projectPerson;
-    }
-    protected function getOpenidProfile(Request $request)
-    {
-        $rpxApiKey = '827e548231829d8f561f30efda43155b2cd4b1e5';
-
-        $token = $request->get('token');
-        if (!$token)
-        {
-            return 'No social network token';
-        }
-
-        $post_data = array
-        (
-            'token'  => $token,
-            'apiKey' => $rpxApiKey,
-            'format' => 'json'
-        );
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_URL, 'https://rpxnow.com/api/v2/auth_info');
-        curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $post_data);
-        curl_setopt($curl, CURLOPT_HEADER, false);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        $raw_json = curl_exec($curl);
-        curl_close($curl);
-
-        /* STEP 3: Parse the JSON auth_info response */
-        $authInfo = json_decode($raw_json, true);
-
-        if ($authInfo['stat'] != 'ok')
-        {
-            $error = $authInfo['err']['msg'];
-            return $error;
-        }
-
-        return $authInfo['profile'];
     }
     protected function getTplData()
     {

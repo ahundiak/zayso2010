@@ -6,6 +6,10 @@ zayso_area_welcome:
     pattern:  /welcome
     defaults: { _controller: ZaysoAreaBundle:Welcome:welcome }
 
+zayso_area_home:
+    pattern:  /home
+    defaults: { _controller: ZaysoAreaBundle:Welcome:home }
+
 zayso_area_account_signin_rpx:
     pattern:  /account/signin/rpx
     defaults: { _controller: ZaysoAreaBundle:Account\Signin:rpx }

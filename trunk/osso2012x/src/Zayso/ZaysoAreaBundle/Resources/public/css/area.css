@@ -22,10 +22,6 @@ img
   display: block;
   border:  none
 }
-p
-{
-    width: 600px;
-}
 /* ===========================================
  * Header
  */
@@ -124,6 +120,12 @@ p
   font-weight:  bold;
   font-size:    150%;
 }
+#layout-content h2
+{
+  margin:  10px 5px;
+  font-weight:  bold;
+  font-size:    134%;
+}
 #layout-content h3
 {
   margin:  10px 5px;
@@ -133,6 +135,7 @@ p
 #layout-content p
 {
   margin:  10px 5px;
+  width:   750px;
 }
 #layout-content table
 {

@@ -17,5 +17,10 @@ class WelcomeController extends BaseController
 
         return new Response('<h1>Welcome to the area bundle</h1>');
     }
+    public function homeAction()
+    {
+        $tplData = array();
+        return $this->render('ZaysoAreaBundle:Welcome:home.html.twig',$tplData);
+    }
 }
 ?>
