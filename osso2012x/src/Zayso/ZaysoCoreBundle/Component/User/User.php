@@ -85,14 +85,14 @@ class User implements UserInterface
     function getSalt()          { return null; }
     function eraseCredentials() { return; }
     
-    // Thid does get called
+    // This does get called
     function equals(UserInterface $user) 
     { 
         if (!$user instanceof User) {
             return false;
         }
 
-        if ($this->password !== $user->getPassword()) {
+        if ($this->getPassword() !== $user->getPassword()) {
             return false;
         }
 
@@ -100,11 +100,9 @@ class User implements UserInterface
             return false;
         }
 
-        if ($this->username !== $user->getUsername()) {
+        if ($this->getUserName() !== $user->getUsername()) {
             return false;
         }
-
-        die('user.equals failed'); 
         return false;     
     }
 }
