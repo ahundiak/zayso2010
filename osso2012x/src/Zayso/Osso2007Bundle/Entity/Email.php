@@ -28,12 +28,11 @@ class Email
      */
     private $emailTypeId;
 
-    /**
-     * @var integer $personId
-     *
-     * @ORM\Column(name="person_id", type="integer", nullable=true)
+   /**
+     * @ORM\ManyToOne(targetEntity="Person")
+     * @ORM\JoinColumn(name="person_id", referencedColumnName="person_id")
      */
-    private $personId;
+    private $person;
 
     /**
      * @var string $address

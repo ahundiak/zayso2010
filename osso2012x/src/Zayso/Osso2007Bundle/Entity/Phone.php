@@ -21,12 +21,11 @@ class Phone
      */
     private $phoneId;
 
-    /**
-     * @var integer $personId
-     *
-     * @ORM\Column(name="person_id", type="integer", nullable=true)
+   /**
+     * @ORM\ManyToOne(targetEntity="Person")
+     * @ORM\JoinColumn(name="person_id", referencedColumnName="person_id")
      */
-    private $personId;
+    private $person;
 
     /**
      * @var integer $phoneTypeId
@@ -57,7 +56,17 @@ class Phone
     private $ext;
 
 
-
+    /* ===========================================
+     * 10 digit phone number
+     */
+    public function getPhoneNumber()
+    {
+        $areaCode = $this->getAreaCode();
+        $num = $this->getNum();
+        
+        if (!$areaCode || !$num) return null;
+        return $areaCode . $num;
+    }
     /**
      * Set personId
      *
