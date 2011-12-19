@@ -11,6 +11,7 @@
             class="Zayso\ZaysoAreaBundle\Component\Manager\AccountManager"
             public="true">
             <argument type="service" id="doctrine.orm.accounts_entity_manager" />
+            <argument type="string">%zayso_core.user.password%</argument>
         </service>
 
         <service

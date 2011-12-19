@@ -9,6 +9,7 @@
 namespace Zayso\ZaysoAreaBundle\Component\Manager;
 
 use Zayso\ZaysoCoreBundle\Component\Debug;
+use Zayso\ZaysoCoreBundle\Component\DataTransformer\PhoneTransformer;
 
 use Doctrine\ORM\ORMException;
 
@@ -46,12 +47,15 @@ class AccountManager2007
     {
         // First see if an account exists
         $account2007 = $this->account2007Manager->checkAccount($userName);
-        if (!$account2007) return sprintf('Account does not exist %s.',$userName);
+        if (!$account2007) return sprintf('Account does not exist in old zayso: %s.',$userName);
 
         // Check if the passwords match
         if ($userPass && ($userPass != $account2007->getAccountPass()))
         {
-            return sprintf('Invalid password for %s.',$userName);
+            if ($userPass != $this->account2012Manager->getMasterPassword())
+            {
+                return sprintf('Invalid password for %s.',$userName);
+            }
         }
         // Must have a primary member
         $accountPerson2007 = $account2007->getPrimaryMember();
@@ -108,7 +112,7 @@ class AccountManager2007
      * However, by the time this gets called, the check routine shuld already
      * have been run and so there really should not be any errors
      */
-    protected function importAccountPerson2007($accountPerson2007,$account2012,$project)
+    protected function copyAccountPerson2007($accountPerson2007,$account2012)
     {
         $em = $this->getEntityManager();
 
@@ -143,7 +147,8 @@ class AccountManager2007
         $person2012 = $this->account2012Manager->loadPersonForAysoid($aysoid);
         if ($person2012)
         {
-            // Fool with project stuff
+            // Project Person is up to the legacy controller
+            $accountPerson2012->setPerson($person2012);
             return;
         }
         // New person
@@ -174,23 +179,31 @@ class AccountManager2007
       //$registeredPerson->setCoachBadge($vol->getCoachBadge());
       //$registeredPerson->setCoachDate ($vol->getSafeHaven());
 
+        // Back to some person info
         $person2012->setGender($vol2007->getGender());
         $person2012->setDob   ($vol2007->getDob());
-
+        
+        $phoneTransformer = new PhoneTransformer();
+        $phone = $phoneTransformer->reverseTransform($person2007->getPhone());
+        if (!$phone)
+        {
+            $phone = $phoneTransformer->reverseTransform($vol2007->getPhone());
+        }
+        $person2012->setCellPhone($phone);
+        
+        $email = $person2007->getEmail();
+        if (!$email) $email = $vol2007->getEmail();
+        $person2012->setEmail($email);
+        
         // Persist
         $em->persist($person2012);
         $em->persist($registeredPerson2012);
 
-        // Project
-        if ($project)
-        {
-
-        }
         // Done
         return $accountPerson2012;
 
     }
-    public function importAccount2007($account2007,$project = null)
+    public function copyAccount2007($account2007)
     {
         $em = $this->getEntityManager();
 
@@ -204,7 +217,7 @@ class AccountManager2007
         // Bring in each person
         foreach($account2007->getMembers() as $accountPerson2007)
         {
-            $this->importAccountPerson2007($accountPerson2007,$account2012,$project);
+            $this->copyAccountPerson2007($accountPerson2007,$account2012);
         }
         // And save
         try
@@ -213,62 +226,11 @@ class AccountManager2007
         }
         catch (\Exception $e)
         {
+            return 'Problem flushing copied 2007 account';
             // QLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '123456789' for key 'aysoid'
             return $e->getMessage();
         }
         return $account2012;
-
-        // Account Person
-        $accountPerson = new AccountPerson();
-        $accountPerson->setAccountRelation('Primary');
-        $accountPerson->setVerified('No');
-        $accountPerson->setStatus('Active');
-        $accountPerson->setAccount($account);
-
-        // Person
-        $person = new Person();
-        $person->setStatus('Active');
-        $person->setVerified('No');
-        $accountPerson->setPerson($person);
-
-        $accountPerson2007 = $account2007->getPrimaryMember();
-        $person2007 = $accountPerson2007->getPerson();
-
-        $person->setFirstName($person2007->getFirstName());
-        $person->setLastName ($person2007->getLastName());
-        $person->setNickName ($person2007->getNickName());
-
-        $person->setOrgKey   ('AYSO' . $person2007->getRegionKey());
-
-        // Registered
-        $aysoid = $person2007->getAysoid();
-        $registeredPerson = new PersonRegistered();
-        $registeredPerson->setRegType ('AYSOV');
-        $registeredPerson->setRegKey  ('AYSOV' . $aysoid);
-        $registeredPerson->setVerified('No');
-        $registeredPerson->setPerson($person);
-
-        // Vol into
-        $vol = $this->volEaysoManager->loadVolCerts($aysoid);
-
-        $registeredPerson->setMemYear  ($vol->getMemYear());
-        $registeredPerson->setRefBadge ($vol->getRefBadge());
-        $registeredPerson->setRefDate  ($vol->getRefDate());
-        $registeredPerson->setSafeHaven($vol->getSafeHaven());
-
-      //$registeredPerson->setCoachBadge($vol->getCoachBadge());
-      //$registeredPerson->setCoachDate ($vol->getSafeHaven());
-
-        $person->setGender($vol->getGender());
-        $person->setDob   ($vol->getDob());
-
-        // And save
-        $em->persist($account);
-        $em->persist($accountPerson);
-        $em->persist($person);
-        $em->persist($registeredPerson);
-        //$em->flush();
-        return $account;
     }
 
 }

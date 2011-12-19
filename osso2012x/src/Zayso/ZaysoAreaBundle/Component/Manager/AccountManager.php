@@ -22,10 +22,13 @@ class AccountManager
     
     public function getEntityManager() { return $this->em; }
 
-    public function __construct($em)
+    public function __construct($em,$masterPassword = null)
     {
         $this->em = $em;
+        $this->masterPassword = $masterPassword;
     }
+    public function getMasterPassword()  { return $this->masterPassword; }
+    
     // Idea is to build up a new account person model
     public function newAccountPerson($params = array())
     {
@@ -191,6 +194,9 @@ class AccountManager
 
         return null;
     }
+    /* =========================================================================
+     * Some project person routines
+     */
     public function getProjectPerson($params)
     {
         $em = $this->getEntityManager();
@@ -218,6 +224,47 @@ class AccountManager
 
         return null;
     }
+    public function addProjectPerson($project,$person,$data = null)
+    {
+        // Allow ids or objects
+        $em = $this->getEntityManager();
+        
+        if (!is_object($project)) $project = $em->getReference('ZaysoCoreBundle:Project',$project);
+        if (!is_object($person))  $person  = $em->getReference('ZaysoCoreBundle:Person', $person);
+        
+        // Just to be safe, check dups
+        $params = array
+        (
+            'personId'  => $person->getId(),
+            'projectId' => $project->getId(),
+        );
+        $projectPerson = $this->getProjectPerson($params);
+        if ($projectPerson) return $this->projectPerson;
+        
+        // Make a new one
+        $projectPerson = new ProjectPerson();
+        $projectPerson->setProject($project);
+        $projectPerson->setPerson ($person);
+        $projectPerson->setStatus('Active');
+        
+        // Handle data later
+        
+        try
+        {
+            $em->persist($projectPerson);
+            $em->flush();
+        }
+        catch(\Exception $e)
+        {
+            die($e->getMessage());
+            return 'Problem adding project person';
+        }
+        return $projectPerson;
+    }
+    /* =====================================================================
+     * Openid functionality
+     * Maybe later move to it's own class just to reduce code size
+     */
     public function getOpenidsForAccount($accountId = 0)
     {
         $em = $this->getEntityManager();
@@ -241,7 +288,7 @@ class AccountManager
 
         return $query->getResult();
     }
-    public function getOpenidForIdentifier($identifier)
+    public function loadOpenidForIdentifier($identifier)
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
@@ -257,11 +304,9 @@ class AccountManager
         $qb->leftJoin('accountPerson.account','account');
         $qb->leftJoin('accountPerson.person', 'person');
 
-        $qb->andWhere($qb->expr()->eq('openid.identifier',':identifier'));
+        $qb->andWhere($qb->expr()->eq('openid.identifier',$qb->expr()->literal($identifier)));
 
         $query = $qb->getQuery();
-        $query->setParameter('identifier',$identifier);
-
         $items = $query->getResult();
 
         if (count($items) == 1) return $items[0];
@@ -282,6 +327,43 @@ class AccountManager
         $query = $this->getEntityManager()->createQuery($dql);
         $query->setParameter('id',$id);
         $query->getResult();
+    }
+    /* ================================================================
+     * Takes care of linking an account to an openid profile
+     * Lots of error checking, 
+     * Return string if fails
+     * Retuen new openid (flushed) if success
+     */
+    public function linkAccountToOpenid($account,$profile)
+    {
+        // Start with the openid entity
+        $openid = new AccountOpenid();
+        $openid->setProfile($profile);
+        $identifier = $openid->getIdentifier();
+        if (!$identifier) return 'No identifier in openid profile';
+        
+        // Verify don't already have one in 2012
+        $openidExisting = $this->loadOpenidForIdentifier($identifier);
+        if ($openidExisting) return 'Already have an openid for profile';
+        
+        // Only link to promary account person
+        $accountPerson = $account->getPrimaryMember();
+        if (!$accountPerson) return 'No primary account person';
+        
+        // Doit
+        $openid->setAccountPerson($accountPerson);
+        try
+        {
+            $this->getEntityManager()->persist($openid);
+            $this->getEntityManager()->flush();
+        }
+        catch(\Exception $e)
+        {
+            die($e->getMessage());
+            return 'Problem inserting openid record';
+            return $e->getMessage();
+        }
+        return $openid;
     }
     /* ================================================================
      * Various ways to load basic account information
@@ -334,5 +416,9 @@ class AccountManager
         if (count($items) == 1) return $items[0];
         return null;
     }
+    /* =====================================================================
+     * Hisome of the exact eneity class name details
+     */
+    public function newAccountEntity() { return new Account(); }
 }
 ?>

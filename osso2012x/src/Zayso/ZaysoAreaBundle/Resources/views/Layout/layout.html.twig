@@ -1,20 +1,20 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!doctype html>
 <html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8"/>
+    <title>{% block title %}Area Bundle{% endblock %}</title>
+    <meta name="description" content="Zayso Referee Scheduling"/>
+    <meta name="author" content="Art Hundiak"/>
 
-  {% stylesheets output='css/*.css' filter='cssrewrite' debug=false
-    '@ZaysoAreaBundle/Resources/public/css/area.css'
-  %}
-  <link rel="stylesheet" href="{{ asset_url }}" type="text/css" media="all" />
-  {% endstylesheets %}
-
-{#
-    'bundles/zaysoarea/css/area.css'
-    'bundles/zaysoarea/css/area2.css'
-#}
-
-  <title>{% block title %}Area Bundle{% endblock %}</title>
+    {% stylesheets output='css/*.css' filter='cssrewrite' debug=false
+        '@ZaysoAreaBundle/Resources/public/css/area.css'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}" media="all" />
+    {% endstylesheets %}
+        
+    <!--[if lt IE 9]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 </head>
 
 <body>
@@ -64,7 +64,7 @@
    <li><a href="{{ path('zayso_area_welcome') }}">Contact Us</a></li>
    
 {% if is_granted('ROLE_USER') %}
-   <li><a href="{{ path('zayso_area_welcome') }}">Sign Out</a></li>
+   <li><a href="{{ path('zayso_area_account_signout') }}">Sign Out</a></li>
 {% endif %}
    
 {% if not is_granted('ROLE_USER') %}
