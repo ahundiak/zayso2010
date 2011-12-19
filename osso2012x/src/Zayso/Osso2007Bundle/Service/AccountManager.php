@@ -24,6 +24,30 @@ class AccountManager
     {
         return $this->getEntityManager()->persist($entity);
     }
+    public function checkOpenid($identifier)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->addSelect('account');
+        $qb->addSelect('memberx'); // member does not work?
+        $qb->addSelect('person');
+        $qb->addSelect('openid');
+
+        $qb->from('Osso2007Bundle:Openid','account');
+
+        $qb->leftJoin('openid.account', 'account');
+        $qb->leftJoin('account.members','memberx');
+        $qb->leftJoin('memberx.person', 'person');
+
+        $qb->andWhere($qb->expr()->eq('openid.identifier',$qb->expr()->literal($identier)));
+
+        $items = $qb->getQuery()->getResult();
+
+        if (count($items) == 1) return $items[0];
+
+        return null;
+    }
     public function checkAccount($uname,$upass = null)
     {
         $em = $this->getEntityManager();
