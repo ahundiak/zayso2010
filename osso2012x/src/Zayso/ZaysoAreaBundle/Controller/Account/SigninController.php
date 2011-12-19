@@ -118,6 +118,6 @@ class SigninController extends BaseController
         {
             $accountManager->addProjectPerson($this->getProjectId(),$user->getPersonId());
         }
-        return $this->redirect($this->generateUrl('zayso_area_welcome'));
+        return $this->redirect($this->generateUrl('zayso_area_home'));
     }
 }

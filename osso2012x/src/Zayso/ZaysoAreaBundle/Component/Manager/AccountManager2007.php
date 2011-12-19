@@ -38,7 +38,33 @@ class AccountManager2007
         $this->volEaysoManager    = $volEaysoManager;
     }
     protected function getEntityManager() { return $this->em; }
-    
+
+    /* =======================================================
+     * Call this to see if there is an openid in 2007
+     */
+    public function checkOpenid2007($identifier)
+    {
+        $account2007 = $this->account2007Manager->checkOpenid($identifier);
+        if (!$account2007) return null;
+        
+        if (!$account2007) return sprintf('Account does not exist in old zayso: %s.',$userName);
+
+        // Verify that everything is hunky and dory
+        $result = $this->checkAccount2007($account2007->getUserName());
+
+        // All is well, account can be copied
+        if (is_object($result)) return $result;
+
+        /* ===============================================
+         * Case where openid in 2007 but account in 2012 without openid
+         * Also possible have account for aysoid in 2012
+         *
+         * Want to link openid to 2012 account
+         * And possible copy over any other account people
+         */
+        die('TODO: Openin in 2007, account in 2012');
+    }
+
     /* =======================================================
      * Call this when checking to see if there is an account in 2007
      * And that the account has all the needed info to copy into 2012

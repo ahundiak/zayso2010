@@ -75,7 +75,7 @@ class LegacyController extends BaseController
         $this->sendEmail('2007 Account Processed','The Body');
         
         // And done
-        return $this->redirect($this->generateUrl('zayso_area_welcome'));
+        return $this->redirect($this->generateUrl('zayso_area_home'));
     }
     /* ===============================================================
      * At this pointthe user has selected an opein account and has
@@ -113,6 +113,22 @@ class LegacyController extends BaseController
         return $this->processAccount($account2012,$profile);
     }
     /* ===============================================================
+     * Checks to see if the openid is linked to a 2007 account
+     * If so transfer the account to 2012 and sign in
+     */
+    protected function processOpenid2007($openIdProfile)
+    {
+        // Just to be safe
+        if (!isset($openidProfile['identifier'])) return null;
+        $identifier = $openidProfile['identifier'];
+        if (strlen($identifier) < 8) return;
+
+        $account2007Manager = $this->get('zayso_area.account.manager2007');
+        $account2007 = $account2007Manager->checkOpenid2007($identifier);
+        if (!$account2007) return;
+        
+    }
+    /* ===============================================================
      * In theory the user has selected an openid account but it is
      * not currently tied to any existing zayso account
      * 
@@ -134,10 +150,12 @@ class LegacyController extends BaseController
         {
             return $this->redirect($this->generateUrl('zayso_area_welcome'));
         }
-        
+
         // Sign in form
         $accountManager = $this->getAccountManager();
         $account = $accountManager->newAccountEntity();
+
+        $account->setUserName($request->getSession()->get(SecurityContext::LAST_USERNAME));
         
         $formType = new LegacySigninFormType($accountManager->getEntityManager());
         $form = $this->createForm($formType, $account);
@@ -150,12 +168,22 @@ class LegacyController extends BaseController
             {
                 $userName = $account->getUserName();
                 $userPass = $account->getUserPass();
+
+                $request->getSession()->set(SecurityContext::LAST_USERNAME,$userName);
+
                 $result = $this->process($userName,$userPass,$profile);
                 if (is_object($result)) return $result;
+                
                 $form->addError(new FormError($result));
             }
         }
- 
+        if ($request->getMethod() == 'GET')
+        {
+            // Check for openid 2007
+            $result = $this->processOpenid2007($profile);
+            if (is_object($result)) return $result;
+            if ($result) $form->addError(new FormError($result));
+        }
         // And render
         $tplData = array();
         $tplData['form'] = $form->createView();
