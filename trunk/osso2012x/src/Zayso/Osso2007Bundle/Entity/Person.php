@@ -3,6 +3,8 @@
 namespace Zayso\Osso2007Bundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+
 use Zayso\Osso2007Bundle\Service\GameManager as GameManager;
 /**
  * Zayso\Osso2007Bundle\Entity\Person
@@ -24,7 +26,25 @@ class Person
     {
         return GameManager::getRegionKey($this->unitId);
     }
-
+    public function __construct()
+    {
+        $this->phones = new ArrayCollection();
+        $this->emails = new ArrayCollection();
+    }
+    public function getPhone()
+    {
+        if (isset($this->phones[3])) return $this->phones[3]->getPhoneNumber();
+        if (isset($this->phones[1])) return $this->phones[1]->getPhoneNumber();
+        if (isset($this->phones[2])) return $this->phones[2]->getPhoneNumber();
+        
+        return null;
+    }
+    public function getEmail()
+    {
+        if (isset($this->emails[1])) return $this->emails[1]->getAddress();
+        if (isset($this->emails[2])) return $this->emails[2]->getAddress();        
+        return null;
+    }
     /** =========================================================================
      * @var integer $personId
      *
@@ -33,6 +53,16 @@ class Person
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $personId;
+    
+    /**
+     *  @ORM\OneToMany(targetEntity="Phone", mappedBy="person", indexBy="phoneTypeId")
+     */
+    private $phones;
+    
+    /**
+     *  @ORM\OneToMany(targetEntity="Email", mappedBy="person", indexBy="emailTypeId")
+     */
+    private $emails;
 
     /**
      * @var string $uname
