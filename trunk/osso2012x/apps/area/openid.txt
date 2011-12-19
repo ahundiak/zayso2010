@@ -64,7 +64,7 @@ array(7) {
   ["identifier"] => string(51) "http://twitter.com/account/profile?user_id=49477179"
 }
 =============================================
-myOpenid New zayso2012 account
+myOpenid zayso2012 zzz
 array(5) {
   ["displayName"] => string(9) "zayso2012"
   ["preferredUsername"] => string(9) "zayso2012"
