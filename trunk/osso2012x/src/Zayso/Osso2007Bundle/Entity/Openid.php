@@ -22,13 +22,6 @@ class Openid
     private $id;
 
     /**
-     * @var integer $accountId
-     *
-     *  ORM\Column(name="account_id", type="integer", nullable=true)
-     */
-    private $accountId;
-
-    /**
      * @ORM\ManyToOne(targetEntity="Account", inversedBy="openids")
      * @ORM\JoinColumn(name="account_id", referencedColumnName="account_id")
      */
