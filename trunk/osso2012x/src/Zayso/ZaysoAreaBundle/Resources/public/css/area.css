@@ -22,6 +22,10 @@ img
   display: block;
   border:  none
 }
+p
+{
+    width: 600px;
+}
 /* ===========================================
  * Header
  */

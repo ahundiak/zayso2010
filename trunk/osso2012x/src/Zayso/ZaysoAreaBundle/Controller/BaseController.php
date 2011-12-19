@@ -5,11 +5,13 @@ namespace Zayso\ZaysoAreaBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+
 class BaseController extends Controller
 {
     protected function getAccountManager()
     {
-        return $this->get('account.manager');
+        return $this->get('zayso_area.account.manager');
     }
     protected function getProjectManager()
     {
@@ -17,7 +19,7 @@ class BaseController extends Controller
     }
     protected function getProjectId()
     {
-        return 52;
+        return 70;
     }
     // Be aware that this returns the string anon for non users
     protected function getUser()
@@ -31,6 +33,7 @@ class BaseController extends Controller
         else
         {
             $userProvider = $this->get('security.user.provider.zayso');
+            // Need try/catch here
             $user = $userProvider->loadUserByUsername($userName);
         }
         $providerKey = 'secured_area';
@@ -83,26 +86,6 @@ class BaseController extends Controller
 
         return $authInfo['profile'];
     }
-    protected function getUserx()
-    {
-        if ($this->user) return $this->user;
-
-        $session = $this->getRequest()->getSession();
-//print_r($session->all()); die('attributes');
-        $userData = $session->get('userData');
-//print_r($userData); die();
-        $accountId = 0;
-        $memberId  = 0;
-        $projectId = $this->getProjectId();
-
-        if (isset($userData['accountId'])) $accountId = $userData['accountId'];
-        if (isset($userData['memberId' ])) $memberId  = $userData['memberId'];
-        if (isset($userData['projectId'])) $projectId = $userData['projectId'];
-
-        $this->user = new User($this->container);
-        $this->user->load($accountId,$memberId,$projectId);
-        return $this->user;
-    }
     protected function getTplData()
     {
         $tplData = array
@@ -111,6 +94,23 @@ class BaseController extends Controller
             'format' =>  new FormatHTML(),
         );
         return $tplData;
+    }
+    protected function sendEmail($subject,$body)
+    {
+        $mailerEnabled = $this->container->getParameter('mailer_enabled');
+        if (!$mailerEnabled) return;
+        
+        $message = \Swift_Message::newInstance();
+        $message->setSubject($subject);
+        $message->setFrom('admin@zayso.org');
+        $message->setTo  ('ahundiak@gmail.com');
+        
+        $message->setBody($body);
+        
+        //$message->setBody($this->renderView('NatGamesBundle:Account:email.txt.twig', array('ap' => $accountPerson)));
+
+        $this->get('mailer')->send($message);
+
     }
 }
 ?>

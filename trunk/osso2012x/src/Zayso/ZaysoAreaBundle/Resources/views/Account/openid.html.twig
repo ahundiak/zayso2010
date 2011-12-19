@@ -1,0 +1,31 @@
+{% extends 'ZaysoAreaBundle:Layout:layout.html.twig' %}
+
+{% block title %}Area - Openid{% endblock %}
+
+{% block content %}
+<div>
+    <h3>Sign In Using Social Network</h3>
+    <p>You have sucessfully picked the following social network:</p>
+    <table border="1">
+        <tr><td>Social Network</td><td>Your Display Name</td></tr>
+        <tr><td>{{ provider }}</td><td>{{ displayName }}</td></tr>
+    </table>
+    <p>
+        This social network account is not currently connected to your zayso account.  
+        This is normal for new accounts or if it the first time you are visiting 
+        this site in 2012.  
+        However, if you have already connected a social newtowk site then something is wrong.
+        You probably picked the wrong social network.  
+        Return the the <a href="{{ path('zayso_area_welcome') }}">Welcome Page</a> and pick a different network.
+    </p>
+    <p>
+        If you have an existing zayso account then enter your zayso account name and password into the form below.
+        This will tie the social network to your zayso account and sign you in.
+    </p>
+    <p>
+        If you are a brand new user and wish to create a new zayso account then proceed to: <br />
+        <a href="{{ path('zayso_area_welcome') }}">Create a New Account</a>.
+    </p>
+{% include 'ZaysoAreaBundle:Account:signin.html.twig' %}        
+</div>
+{% endblock %}
