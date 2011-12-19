@@ -12,3 +12,5 @@ Send email admin@zayso.org  zayso2012 Started
 Create new account
 
 Veirfy what happens if openid exists on osso2007
+
+Make sure that when somone has an area5c account they can sign into the National games site.
