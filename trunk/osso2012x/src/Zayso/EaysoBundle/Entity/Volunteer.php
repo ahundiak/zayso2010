@@ -162,6 +162,13 @@ class Volunteer implements NotifyPropertyChanged
         if (!$cert) return null;
         return $cert->getDate();
     }
+    public function getPhone()
+    {
+        if ($this->getCellPhone()) return $this->getCellPhone();
+        if ($this->getHomePhone()) return $this->getHomePhone();
+        if ($this->getWorkPhone()) return $this->getWorkPhone();
+        
+    }
     /* ============================================================
      * Generated Code
      */
