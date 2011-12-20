@@ -18,8 +18,8 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
 
-            new Zayso\ZaysoAreaBundle\ZaysoAreaBundle(),
-            new Zayso\ZaysoCoreBundle\ZaysoCoreBundle(),
+            new Zayso\AreaBundle\ZaysoAreaBundle(),
+            new Zayso\CoreBundle\ZaysoCoreBundle(),
 
             // For pulling old account info
             new Zayso\EaysoBundle\EaysoBundle(),

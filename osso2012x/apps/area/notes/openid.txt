@@ -1,4 +1,12 @@
 ================================================
+20 Dec 2012
+Created clemens2012 (zayso2012) for testing
+
+http://clemens2012.myopenid.com/
+http://holt2012.myopenid.com/      tim.holt@charter.net
+http://zayso2012.myopenid.com/
+
+================================================
 Google
 array(8) {
   ["googleUserId"] => string(21) "101507035848053598528"

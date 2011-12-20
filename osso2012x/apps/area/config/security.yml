@@ -1,9 +1,9 @@
 parameters:
-    zayso_core.user.class: Zayso\ZaysoAreaBundle\Component\User\User
+    zayso_core.user.class: Zayso\AreaBundle\Component\User\User
 
 security:
     encoders:
-        Zayso\ZaysoUserBundle\Component\User\User:
+        Zayso\AreaBundle\Component\User\User:
             id: zayso_core.user.encoder
 
     role_hierarchy:
