@@ -2,7 +2,7 @@
 /* ===========================================================
  * Basic user
  */
-namespace Zayso\ZaysoAreaBundle\Component\User;
+namespace Zayso\AreaBundle\Component\User;
 
 use Zayso\ZaysoCoreBundle\Component\User\User as BaseUser;
 

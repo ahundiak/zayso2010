@@ -1,6 +1,6 @@
 <?php
 
-namespace Zayso\ZaysoAreaBundle\Controller;
+namespace Zayso\AreaBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;

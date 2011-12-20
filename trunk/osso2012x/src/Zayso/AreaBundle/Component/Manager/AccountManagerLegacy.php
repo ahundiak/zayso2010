@@ -3,7 +3,7 @@
  * The legacy account manager takes care of copying data
  * from osso2007 into 2012
  */
-namespace Zayso\ZaysoAreaBundle\Component\Manager;
+namespace Zayso\AreaBundle\Component\Manager;
 
 use Zayso\ZaysoCoreBundle\Component\Debug;
 use Zayso\ZaysoCoreBundle\Component\DataTransformer\PhoneTransformer;

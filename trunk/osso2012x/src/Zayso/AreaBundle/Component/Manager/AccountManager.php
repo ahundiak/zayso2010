@@ -2,7 +2,7 @@
 /* ========================================================================
  * The basic idea is to encapsulate as much of this stuff as possible in a service
  */
-namespace Zayso\ZaysoAreaBundle\Component\Manager;
+namespace Zayso\AreaBundle\Component\Manager;
 
 use Zayso\ZaysoBundle\Component\Debug;
 
