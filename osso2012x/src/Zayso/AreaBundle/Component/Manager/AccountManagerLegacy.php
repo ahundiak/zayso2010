@@ -5,8 +5,8 @@
  */
 namespace Zayso\AreaBundle\Component\Manager;
 
-use Zayso\ZaysoBundle\Component\Debug;
-use Zayso\ZaysoBundle\Component\DataTransformer\PhoneTransformer;
+use Zayso\CoreBundle\Component\Debug;
+use Zayso\CoreBundle\Component\DataTransformer\PhoneTransformer;
 
 use Doctrine\ORM\ORMException;
 

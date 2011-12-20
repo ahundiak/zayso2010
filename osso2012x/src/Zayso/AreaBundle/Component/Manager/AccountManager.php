@@ -4,7 +4,7 @@
  */
 namespace Zayso\AreaBundle\Component\Manager;
 
-use Zayso\ZaysoBundle\Component\Debug;
+use Zayso\CoreBundle\Component\Debug;
 
 use Doctrine\ORM\ORMException;
 
@@ -65,7 +65,7 @@ class AccountManager
         
         if (isset($params['projectId']))
         {
-            $project = $this->getEntityManager()->getReference('ZaysoBundle:Project',$params['projectId']);
+            $project = $this->getEntityManager()->getReference('ZaysoCoreBundle:Project',$params['projectId']);
             $projectPerson->setProject($project);
         }
         return $accountPerson;
@@ -323,7 +323,7 @@ class AccountManager
     public function deleteOpenid($id)
     {
         // $em->remove($entity)
-        $dql = 'DELETE FROM ZaysoBundle:AccountOpenid openid WHERE openid.id = :id';
+        $dql = 'DELETE FROM ZaysoCoreBundle:AccountOpenid openid WHERE openid.id = :id';
         $query = $this->getEntityManager()->createQuery($dql);
         $query->setParameter('id',$id);
         $query->getResult();
