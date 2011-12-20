@@ -194,7 +194,7 @@ class AccountPerson
     /**
      * Get account
      *
-     * @return Zayso\ZaysoBundle\Entity\Account 
+     * @return Zayso\CoreBundle\Entity\Account
      */
     public function getAccount()
     {
@@ -204,7 +204,7 @@ class AccountPerson
     /**
      * Get person
      *
-     * @return Zayso\ZaysoBundle\Entity\Person 
+     * @return Zayso\CoreBundle\Entity\Person
      */
     public function getPerson()
     {

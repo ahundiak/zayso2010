@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  *  ORM\Entity()
- * @ORM\Entity(repositoryClass="Zayso\ZaysoBundle\Repository\AccountRepository")
+ * @ORM\Entity()
  * @ORM\Table(name="account")
  */
 class Account
@@ -167,9 +167,9 @@ class Account
     /**
      * Add members
      *
-     * @param Zayso\ZaysoBundle\Entity\AccountPerson $members
+     * @param Zayso\CoreBundle\Entity\AccountPerson $members
      */
-    public function addMembers(\Zayso\ZaysoBundle\Entity\AccountPerson $members)
+    public function addMembers(\Zayso\CoreBundle\Entity\AccountPerson $members)
     {
         $this->members[] = $members;
     }
