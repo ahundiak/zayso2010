@@ -4,9 +4,9 @@ namespace Zayso\AreaBundle\Controller\Account;
 
 use Zayso\AreaBundle\Controller\BaseController;
 
-use Zayso\ZaysoCoreBundle\Component\DataTransformer\PasswordTransformer;
+use Zayso\CoreBundle\Component\DataTransformer\PasswordTransformer;
 
-use Zayso\ZaysoCoreBundle\Component\Debug;
+use Zayso\CoreBundle\Component\Debug;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\AbstractType;

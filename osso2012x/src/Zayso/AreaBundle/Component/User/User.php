@@ -4,7 +4,7 @@
  */
 namespace Zayso\AreaBundle\Component\User;
 
-use Zayso\ZaysoCoreBundle\Component\User\User as BaseUser;
+use Zayso\CoreBundle\Component\User\User as BaseUser;
 
 use Symfony\Component\Security\Core\Role\Role;
 
