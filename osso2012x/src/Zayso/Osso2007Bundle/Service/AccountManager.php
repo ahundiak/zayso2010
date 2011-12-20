@@ -34,13 +34,13 @@ class AccountManager
         $qb->addSelect('person');
         $qb->addSelect('openid');
 
-        $qb->from('Osso2007Bundle:Openid','account');
+        $qb->from('Osso2007Bundle:Openid','openid');
 
         $qb->leftJoin('openid.account', 'account');
         $qb->leftJoin('account.members','memberx');
         $qb->leftJoin('memberx.person', 'person');
 
-        $qb->andWhere($qb->expr()->eq('openid.identifier',$qb->expr()->literal($identier)));
+        $qb->andWhere($qb->expr()->eq('openid.identifier',$qb->expr()->literal($identifier)));
 
         $items = $qb->getQuery()->getResult();
 

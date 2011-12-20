@@ -100,9 +100,9 @@ class Openid
      *
      * @return integer 
      */
-    public function getAccountId()
+    public function getAccount()
     {
-        return $this->accountId;
+        return $this->account;
     }
 
     /**
