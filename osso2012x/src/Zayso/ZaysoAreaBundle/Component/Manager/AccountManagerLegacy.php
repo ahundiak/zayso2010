@@ -1,10 +1,7 @@
 <?php
 /* ===================================================
- * Tuck all the stuff needed to pull accounts from 2007 here
- * Eventually it should probably extend from Account Manager
- *
- * It's kind of confusing because it also uses the actual osso2007 account manager
- * Needs a much better name
+ * The legacy account manager takes care of copying data
+ * from osso2007 into 2012
  */
 namespace Zayso\ZaysoAreaBundle\Component\Manager;
 
@@ -23,7 +20,7 @@ use Zayso\ZaysoCoreBundle\Entity\PersonRegistered;
 use Zayso\ZaysoCoreBundle\Entity\Project;
 use Zayso\ZaysoCoreBundle\Entity\ProjectPerson;
 
-class AccountManager2007
+class AccountManagerLegacy
 {
     protected $em                 = null; // Accounts em 2012
     protected $account2007Manager = null; // osso2007 account manager
@@ -44,13 +41,14 @@ class AccountManager2007
      */
     public function checkOpenid2007($identifier)
     {
-        $account2007 = $this->account2007Manager->checkOpenid($identifier);
-        if (!$account2007) return null;
-        
-        if (!$account2007) return sprintf('Account does not exist in old zayso: %s.',$userName);
+        // See if even have one
+        $openid2007 = $this->account2007Manager->checkOpenid($identifier);
+        if (!$openid2007) return null;
+
+        $userName = $openid2007->getAccount()->getAccountUser();
 
         // Verify that everything is hunky and dory
-        $result = $this->checkAccount2007($account2007->getUserName());
+        $result = $this->checkAccount2007($userName);
 
         // All is well, account can be copied
         if (is_object($result)) return $result;
@@ -61,8 +59,12 @@ class AccountManager2007
          *
          * Want to link openid to 2012 account
          * And possible copy over any other account people
+         *
+         * Only a few not worth the effort
          */
-        die('TODO: Openin in 2007, account in 2012');
+        return $result;
+
+        die('TODO: Openid in 2007, account in 2012');
     }
 
     /* =======================================================

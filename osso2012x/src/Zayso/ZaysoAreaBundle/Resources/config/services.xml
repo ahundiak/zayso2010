@@ -15,9 +15,9 @@
         </service>
 
         <service
-            id="zayso_area.account.manager2007"
-            class="Zayso\ZaysoAreaBundle\Component\Manager\AccountManager2007"
-            public="true">
+            id     = "zayso_area.account.manager.legacy"
+            class  = "Zayso\ZaysoAreaBundle\Component\Manager\AccountManagerLegacy"
+            public = "true">
             <argument type="service" id="doctrine.orm.accounts_entity_manager" />
             <argument type="service" id="zayso_area.account.manager" />
             <argument type="service" id="zayso_osso2007.account.manager" />
