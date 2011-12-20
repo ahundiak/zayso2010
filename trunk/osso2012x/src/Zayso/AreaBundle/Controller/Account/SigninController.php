@@ -4,11 +4,11 @@ namespace Zayso\AreaBundle\Controller\Account;
 
 use Zayso\AreaBundle\Controller\BaseController;
 
-use Zayso\ZaysoBundle\Component\DataTransformer\PasswordTransformer;
-use Zayso\ZaysoBundle\Component\Form\Validator\UserNamePassValidator;
+// For future signin form
+use Zayso\CoreBundle\Component\DataTransformer\PasswordTransformer;
+use Zayso\CoreBundle\Component\Form\Validator\UserNamePassValidator;
 
-use Zayso\ZaysoCoreBundle\Entity\Account;
-use Zayso\ZaysoCoreBundle\Component\Debug;
+use Zayso\CoreBundle\Component\Debug;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\AbstractType;

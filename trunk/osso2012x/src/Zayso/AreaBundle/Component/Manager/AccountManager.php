@@ -8,13 +8,13 @@ use Zayso\ZaysoBundle\Component\Debug;
 
 use Doctrine\ORM\ORMException;
 
-use Zayso\ZaysoCoreBundle\Entity\AccountOpenid;
-use Zayso\ZaysoCoreBundle\Entity\Account;
-use Zayso\ZaysoCoreBundle\Entity\AccountPerson;
-use Zayso\ZaysoCoreBundle\Entity\Person;
-use Zayso\ZaysoCoreBundle\Entity\PersonRegistered;
-use Zayso\ZaysoCoreBundle\Entity\ProjectPerson;
-use Zayso\ZaysoCoreBundle\Entity\Project;
+use Zayso\CoreBundle\Entity\AccountOpenid;
+use Zayso\CoreBundle\Entity\Account;
+use Zayso\CoreBundle\Entity\AccountPerson;
+use Zayso\CoreBundle\Entity\Person;
+use Zayso\CoreBundle\Entity\PersonRegistered;
+use Zayso\CoreBundle\Entity\ProjectPerson;
+use Zayso\CoreBundle\Entity\Project;
 
 class AccountManager
 {
