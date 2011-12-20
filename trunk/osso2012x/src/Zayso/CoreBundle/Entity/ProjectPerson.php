@@ -159,7 +159,7 @@ class ProjectPerson
     /**
      * Get project
      *
-     * @return Zayso\ZaysoBundle\Entity\Project 
+     * @return Zayso\CoreBundle\Entity\Project
      */
     public function getProject()
     {
@@ -169,7 +169,7 @@ class ProjectPerson
     /**
      * Get person
      *
-     * @return Zayso\ZaysoBundle\Entity\Person 
+     * @return Zayso\CoreBundle\Entity\Person
      */
     public function getPerson()
     {

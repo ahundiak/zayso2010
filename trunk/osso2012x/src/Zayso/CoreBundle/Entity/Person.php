@@ -6,8 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- *  ORM\Entity()
- * @ORM\Entity(repositoryClass="Zayso\ZaysoBundle\Repository\PersonRepository")
+ * @ORM\Entity()
  * @ORM\Table(name="person")
  * @ORM\HasLifecycleCallbacks
  */
@@ -124,7 +123,7 @@ class Person
                 return $projectPerson;
             }
         }
-        return new \Zayso\ZaysoBundle\Entity\ProjectPerson();        
+        return new \Zayso\CoreBundle\Entity\ProjectPerson();
     }
     public function getAysoid()
     {
@@ -393,9 +392,9 @@ class Person
     /**
      * Add registereds
      *
-     * @param Zayso\ZaysoBundle\Entity\PersonRegistered $registereds
+     * @param Zayso\CoreBundle\Entity\PersonRegistered $registereds
      */
-    public function addRegistereds(\Zayso\ZaysoBundle\Entity\PersonRegistered $registereds)
+    public function addRegistereds(\Zayso\CoreBundle\Entity\PersonRegistered $registereds)
     {
         $this->registereds[] = $registereds;
     }
@@ -413,9 +412,9 @@ class Person
     /**
      * Add members
      *
-     * @param Zayso\ZaysoBundle\Entity\AccountPerson $members
+     * @param Zayso\CoreBundle\Entity\AccountPerson $members
      */
-    public function addMembers(\Zayso\ZaysoBundle\Entity\AccountPerson $members)
+    public function addMembers(\Zayso\CoreBundle\Entity\AccountPerson $members)
     {
         $this->members[] = $members;
     }
@@ -433,9 +432,9 @@ class Person
     /**
      * Add projects
      *
-     * @param Zayso\ZaysoBundle\Entity\ProjectPerson $projects
+     * @param Zayso\CoreBundle\Entity\ProjectPerson $projects
      */
-    public function addProjects(\Zayso\ZaysoBundle\Entity\ProjectPerson $projects)
+    public function addProjects(\Zayso\CoreBundle\Entity\ProjectPerson $projects)
     {
         $this->projects[] = $projects;
     }

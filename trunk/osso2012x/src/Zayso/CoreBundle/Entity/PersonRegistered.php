@@ -160,7 +160,7 @@ class PersonRegistered
     /**
      * Get person
      *
-     * @return Zayso\ZaysoBundle\Entity\Person 
+     * @return Zayso\CoreBundle\Entity\Person
      */
     public function getPerson()
     {
