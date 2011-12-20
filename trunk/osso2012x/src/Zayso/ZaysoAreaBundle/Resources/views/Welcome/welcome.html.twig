@@ -5,13 +5,14 @@
 {% block content %}
 <div>
     <h1>Welcome to Zayso 2012</h1>
-    <h2>New Look</h2>
+    <h2>New Site - New Look</h2>
     <p>
-        If you are planning to referee some Madison winter games or maybe doing some Spring games later on
+        If you are planning to referee some Madison winter games or 
+        maybe doing some Spring North Alabama games later on
         then you have found the right site.
         After 10 years it was time for a face lift and a bit of a cleanup for the old site.
-        This new site will be used for the AYSO National Games in Knoxville, Tennesse July 4-8 2012.
-        As well as the Section 5 Games in North Carolina June 15-17 2012.
+        This new site will be used for the AYSO National Games in Knoxville, Tennesse July 4-8 2012
+        as well as the Section 5 Games in North Carolina June 15-17 2012.
     </p>
     <p>
         As part of the cleanup process, user accounts will be copied from the old system to the new system
@@ -20,17 +21,20 @@
     </p>
     <h2>Already have an account on the new system?</h2>
     <p>
-        If you already gone through this process once then just scroll down to the bottom and click on your
-        social network site icon to sign in.
-    </p?
-    <h2>Social Network Now Required</h2>
+        If you already gone through this process once then click on an icon below to sign in:
+    </p>
+    <iframe
+        src="http://zayso.rpxnow.com/openid/embed?token_url={{ url('zayso_area_account_signin_rpx') }}"
+        scrolling="no"  frameBorder="no"  allowtransparency="true"  style="width:400px;height:240px">
+    </iframe>
+    <h2>Social Network (above) Now Required!</h2>
     <p>
-        The biggest immediate change is that I am now going to require that all users use a social network icon (see below) to sign in.
-        This will make it easier for the user since all they need to do is to click the appropiate social network icon.
+        The biggest immediate change is that I am now going to require that all users use a social network icon (see above) to sign in.
+        This will make it easier for the user since all they need to do is to click the appropiate social network icon to sign in.
         No more needing to remember your zayso user name and password.
         It will also make things easier for the referee administrators since we
         won't have to deal with as many "forget how to sign in" issues.
-        You can actually connect several social networks to your zayso account so you are bound to remember at least on them.
+        You can actually connect several social networks to your zayso account so you are bound to remember at least one of them.
     </p><p>
         Please understand that your social network passwords never go through zayso.
         Instead you will be directed to the actual social network site.
@@ -41,30 +45,25 @@
     <p>
         Many of you have already signed up to referee on the <a href="">National Games 2012</a> web site.
         That is great.  With 800 games to cover I'm hoping everyone will be willing to take a short trip to Knoxville
-        and help out.  If you have already created a National Games zayso account then click on an icon below.
+        in July and help out.
+        If you have already created a National Games zayso account then click on an icon above.
         When you get to the zayso sign in form, enter your National Games user name and password.
-        The same account will then be used for both the National Games as well as local North Alabama.
-        Eventually, the Section 5 Games will be added in as well.
+        The same account will then be used for both the National Games as well as local North Alabama games.
     </p>
     <h2>Returning Area 5C/F Referees</h2>
     <p>
-        If you already have a zayso account from previous years then click on an icon below.
+        If you already have a zayso account from previous years then click on an icon above.
         When you get to the sign in form, enter your old zayso user name and password.
         Your account will automatically be transfered to the new system.  At least in theory.
     </p>
     <h2>New Referees</h2>
     <p>
-        If you have never created a zayso account then click on an icon below.
-        When you get to the sign in page there will be a link to create a brand new zayso account
-        and to automatically link it to your social network account.
+        If you have never created a zayso account then click on an icon above.
+        When you get to the sign in page there will be a link to create a brand new zayso account.
     </p>
-    <h2>So Lets Get Started!</h2>
+    <h2>Help!</h2>
     <p>
-        Click on an icon below to select your social network account.
+        Feel free to contact Art Hundiak at 256.457.5943 if the above instructions are confusing or don't seem to work.
     </p>
-    <iframe
-        src="http://zayso.rpxnow.com/openid/embed?token_url={{ url('zayso_area_account_signin_rpx') }}"
-        scrolling="no"  frameBorder="no"  allowtransparency="true"  style="width:400px;height:240px">
-    </iframe>
 </div>
 {% endblock %}
