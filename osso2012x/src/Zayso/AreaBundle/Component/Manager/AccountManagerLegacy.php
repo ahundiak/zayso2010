@@ -5,20 +5,10 @@
  */
 namespace Zayso\AreaBundle\Component\Manager;
 
-use Zayso\ZaysoCoreBundle\Component\Debug;
-use Zayso\ZaysoCoreBundle\Component\DataTransformer\PhoneTransformer;
+use Zayso\ZaysoBundle\Component\Debug;
+use Zayso\ZaysoBundle\Component\DataTransformer\PhoneTransformer;
 
 use Doctrine\ORM\ORMException;
-
-use Zayso\ZaysoCoreBundle\Entity\Account;
-use Zayso\ZaysoCoreBundle\Entity\AccountPerson;
-use Zayso\ZaysoCoreBundle\Entity\AccountOpenid;
-
-use Zayso\ZaysoCoreBundle\Entity\Person;
-use Zayso\ZaysoCoreBundle\Entity\PersonRegistered;
-
-use Zayso\ZaysoCoreBundle\Entity\Project;
-use Zayso\ZaysoCoreBundle\Entity\ProjectPerson;
 
 class AccountManagerLegacy
 {
