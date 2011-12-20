@@ -1,6 +1,6 @@
 <?php
 
-namespace Zayso\ZaysoAreaBundle;
+namespace Zayso\AreaBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

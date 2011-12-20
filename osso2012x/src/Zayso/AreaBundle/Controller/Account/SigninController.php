@@ -1,8 +1,8 @@
 <?php
 
-namespace Zayso\ZaysoAreaBundle\Controller\Account;
+namespace Zayso\AreaBundle\Controller\Account;
 
-use Zayso\ZaysoAreaBundle\Controller\BaseController;
+use Zayso\AreaBundle\Controller\BaseController;
 
 use Zayso\ZaysoBundle\Component\DataTransformer\PasswordTransformer;
 use Zayso\ZaysoBundle\Component\Form\Validator\UserNamePassValidator;

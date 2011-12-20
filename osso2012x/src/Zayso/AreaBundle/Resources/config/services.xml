@@ -8,7 +8,7 @@
         
         <service
             id="zayso_area.account.manager"
-            class="Zayso\ZaysoAreaBundle\Component\Manager\AccountManager"
+            class="Zayso\AreaBundle\Component\Manager\AccountManager"
             public="true">
             <argument type="service" id="doctrine.orm.accounts_entity_manager" />
             <argument type="string">%zayso_core.user.password%</argument>
@@ -16,7 +16,7 @@
 
         <service
             id     = "zayso_area.account.manager.legacy"
-            class  = "Zayso\ZaysoAreaBundle\Component\Manager\AccountManagerLegacy"
+            class  = "Zayso\AreaBundle\Component\Manager\AccountManagerLegacy"
             public = "true">
             <argument type="service" id="doctrine.orm.accounts_entity_manager" />
             <argument type="service" id="zayso_area.account.manager" />

@@ -1,6 +1,6 @@
 <?php
 
-namespace Zayso\ZaysoAreaBundle\Command;
+namespace Zayso\AreaBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
