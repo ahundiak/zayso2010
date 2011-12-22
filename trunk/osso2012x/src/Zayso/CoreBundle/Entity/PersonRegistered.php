@@ -20,7 +20,7 @@ class PersonRegistered
   protected $id;
 
   /**
-   * @ORM\ManyToOne(targetEntity="Person", inversedBy="registereds")
+   * @ORM\ManyToOne(targetEntity="Person", inversedBy="registeredPersons")
    * @ORM\JoinColumn(name="person_id", referencedColumnName="id")
    */
   protected $person;
@@ -32,7 +32,7 @@ class PersonRegistered
   protected $regKey = '';
 
   /** @ORM\Column(type="string",name="verified",length=20) */
-  protected $verified = '';
+  protected $verified = 'No';
 
   /** @ORM\Column(type="text",name="datax") */
   protected $datax = '';

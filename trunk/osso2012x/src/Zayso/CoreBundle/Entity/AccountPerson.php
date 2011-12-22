@@ -25,33 +25,46 @@ class AccountPerson
     protected $accountRelation;
   
     /**
-     * @ORM\ManyToOne(targetEntity="Person", inversedBy="members", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Person", cascade={"persist"})
      * @ORM\JoinColumn(name="person_id", referencedColumnName="id")
      */
     protected $person;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Account", inversedBy="members", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Account", inversedBy="accountPersons", cascade={"persist"})
      * @ORM\JoinColumn(name="account_id", referencedColumnName="id", nullable=false)
      */
     protected $account;
 
+    /** @ORM\OneToMany(targetEntity="AccountOpenid", mappedBy="accountPerson", cascade={"persist"}) */
+    protected $openids;
+
     /** @ORM\Column(name="verified",type="string",length=16,nullable=false) */
-    protected $verified = '';
+    protected $verified = 'No';
 
     /** @ORM\Column(name="status",type="string",length=16,nullable=false) */
-    protected $status = '';
+    protected $status = 'Active';
 
+    /* ============================================
+     * Custom code
+     */
+    public function __construct()
+    {
+        $this->openids = new ArrayCollection();
+    }
     public function setAccount($account)
     {
         $this->account = $account;
         if ($account) $account->addAccountPerson($this);
     }
+    public function getAccount() { return $this->account; }
+
     public function setPerson($person)
     {
         $this->person = $person;
-        if ($person) $person->addAccountPerson($this);
     }
+    public function getPerson() { return $this->person; }
+
     /** @Assert\NotBlank(groups={"create","edit"}) */
     public function getUserName () 
     {
@@ -138,86 +151,32 @@ class AccountPerson
     public function setSafeHaven($value) { return $this->person->setSafeHaven($value); }
     public function setMemYear  ($value) { return $this->person->setMemYear  ($value); }
 
-  /* ===========================================================================
-   * Generated code follows
-   */
-    /**
-     * Get id
-     *
-     * @return integer 
+    /* ===========================================================================
+     * Generated code follows
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+    public function getId() { return $this->id; }
 
-    /**
-     * Set verified
-     *
-     * @param string $verified
-     */
-    public function setVerified($verified)
-    {
-        $this->verified = $verified;
-    }
+    public function setVerified($verified) { $this->verified = $verified; }
 
-    /**
-     * Get verified
-     *
-     * @return string 
-     */
-    public function getVerified()
-    {
-        return $this->verified;
-    }
+    public function getVerified() { return $this->verified; }
 
-    /**
-     * Set status
-     *
-     * @param string $status
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-    }
+    public function setStatus($status) { $this->status = $status; }
 
-    /**
-     * Get status
-     *
-     * @return string 
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
+    public function getStatus() { return $this->status; }
 
-    /**
-     * Get account
-     *
-     * @return Zayso\CoreBundle\Entity\Account
-     */
-    public function getAccount()
-    {
-        return $this->account;
-    }
+    public function setAccountRelation($value) { $this->accountRelation = $value; }
 
-    /**
-     * Get person
-     *
-     * @return Zayso\CoreBundle\Entity\Person
-     */
-    public function getPerson()
-    {
-        return $this->person;
-    }
+    public function isPrimary() { return $this->accountRelation == 'Primary' ? true : false; }
+    public function isFamily () { return $this->accountRelation == 'Family'  ? true : false; }
+    public function isPeer   () { return $this->accountRelation == 'Peer'    ? true : false; }
 
-    /**
-     * Set accountRel
-     *
-     * @param string $accountRel
-     */
-    public function setAccountRelation($value)
-    {
-        $this->accountRelation = $value;
-    }
+    public function setAsPrimary() { $this->accountRelation = 'Primary'; }
+    public function setAsFamily () { $this->accountRelation = 'Family'; }
+    public function setAsPeer   () { $this->accountRelation = 'Peer'; }
+
+    public function getOpenids() { return $this->openids; }
+
+    public function addOpenid($openid) { $this->openids[] = $openid; }
+
+    public function clearOpenids() { $this->openids = new ArrayCollection(); }
 }
