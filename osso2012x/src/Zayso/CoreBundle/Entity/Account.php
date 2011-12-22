@@ -8,180 +8,77 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- *  ORM\Entity()
  * @ORM\Entity()
  * @ORM\Table(name="account")
  */
 class Account
 {
-  /**
-   * @ORM\Id
-   * @ORM\Column(type="integer",name="id")
-   * @ORM\GeneratedValue
-   */
-  protected $id;
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer",name="id")
+     * @ORM\GeneratedValue
+    */
+    protected $id;
 
-  /** @ORM\Column(name="user_name",type="string",length=40,unique=true,nullable=false)
-   *  @Assert\NotBlank()
-   */
-  protected $userName = '';
+    /** @ORM\Column(name="user_name",type="string",length=40,unique=true,nullable=false)
+     *  @Assert\NotBlank()
+     */
+    protected $userName = '';
 
-  /** @ORM\Column(name="user_pass",type="string",length=32,nullable=false)
-   *  @Assert\NotBlank(message="Missing Password")
-   */
-  protected $userPass  = '';
+    /** @ORM\Column(name="user_pass",type="string",length=32,nullable=false)
+     *  @Assert\NotBlank(message="Missing Password")
+     */
+    protected $userPass  = '';
 
-  /** @ORM\Column(name="status",type="string",length=16,nullable=false) */
-  protected $status = '';
+    /** @ORM\Column(name="status",type="string",length=16,nullable=false) */
+    protected $status = 'Active';
 
-  /**
-   * @ORM\OneToMany(targetEntity="AccountPerson", mappedBy="account")
-   */
-  protected $members;
+    /** @ORM\OneToMany(targetEntity="AccountPerson", mappedBy="account") */
+    protected $accountPersons;
 
-//  public $accountPerson;
-
-  public function __construct()
-  {
-    $this->members = new ArrayCollection();
-  }
-  public function addAccountPerson($member)
-  {
-    $this->members[] = $member;
-//    $this->accountPerson = $member;
-  }
-  public function getMember($memberId)
-  {
-    foreach($this->members as $member)
+    /* ==========================================================
+     * Custom Code
+     */
+    public function __construct()
     {
-      if ($member->getId() == $memberId) return $member;
+        $this->accountPersons = new ArrayCollection();
     }
-    return null;
-  }
-  public function getPrimaryMember()
-  {
-    foreach($this->members as $member)
+    public function addAccountPerson($accountPerson)
     {
-      if ($member->getAccountRelation() == 'Primary') return $member;
+        $this->accountPersons[] = $accountPerson;
     }
-    return null;
-  }
-  public function getPrimaryMemberId()
-  {
-      $primary = $this->getPrimaryMember();
-      if ($primary) return $primary->getId();
-      return null;
-  }
-  public function getPrimaryPersonId()
-  {
-      $primary = $this->getPrimaryMember();
-      if ($primary) return $primary->getPerson()->getId();
-      return null;
-  }
-  public function getPersonForId($personId)
-  {
-        foreach($this->members as $member)
+    public function getAccountPerson($accountPersonId)
+    {
+        foreach($this->accountPersons as $accountPerson)
         {
-            $person = $member->getPerson();
-            if ($person && $person->getId() == $personId) return $person;
+            if ($accountPerson->getId() == $accountPersonId) return $accountPerson;
         }
         return null;
-  }
-  /* =====================================================================
-   * End of custom code
-   */
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
     }
-
-    /**
-     * Set userName
-     *
-     * @param string $userName
-     */
-    public function setUserName($userName)
+    public function getPrimaryAccountPerson()
     {
-        $this->userName = $userName;
-    }
+        foreach($this->accountPersons as $accountPerson)
+        {
+            if ($accountPerson->isPrimary()) return $accountPerson;
 
-    /**
-     * Get userName
-     *
-     * @return string 
-     * @Assert\NotBlank()
-     */
-    public function getUserName()
-    {
-        return $this->userName;
+            //if ($accountPerson->getAccountRelation() == 'Primary') return $accountPerson;
+        }
+        return null;
     }
+    public function getAccountPersons() { return $this->accountPersons; }
 
-    /**
-     * Set userPass
-     *
-     * @param string $userPass
+    /* =====================================================================
+     * End of custom code
      */
-    public function setUserPass($userPass)
-    {
-        // Not going to allow blank passwords
-        if (!$userPass) return;
-        $this->userPass = $userPass;
-    }
 
-    /**
-     * Get userPass
-     *
-     * @return string 
-     */
-    public function getUserPass()
-    {
-        return $this->userPass;
-    }
+    public function getId() { return $this->id; }
 
-    /**
-     * Set status
-     *
-     * @param string $status
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-    }
+    public function setUserName($userName) { $this->userName = $userName; }
+    public function getUserName()          { return $this->userName; }
 
-    /**
-     * Get status
-     *
-     * @return string 
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
+    public function setUserPass($userPass) { $this->userPass = $userPass; }
+    public function getUserPass()          { return $this->userPass; }
 
-    /**
-     * Add members
-     *
-     * @param Zayso\CoreBundle\Entity\AccountPerson $members
-     */
-    public function addMembers(\Zayso\CoreBundle\Entity\AccountPerson $members)
-    {
-        $this->members[] = $members;
-    }
-
-    /**
-     * Get members
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getMembers()
-    {
-        return $this->members;
-    }
-    public function getAccountPersons() { return $this->members; }
+    public function setStatus($status) { $this->status = $status; }
+    public function getStatus()        { return $this->status; }
 }

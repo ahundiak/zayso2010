@@ -35,34 +35,32 @@ class Person
     protected $cellPhone = '';
 
     /** @ORM\Column(type="string",name="verified",length=20) */
-    protected $verified = '';
+    protected $verified = 'No';
 
     /** @ORM\Column(type="string",name="status",length=20) */
-    protected $status = '';
+    protected $status = 'Active';
 
-    /** @ORM\Column(type="string",name="org_key",length=20,nullable=true) */
-    protected $orgKey = '';
-
-    /**  ORM\Column(type="string",name="dob",length=8,nullable=true) */
-    protected $dob = '';
-
-    /**  ORM\Column(type="string",name="gender",length=8,nullable=true) */
-    protected $gender = '';
+    /**
+     * @ORM\ManyToOne(targetEntity="Org", cascade={"persist"})
+     * @ORM\JoinColumn(name="org_key", referencedColumnName="id", nullable=true)
+     */
+    protected $org = null;
 
     /**
      *  @ORM\OneToMany(targetEntity="PersonRegistered", mappedBy="person", indexBy="regType", cascade={"persist"})
      */
-    protected $registereds;
+    protected $registeredPersons;
 
     /**
-     * @ORM\OneToMany(targetEntity="AccountPerson", mappedBy="person")
+     * Probably do not need this
+     *  ORM\OneToMany(targetEntity="AccountPerson", mappedBy="person")
      */
-    protected $members;
+    protected $accountPersons;
 
     /**
      * @ORM\OneToMany(targetEntity="ProjectPerson", mappedBy="person", cascade={"persist"})
      */
-    protected $projects;
+    protected $projectPersons;
 
     /** @ORM\Column(type="text",name="datax") */
     protected $datax = '';
@@ -98,32 +96,41 @@ class Person
   
     public function __construct()
     {
-        $this->registereds = new ArrayCollection();
-        $this->members     = new ArrayCollection();
-        $this->projects    = new ArrayCollection();
+        $this->registeredPersons = new ArrayCollection();
+        $this->projectPersons    = new ArrayCollection();
     }
-    public function addAccountPerson($member)
+    public function addProjectPerson($projectPerson)
     {
-        $this->members[] = $member;
+        // Prevent dups
+        /*
+        $projectId = $projectPerson->getProject()->getId();
+        foreach($this->projectPersons as $projectPerson)
+        {
+            if ($projectPerson->getProject()->getId() == $projectId) return;
+        }*/
+        $this->projectPersons[] = $projectPerson;
     }
-    public function addProjectPerson($person)
+    public function getProjectPerson($projectId)
     {
-        $this->projects[] = $person;
+        foreach($this->projectPersons as $projectPerson)
+        {
+            if ($projectPerson->getProject()->getId() == $projectId) return $projectPerson;
+        }
+        return null;
     }
+    public function getProjectPersons() { return $this->projectPersons; }
+    public function clearProjectPersons() { $this->projectPersons = new ArrayCollection(); }
+    
     public function addRegisteredPerson($reg)
     {
-        $this->registereds[$reg->getRegType()] = $reg;
+        $this->registeredPersons[$reg->getRegType()] = $reg;
     }
-    public function getNatGamesProjectPerson()
+    public function getRegisteredPersons() { return $this->registeredPersons; }
+
+    public function getAysoRegisteredPerson()
     {
-        foreach($this->projects as $projectPerson)
-        {
-            if ($projectPerson->getProject()->getId() == 52)
-            {
-                return $projectPerson;
-            }
-        }
-        return new \Zayso\CoreBundle\Entity\ProjectPerson();
+        if ($this->registeredPersons['AYSOV']) return $this->registeredPersons['AYSOV'];
+        return null;
     }
     public function getAysoid()
     {
@@ -185,19 +192,6 @@ class Person
         if ($rp) $rp->setMemYear($value);
         return;
     }
-    public function getAysoRegisteredPerson()
-    {
-        // die('Count: ' . count($this->_regs));
-
-        if ($this->registereds['AYSOV']) return $this->registereds['AYSOV'];
-        return null;
-        // Should be able to use that key stuff
-        foreach($this->registereds as $reg)
-        {
-            if ($reg->getRegType() == 'AYSOV') return $reg;
-        }
-        return null;
-    }
     public function setDob($dob) { return $this->set('dob',$dob); }
     public function getDob()     { return $this->get('dob'); }
     
@@ -218,254 +212,40 @@ class Person
     /* ======================================================================
      * Generated code follows
      */
+    public function getId() { return $this->id; }
 
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+    public function setLastName ($name) { $this->lastName  = $name; }
+    public function setNickName ($name) { $this->nickName  = $name; }
+    public function setFirstName($name) { $this->firstName = $name; }
 
-    /**
-     * Set firstName
-     *
-     * @param string $firstName
-     */
-    public function setFirstName($firstName)
-    {
-        $this->firstName = $firstName;
-    }
+    public function getLastName () { return $this->lastName;  }
+    public function getNickName () { return $this->nickName;  }
+    public function getFirstName() { return $this->firstName; }
 
-    /**
-     * Get firstName
-     *
-     * @return string 
-     */
-    public function getFirstName()
-    {
-        return $this->firstName;
-    }
+    public function setEmail($email) { $this->email = $email; }
+    public function getEmail()       { return $this->email;   }
 
-    /**
-     * Set lastName
-     *
-     * @param string $lastName
-     */
-    public function setLastName($lastName)
-    {
-        $this->lastName = $lastName;
-    }
+    public function setCellPhone($cellPhone) { $this->cellPhone = $cellPhone; }
+    public function getCellPhone()           { return $this->cellPhone; }
 
-    /**
-     * Get lastName
-     *
-     * @return string 
-     */
-    public function getLastName()
-    {
-        return $this->lastName;
-    }
+    public function setVerified($verified)   { $this->verified = $verified; }
+    public function getVerified()            { return $this->verified;      }
 
-    /**
-     * Set nickName
-     *
-     * @param string $nickName
-     */
-    public function setNickName($nickName)
-    {
-        $this->nickName = $nickName;
-    }
+    public function setStatus($status)       { $this->status = $status; }
+    public function getStatus()              { return $this->status; }
 
-    /**
-     * Get nickName
-     *
-     * @return string 
-     */
-    public function getNickName()
-    {
-        return $this->nickName;
-    }
+    public function setOrg($org) { $this->org = $org; }
+    public function getOrg()     { return $this->org; }
 
-    /**
-     * Set email
-     *
-     * @param string $email
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string 
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Set cellPhone
-     *
-     * @param string $cellPhone
-     */
-    public function setCellPhone($cellPhone)
-    {
-        $this->cellPhone = $cellPhone;
-    }
-
-    /**
-     * Get cellPhone
-     *
-     * @return string 
-     */
-    public function getCellPhone()
-    {
-        return $this->cellPhone;
-    }
-
-    /**
-     * Set verified
-     *
-     * @param string $verified
-     */
-    public function setVerified($verified)
-    {
-        $this->verified = $verified;
-    }
-
-    /**
-     * Get verified
-     *
-     * @return string 
-     */
-    public function getVerified()
-    {
-        return $this->verified;
-    }
-
-    /**
-     * Set status
-     *
-     * @param string $status
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-    }
-
-    /**
-     * Get status
-     *
-     * @return string 
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    /**
-     * Set orgKey
-     *
-     * @param string $orgKey
-     */
-    public function setOrgKey($orgKey)
-    {
-        $this->orgKey = $orgKey;
-    }
-
-    /**
-     * Get orgKey
-     *
-     * @return string 
-     */
     public function getOrgKey()
     {
-        return $this->orgKey;
+        if ($this->org) return $this->org->getId();
+        return null;
     }
-
-    /**
-     * Add registereds
-     *
-     * @param Zayso\CoreBundle\Entity\PersonRegistered $registereds
-     */
-    public function addRegistereds(\Zayso\CoreBundle\Entity\PersonRegistered $registereds)
+    public function setOrgKey($key)
     {
-        $this->registereds[] = $registereds;
+        if ($this->org) $this->org->setId($key);
     }
-
-    /**
-     * Get registereds
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getRegistereds()
-    {
-        return $this->registereds;
-    }
-
-    /**
-     * Add members
-     *
-     * @param Zayso\CoreBundle\Entity\AccountPerson $members
-     */
-    public function addMembers(\Zayso\CoreBundle\Entity\AccountPerson $members)
-    {
-        $this->members[] = $members;
-    }
-
-    /**
-     * Get members
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getMembers()
-    {
-        return $this->members;
-    }
-
-    /**
-     * Add projects
-     *
-     * @param Zayso\CoreBundle\Entity\ProjectPerson $projects
-     */
-    public function addProjects(\Zayso\CoreBundle\Entity\ProjectPerson $projects)
-    {
-        $this->projects[] = $projects;
-    }
-
-    /**
-     * Get projects
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getProjects()
-    {
-        return $this->projects;
-    }
-
-    /**
-     * Set datax
-     *
-     * @param text $datax
-     */
-    public function setDatax($datax)
-    {
-        $this->datax = $datax;
-    }
-
-    /**
-     * Get datax
-     *
-     * @return text 
-     */
-    public function getDatax()
-    {
-        return $this->datax;
-    }
+    public function setDatax($datax) { $this->datax = $datax; }
+    public function getDatax() { return $this->datax; }
 }

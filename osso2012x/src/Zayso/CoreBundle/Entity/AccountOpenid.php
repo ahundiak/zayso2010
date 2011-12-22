@@ -5,15 +5,12 @@ namespace Zayso\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Zayso\Osso2007Bundle\Entity\Openid
- *
  * @ORM\Table(name="account_openid")
  * @ORM\Entity
  */
 class AccountOpenid
 {
     /**
-     * @var integer $id
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
@@ -29,14 +26,14 @@ class AccountOpenid
     private $identifier = null;
 
     /**
-     * @ORM\Column(name="provider", type="string", length=80, nullable=true)
+     * @ORM\Column(name="provider", type="string", length=80, nullable=false)
      *
      * openid - providerName
      */
     private $provider = '';
 
     /**
-     * @ORM\ManyToOne(targetEntity="AccountPerson")
+     * @ORM\ManyToOne(targetEntity="AccountPerson", inversedBy="openids")
      * @ORM\JoinColumn(name="account_person_id", referencedColumnName="id", nullable=false)
      */
     protected $accountPerson = null;
@@ -73,7 +70,11 @@ class AccountOpenid
      */
     private $email = '';
 
-    public function setAccountPerson($member) { $this->accountPerson = $member; }
+    public function setAccountPerson($accountPerson)
+    {
+        $this->accountPerson = $accountPerson;
+        if ($accountPerson) $accountPerson->addOpenid($this);
+    }
 
     public function getAccountPerson() { return $this->accountPerson; }
 

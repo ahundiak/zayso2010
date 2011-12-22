@@ -30,13 +30,13 @@ class ProjectPerson
   protected $project;
 
   /**
-   * @ORM\ManyToOne(targetEntity="Person", inversedBy="projects")
+   * @ORM\ManyToOne(targetEntity="Person", inversedBy="projectPersons")
    * @ORM\JoinColumn(name="person_id", referencedColumnName="id")
    */
   protected $person;
   
   /** @ORM\Column(type="string",name="status",length=20) */
-  protected $status = '';
+  protected $status = 'Active';
 
   /** @ORM\Column(type="text",name="datax") */
   protected $datax = '';
@@ -90,7 +90,7 @@ class ProjectPerson
   public function setPerson($person)
   {
     $this->person = $person;
-    $person->addProjectPerson($this);
+    if ($person) $person->addProjectPerson($this);
   }
   /* ====================================================================
    * 01 Nov 2011
