@@ -17,6 +17,10 @@ zayso_area_account_signin_rpx:
 zayso_area_account_signout:
     pattern:  /account/signout
     defaults: { _controller: ZaysoAreaBundle:Account\Signin:signout }
+
+zayso_area_account_create:
+    pattern:  /account/create
+    defaults: { _controller: ZaysoAreaBundle:Account\Create:create }
     
 zayso_area_account_legacy_profile:
     pattern:  /account/legacy/profile
