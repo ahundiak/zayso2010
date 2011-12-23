@@ -28,3 +28,6 @@
 
     zayso_core.openid.rpxApiKey = ""
     zayso_core.user.password    = ""
+
+    zayso_area.provider.key     = "secured_area"
+    zayso_area.project.master   = 70
