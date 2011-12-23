@@ -3,6 +3,7 @@ namespace Zayso\NatGamesBundle\Component\Import;
 
 use Zayso\ZaysoBundle\Component\Import\BaseImport;
 use Zayso\ZaysoBundle\Component\Debug;
+use Zayso\ZaysoBundle\Entity\Org;
 
 class AccountImport extends BaseImport
 {
@@ -17,7 +18,10 @@ class AccountImport extends BaseImport
       'nickName'  => array('cols' => 'Nick  Name','req' => false, 'default' => ''),
       'email'     => array('cols' => 'Email',     'req' => false, 'default' => ''),
       'cellPhone' => array('cols' => 'Cell Phone','req' => true,  'default' => ''),
-      'region'    => array('cols' => 'Region',    'req' => false, 'default' => ''),
+        
+      'region'      => array('cols' => 'Region',  'req' => false, 'default' => ''),
+      'regionDesc2' => array('cols' => 'Area',    'req' => false, 'default' => ''),
+        
       'aysoid'    => array('cols' => 'AYSOID',    'req' => false, 'default' => ''),
       'dob'       => array('cols' => 'DOB',       'req' => false, 'default' => ''),
       'gender'    => array('cols' => 'Gender',    'req' => false, 'default' => ''),
@@ -48,7 +52,7 @@ class AccountImport extends BaseImport
         // Grab the account person
         // Just grabbing the ap results in an aupdate message, track down later
         $accountPersons = $accountManager->getAccountPersons(array('accountPersonId' => $item->id));
-        if (count($accountPersons) != 1) die('No account person for ' . $item->id);
+        if (count($accountPersons) != 1) return; //die('No account person for ' . $item->id);
         $accountPerson = $accountPersons[0];
 
         $person = $accountPerson->getPerson();
@@ -72,6 +76,8 @@ class AccountImport extends BaseImport
         $region = $item->region;
         if ($region) $person->setOrgKey('AYSO' . $region);
 
+        $this->processRegionDesc2($item->regionDesc2);
+        
         if ($item->firstName) $person->setFirstName($item->firstName);
         if ($item->lastName)  $person->setLastName ($item->lastName);
         if ($item->nickName)  $person->setNickName ($item->nickName);
@@ -92,6 +98,88 @@ class AccountImport extends BaseImport
         if ($memYear) $registeredPerson->setMemYear($memYear);
         
         return;
+    }
+    /* ==============================================================
+     * Process a descriptive ayso area string
+     * A07O-R0178 Aiea, HI
+     */
+    public function processRegionDesc2($regionDesc2)
+    {
+        // Make sure have one
+        $regionDesc2 = trim($regionDesc2);
+        if (!$regionDesc2) return;
+        
+        // Break out location
+        $location = substr($regionDesc2,11);
+        $area     = substr($regionDesc2, 0,10);
+        
+        // Break out area and region
+        $items = explode('-',$area);
+        if (count($items) != 2) return;
+        
+        $area   = trim($items[0]);
+        $region = trim($items[1]);
+        
+        if (strlen($area)   != 4) return;
+        if (strlen($region) != 5) return;
+        
+        if ($area[0]   != 'A') return;
+        if ($region[0] != 'R') return;
+        
+        $areaKey   = 'AYSO' . $area;
+        $regionKey = 'AYSO' . $region;
+        
+        // Break location into city and state
+        $items = explode(',',$location);
+        if (isset($items[0])) $city = trim($items[0]);
+        else                  $city = '';
+        if (isset($items[1])) $state = trim($items[1]);
+        else                  $state = '';
+        
+        // Make sure have an area entry
+        $em   = $this->getEntityManager();
+        $repo = $em->getRepository('ZaysoBundle:Org');
+        
+        $areaOrg = $repo->find($areaKey);
+        if (!$areaOrg)
+        {
+            // Need a section
+            $sectionKey = 'AYSOS' . substr($areaKey,5,2);
+            $sectionOrg = $repo->find($sectionKey);
+            if (!$sectionOrg)
+            {
+                die('*** Could not find Section for: ' . $regionDesc2);
+            }
+            // Make a new area
+            $areaOrg = new Org();
+            $areaOrg->setId($areaKey);
+            $areaOrg->setParent($sectionOrg);
+            $em->persist($areaOrg);
+            
+        }
+       // Set the state if blank
+       if (!$areaOrg->getDesc1()) $areaOrg->setDesc1('AYSO Area ' . substr($areaKey,5));
+       if (!$areaOrg->getState()) $areaOrg->setState($state);
+       
+       // Make a region org entry
+        $regionOrg = $repo->find($regionKey);
+        if (!$regionOrg)
+        {
+            $regionOrg = new Org();
+            $regionOrg->setId($regionKey);
+            $em->persist($regionOrg);
+        }
+        // Update assorted info if missing
+        if (!$regionOrg->getParent()) $regionOrg->setParent($areaOrg);
+        if (!$regionOrg->getDesc1 ()) $regionOrg->setDesc1 ('AYSO Region ' . substr($regionKey,5));
+        if (!$regionOrg->getDesc2 ()) $regionOrg->setDesc2 ($regionDesc2);
+        if (!$regionOrg->getCity  ()) $regionOrg->setCity  ($city);
+        if (!$regionOrg->getState ()) $regionOrg->setState ($state);
+         
+        
+        // Done
+        //$em->flush();
+        //die('Area ' . $areaKey . ' ' . $regionKey . ' #' . $city . '# ' . $state);
     }
 }
 
