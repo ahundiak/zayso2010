@@ -113,7 +113,7 @@ class SigninController extends BaseController
             'projectId' => $this->getProjectId(),
         );
         $accountManager = $this->getAccountManager();
-        $projectPerson = $accountManager->getProjectPerson($params);
+        $projectPerson = $accountManager->loadProjectPerson($params);
         if (!$projectPerson)
         {
             $accountManager->addProjectPerson($this->getProjectId(),$user->getPersonId());
