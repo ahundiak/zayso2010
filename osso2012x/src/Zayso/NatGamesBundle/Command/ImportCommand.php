@@ -23,17 +23,20 @@ class ImportCommand extends ContainerAwareCommand
         $this
             ->setName('NatGames:import')
             ->setDescription('Import Accounts')
-            ->addArgument('file', InputArgument::OPTIONAL, 'Input File Name','../datax/Accounts20111025.csv')
+            ->addArgument('file', InputArgument::OPTIONAL, 'Input File Name','../datax/AccountImports20111223.csv')
         ;
     }
     protected function importAccounts($file)
     {
         $params = array(
             'inputFileName'  => $file,
-          //'clientFileName' => $file,
             'projectId'      => 52);
+        
+        $import = $this->getContainer()->get('zayso.natgames.account.import');
 
-        $import = new AccountImport($this->getEntityManager(),$this->getContainer()->get('account.manager'));
+        //$import->processArea('A07O-R0178 Aiea, HI');
+        //return;
+        
         $results = $import->process($params);
 
         echo "Zayso Import {$results['msg']} \n";
@@ -60,16 +63,11 @@ class ImportCommand extends ContainerAwareCommand
     }
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $date = '11/a1/ 34';
-        $datex = preg_replace('#\d#','',$date);
-        die($datex);
-        //$inputFileName = $input->getArgument('file');
+        $inputFileName = $input->getArgument('file');
 
-        //$this->getAccounts();
+        $this->importAccounts($inputFileName);
 
-        //$this->importAccounts($inputFileName);
-
-        $this->importSchedule2010('../datax/Schedule2010.csv');
+        // $this->importSchedule2010('../datax/Schedule2010.csv');
 
         return;        
     }
