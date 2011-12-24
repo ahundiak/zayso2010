@@ -4,6 +4,9 @@ namespace Zayso\NatGamesBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 
+use Zayso\ZaysoBundle\Component\Debug;
+use Zayso\ZaysoBundle\Entity\ProjectPerson;
+
 class WelcomeController extends BaseController
 {
     public function welcomeAction()
@@ -15,14 +18,24 @@ class WelcomeController extends BaseController
     {   
         $em = $this->getAccountManager()->getEntityManager();
         $projectPerson = $this->getProjectPerson();
-        
-        // Really should not happen
+
+        // Happens when area person first signs in
         if (!$projectPerson)
         {
-            $tplData = $this->getTplData();
-            return $this->render('NatGamesBundle:Welcome:home.html.twig',$tplData);
+            $project = $em->getReference('ZaysoBundle:Project',$this->getProjectId());
+            $person  = $em->getReference('ZaysoBundle:Person', $this->getUser()->getPersonId());
+            
+            $projectPerson = new ProjectPerson();
+            $projectPerson->setProject($project);
+            $projectPerson->setPerson ($person);
+            $projectPerson->setStatus ('Active');
+            
+            $todo = array('projectPlans' => true, 'openid' => true, 'projectLevels' => true);
+            $projectPerson->set('todo',$todo);
+            
+            $em->persist($projectPerson);
+            $em->flush();
         }
-
         $todo = $projectPerson->get('todo');
         
         if (isset($todo['projectPlans']) && $todo['projectPlans'])
