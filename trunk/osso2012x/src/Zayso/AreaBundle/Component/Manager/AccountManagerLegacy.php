@@ -10,6 +10,16 @@ use Zayso\CoreBundle\Component\DataTransformer\PhoneTransformer;
 
 use Doctrine\ORM\ORMException;
 
+use Zayso\CoreBundle\Entity\AccountOpenid;
+use Zayso\CoreBundle\Entity\Account;
+use Zayso\CoreBundle\Entity\AccountPerson;
+use Zayso\CoreBundle\Entity\AccountPersonAyso;
+use Zayso\CoreBundle\Entity\Org;
+use Zayso\CoreBundle\Entity\Person;
+use Zayso\CoreBundle\Entity\PersonRegistered;
+use Zayso\CoreBundle\Entity\ProjectPerson;
+use Zayso\CoreBundle\Entity\Project;
+
 class AccountManagerLegacy
 {
     protected $em                 = null; // Accounts em 2012
@@ -179,7 +189,10 @@ class AccountManagerLegacy
         $person2012->setLastName ($person2007->getLastName());
         $person2012->setNickName ($person2007->getNickName());
 
-        $person2012->setOrgKey   ('AYSO' . $person2007->getRegionKey());
+        // Handle region, create new org if necessary
+        $regionKey = 'AYSO' . $person2007->getRegionKey();
+        $org = $this->account2012Manager->loadOrg($regionKey,true);
+        $person2012->setOrg($org);
 
         // Registered
         $registeredPerson2012 = new PersonRegistered();

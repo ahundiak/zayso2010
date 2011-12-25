@@ -8,7 +8,7 @@
     <p>You have sucessfully picked the following social network:</p>
     <table border="1">
         <tr><td>Social Network</td><td>Your Display Name</td></tr>
-        <tr><td>{{ provider }}</td><td>{{ displayName }}</td></tr>
+        <tr><td>{{ form.vars.value.openidProvider }}</td><td>{{ form.vars.value.openidDisplayName }}</td></tr>
     </table>
     <p>
         This social network account is not currently connected to your zayso account.  
@@ -35,6 +35,17 @@
 <form action="{{ path('zayso_area_account_legacy_signin') }}" method="post" {{ form_enctype(form) }}>
 <table border="1" style="width: 600px;">
 <tr><th colspan="3">Sign in to existing zayso account</th></tr>
+<tr>
+  <td style="width: 250px;">{{ form_label (form.openidProvider) }}</td>
+  <td style="width: 200px;">{{ form_widget(form.openidProvider) }}</td>
+  <td style="width: 200px;">{{ form_errors(form.openidProvider) }}</td>
+</tr>
+<tr>
+  <td style="width: 100px;">{{ form_label (form.openidDisplayName) }}</td>
+  <td style="width: 200px;">{{ form_widget(form.openidDisplayName) }}</td>
+  <td style="width: 300px;">{{ form_errors(form.openidDisplayName) }}</td>
+</tr>
+<tr><td colspan="3"></td></tr>
 <tr>
   <td style="width: 100px;">{{ form_label (form.userName) }}</td>
   <td style="width: 200px;">{{ form_widget(form.userName) }}</td>

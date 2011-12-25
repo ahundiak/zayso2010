@@ -43,6 +43,13 @@ class AccountCreateFormType extends AccountBaseFormType
             'required'      => true,
             'choices'       => $this->refBadgePickList,
         ));
+        
+        $builder->add('openidDisplayName', 'text', array('label' => 'Social Network User',
+            'attr' => array('required' => false, 'readonly' => true)));
+        
+        $builder->add('openidProvider', 'text', array('label' => 'Social Network Provider',
+            'attr' => array('required' => false, 'readonly' => true)));
+
         $builder->addValidator(new CallbackValidator(function($form)
         {
             if($form['userPass1']->getData() != $form['userPass2']->getData())

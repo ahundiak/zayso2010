@@ -33,7 +33,7 @@ class BaseController extends Controller
         if (is_object($userName)) $user = $userName;
         else
         {
-            $userProvider = $this->get('security.user.provider.zayso');
+            $userProvider = $this->get('zayso_core.user.provider');
             // Need try/catch here
             $user = $userProvider->loadUserByUsername($userName);
         }

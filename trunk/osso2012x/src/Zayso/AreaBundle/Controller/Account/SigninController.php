@@ -107,17 +107,9 @@ class SigninController extends BaseController
         $this->setUser($user);
 
         // Make sure person is assigned to current project
-        $params = array
-        (
-            'personId'  => $user->getPersonId(),
-            'projectId' => $this->getProjectId(),
-        );
-        $accountManager = $this->getAccountManager();
-        $projectPerson = $accountManager->loadProjectPerson($params);
-        if (!$projectPerson)
-        {
-            $accountManager->addProjectPerson($this->getProjectId(),$user->getPersonId());
-        }
+        $this->getAccountManager()->addProjectPerson($this->getProjectId(),$user->getPersonId());
+        
+        // Ad off we go
         return $this->redirect($this->generateUrl('zayso_area_home'));
     }
 }

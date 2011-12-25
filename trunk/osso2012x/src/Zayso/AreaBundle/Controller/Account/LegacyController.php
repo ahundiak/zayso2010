@@ -27,6 +27,12 @@ class LegacySigninFormType extends AbstractType
     {
         $builder->add('userName', 'text',     array('label' => 'User Name', 'attr' => array('size' => 35)));
         $builder->add('userPass', 'password', array('label' => 'Password'));
+        
+        $builder->add('openidDisplayName', 'text', array('label' => 'Social Network User',
+            'attr' => array('required' => false, 'readonly' => true)));
+        
+       $builder->add('openidProvider', 'text', array('label' => 'Social Network Provider',
+            'attr' => array('required' => false, 'readonly' => true)));
 
         $builder->get('userPass')->appendClientTransformer(new PasswordTransformer());
     }
@@ -41,17 +47,17 @@ class LegacyController extends BaseController
      */
     protected function processAccount($account2012,$profile)
     {
-        $accountManager = $this->getAccountManager();
+        $accountManager2012 = $this->getAccountManager();
         
         // Openid
-        $result = $accountManager->linkAccountToOpenid($account2012,$profile);
+        $result = $accountManager2012->linkAccountToOpenid($account2012,$profile);
         if (!is_object($result)) return $result;
         
         // It's possible might have multiple account persons, link all to project for now
-        foreach($account2012->getMembers() as $accountPerson)
+        foreach($account2012->getAccountPersons() as $accountPerson)
         {
             // Add project person
-            $accountManager->addProjectPerson($this->getProjectId(),$accountPerson->getPerson());
+            $accountManager2012->addProjectPerson($this->getProjectId(),$accountPerson->getPerson());
         }
         // User
         $userProvider = $this->get('zayso_core.user.provider');
@@ -71,8 +77,12 @@ class LegacyController extends BaseController
         $this->request->getSession()->set(SecurityContext::LAST_USERNAME,$user->getUserName());
         $this->setUser($user);
         
+        // Profile can go away
+        $this->request->getSession()->get('openidProfile',null);
+
         // Tell the master
-        $this->sendEmail('2007 Account Processed','The Body');
+        $subject = sprintf('[Area] - Legacy %s %s %s',$user->getName(),$user->getRegion(),$user->getAysoid());
+        $this->sendEmail($subject,$subject);
         
         // And done
         return $this->redirect($this->generateUrl('zayso_area_home'));
@@ -133,12 +143,14 @@ class LegacyController extends BaseController
 
         // Sign in form
         $accountManager = $this->getAccountManager();
-        $account = $accountManager->newAccountEntity();
+        $accountPerson = $accountManager->newAccountPersonAyso();
 
-        $account->setUserName($request->getSession()->get(SecurityContext::LAST_USERNAME));
+        $accountPerson->setUserName($request->getSession()->get(SecurityContext::LAST_USERNAME));
+        $accountPerson->setOpenidDisplayName($profile['displayName']);
+        $accountPerson->setOpenidProvider   ($profile['providerName']);
         
         $formType = new LegacySigninFormType($accountManager->getEntityManager());
-        $form = $this->createForm($formType, $account);
+        $form = $this->createForm($formType, $accountPerson);
         
         if ($request->getMethod() == 'POST')
         {
@@ -146,8 +158,8 @@ class LegacyController extends BaseController
             
             if ($form->isValid()) 
             {
-                $userName = $account->getUserName();
-                $userPass = $account->getUserPass();
+                $userName = $accountPerson->getUserName();
+                $userPass = $accountPerson->getUserPass();
 
                 $request->getSession()->set(SecurityContext::LAST_USERNAME,$userName);
 
@@ -159,9 +171,7 @@ class LegacyController extends BaseController
         }
         // And render
         $tplData = array();
-        $tplData['form'] = $form->createView();
-        $tplData['displayName'] = $profile['displayName'];
-        $tplData['provider']    = $profile['providerName'];
+        $tplData['form'] = $formView = $form->createView();
 
         return $this->render('ZaysoAreaBundle:Account:legacy.html.twig',$tplData);
     }
