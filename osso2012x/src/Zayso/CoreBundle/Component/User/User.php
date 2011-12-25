@@ -50,6 +50,9 @@ class User implements UserInterface
     public function setLastName ($value) { $this->data['personLastName' ] = $value; }
     public function setNickName ($value) { $this->data['personNickName' ] = $value; }
     
+    public function getAysoid() { return $this->getData('aysoid'); }
+    public function getRegion() { return $this->getData('personOrgKey'); }
+    
     public function getName()
     {
         $fname = $this->getData('personFirstName');
@@ -66,13 +69,14 @@ class User implements UserInterface
         if (!$aysoid) return 'AYSOID Not Found';
 
         $region = substr($this->getData('personOrgKey'),4);
+        
+        $refBadge = 'Referee Badge: ' . $this->getData('ref_badge');
 
         $memYear = 'MY' . $this->getData('mem_year');
         if ($memYear == 'MY')
         {
-            return $region  . ', ' . $aysoid . ', ' . 'AYSO Information Not Yet Verified';
+            return $region  . ', ' . $aysoid . ', ' . $refBadge . ', ' . 'eAYSO Information Not Yet Verified';
         }
-        $refBadge = 'Referee Badge: ' . $this->getData('ref_badge');
 
         $safeHaven = $this->getData('safe_haven');
         if (($safeHaven == 'Coach') || ($safeHaven == 'Referee') || ($safeHaven == 'AYSO')) $safeHaven = 'Yes';
