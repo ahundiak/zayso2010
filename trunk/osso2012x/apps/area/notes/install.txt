@@ -1,0 +1,12 @@
+25 Dec 2011
+
+Moved area to zayso.org
+
+# For the compressed css
+ ./console asset:dump $HOME/public_html/area5c
+[file+] /home/ahundiak/public_html/area5c/css/6e0c6c3.css
+
+# For the graphics
+./console assets:install $HOME/public_html/area5c
+
+Installing assets for Zayso\AreaBundle into /home/ahundiak/public_html/area5c/bundles/zaysoarea
