@@ -9,10 +9,26 @@ class CreateController extends BaseController
 {
     public function createAction(Request $request)
     {
+        // Usually have a profile
+        $profile = $request->getSession()->get('openidProfile');
+        if (!$this->isProfileValid($profile)) $profile = null;
+
         // New form stuff
         $accountManager = $this->getAccountManager();
-        $accountPerson = $accountManager->newAccountPerson(array('projectId' => $this->getProjectId()));
+        $accountPerson = $accountManager->newAccountPersonAyso();
 
+        if ($profile)
+        {
+            $accountPerson->setOpenidDisplayName($profile['displayName']);
+            $accountPerson->setOpenidProvider   ($profile['providerName']);
+
+            if (isset($profile['preferredUsername'])) $accountPerson->setUserName($profile['preferredUsername']);
+            if (isset($profile['email']))             $accountPerson->setEmail($profile['email']);
+            if (isset($profile['verifiedEmail']))     $accountPerson->setEmail($profile['verifiedEmail']);
+            
+            if (isset($profile['name']['givenName' ])) $accountPerson->setFirstName($profile['name']['givenName']);
+            if (isset($profile['name']['familyName'])) $accountPerson->setLastName ($profile['name']['familyName']);
+        }
         $accountFormType = $this->get('zayso_area.account.create.formtype');
 
         $form = $this->createForm($accountFormType, $accountPerson);
@@ -23,11 +39,24 @@ class CreateController extends BaseController
 
             if ($form->isValid())
             {
-                $account = $accountManager->createAccount($accountPerson);
+                $accountPerson->setProjectPersonData($this->getProjectId());
+                if ($profile)
+                {
+                    $openid = $accountPerson->getFirstOpenid();
+                    $openid->setProfile($profile);
+                }
+                $account = $accountManager->createAccountFromAccountPersonAyso($accountPerson);
                 
                 if ($account) 
                 {
-                    $this->setUser($account->getUserName());
+                    // Send email
+                    
+                    // And sign in
+                    $user = $this->setUser($account->getUserName());
+                    
+                    $subject = sprintf('[Area] - Created %s %s %s',$user->getName(),$user->getRegion(),$user->getAysoid());
+                    $this->sendEmail($subject,$subject);
+                    
                     return $this->redirect($this->generateUrl('zayso_area_home'));
                 }
             }
@@ -73,15 +102,21 @@ class CreateController extends BaseController
 
         return $accountPerson->getAccount();
   }
-  /*
-   *             $message = \Swift_Message::newInstance();
-            $message->setSubject('Hello Email');
-            $message->setFrom('ahundiak@zayso.org');
-            $message->setTo  ('ahundiak@gmail.com');
-            $message->setBody('The Body');
-//      ->setBody($this->renderView('HelloBundle:Hello:email.txt.twig', array('name' => $name)))
+    /* ===============================================
+     * Use this check because sometime the session variable
+     * seems to go away
+     */
+    protected function isProfileValid($profile)
+    {
+        if (!is_array($profile)) return false;
 
-            // $this->get('mailer')->send($message);
+        // Must have identifier
+        if (!isset($profile['identifier']) || (strlen($profile['identifier']) < 8)) return false;
 
-   */
+        // Must have providername
+        if (!isset($profile['providerName']) || (strlen($profile['providerName']) < 4)) return false;
+
+        // Good enough
+        return true;
+    }
 }

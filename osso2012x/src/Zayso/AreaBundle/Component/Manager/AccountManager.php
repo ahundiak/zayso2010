@@ -82,14 +82,13 @@ class AccountManager
             }
 
             // Need to see if have existing org
-            $org = $this->loadOrg($person->getOrgKey());
+            $org = $this->loadOrg($person->getOrgKey(),true);
             if ($org) $person->setOrg($org);
         }
         // Verify any openid is valid, probably should not have to?
 
         // And save
-        $em = $this->getEntityManager();
-        $em->persist($accountPerson); // Everything cascades
+        $em->persist($accountPerson->getAccountPerson()); // Everything cascades
 
         try
         {
@@ -245,9 +244,18 @@ class AccountManager
     /* ===========================================================
      * Sneak an organization call herw
      */
-    public function loadOrg($orgId)
+    public function loadOrg($orgId,$autoCreate = false)
     {
-        return $this->getEntityManager()->find('ZaysoCoreBundle:Org',$orgId);
+        $org = $this->getEntityManager()->find('ZaysoCoreBundle:Org',$orgId);
+        if ($org) return $org;
+        
+        if (!$autoCreate) return null;
+        if (!$orgId)      return null;
+        
+        $org = new Org();
+        $org->setId($orgId);
+        $this->getEntityManager()->persist($org);
+        return $org;
     }
     /* ===========================================================
      * Allow multiple accounts per person
@@ -336,7 +344,7 @@ class AccountManager
             'projectId' => $project->getId(),
         );
         $projectPerson = $this->loadProjectPerson($params);
-        if ($projectPerson) return $this->projectPerson;
+        if ($projectPerson) return $projectPerson;
         
         // Make a new one
         $projectPerson = new ProjectPerson();
