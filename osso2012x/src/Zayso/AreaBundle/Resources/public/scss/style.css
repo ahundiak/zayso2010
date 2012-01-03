@@ -1,0 +1,32 @@
+@charset "IBM437";
+/* style.scss */
+#navbar {
+  width: 80%;
+  height: 23px; }
+
+/* Sass allows you to avoid this by nesting the child selectors within the parent selector.*/
+#navbar {
+  width: 80%;
+  height: 23px; }
+  #navbar ul {
+    list-style-type: none; }
+  #navbar li {
+    float: left; }
+    #navbar li a {
+      font-weight: bold; }
+
+/* You can also nest properties, so you don’t have to repeat stuff like “border-left-” all the time. */
+.fakeshadow {
+  border-style: solid;
+  border-left-width: 4px;
+  border-left-color: #888;
+  border-right-width: 2px;
+  border-right-color: #ccc; }
+
+/* Parent reference */
+a {
+  color: #ce4dd6; }
+  a:hover {
+    color: #ffb3ff; }
+  a:visited {
+    color: #c458cb; }
