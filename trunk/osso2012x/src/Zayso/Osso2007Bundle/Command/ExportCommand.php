@@ -14,49 +14,61 @@ use Zayso\ZaysoBundle\Entity\AccountPerson;
 
 use Zayso\ZaysoBundle\Component\Security\Core\User\User as User;
 
-class QueryCommand extends BaseCommandx
+class ExportCommand extends BaseCommandx
 {
     protected function configure()
     {
         $this
-            ->setName('osso2007:query')
-            ->setDescription('Test Queries')
+            ->setName('osso2007:export')
+            ->setDescription('Export Schedules')
         ;
     }
     protected function queryGames()
     {
         $gameManager = $this->getGameManager();
 
-        $projectId = 70; //array(70);
-        $ages    = array('U14','U16', 'U19',);
-        $genders = array('B', 'C', 'G');
-        $regions = array('R0894', 'R1174','R0160','R0498');
+        $projectId = 37; //array(70);
+        //$ages    = array('U14','U16', 'U19',);
+        //$genders = array('B', 'C', 'G');
+        //$regions = array('R0894', 'R1174','R0160','R0498');
         
-        $date1   = '20110818';
-        $date2   = '20110818';
+        //$date1   = '20110818';
+        //$date2   = '20110818';
 
         $search = array(
             'projectId' => $projectId,
-            'ages'      => $ages,
-            'genders'   => $genders,
-            'regions'   => $regions,
-            'date1'     => $date1,
-            'date2'     => $date2
+          //'ages'      => $ages,
+          //'genders'   => $genders,
+          //'regions'   => $regions,
+          //'date1'     => $date1,
+          //'date2'     => $date2
         );
 
         $games = $gameManager->queryGames($search);
         $gameCount = count($games);
         echo "Game Count: {$gameCount}\n";
+        
+        $fp = fopen('../datax/ScheduleWinter2011.csv','wt');
+        $row = array('PID','Number','Date','Time','Field','Home','Home Coach','Away','Away Coach');
+        fputs($fp,implode(',',$row) . "\n");
+        
         foreach($games as $game)
         {
-            echo "{$game->getEventNum()} {$game->getEventDate()} {$game->getEventTime()} {$game->getFieldKey()}\n";
+            $row = array();
+            $row[] = $projectId;
+            $row[] = $game->getEventNum();
+            $row[] = $game->getEventDate();
+            $row[] = $game->getEventTime();
+            $row[] = $game->getFieldKey();
+            
             $team = $game->getHomeTeam();
             if ($team)
             {
                 $coach = $team->getHeadCoach();
                 if ($coach) $name = $coach->getLastName();
                 else        $name = '';
-                echo "HOME {$team->getTeamKey()} {$name}\n";
+                $row[] = $team->getTeamKey();
+                $row[] = $name;
             }
             $team = $game->getAwayTeam();
             if ($team)
@@ -64,18 +76,13 @@ class QueryCommand extends BaseCommandx
                 $coach = $team->getHeadCoach();
                 if ($coach) $name = $coach->getLastName();
                 else        $name = '';
-                echo "AWAY {$team->getTeamKey()} {$name}\n";
+                $row[] = $team->getTeamKey();
+                $row[] = $name;
+              //echo "AWAY {$team->getTeamKey()} {$name}\n";
             }
+            fputs($fp,implode(',',$row) . "\n");
         }
-        
-        $teams = $gameManager->querySchTeamsPickList($search,$games);
-        $teamCount = count($teams);
-        echo "Team Count: {$teamCount}\n";
-        foreach($teams as $team)
-        {
-            ///echo "{$team->getRegionKey()} {$team->getDivisionDesc()} {$team->getTeamKey()} {$team->getPhyTeam()->getHeadCoach()->getLastName()}\n";
-        }
-        //print_r($teams);
+        fclose($fp);
     }
     protected function queryNextEventNum()
     {

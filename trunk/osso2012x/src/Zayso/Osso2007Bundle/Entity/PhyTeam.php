@@ -106,22 +106,22 @@ class PhyTeam
     /**
      * @var integer $unitId
      *
-     * @ORM\Column(name="unit_id", type="integer", nullable=true)
+     *  ORM\Column(name="unit_id", type="integer", nullable=true)
      *
-     *  ORM\ManyToOne(targetEntity="Unit")
-     *  ORM\JoinColumn(name="unit_id", referencedColumnName="unit_id")
+     * @ORM\ManyToOne(targetEntity="Unit")
+     * @ORM\JoinColumn(name="unit_id", referencedColumnName="unit_id")
      */
-    private $unitId;
+    private $unit;
 
     /**
      * @var integer $divisionId
      *
-     * @ORM\Column(name="division_id", type="integer", nullable=true)
+     *  ORM\Column(name="division_id", type="integer", nullable=true)
      *
-     *  ORM\ManyToOne(targetEntity="Division")
-     *  ORM\JoinColumn(name="division_id", referencedColumnName="division_id")
+     * @ORM\ManyToOne(targetEntity="Division")
+     * @ORM\JoinColumn(name="division_id", referencedColumnName="division_id")
      */
-    private $divisionId;
+    private $division;
 
     /**
      * @var integer $divisionSeqNum
