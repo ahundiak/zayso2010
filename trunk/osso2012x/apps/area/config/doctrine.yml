@@ -79,4 +79,12 @@ doctrine:
                 connection: osso2012
                 mappings:
                     ZaysoCoreBundle: ~
+            teams:
+                connection: osso2012
+                mappings:
+                    ZaysoCoreBundle: ~
+            games:
+                connection: osso2012
+                mappings:
+                    ZaysoCoreBundle: ~
 
