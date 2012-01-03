@@ -14,6 +14,34 @@
         </service>
 
         <service
+            id     = "zayso_area.team.manager"
+            class  = "Zayso\AreaBundle\Component\Manager\TeamManager"
+            public = "true">
+            <argument type="service" id="doctrine.orm.teams_entity_manager" />
+        </service>
+        
+        <service
+            id     = "zayso_area.game.manager"
+            class  = "Zayso\AreaBundle\Component\Manager\GameManager"
+            public = "true">
+            <argument type="service" id="doctrine.orm.games_entity_manager" />
+        </service>
+        
+        <service
+            id     = "zayso_area.game.schedule.import"
+            class  = "Zayso\AreaBundle\Component\Import\GameScheduleImport"
+            public = "true">
+            <argument type="service" id="zayso_area.game.manager" />
+        </service>
+        
+        <service
+            id     = "zayso_area.team.physical.eayso.summary.import"
+            class  = "Zayso\AreaBundle\Component\Import\TeamPhysicalEaysoSummaryImport"
+            public = "true">
+            <argument type="service" id="zayso_area.team.manager" />
+        </service>
+
+        <service
             id     = "zayso_area.account.manager"
             class  = "Zayso\AreaBundle\Component\Manager\AccountManager"
             public = "true">
