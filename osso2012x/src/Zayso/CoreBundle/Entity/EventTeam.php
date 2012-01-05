@@ -48,6 +48,10 @@ class EventTeam extends BaseEntity
     protected $datax = null;
 
     /* =========================================================
+     * Custom code
+     */
+    
+    /* =========================================================
      * Standard getter/setter
      */    
     public function getId() { return $this->id; }
