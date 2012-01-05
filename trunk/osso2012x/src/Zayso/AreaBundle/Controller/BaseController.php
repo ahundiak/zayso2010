@@ -17,6 +17,10 @@ class BaseController extends Controller
     {
         return $this->get('zayso.core.project.manager');
     }
+    protected function getGameManager()
+    {
+        return $this->get('zayso_area.game.manager');
+    }
     protected function getProjectId()
     {
         return $this->container->getParameter('zayso_area.project.master');

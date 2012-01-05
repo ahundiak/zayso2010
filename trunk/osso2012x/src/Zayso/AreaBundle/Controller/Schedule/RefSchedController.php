@@ -3,12 +3,59 @@
 namespace Zayso\AreaBundle\Controller\Schedule;
 
 use Zayso\AreaBundle\Controller\BaseController;
+use Zayso\CoreBundle\Component\Format\HTML as FormatHTML;
 
 use Symfony\Component\HttpFoundation\Request;
 
+use Zayso\CoreBundle\Entity\Person;
+use Zayso\CoreBundle\Entity\EventPerson;
+
 class RefSchedController extends BaseController
 {
-    public function listRefSchedAction(Request $request)
+    public function assignAction(Request $request, $id = 0, $pos = null)
+    {
+        $gameManager = $this->getGameManager();
+        $game = $gameManager->loadEventForId($id);
+        if (!$game)
+        {
+            return $this->redirect($this->generateUrl('zayso_area_schedule_referee_list'));
+        }
+        // Just for grins
+        $eventPersonId = 0;
+        $types = array(EventPerson::Type4th,EventPerson::TypeObs);
+        foreach($types as $type)
+        {
+            $eventPerson = $game->getPersonForType($type);
+            if (!$eventPerson)
+            {
+                $eventPerson = new EventPerson();
+                $eventPerson->setId(--$eventPersonId);
+                $eventPerson->setType($type);
+                $eventPerson->setEvent($game);
+                $game->addPerson($eventPerson);
+            }
+        }
+        // Make life a bit easier by always having a person?
+        foreach($game->getPersons() as $eventPerson)
+        {
+            if (!$eventPerson->getPerson())
+            {
+                $person = new Person();
+                $eventPerson->setPerson($person);
+            }
+        }
+        // Gather up data
+        $tplData = array();
+
+        $tplData['game'] = $game;
+        $tplData['pos']  = $pos;
+
+        $tplData['gen']    = $this;
+        $tplData['format'] = new FormatHTML();
+
+        return $this->render('ZaysoAreaBundle:Schedule:assign.html.twig',$tplData);
+    }
+    public function listAction(Request $request)
     {
         $session = $request->getSession();
         $refSchedSearchData = $session->get('refSchedSearchData');
@@ -18,15 +65,14 @@ class RefSchedController extends BaseController
             $refSchedSearchData = array
             (
                 'sortBy' => 1,
-                $refSchedData['date1'] => '20110110',
-                $refSchedData['date2'] => '20110130',
+                'date1'  => '20110110',
+                'date2'  => '20110120',
             );
         }
         
         // Grab the games
         //$gameRepo = $this->getEntityManager()->getRepository('ZaysoBundle:Game');
-        //$games = $gameRepo->queryGames($refSchedData);
-
+        $games = $this->getGameManager()->queryGames($refSchedSearchData);
 
         // For view processor
         $this->refSchedSearchData = $refSchedSearchData;
@@ -48,17 +94,20 @@ class RefSchedController extends BaseController
         // Pass it all on
         $tplData = array();
 
-        $tplData['games']     = array(); //$games;
+        $tplData['games']     = $games;
         $tplData['gameCount'] = count($games);
 
         $tplData['ages']    = array('All','U05','U06','U07','U08','U10','U12','U14','U16','U19');
         $tplData['genders'] = array('All','Boys','Coed','Girls');
         $tplData['regions'] = array('All','R0160','R0498','R0894','R0914','R1174');
-        $tplData['sortByPickList'] = $sortByPickList;
-        $tplData['refSchedSearchData']   = $refSchedSearchData;
-        $tplData['datesPickList']  = $dates;
+        $tplData['sortByPickList']      = $sortByPickList;
+        $tplData['refSchedSearchData']  = $refSchedSearchData;
+        $tplData['datesPickList']       = $dates;
         $tplData['gen']  = $this;
-        return $this->render('AreaBundle:Schedule:schedule.html.twig',$tplData);
+
+        $tplData['format'] = new FormatHTML();
+        
+        return $this->render('ZaysoAreaBundle:Schedule:referee.html.twig',$tplData);
     }
     public function viewRefSchedPostAction()
     {
@@ -100,36 +149,39 @@ class RefSchedController extends BaseController
         $html = sprintf('%s<br /><input type="checkbox" name="schedSearchData[regions][%s]" value="AYSO%s" %s />',$region,$region,$region,$checked);
         return $html;
     }
-    public function genTeam($team)
+    public function genTeam($eventTeam)
     {
+        if (!$eventTeam) return '';
+
+        // Real team
+        $team = $eventTeam->getTeam();
         if (!$team) return '';
 
-        $key = $team->getTeamKey();
-        if (!$key) return $key;
+        $key = $team->getTeamKeyExpanded();
+        if ($key) return $key;
 
-        $key = sprintf('%s-%s-%s %s',substr($key,0,5),substr($key,5,4),substr($key,9,2),substr($key,12));
+        $key = $team->getTeamKey();
+        if (!$key) return '';
+
+      //$key = sprintf('%s-%s-%s %s',substr($key,0,5),substr($key,5,4),substr($key,9,2),substr($key,12));
         return $key;
     }
     public function genReferees($game)
     {
-        $refs = array();
-        $types = array('CR','AR1','AR2');
-        foreach($types as $type)
-        {
-            $ref = $game->getGamePersonForType($type);
-            if (!$ref)
-            {
-                $ref = new GamePerson();
-                $ref->setType($type);
-            }
-            $refs[$type] = $ref;
-        }
+        $refs = $game->getPersons();
+        
         $html = '<table>';
         foreach($refs as $ref)
         {
             $type = $ref->getType();
-            $name = $ref->getLastName();
-            $row = sprintf('<tr><td>%s</td><td>%s</td></tr>',$type,$name);
+
+            $person = $ref->getPerson();
+            if ($person) $name = $person->getPersonName();
+            else         $name = 'Unassigned';
+
+            $url = $this->generateUrl('zayso_area_schedule_referee_assign',array('id' => $game->getId(),'pos' => $type));
+
+            $row = sprintf('<tr><td><a href="%s">%s:</a></td><td>%s</td></tr>',$url,$type,$name);
             $html .= $row;
         }
         $html .= '</table>';

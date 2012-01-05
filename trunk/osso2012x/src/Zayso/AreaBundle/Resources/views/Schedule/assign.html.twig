@@ -1,0 +1,38 @@
+{% extends 'ZaysoAreaBundle:Layout:layout.html.twig' %}
+
+{% block title %}Area - Assign{% endblock %}
+
+{% block content %}
+<div>
+<form method="post" action="{{ path('zayso_area_schedule_referee_assign') }}">
+<table border="2" class="form_table" width="600">
+<input type="hidden" name="gameId" value="{{ game.id }}" />
+    <tr><th colspan="2">Referee Assignmnet</th></tr>
+    <tr>
+        <td style="width: 150px;">Game Number</td><td>{{ game.num }}</td>
+    </tr><tr>
+        <td>Date</td><td>{{ format.date(game.date) }}</td>
+    </tr><tr>
+        <td>Time</td><td>{{ format.time(game.time) }}</td>
+    </tr><tr>
+        <td>Field</td><td>{{ game.getFieldDesc }}</td>
+    </tr><tr>
+        <td>Home Team</td><td>{{ game.getHomeTeam.getTeam.getTeamKeyExpanded }}</td>
+    </tr><tr>
+        <td>Away Team</td><td>{{ game.getAwayTeam.getTeam.getTeamKeyExpanded }}</td>
+    </tr>
+    <tr><td colspan="2"></td></tr>
+    {% for gamePerson in game.persons %}
+        <input type="hidden" name="eventPerson[{{gamePerson.id}}][id]"   value="{{ gamePerson.id   }}" />
+        <input type="hidden" name="eventPerson[{{gamePerson.id}}][type]" value="{{ gamePerson.type }}" />
+        <tr>
+            <td>{{ gamePerson.desc }}</td>
+            <td>{{ gamePerson.name }}</td>
+        </tr>
+    {% endfor %}
+    <tr><th colspan="2"><input type="submit" name="refereeAssignSubmit" value="Sign Up" /></th></tr>
+</table>
+</form>
+</div>
+</div>
+{% endblock %}
