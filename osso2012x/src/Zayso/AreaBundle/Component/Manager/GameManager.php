@@ -16,18 +16,49 @@ class GameManager extends BaseManager
     /* ========================================================================
      * Single event stuff
      */
+    public function loadEventForId($id)
+    {
+        // Build query
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->addSelect('event');
+        $qb->addSelect('field');
+        $qb->addSelect('eventTeam');
+        $qb->addSelect('team');
+        $qb->addSelect('eventPerson');
+        $qb->addSelect('person');
+
+        $qb->from('ZaysoCoreBundle:Event', 'event');
+        $qb->leftJoin('event.project',     'project');
+        $qb->leftJoin('event.field',       'field');
+        $qb->leftJoin('event.teams',       'eventTeam');
+        $qb->leftJoin('eventTeam.team',    'team');
+        $qb->leftJoin('event.persons',     'eventPerson');
+        $qb->leftJoin('eventPerson.person','person');
+
+        $qb->andWhere($qb->expr()->eq('event.id',$qb->expr()->literal($id)));
+        
+        $items = $qb->getQuery()->getResult();
+        if (count($items) == 1) return $items[0];
+        
+        return null;
+    }
+    /* ========================================================================
+     * Single event stuff
+     */
     public function loadEventForProjectNum($projectId,$num)
     {
         // Just because
         if (is_object($projectId)) $projectId = $projectId->getId();
-        
+
         // Build query
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
         $qb->addSelect('event');
         $qb->addSelect('eventTeam');
-      //$qb->addSelect('team');
+        $qb->addSelect('team');
         $qb->addSelect('field');
 
         $qb->from('ZaysoCoreBundle:Event','event');
@@ -37,12 +68,12 @@ class GameManager extends BaseManager
         $qb->leftJoin('event.field',      'field');
 
         $qb->andWhere($qb->expr()->eq('project.id',$qb->expr()->literal($projectId)));
-        
+
         $qb->andWhere($qb->expr()->eq('event.num',$qb->expr()->literal($num)));
-        
+
         $items = $qb->getQuery()->getResult();
         if (count($items) == 1) return $items[0];
-        
+
         return null;
     }
     public function newGameWithTeams($project = null)
@@ -259,58 +290,68 @@ class GameManager extends BaseManager
         $em = $this->getEntityManager();
         $qbGameId = $em->createQueryBuilder();
 
-        $qbGameId->addSelect('distinct gameGameId.eventId');
+        $qbGameId->addSelect('distinct gameGameId.id');
 
-        $qbGameId->from('Osso2007Bundle:Event','gameGameId');
+        $qbGameId->from('ZaysoCoreBundle:Event','gameGameId');
 
-        $qbGameId->leftJoin('gameGameId.eventTeams','gameTeamGameId');
+        $qbGameId->leftJoin('gameGameId.teams','gameTeamGameId');
 
         if ($projectId) $qbGameId->andWhere($qbGameId->expr()->in('gameGameId.projectId',$projectId));
 
-        if ($date1) $qbGameId->andWhere($qbGameId->expr()->gte('gameGameId.eventDate',$date1));
-        if ($date2) $qbGameId->andWhere($qbGameId->expr()->lte('gameGameId.eventDate',$date2));
+        if ($date1) $qbGameId->andWhere($qbGameId->expr()->gte('gameGameId.date',$date1));
+        if ($date2) $qbGameId->andWhere($qbGameId->expr()->lte('gameGameId.date',$date2));
 
-        if (count($divisionIds)) $qbGameId->andWhere($qbGameId->expr()->in('gameTeamGameId.divisionId',$divisionIds));
-        if (count($regionIds))   $qbGameId->andWhere($qbGameId->expr()->in('gameTeamGameId.unitId',    $regionIds));
+      //if (count($divisionIds)) $qbGameId->andWhere($qbGameId->expr()->in('gameTeamGameId.divisionId',$divisionIds));
+      //if (count($regionIds))   $qbGameId->andWhere($qbGameId->expr()->in('gameTeamGameId.unitId',    $regionIds));
 
         //$gameIds = $qbGameId->getQuery()->getArrayResult();
-        //Debug::dump($gameIds);
+        //Debug::dump($gameIds);die();
         //return $gameIds;
 
         // Games
         $qbGames = $em->createQueryBuilder();
 
         $qbGames->addSelect('game');
-      //$qbGames->addSelect('gameTeam');
-      //$qbGames->addSelect('person');
+        $qbGames->addSelect('gameTeam');
+        $qbGames->addSelect('team');
+        $qbGames->addSelect('field');
 
-        $qbGames->from('Osso2007Bundle:Event','game');
+        $qbGames->addSelect('gamePerson');
+        $qbGames->addSelect('person');
 
-      //$qbGames->leftJoin('game.gameTeams','gameTeam');
-      //$qbGames->leftJoin('game.persons',  'person');
+        $qbGames->from('ZaysoCoreBundle:Event','game');
 
-        $qbGames->andWhere($qbGames->expr()->in('game.eventId',$qbGameId->getDQL()));
-/*
+        $qbGames->leftJoin('game.teams',   'gameTeam');
+        $qbGames->leftJoin('game.persons', 'gamePerson');
+        $qbGames->leftJoin('game.field',   'field');
+
+        $qbGames->leftJoin('gameTeam.team',     'team');
+        $qbGames->leftJoin('gamePerson.person', 'person');
+
+        $qbGames->andWhere($qbGames->expr()->in('game.id',$qbGameId->getDQL()));
+
         switch($sortBy)
         {
             case 1:
                 $qbGames->addOrderBy('game.date');
                 $qbGames->addOrderBy('game.time');
-                $qbGames->addOrderBy('game.fieldKey');
+                $qbGames->addOrderBy('field.id');
+                $qbGames->addOrderBy('gamePerson.sort');
                 break;
             case 2:
                 $qbGames->addOrderBy('game.date');
-                $qbGames->addOrderBy('game.fieldKey');
+                $qbGames->addOrderBy('field.id');
                 $qbGames->addOrderBy('game.time');
+                $qbGames->addOrderBy('gamePerson.sort');
                 break;
             case 3:
                 $qbGames->addOrderBy('game.date');
-                $qbGames->addOrderBy('game.age');
+                $qbGames->addOrderBy('team.age');
                 $qbGames->addOrderBy('game.time');
+                $qbGames->addOrderBy('gamePerson.sort');
                 break;
         }
- *
- */
+
         // Always get an array even if no records found
         $query = $qbGames->getQuery();
         $items = $query->getResult();

@@ -5,6 +5,8 @@ namespace Zayso\AreaBundle\Component\Import;
 use Zayso\CoreBundle\Component\Import\BaseImport;
 use Zayso\CoreBundle\Component\Debug;
 
+use Zayso\CoreBundle\Entity\EventPerson;
+
 class GameScheduleImport extends BaseImport
 {
     protected $record = array
@@ -87,8 +89,25 @@ class GameScheduleImport extends BaseImport
         $game = $gameManager->loadEventForProjectNum($projectId,$item->gameNum);
         if (!$game)
         {
+            // New Game
             $game = $gameManager->newGameWithTeams($projectId);
             $game->setNum ($item->gameNum);
+
+            // Add Referee crew? perhaps add crew to schedule
+            $eventPerson = new EventPerson();
+            $eventPerson->setTypeAsCR();
+            $eventPerson->setEvent($game);
+            $game->addPerson($eventPerson);
+
+            $age = $homeTeam->getAge();
+            if ($age > 'U08')
+            {
+                $eventPerson = new EventPerson();
+                $eventPerson->setTypeAsCR2();
+                $eventPerson->setEvent($game);
+                $game->addPerson($eventPerson);
+            }
+            // Persist It
             $em->persist($game);
         }
         $game->setDate($item->date);
