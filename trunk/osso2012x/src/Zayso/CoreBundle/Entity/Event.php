@@ -63,11 +63,16 @@ class Event extends BaseEntity
     
     /** @ORM\OneToMany(targetEntity="EventTeam", mappedBy="event", indexBy="type", cascade={"persist"}) */
     protected $teams;
+
+    /** @ORM\OneToMany(targetEntity="EventPerson", mappedBy="event", indexBy="type", cascade={"persist"}) */
+    protected $persons;
     
     public function __construct()
     {
         $this->teams = new ArrayCollection();
     }
+    // ================================
+    // Team Stuff
     public function addTeam($team)
     {
         if (!$team) return;
@@ -81,7 +86,27 @@ class Event extends BaseEntity
     }
     public function getHomeTeam() { return $this->getTeamForType(EventTeam::TypeHome); }
     public function getAwayTeam() { return $this->getTeamForType(EventTeam::TypeAway); }
-    
+
+    // ================================
+    // Person Stuff
+    public function addPerson($person)
+    {
+        if (!$person) return;
+        $this->persons[$person->getType()] = $person; // Not going to call change here, not a property?
+    }
+    public function getPersons() { return $this->persons; }
+    public function getPersonForType($type)
+    {
+        if (isset($this->persons[$type])) return $this->persons[$type];
+        return null;
+    }
+    // ================================
+    // Field stuff
+    public function getFieldDesc()
+    {
+        if (!$this->field) return null;
+        return $this->field->getKey();
+    }
     // ====================================================
     // getters/setters
     public function getId     () { return $this->id;      }

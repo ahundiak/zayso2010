@@ -17,7 +17,7 @@ class Person
      * @ORM\Column(type="integer",name="id")
      * @ORM\GeneratedValue
      */
-    protected $id;
+    protected $id = 0;
 
     /** @ORM\Column(type="string",name="first_name",length=40) */
     protected $firstName = '';
