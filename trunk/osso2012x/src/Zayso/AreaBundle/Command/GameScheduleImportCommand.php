@@ -35,11 +35,19 @@ class GameScheduleImportCommand extends ContainerAwareCommand
         $import->process($params);
         echo $import->getResultMessage() . "\n";
     }
+    protected function testGetOfficialsForAccount()
+    {
+        $manager = $this->getContainer()->get('zayso_area.game.schedule.manager');
+        $accountId = 1;
+
+        $officials = $manager->getOfficialsForAccount(0,$accountId);
+        echo 'Officials ' . count($officials) . "\n";
+    }
     protected function execute(InputInterface $input, OutputInterface $output)
     {
       //$this->test1();
-      //$this->test2();
         $this->test3();
+        $this->testGetOfficialsForAccount();
     }
 }
 ?>

@@ -11,23 +11,21 @@
     <tr><td>
 <table border="1" style="margin: 0px; padding: 0px;">
     <tr>
+        <td>From:</td>
+        <td>{{ searchView.genDate('refSchedSearchData[date1]',refSchedSearchData.date1) | raw }}</td>
+        <td>{{ searchView.genDateDesc(refSchedSearchData.date1) }}</td>
+        <td>{{ searchView.genHour('refSchedSearchData[time1]',refSchedSearchData.time1) | raw }}</td>
+    </tr><tr>
+        <td>To:</td>
+        <td>{{ searchView.genDate('refSchedSearchData[date2]',refSchedSearchData.date2) | raw }}</td>
+        <td>{{ searchView.genDateDesc(refSchedSearchData.date2) }}</td>
+        <td>{{ searchView.genHour('refSchedSearchData[time2]',refSchedSearchData.time2) | raw }}</td>
         <td>
-            From:
-            <select name="refSchedSearchData[date1]">
-                {{ format.formOptions(datesPickList,refSchedSearchData.date1) | raw }}
-            </select>
-        </td><td>
-            To:
-            <select name="refSchedSearchData[date2]">
-                {{ format.formOptions(datesPickList,refSchedSearchData.date2) | raw }}
-            </select>
-        </td><td>
             Sort By:
             <select name="refSchedDataSearch[sortBy]">
                 {{ format.formOptions(sortByPickList,refSchedSearchData.sortBy) | raw }}
             </select>
         </td>
-        <td width="200" align="center">Game Count: {{ gameCount }}</td>
     </tr>
 </table>
     </td></tr>
@@ -61,7 +59,7 @@
 </div>
 <div>
 <table border="1" class="form_table" width="800" id="schedule-referee-list">
-    <tr><th colspan="6">Referee Schedule</th></tr>
+    <tr><th colspan="6">Referee Schedule - Game Count {{ gameCount }}</th></tr>
     <tr>
         <td>Game</td>
         <td>Date</td>
@@ -71,14 +69,15 @@
         <td>Referees</td>
     </tr>
     {% for game in games %}
-        <tr>
+    {{ gameView.setGame(game) }}
+        <tr id="ref-sched-{{game.num}}">
             <td>{{ game.getNum()  }}</td>
-            <td>{{ format.date(game.getDate()) }}</td>
-            <td>{{ format.time(game.getTime()) }}</td>
-            <td>{{ game.getFieldDesc() }}</td>
-            <td>{{ gen.genTeam(game.getHomeTeam()) }}<br />
-                {{ gen.genTeam(game.getAwayTeam()) }}</td>
-            <td>{{ gen.genReferees(game) | raw }}</td>
+            <td>{{ gameView.date  }}</td>
+            <td>{{ gameView.time  }}</td>
+            <td>{{ gameView.field }}</td>
+            <td>{{ gameView.homeTeam }}<br />
+                {{ gameView.awayTeam }}</td>
+            <td>{{ gameView.officials | raw }}</td>
         </tr>
     {% endfor %}
 </table>

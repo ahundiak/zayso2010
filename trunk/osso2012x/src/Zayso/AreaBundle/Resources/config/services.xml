@@ -26,6 +26,13 @@
             public = "true">
             <argument type="service" id="doctrine.orm.games_entity_manager" />
         </service>
+
+        <service
+            id     = "zayso_area.game.schedule.manager"
+            class  = "Zayso\AreaBundle\Component\Manager\ScheduleManager"
+            public = "true">
+            <argument type="service" id="doctrine.orm.games_entity_manager" />
+        </service>
         
         <service
             id     = "zayso_area.game.schedule.import"
