@@ -53,7 +53,8 @@ class Person
 
     /**
      * Probably do not need this
-     *  ORM\OneToMany(targetEntity="AccountPerson", mappedBy="person")
+     * Need for query to get all people for a given account
+     * @ORM\OneToMany(targetEntity="AccountPerson", mappedBy="person")
      */
     protected $accountPersons;
 

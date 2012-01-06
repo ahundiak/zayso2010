@@ -31,5 +31,9 @@
         <service id="zayso_core.user.encoder" class="Zayso\CoreBundle\Component\User\Encoder" public="true">
         </service>
 
+        <service id="zayso_core.format.html" class="Zayso\CoreBundle\Component\Format\HTML" public="true">
+            <argument type="service" id="router" />
+        </service>
+
     </services>
 </container>
