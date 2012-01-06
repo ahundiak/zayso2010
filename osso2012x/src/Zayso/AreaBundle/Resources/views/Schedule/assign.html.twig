@@ -11,26 +11,30 @@
     <tr>
         <td style="width: 150px;">Game Number</td><td>{{ game.num }}</td>
     </tr><tr>
-        <td>Date</td><td>{{ format.date(game.date) }}</td>
+        <td>Date</td><td>{{ gameView.date }}</td>
     </tr><tr>
-        <td>Time</td><td>{{ format.time(game.time) }}</td>
+        <td>Time</td><td>{{ gameView.time }}</td>
     </tr><tr>
-        <td>Field</td><td>{{ game.getFieldDesc }}</td>
+        <td>Field</td><td>{{ gameView.field }}</td>
     </tr><tr>
-        <td>Home Team</td><td>{{ game.getHomeTeam.getTeam.getTeamKeyExpanded }}</td>
+        <td>Home Team</td><td>{{ gameView.homeTeam }}</td>
     </tr><tr>
-        <td>Away Team</td><td>{{ game.getAwayTeam.getTeam.getTeamKeyExpanded }}</td>
+        <td>Away Team</td><td>{{ gameView.awayTeam }}</td>
     </tr>
     <tr><td colspan="2"></td></tr>
-    {% for gamePerson in game.persons %}
+    {% for gamePerson in game.getEventPersonsSorted %}
         <input type="hidden" name="eventPerson[{{gamePerson.id}}][id]"   value="{{ gamePerson.id   }}" />
         <input type="hidden" name="eventPerson[{{gamePerson.id}}][type]" value="{{ gamePerson.type }}" />
+        <input type="hidden" name="eventPerson[{{gamePerson.id}}][personId]" value="{{ gamePerson.personId }}" />
         <tr>
-            <td>{{ gamePerson.desc }}</td>
-            <td>{{ gamePerson.name }}</td>
+            <td>{{ gamePerson.typeDesc }}</td>
+            <td>{{ gameView.genEventPersonName(gamePerson) | raw }}</td>
         </tr>
     {% endfor %}
-    <tr><th colspan="2"><input type="submit" name="refereeAssignSubmit" value="Sign Up" /></th></tr>
+    <tr>
+        <td><a href="{{ path('zayso_area_schedule_referee_list') }}#ref-sched-{{game.num}}">Referee Schedule</a></td>
+        <td><input type="submit" name="refereeAssignSubmit" value="Sign Up" /></td>
+    </tr>
 </table>
 </form>
 </div>

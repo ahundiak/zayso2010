@@ -17,6 +17,7 @@ class BaseManager
     
     public function clear()        { $this->em->clear(); }
     public function flush()        { $this->em->flush(); }
+    public function remove ($item) { $this->em->remove($item);  }
     public function persist($item) { $this->em->persist($item); }
     
     public function __construct($em)
@@ -30,6 +31,10 @@ class BaseManager
     public function getRegionReference($orgId)
     {
         return $this->getEntityManager()->getReference('ZaysoCoreBundle:Org',$orgId);
+    }
+    public function getPersonReference($personId)
+    {
+        return $this->getEntityManager()->getReference('ZaysoCoreBundle:Person',$personId);
     }
 }
 ?>

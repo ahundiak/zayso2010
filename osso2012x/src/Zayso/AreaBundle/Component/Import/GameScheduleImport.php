@@ -96,6 +96,7 @@ class GameScheduleImport extends BaseImport
             // Add Referee crew? perhaps add crew to schedule
             $eventPerson = new EventPerson();
             $eventPerson->setTypeAsCR();
+            $eventPerson->setProtected(true);
             $eventPerson->setEvent($game);
             $game->addPerson($eventPerson);
 
@@ -104,6 +105,7 @@ class GameScheduleImport extends BaseImport
             {
                 $eventPerson = new EventPerson();
                 $eventPerson->setTypeAsCR2();
+                $eventPerson->setProtected(true);
                 $eventPerson->setEvent($game);
                 $game->addPerson($eventPerson);
             }
