@@ -94,11 +94,23 @@ class Event extends BaseEntity
         if (!$person) return;
         $this->persons[$person->getType()] = $person; // Not going to call change here, not a property?
     }
-    public function getPersons() { return $this->persons; }
+    // Might want to add some sort of sorting here?
+    public function getPersons()      { return $this->persons; }
+    public function getEventPersons() { return $this->persons; }
     public function getPersonForType($type)
     {
         if (isset($this->persons[$type])) return $this->persons[$type];
         return null;
+    }
+    public function getEventPersonsSorted()
+    {
+        $types = array_keys(EventPerson::$typeDescs);
+        $eventPersons = array();
+        foreach($types as $type)
+        {
+            if (isset($this->persons[$type])) $eventPersons[$type] = $this->persons[$type];
+        }
+        return $eventPersons;
     }
     // ================================
     // Field stuff

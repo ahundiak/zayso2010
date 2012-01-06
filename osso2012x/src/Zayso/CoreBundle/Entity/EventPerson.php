@@ -32,7 +32,7 @@ class EventPerson extends BaseEntity
     const Type4th = '4th';
     const TypeObs = 'Obs';
 
-    static $desc = array
+    static public $typeDescs = array
     (
         self::TypeCR  => 'Center',
         self::TypeCR2 => 'Center 2',
@@ -73,6 +73,12 @@ class EventPerson extends BaseEntity
      * @ORM\Column(type="integer",name="sortx",nullable=false)
      */
     protected $sort = 0;
+
+    /**
+     * Used for predefined positions that should never be deleted
+     * @ORM\Column(type="integer",name="protected",nullable=false)
+     */
+    protected $protected = 0;
 
     /**
      * It is possible that this might be better stored in the datax
@@ -123,22 +129,32 @@ class EventPerson extends BaseEntity
         }
     }
     public function getType()      { return $this->type;  }
-    public function getDesc()
+    public function getTypeDesc()
     {
         $type = $this->type;
-        if (isset(self::$desc[$type])) return self::$desc[$type];
+        if (isset(self::$typeDescs[$type])) return self::$typeDescs[$type];
         return $type;
     }
+    public function getTypeDescs() { return self::$typeDescs; }
+    
     public function setState($state) { $this->onScalerPropertySet('state', $state); }
     public function getState()       { return $this->state;  }
 
     public function setPerson($person) { $this->onObjectPropertySet('person', $person); }
     public function getPerson()        { return $this->person;  }
 
-    public function getName()
+    public function getPersonName()
     {
         if (!$this->person) return null;
         return $this->person->getPersonName();
     }
+    public function getPersonId()
+    {
+        if (!$this->person) return 0;
+        return $this->person->getId();
+    }
+    public function setProtected($value) { $this->protected = $value; }
+    public function getProtected($value) { return $this->protected; }
+    public function isProtected() { return $this->protected ? true : false; }
 }
 ?>

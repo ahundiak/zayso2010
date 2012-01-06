@@ -35,6 +35,7 @@ class ProjectField
 
     public function getId     () { return $this->id;      }
     public function getKey    () { return $this->key1;    }
+    public function getKey1   () { return $this->key1;    }
     public function getDesc   () { return $this->key1;    }
     public function getStatus () { return $this->status;  }
     public function getProject() { return $this->project; }

@@ -4,6 +4,17 @@ namespace Zayso\CoreBundle\Component\Format;
 
 class HTML
 {
+    protected $router = null;
+
+    public function __construct($router = null)
+    {
+        $this->router = $router;
+    }
+    public function generateUrl($route, $parameters = array(), $absolute = false)
+    {
+        return $this->router->generate($route, $parameters, $absolute);
+    }
+
   public function escape($value)
   {
     return htmlspecialchars($value,ENT_QUOTES);
