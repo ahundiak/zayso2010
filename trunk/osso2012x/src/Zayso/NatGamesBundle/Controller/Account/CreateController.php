@@ -40,6 +40,7 @@ class CreateController extends BaseController
     public function createAccount($accountPerson)
     {
         $accountManager = $this->getAccountManager();
+        $em = $accountManager->getEntityManager();
 
         // See if already have a person
         $person = $accountManager->getPerson(array('projectId' => $this->getProjectId(),'aysoid' => $accountPerson->getAysoid()));
@@ -51,8 +52,16 @@ class CreateController extends BaseController
             // Check for same person, different project
             // If found copy existing newProjectPerson and set it
         }
-
-        $em = $accountManager->getEntityManager();
+        // Need to verify existing region
+        $regionKey = $accountPerson->getPerson()->getOrgKey();
+        $region = $accountManager->getOrgForKey($regionKey);
+        if (!$region)
+        {
+            $region = $accountManager->newOrg();
+            $region->setId($regionKey);
+            $region->setDesc1('AYSO Region ' . substr($regionKey,5,4));
+            $em->persist($region); $em->flush(); // die('Added Org');
+        }
         $em->persist($accountPerson); // Everything cascades
         $em->flush();
         
