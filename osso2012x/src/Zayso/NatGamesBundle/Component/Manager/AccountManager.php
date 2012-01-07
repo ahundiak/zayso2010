@@ -15,6 +15,7 @@ use Zayso\ZaysoBundle\Entity\Person;
 use Zayso\ZaysoBundle\Entity\PersonRegistered;
 use Zayso\ZaysoBundle\Entity\ProjectPerson;
 use Zayso\ZaysoBundle\Entity\Project;
+use Zayso\ZaysoBundle\Entity\Org;
 
 class AccountManager
 {
@@ -71,6 +72,23 @@ class AccountManager
         }
         return $accountPerson;
     }
+    public function getOrgForKey($id)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->addSelect('org');
+
+        $qb->from('ZaysoBundle:Org','org');
+
+        $qb->andWhere($qb->expr()->eq('org.id',$qb->expr()->literal($id)));  
+        
+        $items = $qb->getQuery()->getResult();
+        if (count($items) == 1) return $items[0];
+        return null;
+    }
+    public function newOrg() { return new Org(); }
+    
     public function getAccountPersons($params = array())
     {
         if (isset($params['projectId'])) $wantProject = true;
