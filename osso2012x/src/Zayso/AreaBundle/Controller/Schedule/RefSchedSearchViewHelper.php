@@ -35,7 +35,7 @@ class RefSchedSearchViewHelper
     );
     public $sortByPickList = array(1 => 'Date,Time,Field', 2 => 'Date,Field,Time', 3 => 'Date,Age,Time');
     
-    public $ages    = array('All','U05','U06','U07','U08','U10','U12','U14','U16','U19');
+    public $ages    = array('All','VIP','U05','U06','U07','U08','U10','U12','U14','U16','U19');
     public $genders = array('All','Boys','Coed','Girls');
     public $regions = array('All','R0160','R0498','R0894','R0914','R1174');
 
