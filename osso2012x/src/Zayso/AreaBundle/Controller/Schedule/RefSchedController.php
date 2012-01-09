@@ -99,8 +99,8 @@ class RefSchedController extends BaseController
                 $refSchedSearchData = array
                 (
                     'sortBy' => 1,
-                    'date1'  => '20110110',
-                    'date2'  => '20110120',
+                    'date1'  => '20120114',
+                    'date2'  => '20120122',
                     'time1'  => '0600',
                     'time2'  => '2100',
                     'ages'   => array(),
