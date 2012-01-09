@@ -12,44 +12,27 @@
 <table border="1" style="margin: 0px; padding: 0px;">
     <tr>
         <td>From:</td>
-        <td>{{ searchView.genDate('refSchedSearchData[date1]',refSchedSearchData.date1) | raw }}</td>
+        <td>{{ searchView.genDate('refSchedSearchData[date1x]',refSchedSearchData.date1) | raw }}</td>
         <td>{{ searchView.genDateDesc(refSchedSearchData.date1) }}</td>
-        <td>{{ searchView.genHour('refSchedSearchData[time1]',refSchedSearchData.time1) | raw }}</td>
+        <td>{{ searchView.genHour('refSchedSearchData[time1x]',refSchedSearchData.time1) | raw }}</td>
     </tr><tr>
         <td>To:</td>
-        <td>{{ searchView.genDate('refSchedSearchData[date2]',refSchedSearchData.date2) | raw }}</td>
+        <td>{{ searchView.genDate('refSchedSearchData[date2x]',refSchedSearchData.date2) | raw }}</td>
         <td>{{ searchView.genDateDesc(refSchedSearchData.date2) }}</td>
-        <td>{{ searchView.genHour('refSchedSearchData[time2]',refSchedSearchData.time2) | raw }}</td>
+        <td>{{ searchView.genHour('refSchedSearchData[time2x]',refSchedSearchData.time2) | raw }}</td>
         <td>
-            Sort By:
-            <select name="refSchedDataSearch[sortBy]">
-                {{ format.formOptions(sortByPickList,refSchedSearchData.sortBy) | raw }}
-            </select>
+            Sort By: {{ searchView.genSortByPickList(refSchedSearchData.sortBy) | raw }}
         </td>
     </tr>
 </table>
-    </td></tr>
     <tr><td>
-        <table border="1" style="margin: 0;"><tr>
-        {% for region in regions %}
-            <td width="75" align="center">{{ gen.genRegionCheckBox(region) | raw }}</td>
-        {% endfor %}
-        </tr></table>
-    </td></tr>
-    <tr><td>
-<table style="margin: 0px; padding: 0px;" ><tr><td>
-        <table border="1" style="margin: 0;"><tr>
-        {% for age in ages %}
-            <td width="40" align="center">{{ gen.genAgeCheckBox(age) | raw }}</td>
-        {% endfor %}
-        </tr></table>
-</td><td>
-        <table border="1" style="margin: 0;"><tr>
-        {% for gender in genders %}
-            <td width="40" align="center">{{ gen.genGenderCheckBox(gender) | raw }}</td>
-        {% endfor %}
-        </tr></table>
-</td></tr></table>
+<table style="margin: 0px; padding: 0px;" >
+    <tr>
+        <td>{{searchView.genAges(refSchedSearchData) | raw}}</td>
+        <td>
+    </td>
+    </tr>
+</table>
      </td></tr>
     <tr>
         <td align="center"><input type="submit" name="ref_schedule_submit" value="Search" /></td>
@@ -83,4 +66,20 @@
 </table>
 </div>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+<script>
+$(document).ready(function() 
+{
+    // Check loading
+    // Zayso.exclaim('Referee Schedule');
+   
+    // do stuff when DOM is ready
+    $('.checkbox-all').change(Zayso.checkboxAll);
+});
+</script>
+
 {% endblock %}

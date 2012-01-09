@@ -55,7 +55,7 @@ class TeamCommand extends ContainerAwareCommand
         
         $params = array();
         $params['projectId'] = $this->getProjectId();
-        $params['inputFileName'] = '../datax/Teams0498Winter2011.csv';
+        $params['inputFileName'] = '../datax/Teams0498Winter2012.csv';
         
         $import->process($params);
         echo $import->getResultMessage() . "\n";

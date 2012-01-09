@@ -9,6 +9,10 @@ zayso_area_welcome:
 zayso_area_home:
     pattern:  /home
     defaults: { _controller: ZaysoAreaBundle:Welcome:home }
+    
+zayso_area_contact:
+    pattern:  /contact
+    defaults: { _controller: ZaysoAreaBundle:Welcome:contact }
 
 zayso_area_account_signin_rpx:
     pattern:  /account/signin/rpx
@@ -36,6 +40,6 @@ zayso_area_schedule_referee_list:
 
 zayso_area_schedule_referee_assign:
     pattern:  /schedule/referee/assign/{id}/{pos}
-    defaults: { _controller: ZaysoAreaBundle:Schedule\RefSched:assign, id: 0, pos: ''}
+    defaults: { _controller: ZaysoAreaBundle:Schedule\RefAssign:assign, id: 0, pos: ''}
     requirements:
         id: \d+

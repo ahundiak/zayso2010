@@ -111,8 +111,8 @@ class ScheduleManager extends BaseManager
         if (!is_array($values)) return $values;
 
         // This will eventually bite me
-        if (isset($values['All'])) return $default;
-        if (isset($values['A'  ])) return $default;
+        //if (isset($values['All'])) return $default;
+        //if (isset($values['A'  ])) return $default;
 
         $valuesIndexed = array();
         foreach($values as $value)
@@ -127,7 +127,7 @@ class ScheduleManager extends BaseManager
     public function querySchTeams($search,$games = array())
     {
         // Pull params
-        $ages      = $this->getValues($search,'ages');
+        $ages      = $this->getValues($search,'ages'); die('Ages ' . print_r($ages));
         $regions   = $this->getValues($search,'regions');
         $genders   = $this->getValues($search,'genders');
         $projectId = $this->getValues($search,'projectId');
@@ -180,12 +180,15 @@ class ScheduleManager extends BaseManager
     {
         // Pull params
         $ages    = $this->getValues($search,'ages');
+
         $regions = $this->getValues($search,'regions');
         $genders = $this->getValues($search,'genders');
 
         $sortBy  = $this->getValues($search,'sortBy',1);
         $date1   = $this->getValues($search,'date1');
         $date2   = $this->getValues($search,'date2');
+        $time1   = $this->getValues($search,'time1');
+        $time2   = $this->getValues($search,'time2');
 
         $projectId = $this->getValues($search,'projectId');
 
@@ -201,13 +204,19 @@ class ScheduleManager extends BaseManager
 
         $qbGameId->from('ZaysoCoreBundle:Event','gameGameId');
 
-        $qbGameId->leftJoin('gameGameId.teams','gameTeamGameId');
+        $qbGameId->leftJoin('gameGameId.teams',   'gameTeamGameId');
+        $qbGameId->leftJoin('gameTeamGameId.team','teamGameId');
 
         if ($projectId) $qbGameId->andWhere($qbGameId->expr()->in('gameGameId.projectId',$projectId));
 
         if ($date1) $qbGameId->andWhere($qbGameId->expr()->gte('gameGameId.date',$date1));
         if ($date2) $qbGameId->andWhere($qbGameId->expr()->lte('gameGameId.date',$date2));
 
+        if ($time1) $qbGameId->andWhere($qbGameId->expr()->gte('gameGameId.time',$time1));
+        if ($time2) $qbGameId->andWhere($qbGameId->expr()->lte('gameGameId.time',$time2));
+
+        if ($ages) $qbGameId->andWhere($qbGameId->expr()->in('teamGameId.age',$ages));
+        
       //if (count($divisionIds)) $qbGameId->andWhere($qbGameId->expr()->in('gameTeamGameId.divisionId',$divisionIds));
       //if (count($regionIds))   $qbGameId->andWhere($qbGameId->expr()->in('gameTeamGameId.unitId',    $regionIds));
 
