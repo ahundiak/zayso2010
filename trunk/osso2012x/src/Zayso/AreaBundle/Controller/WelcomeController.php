@@ -22,5 +22,10 @@ class WelcomeController extends BaseController
         $tplData = array();
         return $this->render('ZaysoAreaBundle:Welcome:home.html.twig',$tplData);
     }
+    public function contactAction()
+    { 
+        $tplData = array();
+        return $this->render('ZaysoAreaBundle:Contact:contact.html.twig',$tplData);
+    }
 }
 ?>
