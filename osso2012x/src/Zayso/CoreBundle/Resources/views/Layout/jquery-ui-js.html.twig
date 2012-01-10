@@ -1,0 +1,11 @@
+{# Load this when need to use any of the jqueru-ui stuff like date picker #}
+
+<script src="{{ asset('bundles/zaysocore/js/jquery-1.7.1.min.js') }}"></script>
+<script src="{{ asset('bundles/zaysocore/js/jquery-ui-1.8.16.custom.min.js') }}"></script>
+
+{# Not positive about this but leave for now #}
+{% javascripts
+    '@ZaysoCoreBundle/Resources/public/js/zaysocore.js'
+%}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
