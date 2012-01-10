@@ -5,6 +5,8 @@
     <title>{% block title %}Area Bundle{% endblock %}</title>
     <meta name="description" content="Zayso Referee Scheduling"/>
     <meta name="author" content="Art Hundiak"/>
+    
+{% block stylesheets %}
 
     {% stylesheets output='css/*.css' filter='cssrewrite' debug=false
         '@ZaysoAreaBundle/Resources/public/css/area.css'
@@ -12,16 +14,12 @@
         <link rel="stylesheet" href="{{ asset_url }}" media="all" />
     {% endstylesheets %}
         
+{% endblock %}
+        
     <!--[if lt IE 9]>
         <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    
-    <!-- Should make it conditional and use google api 
-      -- Maybe move to end
-      -- Need to have custom js files as well
-      
-    <script src="{{ asset('bundles/zaysocore/js/jquery-1.7.1.min.js') }}"></script>
-    -->
+
 </head>
 
 <body>
@@ -90,13 +88,6 @@
 </div>
 {% block javascripts %}
         
-{% javascripts
-    '@ZaysoCoreBundle/Resources/public/js/jquery-1.7.1.min.js'
-    '@ZaysoCoreBundle/Resources/public/js/zaysocore.js'
-%}
-<script type="text/javascript" src="{{ asset_url }}"></script>
-{% endjavascripts %}
-
 {% endblock %}
 
 </body>

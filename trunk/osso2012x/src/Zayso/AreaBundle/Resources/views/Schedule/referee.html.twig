@@ -14,12 +14,10 @@
     <tr>
         <td>From:</td>
         <td>{{ searchView.genDate('refSchedSearchData[date1x]',refSchedSearchData.date1) | raw }}</td>
-        <td>{{ searchView.genDateDesc(refSchedSearchData.date1) }}</td>
         <td>{{ searchView.genHour('refSchedSearchData[time1x]',refSchedSearchData.time1) | raw }}</td>
     </tr><tr>
         <td>To:</td>
         <td>{{ searchView.genDate('refSchedSearchData[date2x]',refSchedSearchData.date2) | raw }}</td>
-        <td>{{ searchView.genDateDesc(refSchedSearchData.date2) }}</td>
         <td>{{ searchView.genHour('refSchedSearchData[time2x]',refSchedSearchData.time2) | raw }}</td>
         <td>
             Sort By: {{ searchView.genSortByPickList(refSchedSearchData.sortBy) | raw }}
@@ -69,17 +67,73 @@
 </div>
 {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {% include 'ZaysoCoreBundle:Layout:jquery-ui-css.html.twig' %}
+
+<style>
+        .zayso-date-desc { font-family: monospace; font-size: 1.0em; }
+        
+        .ui-widgetxxx { font-family: Trebuchet MS,Verdana,Arial,sans-serif; font-size: .75em; }
+</style>
+{% endblock %}
+
 {% block javascripts %}
     {{ parent() }}
+    {% include 'ZaysoCoreBundle:Layout:jquery-ui-js.html.twig' %}
 
 <script>
+
 $(document).ready(function() 
 {
     // Check loading
     // Zayso.exclaim('Referee Schedule');
    
     // do stuff when DOM is ready
-    $('.checkbox-all').change(Zayso.checkboxAll);
+    $('.zayso-checkbox-all').change(Zayso.checkboxAll);
+    
+    $('.zayso-date-gen').change(Zayso.dateGen);
+    
+    $('.zayso-date-desc').datepicker({
+        dateFormat: 'D M dd yy',
+        firstDay: 1,
+        
+        numberOfMonths: 3,
+        showCurrentAtPos: 1, // Confusing for Dec/Jan,
+        
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        
+        changeMonth: true,
+        changeYear:  true,
+        yearRange: '2001:2016', // Reversing does not seem to work
+        
+        beforeShow: function(input, inst) 
+        { 
+            var options = {};
+            
+            var date = $(input).val();
+            var month = date.substring(4,7);
+            
+            if (month == 'Jan') options.showCurrentAtPos = 0;
+            if (month == 'Aug') options.showCurrentAtPos = 0;
+            
+            return options;
+            
+            alert('Before Show ' + $(input).val());
+        },
+        
+        // onChange would be nice but would need anothe hidden value
+        onClose: Zayso.dateChanged,
+        
+        onClosex: function (dateText, inst)
+        {
+            var name = $(this).attr('name');
+          //var name =    $(this).html();
+            alert('Selected ' + name + ' ' + $(this).val());
+        }
+    });
+   
 });
 </script>
 
