@@ -1,0 +1,18 @@
+10 Jan 2012
+
+Using latest jquery 1.7.1
+Customized ui 1.8 with just date picker.
+
+Tried the stand alone date pick to reduce file size but had some issues.
+Doc also seems poor though jquery is in the process of rebuilding their plugin database.
+
+Tried ui-lightness, didn't really care fo the orange and had problems with default zayso.css
+flick seems to work okay.
+
+The assetic stuff simply does not work well with libraries.  The css image paths don't seem to work.
+
+However, using the assets:install to just copy the stuff over works fine.
+
+Another advantage of using jquery ui is that it's easy to build a custom library with just the necessary components.
+
+Also learning how to use a javascript block to put all the javascript at the bottom of the page.
