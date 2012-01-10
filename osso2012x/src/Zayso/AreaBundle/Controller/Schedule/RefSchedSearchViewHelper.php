@@ -61,7 +61,7 @@ class RefSchedSearchViewHelper
             if ($first)
             {
                 $first = false;
-                $class = 'class="checkbox-all"';
+                $class = 'class="zayso-checkbox-all"';
             }
             else $class = null;
             
@@ -90,18 +90,22 @@ class RefSchedSearchViewHelper
     {
         $html = null;
 
-        $html .= sprintf('<select name="%s[year]" >',$name);
+        $html .= sprintf('<select class="zayso-date-gen" name="%s[year]" >',$name);
         $html .= $this->format->formOptions(self::$yearPickList,substr($date,0,4));
         $html .= '</select>' . "\n";
 
-        $html .= sprintf('<select name="%s[month]" >',$name);
+        $html .= sprintf('<select class="zayso-date-gen" name="%s[month]" >',$name);
         $html .= $this->format->formOptions(self::$monthPickList,substr($date,4,2));
         $html .= '</select>' . "\n";
 
-        $html .= sprintf('<select name="%s[day]" >',$name);
+        $html .= sprintf('<select class="zayso-date-gen" name="%s[day]" >',$name);
         $html .= $this->format->formOptions(self::$dayPickList,substr($date,6,2));
         $html .= '</select>' . "\n";
 
+        $desc = $this->genDateDesc($date);
+        $html .= sprintf('<input type="text" class="zayso-date-desc" name="%s[desc]" readonly="readonly" value="%s" />',$name,$desc);
+        $html .= "\n";
+       
         return $html;
     }
     public function genHour($name,$time)
@@ -119,6 +123,6 @@ class RefSchedSearchViewHelper
         $date = sprintf('%s/%s/%s',substr($date,0,4),substr($date,4,2),substr($date,6,2));
         $date = new \DateTime($date);
 
-        return $date->format('M d, D');
+        return $date->format('D M d Y');
     }
 }
