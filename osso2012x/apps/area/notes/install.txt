@@ -19,3 +19,6 @@ php console assets:install ../../web/area5c
 copied them over to web/area5c/bundles/zaysocore/js
 
 Seemed to work okay.  Still not sure about using googles version.  And about including it on the bottom.
+
+./console assetic:dump ../../web/area
+./console assets:install ../../web/area
