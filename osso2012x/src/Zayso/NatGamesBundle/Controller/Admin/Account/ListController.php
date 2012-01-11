@@ -147,7 +147,12 @@ class ListController extends BaseController
     public function listAction($_format)
     {
         $accountManager = $this->get('account.manager');
-        $members = $accountManager->getAccountPersons(array('projectId' => $this->getProjectId()));
+        
+        $params = array(
+            'projectId' => $this->getProjectId(),
+            'accountRelation' => 'Primary',
+        );
+        $members = $accountManager->getAccountPersons($params);
         
         $tplData = $this->getTplData();
         $tplData['members'] = $members;

@@ -125,6 +125,10 @@ class AccountManager
         {
             $qb->andWhere($qb->expr()->in('accountPerson.id',$params['accountPersonId']));
         }
+        if (isset($params['accountRelation']))
+        {
+            $qb->andWhere($qb->expr()->eq('accountPerson.accountRelation',$qb->expr()->literal($params['accountRelation'])));
+        }
         if ($wantProject)
         {
             $qb->andWhere($qb->expr()->in('project.id',$params['projectId']));
