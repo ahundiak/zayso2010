@@ -151,7 +151,13 @@ class AccountManagerLegacy
         // Person must have aysoid
         $aysoid = $person2007->getAysoid();
         if (!$aysoid) return null;
-
+        $aysoidx = 'AYSOV' . $aysoid;
+ 
+        // See if the 2012 account already has person attached (merge)
+        foreach($account2012->getAccountPersons() as $accountPerson2012)
+        {
+            if ($aysoidx == $accountPerson2012->getAysoid()) return $accountPerson2012;
+        }
         // Need volunteer information
         $vol2007 = $this->volEaysoManager->loadVolCerts($aysoid);
         if (!$vol2007) return null;
@@ -172,12 +178,13 @@ class AccountManagerLegacy
         $em->persist($accountPerson2012);
 
         // See if already have a person for this aysoid
-        $person2012 = $this->account2012Manager->loadPersonForAysoid($aysoid);
+        $person2012 = $this->account2012Manager->loadPersonForAysoid($aysoidx);
         if ($person2012)
         {
             // Project Person is up to the legacy controller
             $accountPerson2012->setPerson($person2012);
-            return;
+            //echo 'Existing Person ' . $person2012->getFirstName();
+            return $accountPerson2012;
         }
         // New person
         $person2012 = new Person();
@@ -197,7 +204,7 @@ class AccountManagerLegacy
         // Registered
         $registeredPerson2012 = new PersonRegistered();
         $registeredPerson2012->setRegType ('AYSOV');
-        $registeredPerson2012->setRegKey  ('AYSOV' . $aysoid);
+        $registeredPerson2012->setRegKey  ($aysoidx);
         $registeredPerson2012->setVerified('2007');
         $registeredPerson2012->setPerson($person2012);
 
@@ -263,6 +270,44 @@ class AccountManagerLegacy
         }
         return $account2012;
     }
+    /* ===================================================================
+     * Utility routine for manually merging two accounts
+     */
+    public function merge($userName2007,$userName2012,$projectId)
+    {
+        $em = $this->account2012Manager->getEntityManager();
+        
+        // Get the accounts
+        $account2012 = $this->account2012Manager->loadAccountForUserName($userName2012);
+        if (!is_object($account2012)) return null;
+        
+        $account2007 = $this->account2007Manager->checkAccount($userName2007);
+        if (!is_object($account2012)) return $account2012;
 
+        // Process each person
+        foreach($account2007->getMembers() as $accountPerson2007)
+        {
+            $accountPerson2012 = $this->copyAccountPerson2007($accountPerson2007,$account2012);
+            if (!$accountPerson2012) break;
+            
+            // Deal with project
+            $person = $accountPerson2012->getPerson();
+            $projectPerson = $person->getProjectPerson($projectId);
+            if (!$projectPerson)
+            {
+                $project = $em->getReference('ZaysoCoreBundle:Project',$projectId);
+                 
+                $projectPerson = new ProjectPerson();
+                $projectPerson->setProject($project);
+                $projectPerson->setPerson ($person);
+                
+                $em->persist($projectPerson);
+            }
+        }
+        $em->flush();
+        
+        // Done
+        return $account2012;
+    }
 }
 ?>
