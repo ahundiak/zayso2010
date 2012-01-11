@@ -4,6 +4,130 @@
 #   prefix:   /_internal
     
 # National Games Routes
+zayso_natgames_index:
+    pattern:  /
+    defaults: { _controller: ZaysoNatGamesBundle:Welcome:welcome }
+
+zayso_natgames_welcome:
+    pattern:  /welcome
+    defaults: { _controller: ZaysoNatGamesBundle:Welcome:welcome }
+    
+zayso_natgames_home:
+    pattern:  /home
+    defaults: { _controller: ZaysoNatGamesBundle:Welcome:home }
+
+
+zayso_natgames_contact:
+    pattern:  /contact
+    defaults: { _controller: ZaysoNatGamesBundle:Contact:contact }
+
+# ===============================================================
+# Account stuff
+zayso_natgames_account_create:
+    pattern:  /account/create
+    defaults: { _controller: ZaysoNatGamesBundle:Account\Create:create }
+
+zayso_natgames_account_profile:
+    pattern:  /account/profile
+    defaults: { _controller: ZaysoNatGamesBundle:Account\Profile:index }
+    requirements:
+        _method:  GET
+
+zayso_natgames_account_profile_post:
+    pattern:  /account/profile
+    defaults: { _controller: ZaysoNatGamesBundle:Account\Profile:post }
+    requirements:
+        _method:  POST
+
+zayso_natgames_account_edit:
+    pattern:  /account/edit/{id}
+    defaults: { _controller: ZaysoNatGamesBundle:Account\Edit:edit, id: 0}
+    requirements:
+        id: \d+
+
+zayso_natgames_account_signin:
+    pattern:  /account/signin
+    defaults: { _controller: ZaysoNatGamesBundle:Account\Signin:signin }
+
+zayso_natgames_account_signin_rpx:
+    pattern:  /account/signin/rpx
+    defaults: { _controller: ZaysoNatGamesBundle:Account\Signin:signinRpx }
+
+zayso_natgames_account_signout:
+    pattern:  /account/signout
+    defaults: { _controller: ZaysoNatGamesBundle:Account\Signin:signout }
+
+zayso_natgames_account_openid_add:
+    pattern:  /account/openid/add
+    defaults: { _controller: ZaysoNatGamesBundle:Account\Openid:add }
+
+zayso_natgames_account_openid_add_rpx:
+    pattern:  /account/openid/add/rpx
+    defaults: { _controller: ZaysoNatGamesBundle:Account\Openid:addRpx }
+
+zayso_natgames_account_person_add:
+    pattern:  /account/person/add
+    defaults: { _controller: ZaysoNatGamesBundle:Account\AccountPerson:add }
+
+# Project Person Information
+zayso_natgames_project_plans:
+    pattern:  /project/plans
+    defaults: { _controller: ZaysoNatGamesBundle:Project:plans }
+    requirements:
+        _method:  GET
+
+zayso_natgames_project_plans_post:
+    pattern:  /project/plans
+    defaults: { _controller: ZaysoNatGamesBundle:Project:plansPost }
+    requirements:
+        _method:  POST
+
+zayso_natgames_project_levels:
+    pattern:  /project/levels
+    defaults: { _controller: ZaysoNatGamesBundle:Project:levels }
+    requirements:
+        _method:  GET
+
+zayso_natgames_project_levels_post:
+    pattern:  /project/levels
+    defaults: { _controller: ZaysoNatGamesBundle:Project:levelsPost }
+    requirements:
+        _method:  POST
+
+zayso_natgames_schedule:
+    pattern:  /schedule
+    defaults: { _controller: ZaysoNatGamesBundle:Schedule:index }
+    requirements:
+        _method:  GET
+
+# =================================================
+# Admin stuff
+zayso_natgames_admin:
+    pattern:  /admin
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Admin:index }
+    requirements:
+        _method:  GET
+
+zayso_natgames_admin_account_edit:
+    pattern:  /admin/account/edit/{id}
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Account\Edit:edit, id: 0}
+    requirements:
+        id: \d+
+        
+zayso_natgames_admin_account_list:
+    pattern:  /admin/account/list.{_format}
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Account\List:list, _format: html }
+    requirements:
+        _method:  GET
+        _format:  html|csv
+
+zayso_natgames_admin_import:
+    pattern:  /admin/import
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Import:index }
+
+# ===============================================================
+# Older style
+#
 natgames_index:
     pattern:  /natgames
     defaults: { _controller: NatGamesBundle:Welcome:welcome }
