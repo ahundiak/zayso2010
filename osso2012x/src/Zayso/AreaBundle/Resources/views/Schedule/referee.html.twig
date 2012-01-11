@@ -98,8 +98,8 @@ $(document).ready(function()
         dateFormat: 'D M dd yy',
         firstDay: 1,
         
-        numberOfMonths: 3,
-        showCurrentAtPos: 1, // Confusing for Dec/Jan,
+        numberOfMonths:   3,
+        showCurrentAtPos: 1, // Confusing for Dec/Jan, fixed in beforeShow
         
         showOtherMonths: true,
         selectOtherMonths: true,
@@ -110,24 +110,38 @@ $(document).ready(function()
         
         beforeShow: function(input, inst) 
         { 
-            var options = {};
+            var options = { showCurrentAtPos: 1 };
             
             var date = $(input).val();
             var month = date.substring(4,7);
-            
+ 
             if (month == 'Jan') options.showCurrentAtPos = 0;
             if (month == 'Aug') options.showCurrentAtPos = 0;
             
+          //console.log(month + ' ' +  options.showCurrentAtPos);
+             
             return options;
             
             alert('Before Show ' + $(input).val());
         },
         
         // onChange would be nice but would need anothe hidden value
-        onClose: Zayso.dateChanged,
+        onClosex: Zayso.dateChanged,
         
-        onClosex: function (dateText, inst)
+        onClose: function (dateText, inst)
         {
+            // Convert date to standard format
+            // Can't call static methods dynamically
+            var dateFormat = $(this).datepicker('option','dateFormat');
+            var date = $.datepicker.parseDate (dateFormat,dateText);
+            dateText = $.datepicker.formatDate('yymmdd',date);
+            
+            // Sets the scope to the dom element
+            Zayso.dateChanged.call(this,dateText);
+            return;
+            
+            alert('Date: ' + dateText);
+            return;
             var name = $(this).attr('name');
           //var name =    $(this).html();
             alert('Selected ' + name + ' ' + $(this).val());
