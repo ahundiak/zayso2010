@@ -18,11 +18,13 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             
-            new Zayso\ZaysoBundle\ZaysoBundle(),
-            new Zayso\EaysoBundle\EaysoBundle(),
-            new Zayso\Osso2007Bundle\Osso2007Bundle(),
-            new Zayso\Area5CFBundle\Area5CFBundle(),
+            new Zayso\CoreBundle\ZaysoCoreBundle(),
+            new Zayso\ZaysoBundle\ZaysoBundle(),            
+//            new Zayso\EaysoBundle\EaysoBundle(),
+//            new Zayso\Osso2007Bundle\Osso2007Bundle(),
+//            new Zayso\Area5CFBundle\Area5CFBundle(),
             new Zayso\NatGamesBundle\NatGamesBundle(),
+            new Zayso\NatGamesBundle\ZaysoNatGamesBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
