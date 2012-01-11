@@ -1,4 +1,4 @@
-{% extends 'NatGamesBundle::layout.html.twig' %}
+{% extends 'ZaysoNatGamesBundle:Layout:layout.html.twig' %}
 
 {% block title %}NatGames - Welcome{% endblock %}
 
@@ -8,8 +8,8 @@
   <p>
     Welcome to the AYSO National Games 2012 Referee Scheduling Site.
     As in the past few tournaments, referees will be allowed to assign themselves to games.
-    If you plan to referee during the games then you must <a href="{{ path('natgames_account_create') }}">Create An Account</a>.
-    If you already have an account then <a href="{{ path('natgames_account_signin') }}">Sign In Here</a>.
+    If you plan to referee during the games then you must <a href="{{ path('zayso_natgames_account_create') }}">Create An Account</a>.
+    If you already have an account then <a href="{{ path('zayso_natgames_account_signin') }}">Sign In Here</a>.
   </p><p>
     If you plan on doing some referee assessments or observations then please create an account.
     Coaches and team managers are also encouraged to create accounts as it will make it easier for you to track your team's standings.

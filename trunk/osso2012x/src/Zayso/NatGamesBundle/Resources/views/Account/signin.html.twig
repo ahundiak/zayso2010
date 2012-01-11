@@ -1,11 +1,11 @@
-{% form_theme form 'NatGamesBundle:Form:fields.html.twig' %}
-{% extends 'NatGamesBundle::layout.html.twig' %}
+{% form_theme form 'ZaysoNatGamesBundle:Form:fields.html.twig' %}
+{% extends 'ZaysoNatGamesBundle:Layout:layout.html.twig' %}
 
 {% block title %}NatGames - Account - Signin{% endblock %}
 
 {% block content %}
 <div>
-<form action="{{ path('natgames_account_signin') }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ path('zayso_natgames_account_signin') }}" method="post" {{ form_enctype(form) }}>
 <table border="1" style="width: 700px;">
 <tr><th colspan="3">National Games 2012 Sign In</th></tr>
 <tr>
@@ -37,7 +37,7 @@ If you have not connected your account then sign in using the above form and cli
 No more passwords to remember if you use a social account.
 </p>
 <iframe
-  src="http://zayso.rpxnow.com/openid/embed?token_url={{ url('natgames_account_signin_rpx') }}"
+  src="http://zayso.rpxnow.com/openid/embed?token_url={{ url('zayso_natgames_account_signin_rpx') }}"
   scrolling="no"  frameBorder="no"  allowtransparency="true"  style="width:400px;height:240px">
 </iframe>
 {% endblock %}

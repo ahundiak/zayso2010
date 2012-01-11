@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>{% block title %}NatGames Bundle{% endblock %}</title>
+    <meta name="description" content="Zayso Referee Scheduling"/>
+    <meta name="author" content="Art Hundiak"/>
+    
+{% block stylesheets %}
+
+    {% stylesheets output='css/*.css' filter='cssrewrite' debug=false
+        '@ZaysoCoreBundle/Resources/public/css/zayso.css'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}" media="all" />
+    {% endstylesheets %}
+        
+{% endblock %}
+        
+    <!--[if lt IE 9]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+<div>
+
+<div id="layout-header">
+  <a class="a-target-blank" href="http://soccer.org/events/national_games.aspx" target="_blank">
+    <img class="logo1" src="{{ asset('bundles/zaysocore/images/' ~ 'NatGamesLogo.jpg') }}" height="50" width="50" alt="National Games Site"/>
+  </a>
+  <a class="a-target-blank" href="http://www.soccer.org" target="_blank">
+    <img class="logo2" src="{{ asset('bundles/zaysocore/images/AysoLogo.gif') }}" height="50" width="50" alt="AYSO Site"/>
+  </a>
+  <div class="inner-block">
+    <p style="text-align: center;">
+      <span style="color: blue;">National Games 2012 Referee Scheduling Site</span>
+    </p>
+    <p style="margin-top: 2px; color: black; ">
+      <span style="color: blue;">Zayso User: </span>
+      <span style="color: greenx;">       
+        {% if     is_granted('ROLE_USER') %}{{ app.user.name }} {{ app.user.getAYSOCertsDescription }}{% endif %}
+        {% if not is_granted('ROLE_USER') %}Guest{% endif %}          
+      </span>
+    </p>
+  </div>
+</div>
+
+<div id="layout-top-menu">
+  <ul style="float:left ">
+    <li><a href="{{ path('zayso_natgames_welcome')       }}">Welcome</a></li>
+    
+{% if is_granted('ROLE_USER') %}
+    <li><a href="{{ path('zayso_natgames_home')           }}">Home</a></li>
+{% endif %}
+    
+{% if not is_granted('ROLE_USER') %}    
+    <li><a href="{{ path('zayso_natgames_account_create') }}">Create Account</a></li>
+{% endif %}
+    
+    <li><a href="{{ path('zayso_natgames_schedule')       }}">Game Schedule</a></li>
+  </ul>
+        
+  <ul style="float: right">
+
+{% if is_granted('ROLE_ADMIN') %}
+    <li><a href="{{ path('zayso_natgames_admin')          }}">Admin</a></li>
+{% endif %}
+    
+   <li><a href="{{ path('zayso_natgames_contact') }}">Contact Us</a></li>
+   
+{% if is_granted('ROLE_USER') %}
+   <li><a href="{{ path('zayso_natgames_account_signout') }}">Sign Out</a></li>
+{% endif %}
+   
+{% if not is_granted('ROLE_USER') %}
+   <li><a href="{{ path('zayso_natgames_account_signin') }}">Sign In</a></li>
+{% endif %}          
+
+  </ul>
+  <div class="inner"></div>
+</div>
+
+<div id="layout-content">
+  {% block content %}
+  {% endblock %}
+</div>
+
+</div>
+{% block javascripts %}
+        
+{% endblock %}
+</body>
+</html>
+

@@ -4,11 +4,11 @@ namespace Zayso\NatGamesBundle\Controller\Account;
 
 use Zayso\NatGamesBundle\Controller\BaseController;
 
-use Zayso\ZaysoBundle\Component\DataTransformer\PasswordTransformer;
-use Zayso\ZaysoBundle\Component\Form\Validator\UserNamePassValidator;
+use Zayso\CoreBundle\Component\DataTransformer\PasswordTransformer;
+use Zayso\CoreBundle\Component\FormValidator\UserNamePassValidator;
 
-use Zayso\ZaysoBundle\Entity\Account;
-use Zayso\ZaysoBundle\Component\Debug;
+use Zayso\CoreBundle\Entity\Account;
+use Zayso\CoreBundle\Component\Debug;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\AbstractType;
@@ -42,7 +42,7 @@ class SigninController extends BaseController
         // So easy once the secret is known, need both
         $this->get('security.context')->setToken(null);
         $request->getSession()->remove('_security_secured_area');
-        return $this->redirect($this->generateUrl('natgames_welcome'));
+        return $this->redirect($this->generateUrl('zayso_natgames_welcome'));
     }
     public function signinAction(Request $request)
     {
@@ -76,13 +76,13 @@ class SigninController extends BaseController
                 $userName = $account->getUserName();
                 $session->set(SecurityContext::LAST_USERNAME,$userName);
                 $this->setUser($userName);
-                return $this->redirect($this->generateUrl('natgames_home'));
+                return $this->redirect($this->generateUrl('zayso_natgames_home'));
             }
         }
         $tplData = $this->getTplData();
         $tplData['form'] = $form->createView();
         
-        return $this->render('NatGamesBundle:Account:signin.html.twig',$tplData);
+        return $this->render('ZaysoNatGamesBundle:Account:signin.html.twig',$tplData);
     }
     public function signinRpxAction(Request $request)
     {
@@ -91,7 +91,7 @@ class SigninController extends BaseController
         if (!is_array($profile))
         {
             $request->getSession()->setFlash('account_signin_error',$profile);
-            return $this->redirect($this->generateUrl('natgames_account_signin'));
+            return $this->redirect($this->generateUrl('zayso_natgames_account_signin'));
         }
         $identifier = $profile['identifier'];
 
@@ -110,6 +110,6 @@ class SigninController extends BaseController
         $request->getSession()->set(SecurityContext::LAST_USERNAME,$user->getUserName());
         $this->setUser($user);
 
-        return $this->redirect($this->generateUrl('natgames_home'));
+        return $this->redirect($this->generateUrl('zayso_natgames_home'));
     }
 }

@@ -6,7 +6,7 @@ class ContactController extends BaseController
 {
   public function contactAction()
   { 
-    $tplData = $this->getTplData();
-    return $this->render('NatGamesBundle:Contact:contact.html.twig',$tplData);
+    $tplData = array();
+    return $this->render('ZaysoNatGamesBundle:Contact:contact.html.twig',$tplData);
   }
 }
