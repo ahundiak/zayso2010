@@ -145,9 +145,70 @@ class AccountCommand extends ContainerAwareCommand
         if ($projectPerson) echo 'PROJ 70 ' . $projectPerson->getProject()->getId() . "\n";
         else                echo "No Project Person for: 70\n";
     }
+    protected function dumpAccount2($account)
+    {
+        if (!$account)
+        {
+            echo "*** NULL Account\n";
+            return;
+        }
+        echo "====================\n";
+        echo sprintf("Account %4d %s %s\n",
+            $account->getId(),
+            $account->getUserName(),
+            $account->getStatus());
+        
+        foreach($account->getAccountPersons() as $accountPerson)
+        {   
+            echo sprintf("AP      %4d %s %s\n",
+                $accountPerson->getId(),
+                $accountPerson->getAccountRelation(),
+                $accountPerson->getVerified());
+            
+            $person = $accountPerson->getPerson();
+            if (!$person) break;
+            
+            echo sprintf("Person  %4d %s %s %s\n",
+                $person->getId(),
+                $person->getPersonName(),
+                $person->getDob(),
+                $person->getGender());
+
+            echo sprintf("VOL     %4u %s %s %s %s %s %s\n",
+                $person->getAysoRegisteredPerson()->getId(),
+                $person->getAysoid(),
+                $person->getOrgKey(),
+                $person->getMemYear(),
+                $person->getRefBadge(),
+                $person->getRefDate(),
+                $person->getSafeHaven());
+
+            $openids = $accountPerson->getOpenids();
+            foreach($openids as $openid)
+            {
+                echo 'OPENID  ' . $openid->getProvider() . ' ' . $openid->getDisplayName() . "\n";
+            }
+            $projectPersons = $person->getProjectPersons();
+            foreach($projectPersons as $projectPerson)
+            {
+                echo 'PROJECT ' . $projectPerson->getProject()->getId() . "\n";
+            }
+            echo "---\n";
+        }
+    }
+    protected function merge()
+    {
+        $manager = $this->getContainer()->get('zayso_area.account.manager.legacy');
+        
+        $account = $manager->merge('jsloan','jsloan',70);
+        
+        $this->dumpAccount2($account);
+
+    }
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->test1();
-        $this->test3();
+        // $this->test1();
+        // $this->test3();
+        $this->merge();
     }
 }
