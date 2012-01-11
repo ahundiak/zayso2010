@@ -1,0 +1,15 @@
+# Internal routing configuration to handle ESI
+#_internal:
+#   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
+#   prefix:   /_internal
+
+welcome:
+    pattern:  /
+    defaults: { _controller: ZaysoBundle:Welcome:welcome }
+    
+logout:
+    pattern:  /logout
+
+# National Games Routes
+natgames_routing:
+    resource: "@NatGamesBundle/Resources/config/routing.yml"

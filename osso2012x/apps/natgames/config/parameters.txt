@@ -1,0 +1,31 @@
+; These parameters can be imported into other config files
+; by enclosing the key with % (like %database_user%)
+; Comments start with ';', as in php.ini
+[parameters]
+    database_driver   = pdo_mysql
+    database_host     = localhost
+    database_port     =
+    database_name     = symfony
+    database_user     = root
+    database_password =
+
+    mailer_transport  = smtp
+    mailer_host       = localhost
+    mailer_user       =
+    mailer_password   =
+    mailer_enabled    = true
+
+    locale            = en
+
+    secret            = ThisTokenIsNotSoSecretChangeIt
+
+# Session class and database schema info
+parameters:
+    session.class: Zayso\ZaysoBundle\Component\HttpFoundation\MySession
+
+    session.pdo.db_options:
+        db_table:    session
+        db_id_col:   session_id
+        db_data_col: session_value
+        db_time_col: session_time
+        
