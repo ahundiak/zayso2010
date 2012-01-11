@@ -56,30 +56,29 @@ Zayso.dateGen = function(e)
  * 
  * Not real pretty but seems to get the job done
  */
-Zayso.dateChanged = function()
+Zayso.dateChanged = function(dateText) // 20120109
 {
+    // Just in case
+    if (dateText.length != 8) return;
+    
     var nameChanged = $(this).attr('name'); // "refSchedSearchData[date1][month]";
+    
     var nameRoot = nameChanged.substring(0,nameChanged.lastIndexOf('['));
-       
-    var date = $(this).val(); // Mon Jan 12 2012
     
-    if (date.length < 15) return;
-    
-    var day   = date.substring( 8,10);
-    var year  = date.substring(11,15);
-    var month = date.substring( 4, 7);
+    var day   = dateText.substring( 6, 8);
+    var year  = dateText.substring( 0, 4);
+    var month = dateText.substring( 4, 6);
 
+    // console.log(nameRoot + ' ' + dateText + ' ' + year);
+    
+    $('select[name="' + nameRoot +   '[day]"]').val(day);
+    $('select[name="' + nameRoot +  '[year]"]').val(year);
+    $('select[name="' + nameRoot + '[month]"]').val(month);
+    return;
+    /*
+    // indexOf may or may not be present
+    // monthIndex = months.indexOf(month);
     var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    
-    // indexOf may or may not be present
-    // monthIndex = months.indexOf(month);
-    var monthIndex = jQuery.inArray(month,months);
-
-    $('select[name="' + nameRoot + '[day]"]').val(day);
-    $('select[name="' + nameRoot + '[year]"]').val(year);
-    
-    // indexOf may or may not be present
-    // monthIndex = months.indexOf(month);
     var monthIndex = jQuery.inArray(month,months);
     
     if (monthIndex >= 0) 
@@ -107,7 +106,7 @@ Zayso.dateChanged = function()
     // Replace using datepicker if decide to always include it
     desc.val(date.toDateString('D M d yy'));
     
-    //alert('Year ' + date);
+    //alert('Year ' + date);*/
     
 }
 
