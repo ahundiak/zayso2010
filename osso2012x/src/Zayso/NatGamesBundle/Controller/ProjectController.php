@@ -14,7 +14,7 @@ class ProjectController extends BaseController
     public function plansAction()
     {   
         $projectPerson = $this->getProjectPerson();
-        if (!$projectPerson) return $this->redirect($this->generateUrl('natgames_home'));
+        if (!$projectPerson) return $this->redirect($this->generateUrl('zayso_natgames_home'));
         
         $plansData = $projectPerson->get('plans');
         if (!$plansData) $plansData = array();
@@ -24,12 +24,12 @@ class ProjectController extends BaseController
 
         $tplData = $this->getTplData();
         $tplData['gen']  = $this;
-        return $this->render('NatGamesBundle:Project:plans.html.twig',$tplData);
+        return $this->render('ZaysoNatGamesBundle:Project:plans.html.twig',$tplData);
     }
     public function levelsAction()
     {
         $projectPerson = $this->getProjectPerson();
-        if (!$projectPerson) return $this->redirect($this->generateUrl('natgames_home'));
+        if (!$projectPerson) return $this->redirect($this->generateUrl('zayso_natgames_home'));
         
         $levelsData = $projectPerson->get('levels');
         if (!$levelsData) $levelsData = array();
@@ -47,7 +47,7 @@ class ProjectController extends BaseController
         $tplData['gen']    = $this;
         $tplData['levels'] = $levels;
         $tplData['ages']   = array('U10','U12','U14','U16','U19');
-        return $this->render('NatGamesBundle:Project:levels.html.twig',$tplData);
+        return $this->render('ZaysoNatGamesBundle:Project:levels.html.twig',$tplData);
     }
     public function plansPostAction(Request $request)
     {
@@ -55,12 +55,12 @@ class ProjectController extends BaseController
         if (!$plansData) $plansData = array();
         
         $projectPerson = $this->getProjectPerson();
-        if (!$projectPerson) return $this->redirect($this->generateUrl('natgames_home'));
+        if (!$projectPerson) return $this->redirect($this->generateUrl('zayso_natgames_home'));
 
         $projectPerson->set('plans',$plansData);
         $this->getAccountManager()->getEntityManager()->flush();
 
-        return $this->redirect($this->generateUrl('natgames_project_plans'));
+        return $this->redirect($this->generateUrl('zayso_natgames_project_plans'));
     }
     public function levelsPostAction(Request $request)
     {
@@ -68,12 +68,12 @@ class ProjectController extends BaseController
         if (!$levelsData) $levelsData = array();
         
         $projectPerson = $this->getProjectPerson();
-        if (!$projectPerson) return $this->redirect($this->generateUrl('natgames_home'));
+        if (!$projectPerson) return $this->redirect($this->generateUrl('zayso_natgames_home'));
 
         $projectPerson->set('levels',$levelsData);
         $this->getAccountManager()->getEntityManager()->flush();
 
-        return $this->redirect($this->generateUrl('natgames_project_levels'));
+        return $this->redirect($this->generateUrl('zayso_natgames_project_levels'));
     }
     protected function getPlansDataValue($name)
     {

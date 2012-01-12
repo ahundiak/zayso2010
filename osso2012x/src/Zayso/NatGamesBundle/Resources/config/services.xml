@@ -6,70 +6,82 @@
 
     <services>
 
-        <service id="account.manager" class="Zayso\NatGamesBundle\Component\Manager\AccountManager" public="true">
-            <argument type="service" id="doctrine.orm.osso2012_entity_manager" />
+        <service 
+            id     = "zayso_natgames.account.manager" 
+            class  = "Zayso\NatGamesBundle\Component\Manager\AccountManager" 
+            public = "true">
+            <argument type="service" id="doctrine.orm.accounts_entity_manager" />
         </service>
         
-        <service id="zayso.natgames.account.import" class="Zayso\NatGamesBundle\Component\Import\AccountImport" public="true">
-            <argument type="service" id="account.manager" />
+        <service 
+            id     = "zayso.natgames.account.import" 
+            class  = "Zayso\NatGamesBundle\Component\Import\AccountImport" 
+            public = "true">
+            <argument type="service" id="zayso_natgames.account.manager" />
         </service>
 
-        <service id="schedule2010.import" class="Zayso\NatGamesBundle\Component\Import\Schedule2010Import" public="true">
+        <service 
+            id     = "zayso_natgames.schedule2010.import" 
+            class  = "Zayso\NatGamesBundle\Component\Import\Schedule2010Import" 
+            public = "true">
             <argument type="service" id="doctrine.orm.osso2012_entity_manager" />
         </service>
 
-        <service id="account.create.formtype" class="Zayso\NatGamesBundle\Component\Form\Type\Account\AccountCreateFormType" public="true">
-            <argument type="service" id="doctrine.orm.osso2012_entity_manager" />
+        <service 
+            id     = "zayso_natgames.account.create.formtype" 
+            class  = "Zayso\NatGamesBundle\Component\Form\Type\Account\AccountCreateFormType" 
+            public = "true">
+            <argument type="service" id="doctrine.orm.accounts_entity_manager" />
         </service>
 
         <service
-            id     = "admin.account.edit.formtype"
+            id     = "zayso_natgames.admin.account.edit.formtype"
             class  = "Zayso\NatGamesBundle\Component\Form\Type\Account\AdminAccountEditFormType"
             public = "true">
-            <argument type="service" id="doctrine.orm.osso2012_entity_manager" />
+            <argument type="service" id="doctrine.orm.accounts_entity_manager" />
         </service>
 
         <service
-            id     = "account.person.add.formtype"
+            id     = "zayso_natgames.account.person.add.formtype"
             class  = "Zayso\NatGamesBundle\Component\Form\Type\Account\AccountPersonAddFormType"
             public = "true">
-            <argument type="service" id="doctrine.orm.osso2012_entity_manager" />
+            <argument type="service" id="doctrine.orm.accounts_entity_manager" />
         </service>
         
        <service
-            id     = "account.person.listitem.formtype"
+            id     = "zayso_natgames.account.person.listitem.formtype"
             class  = "Zayso\NatGamesBundle\Component\Form\Type\Account\AccountPersonListItemFormType"
             public = "true">
-            <argument type="service" id="doctrine.orm.osso2012_entity_manager" />
+            <argument type="service" id="doctrine.orm.accounts_entity_manager" />
         </service>
         
        <service
-            id     = "account.person.list.formtype"
+            id     = "zayso_natgames.account.person.list.formtype"
             class  = "Zayso\NatGamesBundle\Component\Form\Type\Account\AccountPersonListFormType"
             public = "true">
-            <argument type="service" id="doctrine.orm.osso2012_entity_manager" />
-            <argument type="service" id="account.person.listitem.formtype" />
+            <argument type="service" id="doctrine.orm.accounts_entity_manager" />
+            <argument type="service" id="zayso_natgames.account.person.listitem.formtype" />
         </service>
         
         <service
-            id     = "account.profile.contact.formtype"
+            id     = "zayso_natgames.account.profile.contact.formtype"
             class  = "Zayso\NatGamesBundle\Component\Form\Type\Account\AccountProfileContactFormType"
             public = "true">
-            <argument type="service" id="doctrine.orm.osso2012_entity_manager" />
+            <argument type="service" id="doctrine.orm.accounts_entity_manager" />
         </service>
         
         <service
-            id     = "account.profile.password.formtype"
+            id     = "zayso_natgames.account.profile.password.formtype"
             class  = "Zayso\NatGamesBundle\Component\Form\Type\Account\AccountProfilePasswordFormType"
             public = "true">
-            <argument type="service" id="doctrine.orm.osso2012_entity_manager" />
+            <argument type="service" id="doctrine.orm.accounts_entity_manager" />
         </service>
         
         <service
-            id     = "account.profile.ayso.formtype"
+            id     = "zayso_natgames.account.profile.ayso.formtype"
             class  = "Zayso\NatGamesBundle\Component\Form\Type\Account\AccountProfileAysoFormType"
             public = "true">
-            <argument type="service" id="doctrine.orm.osso2012_entity_manager" />
+            <argument type="service" id="doctrine.orm.accounts_entity_manager" />
         </service>
 
     </services>

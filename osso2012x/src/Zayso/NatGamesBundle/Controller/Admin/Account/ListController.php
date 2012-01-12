@@ -4,13 +4,14 @@ namespace Zayso\NatGamesBundle\Controller\Admin\Account;
 
 use Zayso\NatGamesBundle\Controller\BaseController;
 
-use Zayso\ZaysoBundle\Component\Debug;
+use Zayso\CoreBundle\Component\Debug;
 
 class AdminAccountListViewHelper
 {
-    public function __construct($projectManager)
+    public function __construct($manager,$projectId)
     {
-        $this->projectManager = $projectManager;
+        $this->manager   = $manager;
+        $this->projectId = $projectId;
     }
     protected function escape($value)
     {
@@ -21,7 +22,7 @@ class AdminAccountListViewHelper
         $this->member  = $member;
         $this->account = $member->getAccount();
         $this->person  = $member->getPerson();
-        $this->plans   = $this->person->getNatGamesProjectPerson()->getPlans();
+        $this->plans   = $this->person->getProjectPerson($this->projectId)->getPlans();
 
         $this->registeredPerson = $this->person->getAysoRegisteredPerson();
         return;
@@ -62,13 +63,13 @@ class AdminAccountListViewHelper
     }
     public function getRegionDesc()
     {
-        $org = $this->projectManager->getOrgForId($this->person->getOrgKey());
+        $org = $this->manager->getOrgForKey($this->person->getOrgKey());
         if ($org) return $org->getDesc2();
         return null;
     }
     public function getRegionState()
     {
-        $org = $this->projectManager->getOrgForId($this->person->getOrgKey());
+        $org = $this->manager->getOrgForKey($this->person->getOrgKey());
         if ($org) return $org->getState();
         return null;
     }
@@ -146,7 +147,7 @@ class ListController extends BaseController
 {
     public function listAction($_format)
     {
-        $accountManager = $this->get('account.manager');
+        $accountManager = $this->getAccountManager();
         
         $params = array(
             'projectId' => $this->getProjectId(),
@@ -156,11 +157,11 @@ class ListController extends BaseController
         
         $tplData = $this->getTplData();
         $tplData['members'] = $members;
-        $tplData['memberx'] = new AdminAccountListViewHelper($this->getProjectManager());
+        $tplData['memberx'] = new AdminAccountListViewHelper($accountManager,$this->getProjectId());
         
-        if ($_format == 'html') return $this->render('NatGamesBundle:Admin:Account/list.html.twig',$tplData);
+        if ($_format == 'html') return $this->render('ZaysoNatGamesBundle:Admin:Account/list.html.twig',$tplData);
         
-        $response = $this->render('NatGamesBundle:Admin:Account/list.csv.php',$tplData);
+        $response = $this->render('ZaysoNatGamesBundle:Admin:Account/list.csv.php',$tplData);
         
         $response->headers->set('Pragma', 'public');
         $response->headers->set('Pragma', 'no-cache');

@@ -3,7 +3,7 @@
 namespace Zayso\NatGamesBundle\Controller\Admin;
 
 use Zayso\NatGamesBundle\Controller\BaseController;
-use Zayso\ZaysoBundle\Component\Debug;
+use Zayso\CoreBundle\Component\Debug;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -131,7 +131,7 @@ class ImportController extends BaseController
                 $msg = $import->getResultMessage();
                 $request->getSession()->setFlash('importMsg',$msg);
                 
-                return $this->redirect($this->generateUrl('natgames_admin_import'));
+                return $this->redirect($this->generateUrl('zayso_natgames_admin_import'));
                 
                 die($import->getResultMessage());
             }
@@ -139,13 +139,16 @@ class ImportController extends BaseController
         $tplData = $this->getTplData();
         $tplData['form']      = $form->createView();
         $tplData['importMsg'] = $request->getSession()->getFlash('importMsg');
-        return $this->render('NatGamesBundle:Admin:import.html.twig',$tplData);
+        return $this->render('ZaysoNatGamesBundle:Admin:import.html.twig',$tplData);
     }
+    /* =================================================
+     * Don't think this is used
+     *
     public function accountsAction($_format)
     {
         
         // Check auth
-        if (!$this->isAuth()) return $this->redirect($this->generateUrl('_natgames_welcomex'));
+        if (!$this->isAuth()) return $this->redirect($this->generateUrl('zayso_natgames_welcomex'));
 
         $accountManager = $this->get('account.manager');
         $accounts = $accountManager->getAccounts();
@@ -164,10 +167,11 @@ class ImportController extends BaseController
         $tplData['accounts'] = $accounts;
         $tplData['memberx']  = new MemberViewHelper();
         
-        if ($_format == 'html') return $this->render('NatGamesBundle:Admin:accounts.html.twig',$tplData);
+        if ($_format == 'html') return $this->render('ZaysoNatGamesBundle:Admin:accounts.html.twig',$tplData);
         
-        $response = $this->render('NatGamesBundle:Admin:accounts.csv.php',$tplData);
+        $response = $this->render('ZaysoNatGamesBundle:Admin:accounts.csv.php',$tplData);
         $response->headers->set('Content-Type', 'application/csv');
         return $response;
     }
+    */
 }

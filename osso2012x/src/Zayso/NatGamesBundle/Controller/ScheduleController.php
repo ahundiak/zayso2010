@@ -7,6 +7,6 @@ class ScheduleController extends BaseController
   public function indexAction()
   { 
     $tplData = $this->getTplData();
-    return $this->render('NatGamesBundle:Schedule:schedule.html.twig',$tplData);
+    return $this->render('ZaysoNatGamesBundle:Schedule:schedule.html.twig',$tplData);
   }
 }

@@ -4,7 +4,7 @@ namespace Zayso\NatGamesBundle\Controller\Account;
 
 use Zayso\NatGamesBundle\Controller\BaseController;
 
-use Zayso\ZaysoBundle\Component\Debug;
+use Zayso\CoreBundle\Component\Debug;
 
 use Symfony\Component\HttpFoundation\Request;
 
@@ -12,19 +12,19 @@ class ProfileController extends BaseController
 {
     protected function getContactForm($accountPerson)
     {
-        $formType = $this->get('account.profile.contact.formtype');
+        $formType = $this->get('zayso_natgames.account.profile.contact.formtype');
         $form     = $this->createForm($formType, $accountPerson);
         return $form;
     }
     protected function getPasswordForm($accountPerson)
     {
-        $formType = $this->get('account.profile.password.formtype');
+        $formType = $this->get('zayso_natgames.account.profile.password.formtype');
         $form     = $this->createForm($formType, $accountPerson);
         return $form;
     }
     protected function getAysoForm($accountPerson)
     {
-        $formType = $this->get('account.profile.ayso.formtype');
+        $formType = $this->get('zayso_natgames.account.profile.ayso.formtype');
         $form     = $this->createForm($formType, $accountPerson);
         return $form;
     }
@@ -44,7 +44,7 @@ class ProfileController extends BaseController
 
         $tplData['aysoForm'] = $this->getAysoForm($accountPerson)->createView();
                 
-        $formType = $this->get('account.person.list.formtype');
+        $formType = $this->get('zayso_natgames.account.person.list.formtype');
         $form     = $this->createForm($formType,$accountPerson->getAccount());
         $tplData['accountPersonListForm'] = $form->createView();
         
@@ -62,7 +62,7 @@ class ProfileController extends BaseController
         // Render
         $tplData = $this->getTplDatax($accountPerson);
  
-        return $this->render('NatGamesBundle:Account:profile.html.twig',$tplData);
+        return $this->render('ZaysoNatGamesBundle:Account:profile.html.twig',$tplData);
     }
     public function postAction(Request $request)
     {
@@ -72,7 +72,7 @@ class ProfileController extends BaseController
         $submit = $request->get('accountProfilePasswordSubmit');
         if ($submit) return $this->postPasswordAction($request);
 
-        return $this->redirect($this->generateUrl('natgames_account_profile'));
+        return $this->redirect($this->generateUrl('zayso_natgames_account_profile'));
         
     }
     public function postContactAction($request)
@@ -84,12 +84,12 @@ class ProfileController extends BaseController
         // Get the current id
         // Really just a double check
         $user = $this->getUser();
-        if ($accountPersonId != $user->getAccountPersonId()) return $this->redirect($this->generateUrl('natgames_welcome'));
+        if ($accountPersonId != $user->getAccountPersonId()) return $this->redirect($this->generateUrl('zayso_natgames_welcome'));
 
         // Get the account
         $accountManager = $this->getAccountManager();
         $accountPerson = $accountManager->getAccountPerson(array('accountPersonId' => $accountPersonId));
-        if (!$accountPerson) return $this->redirect($this->generateUrl('natgames_welcome'));
+        if (!$accountPerson) return $this->redirect($this->generateUrl('zayso_natgames_welcome'));
 
         // Validate
         $form = $this->getContactForm($accountPerson);
@@ -110,14 +110,14 @@ class ProfileController extends BaseController
             //$user->setNickName ($accountPerson->getNickName());
             
             // Redirect
-            return $this->redirect($this->generateUrl('natgames_account_profile'));
+            return $this->redirect($this->generateUrl('zayso_natgames_account_profile'));
         }
         // Render Errors
         $tplData = $this->getTplDatax($accountPerson);
         
         $tplData['contactForm']  = $form->createView();
 
-        return $this->render('NatGamesBundle:Account:profile.html.twig',$tplData);
+        return $this->render('ZaysoNatGamesBundle:Account:profile.html.twig',$tplData);
 
     }
     public function postPasswordAction($request)
@@ -128,12 +128,12 @@ class ProfileController extends BaseController
 
         // Get the current id
         $user = $this->getUser();
-        if ($accountPersonId != $user->getAccountPersonId()) return $this->redirect($this->generateUrl('natgames_welcome'));
+        if ($accountPersonId != $user->getAccountPersonId()) return $this->redirect($this->generateUrl('zayso_natgames_welcomex'));
 
         // Get the account
         $accountManager = $this->getAccountManager();
         $accountPerson = $accountManager->getAccountPerson(array('accountPersonId' => $accountPersonId));
-        if (!$accountPerson) return $this->redirect($this->generateUrl('natgames_welcome'));
+        if (!$accountPerson) return $this->redirect($this->generateUrl('zayso_natgames_welcomex'));
 
         // Validate
         $form = $this->getPasswordForm($accountPerson);
@@ -149,14 +149,14 @@ class ProfileController extends BaseController
             $this->setUser($accountPerson->getUserName());
             
             // Done
-            return $this->redirect($this->generateUrl('natgames_account_profile'));
+            return $this->redirect($this->generateUrl('zayso_natgames_account_profile'));
         }
         // Render Errors
         $tplData = $this->getTplDatax($accountPerson);
 
         $tplData['passwordForm'] = $form->createView();
         
-        return $this->render('NatGamesBundle:Account:profile.html.twig',$tplData);
+        return $this->render('ZaysoNatGamesBundle:Account:profile.html.twig',$tplData);
     }
     /* ==================================================================
      * Try using a call back for this

@@ -27,7 +27,7 @@ class AccountPersonController extends BaseController
             {
                 $accountPerson = $this->addAccountPerson($accountPerson);
                 
-                //if ($accountPerson) return $this->redirect($this->generateUrl('_natgames_account_profile'));
+                //if ($accountPerson) return $this->redirect($this->generateUrl('zayso_natgames_account_profile'));
                 
             }
             // else die('Not validated');
@@ -35,7 +35,7 @@ class AccountPersonController extends BaseController
         $tplData = $this->getTplData();
         $tplData['form'] = $form->createView();
 
-        return $this->render('NatGamesBundle:Account\Person:add.html.twig',$tplData);
+        return $this->render('ZaysoNatGamesBundle:Account\Person:add.html.twig',$tplData);
     }
     public function addAccountPerson($accountPerson)
     {   

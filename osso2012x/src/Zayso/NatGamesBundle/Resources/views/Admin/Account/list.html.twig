@@ -1,4 +1,4 @@
-{% extends 'NatGamesBundle::layout.html.twig' %}
+{% extends 'ZaysoNatGamesBundle:Layout:layout.html.twig' %}
 
 {% block title %}NatGames - Accounts{% endblock %}
 
@@ -14,10 +14,10 @@
         <th>Plans</th>
         <th></th>
     </tr>
-    {% for member  in members %}
+    {% for member in members %}
     {{ memberx.setMember(member) }}
     <tr>
-        <td><a href="{{ path('natgames_admin_account_edit', { 'id': member.id }) }}">{{ member.id }}</a></td>
+        <td><a href="{{ path('zayso_natgames_admin_account_edit', { 'id': member.id }) }}">{{ member.id }}</a></td>
         <td>{{ memberx.accountInfo | raw }}</td>
         <td>{{ memberx.contactInfo | raw }}</td>
         <td>{{ memberx.region    }}</td>

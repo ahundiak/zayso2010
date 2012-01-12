@@ -6,8 +6,6 @@ use Zayso\NatGamesBundle\Controller\BaseController;
 
 use Symfony\Component\HttpFoundation\Request;
 
-use Zayso\ZaysoBundle\Component\Security\User\OpenidProfile;
-
 class OpenidController extends BaseController
 {
     public function addRpxAction(Request $request)
@@ -17,14 +15,14 @@ class OpenidController extends BaseController
         if (!is_array($profile))
         {
             $request->getSession()->setFlash('openid_add_error',$profile);
-            return $this->redirect($this->generateUrl('natgames_account_openid_add'));
+            return $this->redirect($this->generateUrl('zayso_natgames_account_openid_add'));
         }
         // Maybe move all of this to account manager
 
         // See if already have one
         $accountManager = $this->getAccountManager();
         $openid = $accountManager->getOpenidForIdentifier($profile['identifier']);
-        if ($openid) return $this->redirect($this->generateUrl('natgames_account_openid_add'));
+        if ($openid) return $this->redirect($this->generateUrl('zayso_natgames_account_openid_add'));
 
         // Make one
         $em = $this->getAccountManager()->getEntityManager();
@@ -32,13 +30,13 @@ class OpenidController extends BaseController
 
         $user = $this->getUser();
         $accountPersonId = $user->getAccountPersonId();
-        $accountPerson = $em->getReference('ZaysoBundle:AccountPerson',$accountPersonId);
+        $accountPerson = $em->getReference('ZaysoCoreBundle:AccountPerson',$accountPersonId);
         $openid->setAccountPerson($accountPerson);
 
         $em->persist($openid);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('natgames_account_openid_add'));
+        return $this->redirect($this->generateUrl('zayso_natgames_account_openid_add'));
     }
     // Move to account manager?
     protected function addOpenId($profile)
@@ -54,7 +52,7 @@ class OpenidController extends BaseController
 
         $user = $this->getUser();
         $accountPersonId = $user->getAccountPersonId();
-        $accountPerson = $em->getReference('ZaysoBundle:AccountPerson',$accountPersonId);
+        $accountPerson = $em->getReference('ZaysoCoreBundle:AccountPerson',$accountPersonId);
 
         $openid->setAccountPerson($accountPerson);
       //$openid->setPersonId       ($user->getPersonId());
@@ -72,7 +70,7 @@ class OpenidController extends BaseController
         $tplData['error'] = $request->getSession()->getFlash('openid_add_error');
         $tplData['openids'] = $openids;
         
-        return $this->render('NatGamesBundle:Account\Openid:add.html.twig',$tplData);
+        return $this->render('ZaysoNatGamesBundle:Account\Openid:add.html.twig',$tplData);
 
         // New form stuff
         $accountManager = $this->getAccountManager();
@@ -91,7 +89,7 @@ class OpenidController extends BaseController
             {
                 $accountPerson = $this->addAccountPerson($accountPerson);
                 
-                //if ($accountPerson) return $this->redirect($this->generateUrl('_natgames_account_profile'));
+                //if ($accountPerson) return $this->redirect($this->generateUrl('zayso_natgames_account_profile'));
                 
             }
             // else die('Not validated');
@@ -99,7 +97,7 @@ class OpenidController extends BaseController
         $tplData = $this->getTplData();
         $tplData['form'] = $form->createView();
 
-        return $this->render('NatGamesBundle:Account\Person:add.html.twig',$tplData);
+        return $this->render('ZaysoNatGamesBundle:Account\Person:add.html.twig',$tplData);
     }
     public function addPostAction(Request $request)
     {
@@ -111,7 +109,7 @@ class OpenidController extends BaseController
                 $this->getAccountManager()->deleteOpenid($id);
             }
         }
-        return $this->redirect($this->generateUrl('natgames_account_openid_add'));
+        return $this->redirect($this->generateUrl('zayso_natgames_account_openid_add'));
 
     }
 }

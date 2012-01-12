@@ -1,5 +1,5 @@
 <div>
-<form action="{{ path('natgames_account_profile_post') }}" method="post" >
+<form action="{{ path('zayso_natgames_account_profile_post') }}" method="post" >
 <table border="1" style="width: 800px;">
     <tr><th colspan="4">National Games 2012 - People Attached to Account</th></tr>
     <tr>
@@ -14,7 +14,7 @@
         <td>{{ accountPerson.personName     }}</td>
         <td>
          {{ helper.renderEaysoInfo(accountPerson) | raw }}
-         {# render "NatGamesBundle:Account/Profile:renderEaysoInfo" with {'accountPerson': accountPerson} #}
+         {# render "ZaysoNatGamesBundle:Account/Profile:renderEaysoInfo" with {'accountPerson': accountPerson} #}
        </td>
        <td align="center">
          <input type="radio" name="accountPersons[switch]" value="{{accountPerson.id}}" />
@@ -23,7 +23,7 @@
     {% endfor %}
     <tr>
       <td colspan="3">
-        <a href="{{ path('natgames_account_person_add') }}">Click here</a> to add additional person to account.<br />
+        <a href="{{ path('zayso_natgames_account_person_add') }}">Click here</a> to add additional person to account.<br />
         This will allow you to sign up the additional person to referee games.
       </td>
       <td align="center"><input type="submit" name="switchUserSubmit" value="Switch User" /></td>
