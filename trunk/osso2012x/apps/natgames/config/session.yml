@@ -1,7 +1,7 @@
 # Session class and database schema info
 # Move to init file?
 parameters:
-    session.class: Zayso\ZaysoBundle\Component\HttpFoundation\MySession
+    session.class: Zayso\CoreBundle\Component\Session\Session
 
     session.storage.db_options:
         db_table:    session
