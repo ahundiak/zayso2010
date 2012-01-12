@@ -9,7 +9,7 @@
 {% block stylesheets %}
 
     {% stylesheets output='css/*.css' filter='cssrewrite' debug=false
-        '@ZaysoCoreBundle/Resources/public/css/zayso.css'
+        '@ZaysoNatGamesBundle/Resources/public/css/natgames.css'
     %}
         <link rel="stylesheet" href="{{ asset_url }}" media="all" />
     {% endstylesheets %}
@@ -26,10 +26,10 @@
 
 <div id="layout-header">
   <a class="a-target-blank" href="http://soccer.org/events/national_games.aspx" target="_blank">
-    <img class="logo1" src="{{ asset('bundles/zaysocore/images/' ~ 'NatGamesLogo.jpg') }}" height="50" width="50" alt="National Games Site"/>
+    <img class="logo1" src="{{ asset('bundles/zaysonatgames/images/' ~ 'NatGamesLogo.jpg') }}" height="50" width="50" alt="National Games Site"/>
   </a>
   <a class="a-target-blank" href="http://www.soccer.org" target="_blank">
-    <img class="logo2" src="{{ asset('bundles/zaysocore/images/AysoLogo.gif') }}" height="50" width="50" alt="AYSO Site"/>
+    <img class="logo2" src="{{ asset('bundles/zaysonatgames/images/AysoLogo.gif') }}" height="50" width="50" alt="AYSO Site"/>
   </a>
   <div class="inner-block">
     <p style="text-align: center;">

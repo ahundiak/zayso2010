@@ -1,7 +1,7 @@
-{% form_theme contactForm  'NatGamesBundle:Form:fields.html.twig' %}
-{% form_theme passwordForm 'NatGamesBundle:Form:fields.html.twig' %}
+{% form_theme contactForm  'ZaysoNatGamesBundle:Form:fields.html.twig' %}
+{% form_theme passwordForm 'ZaysoNatGamesBundle:Form:fields.html.twig' %}
 
-{% extends 'NatGamesBundle::layout.html.twig' %}
+{% extends 'ZaysoNatGamesBundle:Layout:layout.html.twig' %}
 
 {% block title %}NatGames - Account - Profile{% endblock %}
 
@@ -9,7 +9,7 @@
 <div>
 <h1>Account Profile</h1>
 <div>
-<form action="{{ path('natgames_account_profile_post') }}" method="post" {{ form_enctype(contactForm) }}>
+<form action="{{ path('zayso_natgames_account_profile_post') }}" method="post" {{ form_enctype(contactForm) }}>
 
 <table border="1" style="width: 800px;">
 <tr><th colspan="3">National Games 2012 - Update Contact Information</th></tr>
@@ -40,7 +40,7 @@
 </tr>
 <tr><td colspan="3"></td></tr>
 <tr>
-  <td><a href="{{ path('natgames_home')  }}">Home</a></td>
+  <td><a href="{{ path('zayso_natgames_home')  }}">Home</a></td>
   <td>
     {% if     contactFlash %}{{ contactFlash }}{% endif %}
     {% if not contactFlash %} &nbsp; {% endif %}
@@ -68,16 +68,16 @@
     {% endfor %}
     <tr>
       <td colspan="3">
-        <a href="{{ path('natgames_account_openid_add') }}">Click here</a> 
+        <a href="{{ path('zayso_natgames_account_openid_add') }}">Click here</a> 
         to link a social network (Google, Facebook, Twitter etc) to your Zayso account.
         This will allow you to sign in to Zayso without using a password or needing to remember your Zayso user name.
       </td>
     </tr>
 </table>
         
-{# include 'NatGamesBundle:Account/Person:list.html.twig' #}
+{# include 'ZaysoNatGamesBundle:Account/Person:list.html.twig' #}
         
-<form action="{{ path('natgames_account_profile_post') }}" method="post" {{ form_enctype(passwordForm) }}>
+<form action="{{ path('zayso_natgames_account_profile_post') }}" method="post" {{ form_enctype(passwordForm) }}>
 <table border="1" style="width: 800px;">
 <tr><th colspan="3">National Games 2012 - Update User Name or Password</th></tr>
 
@@ -98,7 +98,7 @@
 </tr>
 <tr><td colspan="3"></td></tr>
 <tr>
-  <td><a href="{{ path('natgames_home')  }}">Home</a></td>
+  <td><a href="{{ path('zayso_natgames_home')  }}">Home</a></td>
   <td>
     {% if     passwordFlash %}{{ passwordFlash }}{% endif %}
     {% if not passwordFlash %} &nbsp; {% endif %}
@@ -110,7 +110,7 @@
 {{ form_rest(passwordForm) }}
 
 </form>
-<form action="{{ path('natgames_account_profile_post') }}" method="post" {{ form_enctype(aysoForm) }}>
+<form action="{{ path('zayso_natgames_account_profile_post') }}" method="post" {{ form_enctype(aysoForm) }}>
 <table border="1" style="width: 800px;">
 <tr><th colspan="3">National Games 2012 - Review eAYSO Information</th></tr>
 <tr>

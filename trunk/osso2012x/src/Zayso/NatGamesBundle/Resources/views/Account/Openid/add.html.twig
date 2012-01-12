@@ -1,12 +1,12 @@
 {# src/Acme/SecurityBundle/Resources/views/Security/login.html.twig #}
 
-{% extends 'NatGamesBundle::layout.html.twig' %}
+{% extends 'ZaysoNatGamesBundle:Layout:layout.html.twig' %}
 
 {% block title %}NatGames - Openid - Add{% endblock %}
 
 {% block content %}
 
-{% include 'NatGamesBundle:Account/Openid:list.html.twig' %}
+{% include 'ZaysoNatGamesBundle:Account/Openid:list.html.twig' %}
 
 {% if error %}
 <div style="color: red;">{{ error }}</div>
@@ -25,13 +25,13 @@ You should also be aware that some sites indicate that Zayso can update your inf
 Zayso does not in fact have the ability to update any information on the social sites.
 </p>
 <p>
-If you do not wish to use one of the common sites then use the myOpenID icon.
+If you do not wish to use one of the common sites then use the myOpenID one.
 This is a very generic account management site with the usual password recovery features.
 <a href="http://www.myopenid.com/">Click here to create an account on myOpenID</a> which you can then link to Zayso.
 </p>
 
 <iframe
-  src="http://zayso.rpxnow.com/openid/embed?token_url={{ url('natgames_account_openid_add_rpx') }}"
+  src="http://zayso.rpxnow.com/openid/embed?token_url={{ url('zayso_natgames_account_openid_add_rpx') }}"
   scrolling="no"  frameBorder="no"  allowtransparency="true"  style="width:400px;height:240px">
 </iframe>
 

@@ -4,23 +4,22 @@
  */
 namespace Zayso\NatGamesBundle\Component\Manager;
 
-use Zayso\ZaysoBundle\Component\Debug;
+use Zayso\CoreBundle\Component\Debug;
 
 use Doctrine\ORM\ORMException;
 
-use Zayso\ZaysoBundle\Entity\AccountOpenid;
-use Zayso\ZaysoBundle\Entity\Account;
-use Zayso\ZaysoBundle\Entity\AccountPerson;
-use Zayso\ZaysoBundle\Entity\Person;
-use Zayso\ZaysoBundle\Entity\PersonRegistered;
-use Zayso\ZaysoBundle\Entity\ProjectPerson;
-use Zayso\ZaysoBundle\Entity\Project;
-use Zayso\ZaysoBundle\Entity\Org;
+use Zayso\CoreBundle\Entity\AccountOpenid;
+use Zayso\CoreBundle\Entity\Account;
+use Zayso\CoreBundle\Entity\AccountPerson;
+use Zayso\CoreBundle\Entity\Person;
+use Zayso\CoreBundle\Entity\PersonRegistered;
+use Zayso\CoreBundle\Entity\ProjectPerson;
+use Zayso\CoreBundle\Entity\Project;
+use Zayso\CoreBundle\Entity\Org;
 
 class AccountManager
 {
     protected $em = null;
-    protected $eaysoManager = null;
     
     public function getEntityManager()
     {
@@ -67,7 +66,7 @@ class AccountManager
         
         if (isset($params['projectId']))
         {
-            $project = $this->getEntityManager()->getReference('ZaysoBundle:Project',$params['projectId']);
+            $project = $this->getEntityManager()->getReference('ZaysoCoreBundle:Project',$params['projectId']);
             $projectPerson->setProject($project);
         }
         return $accountPerson;
@@ -79,7 +78,7 @@ class AccountManager
 
         $qb->addSelect('org');
 
-        $qb->from('ZaysoBundle:Org','org');
+        $qb->from('ZaysoCoreBundle:Org','org');
 
         $qb->andWhere($qb->expr()->eq('org.id',$qb->expr()->literal($id)));  
         
@@ -106,15 +105,15 @@ class AccountManager
 
         if ($wantProject) $qb->addSelect('projectPerson');
 
-        $qb->from('ZaysoBundle:AccountPerson','accountPerson'); // memberx
+        $qb->from('ZaysoCoreBundle:AccountPerson','accountPerson'); // memberx
 
-        $qb->leftJoin('accountPerson.account','account');
-        $qb->leftJoin('accountPerson.person', 'person');
-        $qb->leftJoin('person.registereds',   'registered');
+        $qb->leftJoin('accountPerson.account',   'account');
+        $qb->leftJoin('accountPerson.person',    'person');
+        $qb->leftJoin('person.registeredPersons','registered');
       //$qb->leftJoin('person.orgKey',        'org');
         if ($wantProject)
         {
-            $qb->leftJoin('person.projects',      'projectPerson');
+            $qb->leftJoin('person.projectPersons','projectPerson');
             $qb->leftJoin('projectPerson.project','project');
         }
         if (isset($params['accountId']))
@@ -151,18 +150,18 @@ class AccountManager
         $qb = $em->createQueryBuilder();
 
         $qb->addSelect('account');
-        $qb->addSelect('memberx');
+        $qb->addSelect('accountPerson');
         $qb->addSelect('person');
-        $qb->addSelect('registered');
+        $qb->addSelect('registeredPerson');
         $qb->addSelect('projectPerson');
 
-        $qb->from('ZaysoBundle:Account','account');
+        $qb->from('ZaysoCoreBundle:Account','account');
 
-        $qb->leftJoin('account.members',      'memberx');
-        $qb->leftJoin('memberx.person',       'person');
-        $qb->leftJoin('person.registereds',   'registered');
-        $qb->leftJoin('person.projects',      'projectPerson');
-        $qb->leftJoin('projectPerson.project','project');
+        $qb->leftJoin('account.accountPersons',   'accountPerson');
+        $qb->leftJoin('accountPerson.person',     'person');
+        $qb->leftJoin('person.registeredPersons', 'registeredPerson');
+        $qb->leftJoin('person.projectPersons',    'projectPerson');
+        $qb->leftJoin('projectPerson.project',    'project');
 
         if (isset($params['accountId']))
         {
@@ -188,18 +187,18 @@ class AccountManager
         $qb = $em->createQueryBuilder();
 
         $qb->addSelect('person');
-        $qb->addSelect('registered');
+        $qb->addSelect('registeredPerson');
         $qb->addSelect('projectPerson');
 
-        $qb->from('ZaysoBundle:Person','person');
+        $qb->from('ZaysoCoreBundle:Person','person');
 
-        $qb->leftJoin('person.registereds',   'registered');
-        $qb->leftJoin('person.projects',      'projectPerson');
-        $qb->leftJoin('projectPerson.project','project');
+        $qb->leftJoin('person.registeredPersons','registeredPerson');
+        $qb->leftJoin('person.projectPersons',   'projectPerson');
+        $qb->leftJoin('projectPerson.project',   'project');
 
         if (isset($params['aysoid']))
         {
-            $qb->andWhere($qb->expr()->eq('registered.regKey',':aysoid'));
+            $qb->andWhere($qb->expr()->eq('registeredPerson.regKey',':aysoid'));
         }
         if (isset($params['projectId']))
         {
@@ -221,7 +220,7 @@ class AccountManager
 
         $qb->addSelect('projectPerson');
 
-        $qb->from('ZaysoBundle:ProjectPerson','projectPerson');
+        $qb->from('ZaysoCoreBundle:ProjectPerson','projectPerson');
         $qb->leftJoin('projectPerson.person', 'person');
         $qb->leftJoin('projectPerson.project','project');
 
@@ -251,7 +250,7 @@ class AccountManager
         $qb->addSelect('accountPerson');
         $qb->addSelect('person');
 
-        $qb->from('ZaysoBundle:AccountOpenid','openid');
+        $qb->from('ZaysoCoreBundle:AccountOpenid','openid');
         
         $qb->leftJoin('openid.accountPerson', 'accountPerson');
         $qb->leftJoin('accountPerson.account','account');
@@ -274,7 +273,7 @@ class AccountManager
         $qb->addSelect('accountPerson');
         $qb->addSelect('person');
 
-        $qb->from('ZaysoBundle:AccountOpenid','openid');
+        $qb->from('ZaysoCoreBundle:AccountOpenid','openid');
 
         $qb->leftJoin('openid.accountPerson', 'accountPerson');
         $qb->leftJoin('accountPerson.account','account');
@@ -301,39 +300,10 @@ class AccountManager
     public function deleteOpenid($id)
     {
         // $em->remove($entity)
-        $dql = 'DELETE FROM ZaysoBundle:AccountOpenid openid WHERE openid.id = :id';
+        $dql = 'DELETE FROM ZaysoCoreBundle:AccountOpenid openid WHERE openid.id = :id';
         $query = $this->getEntityManager()->createQuery($dql);
         $query->setParameter('id',$id);
         $query->getResult();
-    }
-    public function loadVolCerts($aysoid)
-    {
-        if (substr($aysoid,0,5) != 'AYSOV') $aysoid = 'AYSOV' . $aysoid;
-
-        // Build query
-        $em = $this->getEntityManager();
-        $qb = $em->createQueryBuilder();
-
-        $qb->addSelect('vol');
-        $qb->addSelect('cert');
-
-        $qb->from('EaysoBundle:Volunteer','vol');
-
-        $qb->leftJoin('vol.certifications','cert');
-
-        $qb->andWhere($qb->expr()->eq('vol.id',':aysoid'));
-        $qb->setParameter('aysoid',$aysoid);
-
-        $query = $qb->getQuery();
-        try
-        {
-            $item = $query->getSingleResult();
-        }
-        catch (ORMException $e)
-        {
-            return null; // If none found
-        }
-        return $item;
     }
 }
 ?>

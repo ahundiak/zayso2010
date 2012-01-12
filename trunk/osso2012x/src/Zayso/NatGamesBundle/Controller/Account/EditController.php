@@ -6,8 +6,8 @@ namespace Zayso\NatGamesBundle\Controller\Account;
 
 use Zayso\NatGamesBundle\Controller\BaseController;
 
-use Zayso\ZaysoBundle\Component\DataTransformer\PhoneTransformer;
-use Zayso\ZaysoBundle\Component\DataTransformer\PasswordTransformer;
+use Zayso\CoreBundle\Component\DataTransformer\PhoneTransformer;
+use Zayso\CoreBundle\Component\DataTransformer\PasswordTransformer;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -141,75 +141,13 @@ class EditController extends BaseController
             {
                 $accountManager->getEntityManager()->flush();
                 
-                return $this->redirect($this->generateUrl('_natgames_admin_accounts'));
+                return $this->redirect($this->generateUrl('zayso_natgames_admin_accounts'));
             }
         }
         $tplData = $this->getTplData();
         $tplData['id']   = $id;
         $tplData['form'] = $form->createView();
 
-        return $this->render('NatGamesBundle:Account:edit.html.twig',$tplData);
+        return $this->render('ZaysoNatGamesBundle:Account:edit.html.twig',$tplData);
     }
-    public function createAccount($accountCreateData)
-    {
-        $em = $this->getEntityManager();
-
-        $accountRepo = $em->getRepository('ZaysoBundle:Account');
-        $account = $accountRepo->create($accountCreateData);
-        if (is_array($account))
-        {
-            return null; // Hopefully never happens
-        }
-
-        // Setup project person
-        $projectId = $this->getProjectId();
-        $personId  = $account->getPrimaryPersonId();
-
-        $projectRepo = $em->getRepository('ZaysoBundle:Project');
-
-        $projectPerson = $projectRepo->loadProjectPerson($projectId,$personId);
-        
-        // Save initial creation information sans password
-        $alreadyHave = $projectPerson->get('accountCreateData');
-        if (!$alreadyHave)
-        {
-            $accountCreateDatax = $accountCreateData;
-            $accountCreateDatax['userPass1'] = '';
-            $accountCreateDatax['userPass2'] = '';
-            $projectPerson->set('accountCreateData',$accountCreateDatax);
-        }
-        // Same for todo
-        $alreadyHave = $projectPerson->get('todo');
-        if (!$alreadyHave)
-        {
-            $todo = array('projectPlans' => true, 'openid' => true, 'projectLevels' => true);
-            $projectPerson->set('todo',$todo);
-        }
-        $em->flush();
-
-        // Signin
-        $member = $account->getPrimaryMember();
-        $userData = array
-        (
-            'accountId' => $account->getId(),
-            'memberId'  => $member->getId(),
-            'personId'  => $personId,
-            'projectId' => $projectId,
-        );
-        $this->getSession()->set('userData',$userData);
-
-        // Also save signin information
-        $accountSigninData = array
-        (
-            'userName' => $account->getUserName(),
-            'userPass' => '',
-        );
-        $this->getSession()->set('accountSigninData',$accountSigninData);
-        //
-        //print_r($accountCreateData); die();
-    
-        return $account;
-        
-        return $this->redirect($this->generateUrl('_natgames_home'));
-  }
 }

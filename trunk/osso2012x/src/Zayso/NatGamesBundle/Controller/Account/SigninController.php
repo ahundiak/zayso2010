@@ -64,7 +64,7 @@ class SigninController extends BaseController
             $account->setUserName($session->get(SecurityContext::LAST_USERNAME));
         }
         // Form
-        $formType = new AccountSigninFormType($this->getEntityManager());
+        $formType = new AccountSigninFormType($this->getAccountManager()->getEntityManager());
         $form = $this->createForm($formType, $account);
 
         if ($request->getMethod() == 'POST')
@@ -87,29 +87,29 @@ class SigninController extends BaseController
     public function signinRpxAction(Request $request)
     {
         // Load the profile
-        $profile = $this->getOpenidprofile($request);
-        if (!is_array($profile))
+        $profile = $this->get('zayso_core.openid.rpx')->getProfile();
+        $identifier = $profile['identifier'];
+        
+        $userProvider = $this->get('zayso_core.user.provider');
+        
+        try
         {
-            $request->getSession()->setFlash('account_signin_error',$profile);
+            $user = $userProvider->loadUserByOpenidIdentifier($identifier);
+        }
+        catch (UsernameNotFoundException $e)
+        {
+            $request->getSession()->setFlash('account_signin_error','Account not found');
             return $this->redirect($this->generateUrl('zayso_natgames_account_signin'));
         }
-        $identifier = $profile['identifier'];
-
-        $userProvider = $this->get('security.user.provider.zayso');
-        
-        $user = $userProvider->loadUserByOpenidIdentifier($identifier);
-/*
-        $openid = $this->getAccountManager()->getOpenidForIdentifier($identifier);
-        if (!$openid)
-        {
-             return $this->redirect($this->generateUrl('natgames_account_signin'));
-        }
-        $userName = $openid->getAccountPerson()->getUserName();
- * */
-
+        // Continue with normal signin
         $request->getSession()->set(SecurityContext::LAST_USERNAME,$user->getUserName());
         $this->setUser($user);
 
+        // Make sure person is assigned to current project
+        // This actually gets handled by the home controller
+        // $this->getAccountManager()->addProjectPerson($this->getProjectId(),$user->getPersonId());
+        
+        // Ad off we go
         return $this->redirect($this->generateUrl('zayso_natgames_home'));
     }
 }

@@ -11,6 +11,11 @@ zayso_natgames_index:
 zayso_natgames_welcome:
     pattern:  /welcome
     defaults: { _controller: ZaysoNatGamesBundle:Welcome:welcome }
+
+# Used when user is not authorized
+zayso_natgames_welcomex:
+    pattern:  /welcome
+    defaults: { _controller: ZaysoNatGamesBundle:Welcome:welcome }
     
 zayso_natgames_home:
     pattern:  /home
@@ -124,127 +129,3 @@ zayso_natgames_admin_account_list:
 zayso_natgames_admin_import:
     pattern:  /admin/import
     defaults: { _controller: ZaysoNatGamesBundle:Admin\Import:index }
-
-# ===============================================================
-# Older style
-#
-natgames_index:
-    pattern:  /natgames
-    defaults: { _controller: NatGamesBundle:Welcome:welcome }
-    
-natgames_welcome:
-    pattern:  /natgames/welcome
-    defaults: { _controller: NatGamesBundle:Welcome:welcome }
-    
-natgames_home:
-    pattern:  /natgames/home
-    defaults: { _controller: NatGamesBundle:Welcome:home }
-
-
-natgames_contact:
-    pattern:  /natgames/contact
-    defaults: { _controller: NatGamesBundle:Contact:contact }
-
-# ===============================================================
-# Account stuff
-natgames_account_create:
-    pattern:  /natgames/account/create
-    defaults: { _controller: NatGamesBundle:Account\Create:create }
-
-natgames_account_profile:
-    pattern:  /natgames/account/profile
-    defaults: { _controller: NatGamesBundle:Account\Profile:index }
-    requirements:
-        _method:  GET
-
-natgames_account_profile_post:
-    pattern:  /natgames/account/profile
-    defaults: { _controller: NatGamesBundle:Account\Profile:post }
-    requirements:
-        _method:  POST
-
-natgames_account_edit:
-    pattern:  /natgames/account/edit/{id}
-    defaults: { _controller: NatGamesBundle:Account\Edit:edit, id: 0}
-    requirements:
-        id: \d+
-
-natgames_account_signin:
-    pattern:  /natgames/account/signin
-    defaults: { _controller: NatGamesBundle:Account\Signin:signin }
-
-natgames_account_signin_rpx:
-    pattern:  /natgames/account/signin/rpx
-    defaults: { _controller: NatGamesBundle:Account\Signin:signinRpx }
-
-natgames_account_signout:
-    pattern:  /natgames/account/signout
-    defaults: { _controller: NatGamesBundle:Account\Signin:signout }
-
-natgames_account_openid_add:
-    pattern:  /natgames/account/openid/add
-    defaults: { _controller: NatGamesBundle:Account\Openid:add }
-
-natgames_account_openid_add_rpx:
-    pattern:  /natgames/account/openid/add/rpx
-    defaults: { _controller: NatGamesBundle:Account\Openid:addRpx }
-
-natgames_account_person_add:
-    pattern:  /natgames/account/person/add
-    defaults: { _controller: NatGamesBundle:Account\AccountPerson:add }
-
-# Project Person Information
-natgames_project_plans:
-    pattern:  /natgames/project/plans
-    defaults: { _controller: NatGamesBundle:Project:plans }
-    requirements:
-        _method:  GET
-
-natgames_project_plans_post:
-    pattern:  /natgames/project/plans
-    defaults: { _controller: NatGamesBundle:Project:plansPost }
-    requirements:
-        _method:  POST
-
-natgames_project_levels:
-    pattern:  /natgames/project/levels
-    defaults: { _controller: NatGamesBundle:Project:levels }
-    requirements:
-        _method:  GET
-
-natgames_project_levels_post:
-    pattern:  /natgames/project/levels
-    defaults: { _controller: NatGamesBundle:Project:levelsPost }
-    requirements:
-        _method:  POST
-
-natgames_schedule:
-    pattern:  /natgames/schedule
-    defaults: { _controller: NatGamesBundle:Schedule:index }
-    requirements:
-        _method:  GET
-
-# =================================================
-# Admin stuff
-natgames_admin:
-    pattern:  /natgames/admin
-    defaults: { _controller: NatGamesBundle:Admin\Admin:index }
-    requirements:
-        _method:  GET
-
-natgames_admin_account_edit:
-    pattern:  /natgames/admin/account/edit/{id}
-    defaults: { _controller: NatGamesBundle:Admin\Account\Edit:edit, id: 0}
-    requirements:
-        id: \d+
-        
-natgames_admin_account_list:
-    pattern:  /natgames/admin/account/list.{_format}
-    defaults: { _controller: NatGamesBundle:Admin\Account\List:list, _format: html }
-    requirements:
-        _method:  GET
-        _format:  html|csv
-
-natgames_admin_import:
-    pattern:  /natgames/admin/import
-    defaults: { _controller: NatGamesBundle:Admin\Import:index }

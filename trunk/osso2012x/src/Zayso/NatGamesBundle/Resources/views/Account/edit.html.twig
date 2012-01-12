@@ -1,12 +1,12 @@
-{% form_theme form 'NatGamesBundle:Form:fields.html.twig' %}
+{% form_theme form 'ZaysoNatGamesBundle:Form:fields.html.twig' %}
 
-{% extends 'NatGamesBundle::layout.html.twig' %}
+{% extends 'ZaysoNatGamesBundle:Layout:layout.html.twig' %}
 
 {% block title %}NatGames - Account - Edit{% endblock %}
 
 {% block content %}
 <div>
-<form action="{{ path('_natgames_account_edit', { 'id': id }) }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ path('zayso_natgames_account_edit', { 'id': id }) }}" method="post" {{ form_enctype(form) }}>
 <input type="hidden" name="project_id" value="52" />
 <table border="1" style="width: 800px;">
 <tr><th colspan="3">National Games 2012 Edit Account</th></tr>

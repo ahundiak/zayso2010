@@ -28,14 +28,14 @@ class CreateController extends BaseController
                 if ($account) 
                 {
                     $this->setUser($account->getUserName());
-                    return $this->redirect($this->generateUrl('natgames_home'));
+                    return $this->redirect($this->generateUrl('zayso_natgames_home'));
                 }
             }
         }
         $tplData = $this->getTplData();
         $tplData['form'] = $form->createView();
 
-        return $this->render('NatGamesBundle:Account:create.html.twig',$tplData);
+        return $this->render('ZaysoNatGamesBundle:Account:create.html.twig',$tplData);
     }
     public function createAccount($accountPerson)
     {
@@ -75,7 +75,7 @@ class CreateController extends BaseController
         
         //$message->setBody('The Body');
         
-        $message->setBody($this->renderView('NatGamesBundle:Account:email.txt.twig', array('ap' => $accountPerson)));
+        $message->setBody($this->renderView('ZaysoNatGamesBundle:Account:email.txt.twig', array('ap' => $accountPerson)));
 
         $this->get('mailer')->send($message);
 

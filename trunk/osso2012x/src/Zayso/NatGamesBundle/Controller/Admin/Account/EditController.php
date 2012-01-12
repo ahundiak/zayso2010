@@ -19,7 +19,7 @@ class EditController extends BaseController
         }
         
         // Form
-        $formType = $this->get('admin.account.edit.formtype');
+        $formType = $this->get('zayso_natgames.admin.account.edit.formtype');
         $form = $this->createForm($formType, $accountPerson);
 
         if ($request->getMethod() == 'POST')
@@ -30,13 +30,13 @@ class EditController extends BaseController
             {
                 $accountManager->getEntityManager()->flush();
                 
-                return $this->redirect($this->generateUrl('natgames_admin_account_edit',array('id' => $id)));
+                return $this->redirect($this->generateUrl('zayso_natgames_admin_account_edit',array('id' => $id)));
             }
         }
         $tplData = $this->getTplData();
         $tplData['id']   = $id;
         $tplData['form'] = $form->createView();
 
-        return $this->render('NatGamesBundle:Admin:Account/edit.html.twig',$tplData);
+        return $this->render('ZaysoNatGamesBundle:Admin:Account/edit.html.twig',$tplData);
     }
 }
