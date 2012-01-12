@@ -6,6 +6,8 @@
 
     <services>
 
+        <service id = "zayso_model.account.manager" alias="zayso_natgames.account.manager" />
+        
         <service 
             id     = "zayso_natgames.account.manager" 
             class  = "Zayso\NatGamesBundle\Component\Manager\AccountManager" 
