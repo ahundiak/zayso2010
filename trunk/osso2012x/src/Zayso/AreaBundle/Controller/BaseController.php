@@ -13,10 +13,6 @@ class BaseController extends Controller
     {
         return $this->get('zayso_area.account.manager');
     }
-    protected function getProjectManager()
-    {
-        return $this->get('zayso.core.project.manager');
-    }
     protected function getGameManager()
     {
         return $this->get('zayso_area.game.manager');
