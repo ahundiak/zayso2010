@@ -45,15 +45,14 @@ doctrine:
             default:
                 connection: default
                 mappings:
-                    ZaysoBundle: ~
+                    ZaysoCoreBundle: ~
                     
             osso2012:
                 connection: osso2012
                 mappings:
-                    ZaysoBundle: ~
+                    ZaysoCoreBundle: ~
 
             accounts:
                 connection: osso2012
                 mappings:
                     ZaysoCoreBundle: ~
-
