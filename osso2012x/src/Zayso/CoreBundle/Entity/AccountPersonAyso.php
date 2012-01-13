@@ -54,6 +54,13 @@ class AccountPersonAyso
     /* ==================================================================
      * Person Interface
      */
+    public function setPerson($person)
+    {
+        $accountPerson = $this->getAccountPerson();
+        $accountPerson->setPerson($person); // Uni Directional
+        return $person;
+        
+    }
     public function getPerson()
     {
         $accountPerson = $this->getAccountPerson();
