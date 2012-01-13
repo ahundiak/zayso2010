@@ -106,6 +106,7 @@ class AccountManager
     {
         return new AccountPersonAyso();
     }
+    // 13 Jan 2011 - Obsolete and should be removed after testing
     public function newAccountPerson($params = array())
     {
         // Basic ap
