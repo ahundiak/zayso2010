@@ -4,7 +4,7 @@ namespace Zayso\ArbiterBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class RefController extends BaseController
+class RefAvailController extends BaseController
 {
     public function indexAction()
     {
