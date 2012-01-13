@@ -11,6 +11,7 @@ use Doctrine\ORM\ORMException;
 use Zayso\CoreBundle\Entity\AccountOpenid;
 use Zayso\CoreBundle\Entity\Account;
 use Zayso\CoreBundle\Entity\AccountPerson;
+use Zayso\CoreBundle\Entity\AccountPersonAyso;
 use Zayso\CoreBundle\Entity\Person;
 use Zayso\CoreBundle\Entity\PersonRegistered;
 use Zayso\CoreBundle\Entity\ProjectPerson;
@@ -29,6 +30,93 @@ class AccountManager
     public function __construct($em)
     {
         $this->em = $em;
+    }
+    /* =====================================================================
+     * accountPerson is actuall a full structure of account information
+     * try and create a new account with assorted checking and what not
+     */
+    public function createAccountFromAccountPersonAyso($accountPerson)
+    {
+        $em = $this->getEntityManager();
+
+        // See if already have a person
+        $personExisting = $this->loadPersonForAysoid($accountPerson->getAysoid());
+        if ($personExisting)
+        {
+            // Make a new account for person already in system
+            $personNew = $accountPerson->getPerson();
+            $accountPerson->setPerson($personExisting);
+
+            // Process any project info related to personNew
+            foreach($personNew->getProjectPersons() as $projectPersonNew)
+            {
+                $projectIdNew = $projectPersonNew->getProject()->getId();
+
+                // See if existing person is already attached to project
+                $projectPersonExisting = $personExisting->getProjectPerson($projectIdNew);
+                if (!$projectPersonExisting)
+                {
+                    // Load real project
+                    $project = $em->getReference('ZaysoCoreBundle:Project',$projectIdNew);
+                    $projectPersonNew->setProject($project);
+                    $projectPersonNew->setPerson ($personExisting);
+                }
+            }
+        }
+        else
+        {
+            // Operate on new person
+            $person = $accountPerson->getPerson();
+
+            // For the new person need to add real project objects
+            foreach($person->getProjectPersons() as $projectPerson)
+            {
+                // probably should through error if project not found
+                $projectId = $projectPerson->getProject()->getId();
+                $project = $em->getReference('ZaysoCoreBundle:Project',$projectId);
+                $projectPerson->setProject($project);
+            }
+
+            // Need to see if have existing org
+            $org = $this->loadOrg($person->getOrgKey(),true);
+            if ($org) $person->setOrg($org);
+        }
+        // Verify any openid is valid, probably should not have to?
+
+        // And save
+        $em->persist($accountPerson->getAccountPerson()); // Everything cascades
+
+        try
+        {
+            $em->flush();
+        }
+        catch (\Exception $e)
+        {
+            return 'Problem creating account';
+            die('Create Account ' . $e->getMessage() . "\n");
+        }
+        return $accountPerson->getAccount();
+    }
+    /* ===========================================================
+     * Sneak an organization call herw
+     */
+    public function loadOrg($orgId,$autoCreate = false)
+    {
+        $org = $this->getEntityManager()->find('ZaysoCoreBundle:Org',$orgId);
+        if ($org) return $org;
+        
+        if (!$autoCreate) return null;
+        if (!$orgId)      return null;
+        
+        $org = new Org();
+        $org->setId($orgId);
+        $this->getEntityManager()->persist($org);
+        return $org;
+    }
+    // Idea is to build up a new account person model
+    public function newAccountPersonAyso()
+    {
+        return new AccountPersonAyso();
     }
     // Idea is to build up a new account person model
     public function newAccountPerson($params = array())
@@ -105,7 +193,7 @@ class AccountManager
 
         if ($wantProject) $qb->addSelect('projectPerson');
 
-        $qb->from('ZaysoCoreBundle:AccountPerson','accountPerson'); // memberx
+        $qb->from('ZaysoCoreBundle:AccountPerson','accountPerson');
 
         $qb->leftJoin('accountPerson.account',   'account');
         $qb->leftJoin('accountPerson.person',    'person');
@@ -181,6 +269,10 @@ class AccountManager
      * Still need to fool with the projectId
      * If person but no project then return just the person
      */
+    public function loadPersonForAysoid($aysoid)
+    {
+        return $this->getPerson(array('aysoid' => $aysoid));
+    }
     public function getPerson($params)
     {
         $em = $this->getEntityManager();
@@ -189,12 +281,14 @@ class AccountManager
         $qb->addSelect('person');
         $qb->addSelect('registeredPerson');
         $qb->addSelect('projectPerson');
+        $qb->addSelect('org');
 
         $qb->from('ZaysoCoreBundle:Person','person');
 
         $qb->leftJoin('person.registeredPersons','registeredPerson');
         $qb->leftJoin('person.projectPersons',   'projectPerson');
         $qb->leftJoin('projectPerson.project',   'project');
+        $qb->leftJoin('person.org',              'org');
 
         if (isset($params['aysoid']))
         {

@@ -1,12 +1,10 @@
 <?php
 namespace Zayso\NatGamesBundle\Component\Form\Type\Account;
 
-use Zayso\ZaysoBundle\Component\DataTransformer\PhoneTransformer;
-use Zayso\ZaysoBundle\Component\DataTransformer\AysoidTransformer;
-use Zayso\ZaysoBundle\Component\DataTransformer\RegionTransformer;
-use Zayso\ZaysoBundle\Component\DataTransformer\PasswordTransformer;
-
-use Zayso\ZaysoBundle\Component\Form\Validator\UserNameValidator;
+use Zayso\CoreBundle\Component\DataTransformer\PhoneTransformer;
+use Zayso\CoreBundle\Component\DataTransformer\AysoidTransformer;
+use Zayso\CoreBundle\Component\DataTransformer\RegionTransformer;
+use Zayso\CoreBundle\Component\DataTransformer\PasswordTransformer;
 
 use Zayso\NatGamesBundle\Component\Form\Type\Account\AccountBaseFormType;
 
