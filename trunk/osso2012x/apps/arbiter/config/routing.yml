@@ -1,0 +1,9 @@
+# Internal routing configuration to handle ESI
+#_internal:
+#   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
+#   prefix:   /_internal
+#
+# National Games Routes
+zayso_natgames_routing:
+    resource: "@ZaysoArbiterBundle/Resources/config/routing.yml"
+    
