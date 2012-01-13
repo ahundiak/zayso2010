@@ -1,0 +1,9 @@
+# Zayso\ArbiterBundle\Resources\config\routine.yml
+
+zayso_arbiter_index:
+    pattern:  /
+    defaults: { _controller: ZaysoArbiterBundle:Welcome:welcome }
+
+zayso_arbiter_welcome:
+    pattern:  /welcome
+    defaults: { _controller: ZaysoArbiterBundle:Welcome:welcome }
