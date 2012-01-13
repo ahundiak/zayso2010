@@ -1,26 +1,16 @@
 <?php
-
 namespace Zayso\NatGamesBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
-use Zayso\ZaysoBundle\Component\Security\Core\User\User as User;
-use Zayso\ZaysoBundle\Component\Format\HTML as FormatHTML;
 
 class BaseController extends Controller
 {
-    // protected $user = null;
-
-    protected function getEntityManager()
-    {
-        die('BaseController.getEntityManager');
-        //return $this->getDoctrine()->getEntityManager('osso2012');
-    }
     protected function getAccountManager()
     {
-        return $this->get('zayso_natgames.account.manager');
+        return $this->get('zayso_model.account.manager');
     }
     protected function getSession(Request $request = null)
     {

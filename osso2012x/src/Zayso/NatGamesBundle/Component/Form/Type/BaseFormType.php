@@ -5,15 +5,10 @@
  */
 namespace Zayso\NatGamesBundle\Component\Form\Type;
 
-use Zayso\ZaysoBundle\Component\DataTransformer\PhoneTransformer;
-use Zayso\ZaysoBundle\Component\DataTransformer\AysoidTransformer;
-use Zayso\ZaysoBundle\Component\DataTransformer\RegionTransformer;
-use Zayso\ZaysoBundle\Component\DataTransformer\PasswordTransformer;
-
-use Zayso\ZaysoBundle\Component\Form\Validator\UserNameValidator;
-
-//use Symfony\Component\HttpFoundation\Request;
-//use Symfony\Component\Validator\Constraints as Assert;
+use Zayso\CoreBundle\Component\DataTransformer\PhoneTransformer;
+use Zayso\CoreBundle\Component\DataTransformer\AysoidTransformer;
+use Zayso\CoreBundle\Component\DataTransformer\RegionTransformer;
+use Zayso\CoreBundle\Component\DataTransformer\PasswordTransformer;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;

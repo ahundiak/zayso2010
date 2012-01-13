@@ -11,7 +11,7 @@ class OpenidController extends BaseController
     public function addRpxAction(Request $request)
     {
         // Load the profile
-        $profile = $this->getOpenidprofile($request);
+        $profile = $this->get('zayso_core.openid.rpx')->getProfile();
         if (!is_array($profile))
         {
             $request->getSession()->setFlash('openid_add_error',$profile);
@@ -71,34 +71,7 @@ class OpenidController extends BaseController
         $tplData['openids'] = $openids;
         
         return $this->render('ZaysoNatGamesBundle:Account\Openid:add.html.twig',$tplData);
-
-        // New form stuff
-        $accountManager = $this->getAccountManager();
-        $accountPerson = $accountManager->newAccountPerson(array('projectId' => $this->getProjectId()));
-        $accountPerson->setAccountRelation('Family');
-        
-        $formType = $this->get('account.person.add.formtype');
-
-        $form = $this->createForm($formType, $accountPerson);
-
-        if ($request->getMethod() == 'POST')
-        {
-            $form->bindRequest($request);
-
-            if ($form->isValid())
-            {
-                $accountPerson = $this->addAccountPerson($accountPerson);
-                
-                //if ($accountPerson) return $this->redirect($this->generateUrl('zayso_natgames_account_profile'));
-                
-            }
-            // else die('Not validated');
-        }
-        $tplData = $this->getTplData();
-        $tplData['form'] = $form->createView();
-
-        return $this->render('ZaysoNatGamesBundle:Account\Person:add.html.twig',$tplData);
-    }
+   }
     public function addPostAction(Request $request)
     {
         $info = $request->request->get('openids');
