@@ -200,7 +200,7 @@ class AccountCommand extends ContainerAwareCommand
     {
         $manager = $this->getContainer()->get('zayso_area.account.manager.legacy');
         
-        $account = $manager->merge('jsloan','jsloan',70);
+        $account = $manager->merge('tmalone','tmalone',70);
         
         $this->dumpAccount2($account);
 
