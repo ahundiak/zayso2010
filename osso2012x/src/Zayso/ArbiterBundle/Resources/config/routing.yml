@@ -7,3 +7,7 @@ zayso_arbiter_index:
 zayso_arbiter_welcome:
     pattern:  /welcome
     defaults: { _controller: ZaysoArbiterBundle:Welcome:welcome }
+    
+zayso_arbiter_ref_avail:
+    pattern:  /referee/availability
+    defaults: { _controller: ZaysoArbiterBundle:RefAvail:index }
