@@ -282,7 +282,7 @@ class AccountManagerLegacy
         if (!is_object($account2012)) return null;
         
         $account2007 = $this->account2007Manager->checkAccount($userName2007);
-        if (!is_object($account2012)) return $account2012;
+        if (!is_object($account2007)) return $account2012;
 
         // Process each person
         foreach($account2007->getMembers() as $accountPerson2007)
