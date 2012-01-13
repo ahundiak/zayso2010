@@ -72,7 +72,11 @@ class AccountPerson
         return null;
     }
 
-    /** @Assert\NotBlank(groups={"create","edit"}) */
+    /* ========================================================
+     * 13 Jan 2012 Removed the edit group from the not blank requirement
+     * Puzzling why didn't have the problem for the original NatGames stuff
+     */
+    /** @Assert\NotBlank(groups={"create"}) */
     public function getUserPass ()
     {
         if ($this->account) return $this->account->getUserPass();
