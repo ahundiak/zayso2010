@@ -101,7 +101,7 @@ class GameScheduleImport extends BaseImport
             $game->addPerson($eventPerson);
 
             $age = $homeTeam->getAge();
-            if ($age > 'U08')
+            if ($age > 'U06')
             {
                 $eventPerson = new EventPerson();
                 $eventPerson->setTypeAsCR2();
@@ -111,6 +111,22 @@ class GameScheduleImport extends BaseImport
             }
             // Persist It
             $em->persist($game);
+        }
+        else
+        {
+            $age = $homeTeam->getAge();
+            if ($age == 'U08')
+            {
+                $cr2 = $game->getPersonForType(EventPerson::TypeCR2);
+                if (!$cr2)
+                {
+                    $eventPerson = new EventPerson();
+                    $eventPerson->setTypeAsCR2();
+                    $eventPerson->setProtected(true);
+                    $eventPerson->setEvent($game);
+                    $em->persist($eventPerson);
+                }
+            }
         }
         $game->setDate($item->date);
         $game->setTime($item->time);
