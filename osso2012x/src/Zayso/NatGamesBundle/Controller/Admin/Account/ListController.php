@@ -55,15 +55,17 @@ class AdminAccountListViewHelper
     
     public function getRegion()  
     { 
-        
-        $region = $this->person->getOrgKey();
+        $org = $this->person->getOrg();
+        if (!$org) return null;
+            
+        $region = $org->getId();
         $region = substr($region,4);
         $region = str_replace('-','',$region);
         return $region;
     }
     public function getRegionDesc()
     {
-        $org = $this->manager->getOrgForKey($this->person->getOrgKey());
+        $org = $this->person->getOrg();
         if ($org) return $org->getDesc2();
         return null;
     }

@@ -16,7 +16,7 @@
         </service>
         
         <service 
-            id     = "zayso.natgames.account.import" 
+            id     = "zayso_natgames.account.import" 
             class  = "Zayso\NatGamesBundle\Component\Import\AccountImport" 
             public = "true">
             <argument type="service" id="zayso_natgames.account.manager" />

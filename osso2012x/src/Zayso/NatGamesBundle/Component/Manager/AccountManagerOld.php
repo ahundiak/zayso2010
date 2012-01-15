@@ -113,13 +113,68 @@ class AccountManager
         $this->getEntityManager()->persist($org);
         return $org;
     }
-    public function newOrg() { return new Org(); }
-    
     // Idea is to build up a new account person model
     public function newAccountPersonAyso()
     {
         return new AccountPersonAyso();
     }
+    // Idea is to build up a new account person model
+    public function newAccountPerson($params = array())
+    {
+        // Basic ap
+        $accountPerson = new AccountPerson();
+        $accountPerson->setAccountRelation('Primary');
+        $accountPerson->setVerified('No');
+        $accountPerson->setStatus('Active');
+
+        // New account
+        $account       = new Account();
+        $account->setStatus('Active');
+        $accountPerson->setAccount($account);
+
+        // New person
+        $person = new Person();
+        $person->setStatus('Active');
+        $person->setVerified('No');
+        $accountPerson->setPerson($person);
+
+        // Assume one will be registered
+        $registeredPerson = new PersonRegistered();
+        $registeredPerson->setRegType ('AYSOV');
+        $registeredPerson->setVerified('No');
+        $registeredPerson->setPerson($person);
+
+        // Assume assigned to a project
+        $projectPerson = new ProjectPerson();
+        $projectPerson->setStatus('Active');
+        $projectPerson->setPerson($person);
+
+        $todo = array('projectPlans' => true, 'openid' => true, 'projectLevels' => true);
+        $projectPerson->set('todo',$todo);
+        
+        if (isset($params['projectId']))
+        {
+            $project = $this->getEntityManager()->getReference('ZaysoCoreBundle:Project',$params['projectId']);
+            $projectPerson->setProject($project);
+        }
+        return $accountPerson;
+    }
+    public function getOrgForKey($id)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->addSelect('org');
+
+        $qb->from('ZaysoCoreBundle:Org','org');
+
+        $qb->andWhere($qb->expr()->eq('org.id',$qb->expr()->literal($id)));  
+        
+        $items = $qb->getQuery()->getResult();
+        if (count($items) == 1) return $items[0];
+        return null;
+    }
+    public function newOrg() { return new Org(); }
     
     public function getAccountPersons($params = array())
     {
@@ -143,7 +198,7 @@ class AccountManager
         $qb->leftJoin('accountPerson.account',   'account');
         $qb->leftJoin('accountPerson.person',    'person');
         $qb->leftJoin('person.registeredPersons','registered');
-        $qb->leftJoin('person.org',              'org');
+        $qb->leftJoin('person.orgKey',           'org');
         if ($wantProject)
         {
             $qb->leftJoin('person.projectPersons','projectPerson');
