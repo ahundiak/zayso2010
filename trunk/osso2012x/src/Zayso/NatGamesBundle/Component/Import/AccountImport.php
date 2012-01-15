@@ -1,9 +1,10 @@
 <?php
 namespace Zayso\NatGamesBundle\Component\Import;
 
-use Zayso\ZaysoBundle\Component\Import\BaseImport;
-use Zayso\ZaysoBundle\Component\Debug;
-use Zayso\ZaysoBundle\Entity\Org;
+use Zayso\CoreBundle\Component\Import\BaseImport;
+use Zayso\CoreBundle\Component\Debug;
+
+use Zayso\CoreBundle\Entity\Org;
 
 class AccountImport extends BaseImport
 {
@@ -48,12 +49,11 @@ class AccountImport extends BaseImport
         if (!$item->id) return;
 
         $this->total++;
-
+        
         // Grab the account person
         // Just grabbing the ap results in an aupdate message, track down later
-        $accountPersons = $accountManager->getAccountPersons(array('accountPersonId' => $item->id));
-        if (count($accountPersons) != 1) return; //die('No account person for ' . $item->id);
-        $accountPerson = $accountPersons[0];
+        $accountPerson = $accountManager->getAccountPerson(array('accountPersonId' => $item->id));
+        if (!$accountPerson) return;
 
         $person = $accountPerson->getPerson();
         if (!$person) die('No person for ' . $item->id);
@@ -73,18 +73,22 @@ class AccountImport extends BaseImport
         $cellPhone = $this->processPhone($item->cellPhone);
         if ($cellPhone) $person->setCellPhone($cellPhone);
 
-        $region = $item->region;
-        if ($region) $person->setOrgKey('AYSO' . $region);
-
+        $this->processRegion($person,$item->region);
+        
         $this->processRegionDesc2($item->regionDesc2);
         
         if ($item->firstName) $person->setFirstName($item->firstName);
         if ($item->lastName)  $person->setLastName ($item->lastName);
         if ($item->nickName)  $person->setNickName ($item->nickName);
 
+        // This I do not like, be careful about changing aysoid
         $aysoid = $item->aysoid;
-        if ($aysoid) $registeredPerson->setRegKey('AYSOV' . $aysoid);
-
+        if ($aysoid) 
+        {
+            $aysoid = 'AYSOV' . $aysoid;
+            if ($registeredPerson->getRegKey() != $aysoid) die('aysoid changed' . ' ' . $aysoid);
+            // $registeredPerson->setRegKey('AYSOV' . $aysoid);
+        }
         $refBadge = $item->refBadge;
         if ($refBadge && $refBadge != 'Nonex') $registeredPerson->setRefBadge($refBadge);
 
@@ -100,8 +104,28 @@ class AccountImport extends BaseImport
         return;
     }
     /* ==============================================================
+     * See if the region has changed
+     */
+    protected function processRegion($person,$region)
+    {
+        if (!$region) return;
+        
+        $org = $person->getOrg();
+        $region = 'AYSO' . $region;
+        
+        if ($org && ($org->getId() == $region)) return;
+        
+        // Need some code to deal with new or existinf changed region
+        die('Region changed');
+        
+        
+    }
+    /* ==============================================================
      * Process a descriptive ayso area string
      * A07O-R0178 Aiea, HI
+     * 
+     * Uses Org repo, independent of account manager
+     * Code should probsbly be moved to an OrgManager at some point
      */
     public function processRegionDesc2($regionDesc2)
     {
@@ -138,7 +162,7 @@ class AccountImport extends BaseImport
         
         // Make sure have an area entry
         $em   = $this->getEntityManager();
-        $repo = $em->getRepository('ZaysoBundle:Org');
+        $repo = $em->getRepository('ZaysoCoreBundle:Org');
         
         $areaOrg = $repo->find($areaKey);
         if (!$areaOrg)

@@ -17,13 +17,16 @@ use Symfony\Component\Form\FormValidatorInterface;
 
 class ImportData implements \ArrayAccess
 {
-    public $projectId = 52;
     public $inputFileName;
     public $clientFileName;
     public $importServiceId;
     
     public $attachment;
 
+    public function __construct($projectId)
+    {
+        $this->projectId = $projectId;
+    }
     // Array access
     public function offsetGet   ($name) { return $this->$name; }
     public function offsetExists($name) { return isset($this->$name); }
@@ -55,10 +58,10 @@ class ImportFileValidator implements FormValidatorInterface
 {
     protected $importServiceIdMap = array
     (
-        'zayso.natgames.account.import'  => array('AP ID', 'Account', 'AYSOID'),
-        'zayso.core.region.import'       => array('org_key','parent_key','desc1','desc2'),
+        'zayso_natgames.account.import'  => array('AP ID', 'Account', 'AYSOID'),
         
-        'Eayso_Reg_Main_RegMainImport'           => array('AYSOID','WorkPhoneExt','Membershipyear'),
+        'zayso.core.region.import'       => array('org_key','parent_key','desc1','desc2'),
+        'Eayso_Reg_Main_RegMainImport'   => array('AYSOID','WorkPhoneExt','Membershipyear'),
     );
     protected function getImportServiceId($tmpFileName)
     {
@@ -110,7 +113,7 @@ class ImportController extends BaseController
 {
     public function indexAction(Request $request)
     {
-        $importData = new ImportData();
+        $importData = new ImportData($this->getProjectId());
         $importType = new ImportType();
         $form = $this->createForm($importType, $importData);
 
@@ -119,10 +122,7 @@ class ImportController extends BaseController
             $form->bindRequest($request);
 
             if ($form->isValid())
-            {
-                //$importClassName = $importData->importClassName;
-                //$import = new $importClassName($this->getEntityManager(),$this->get('account.manager'));
-                
+            {   
                 $import = $this->get($importData->importServiceId);
                 
                 $results = $import->process($importData);
@@ -141,37 +141,5 @@ class ImportController extends BaseController
         $tplData['importMsg'] = $request->getSession()->getFlash('importMsg');
         return $this->render('ZaysoNatGamesBundle:Admin:import.html.twig',$tplData);
     }
-    /* =================================================
-     * Don't think this is used
-     *
-    public function accountsAction($_format)
-    {
-        
-        // Check auth
-        if (!$this->isAuth()) return $this->redirect($this->generateUrl('zayso_natgames_welcomex'));
 
-        $accountManager = $this->get('account.manager');
-        $accounts = $accountManager->getAccounts();
-        
-        $account = $accounts[0];
-        $person = $account->getPrimaryMember()->getPerson();
-        $projectPerson = $person->getNatGamesProjectPerson();
-        $plans = $projectPerson->getPlans();
-        //Debug::dump($plans);
-        //die();
-      //die('Count ' . count($accounts));
-        
-        //$accounts = array($accounts[0],$accounts[1]);
-        
-        $tplData = $this->getTplData();
-        $tplData['accounts'] = $accounts;
-        $tplData['memberx']  = new MemberViewHelper();
-        
-        if ($_format == 'html') return $this->render('ZaysoNatGamesBundle:Admin:accounts.html.twig',$tplData);
-        
-        $response = $this->render('ZaysoNatGamesBundle:Admin:accounts.csv.php',$tplData);
-        $response->headers->set('Content-Type', 'application/csv');
-        return $response;
-    }
-    */
 }
