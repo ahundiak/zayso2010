@@ -71,7 +71,7 @@ class AdminAccountListViewHelper
     }
     public function getRegionState()
     {
-        $org = $this->manager->getOrgForKey($this->person->getOrgKey());
+        $org = $this->person->getOrg();
         if ($org) return $org->getState();
         return null;
     }
