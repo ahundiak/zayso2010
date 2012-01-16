@@ -43,7 +43,7 @@ doctrine:
         entity_managers:
           
             default:
-                connection: default
+                connection: osso2012
                 mappings:
                     ZaysoCoreBundle: ~
                     
