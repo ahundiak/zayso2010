@@ -6,12 +6,31 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RefAvailController extends BaseController
 {
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        return $this->redirect($this->generateUrl('zayso_arbiter_welcome'));
+        $attachment = $request->files->get('ref_avail_file');
         
-        $tplData = array();
-        return $this->render('ZaysoArbiterBundle:Welcome:welcome.html.twig',$tplData);
+        $inputFileName  = $attachment->getPathName(); // /var/tmp/whatever
+        $clientFileName = $attachment->getClientOriginalName();
+
+        $inputFileNamex = $inputFileName . 'x';
+        $outFileName = basename($clientFileName,'.csv') . 'x.csv';
+        
+        $manager = $this->get('zayso_arbiter.ref_avail.process');
+        
+        $manager->importCSV($inputFileName);
+        $manager->exportCSV($inputFileNamex);
+        
+        $response = new Response(file_get_contents($inputFileNamex));
+        
+        $response->headers->set('Content-type', 'text/csv');
+        $response->headers->set('Content-Disposition', 'attachment; filename="'. $outFileName .'"');
+
+        // Might want to unlink the generated files
+        //unlink($inputFileName);
+        //unlink($inputFileNamex);
+        
+        return $response;
     }
 }
 ?>
