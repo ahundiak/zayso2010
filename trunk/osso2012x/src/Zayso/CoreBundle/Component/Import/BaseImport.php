@@ -98,6 +98,7 @@ class BaseImport
         $record = $this->record;
         foreach($row as $index => $colName)
         {
+            $colName = trim($colName);
             foreach($record as $name => $params)
             {
                 if (is_array($params['cols'])) $cols = $params['cols'];
