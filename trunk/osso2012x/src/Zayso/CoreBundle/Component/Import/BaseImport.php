@@ -223,7 +223,24 @@ class BaseImport
         }
         die('Date: ' . $date); // $dob = substr($dob,6,4) . substr($dob,0,2) . substr($dob,3,2);
     }
-    protected function processPhone($phone)
+    protected function processTime($time)
+    {
+        if (!$time) return '';
+        
+        // HHMM
+        $timex = preg_replace('/\D/','',$time);
+        if (($timex == $time) && (strlen($timex) == 4)) return $timex;
+        
+        // HH:MM
+        $parts = explode(':',$time);
+        if (count($parts) == 2)
+        {
+            $timex = sprintf('%02d%02d',(int)$parts[0],(int)$parts[1]);
+            return $timex;
+        }
+        die('Time: ' . $time);
+    }
+   protected function processPhone($phone)
     {
         return preg_replace('/\D/','',$phone);
     }
