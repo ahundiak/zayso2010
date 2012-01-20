@@ -6,11 +6,18 @@
 
     <services>
         
+        <service 
+            id="zayso_core.browser.manager" 
+            class="Zayso\CoreBundle\Component\Manager\BrowserManager" 
+            public="true">
+           <argument type="service" id="doctrine.orm.accounts_entity_manager" />
+        </service>
+        
         <service id="zayso_core.openid.rpx" class="Zayso\CoreBundle\Component\OpenidRpx" public="true" scope="request">
            <argument type="service" id="request" />
            <argument type="string">%zayso_core.openid.rpxApiKey%</argument>
         </service>
-            
+             
         <service id="zayso_core.session.storage" class="Zayso\CoreBundle\Component\Session\SessionStorage" public="true">
             <argument type="service" id="zayso_core.session.storage.pdo" />
             <argument type="string">%session.storage.options%</argument>
