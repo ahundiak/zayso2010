@@ -48,6 +48,8 @@
             <argument type="service" id="zayso_area.team.manager" />
         </service>
 
+        <service id="zayso_model.account.manager"  alias = "zayso_area.account.manager"></service>
+        
         <service
             id     = "zayso_area.account.manager"
             class  = "Zayso\AreaBundle\Component\Manager\AccountManager"
