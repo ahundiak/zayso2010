@@ -52,6 +52,17 @@ class GameScheduleImport extends BaseImport
             $this->teams[$key] = $team;
             return $team;
         }
+        $keyx = $key;
+        
+        $key = str_replace('-','',$key);
+        $key = substr($key,0,8) . 'C' . substr($key,8,2);
+        $team = $this->gameManager->loadTeamForKey($projectId,$key);
+        if ($team)
+        {
+            $this->teams[$keyx] = $team;
+            return $team;
+        }
+        die($key);
         $team = $this->gameManager->newTeam($projectId);
         $team->setTeamKey($key);
         $team->setSource('schedule_import');
@@ -92,19 +103,21 @@ class GameScheduleImport extends BaseImport
             // New Game
             $game = $gameManager->newGameWithTeams($projectId);
             $game->setNum ($item->gameNum);
+            
+            $age = $homeTeam->getAge();
 
             // Add Referee crew? perhaps add crew to schedule
             $eventPerson = new EventPerson();
-            $eventPerson->setTypeAsCR();
+            if ($age > 'U06') $eventPerson->setTypeAsREF1();
+            else              $eventPerson->setTypeAsCR();
             $eventPerson->setProtected(true);
             $eventPerson->setEvent($game);
             $game->addPerson($eventPerson);
 
-            $age = $homeTeam->getAge();
             if ($age > 'U06')
             {
                 $eventPerson = new EventPerson();
-                $eventPerson->setTypeAsCR2();
+                $eventPerson->setTypeAsREF2();
                 $eventPerson->setProtected(true);
                 $eventPerson->setEvent($game);
                 $game->addPerson($eventPerson);
@@ -121,15 +134,15 @@ class GameScheduleImport extends BaseImport
                 if (!$cr2)
                 {
                     $eventPerson = new EventPerson();
-                    $eventPerson->setTypeAsCR2();
+                    $eventPerson->setTypeAsREF2();
                     $eventPerson->setProtected(true);
                     $eventPerson->setEvent($game);
                     $em->persist($eventPerson);
                 }
             }
         }
-        $game->setDate($item->date);
-        $game->setTime($item->time);
+        $game->setDate($this->processDate($item->date));
+        $game->setTime($this->processTime($item->time));
         $game->setOrg($homeTeam->getOrg());
         
         // Check field
