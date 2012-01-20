@@ -30,7 +30,7 @@ class GameScheduleImportCommand extends ContainerAwareCommand
         
         $params = array();
         $params['projectId'] = $this->getProjectId();
-        $params['inputFileName'] = '../datax/ScheduleWinter2012.csv';
+        $params['inputFileName'] = '../datax/ScheduleWinter20120116.csv';
         
         $import->process($params);
         echo $import->getResultMessage() . "\n";
@@ -47,7 +47,7 @@ class GameScheduleImportCommand extends ContainerAwareCommand
     {
       //$this->test1();
         $this->test3();
-        $this->testGetOfficialsForAccount();
+      //$this->testGetOfficialsForAccount();
     }
 }
 ?>
