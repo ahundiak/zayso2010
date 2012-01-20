@@ -31,14 +31,20 @@ class EventPerson extends BaseEntity
     const TypeAR2 = 'AR2';
     const Type4th = '4th';
     const TypeObs = 'Obs';
+    
+    const TypeREF1 = 'Ref1';
+    const TypeREF2 = 'Ref2';
 
     static public $typeDescs = array
     (
         self::TypeCR  => 'Center',
-        self::TypeCR2 => 'Center 2',
+        self::TypeCR2 => 'Center 2', // Dual
 
-        self::TypeAR1 => 'Assistant 1',
+        self::TypeAR1 => 'Assistant 1', // DSC
         self::TypeAR2 => 'Assistant 2',
+        
+        self::TypeREF1 => 'Referee 1', // Futsal
+        self::TypeREF2 => 'Referee 2',
 
         self::Type4th => '4th Official',
         self::TypeObs => 'Observer',
@@ -107,25 +113,29 @@ class EventPerson extends BaseEntity
     public function setEvent($event) { $this->onObjectPropertySet('event', $event); }
     public function getEvent()       { return $this->event;  }
     
-    public function setTypeAsCR()  { $this->setType(self::TypeCR ); }
-    public function setTypeAsCR2() { $this->setType(self::TypeCR2); }
-    public function setTypeAsAR1() { $this->setType(self::TypeAR1); }
-    public function setTypeAsAR2() { $this->setType(self::TypeAR2); }
-    public function setTypeAs4th() { $this->setType(self::Type4th); }
-    public function setTypeAsObs() { $this->setType(self::TypeObs); }
+    public function setTypeAsCR  () { $this->setType(self::TypeCR );  }
+    public function setTypeAsCR2 () { $this->setType(self::TypeCR2);  }
+    public function setTypeAsAR1 () { $this->setType(self::TypeAR1);  }
+    public function setTypeAsAR2 () { $this->setType(self::TypeAR2);  }
+    public function setTypeAsRef1() { $this->setType(self::TypeREF1); }
+    public function setTypeAsRef2() { $this->setType(self::TypeREF2); }
+    public function setTypeAs4th () { $this->setType(self::Type4th);  }
+    public function setTypeAsObs () { $this->setType(self::TypeObs);  }
     
     public function setType($type) 
     {
         $this->onScalerPropertySet('type', $type);
         switch($type)
         {
-            case self::TypeCR : $this->sort = 11; break;
-            case self::TypeCR2: $this->sort = 12; break;
-            case self::TypeAR1: $this->sort = 21; break;
-            case self::TypeAR2: $this->sort = 22; break;
-            case self::Type4th: $this->sort = 31; break;
-            case self::TypeObs: $this->sort = 41; break;
-            default:            $this->sort = 99;
+            case self::TypeCR :  $this->sort = 11; break;
+            case self::TypeCR2:  $this->sort = 12; break;
+            case self::TypeREF1: $this->sort = 13; break;
+            case self::TypeREF2: $this->sort = 14; break;
+            case self::TypeAR1:  $this->sort = 21; break;
+            case self::TypeAR2:  $this->sort = 22; break;
+            case self::Type4th:  $this->sort = 31; break;
+            case self::TypeObs:  $this->sort = 41; break;
+            default:             $this->sort = 99;
         }
     }
     public function getType()      { return $this->type;  }
