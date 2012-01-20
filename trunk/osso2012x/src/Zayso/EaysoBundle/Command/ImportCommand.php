@@ -81,7 +81,9 @@ class ImportCommand extends ContainerAwareCommand
 
         $datax = "C:/home/ahundiak/datax/eayso/vols/";
         
-        $this->importVol('../datax/Vols.csv');
+//      $this->importVol ($datax . 'Vols.csv');
+        $this->importCert($datax . 'RefReg.csv');
+        $this->importCert($datax . 'SafeHaven.csv');
 
         //$this->importCerts($datax);
         return;        
