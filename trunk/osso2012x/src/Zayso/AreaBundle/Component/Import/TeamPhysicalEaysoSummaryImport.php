@@ -54,7 +54,13 @@ class TeamPhysicalEaysoSummaryImport extends BaseImport
             // Must have team key to create
             if (!$item->teamKey) return;
             
-            $team = new Team();
+            // Possible it was auto-created during schedule loading
+            $team = $teamManager->loadTeamForTeamKey($projectId,$item->teamKey);
+            if (!$team)
+            {
+                // die('Missing team ' . $item->teamKey);
+                $team = new Team();
+            }
             $team->setType  (Team::TypePhysical);
             $team->setSource(Team::SourceEayso);
             
