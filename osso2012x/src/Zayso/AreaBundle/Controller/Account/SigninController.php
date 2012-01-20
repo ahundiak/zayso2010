@@ -77,7 +77,7 @@ class SigninController extends BaseController
                 $userName = $account->getUserName();
                 $session->set(SecurityContext::LAST_USERNAME,$userName);
                 $this->setUser($userName);
-                return $this->redirect($this->generateUrl('natgames_home'));
+                return $this->redirect($this->generateUrl('zayso_area_home'));
             }
         }
         $tplData = $this->getTplData();
@@ -108,6 +108,9 @@ class SigninController extends BaseController
 
         // Make sure person is assigned to current project
         $this->getAccountManager()->addProjectPerson($this->getProjectId(),$user->getPersonId());
+        
+        $browserManager = $this->get('zayso_core.browser.manager');
+        $browserManager->add($request->server->get('HTTP_USER_AGENT'));
         
         // Ad off we go
         return $this->redirect($this->generateUrl('zayso_area_home'));
