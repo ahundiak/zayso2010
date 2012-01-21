@@ -108,38 +108,27 @@ class GameScheduleImport extends BaseImport
 
             // Add Referee crew? perhaps add crew to schedule
             $eventPerson = new EventPerson();
-            if ($age > 'U06') $eventPerson->setTypeAsREF1();
-            else              $eventPerson->setTypeAsCR();
+            $eventPerson->setTypeAsREF1();
             $eventPerson->setProtected(true);
             $eventPerson->setEvent($game);
             $game->addPerson($eventPerson);
 
-            if ($age > 'U06')
+            switch($age)
             {
-                $eventPerson = new EventPerson();
-                $eventPerson->setTypeAsREF2();
-                $eventPerson->setProtected(true);
-                $eventPerson->setEvent($game);
-                $game->addPerson($eventPerson);
-            }
-            // Persist It
-            $em->persist($game);
-        }
-        else
-        {
-            $age = $homeTeam->getAge();
-            if ($age == 'U08')
-            {
-                $cr2 = $game->getPersonForType(EventPerson::TypeCR2);
-                if (!$cr2)
-                {
+                case 'U05':
+                case 'U06':
+                    $eventPerson->setTypeAsREF();
+                    break;
+                
+                default:
                     $eventPerson = new EventPerson();
                     $eventPerson->setTypeAsREF2();
                     $eventPerson->setProtected(true);
                     $eventPerson->setEvent($game);
-                    $em->persist($eventPerson);
-                }
+                    $game->addPerson($eventPerson);
             }
+            // Persist It
+            $em->persist($game);
         }
         $game->setDate($this->processDate($item->date));
         $game->setTime($this->processTime($item->time));
