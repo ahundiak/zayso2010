@@ -27,13 +27,16 @@ class EventPerson extends BaseEntity
 {   
     const TypeCR  = 'CR';
     const TypeCR2 = 'CR2';
-    const TypeAR1 = 'AR1';
-    const TypeAR2 = 'AR2';
-    const Type4th = '4th';
-    const TypeObs = 'Obs';
     
-    const TypeREF1 = 'Ref1';
-    const TypeREF2 = 'Ref2';
+    const Type4th = '4TH';
+    const TypeObs = 'OBS';
+    
+    const TypeREF  = 'REF';
+    const TypeREF1 = 'REF 1';
+    const TypeREF2 = 'REF 2';
+    
+    const TypeAR1  = 'AR 1';
+    const TypeAR2  = 'AR 2';
 
     static public $typeDescs = array
     (
@@ -43,6 +46,7 @@ class EventPerson extends BaseEntity
         self::TypeAR1 => 'Assistant 1', // DSC
         self::TypeAR2 => 'Assistant 2',
         
+        self::TypeREF  => 'Referee',
         self::TypeREF1 => 'Referee 1', // Futsal
         self::TypeREF2 => 'Referee 2',
 
@@ -117,6 +121,7 @@ class EventPerson extends BaseEntity
     public function setTypeAsCR2 () { $this->setType(self::TypeCR2);  }
     public function setTypeAsAR1 () { $this->setType(self::TypeAR1);  }
     public function setTypeAsAR2 () { $this->setType(self::TypeAR2);  }
+    public function setTypeAsRef () { $this->setType(self::TypeREF);  }
     public function setTypeAsRef1() { $this->setType(self::TypeREF1); }
     public function setTypeAsRef2() { $this->setType(self::TypeREF2); }
     public function setTypeAs4th () { $this->setType(self::Type4th);  }
@@ -129,8 +134,9 @@ class EventPerson extends BaseEntity
         {
             case self::TypeCR :  $this->sort = 11; break;
             case self::TypeCR2:  $this->sort = 12; break;
-            case self::TypeREF1: $this->sort = 13; break;
-            case self::TypeREF2: $this->sort = 14; break;
+            case self::TypeREF:  $this->sort = 13; break;
+            case self::TypeREF1: $this->sort = 14; break;
+            case self::TypeREF2: $this->sort = 15; break;
             case self::TypeAR1:  $this->sort = 21; break;
             case self::TypeAR2:  $this->sort = 22; break;
             case self::Type4th:  $this->sort = 31; break;
