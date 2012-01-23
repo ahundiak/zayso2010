@@ -96,11 +96,19 @@ class RefSchedController extends BaseController
 
             if (!$refSchedSearchData || 0)
             {
+                $time1 = time();
+                $time2 = $time1 + (60 * 60 * 24 * 14);
+                
+                $date1 = date('Ymd',$time1);
+                $date2 = date('Ymd',$time2);
+                 
+              //die('new Data: ' . $date1 . ' ' . $date2);
+                
                 $refSchedSearchData = array
                 (
                     'sortBy' => 1,
-                    'date1'  => '20120114',
-                    'date2'  => '20120122',
+                    'date1'  => $date1,
+                    'date2'  => $date2,
                     'time1'  => '0600',
                     'time2'  => '2100',
                     'ages'   => array(),
