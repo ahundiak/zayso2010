@@ -6,11 +6,35 @@
 
     <services>
         
+        <service id = "zayso_core.account.entity_manager"  alias = "doctrine.orm.accounts_entity_manager" ></service>
+        
+        <service
+            id     = "zayso_core.account.manager"
+            class  = "Zayso\CoreBundle\Component\Manager\AccountManager"
+            public = "true">
+            <argument type="service" id="zayso_core.account.entity_manager" />
+            <argument type="string">%zayso_core.user.password%</argument>
+        </service>
+        
+        <service
+            id     = "zayso_core.eayso.volunteer.import"
+            class  = "Zayso\CoreBundle\Component\Import\Eayso\VolunteerImport"
+            public = "true">
+            <argument type="service" id="zayso_core.account.manager" />
+        </service>
+        
+        <service
+            id     = "zayso_core.eayso.certification.import"
+            class  = "Zayso\CoreBundle\Component\Import\Eayso\CertificationImport"
+            public = "true">
+            <argument type="service" id="zayso_core.account.manager" />
+        </service>
+        
         <service 
             id="zayso_core.browser.manager" 
             class="Zayso\CoreBundle\Component\Manager\BrowserManager" 
             public="true">
-           <argument type="service" id="doctrine.orm.accounts_entity_manager" />
+           <argument type="service" id="zayso_core.account.entity_manager" />
         </service>
         
         <service id="zayso_core.openid.rpx" class="Zayso\CoreBundle\Component\OpenidRpx" public="true" scope="request">
