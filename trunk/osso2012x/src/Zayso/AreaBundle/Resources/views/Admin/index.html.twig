@@ -1,0 +1,16 @@
+{% extends 'ZaysoAreaBundle:Layout:layout.html.twig' %}
+
+{% block title %}Area - Admin{% endblock %}
+
+{% block content %}
+<div>
+  <h3>Admin Links</h3>
+  <p><a href="{{ path('zayso_area_admin') }}">List of Accounts and Referees</a></p>
+  <p><a href="{{ path('zayso_area_admin', { '_format': 'csv' })  }}">List of Accounts and Referees(Excel)</a></p>
+  
+{% if is_granted('ROLE_SUPER_ADMIN') %}  
+  <p><a href="{{ path('zayso_area_admin') }}">Import AYSO Information</a></p>
+{% endif %}
+  
+</div>
+{% endblock %}
