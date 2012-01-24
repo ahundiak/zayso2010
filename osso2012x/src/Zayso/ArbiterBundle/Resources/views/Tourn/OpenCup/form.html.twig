@@ -1,0 +1,192 @@
+{% extends 'ZaysoArbiterBundle:Layout:layout.html.twig' %}
+
+{% block title %}Zayso Open Cup{% endblock %}
+
+{% block content %}
+
+<div>
+<h1>Open Cup 2012 - Decatur Alabama - April 13,14,15</h1>
+<div><p>{{ msg }}</p></div>
+<div>
+<form action="{{ path('zayso_arbiter_tourn_opencup') }}" method="post" {{ form_enctype(form) }}>
+<table border="1" style="width: 800px;">
+    
+<tr><th colspan="3">United States Soccer Referee (USSF) Application</th></tr>
+<tr>
+    <td style="width: 175px;">{{ form_label (form.firstName) }}</td>
+    <td style="width: 275px;">{{ form_widget(form.firstName) }}</td>
+    <td style="width: 350px;">Required. <br />{{ form_errors(form.firstName) }}
+    </td>
+</tr>
+<tr>
+    <td style="width: 175px;">{{ form_label (form.lastName) }}</td>
+    <td style="width: 275px;">{{ form_widget(form.lastName) }}</td>
+    <td style="width: 350px;">Required. <br />{{ form_errors(form.lastName) }}
+    </td>
+</tr>
+<tr>
+    <td style="width: 175px;">{{ form_label (form.nickName) }}</td>
+    <td style="width: 275px;">{{ form_widget(form.nickName) }}</td>
+    <td style="width: 350px;">{{ form_errors(form.nickName) }}
+    </td>
+</tr>
+<tr>
+    <td style="width: 175px;">{{ form_label (form.ussfid) }}</td>
+    <td style="width: 275px;">{{ form_widget(form.ussfid) }}</td>
+    <td style="width: 350px;">Required. 16 digits.<br />
+        {{ form_errors(form.ussfid) }}
+    </td>
+</tr>
+<tr>
+    <td style="width: 175px;">{{ form_label (form.refBadge) }}</td>
+    <td style="width: 275px;">{{ form_widget(form.refBadge) }}</td>
+    <td style="width: 350px;">Required.<br />
+        {{ form_errors(form.refBadge) }}
+    </td>
+</tr>
+<tr>
+    <td style="width: 175px;">{{ form_label (form.refState) }}</td>
+    <td style="width: 275px;">{{ form_widget(form.refState) }}</td>
+    <td style="width: 350px;">Required.<br />
+        {{ form_errors(form.refState) }}
+    </td>
+</tr>
+<tr>
+    <td style="width: 175px;">{{ form_label (form.refExp) }}</td>
+    <td style="width: 275px;">{{ form_widget(form.refExp) }}</td>
+    <td style="width: 350px;">Required.<br />
+        {{ form_errors(form.refExp) }}
+    </td>
+</tr>
+<tr>
+    <td style="width: 175px;">{{ form_label (form.email) }}</td>
+    <td style="width: 275px;">{{ form_widget(form.email) }}</td>
+    <td style="width: 350px;">Required.<br />
+        {{ form_errors(form.email) }}
+    </td>
+</tr>
+<tr>
+    <td style="width: 175px;">{{ form_label (form.cellPhone) }}</td>
+    <td style="width: 275px;">{{ form_widget(form.cellPhone) }}</td>
+    <td style="width: 350px;">Required.<br />
+        {{ form_errors(form.cellPhone) }}
+    </td>
+</tr>
+<tr>
+    <td style="width: 175px;">{{ form_label (form.homeCity) }}</td>
+    <td style="width: 275px;">{{ form_widget(form.homeCity) }}</td>
+    <td style="width: 350px;">Required.<br />
+        {{ form_errors(form.homeCity) }}
+    </td>
+</tr>
+<tr>
+    <td style="width: 175px;">{{ form_label (form.travelingWith) }}</td>
+    <td style="width: 275px;">{{ form_widget(form.travelingWith) }}</td>
+    <td style="width: 350px;">
+        {{ form_errors(form.travelingWith) }}
+    </td>
+</tr>
+<tr>
+    <td style="width: 175px;">{{ form_label (form.homeState) }}</td>
+    <td style="width: 275px;">{{ form_widget(form.homeState) }}</td>
+    <td style="width: 350px;">Required.<br />
+        {{ form_errors(form.homeState) }}
+    </td>
+</tr>
+<tr>
+    <td style="width: 175px;">{{ form_label (form.age) }}</td>
+    <td style="width: 275px;">{{ form_widget(form.age) }}</td>
+    <td style="width: 350px;">Required.<br />
+        {{ form_errors(form.age) }}
+    </td>
+</tr>
+<tr>
+    <td style="width: 175px;">{{ form_label (form.gender) }}</td>
+    <td style="width: 275px;">{{ form_widget(form.gender) }}</td>
+    <td style="width: 350px;">Required.<br />
+        {{ form_errors(form.gender) }}
+    </td>
+</tr>
+<tr>
+    <td style="width: 175px;">{{ form_label (form.assessmentRequest) }}</td>
+    <td style="width: 275px;">{{ form_widget(form.assessmentRequest) }}</td>
+    <td style="width: 350px;">
+        {{ form_errors(form.assessmentRequest) }}
+    </td>
+</tr>
+<tr>
+    <td style="width: 175px;">{{ form_label (form.lodgingRequest) }}</td>
+    <td style="width: 275px;">{{ form_widget(form.lodgingRequest) }}</td>
+    <td style="width: 350px;">
+        {{ form_errors(form.lodgingRequest) }}
+    </td>
+</tr>
+<tr>
+    <td style="width: 175px;">{{ form_label (form.lodgingWith) }}</td>
+    <td style="width: 275px;">{{ form_widget(form.lodgingWith) }}</td>
+    <td style="width: 350px;">
+        {{ form_errors(form.lodgingWith) }}
+    </td>
+</tr>
+<tr>
+    <td style="width: 175px;">{{ form_label (form.teamAff) }}</td>
+    <td style="width: 275px;">{{ form_widget(form.teamAff) }}</td>
+    <td style="width: 350px;">
+        {{ form_errors(form.teamAff) }}
+    </td>
+</tr>
+<tr>
+    <td style="width: 175px;">{{ form_label (form.teamAffDesc) }}</td>
+    <td style="width: 275px;">{{ form_widget(form.teamAffDesc) }}</td>
+    <td style="width: 350px;">
+        {{ form_errors(form.teamAffDesc) }}
+    </td>
+</tr>
+<tr>
+    <td style="width: 175px;">{{ form_label (form.levelToRef) }}</td>
+    <td style="width: 275px;">{{ form_widget(form.levelToRef) }}</td>
+    <td style="width: 350px;">
+        {{ form_errors(form.levelToRef) }}
+    </td>
+</tr>
+<tr>
+    <td style="width: 175px;">{{ form_label (form.comfortLevelCenter) }}</td>
+    <td style="width: 275px;">{{ form_widget(form.comfortLevelCenter) }}</td>
+    <td style="width: 350px;">
+        {{ form_errors(form.comfortLevelCenter) }}
+    </td>
+</tr>
+<tr>
+    <td style="width: 175px;">{{ form_label (form.comfortLevelAssistant) }}</td>
+    <td style="width: 275px;">{{ form_widget(form.comfortLevelAssistant) }}</td>
+    <td style="width: 350px;">
+        {{ form_errors(form.comfortLevelAssistant) }}
+    </td>
+</tr>
+<tr>
+    <td style="width: 175px;">{{ form_label (form.availability) }}</td>
+    <td style="width: 275px;">{{ form_widget(form.availability) }}</td>
+    <td style="width: 350px;">
+        {{ form_errors(form.availability) }}
+    </td>
+</tr>
+<tr>
+    <td style="width: 175px;">{{ form_label (form.notes) }}</td>
+    <td style="width: 275px;">{{ form_widget(form.notes) }}</td>
+    <td style="width: 350px;">
+        {{ form_errors(form.notes) }}
+    </td>
+</tr>
+<tr>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td align="center"><input type="submit" name="tournDCSubmit" value="Submit Application" />
+</tr>
+<tr><td colspan="3">{{ form_errors(form) }}</td></tr>
+</table>
+{{ form_rest(form) }}
+</form>
+
+</div>
+</div>
+{% endblock %}

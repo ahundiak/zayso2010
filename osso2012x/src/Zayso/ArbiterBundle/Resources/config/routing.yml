@@ -11,3 +11,7 @@ zayso_arbiter_welcome:
 zayso_arbiter_ref_avail:
     pattern:  /referee/availability
     defaults: { _controller: ZaysoArbiterBundle:RefAvail:index }
+    
+zayso_arbiter_tourn_opencup:
+    pattern:  /tourn/opencup
+    defaults: { _controller: ZaysoArbiterBundle:Tourn\OpenCup:signup }
