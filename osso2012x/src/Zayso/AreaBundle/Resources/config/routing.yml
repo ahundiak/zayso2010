@@ -43,3 +43,8 @@ zayso_area_schedule_referee_assign:
     defaults: { _controller: ZaysoAreaBundle:Schedule\RefAssign:assign, id: 0, pos: ''}
     requirements:
         id: \d+
+        
+zayso_area_admin:
+    pattern:  /admin
+    defaults: { _controller: ZaysoAreaBundle:Admin\Index:index }
+
