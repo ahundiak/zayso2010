@@ -5,7 +5,16 @@
     <title>{% block title %}Arbiter Bundle{% endblock %}</title>
     <meta name="description" content="Zayso Arbiter Tools"/>
     <meta name="author" content="Art Hundiak"/>
+    
+{% block stylesheets %}
 
+    {% stylesheets output='css/*.css' filter='cssrewrite' debug=false
+        '@ZaysoArbiterBundle/Resources/public/css/arbiter.css'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}" media="all" />
+    {% endstylesheets %}
+        
+{% endblock %}
     <!--[if lt IE 9]>
         <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
