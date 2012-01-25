@@ -283,11 +283,11 @@ class OpenCupController extends Controller
     {
         $mailerEnabled = $this->container->getParameter('mailer_enabled');
         if (!$mailerEnabled) return;
-        
+return;        
         $message = \Swift_Message::newInstance();
         $message->setSubject('[OpenCup2012] Ref App ' . $referee->firstName . ' ' . $referee->lastName);
-        $message->setFrom('ahundiak@zayso.org');
-        $message->setTo  ('ahundiak@gmail.com');
+        $message->setFrom(array('ahundiak@zayso.org' => 'Zayso OpenCup2012'));
+        $message->setTo  (array('ahundiak@gmail.com','arthur.hundiak@intergraphgovsolutions.com'));
         
         $message->setBody($this->renderView('ZaysoArbiterBundle:Tourn\OpenCup:email.txt.twig', 
             array('referee' => $referee, 'gen' => $this)
