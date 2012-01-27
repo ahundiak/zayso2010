@@ -1,0 +1,44 @@
+{% extends 'ZaysoArbiterBundle:Layout:layout.html.twig' %}
+
+{% block title %}Zayso Open Cup{% endblock %}
+
+{% block content %}
+
+<div id="container">
+<div id="container-inner">
+    
+<h1>Open Cup 2012 - Decatur Alabama - April 13,14,15</h1>
+<p>{{ msg }}</p>
+
+<form action="{{ path('zayso_arbiter_tourn_opencup') }}" method="post" {{ form_enctype(form) }}>
+    <fieldset><legend><span>Contact Information</span></legend>
+        {{ form_row(form.firstName) }}
+        {{ form_row(form.lastName)  }}
+        {{ form_row(form.nickName)  }}
+        {{ form_row(form.email)     }}
+        {{ form_row(form.cellPhone) }}
+        {{ form_row(form.homeCity)      }}
+        {{ form_row(form.homeState)     }}
+        {{ form_row(form.travelingWith) }}
+    </fieldset>
+    <fieldset><legend><span>USSF Referee Certification</span></legend>
+        {{ form_row(form.ussfid)    }}
+        {{ form_row(form.refBadge)  }}
+        {{ form_row(form.refState)  }}
+        {{ form_row(form.refExp)    }}
+        {{ form_row(form.age)       }}
+        {{ form_row(form.gender)    }}
+    </fieldset>
+    <fieldset><legend><span>Tournament Plans</span></legend>
+         {{ form_row(form.assessmentRequest)    }}
+    </fieldset>
+    <fieldset>
+        <div class="controls">
+            <input type="submit" name="tournDCSubmit" value="Submit Application" />
+        </div>
+    </fieldset>
+</form>
+
+</div>
+</div>
+{% endblock %}

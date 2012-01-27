@@ -1,0 +1,8 @@
+ 
+{{ referee.firstName }} "{{ referee.nickName }}" {{ referee.lastName }} 
+{{ referee.ussfid }} {{ referee.refBadge }} {{ referee.refState }} {{ referee.refExp }}
+{{ referee.email }} {{ referee.cellPhone }} {{ referee.homeCity }} {{ referee.homeState }}
+Notes:
+{{ referee.notes }}
+---
+{{ gen.csv(referee) | raw }}

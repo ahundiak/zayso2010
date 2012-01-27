@@ -19,7 +19,7 @@ use Zayso\CoreBundle\Component\DataTransformer\UssfidTransformer;
 
 class OpenCupFormType extends AbstractType
 {
-    protected $name  = 'tournDC';
+    protected $name  = 'tournOpenCup';
     protected $group = 'create';
 
     public function __construct($em = null)
@@ -48,11 +48,11 @@ class OpenCupFormType extends AbstractType
         $builder->add('cellPhone', 'text', array('label' => 'Cell Phone', 'attr' => array('size' => 20)));
         
         $builder->add('homeState', 'choice', array(
-            'label'         => 'State traveling from',
+            'label'         => 'Home State',
             'required'      => true,
             'choices'       => $this->statePickList,
         ));
-        $builder->add('homeCity', 'text', array('label' => 'City traveling from', 'attr' => array('size' => 30)));
+        $builder->add('homeCity', 'text', array('label' => 'Home City', 'attr' => array('size' => 30)));
         
         $builder->add('travelingWith', 'text', array('label' => 'Traveling with', 'required' => false, 'attr' => array('size' => 30)));
          
@@ -64,6 +64,7 @@ class OpenCupFormType extends AbstractType
             'choices'       => $this->genderPickList,
             'expanded'      => true,
             'multiple'      => false,
+            'attr' => array('class' => 'gender'),
         ));
         $builder->add('assessmentRequest', 'choice', array(
             'label'         => 'Assessment Request',
@@ -71,6 +72,7 @@ class OpenCupFormType extends AbstractType
             'choices'       => $this->assessmentRequestPickList,
             'expanded'      => true,
             'multiple'      => false,
+            'attr' => array('class' => 'radio-medium'),
         ));
         $builder->add('availability', 'choice', array(
             'label'         => 'Your Availability',
@@ -88,7 +90,7 @@ class OpenCupFormType extends AbstractType
         ));
         $builder->add('lodgingWith', 'text', array('label' => 'Lodging with', 'required' => false, 'attr' => array('size' => 30)));
         
-        $builder->add('ussfid',    'text', array('label' => 'USSF ID','attr' => array('size' => 18)));
+        $builder->add('ussfid',    'text', array('label' => 'USSF ID (16 digits)','attr' => array('size' => 18)));
         
         $builder->add('refBadge', 'choice', array(
             'label'         => 'USSF Referee Badge',
@@ -96,7 +98,7 @@ class OpenCupFormType extends AbstractType
             'choices'       => $this->refBadgePickList,
         ));
         $builder->add('refState', 'choice', array(
-            'label'         => 'USSF Registered In',
+            'label'         => 'USSF State',
             'required'      => true,
             'choices'       => $this->statePickList,
         ));
@@ -277,7 +279,7 @@ class OpenCupController extends Controller
         $tplData['form'] = $form->createView();
         $tplData['msg']  = $msg;
 
-        return $this->render('ZaysoArbiterBundle:Tourn\OpenCup:form.html.twig',$tplData);
+        return $this->render('ZaysoArbiterBundle:Tourn\OpenCup2:form.html.twig',$tplData);
     }
     protected function sendEmail($referee)
     {
