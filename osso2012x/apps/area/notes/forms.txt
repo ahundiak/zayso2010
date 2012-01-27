@@ -1,0 +1,67 @@
+
+My approach:
+<tr><td><label></td><td><input></td><tr>
+
+HTML5&CSS3
+ <ul>
+    <li>
+      <label for="name">My name is:</label>
+      <input type="text" id="name" name="name" required>
+    </li>
+No fieldsets or legends
+
+Fancy Form Design
+<div id="container"><div id="container-inner">
+  <form action="#" method="get">
+    <fieldset>
+      <p class="introduction">Hi there! </p>
+      <!-- Email -->
+      <div>
+        <label for="email">Your email address</label>
+        <input type="text" name="email" id="email" />
+      </div>
+
+      <fieldset id="section-dob">
+        <legend><span>Birth date</span></legend>
+        <!-- Month -->
+        <div>
+          <label for="dob_month">Month</label>
+
+        <!-- Terms of Service -->
+        <div id="field-agree-tos">
+          <ul>
+            <li>
+              <label>
+                <input type="checkbox" id="agree_tos" value="yes" />
+                I have read and agree to the <a href="#">Terms of Service</a>.
+              </label>
+            </li>
+          </ul>
+        </div>
+
+<div>
+  <label class=" required">Your Gender</label>
+  <div id="tournOpenCup_gender">
+
+    <input type="radio" id="tournOpenCup_gender_M" name="tournOpenCup[gender]" required="required" value="M" checked="checked" />
+    <label for="tournOpenCup_gender_M" class=" required">Male</label>
+
+    <input type="radio" id="tournOpenCup_gender_F" name="tournOpenCup[gender]" required="required" value="F" />
+    <label for="tournOpenCup_gender_F" class=" required">Female</label>
+  </div>
+</div>
+<div>
+  <label class="gender required">Your Gender</label>
+
+    <div id="tournOpenCup_gender" class="gender">
+
+       <input type="radio" id="tournOpenCup_gender_M" name="tournOpenCup[gender]" required="required" value="M" checked="checked" />
+
+       <label for="tournOpenCup_gender_M" class=" required">Male</label>
+       <input type="radio" id="tournOpenCup_gender_F" name="tournOpenCup[gender]" required="required" value="F" />
+
+       <label for="tournOpenCup_gender_F" class=" required">Female</label>
+    </div>
+  </div>
+
+

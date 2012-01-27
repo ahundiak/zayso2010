@@ -18,23 +18,27 @@ security:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
-        login:
-            pattern:  ^/demo/secured/login$
-            security: false
-
+            
+        # The anonymous means anyone can get to all pages by default
         secured_area:
             pattern:    ^/
-            form_login:
-                check_path: /demo/secured/login_check
-                login_path: /demo/secured/login
-            logout:
-                path:   /demo/secured/logout
-                target: /demo/
+            access_denied_url: /welcome
             anonymous: ~
-            #http_basic:
-            #    realm: "Secured Demo Area"
+
+            # This is needed just to get normal signin to work
+            # without it, get no auth manager exception
+            # The login_path is used to automatically redirect users
+            form_login:
+                login_path:  /welcome
+#               check_path:  /login_checkx
+                
+#           logout:
+#               path:   /logoutx
+#               target: /welcomex
+#               invalidate_session: false
+
 
     access_control:
-        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
-        #- { path: ^/_internal, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }
+        - { path: ^/admin/super,    roles: ROLE_SUPER_ADMIN }
+        - { path: ^/admin,          roles: ROLE_ADMIN }     
+        - { path: ^/home,           roles: ROLE_USER }
