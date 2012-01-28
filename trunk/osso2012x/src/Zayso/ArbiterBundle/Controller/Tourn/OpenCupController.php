@@ -74,13 +74,30 @@ class OpenCupFormType extends AbstractType
             'multiple'      => false,
             'attr' => array('class' => 'radio-medium'),
         ));
+        /*
         $builder->add('availability', 'choice', array(
             'label'         => 'Your Availability',
             'required'      => true,
             'choices'       => $this->availabilityPickList,
             'expanded'      => true,
             'multiple'      => true,
+        ));*/
+        $builder->add('availFri', 'choice', array(
+            'label'         => 'Availability - Friday',
+            'required'      => true,
+            'choices'       => array('None' => 'None', 'Evening' => 'Kickoff 5pm'),
         ));
+        $builder->add('availSat', 'choice', array(
+            'label'         => 'Availability - Saturday',
+            'required'      => true,
+            'choices'       => array('None' => 'None', 'All Day' => 'All Day', 'Morning' => 'Morning Only', 'Afternoon' => 'Afternoon Only'),
+        ));
+        $builder->add('availSun', 'choice', array(
+            'label'         => 'Availability - Sunday',
+            'required'      => true,
+            'choices'       => array('None' => 'None', 'All Day' => 'All Day', 'Morning' => 'Morning Only', 'Afternoon' => 'Afternoon Only'),
+        ));
+        
         $builder->add('lodgingRequest', 'choice', array(
             'label'         => 'Lodging Request',
             'required'      => true,
@@ -226,7 +243,11 @@ class OpenCupReferee
     public $levelToRef = 'Competitive';
     public $comfortLevelCenter    = 'U10B';
     public $comfortLevelAssistant = 'U10B';
+    
     public $availability;
+    public $availFri = 'None';
+    public $availSat = 'None';
+    public $availSun = 'None';
     
     public $notes;
     
@@ -252,6 +273,34 @@ class OpenCupReferee
      *     message="USSF ID must be 16-digit number")
      */
     public function getUssfid() { return $this->ussfid;  }
+    
+    public function __get($name)
+    {
+        switch($name)
+        {
+            case 'lodgingFri': return $this->getLodgingFri();                 
+            case 'lodgingSat': return $this->getLodgingSat();
+        }
+        return null;
+    }
+    public function getLodgingFri()
+    {
+        switch($this->lodgingRequest)
+        {
+            case 'Fri':  return 'Yes';
+            case 'Both': return 'Yes';
+        }
+        return 'No';
+    }
+    public function getLodgingSat()
+    {
+        switch($this->lodgingRequest)
+        {
+            case 'Sat':  return 'Yes';
+            case 'Both': return 'Yes';
+        }
+        return 'No';
+    }
 }
 class OpenCupController extends Controller
 {
@@ -272,6 +321,7 @@ class OpenCupController extends Controller
                 // return $this->redirect($this->generateUrl('zayso_natgames_home'));
                 $this->sendEmail($referee);
                 $msg = 'Application Submitted';
+              //$msg = $this->csv($referee);
             }
         }
         
@@ -285,13 +335,16 @@ class OpenCupController extends Controller
     {
         $mailerEnabled = $this->container->getParameter('mailer_enabled');
         if (!$mailerEnabled) return;
-return;        
+
         $message = \Swift_Message::newInstance();
         $message->setSubject('[OpenCup2012] Ref App ' . $referee->firstName . ' ' . $referee->lastName);
-        $message->setFrom(array('ahundiak@zayso.org' => 'Zayso OpenCup2012'));
-        $message->setTo  (array('ahundiak@gmail.com','arthur.hundiak@intergraphgovsolutions.com'));
+        $message->setFrom(array('ahundiak@zayso.org' => 'ZaysoOpenCup2012'));
         
-        $message->setBody($this->renderView('ZaysoArbiterBundle:Tourn\OpenCup:email.txt.twig', 
+        $message->setTo  (array($referee->email,'deanjohnson@knology.net'));
+        
+        $message->setBcc (array('ahundiak@gmail.com'));
+        
+        $message->setBody($this->renderView('ZaysoArbiterBundle:Tourn\OpenCup2:email.txt.twig', 
             array('referee' => $referee, 'gen' => $this)
         ));
 
@@ -306,36 +359,6 @@ return;
     {
         $phoneXfer = new PhoneTransformer();
         
-        $fri = null;
-        $sat = null;
-        switch($referee->lodgingRequest)
-        {
-            case 'Fri': $fri = 'Yes'; break;
-            case 'Sat': $sat = 'Yes'; break;
-            case 'Both': $fri = $sat = 'Yes'; break;
-        }
-        $availFri = null;
-        $availSat = null;
-        $availSun = null;
-        foreach($referee->availability as $avail)
-        {
-            switch($avail)
-            {
-                case 'FriNight': $availFri = 'Night';     break;
-                case 'SatMorn':  $availSat = 'Morning'; break;
-                case 'SunMorn':  $availSun = 'Morning'; break;
-                
-                case 'SatAfter':  
-                    if ($availSat) $availSat = 'All Day';
-                    else           $availSat = 'Afternoon'; 
-                    break;
-                    
-                case 'SunAfter':  
-                    if ($availSun) $availSun = 'All Day';
-                    else           $availSun = 'Afternoon'; 
-                    break;
-            }
-        }
         $time = time();
         $date = date('m/d/Y');
         
@@ -361,8 +384,8 @@ return;
             
             $this->escape($referee->assessmentRequest),
             
-            $fri,$sat,
-            
+            $this->escape($referee->lodgingFri),
+            $this->escape($referee->lodgingSat),
             $this->escape($referee->lodgingWith),
             $this->escape($referee->travelingWith),
             $this->escape($referee->teamAff),
@@ -372,8 +395,11 @@ return;
             $this->escape($referee->comfortLevelCenter),
             $this->escape($referee->comfortLevelAssistant),
             
-            $availFri,$availSat,$availSun,
+            $this->escape($referee->availFri),
+            $this->escape($referee->availSat),
+            $this->escape($referee->availSun),
             
+            'END',
           //$this->escape($referee->notes),    
         );
         $csv = '"' . implode('","',$line) . '"';

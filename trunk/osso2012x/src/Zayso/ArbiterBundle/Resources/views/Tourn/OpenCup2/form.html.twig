@@ -8,7 +8,7 @@
 <div id="container-inner">
     
 <h1>Open Cup 2012 - Decatur Alabama - April 13,14,15</h1>
-<p>{{ msg }}</p>
+<p><em>{{ msg }}</em></p>
 
 <form action="{{ path('zayso_arbiter_tourn_opencup') }}" method="post" {{ form_enctype(form) }}>
     <fieldset><legend><span>Contact Information</span></legend>
@@ -30,13 +30,26 @@
         {{ form_row(form.gender)    }}
     </fieldset>
     <fieldset><legend><span>Tournament Plans</span></legend>
-         {{ form_row(form.assessmentRequest)    }}
+         {{ form_row(form.assessmentRequest) }}
+         {{ form_row(form.lodgingRequest)    }}
+         {{ form_row(form.lodgingWith)       }}
+         {{ form_row(form.teamAff)           }}
+         {{ form_row(form.teamAffDesc)       }}
+         {{ form_row(form.levelToRef)        }}
+         {{ form_row(form.comfortLevelCenter)    }}
+         {{ form_row(form.comfortLevelAssistant) }}
+         {{ form_row(form.availFri) }}
+         {{ form_row(form.availSat) }}
+         {{ form_row(form.availSun) }}
+         {{ form_row(form.notes) }}
     </fieldset>
     <fieldset>
         <div class="controls">
-            <input type="submit" name="tournDCSubmit" value="Submit Application" />
+            <span>Emails your application to Dean Johnson and yourself.</span>
+            <input type="submit" name="tournDCSubmit" value="Email Application" />
         </div>
     </fieldset>
+    {{ form_rest(form) }}
 </form>
 
 </div>
