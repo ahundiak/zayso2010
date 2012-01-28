@@ -85,17 +85,19 @@ class OpenCupFormType extends AbstractType
         $builder->add('availFri', 'choice', array(
             'label'         => 'Availability - Friday',
             'required'      => true,
-            'choices'       => array('None' => 'None', 'Evening' => 'Kickoff 5pm'),
+            'choices'       => array('None' => 'None', 'Evening' => 'Kickoff 5pm', 'Not Sure' => 'Not Sure'),
         ));
         $builder->add('availSat', 'choice', array(
             'label'         => 'Availability - Saturday',
             'required'      => true,
-            'choices'       => array('None' => 'None', 'All Day' => 'All Day', 'Morning' => 'Morning Only', 'Afternoon' => 'Afternoon Only'),
+            'choices'       => array('None' => 'None', 'All Day' => 'All Day', 
+                'Morning' => 'Morning Only', 'Afternoon' => 'Afternoon Only', 'Not Sure' => 'Not Sure'),
         ));
         $builder->add('availSun', 'choice', array(
             'label'         => 'Availability - Sunday',
             'required'      => true,
-            'choices'       => array('None' => 'None', 'All Day' => 'All Day', 'Morning' => 'Morning Only', 'Afternoon' => 'Afternoon Only'),
+            'choices'       => array('None' => 'None', 'All Day' => 'All Day', 
+                'Morning' => 'Morning Only', 'Afternoon' => 'Afternoon Only', 'Not Sure' => 'Not Sure'),
         ));
         
         $builder->add('lodgingRequest', 'choice', array(
