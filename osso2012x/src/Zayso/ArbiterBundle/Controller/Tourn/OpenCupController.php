@@ -109,7 +109,8 @@ class OpenCupFormType extends AbstractType
         ));
         $builder->add('lodgingWith', 'text', array('label' => 'Lodging with', 'required' => false, 'attr' => array('size' => 30)));
         
-        $builder->add('ussfid',    'text', array('label' => 'USSF ID (16 digits)','attr' => array('size' => 18)));
+        // Dean did not want this
+        $builder->add('ussfid',    'hidden', array('label' => 'USSF ID (16 digits)','attr' => array('size' => 18)));
         
         $builder->add('refBadge', 'choice', array(
             'label'         => 'USSF Referee Badge',
@@ -268,8 +269,8 @@ class OpenCupReferee
     public function getEmail() { return $this->email; }
     
     /**
-     * @Assert\NotBlank(message="USSF ID cannot be blank", groups={"create","edit","add"})
-     * @Assert\Regex(
+     *  Assert\NotBlank(message="USSF ID cannot be blank", groups={"create","edit","add"})
+     *  Assert\Regex(
      *     groups={"create","edit","add"},
      *     pattern="/^(USSFR)?\d{16}$/",
      *     message="USSF ID must be 16-digit number")
@@ -337,7 +338,7 @@ class OpenCupController extends Controller
     {
         $mailerEnabled = $this->container->getParameter('mailer_enabled');
         if (!$mailerEnabled) return;
-
+        
         $message = \Swift_Message::newInstance();
         $message->setSubject('[OpenCup2012] Ref App ' . $referee->firstName . ' ' . $referee->lastName);
         $message->setFrom(array('ahundiak@zayso.org' => 'ZaysoOpenCup2012'));
