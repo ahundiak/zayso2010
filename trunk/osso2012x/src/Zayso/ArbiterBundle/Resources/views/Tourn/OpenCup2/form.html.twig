@@ -1,6 +1,20 @@
 {% extends 'ZaysoArbiterBundle:Layout:layout.html.twig' %}
 
+{% form_theme form 'ZaysoArbiterBundle:Form:fields.html.twig' %}
+
 {% block title %}Zayso Open Cup{% endblock %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    {% stylesheets output='css/*.css' filter='cssrewrite' debug=false
+        '@ZaysoArbiterBundle/Resources/public/css/forms.css'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}" media="all" />
+    {% endstylesheets %}
+        
+{% endblock %}
 
 {% block content %}
 

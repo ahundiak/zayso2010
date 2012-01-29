@@ -4,17 +4,11 @@
     <meta charset="utf-8"/>
     <title>{% block title %}Arbiter Bundle{% endblock %}</title>
     <meta name="description" content="Zayso Arbiter Tools"/>
-    <meta name="author" content="Art Hundiak"/>
+    <meta name="author"      content="Art Hundiak"/>
     
-{% block stylesheets %}
-
-    {% stylesheets output='css/*.css' filter='cssrewrite' debug=false
-        '@ZaysoArbiterBundle/Resources/public/css/forms.css'
-    %}
-        <link rel="stylesheet" href="{{ asset_url }}" media="all" />
-    {% endstylesheets %}
-        
-{% endblock %}
+{% block stylesheets %}{% endblock %}
+    
+    {# Just a bit of html5 nonsense #}
     <!--[if lt IE 9]>
         <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -28,8 +22,7 @@
   {% endblock %}
 </div>
 
-{% block javascripts %}
-{% endblock %}
+{% block javascripts %}{% endblock %}
 
 </body>
 </html>
