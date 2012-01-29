@@ -110,7 +110,7 @@ class OpenCupFormType extends AbstractType
         $builder->add('lodgingWith', 'text', array('label' => 'Lodging with', 'required' => false, 'attr' => array('size' => 30)));
         
         // Dean did not want this
-        $builder->add('ussfid',    'hidden', array('label' => 'USSF ID (16 digits)','attr' => array('size' => 18)));
+        $builder->add('ussfid', 'text', array('label' => 'USSF ID (16 digits)', 'required' => false, 'attr' => array('size' => 18)));
         
         $builder->add('refBadge', 'choice', array(
             'label'         => 'USSF Referee Badge',
