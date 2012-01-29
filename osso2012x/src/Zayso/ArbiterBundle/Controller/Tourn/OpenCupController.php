@@ -49,7 +49,8 @@ class OpenCupFormType extends AbstractType
         
         $builder->add('homeState', 'choice', array(
             'label'         => 'Home State',
-            'required'      => true,
+            'required'      => false,
+            'empty_value'   => false,
             'choices'       => $this->statePickList,
         ));
         $builder->add('homeCity', 'text', array('label' => 'Home City', 'attr' => array('size' => 30)));
@@ -84,42 +85,48 @@ class OpenCupFormType extends AbstractType
         ));*/
         $builder->add('availFri', 'choice', array(
             'label'         => 'Availability - Friday',
-            'required'      => true,
+            'required'      => false,
+            'empty_value'   => false,
             'choices'       => array('None' => 'None', 'Evening' => 'Kickoff 5pm', 'Not Sure' => 'Not Sure'),
         ));
         $builder->add('availSat', 'choice', array(
             'label'         => 'Availability - Saturday',
-            'required'      => true,
+            'required'      => false,
+            'empty_value'   => false,
             'choices'       => array('None' => 'None', 'All Day' => 'All Day', 
                 'Morning' => 'Morning Only', 'Afternoon' => 'Afternoon Only', 'Not Sure' => 'Not Sure'),
         ));
         $builder->add('availSun', 'choice', array(
             'label'         => 'Availability - Sunday',
-            'required'      => true,
+            'required'      => false,
+            'empty_value'   => false,
             'choices'       => array('None' => 'None', 'All Day' => 'All Day', 
                 'Morning' => 'Morning Only', 'Afternoon' => 'Afternoon Only', 'Not Sure' => 'Not Sure'),
         ));
         
         $builder->add('lodgingRequest', 'choice', array(
             'label'         => 'Lodging Request',
-            'required'      => true,
+            'required'      => false,
             'choices'       => $this->lodgingRequestPickList,
             'expanded'      => false,
             'multiple'      => false,
+            'empty_value'   => false,
         ));
         $builder->add('lodgingWith', 'text', array('label' => 'Lodging with', 'required' => false, 'attr' => array('size' => 30)));
         
-        // Dean did not want this
+        // Dean did not want this, now optional
         $builder->add('ussfid', 'text', array('label' => 'USSF ID (16 digits)', 'required' => false, 'attr' => array('size' => 18)));
         
         $builder->add('refBadge', 'choice', array(
             'label'         => 'USSF Referee Badge',
-            'required'      => true,
+            'required'      => false,
+            'empty_value'   => false,
             'choices'       => $this->refBadgePickList,
         ));
         $builder->add('refState', 'choice', array(
             'label'         => 'USSF State',
-            'required'      => true,
+            'required'      => false,
+            'empty_value'   => false,
             'choices'       => $this->statePickList,
         ));
         $builder->add('refExp','text', array('label' => 'Experience (years)','attr' => array('size' => 4)));
@@ -129,24 +136,28 @@ class OpenCupFormType extends AbstractType
         
         $builder->add('teamAff', 'choice', array(
             'label'         => 'Team/Club Affiliation',
-            'required'      => true,
+            'required'      => false,
+            'empty_value'   => false,
             'choices'       => $this->teamAffPickList,
         ));
         $builder->add('teamAffDesc', 'text', array('label' => 'Team/Club Name/Age/Gender', 'required' => false, 'attr' => array('size' => 30)));
 
         $builder->add('levelToRef', 'choice', array(
             'label'         => 'Level to Referee At',
-            'required'      => true,
+            'required'      => false,
+            'empty_value'   => false,
             'choices'       => $this->levelToRefPickList,
         ));
         $builder->add('comfortLevelCenter', 'choice', array(
             'label'         => 'Comfort Level - Center',
-            'required'      => true,
+            'required'      => false,
+            'empty_value'   => false,
             'choices'       => $this->comfortLevelPickList,
         ));
         $builder->add('comfortLevelAssistant', 'choice', array(
             'label'         => 'Comfort Level - Assistant',
-            'required'      => true,
+            'required'      => false,
+            'empty_value'   => false,
             'choices'       => $this->comfortLevelPickList,
         ));
         $builder->add('notes', 'textarea', array('label' => 'Notes to Assignor', 'required' => false, 
@@ -174,7 +185,7 @@ class OpenCupFormType extends AbstractType
         'LA' => 'Louisiana',
         'MS' => 'Mississippi',
         'TN' => 'Tennessee',
-        'ZZ' => 'See Remarks',
+        'ZZ' => 'See Notes',
     );
     protected $assessmentRequestPickList = array
     (
@@ -228,14 +239,14 @@ class OpenCupReferee
     
     public $email;
     public $cellPhone;
-    public $homeState;
+    public $homeState = 'AL';
     public $homeCity;
     public $travelingWith;
     
     public $assessmentRequest = 'None';
     public $lodgingRequest = 'None';
     public $lodgingWith;
-    public $teamAff;
+    public $teamAff = 'None';
     public $teamAffDesc;
     
     public $ussfid;
@@ -247,7 +258,6 @@ class OpenCupReferee
     public $comfortLevelCenter    = 'U10B';
     public $comfortLevelAssistant = 'U10B';
     
-    public $availability;
     public $availFri = 'None';
     public $availSat = 'None';
     public $availSun = 'None';
