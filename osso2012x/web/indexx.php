@@ -5,20 +5,28 @@
     <meta charset="utf-8"/>
     <title>Zayso Portal</title>
     <meta name="description" content="Zayso Referee Scheduling"/>
-    <meta name="author" content="Art Hundiak"/>
+    <meta name="author"      content="Art Hundiak"/>
+    <style>
+        ul { margin: 5px; padding: 5px;}
+        li { margin: 5px; padding: 5px;}
+    </style>    
 </head>
 <body>
     <h1>Welcome to the Zayso Portal</h1>
-    <p>Please click on one of the following AYSO game/referee scheduling sites:</p>
-    <ul style="margin: 5px; padding: 5px;">
-      <li style="margin-top: 5px;">
+    <p>Please click on one of the following AYSO/USSF game/referee scheduling sites:</p>
+    <ul>
+      <li>
         <a href="<?php echo $host; ?>natgames">AYSO National Games 2012, Knoxville, TN, July 4-8 2012</a>
       </li>
-      <li style="margin-top: 5px;">
-        <a href="<?php echo $host; ?>area">AYSO Area 5C/F, North Alabama</a>
+      <li>
+        <a href="<?php echo $host; ?>area5c">AYSO Area 5C/F, North Alabama</a>
       </li>
-      <li style="margin-top: 5px;">
+      <li>
         <a href="<?php echo $host; ?>s5games">AYSO Section 5 Games 2012, Charlotte, NC, June 15-17 2012</a>
       </li>
+      <li>
+        <a href="<?php echo $host; ?>arbiter/tourn/opencup">USSF Open Cup 2012, Decatur Alabama, April 13-15</a>
+      </li>
+    </ul>
     </body>
 </html>
