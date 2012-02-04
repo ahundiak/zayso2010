@@ -1,8 +1,15 @@
  
-{{ referee.firstName }} "{{ referee.nickName }}" {{ referee.lastName }} 
-{{ referee.ussfid }} {{ referee.refBadge }} {{ referee.refState }} {{ referee.refExp }}
+{{ referee.firstName }} "{{ referee.nickName }}" {{ referee.lastName }} {{ referee.age }} {{ referee.gender }}
+{{ referee.ussfid }} {{ referee.refBadge }} {{ referee.refState }} {{ referee.refExp }} 
 {{ referee.email }} {{ referee.cellPhone }} {{ referee.homeCity }} {{ referee.homeState }}
+Lodging: Fri/Sat {{ referee.lodgingFri }}/{{ referee.lodgingSat }} {{ referee.lodgingWith }} {{ referee.travelingWith }}
+Availability: Fri/Sat/Sun {{ referee.availFri }}/{{ referee.availSat }}/{{ referee.availSun }}
+Level: {{ referee.levelToRef }} {{ referee.comfortLevelCenter }} {{ referee.comfortLevelAssistant }}
+Club Team: {{ referee.teamAff }} {{ referee.teamAffDesc }}
+
 Notes:
 {{ referee.notes }}
 ---
 {{ gen.csv(referee) | raw }}
+---
+Change Availability At: http://www.zayso.org/arbiter/tourn/opencup
