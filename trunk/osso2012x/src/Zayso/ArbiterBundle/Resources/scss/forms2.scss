@@ -15,20 +15,21 @@ fieldset, form, label, legend
 }
 
 #container-inner {
-	background: #fff url(images/bg-form.gif) repeat-x;
+	// background: #fff url(images/bg-form.gif) repeat-x;
 	border: 10px solid #fff;
 	border-color: #fff #fff #ababab;
 	padding: 20px;
 }
-h1 {
-	border-bottom: 5px solid #fff;
-	background: url(images/bg-ccc.gif) 0 100% repeat-x;
-	color: #666666;
-	font-size: 1.2em;
-	font-weight: bold;
-	line-height: 1;
-	margin: 10px 0px 10px 10px;
-	padding: 0 0 0 0; /* Was 28 */
+h1 
+{
+    border-bottom: 5px solid #fff;
+  //background: url(../images/bg-ccc.gif) 0 100% repeat-x;
+    color: #666666;
+    font-size: 1.2em;
+    font-weight: bold;
+    line-height: 1;
+    margin: 10px 0px 10px 10px;
+    padding: 0 0 0 0; /* Was 28 */
 }
 p 
 {
@@ -42,7 +43,7 @@ $formBorderWidth: thin;
 
 form.s1
 {
-    background: #fff url(../images/bg-form.gif) repeat-x;
+  //background: #fff url(../images/bg-form.gif) repeat-x;
     margin:  0;
     padding: 0;
     border:  $formBorderWidth black solid;
