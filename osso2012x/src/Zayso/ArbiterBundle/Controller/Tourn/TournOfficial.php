@@ -9,7 +9,7 @@ class TournOfficial
     public $lastName;
     public $nickName;
     
-    public $age    = 10;
+    public $age    =  0;
     public $gender = 'M';
     
     public $email;

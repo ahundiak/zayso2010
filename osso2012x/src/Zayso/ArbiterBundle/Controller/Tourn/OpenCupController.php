@@ -321,8 +321,8 @@ class OpenCupController extends Controller
     {
         $msg = null;
         
-        $formType = new OpenCupFormType();
-        $referee  = new OpenCupReferee();
+        $formType = new TournForm();
+        $referee  = new TournOfficial();
         
         $form = $this->createForm($formType, $referee);
         if ($request->getMethod() == 'POST')
@@ -342,7 +342,7 @@ class OpenCupController extends Controller
         $tplData['form'] = $form->createView();
         $tplData['msg']  = $msg;
 
-        return $this->render('ZaysoArbiterBundle:Tourn\OpenCup2:form.html.twig',$tplData);
+        return $this->render('ZaysoArbiterBundle:Tourn\OpenCup:form.html.twig',$tplData);
     }
     protected function sendEmail($referee)
     {
@@ -353,11 +353,12 @@ class OpenCupController extends Controller
         $message->setSubject('[OpenCup2012] Ref App ' . $referee->firstName . ' ' . $referee->lastName);
         $message->setFrom(array('ahundiak@zayso.org' => 'ZaysoOpenCup2012'));
         
-        $message->setTo  (array($referee->email,'deanjohnson@knology.net'));
+      //$message->setTo  (array($referee->email,'deanjohnson@knology.net'));
+        $message->setTo  (array($referee->email));
         
         $message->setBcc (array('ahundiak@gmail.com'));
         
-        $message->setBody($this->renderView('ZaysoArbiterBundle:Tourn\OpenCup2:email.txt.twig', 
+        $message->setBody($this->renderView('ZaysoArbiterBundle:Tourn\OpenCup:email.txt.twig', 
             array('referee' => $referee, 'gen' => $this)
         ));
 

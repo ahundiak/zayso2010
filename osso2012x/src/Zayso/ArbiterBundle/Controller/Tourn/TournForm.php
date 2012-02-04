@@ -14,7 +14,7 @@ use Zayso\CoreBundle\Component\DataTransformer\StripTagsTransformer;
 
 class TournForm extends AbstractType
 {
-    protected $name  = 'tournOpenCup';
+    protected $name  = 'tourn';
     protected $group = 'create';
 
     public function __construct($em = null)
@@ -156,7 +156,7 @@ class TournForm extends AbstractType
             'choices'       => $this->comfortLevelPickList,
         ));
         $builder->add('notes', 'textarea', array('label' => 'Notes to Assignor', 'required' => false, 
-            'attr' => array('rows' => 8, 'cols' => 60, 'wrap' => 'hard', 'class' =>'textarea')));
+            'attr' => array('rows' => 8, 'cols' => 80, 'wrap' => 'hard', 'class' =>'textarea')));
         
         $builder->get('notes')->appendClientTransformer(new StripTagsTransformer());
         //$builder->appendClientTransformer(new StripTagsTransformer());
