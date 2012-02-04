@@ -22,11 +22,14 @@ h1 {
   background: url(images/bg-ccc.gif) 0 100% repeat-x;
   color: #666666;
   font-size: 1.2em;
-  font-weight: normal;
+  font-weight: bold;
   line-height: 1;
-  margin: 0 0 0.7em;
-  padding: 0 0 2px;
+  margin: 10px 0px 10px 10px;
+  padding: 0 0 0 0;
   /* Was 28 */ }
+
+p {
+  margin: 0 0 0 10px; }
 
 /* ==========================================================
  * Forms stuff
@@ -106,6 +109,7 @@ fieldset div.controls {
   background: none; }
 
 fieldset div.controls input {
+  /*background: url(../images/ir-submit-create-profile.png) no-repeat 0 0;*/
   float: right;
   width: auto; }
 
