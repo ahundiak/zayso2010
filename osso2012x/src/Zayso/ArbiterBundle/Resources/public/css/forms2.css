@@ -12,14 +12,12 @@ fieldset, form, label, legend {
   width: 640px; }
 
 #container-inner {
-  background: white url(images/bg-form.gif) repeat-x;
   border: 10px solid #fff;
   border-color: #fff #fff #ababab;
   padding: 20px; }
 
 h1 {
   border-bottom: 5px solid #fff;
-  background: url(images/bg-ccc.gif) 0 100% repeat-x;
   color: #666666;
   font-size: 1.2em;
   font-weight: bold;
@@ -35,7 +33,6 @@ p {
  * Forms stuff
  */
 form.s1 {
-  background: white url(../images/bg-form.gif) repeat-x;
   margin: 0;
   padding: 0;
   border: thin black solid;
