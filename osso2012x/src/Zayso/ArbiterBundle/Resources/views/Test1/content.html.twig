@@ -1,0 +1,11 @@
+{% extends 'ZaysoArbiterBundle:Test1:layout.html.twig' %}
+
+{% block content %}
+    <h3>Some content</h3>
+{% endblock content %}
+    
+{% block javascript %}
+{{ parent() }}
+<script> Some content javascript</script>
+
+{% endblock %}    
