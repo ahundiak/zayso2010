@@ -40,9 +40,50 @@ class RefAvailCommand extends ContainerAwareCommand
         
         Debug::dump($count);
     }
+    protected function test3x($context)
+    {
+        $context['test'] = 'New value';
+        echo $context['test'] . "\n";
+    }
+    protected function test3()
+    {
+        $context = array('test' => 'Initial Value');
+        $this->test3x($context);
+        echo $context['test'] . "\n";
+    }
+    protected function test4()
+    {
+        $imageDetails = getImageSize('icon-valid.gif');
+        if ($imageDetails)
+        {
+            $imageDetailsIndexed = array_values($imageDetails);
+            print_r($imageDetailsIndexed);
+            
+            list($width, $height, $type, $dimen, $bits, $channels, $mime) = array_values($imageDetailsIndexed);
+                    
+            echo 'Type: ' . $imageDetails['mime'] . ' ' . $mime . "\n";
+        }
+    }
+    protected function test5()
+    {
+        $dql = <<< EOT
+SELECT t FROM (AcmeBundle:Task 
+    t1 JOIN t1.assignments a1 WHERE a1.member = :member2) 
+    t  JOIN t.assignments  a  WHERE a.member = :member1
+EOT;
+    }
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->test2();
+        //die(get_class($this->getContainer()));
+        
+        //$parameters = $this->getContainer()->parameters;
+        //print_r($parameters);
+        //die(get_class($this->getContainer()));
+        
+        $container = new \arbiterDevDebugProjectContainer();
+        echo 'Count ' . count($container->parameters) . "\n";
+        die(count($container->parameters));
+        $this->test4();
     }
 }
 ?>
