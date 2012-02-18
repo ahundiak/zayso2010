@@ -201,8 +201,8 @@ class TournForm extends AbstractType
     protected $teamAffPickList = array
     (
         'None' => 'None',
-        'Yes'  => 'Yes and the club/team is playing in this tournament',
-        'Yesx' => 'Yes but the club/team is not playing in this tournament',
+        'Yes'  => 'Yes, club/team is in this tournament',
+        'Yesx' => 'Yes, club/team is not in this tournament',
     );
     protected $genderPickList = array ('M' => 'Male', 'F' => 'Female');
     
