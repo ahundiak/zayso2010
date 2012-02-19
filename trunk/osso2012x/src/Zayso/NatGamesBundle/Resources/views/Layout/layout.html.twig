@@ -7,18 +7,19 @@
     <meta name="author" content="Art Hundiak"/>
     
 {% block stylesheets %}
-
-    {% stylesheets output='css/*.css' filter='cssrewrite' debug=false
+    {% stylesheets output='bundles/zaysonatgames/css/natgames.css' debug=false
         '@ZaysoNatGamesBundle/Resources/public/css/natgames.css'
     %}
         <link rel="stylesheet" href="{{ asset_url }}" media="all" />
-    {% endstylesheets %}
-        
+    {% endstylesheets %}   
 {% endblock %}
         
-    <!--[if lt IE 9]>
-        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+{# Need this at the top to remember which account was last used to sign in #}
+{% block janrain %}{% endblock %}
+        
+<!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
 
 </head>
 <body>
