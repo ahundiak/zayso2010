@@ -17,13 +17,16 @@ framework:
     session:
         default_locale: %locale%
         auto_start:     true
-        name:           zayso2012x
+        lifetime:       66600000
+        name:           zaysoNatGames2012
         storage_id:     zayso_core.session.storage
 
 # Twig Configuration
 twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
+    globals:
+        janrain_token_route: 'zayso_natgames_account_signin_rpx'
 
 # Assetic Configuration
 assetic:
