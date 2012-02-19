@@ -8,7 +8,7 @@
     
 {% block stylesheets %}
 
-    {% stylesheets output='css/*.css' filter='cssrewrite' debug=false
+    {% stylesheets output='bundles/zaysoarea/css/area.css' debug=false
         '@ZaysoAreaBundle/Resources/public/css/area.css'
     %}
         <link rel="stylesheet" href="{{ asset_url }}" media="all" />
@@ -20,6 +20,9 @@
         <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
+{# Need this at the top to remember which account was last used to sign in #}
+{% block janrain %}{% endblock %}
+    
 </head>
 
 <body>
@@ -37,7 +40,7 @@
     </p>
     <p style="margin-top: 2px; color: black; width: 800px;">
       <span style="color: blue;">Zayso User: </span>
-      <span style="color: greenx; font-size: 14px;">
+      <span style="color: black; font-size: 14px;">
         {% if     is_granted('ROLE_USER') %}{{ app.user.name }} {{ app.user.getAYSOCertsDescription }}{% endif %}
         {% if not is_granted('ROLE_USER') %}Guest{% endif %}          
       </span>
@@ -86,10 +89,7 @@
 </div>
 
 </div>
-{% block javascripts %}
-        
-{% endblock %}
-
+{% block javascripts %}{% endblock %}
 </body>
 </html>
 
