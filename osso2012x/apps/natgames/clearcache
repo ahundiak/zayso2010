@@ -1,1 +1,3 @@
- ./console cache:clear --env=prod --no-debug
+./console cache:clear --env=prod --no-debug
+./console assets:install $HOME/public_html/natgames
+./console assetic:dump   $HOME/public_html/natgames
