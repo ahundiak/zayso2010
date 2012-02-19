@@ -25,6 +25,8 @@ framework:
 twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
+    globals:
+        janrain_token_route: 'zayso_area_account_signin_rpx'
 
 # Assetic Configuration
 assetic:
