@@ -1,4 +1,6 @@
-
+/* =====================================================
+ * Note: Tis not automatically included in area or nat games
+ */
 html, body, div, p, ul, li, a {
   background-color: white;
   margin:         0;
@@ -169,4 +171,10 @@ table.entry td.label
 
   text-align: center;
 }
-
+/* ========================================================
+ * Bit of janrain styling
+ */
+div.janrainContent
+{
+    margin-left: 5px;
+}
