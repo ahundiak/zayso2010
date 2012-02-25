@@ -1,0 +1,125 @@
+
+zayso_s5games_index:
+    pattern:  /
+    defaults: { _controller: ZaysoS5GamesBundle:Welcome:welcome }
+
+zayso_s5games_welcome:
+    pattern:  /welcome
+    defaults: { _controller: ZaysoS5GamesBundle:Welcome:welcome }
+
+# Used when user is not authorized
+zayso_s5games_welcomex:
+    pattern:  /welcome
+    defaults: { _controller: ZaysoS5GamesBundle:Welcome:welcome }
+    
+zayso_s5games_home:
+    pattern:  /home
+    defaults: { _controller: ZaysoS5GamesBundle:Welcome:home }
+
+zayso_s5games_contact:
+    pattern:  /contact
+    defaults: { _controller: ZaysoS5GamesBundle:Contact:contact }
+
+# ===============================================================
+# Account stuff
+zayso_s5games_account_create:
+    pattern:  /account/create
+    defaults: { _controller: ZaysoS5GamesBundle:Account\Create:create }
+
+zayso_s5games_account_profile:
+    pattern:  /account/profile
+    defaults: { _controller: ZaysoS5GamesBundle:Account\Profile:index }
+    requirements:
+        _method:  GET
+
+zayso_s5games_account_profile_post:
+    pattern:  /account/profile
+    defaults: { _controller: ZaysoS5GamesBundle:Account\Profile:post }
+    requirements:
+        _method:  POST
+
+zayso_s5games_account_edit:
+    pattern:  /account/edit/{id}
+    defaults: { _controller: ZaysoS5GamesBundle:Account\Edit:edit, id: 0}
+    requirements:
+        id: \d+
+
+zayso_s5games_account_signin:
+    pattern:  /account/signin
+    defaults: { _controller: ZaysoS5GamesBundle:Account\Signin:signin }
+
+zayso_s5games_account_signin_rpx:
+    pattern:  /account/signin/rpx
+    defaults: { _controller: ZaysoS5GamesBundle:Account\Signin:signinRpx }
+
+zayso_s5games_account_signout:
+    pattern:  /account/signout
+    defaults: { _controller: ZaysoS5GamesBundle:Account\Signin:signout }
+
+zayso_s5games_account_openid_add:
+    pattern:  /account/openid/add
+    defaults: { _controller: ZaysoS5GamesBundle:Account\Openid:add }
+
+zayso_s5games_account_openid_add_rpx:
+    pattern:  /account/openid/add/rpx
+    defaults: { _controller: ZaysoS5GamesBundle:Account\Openid:addRpx }
+
+zayso_s5games_account_person_add:
+    pattern:  /account/person/add
+    defaults: { _controller: ZaysoS5GamesBundle:Account\AccountPerson:add }
+
+# Project Person Information
+zayso_s5games_project_plans:
+    pattern:  /project/plans
+    defaults: { _controller: ZaysoS5GamesBundle:Project:plans }
+    requirements:
+        _method:  GET
+
+zayso_s5games_project_plans_post:
+    pattern:  /project/plans
+    defaults: { _controller: ZaysoS5GamesBundle:Project:plansPost }
+    requirements:
+        _method:  POST
+
+zayso_s5games_project_levels:
+    pattern:  /project/levels
+    defaults: { _controller: ZaysoS5GamesBundle:Project:levels }
+    requirements:
+        _method:  GET
+
+zayso_s5games_project_levels_post:
+    pattern:  /project/levels
+    defaults: { _controller: ZaysoS5GamesBundle:Project:levelsPost }
+    requirements:
+        _method:  POST
+
+zayso_s5games_schedule:
+    pattern:  /schedule
+    defaults: { _controller: ZaysoS5GamesBundle:Schedule:index }
+    requirements:
+        _method:  GET
+
+# =================================================
+# Admin stuff
+zayso_s5games_admin:
+    pattern:  /admin
+    defaults: { _controller: ZaysoS5GamesBundle:Admin\Admin:index }
+    requirements:
+        _method:  GET
+
+zayso_s5games_admin_account_edit:
+    pattern:  /admin/account/edit/{id}
+    defaults: { _controller: ZaysoS5GamesBundle:Admin\Account\Edit:edit, id: 0}
+    requirements:
+        id: \d+
+        
+zayso_s5games_admin_account_list:
+    pattern:  /admin/account/list.{_format}
+    defaults: { _controller: ZaysoS5GamesBundle:Admin\Account\List:list, _format: html }
+    requirements:
+        _method:  GET
+        _format:  html|csv
+
+zayso_s5games_admin_import:
+    pattern:  /admin/import
+    defaults: { _controller: ZaysoS5GamesBundle:Admin\Import:index }
