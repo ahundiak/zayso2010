@@ -3,7 +3,6 @@
 #   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
 #   prefix:   /_internal
 #
-# National Games Routes
-zayso_natgames_routing:
-    resource: "@ZaysoNatGamesBundle/Resources/config/routing.yml"
+zayso_s5games_routing:
+    resource: "@ZaysoS5GamesBundle/Resources/config/routing.yml"
     
