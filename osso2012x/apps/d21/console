@@ -1,0 +1,84 @@
+#!/usr/bin/env php
+<?php
+
+use Doctrine\ORM\EntityManager;
+
+use Doctrine\ORM\Tools\Setup;
+use Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper;
+use Doctrine\ORM\Tools\Console\ConsoleRunner;
+use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+
+use Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper;
+use Doctrine\DBAL\Logging\EchoSQLLogger;
+
+use Symfony\Component\Console\Helper\HelperSet;
+use Symfony\Component\Console\Application;
+
+use Doctrine\Common\ClassLoader;
+use Doctrine\Common\Cache\ArrayCache;
+use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Annotations\SimpleAnnotationReader;
+
+// Figure out where the Doctrine library is relative to the app directory
+$ws = __DIR__ . '/../../../';
+$lib = $ws . 'DoctrineORM-2.1.6';
+$lib = $ws . 'DoctrineORM-2.2.0';
+require $lib . '/Doctrine/ORM/Tools/Setup.php';
+Setup::registerAutoloadDirectory($lib);
+
+// For loading entities, not sure if I need one for proxies?
+$loader = new ClassLoader("Entity", __DIR__);
+$loader->register();
+
+// So doctrine can find entities
+$paths = array("Entity");
+$isDevMode = true;
+$cache = new ArrayCache();
+
+// $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode, 'Proxy',$cache);
+// die();
+// Do this so can have ORM\Entity annotations
+$config = Setup::createConfiguration($isDevMode, 'Proxy', $cache);
+
+// This is needed for some reason, something to do with annotation registry
+$config->newDefaultAnnotationDriver($paths);
+
+//$reader = new SimpleAnnotationReader();
+$reader = new AnnotationReader();
+$driver = new AnnotationDriver($reader, $paths);
+$config->setMetadataDriverImpl($driver);
+
+// Just because
+$config->setProxyNamespace('Proxy');
+
+$logger = new EchoSQLLogger();
+$config->setSQLLogger($logger);
+
+// Set based on devMode
+//$config->setAutoGenerateProxyClasses(true);
+
+$dbParams = require('config.php');
+
+$em = EntityManager::create($dbParams, $config);
+
+$helperSet = new HelperSet(array(
+    'db' => new ConnectionHelper($em->getConnection()),
+    'em' => new EntityManagerHelper($em)
+));
+
+// ConsoleRunner::run($helperSet);
+$cli = new Application('Doctrine Command Line Interface', \Doctrine\ORM\Version::VERSION);
+$cli->setCatchExceptions(true);
+$cli->setHelperSet($helperSet);
+
+// Register All Doctrine Commands
+ConsoleRunner::addCommands($cli);
+
+// Register your own command
+require 'MyCommand.php';
+$cli->add(new \MyCommand()); // addCommands(array)
+
+// Runs console application
+$cli->run();
+
+?>
