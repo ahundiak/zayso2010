@@ -35,9 +35,19 @@ class RefSchedSearchViewHelper
     );
     public $sortByPickList = array(1 => 'Date,Time,Field', 2 => 'Date,Field,Time', 3 => 'Date,Age,Time');
     
-    public $ages    = array('All','VIP','U05','U06','U07','U08','U10','U12','U14','U16','U19');
-    public $genders = array('All','Boys','Coed','Girls');
-    public $regions = array('All','R0160','R0498','R0894','R0914','R1174');
+    public $ages    = array('All' => 'All',
+        'VIP' => 'VIP', 'U05' => 'U05', 'U06' => 'U06',
+        'U07' => 'U07', 'U08' => 'U08', 'U10' => 'U10',
+        'U12' => 'U12', 'U14' => 'U14', 'U16' => 'U16', 'U19' => 'U19');
+    
+    public $genders = array('All' => 'All','B' => 'Boys','G' => 'Girls','C' => 'Coed');
+    
+    public $regions = array('All' => 'All', 
+        'AYSOR0160' => 'R0160',
+        'AYSOR0498' => 'R0498',
+        'AYSOR0894' => 'R0894',
+        'AYSOR0914' => 'R0914',
+        'AYSOR1174' => 'R1174');
 
     public function __construct($format)
     {
@@ -45,18 +55,30 @@ class RefSchedSearchViewHelper
     }
     public function genAges($searchData)
     {
-        if (isset($searchData['ages'])) $ageValues = $searchData['ages'];
-        else                            $ageValues = array();
+        return $this->genTableSet($searchData,'ages',$this->ages);
+    }
+    public function genGenders($searchData)
+    {
+        return $this->genTableSet($searchData,'genders',$this->genders);
+    }
+    public function genRegions($searchData)
+    {
+        return $this->genTableSet($searchData,'regions',$this->regions);
+    }
+    public function genTableSet($searchData,$name,$items)
+    {
+        if (isset($searchData[$name])) $searchValues = $searchData[$name];
+        else                           $searchValues = array();
         
         $html = '<table border="1" style="margin: 0;"><tr>' . "\n";
         
         $first = true;
-        foreach($this->ages as $age)
+        foreach($items as $key => $content)
         {
-            $html .= sprintf('<td width="40" align="center">%s<br />',$age) . "\n";
+            $html .= sprintf('<td width="40" align="center">%s<br />',$content) . "\n";
             
-            if (isset($ageValues[$age]) && $ageValues[$age]) $checked = 'checked="checked"';
-            else                                             $checked = null;
+            if (isset($searchValues[$key]) && $searchValues[$key]) $checked = 'checked="checked"';
+            else                                                   $checked = null;
 
             if ($first)
             {
@@ -65,10 +87,10 @@ class RefSchedSearchViewHelper
             }
             else $class = null;
             
-            $html .= sprintf('<input type="hidden"   name="refSchedSearchData[ages][%s]" value="0" />',$age) . "\n";
+            $html .= sprintf('<input type="hidden"   name="refSchedSearchData[%s][%s]" value="0" />',$name,$key) . "\n";
             
-            $html .= sprintf('<input type="checkbox" name="refSchedSearchData[ages][%s]" value="%s" %s %s />',
-                    $age,$age,$checked,$class) . "\n";
+            $html .= sprintf('<input type="checkbox" name="refSchedSearchData[%s][%s]" value="%s" %s %s />',
+                    $name,$key,$key,$checked,$class) . "\n";
             
             $html .= '</td>' . "\n";
         }

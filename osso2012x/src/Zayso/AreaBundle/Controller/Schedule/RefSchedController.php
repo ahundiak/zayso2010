@@ -83,6 +83,11 @@ class RefSchedController extends BaseController
                 $ages['All'] = 0;
                 $refSchedSearchData['ages'] = $ages;
             }
+            // Same for regions, assume that js takes care of all
+            //if (isset($refSchedSearchData['regions'])) $regions = $refSchedSearchData['regions'];
+            //else                                       $regions = array();
+            //if (isset($refSchedSearchData['genders'])) $genders = $refSchedSearchData['genders'];
+            //else                                       $genders = array();
             
             // Store everything
             $session->set('refSchedSearchData',$refSchedSearchData);
@@ -106,12 +111,14 @@ class RefSchedController extends BaseController
                 
                 $refSchedSearchData = array
                 (
-                    'sortBy' => 1,
-                    'date1'  => $date1,
-                    'date2'  => $date2,
-                    'time1'  => '0600',
-                    'time2'  => '2100',
-                    'ages'   => array(),
+                    'sortBy'  => 1,
+                    'date1'   => $date1,
+                    'date2'   => $date2,
+                    'time1'   => '0600',
+                    'time2'   => '2100',
+                    'ages'    => array(),
+                    'regions' => array(),
+                    'genders' => array(),
                 );
             }
         }

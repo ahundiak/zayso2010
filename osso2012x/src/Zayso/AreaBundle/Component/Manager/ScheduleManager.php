@@ -181,8 +181,8 @@ class ScheduleManager extends BaseManager
         // Pull params
         $ages    = $this->getValues($search,'ages');
 
-        $regions = $this->getValues($search,'regions');
         $genders = $this->getValues($search,'genders');
+        $regions = $this->getValues($search,'regions');
 
         $sortBy  = $this->getValues($search,'sortBy',1);
         $date1   = $this->getValues($search,'date1');
@@ -193,8 +193,10 @@ class ScheduleManager extends BaseManager
         $projectId = $this->getValues($search,'projectId');
 
         // Convert keys to ids
-        $divisionIds = $this->getDivisionIds($ages,$genders);
-        $regionIds   = $this->getRegionIds  ($regions);
+        // $divisionIds = $this->getDivisionIds($ages,$genders);
+        // $regionIds   = $this->getRegionIds  ($regions);
+//print_r($search['regions']); echo "\n";
+//die(print_r($regions));
 
         // Build query
         $em = $this->getEntityManager();
@@ -215,7 +217,9 @@ class ScheduleManager extends BaseManager
         if ($time1) $qbGameId->andWhere($qbGameId->expr()->gte('gameGameId.time',$time1));
         if ($time2) $qbGameId->andWhere($qbGameId->expr()->lte('gameGameId.time',$time2));
 
-        if ($ages) $qbGameId->andWhere($qbGameId->expr()->in('teamGameId.age',$ages));
+        if ($ages)    $qbGameId->andWhere($qbGameId->expr()->in('teamGameId.age',   $ages));
+        if ($genders) $qbGameId->andWhere($qbGameId->expr()->in('teamGameId.gender',$genders));
+        if ($regions) $qbGameId->andWhere($qbGameId->expr()->in('teamGameId.org',   $regions));
         
       //if (count($divisionIds)) $qbGameId->andWhere($qbGameId->expr()->in('gameTeamGameId.divisionId',$divisionIds));
       //if (count($regionIds))   $qbGameId->andWhere($qbGameId->expr()->in('gameTeamGameId.unitId',    $regionIds));
