@@ -1,6 +1,7 @@
 <?php
 use Entity\Page;
 use Entity\PageBasket;
+use Entity\Comments;
 
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -80,9 +81,29 @@ class MyCommand extends Command
         }
         
     }
+    protected function testJoinedInsert()
+    {
+        $em = $this->getEntityManager();
+        $comment = new Comments();
+        $comment->setComment("my new comment");
+        
+        $em->persist($comment);
+        $em->flush();   
+    }
+    protected function testJoinedQuery()
+    {
+        $em = $this->getEntityManager();
+        $repo = $em->getRepository('Entity\Comments');
+        
+        $entity = $repo->findOneBy(array('id' => 2));
+        
+        echo get_class($entity) . ' ' . $entity->getComment() . "\n";
+        
+    }
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->testLazyLoad();
+        $this->testJoinedInsert();
+        $this->testJoinedQuery();
     }
 }
 ?>
