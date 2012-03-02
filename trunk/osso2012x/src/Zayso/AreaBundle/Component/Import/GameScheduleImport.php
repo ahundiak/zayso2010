@@ -55,16 +55,17 @@ class GameScheduleImport extends BaseImport
         $keyx = $key;
         
         $key = str_replace('-','',$key);
-        $key = substr($key,0,8) . 'C' . substr($key,8,2);
+        $key = substr($key,0,11);
+      //$key = substr($key,0,8) . 'C' . substr($key,8,2);
         $team = $this->gameManager->loadTeamForKey($projectId,$key);
         if ($team)
         {
             $this->teams[$keyx] = $team;
             return $team;
         }
-        die($key);
+      //die($key);
         $team = $this->gameManager->newTeam($projectId);
-        $team->setTeamKey($key);
+        $team->setTeamKey($keyx);
         $team->setSource('schedule_import');
         
         $regionId = 'AYSO' . substr($key,0,5);
@@ -76,7 +77,7 @@ class GameScheduleImport extends BaseImport
                 
         $this->getEntityManager()->persist($team);
         
-        $this->teams[$key] = $team;
+        $this->teams[$keyx] = $team;
         return $team;
     }
     
@@ -108,7 +109,7 @@ class GameScheduleImport extends BaseImport
 
             // Add Referee crew? perhaps add crew to schedule
             $eventPerson = new EventPerson();
-            $eventPerson->setTypeAsREF1();
+            $eventPerson->setTypeAsCR();
             $eventPerson->setProtected(true);
             $eventPerson->setEvent($game);
             $game->addPerson($eventPerson);
@@ -117,12 +118,18 @@ class GameScheduleImport extends BaseImport
             {
                 case 'U05':
                 case 'U06':
-                    $eventPerson->setTypeAsREF();
+                    //$eventPerson->setTypeAsREF();
                     break;
                 
                 default:
                     $eventPerson = new EventPerson();
-                    $eventPerson->setTypeAsREF2();
+                    $eventPerson->setTypeAsAR1();
+                    $eventPerson->setProtected(true);
+                    $eventPerson->setEvent($game);
+                    $game->addPerson($eventPerson);
+                    
+                    $eventPerson = new EventPerson();
+                    $eventPerson->setTypeAsAR2();
                     $eventPerson->setProtected(true);
                     $eventPerson->setEvent($game);
                     $game->addPerson($eventPerson);
