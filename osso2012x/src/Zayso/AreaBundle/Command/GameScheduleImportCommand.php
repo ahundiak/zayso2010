@@ -29,8 +29,8 @@ class GameScheduleImportCommand extends ContainerAwareCommand
         $import = $this->getContainer()->get('zayso_area.game.schedule.import');
         
         $params = array();
-        $params['projectId'] = $this->getProjectId();
-        $params['inputFileName'] = '../datax/ScheduleWinter20120116.csv';
+      //$params['projectId'] = $this->getProjectId();
+        $params['inputFileName'] = '../datax/R0160Schedule20120302.csv';
         
         $import->process($params);
         echo $import->getResultMessage() . "\n";
