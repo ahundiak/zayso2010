@@ -55,7 +55,7 @@
     </tr>
     {% for game in games %}
     {{ gameView.setGame(game) }}
-        <tr id="ref-sched-{{game.num}}">
+        <tr id="ref-sched-{{game.num}}" class="status-{{game.status}}">
             <td>{{ game.getNum()  }}</td>
             <td>{{ gameView.date  }}</td>
             <td>{{ gameView.time  }}</td>
@@ -78,6 +78,11 @@
         .zayso-date-desc { font-family: monospace; font-size: 1.0em; }
         
         .ui-widgetxxx { font-family: Trebuchet MS,Verdana,Arial,sans-serif; font-size: .75em; }
+        
+        tr.status-Cancelled
+        {
+            background-color: red;    
+        }
 </style>
 {% endblock %}
 
