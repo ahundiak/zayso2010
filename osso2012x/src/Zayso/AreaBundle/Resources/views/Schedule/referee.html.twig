@@ -4,7 +4,7 @@
 
 {% block content %}
 <div>
-    <p>Madison Indoor Schedule for 2012 has been posted.</p>
+    <p></p>
 <div>
 <form method="post" action="{{ path('zayso_area_schedule_referee_list') }}">
 <table border="1" class="form_table" width="800" id="schedule-referee-search">
@@ -56,7 +56,7 @@
     {% for game in games %}
     {{ gameView.setGame(game) }}
         <tr id="ref-sched-{{game.num}}" class="status-{{game.status}}">
-            <td>{{ game.getNum()  }}</td>
+            <td><a href="{{ path('zayso_area_schedule_game_edit', { 'id': game.id })}}">{{ game.getNum() }}</a></td>
             <td>{{ gameView.date  }}</td>
             <td>{{ gameView.time  }}</td>
             <td>{{ gameView.field }}</td>
