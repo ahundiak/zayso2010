@@ -7,6 +7,20 @@
     <services>
         
         <service
+            id     = "zayso_area.search.person.formtype"
+            class  = "Zayso\AreaBundle\Component\FormType\Search\PersonSearchFormType"
+            public = "true">
+            <argument type="service" id="doctrine.orm.accounts_entity_manager" />
+        </service>
+
+        <service
+            id     = "zayso_area.search.manager"
+            class  = "Zayso\AreaBundle\Component\Manager\SearchManager"
+            public = "true">
+            <argument type="service" id="doctrine.orm.accounts_entity_manager" />
+        </service>
+        
+        <service
             id     = "zayso_area.account.create.formtype"
             class  = "Zayso\AreaBundle\Component\FormType\Account\AccountCreateFormType"
             public = "true">
