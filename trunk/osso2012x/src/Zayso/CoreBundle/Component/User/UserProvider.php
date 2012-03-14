@@ -76,7 +76,7 @@ EOT;
         $params = array('userName' => $username);
         $stmt->execute($params);
         $row = $stmt->fetch(\PDO::FETCH_ASSOC);
-
+        
         // Make sure got one
         if (!$row)
         {
@@ -88,13 +88,13 @@ EOT;
         {
             $datax = unserialize($row['person_datax']);
             unset($row['person_datax']);
-            $row = array_merge($row,$datax);
+            if (is_array($datax)) $row = array_merge($row,$datax);
         }
         if (isset($row['person_registered_datax']))
         {
             $datax = unserialize($row['person_registered_datax']);
             unset($row['person_registered_datax']);
-            $row = array_merge($row,$datax);
+            if (is_array($datax)) $row = array_merge($row,$datax);
         }
         // Build the user
         $user = new $this->userClass($row);
