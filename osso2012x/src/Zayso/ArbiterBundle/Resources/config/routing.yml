@@ -20,6 +20,14 @@ zayso_arbiter_tourn_kicks:
     pattern:  /tourn/kicks
     defaults: { _controller: ZaysoArbiterBundle:Tourn\Kicks:signup }
     
+zayso_arbiter_tourn_statecup:
+    pattern:  /tourn/statecup
+    defaults: { _controller: ZaysoArbiterBundle:Tourn\StateCup:signup }
+    
+zayso_arbiter_tourn_statecupff:
+    pattern:  /tourn/statecupff
+    defaults: { _controller: ZaysoArbiterBundle:Tourn\StateCupFF:signup }
+    
 zayso_arbiter_test1:
     pattern:  /test1
     defaults: { _controller: ZaysoArbiterBundle:Test1\Main:index }
