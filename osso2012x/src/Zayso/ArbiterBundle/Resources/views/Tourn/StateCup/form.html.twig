@@ -1,0 +1,67 @@
+{% extends 'ZaysoArbiterBundle:Layout:layout.html.twig' %}
+
+{% form_theme form 'ZaysoArbiterBundle:Form:fields.html.twig' %}
+
+{% block title %}Zayso State Cup{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets output="bundles/zaysoarbiter/css/forms2.css"
+        '@ZaysoArbiterBundle/Resources/public/css/forms2.css'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}" media="all" />
+    {% endstylesheets %}
+{% endblock %}
+        
+{% block content %}
+{#
+<div id="container">
+<div id="container-inner">
+#}  
+<h1>State Cup 2012 - Decatur Alabama - May 4,5,6</h1>
+{% if msg %}
+<p><em>{{ msg }}</em></p>
+{% endif %}
+
+<form class="s1" action="{{ path('zayso_arbiter_tourn_statecup') }}" method="post" {{ form_enctype(form) }}>
+    <fieldset><legend><span>Contact Information</span></legend>
+        {{ form_row(form.firstName) }}
+        {{ form_row(form.lastName)  }}
+        {{ form_row(form.nickName)  }}
+        {{ form_row(form.email)     }}
+        {{ form_row(form.cellPhone) }}
+        {{ form_row(form.homeCity)      }}
+        {{ form_row(form.homeState)     }}
+        {{ form_row(form.travelingWith) }}
+    </fieldset>
+    <fieldset><legend><span>USSF Referee Certification</span></legend>
+        {{ form_row(form.ussfid)    }}
+        {{ form_row(form.refBadge)  }}
+        {{ form_row(form.refState)  }}
+        {{ form_row(form.refExp)    }}
+        {{ form_row(form.age)       }}
+        {{ form_row(form.gender)    }}
+    </fieldset>
+    <fieldset><legend><span>Tournament Plans</span></legend>
+         {{ form_row(form.assessmentRequest) }}
+         {{ form_row(form.lodgingRequest)    }}
+         {{ form_row(form.lodgingWith)       }}
+         {{ form_row(form.teamAff)           }}
+         {{ form_row(form.teamAffDesc)       }}
+         {{ form_row(form.levelToRef)        }}
+         {{ form_row(form.comfortLevelCenter)    }}
+         {{ form_row(form.comfortLevelAssistant) }}
+         {{ form_row(form.availFri) }}
+         {{ form_row(form.availSat) }}
+         {{ form_row(form.availSun) }}
+         {{ form_row(form.notes) }}
+    </fieldset>
+    <fieldset>
+        <div class="controls">
+            <input type="submit" name="tournStateCupSubmit" value="Pressing this will email application to Ohannes and yourself" />
+        </div>
+    </fieldset>
+{{ form_rest(form) }}
+</form>
+
+{# </div></div> #}
+{% endblock %}
