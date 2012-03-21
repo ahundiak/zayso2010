@@ -17,15 +17,20 @@ class RegionValidator implements FormValidatorInterface
     {   
         // Org needs to be existing
         $orgId = $form['region']->getData();
-        $org   = $this->em->find('ZaysoCoreBundle:Org',$orgId);
+        
+        // The Datatransformer will blank out completely bogus values
+        if (!$orgId)
+        {
+            $form['region']->addError(new FormError('Invalid region number.'));
+            return;
+        }
+        // This will not automatically create one
+        // $org = $this->em->getReference('ZaysoCoreBundle:Org',$orgId);
+        
+        // Sadly, this oads the entire record
+        $org = $this->em->find('ZaysoCoreBundle:Org',$orgId);
         if (!$org) 
         {
-            // Make sure have something entered
-            if (!$orgId)
-            {
-                $form['region']->addError(new FormError('Region does not exist.'));
-                return;
-            }
             $org = new Org();
             $org->setId($orgId);
             $this->em->persist($org);
