@@ -33,8 +33,10 @@ class SearchManager extends BaseManager
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
-        $qb->addSelect('person');
-        $qb->addSelect('personRegistered');
+        //$qb->addSelect('person');
+        //$qb->addSelect('personRegistered');
+        
+        $qb->addSelect('person , personRegistered');
         
         $qb->from('ZaysoCoreBundle:Person',      'person');
         $qb->leftJoin('person.registeredPersons','personRegistered');
