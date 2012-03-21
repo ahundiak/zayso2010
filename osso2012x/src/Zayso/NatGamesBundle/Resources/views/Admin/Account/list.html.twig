@@ -16,7 +16,7 @@
     </tr>
     {% for member in members %}
     {{ memberx.setMember(member) }}
-    <tr>
+    <tr id="account-list-{{member.id}}" >
         <td><a href="{{ path('zayso_natgames_admin_account_edit', { 'id': member.id }) }}">{{ member.id }}</a></td>
         <td>{{ memberx.accountInfo | raw }}</td>
         <td>{{ memberx.contactInfo | raw }}</td>
