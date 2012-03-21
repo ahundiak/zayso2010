@@ -78,8 +78,9 @@ class AccountManager
             }
 
             // Need to see if have existing org
-            $org = $this->loadOrg($person->getOrgKey(),true);
-            if ($org) $person->setOrg($org);
+            // 21 Mar 2012 - Now handled in validation code
+            //$org = $this->loadOrg($person->getOrgKey(),true);
+            //if ($org) $person->setOrg($org);
         }
         // Verify any openid is valid, probably should not have to?
 

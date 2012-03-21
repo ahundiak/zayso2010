@@ -7,6 +7,7 @@ use Zayso\CoreBundle\Component\DataTransformer\AysoidTransformer;
 use Zayso\CoreBundle\Component\DataTransformer\RegionTransformer;
 use Zayso\CoreBundle\Component\DataTransformer\PasswordTransformer;
 
+use Zayso\CoreBundle\Component\FormValidator\RegionValidator;
 use Zayso\CoreBundle\Component\FormValidator\UserNameValidator;
 
 use Zayso\NatGamesBundle\Component\Form\Type\Account\AccountBaseFormType;
@@ -52,6 +53,7 @@ class AccountCreateFormType extends AccountBaseFormType
             }
         }));
         $builder->addValidator(new UserNameValidator($this->em));
+        $builder->addValidator(new RegionValidator  ($this->em));
 
         $builder->get('userPass1')->appendClientTransformer(new PasswordTransformer());
         $builder->get('userPass2')->appendClientTransformer(new PasswordTransformer());

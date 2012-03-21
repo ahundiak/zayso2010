@@ -7,6 +7,7 @@ use Zayso\CoreBundle\Component\DataTransformer\RegionTransformer;
 use Zayso\CoreBundle\Component\DataTransformer\PasswordTransformer;
 
 use Zayso\CoreBundle\Component\FormValidator\UserNameValidator;
+use Zayso\CoreBundle\Component\FormValidator\RegionValidator;
 
 use Zayso\NatGamesBundle\Component\Form\Type\Account\AccountBaseFormType;
 
@@ -40,7 +41,9 @@ class AdminAccountEditFormType extends AccountBaseFormType
         $builder->add('aysoid',    'text', array('label' => 'AYSO ID',    'attr' => array('size' => 10)));
         $builder->add('email',     'text', array('label' => 'Email',      'attr' => array('size' => 35)));
         $builder->add('cellPhone', 'text', array('label' => 'Cell Phone', 'attr' => array('size' => 20), 'required' => false,));
+        
         $builder->add('region',    'text', array('label' => 'AYSO Region Number', 'attr' => array('size' => 6)));
+        
         $builder->add('refDate',   'text', array('label' => 'AYSO Referee Date',  'attr' => array('size' => 8),'required' => false,));
         $builder->add('dob',       'text', array('label' => 'Date of Birth',      'attr' => array('size' => 8),'required' => false,));
 
@@ -73,6 +76,7 @@ class AdminAccountEditFormType extends AccountBaseFormType
             }
         }));
         $builder->addValidator(new UserNameValidator($this->em));
+        $builder->addValidator(new RegionValidator  ($this->em));
 
         $builder->get('userPass1')->appendClientTransformer(new PasswordTransformer());
         $builder->get('userPass2')->appendClientTransformer(new PasswordTransformer());
