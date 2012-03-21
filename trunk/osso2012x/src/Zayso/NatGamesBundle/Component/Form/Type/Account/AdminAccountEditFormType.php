@@ -42,7 +42,7 @@ class AdminAccountEditFormType extends AccountBaseFormType
         $builder->add('email',     'text', array('label' => 'Email',      'attr' => array('size' => 35)));
         $builder->add('cellPhone', 'text', array('label' => 'Cell Phone', 'attr' => array('size' => 20), 'required' => false,));
         
-        $builder->add('region',    'text', array('label' => 'AYSO Region Number', 'attr' => array('size' => 6)));
+        $builder->add('region',  'search', array('label' => 'AYSO Region Number', 'attr' => array('size' => 4)));
         
         $builder->add('refDate',   'text', array('label' => 'AYSO Referee Date',  'attr' => array('size' => 8),'required' => false,));
         $builder->add('dob',       'text', array('label' => 'Date of Birth',      'attr' => array('size' => 8),'required' => false,));
