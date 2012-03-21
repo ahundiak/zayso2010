@@ -245,7 +245,7 @@ class Person
     }
     public function setOrgKey($key)
     {
-        if ($this->org) $this->org->setId($key);
+        //if ($this->org) $this->org->setId($key);
     }
     public function setDatax($datax) { $this->datax = $datax; }
     public function getDatax() { return $this->datax; }
