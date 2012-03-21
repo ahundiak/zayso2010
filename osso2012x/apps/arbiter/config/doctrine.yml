@@ -45,7 +45,7 @@ doctrine:
             default:
                 connection: default
                 mappings:
-                    ZaysoCoreBundle: ~
+                    ZaysoArbiterBundle: ~
                     
             osso2012:
                 connection: osso2012
