@@ -209,17 +209,18 @@ class ScheduleManager extends BaseManager
             case 1:
                 $qbGames->addOrderBy('game.date');
                 $qbGames->addOrderBy('game.time');
-                $qbGames->addOrderBy('field.id');
+                $qbGames->addOrderBy('field.key1');
                 break;
             case 2:
                 $qbGames->addOrderBy('game.date');
-                $qbGames->addOrderBy('field.id');
+                $qbGames->addOrderBy('field.key1');
                 $qbGames->addOrderBy('game.time');
                 break;
             case 3:
                 $qbGames->addOrderBy('game.date');
                 $qbGames->addOrderBy('team.age');
                 $qbGames->addOrderBy('game.time');
+                $qbGames->addOrderBy('field.key1');
                 break;
         }
 
