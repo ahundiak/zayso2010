@@ -1,100 +1,66 @@
-{% extends 'Osso2007Bundle::layout.html.twig' %}
+{% form_theme form 'ZaysoAreaBundle:Form:fields.html.twig' %}
 
-{% block title %}Osso2007 - Game - Edit{% endblock %}
+{% extends 'ZaysoAreaBundle:Layout:layout.html.twig' %}
+
+{% block title %}ZaysoArea - Game - Edit{% endblock %}
 
 {% block content %}
 <div>
-<form method="post" action="{{ path('_osso2007_event_edit_post', { 'id': game.id }) }}">
-<table border="1">
-    <tr><th colspan="2">Which fields and teams to show in the select lists</th></tr>
-    <tr><td>Ages</td><td>
-        <table border="1" style="margin: 0;"><tr>
-        {% for key,desc in ages %}
-            <td width="75" align="center">{{ format.genCheckBox('searchData[ages]',searchData.ages,key,desc) | raw }}</td>
-        {% endfor %}
-        </tr></table>
-    </td></tr>
-    <tr><td>Genders</td><td>
-        <table border="1" style="margin: 0;"><tr>
-        {% for key, desc in genders %}
-            <td width="75" align="center">{{ format.genCheckBox('searchData[genders]',searchData.genders,key,desc) | raw }}</td>
-        {% endfor %}
-        </tr></table>
-    </td></tr>
-    <tr><td>Regions</td><td>
-        <table border="1" style="margin: 0;"><tr>
-        {% for key,desc in regions %}
-            <td width="75" align="center">{{ format.genCheckBox('searchData[regions]',searchData.regions,key,desc) | raw }}</td>
-        {% endfor %}
-        </tr></table>
-    </td></tr>
-    <tr><td>&nbsp;</td>
-        <td align="right"><input type="submit" name="search_submit" value="Update Teams or Fields" />
-    </tr>
-</table>
-</form>
-<form method="post" action="{{ path('_osso2007_event_edit_post', { 'id': game.id }) }}">
-<input type="hidden" name="editData[id]"        value="{{game.id}}" />
-<input type="hidden" name="editData[num]"       value="{{game.num}}" />
-<input type="hidden" name="editData[projectId]" value="{{game.projectId}}" />
-<table border="1">
-<tr><th colspan="2">Edit Game</th></tr>
+<form action="{{ path('zayso_area_schedule_game_edit', { 'id': game.id }) }}" method="post" {{ form_enctype(form) }}>
+<table border="1" style="width: 800px;">
+<tr><th colspan="3">Edit Game {{ game.num }}</th></tr>
 <tr>
-  <td>Id,Project,Num</td>
-  <td>{{game.id}} {{game.projectId}} {{game.num}}</td>
+    <td style="width: 150px;">{{ form_label (form.num) }}</td>
+    <td style="width: 200px;">{{ form_widget(form.num) }}</td>
+    <td style="width: 200px;">{{ form_errors(form.num) }}</td>
 </tr>
 <tr>
-  <td>Date</td>
-  <td>
-    <select name="editData[date]">
-        <option value="0">Select Date</option>
-        {{ format.formOptions(datePickList,game.date) | raw }}
-    </select>
-  </td>
+    <td>{{ form_label (form.type) }}</td>
+    <td>{{ form_widget(form.type) }}</td>
+    <td>{{ form_errors(form.type) }}</td>
 </tr>
 <tr>
-  <td>Time</td>
-  <td>
-    <select name="editData[time]">
-        <option value="0">Select Time</option>
-        {{ format.formOptions(timePickList,game.time) | raw }}
-    </select>
-  </td>
+    <td>{{ form_label (form.date) }}</td>
+    <td>{{ form_widget(form.date) }}</td>
+    <td>{{ form_errors(form.date) }}</td>
 </tr>
 <tr>
-  <td>Field</td>
-  <td>
-    <select name="editData[fieldId]">
-        <option value="0">Select Field</option>
-        {{ format.formOptions(fieldPickList,game.fieldId) | raw }}
-    </select>
-  </td>
+    <td>{{ form_label (form.time) }}</td>
+    <td>{{ form_widget(form.time) }}</td>
+    <td>{{ form_errors(form.time) }}</td>
 </tr>
-<tr><td colspan="2">
-    <table border="1">
-    <tr><td>Team Type</td><td>Score</td><td>Schedule Team Name</td></tr>
-        {% for team in game.gameTeams %}
-        <input type="hidden" name="editData[teams][{{team.id}}][gameTeamId]" value="{{team.id}}" />
-        <tr>
-            <td>{{team.teamType}}</td>
-            <input type="hidden" name="editData[teams][{{team.id}}][type]" value="{{team.teamType}}" />
-            <td><input type="text" name="editData[teams][{{team.id}}][score]" size="3" value="{{team.score}}" />
-            <td><select name="editData[teams][{{team.id}}][schTeamId]">
-                <option value="0">Select Team</option>
-                {{ format.formOptions(schTeamPickList,team.schTeamId) | raw }}
-            </select></td>
-        </tr>
-        {% endfor %}
-    </table>
-</td></tr>
 <tr>
-  <td>&nbsp;</td>
+    <td>{{ form_label (form.pool) }}</td>
+    <td>{{ form_widget(form.pool) }}</td>
+    <td>{{ form_errors(form.pool) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (form.status) }}</td>
+    <td>{{ form_widget(form.status) }}</td>
+    <td>{{ form_errors(form.status) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (form.field) }}</td>
+    <td>{{ form_widget(form.field) }}</td>
+    <td>{{ form_errors(form.field) }}</td>
+</tr>
+{% for team in form.teams %}
+<tr>
+    <td>Team {{ form_widget(team.type) }}</td>
+    <td>{{ form_widget(team.team) }}</td>
+    <td>&nbsp;</td>
+</tr>
+{% endfor %}    
+<tr>
+  <td><a href="{{ path('zayso_area_schedule_referee_list') }}#ref-sched-{{game.num}}">Referee Schedule</a></td>
     <td align="center">
         <input type="submit" name="clone_submit"  value="Clone" />
         <input type="submit" name="update_submit" value="Update" />
     </td>
+  <td>&nbsp;</td>
 </tr>
 </table>
+{{ form_rest(form) }}    
 </form>
 </div>
 {% endblock %}
