@@ -46,7 +46,7 @@ zayso_area_schedule_referee_assign:
         
 zayso_area_schedule_game_edit:
     pattern:  /schedule/game/edit/{id}
-    defaults: { _controller: ZaysoAreaBundle:Schedule\RefSched:list}
+    defaults: { _controller: ZaysoAreaBundle:Schedule\Game:edit}
     requirements:
         id: \d+
         
