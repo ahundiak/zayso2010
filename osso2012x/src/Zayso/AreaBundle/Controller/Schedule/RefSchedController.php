@@ -62,7 +62,8 @@ class RefSchedController extends BaseController
             unset($refSchedSearchData['time1x']);
             unset($refSchedSearchData['time2x']);
             
-            // Bit of processing for ages
+            // Bit of processing for ages, replaced with js
+            /*
             $ages = $refSchedSearchData['ages'];
             if ($ages['All'])
             {
@@ -82,7 +83,7 @@ class RefSchedController extends BaseController
                 }
                 $ages['All'] = 0;
                 $refSchedSearchData['ages'] = $ages;
-            }
+            }*/
             // Same for regions, assume that js takes care of all
             //if (isset($refSchedSearchData['regions'])) $regions = $refSchedSearchData['regions'];
             //else                                       $regions = array();
