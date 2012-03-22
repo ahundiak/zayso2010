@@ -16,8 +16,16 @@ class GameScheduleImport extends BaseImport
       'date'      => array('cols' => 'Date',   'req' => true,  'default' => null),
       'time'      => array('cols' => 'Time',   'req' => true,  'default' => null),
       'field'     => array('cols' => 'Field',  'req' => true,  'default' => null),
-      'homeTeam'  => array('cols' => 'Home',   'req' => true,  'default' => null),
-      'awayTeam'  => array('cols' => 'Away',   'req' => true,  'default' => null),
+        
+      'homeTeam'  => array('cols' => array('Home','Home Team'), 'req' => true,  'default' => null),
+      'awayTeam'  => array('cols' => array('Away','Away Team'), 'req' => true,  'default' => null),
+        
+      'homeRegion'  => array('cols' => 'Home Region', 'req' => false,  'default' => null),
+      'awayRegion'  => array('cols' => 'Away Region', 'req' => false,  'default' => null),
+      'homeDiv'     => array('cols' => 'Home Div',    'req' => false,  'default' => null),
+      'awayDiv'     => array('cols' => 'Away Div',    'req' => false,  'default' => null),
+        
+      'crew'      => array('cols' => 'Crew',   'req' => false, 'default' => null),
     );
     public function __construct($gameManager)
     {
@@ -42,18 +50,22 @@ class GameScheduleImport extends BaseImport
     }
     protected $teams = array();
     
-    protected function getTeam($projectId,$key)
+    protected function getTeam($projectId,$key,$region1,$region2,$div1,$div2)
     {
+        if (!$key) return null;
+
         if (isset($this->teams[$key])) return $this->teams[$key];
-        
+
         $team = $this->gameManager->loadTeamForKey($projectId,$key);
         if ($team)
         {
             $this->teams[$key] = $team;
             return $team;
         }
-        $keyx = $key;
         
+        // If loaded from eayso
+        /*
+        $keyx = $key;
         $key = str_replace('-','',$key);
         $key = substr($key,0,11);
       //$key = substr($key,0,8) . 'C' . substr($key,8,2);
@@ -62,22 +74,47 @@ class GameScheduleImport extends BaseImport
         {
             $this->teams[$keyx] = $team;
             return $team;
+        }*/
+            
+        // Process region
+        $region = null;
+        $age = null;
+        $gender = null;
+        
+        if ($key[0] == 'R')
+        {
+            $region = substr($key,0,5);
+            $age    = substr($key,6,3);
+            $gender = substr($key,9,1);
         }
-      //die($key);
+        if (!$region)
+        {
+            if ($region1) $region = $region1;
+            else          $region = $region2;
+            if (!$region) return null;
+            
+            if ($div1) $div = $div1;
+            else       $div = $div2;
+            
+            if (!$div) return null;
+            
+            $age    = substr($div,0,3);
+            $gender = substr($div,3,1);
+        }
         $team = $this->gameManager->newTeam($projectId);
-        $team->setTeamKey($keyx);
+        $team->setTeamKey($key);
         $team->setSource('schedule_import');
         
-        $regionId = 'AYSO' . substr($key,0,5);
+        $regionId = 'AYSO' . $region;
         $org = $this->gameManager->getRegionReference($regionId);
         $team->setOrg($org);
         
-        $team->setAge   (substr($key,5,3));
-        $team->setGender(substr($key,8,1));
+        $team->setAge   ($age);
+        $team->setGender($gender);
                 
         $this->getEntityManager()->persist($team);
         
-        $this->teams[$keyx] = $team;
+        $this->teams[$key] = $team;
         return $team;
     }
     
@@ -86,18 +123,19 @@ class GameScheduleImport extends BaseImport
         if (!$item->projectId) return;
         if (!$item->gameNum)   return;
         
-        $this->total++;
-        
-        $gameManager = $this->gameManager;
-        $em = $this->getEntityManager();
-        
         $projectId = $item->projectId;
         
         // Used later
-        $homeTeam = $this->getTeam($projectId,$item->homeTeam);
-        $awayTeam = $this->getTeam($projectId,$item->awayTeam);
+        $homeTeam = $this->getTeam($projectId,$item->homeTeam,$item->homeRegion,$item->awayRegion,$item->homeDiv,$item->awayDiv);
+        $awayTeam = $this->getTeam($projectId,$item->awayTeam,$item->awayRegion,$item->homeRegion,$item->awayDiv,$item->homeDiv);
 
+        if (!$homeTeam || !$awayTeam) return;
+        
         // Create a game if needed
+        $this->total++;
+        $gameManager = $this->gameManager;
+        $em = $this->getEntityManager();
+        
         $game = $gameManager->loadEventForProjectNum($projectId,$item->gameNum);
         if (!$game)
         {
