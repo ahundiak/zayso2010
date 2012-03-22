@@ -78,7 +78,20 @@ class Event extends BaseEntity
         if (!$team) return;
         $this->teams[$team->getType()] = $team; // Not going to call change here, not a property?
     }
-    public function getTeams() { return $this->teams; }
+    public function getTeams() 
+    { 
+        $teams = $this->teams->toArray();
+        
+        usort(&$teams,array($this,'compareEventTeams'));
+        
+        return $teams; 
+    }
+    public function compareEventTeams($team1,$team2)
+    {
+        if ($team1->getType() == 'Home') return -1;
+        if ($team2->getType() == 'Home') return  1;
+        return strcmp($team1->getType(),$team2->getType());
+    }
     public function getTeamForType($type)
     {
         if (isset($this->teams[$type])) return $this->teams[$type];
