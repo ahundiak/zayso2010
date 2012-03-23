@@ -22,6 +22,10 @@ class BaseController extends Controller
         return $this->container->getParameter('zayso_area.project.master');
         return 70;
     }
+    protected function isAdmin()
+    {
+        return $this->get('security.context')->isGranted('ROLE_ADMIN');
+    }
     // Be aware that this returns the string anon for non users
     protected function getUser()
     {
