@@ -54,10 +54,11 @@
 <tr>
   <td><a href="{{ path('zayso_area_schedule_referee_list') }}#ref-sched-{{game.num}}">Referee Schedule</a></td>
     <td align="center">
-        <input type="submit" name="clone_submit"  value="Clone" />
-        <input type="submit" name="update_submit" value="Update" />
+        <input type="submit" name="delete_submit"  value="Delete" />
+        <input type="submit" name="clone_submit"   value="Clone"  />
+        <input type="submit" name="update_submit"  value="Update" />
     </td>
-  <td>&nbsp;</td>
+    <td align="right">&nbsp;</td>
 </tr>
 </table>
 {{ form_rest(form) }}    
