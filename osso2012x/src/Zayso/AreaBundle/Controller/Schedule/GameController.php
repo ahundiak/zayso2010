@@ -46,13 +46,31 @@ class GameController extends BaseController
         $formType = new ScheduleGameEditFormType($manager->getEntityManager());
         $form = $this->createForm($formType, $game);
 
-        if ($request->getMethod() == 'POST')
+        if ($this->isAdmin() && $request->getMethod() == 'POST')
         {
             $form->bindRequest($request);
 
             if ($form->isValid())
             {
-                $manager->getEntityManager()->flush();
+                if ($request->request->get('update_submit'))
+                {
+                    $manager->flush();
+                }
+                if ($request->request->get('delete_submit'))
+                {
+                    $manager->remove($game);
+                    $manager->flush();
+                    return $this->redirect($this->generateUrl('zayso_area_schedule_referee_list'));
+                }
+                if ($request->request->get('clone_submit'))
+                {
+                    $gamex = $manager->cloneGame($game);
+                    $manager->detach ($game);
+                    $manager->persist($gamex);
+                    $manager->flush();
+                   
+                    $id = $gamex->getId();
+                }
                 
                 return $this->redirect($this->generateUrl('zayso_area_schedule_game_edit',array('id' => $id)));
             }
