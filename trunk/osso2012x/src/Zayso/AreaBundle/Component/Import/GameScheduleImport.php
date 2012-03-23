@@ -38,12 +38,14 @@ class GameScheduleImport extends BaseImport
     {
         if (isset($this->fields[$key])) return $this->fields[$key];
         
-        $field = $this->gameManager->loadProjectFieldForKey($projectId,$key);
+        $manager = $this->gameManager;
+        
+        $field = $manager->loadProjectFieldForKey($projectId,$key);
         if (!$field)
         {
-            $field = $this->gameManager->newProjectField($projectId);
+            $field = $manager->newProjectField($projectId);
             $field->setKey($key);
-            $this->getEntityManager()->persist($field);
+            $manager->persist($field);
         }
         $this->fields[$key] = $field;
         return $field;
@@ -56,7 +58,8 @@ class GameScheduleImport extends BaseImport
 
         if (isset($this->teams[$key])) return $this->teams[$key];
 
-        $team = $this->gameManager->loadTeamForKey($projectId,$key);
+        $manager = $this->gameManager;
+        $team = $manager->loadTeamForKey($projectId,$key);
         if ($team)
         {
             $this->teams[$key] = $team;
@@ -101,18 +104,18 @@ class GameScheduleImport extends BaseImport
             $age    = substr($div,0,3);
             $gender = substr($div,3,1);
         }
-        $team = $this->gameManager->newTeam($projectId);
+        $team = $manager->newTeam($projectId);
         $team->setTeamKey($key);
         $team->setSource('schedule_import');
         
         $regionId = 'AYSO' . $region;
-        $org = $this->gameManager->getRegionReference($regionId);
+        $org = $manager->getRegionReference($regionId);
         $team->setOrg($org);
         
         $team->setAge   ($age);
         $team->setGender($gender);
                 
-        $this->getEntityManager()->persist($team);
+        $manager->persist($team);
         
         $this->teams[$key] = $team;
         return $team;
@@ -133,14 +136,13 @@ class GameScheduleImport extends BaseImport
         
         // Create a game if needed
         $this->total++;
-        $gameManager = $this->gameManager;
-        $em = $this->getEntityManager();
+        $manager = $this->gameManager;
         
-        $game = $gameManager->loadEventForProjectNum($projectId,$item->gameNum);
+        $game = $manager->loadEventForProjectNum($projectId,$item->gameNum);
         if (!$game)
         {
             // New Game
-            $game = $gameManager->newGameWithTeams($projectId);
+            $game = $manager->newGameWithTeams($projectId);
             $game->setNum ($item->gameNum);
             
             $age = $homeTeam->getAge();
@@ -173,7 +175,7 @@ class GameScheduleImport extends BaseImport
                     $game->addPerson($eventPerson);
             }
             // Persist It
-            $em->persist($game);
+            $manager->persist($game);
         }
         $game->setDate($this->processDate($item->date));
         $game->setTime($this->processTime($item->time));
@@ -181,11 +183,7 @@ class GameScheduleImport extends BaseImport
         
         // Check field
         $field = $this->getField($projectId,$item->field);
-        if ($game->getField() && $game->getField()->getId() == $field->getId()) {}
-        else  
-        {
-            $game->setField($field);
-        }
+        $game->setField($field);
         
         // Update home/away links
         $game->getHomeTeam()->setTeam($homeTeam);

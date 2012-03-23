@@ -53,4 +53,8 @@ zayso_area_schedule_game_edit:
 zayso_area_admin:
     pattern:  /admin
     defaults: { _controller: ZaysoAreaBundle:Admin\Index:index }
+    
+zayso_area_admin_import:
+    pattern:  /admin/import
+    defaults: { _controller: ZaysoAreaBundle:Admin\Import:index }
 
