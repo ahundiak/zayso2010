@@ -43,11 +43,14 @@ class RefSchedSearchViewHelper
     public $genders = array('All' => 'All','B' => 'Boys','G' => 'Girls','C' => 'Coed');
     
     public $regions = array('All' => 'All', 
-        'AYSOR0160' => 'R0160',
-        'AYSOR0498' => 'R0498',
-        'AYSOR0894' => 'R0894',
-        'AYSOR0914' => 'R0914',
-        'AYSOR1174' => 'R1174');
+        'AYSOR0160' => 'R0160',  // HSV
+        'AYSOR0498' => 'R0498',  // Mad
+        'AYSOR0773' => 'R0773',  // Hart
+        'AYSOR0778' => 'R0778',  // Arab
+        'AYSOR0894' => 'R0894',  // Mon
+        'AYSOR0914' => 'R0914',  // EL
+        'AYSOR0916' => 'R0916',  // Athens
+        'AYSOR1174' => 'R1174'); // NEMC
 
     public function __construct($format)
     {
