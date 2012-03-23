@@ -170,7 +170,7 @@ class EventPerson extends BaseEntity
         return $this->person->getId();
     }
     public function setProtected($value) { $this->protected = $value; }
-    public function getProtected($value) { return $this->protected; }
-    public function isProtected() { return $this->protected ? true : false; }
+    public function getProtected() { return $this->protected; }
+    public function isProtected () { return $this->protected ? true : false; }
 }
 ?>

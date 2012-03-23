@@ -61,10 +61,10 @@ class Event extends BaseEntity
     /** @ORM\Column(type="text", name="datax", nullable=true) */
     protected $datax = null;
     
-    /** @ORM\OneToMany(targetEntity="EventTeam", mappedBy="event", indexBy="type", cascade={"persist"}) */
+    /** @ORM\OneToMany(targetEntity="EventTeam", mappedBy="event", indexBy="type", cascade={"all"}) */
     protected $teams;
 
-    /** @ORM\OneToMany(targetEntity="EventPerson", mappedBy="event", indexBy="type", cascade={"persist"}) */
+    /** @ORM\OneToMany(targetEntity="EventPerson", mappedBy="event", indexBy="type", cascade={"all"}) */
     protected $persons;
     
     public function __construct()
@@ -86,6 +86,8 @@ class Event extends BaseEntity
         
         return $teams; 
     }
+    public function getEventTeams() { return $this->teams; }
+    
     public function compareEventTeams($team1,$team2)
     {
         if ($team1->getType() == 'Home') return -1;
@@ -147,6 +149,7 @@ class Event extends BaseEntity
     
     public function setNum    ($value) { $this->onScalerPropertySet('num',    $value); }
     public function setOrg    ($value) { $this->onObjectPropertySet('org',    $value); }
+    public function setType   ($value) { $this->onScalerPropertySet('type',   $value); }
     public function setDate   ($value) { $this->onScalerPropertySet('date',   $value); }
     public function setTime   ($value) { $this->onScalerPropertySet('time',   $value); }
     public function setPool   ($value) { $this->onScalerPropertySet('pool',   $value); }
