@@ -82,7 +82,7 @@ class Event extends BaseEntity
     { 
         $teams = $this->teams->toArray();
         
-        usort(&$teams,array($this,'compareEventTeams'));
+        usort($teams,array($this,'compareEventTeams'));
         
         return $teams; 
     }
