@@ -13,7 +13,8 @@ framework:
     form:            true
     csrf_protection: true
     validation:      { enable_annotations: true }
-    templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
+    templating:      { engines: ['twig','php'] } 
+    #assets_version: SomeVersionScheme
     session:
         lifetime:       66600000
         default_locale: %locale%
