@@ -1,14 +1,15 @@
 <?php
-namespace Zayso\NatGamesBundle\Component\Form\Type\Account;
+namespace Zayso\AreaBundle\Component\FormType\Account;
 
 use Zayso\ZaysoBundle\Component\DataTransformer\PhoneTransformer;
 use Zayso\ZaysoBundle\Component\DataTransformer\AysoidTransformer;
 use Zayso\ZaysoBundle\Component\DataTransformer\RegionTransformer;
 use Zayso\ZaysoBundle\Component\DataTransformer\PasswordTransformer;
 
+use Zayso\CoreBundle\Component\FormValidator\RegionValidator;
 use Zayso\ZaysoBundle\Component\Form\Validator\UserNameValidator;
 
-use Zayso\NatGamesBundle\Component\Form\Type\Account\AccountBaseFormType;
+use Zayso\AreaBundle\Component\FormType\Account\AccountBaseFormType;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
@@ -72,6 +73,7 @@ class AdminAccountEditFormType extends AccountBaseFormType
                 $form['userPass2']->addError(new FormError('Passwords do not match'));
             }
         }));
+        $builder->addValidator(new RegionValidator  ($this->em));
         $builder->addValidator(new UserNameValidator($this->em));
 
         $builder->get('userPass1')->appendClientTransformer(new PasswordTransformer());
