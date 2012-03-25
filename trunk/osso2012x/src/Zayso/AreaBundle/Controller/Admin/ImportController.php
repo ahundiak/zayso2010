@@ -58,10 +58,16 @@ class ImportFileValidator implements FormValidatorInterface
 {
     protected $importServiceIdMap = array
     (
-        'zayso_natgames.account.import'  => array('AP ID', 'Account', 'AYSOID'),
+      //'zayso_natgames.account.import'  => array('AP ID', 'Account', 'AYSOID'),
         
-        'zayso.core.region.import'       => array('org_key','parent_key','desc1','desc2'),
-        'Eayso_Reg_Main_RegMainImport'   => array('AYSOID','WorkPhoneExt','Membershipyear'),
+        'zayso_core.eayso.region.import'      => array('org_key','parent_key','desc1','desc2'),
+        
+        'zayso_core.eayso.volunteer.import'     => array('AYSOID','Region','WorkPhoneExt','Membershipyear'),
+        
+        'zayso_core.eayso.certification.import' => array
+        (
+            'AYSOID','RegionNumber','MembershipTermName','CertificationDesc',
+        ),
         
         'zayso_area.game.schedule.import' => array(
             'PID','Number','Date','Time','Field',
