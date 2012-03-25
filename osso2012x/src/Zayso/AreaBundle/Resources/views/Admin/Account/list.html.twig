@@ -1,0 +1,30 @@
+{% extends 'ZaysoAreaBundle:Layout:layout.html.twig' %}
+
+{% block title %}Area 5CF - Accounts{% endblock %}
+
+{% block content %}
+<div>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Person Name / Account Name</th>
+        <th>Contact Info</th>
+        <th>Region</th>
+        <th>eAYSO Info</th>
+        <th></th>
+    </tr>
+    {% for accountPerson in accountPersons %}
+    {{ accountPersonx.setAccountPerson(accountPerson) }}
+    <tr id="account-list-{{accountPerson.id}}" >
+        <td><a href="{{ path('zayso_area_admin_account_edit', { 'id': accountPerson.id }) }}">{{ accountPerson.id }}</a></td>
+        <td>{{ accountPersonx.accountInfo | raw }}</td>
+        <td>{{ accountPersonx.contactInfo | raw }}</td>
+        <td>{{ accountPersonx.region            }}</td>
+        <td>{{ accountPersonx.aysoInfo    | raw }}</td>
+
+        <td><input type="checkbox" name="editData[selects][{{accountPerson.id}}]" value="{{accountPerson.id}}" /></td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+{% endblock %}

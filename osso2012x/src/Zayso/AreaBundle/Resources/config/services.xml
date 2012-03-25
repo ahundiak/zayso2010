@@ -65,6 +65,13 @@
         <service id="zayso_model.account.manager"  alias = "zayso_area.account.manager"></service>
         
         <service
+            id     = "zayso_area.admin.account.edit.formtype"
+            class  = "Zayso\AreaBundle\Component\FormType\Account\AdminAccountEditFormType"
+            public = "true">
+            <argument type="service" id="doctrine.orm.accounts_entity_manager" />
+        </service>
+        
+        <service
             id     = "zayso_area.account.manager"
             class  = "Zayso\AreaBundle\Component\Manager\AccountManager"
             public = "true">

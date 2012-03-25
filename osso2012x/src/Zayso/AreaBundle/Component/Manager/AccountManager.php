@@ -106,58 +106,6 @@ class AccountManager
     {
         return new AccountPersonAyso();
     }
-    // 13 Jan 2011 - Obsolete and should be removed after testing
-    public function newAccountPerson($params = array())
-    {
-        // Basic ap
-        $accountPerson = new AccountPerson();
-        $accountPerson->setAccountRelation('Primary');
-        $accountPerson->setVerified('No');
-        $accountPerson->setStatus('Active');
-
-        // New account
-        $account       = new Account();
-        $account->setStatus('Active');
-        $accountPerson->setAccount($account);
-
-        // New person
-        $person = new Person();
-        $person->setStatus('Active');
-        $person->setVerified('No');
-        $accountPerson->setPerson($person);
-
-        // New organization
-        $org = new Org();
-        $person->setOrg($org);
-
-        // Assume one will be registered
-        $registeredPerson = new PersonRegistered();
-        $registeredPerson->setRegType ('AYSOV');
-        $registeredPerson->setVerified('No');
-        $registeredPerson->setPerson($person);
-
-        return $accountPerson;
-        
-        // Assume assigned to a project
-        $projectPerson = new ProjectPerson();
-        $projectPerson->setStatus('Active');
-        $projectPerson->setPerson($person);
-
-        // Leaving a dangling project might not be the best thing to do
-        if (isset($params['projectId']))
-        {
-            $project = $this->getEntityManager()->getReference('ZaysoCoreBundle:Project',$params['projectId']);
-            $projectPerson->setProject($project);
-        }
-        if (isset($params['projectData']))
-        {
-            foreach($params['projectData'] as $name => $value)
-            {
-                $projectPerson->set($name,$value);
-            }
-        }
-        return $accountPerson;
-    }
     public function getAccountPersons($params = array())
     {
         if (isset($params['projectId'])) $wantProject = true;
@@ -171,7 +119,7 @@ class AccountManager
         $qb->addSelect('account');
         $qb->addSelect('person');
         $qb->addSelect('registeredPersons');
-      //$qb->addSelect('org');
+        $qb->addSelect('org');
 
         if ($wantProject) $qb->addSelect('projectPerson');
 
@@ -180,10 +128,10 @@ class AccountManager
         $qb->leftJoin('accountPerson.account',   'account');
         $qb->leftJoin('accountPerson.person',    'person');
         $qb->leftJoin('person.registeredPersons','registeredPersons');
-      //$qb->leftJoin('person.orgKey',        'org');
+        $qb->leftJoin('person.org',              'org');
         if ($wantProject)
         {
-            $qb->leftJoin('person.projects',      'projectPerson');
+            $qb->leftJoin('person.projectPersons','projectPerson');
             $qb->leftJoin('projectPerson.project','project');
         }
         if (isset($params['accountId']))

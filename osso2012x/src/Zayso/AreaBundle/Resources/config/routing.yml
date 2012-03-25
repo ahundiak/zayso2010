@@ -57,4 +57,16 @@ zayso_area_admin:
 zayso_area_admin_import:
     pattern:  /admin/import
     defaults: { _controller: ZaysoAreaBundle:Admin\Import:index }
+    
+zayso_area_admin_account_edit:
+    pattern:  /admin/account/edit/{id}
+    defaults: { _controller: ZaysoAreaBundle:Admin\Account\Edit:edit, id: 0}
+    requirements:
+        id: \d+
 
+zayso_area_admin_account_list:
+    pattern:  /admin/account/list.{_format}
+    defaults: { _controller: ZaysoAreaBundle:Admin\Account\List:list, _format: html }
+    requirements:
+        _method:  GET
+        _format:  html|csv
