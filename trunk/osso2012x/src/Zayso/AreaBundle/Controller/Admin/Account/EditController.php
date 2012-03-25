@@ -22,7 +22,7 @@ class EditController extends BaseController
         $formType = $this->get('zayso_area.admin.account.edit.formtype');
         $form = $this->createForm($formType, $accountPerson);
 
-        if ($request->getMethod() == 'POST')
+        if ($this->isAdmin() && $request->getMethod() == 'POST')
         {
             $form->bindRequest($request);
 
