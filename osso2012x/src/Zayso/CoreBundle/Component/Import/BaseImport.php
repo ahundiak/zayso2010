@@ -257,5 +257,22 @@ class BaseImport
         $year = substr($year,-4);
         return (int)$year;
     }
+    protected $volStmt = null;
+    protected function loadVol($aysoid)
+    {
+        if (!$this->volStmt)
+        {
+            $conn = $this->getEntityManager()->getConnection();
+            $sql = 'SELECT count(*) FROM person_registered WHERE reg_key = :aysoid';
+            $this->volStmt = $conn->prepare($sql);
+        }
+        $this->volStmt->execute(array('aysoid' => $aysoid));
+        $cnt = $this->volStmt->fetchColumn();
+        
+        return $cnt;
+        
+        print_r($cnt); die('loadVol');
+        
+    }
 }
 ?>
