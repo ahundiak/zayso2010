@@ -25,6 +25,10 @@ zayso_natgames_home:
 zayso_natgames_contact:
     pattern:  /contact
     defaults: { _controller: ZaysoNatGamesBundle:Contact:contact }
+    
+zayso_natgames_classes:
+    pattern:  /classes
+    defaults: { _controller: ZaysoNatGamesBundle:Classes:signup }
 
 # ===============================================================
 # Account stuff

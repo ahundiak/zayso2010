@@ -240,14 +240,17 @@ class AccountManager
 
         if (isset($params['aysoid']))
         {
-            $qb->andWhere($qb->expr()->eq('registeredPerson.regKey',':aysoid'));
+            $qb->andWhere($qb->expr()->eq('registeredPerson.regKey',$qb->expr()->literal($params['aysoid'])));
         }
         if (isset($params['projectId']))
         {
             $qb->andWhere($qb->expr()->in('project.id',$params['projectId']));
         }
+        if (isset($params['personId']))
+        {
+            $qb->andWhere($qb->expr()->eq('person.id',$qb->expr()->literal($params['personId'])));
+        }
         $query = $qb->getQuery();
-        $query->setParameter('aysoid',$params['aysoid']);
         
         $persons = $query->getResult();
 
