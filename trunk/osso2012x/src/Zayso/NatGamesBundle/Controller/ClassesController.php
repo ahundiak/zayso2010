@@ -244,7 +244,7 @@ class ClassesController extends Controller
             $person->getAvailTue(),
             $person->getAvailWed(),
             
-            $person->notes,    
+          //$person->notes,    
            'END', 
         );
         // Convert to csv
