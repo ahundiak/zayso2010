@@ -1,0 +1,45 @@
+{% extends 'ZaysoNatGamesBundle:Layout:layout.html.twig' %}
+
+{% form_theme form 'ZaysoCoreBundle:Layout:fields.html.twig' %}
+
+{% block title %}NatGames - Classes{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets output="bundles/zaysocore/css/forms2.css"
+        '@ZaysoCoreBundle/Resources/public/css/forms2.css'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}" media="all" />
+    {% endstylesheets %}
+{% endblock %}
+        
+{% block content %}
+<h1>Referee Classes</h1>
+{% if msg %}
+<p><em>{{ msg }}</em></p>
+{% endif %}
+
+<form class="s1" action="{{ path('zayso_natgames_classes') }}" method="post" {{ form_enctype(form) }}>
+    <fieldset><legend><span>Contact Information</span></legend>
+        {{ form_row(form.firstName) }}
+        {{ form_row(form.lastName)  }}
+        {{ form_row(form.email)     }}
+        {{ form_row(form.cellPhone) }}
+        {{ form_row(form.aysoid)    }}
+        {{ form_row(form.region)    }}
+    </fieldset>
+    <fieldset><legend><span>Class Information</span></legend>
+        {{ form_row(form.role)   }}
+        {{ form_row(form.class)  }}
+        {{ form_row(form.avail)  }}
+        {{ form_row(form.notes) }}
+    </fieldset>
+    <fieldset>
+        <div class="controls">
+            <input type="submit" name="classesSubmit" value="Pressing this will email request to the national committee and yourself" />
+        </div>
+    </fieldset>
+{{ form_rest(form) }}
+</form>
+
+{# </div></div> #}
+{% endblock %}
