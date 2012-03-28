@@ -31,3 +31,7 @@ zayso_arbiter_tourn_statecupff:
 zayso_arbiter_test1:
     pattern:  /test1
     defaults: { _controller: ZaysoArbiterBundle:Test1\Main:index }
+    
+zayso_arbiter_test2:
+    pattern:  /test2
+    defaults: { _controller: ZaysoArbiterBundle:Test1\Main:test2 }
