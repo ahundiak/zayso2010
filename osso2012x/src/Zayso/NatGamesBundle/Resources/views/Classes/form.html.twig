@@ -35,7 +35,7 @@
     </fieldset>
     <fieldset>
         <div class="controls">
-            <input type="submit" name="classesSubmit" value="Pressing this will email request to the national committee and yourself" />
+            <input type="submit" name="classesSubmit" value="Submit request to games committee and yourself" />
         </div>
     </fieldset>
 {{ form_rest(form) }}
@@ -53,11 +53,23 @@
 <p>
     Experienced referees who are not AYSO certified can become certified by:
 </p>
-    <ul>
+    <ul class="info">
         <li>Filling out a volunteer form online at www.eayso.org</li>
         <li>Taking the AYSO Safe Haven training online at www.aysotraining.org</li>
         <li>Taking the Regional Course online at www.aysotraining.org</li>
         <li>Attending a Regional Clinic and passing a written test.</li>
     </ul>
 
+<style>
+ul.info
+{
+    list-style-type: circle;
+    padding-left: 20px;
+}
+ul.info li
+{
+    margin-left: 10px;
+}
+</style>
+        
 {% endblock %}
