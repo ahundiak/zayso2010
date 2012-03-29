@@ -83,7 +83,7 @@ class ClassesForm extends AbstractType
         'Sun' => 'Sun',
         'Mon' => 'Mon',
         'Tue' => 'Tue',
-        'Wed' => 'Wed',
+      //'Wed' => 'Wed',
     );
     protected $classPickList = array
     (
