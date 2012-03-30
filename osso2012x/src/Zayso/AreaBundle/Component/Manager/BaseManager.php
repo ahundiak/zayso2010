@@ -52,6 +52,21 @@ class BaseManager
      * New protype team
      * Verified being used
      */
+    public function newTeam($project) 
+    { 
+        if (!$project) return null;
+        if (!is_object($project)) $project = $this->getProjectReference($project);
+        
+        $team = new Team();
+        $team->setProject($project);
+        
+        return $team; 
+        
+    }
+    /* ==============================================================
+     * New protype game
+     * Verified being used
+     */
     public function newGameWithTeams($project)
     {
         if (!$project) return null;

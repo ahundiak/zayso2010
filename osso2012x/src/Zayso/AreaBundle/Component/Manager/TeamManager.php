@@ -14,7 +14,6 @@ class TeamManager extends BaseManager
 {
     protected $em = null;
     
-    public function newTeam() { return new Team(); }
 
     /* ==========================================================================
      * Dtandard generic team
