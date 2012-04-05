@@ -1,6 +1,9 @@
 <?php
 namespace Zayso\AreaBundle\Component\FormType\Schedule;
 
+use Doctrine\ORM\EntityRepository;
+use Zayso\CoreBundle\Repository\TeamRepository;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormInterface;
@@ -43,6 +46,10 @@ class ScheduleTeamFormType extends AbstractType
             'class'    => 'ZaysoCoreBundle:Team',
             'em'       => $this->emName,
             'query_builder' => $qb,
+//          'query_builder' => function(TeamRepository $er)
+//          {
+//              return $er->qbTeams();            
+//          }
        
         ));
     }
