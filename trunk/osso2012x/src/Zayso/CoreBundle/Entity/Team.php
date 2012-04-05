@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Zayso\CoreBundle\Component\Debug;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Zayso\CoreBundle\Repository\TeamRepository")
  * @ORM\Table(name="team",
      uniqueConstraints={
          @ORM\UniqueConstraint(name="project_key1", columns={"project_id", "key1"}),
