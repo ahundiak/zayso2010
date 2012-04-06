@@ -18,7 +18,26 @@ zayso_s5games_home:
 
 zayso_s5games_contact:
     pattern:  /contact
-    defaults: { _controller: ZaysoS5GamesBundle:Contact:contact }
+    defaults: { _controller: ZaysoS5GamesBundle:Welcome:contact }
+
+# ===============================================================
+# Schedule Stuff
+
+zayso_s5games_schedule_referee_list:
+    pattern:  /schedule/referee/list
+    defaults: { _controller: ZaysoS5GamesBundle:Schedule\RefSched:list }
+
+zayso_s5games_schedule_referee_assign:
+    pattern:  /schedule/referee/assign/{id}/{pos}
+    defaults: { _controller: ZaysoS5GamesBundle:Schedule\RefAssign:assign, id: 0, pos: ''}
+    requirements:
+        id: \d+
+        
+zayso_s5games_schedule_game_edit:
+    pattern:  /schedule/game/edit/{id}
+    defaults: { _controller: ZaysoS5GamesBundle:Schedule\Game:edit}
+    requirements:
+        id: \d+
 
 # ===============================================================
 # Account stuff
