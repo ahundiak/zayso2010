@@ -1,0 +1,4 @@
+#!/bin/bash
+./console cache:clear --env=prod --no-debug
+./console assets:install $HOME/public_html/s5games
+./console assetic:dump   $HOME/public_html/s5games
