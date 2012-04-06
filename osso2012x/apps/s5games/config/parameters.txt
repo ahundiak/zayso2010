@@ -29,6 +29,7 @@
     web_profiler_toolbar = false
 
     zayso_core.openid.rpxApiKey = ""
+    zayso_core.openid.rpxRoute  = "zayso_s5games_account_signin_rpx"
 
     zayso_core.user.password  = ""
 
