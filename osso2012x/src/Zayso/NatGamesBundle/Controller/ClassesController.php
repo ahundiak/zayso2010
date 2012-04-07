@@ -205,7 +205,7 @@ class ClassesController extends Controller
         $message->setSubject($subject);
         $message->setFrom(array('ahundiak@zayso.org' => 'ZaysoNatGames2012'));
         
-      //$message->setTo  (array($referee->email,'deanjohnson@knology.net'));
+        $message->setTo  (array($referee->email,'classes@natgames2012.org'));
       //$message->setTo  (array($referee->email));
         
         $message->setBcc (array('ahundiak@gmail.com'));
