@@ -87,10 +87,12 @@ class ClassesForm extends AbstractType
     );
     protected $classPickList = array
     (
-        'National'        => 'National Referee',
-        'Advanced'        => 'Advanced Referee',
-        'Intermediate'    => 'Intermediate Referee',
-        'Regional Clinic' => 'Regional Clinic',
+        'National'          => 'National Referee',
+        'Advanced'          => 'Advanced Referee',
+        'Intermediate'      => 'Intermediate Referee',
+        'Regional Clinic'   => 'Regional Clinic',
+        'Assessor'          => 'Referee Assessor',
+        'National Assessor' => 'National Referee Assessor',
     );
     protected $rolePickList = array
     (
@@ -205,7 +207,7 @@ class ClassesController extends Controller
         $message->setSubject($subject);
         $message->setFrom(array('ahundiak@zayso.org' => 'ZaysoNatGames2012'));
         
-        $message->setTo  (array($referee->email,'classes@natgames2012.org'));
+        $message->setTo  (array($person->email,'classes@natgames2012.org'));
       //$message->setTo  (array($referee->email));
         
         $message->setBcc (array('ahundiak@gmail.com'));
