@@ -38,6 +38,68 @@ class AccountManager
     {
         return new AccountPersonAyso();
     }
+    public function createAccountFromAccountPersonAyso($accountPerson)
+    {
+        $em = $this->getEntityManager();
+
+        // See if already have a person
+        $personExisting = $this->loadPersonForAysoid($accountPerson->getAysoid());
+        if ($personExisting)
+        {
+            // Make a new account for person already in system
+            $personNew = $accountPerson->getPerson();
+            $accountPerson->setPerson($personExisting);
+
+            // Process any project info related to personNew
+            foreach($personNew->getProjectPersons() as $projectPersonNew)
+            {
+                $projectIdNew = $projectPersonNew->getProject()->getId();
+
+                // See if existing person is already attached to project
+                $projectPersonExisting = $personExisting->getProjectPerson($projectIdNew);
+                if (!$projectPersonExisting)
+                {
+                    // Load real project
+                    $project = $em->getReference('ZaysoCoreBundle:Project',$projectIdNew);
+                    $projectPersonNew->setProject($project);
+                    $projectPersonNew->setPerson ($personExisting);
+                }
+            }
+        }
+        else
+        {
+            // Operate on new person
+            $person = $accountPerson->getPerson();
+
+            // For the new person need to add real project objects
+            foreach($person->getProjectPersons() as $projectPerson)
+            {
+                // probably should through error if project not found
+                $projectId = $projectPerson->getProject()->getId();
+                $project = $em->getReference('ZaysoCoreBundle:Project',$projectId);
+                $projectPerson->setProject($project);
+            }
+
+            // Done in RegionValidator
+            // Need to see if have existing org
+            //$org = $this->loadOrg($person->getOrgKey(),true);
+            //if ($org) $person->setOrg($org);
+        }
+
+        // And save
+        $em->persist($accountPerson->getAccountPerson()); // Everything cascades
+
+        try
+        {
+            $em->flush();
+        }
+        catch (\Exception $e)
+        {
+            return 'Problem creating account';
+            die('Create Account ' . $e->getMessage() . "\n");
+        }
+        return $accountPerson->getAccount();
+    }
     
     /* ===========================================================
      * Person loading routines
@@ -82,27 +144,31 @@ class AccountManager
     /* =========================================================================
      * Some project person routines
      */
-    public function loadProjectPerson($params)
+    public function loadProjectPerson($projectId,$personId)
     {
-        $em = $this->getEntityManager();
+        // Allow ids or objects
+        $em = $this->getEntityManager();        
+        if (is_object($projectId)) $projectId = $projectId->getId();
+        if (is_object($personId))  $personId  = $personId->getId();
+        
+        // Build query
         $qb = $em->createQueryBuilder();
 
         $qb->addSelect('projectPerson');
 
         $qb->from('ZaysoCoreBundle:ProjectPerson','projectPerson');
-        $qb->leftJoin('projectPerson.person', 'person');
-        $qb->leftJoin('projectPerson.project','project');
-
-        if (isset($params['personId']))
-        {
-            $qb->andWhere($qb->expr()->in('person.id',$params['personId']));
-        }
-        if (isset($params['projectId']))
-        {
-            $qb->andWhere($qb->expr()->in('project.id',$params['projectId']));
-        }
-        $query = $qb->getQuery();
         
+        //$qb->leftJoin('projectPerson.person', 'person');
+        //$qb->leftJoin('projectPerson.project','project');
+    
+        $qb->andWhere($qb->expr()->eq('projectPerson.project',':project'));
+        $qb->andWhere($qb->expr()->eq('projectPerson.person', ':person' ));
+
+        $params = array('project' => $projectId, 'person' => $personId);
+        $qb->setParameters($params);
+       
+        $query = $qb->getQuery();
+
         $items = $query->getResult();
 
         if (count($items) == 1) return $items[0];
@@ -115,18 +181,12 @@ class AccountManager
     public function addProjectPerson($project,$person,$data = null)
     {
         // Allow ids or objects
-        $em = $this->getEntityManager();
-        
+        $em = $this->getEntityManager();        
         if (!is_object($project)) $project = $em->getReference('ZaysoCoreBundle:Project',$project);
         if (!is_object($person))  $person  = $em->getReference('ZaysoCoreBundle:Person', $person);
         
-        // Just to be safe, check dups
-        $params = array
-        (
-            'personId'  => $person->getId(),
-            'projectId' => $project->getId(),
-        );
-        $projectPerson = $this->loadProjectPerson($params);
+        // Check Dups
+        $projectPerson = $this->loadProjectPerson($project,$person);
         if ($projectPerson) return $projectPerson;
         
         // Make a new one
