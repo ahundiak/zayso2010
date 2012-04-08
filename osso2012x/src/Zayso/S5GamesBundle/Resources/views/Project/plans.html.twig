@@ -1,0 +1,37 @@
+{% extends 'ZaysoS5GamesBundle:Layout:layout.html.twig' %}
+
+{% block title %}S5Games - Project Plans{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets output="bundles/zaysocore/css/forms2.css"
+          '@ZaysoCoreBundle/Resources/public/css/forms2.css'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}" media="all" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block content %}
+<div>
+<form class="s1" method="post" action="{{ path('zayso_s5games_project_plans') }} {{ form_enctype(form) }}">
+<fieldset>
+    {{ form_row(form.willAttend)  }}
+    {{ form_row(form.willReferee) }}
+    {{ form_row(form.willAssess)  }}
+    {{ form_row(form.wantAssess)  }}
+    {{ form_row(form.willCoach)  }}
+    {{ form_row(form.willVolunteer)  }}
+    {{ form_row(form.havePlayer)  }}
+    {{ form_row(form.tshirtSize)  }}
+    {{ form_row(form.notes)  }}
+</fieldset>
+<fieldset>
+    <div class="controls">
+        <input type="submit" name="classesSubmit" value="Update Plans" />
+    </div>
+</fieldset>
+{{ form_rest(form) }}
+</form>
+</div>        
+
+{% endblock %}

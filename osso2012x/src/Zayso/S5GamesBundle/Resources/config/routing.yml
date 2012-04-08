@@ -25,7 +25,7 @@ zayso_s5games_contact:
 
 zayso_s5games_schedule_referee_list:
     pattern:  /schedule/referee/list
-    defaults: { _controller: ZaysoS5GamesBundle:Schedule\RefSched:list }
+    defaults: { _controller: ZaysoS5GamesBundle:Welcome:schedule }
 
 zayso_s5games_schedule_referee_assign:
     pattern:  /schedule/referee/assign/{id}/{pos}
@@ -91,14 +91,6 @@ zayso_s5games_account_person_add:
 zayso_s5games_project_plans:
     pattern:  /project/plans
     defaults: { _controller: ZaysoS5GamesBundle:Project:plans }
-    requirements:
-        _method:  GET
-
-zayso_s5games_project_plans_post:
-    pattern:  /project/plans
-    defaults: { _controller: ZaysoS5GamesBundle:Project:plansPost }
-    requirements:
-        _method:  POST
 
 zayso_s5games_project_levels:
     pattern:  /project/levels
