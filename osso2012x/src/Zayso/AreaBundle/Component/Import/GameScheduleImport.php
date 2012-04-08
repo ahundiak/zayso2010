@@ -124,7 +124,15 @@ class GameScheduleImport extends BaseImport
     public function processItem($item)
     {
         if (!$item->projectId) return;
+        if (!$item->date) return;
+        if (!$item->time) return;
+        if (!$item->field) return;
+        if (!$item->homeTeam) return;
+        if (!$item->awayTeam) return;
+
         if (!$item->gameNum)   return;
+        $gameNum = (int)$item->gameNum;
+        if ($gameNum < 1) return;
         
         $projectId = $item->projectId;
         
@@ -138,12 +146,12 @@ class GameScheduleImport extends BaseImport
         $this->total++;
         $manager = $this->gameManager;
         
-        $game = $manager->loadEventForProjectNum($projectId,$item->gameNum);
+        $game = $manager->loadEventForProjectNum($projectId,$gameNum);
         if (!$game)
         {
             // New Game
             $game = $manager->newGameWithTeams($projectId);
-            $game->setNum ($item->gameNum);
+            $game->setNum ($gameNum);
             
             $age = $homeTeam->getAge();
 
