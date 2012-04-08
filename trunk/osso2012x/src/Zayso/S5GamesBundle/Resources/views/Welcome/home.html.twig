@@ -1,0 +1,38 @@
+{% extends 'ZaysoS5GamesBundle:Layout:layout.html.twig' %}
+
+{% block title %}S5Games - Home{% endblock %}
+
+{% block content %}
+<div>
+    <h1>Home</h1>
+    <p><a href="{{ path('zayso_s5games_project_plans') }}">Update My Tournament Plans</a></p>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% include 'ZaysoCoreBundle:Layout:jquery-ui-css.html.twig' %}
+
+<style>
+    .zayso-home-green { color: green; }
+    #zayso-datepicker { margin: 5px; display: none; }
+</style>
+{% endblock stylesheets %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% include 'ZaysoCoreBundle:Layout:jquery-ui-js.html.twig' %}
+ <script>
+$(document).ready(function() 
+{
+    // Check loading
+    // Zayso.exclaim('Home');
+   
+    // do stuff when DOM is ready
+    $('#zayso-home-p').addClass('zayso-home-green');
+    
+    //$("#zayso-datepicker").show().datepicker();
+});
+</script>
+
+{% endblock javascripts %}

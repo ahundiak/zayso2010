@@ -16,13 +16,32 @@ class WelcomeController extends BaseController
     }
     public function homeAction()
     {
+        // Need to be signed in, security system does this
+        if (!$this->isUser()) return $this->redirect($this->generateUrl('zayso_s5games_welcome'));
+        
+        // Ensure part of the project
+        $manager = $this->getAccountManager();
+        $projectPerson = $manager->addProjectPerson($this->getProjectId(),$this->getUser()->getPersonId());
+        
+        // Verify plans were set
+        $plans = $projectPerson->get('plans');
+        if (!isset($plans['willAttend']) || !$plans['willAttend'])
+        {
+            return $this->redirect($this->generateUrl('zayso_s5games_project_plans'));
+        }
+        // And Render
         $tplData = array();
-        return $this->render('ZaysoAreaBundle:Welcome:home.html.twig',$tplData);
+        return $this->render('ZaysoS5GamesBundle:Welcome:home.html.twig',$tplData);
     }
     public function contactAction()
     { 
         $tplData = array();
-        return $this->render('ZaysoAreaBundle:Contact:contact.html.twig',$tplData);
+        return $this->render('ZaysoS5GamesBundle:Welcome:contact.html.twig',$tplData);
+    }
+    public function scheduleAction()
+    { 
+        $tplData = array();
+        return $this->render('ZaysoS5GamesBundle:Schedule:schedule.html.twig',$tplData);
     }
 }
 ?>

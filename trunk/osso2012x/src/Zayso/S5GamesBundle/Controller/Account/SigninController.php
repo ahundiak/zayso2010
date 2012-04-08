@@ -38,7 +38,7 @@ class SigninController extends BaseController
             $request->getSession()->set('openidProfile',$profile);
             return $this->redirect($this->generateUrl('zayso_s5games_account_create'));
         }
-        die($identifier);
+        
         // Continue with normal signin
         $request->getSession()->set(SecurityContext::LAST_USERNAME,$user->getUserName());
         $this->setUser($user);
@@ -50,6 +50,6 @@ class SigninController extends BaseController
         $browserManager->add($request->server->get('HTTP_USER_AGENT'));
         
         // Ad off we go
-        return $this->redirect($this->generateUrl('zayso_s5games_welcome'));
+        return $this->redirect($this->generateUrl('zayso_s5games_home'));
     }
 }

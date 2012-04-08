@@ -31,6 +31,12 @@ class CreateController extends BaseController
         if (isset($profile['name']['givenName' ])) $accountPerson->setFirstName($profile['name']['givenName']);
         if (isset($profile['name']['familyName'])) $accountPerson->setLastName ($profile['name']['familyName']);
         
+        // Not real sure about this
+        $accountPerson->setUserName(md5(uniqid()));
+        $accountPerson->setUserPass(md5(uniqid()));
+        
+        
+        // The form
         $accountFormType = $this->get('zayso_s5games.account.create.formtype');
 
         $form = $this->createForm($accountFormType, $accountPerson);
@@ -50,16 +56,16 @@ class CreateController extends BaseController
                 $account = $accountManager->createAccountFromAccountPersonAyso($accountPerson);
                 
                 if ($account) 
-                {
-                    // Send email
-                    
-                    // And sign in
+                {                    
+                    // Sign in
                     $user = $this->setUser($account->getUserName());
                     
-                    $subject = sprintf('[Area] - Created %s %s %s',$user->getName(),$user->getRegion(),$user->getAysoid());
+                    // Send email
+                    $subject = sprintf('[S5Games] - Created %s %s %s',
+                            $user->getName(),$user->getRegion(),$user->getAysoid());
                     $this->sendEmail($subject,$subject);
                     
-                    return $this->redirect($this->generateUrl('zayso_area_home'));
+                    return $this->redirect($this->generateUrl('zayso_s5games_home'));
                 }
             }
         }
