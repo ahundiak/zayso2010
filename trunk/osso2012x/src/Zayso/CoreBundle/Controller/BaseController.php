@@ -25,6 +25,10 @@ class BaseController extends Controller
     {
         return $this->get('security.context')->isGranted('ROLE_ADMIN');
     }
+    protected function isUser()
+    {
+        return $this->get('security.context')->isGranted('ROLE_USER');
+    }
     // Be aware that this returns the string anon for non users
     protected function getUser()
     {
@@ -49,6 +53,10 @@ class BaseController extends Controller
     }
     protected function getProjectPerson()
     {
+        $manager = $this->getAccountManager();
+        $projectPerson = $manager->addProjectPerson($this->getProjectId(),$this->getUser()->getPersonId());
+        return $projectPerson;
+        
         $accountManager = $this->getAccountManager();
         $user = $this->getUser();
         $params = array('personId' => $user->getPersonId(),'projectId' => $this->getProjectId());
@@ -66,8 +74,6 @@ class BaseController extends Controller
         $message->setTo  ('ahundiak@gmail.com');
         
         $message->setBody($body);
-        
-        //$message->setBody($this->renderView('NatGamesBundle:Account:email.txt.twig', array('ap' => $accountPerson)));
 
         $this->get('mailer')->send($message);
 
