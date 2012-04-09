@@ -62,34 +62,11 @@ class RefSchedController extends BaseController
             unset($refSchedSearchData['time1x']);
             unset($refSchedSearchData['time2x']);
             
-            // Bit of processing for ages, replaced with js
-            /*
-            $ages = $refSchedSearchData['ages'];
-            if ($ages['All'])
+            // Allow for single date change
+            if ($refSchedSearchData['date1'] > $refSchedSearchData['date2'])  
             {
-                $allSet = true;
-                foreach($ages as $age => $value)
-                {
-                    if (!$ages[$age]) $allSet = false;
-                    
-                    $ages[$age] = $age;
-                }
-                if ($allSet && false)
-                {
-                    foreach($ages as $age => $value)
-                    {
-                        $ages[$age] = 0;
-                    }
-                }
-                $ages['All'] = 0;
-                $refSchedSearchData['ages'] = $ages;
-            }*/
-            // Same for regions, assume that js takes care of all
-            //if (isset($refSchedSearchData['regions'])) $regions = $refSchedSearchData['regions'];
-            //else                                       $regions = array();
-            //if (isset($refSchedSearchData['genders'])) $genders = $refSchedSearchData['genders'];
-            //else                                       $genders = array();
-            
+                $refSchedSearchData['date2'] = $refSchedSearchData['date1'];
+            }
             // Store everything
             $session->set('refSchedSearchData',$refSchedSearchData);
             
@@ -138,6 +115,7 @@ class RefSchedController extends BaseController
         $tplData['refSchedSearchData']  = $refSchedSearchData;
         
         return $this->render('ZaysoAreaBundle:Schedule:referee.html.twig',$tplData);
+        return $this->render('ZaysoAreaBundle:Schedule:schedule.html.twig',$tplData);
     }
     public function viewRefSchedPostAction()
     {
