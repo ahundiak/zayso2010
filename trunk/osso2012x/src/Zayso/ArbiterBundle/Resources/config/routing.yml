@@ -16,6 +16,10 @@ zayso_arbiter_tourn_opencup:
     pattern:  /tourn/opencup
     defaults: { _controller: ZaysoArbiterBundle:Tourn\OpenCup:signup }
     
+zayso_arbiter_tourn_classic:
+    pattern:  /tourn/classic
+    defaults: { _controller: ZaysoArbiterBundle:Tourn\Classic:signup }
+    
 zayso_arbiter_tourn_kicks:
     pattern:  /tourn/kicks
     defaults: { _controller: ZaysoArbiterBundle:Tourn\Kicks:signup }
