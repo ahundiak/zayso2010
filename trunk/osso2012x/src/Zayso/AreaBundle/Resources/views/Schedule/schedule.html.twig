@@ -1,0 +1,139 @@
+{% extends 'ZaysoAreaBundle:Layout:layout.html.twig' %}
+
+{% block title %}Area - Schedule{% endblock %}
+
+{% block content %}
+<div>
+    <p></p>
+<div>
+<form method="post" action="{{ path('zayso_area_schedule_referee_list') }}">
+<table border="1" class="form_table" width="800" id="schedule-referee-search">
+    <tr><th colspan="1">Search Referee Schedule</th></tr>
+    <tr><td>
+<table border="1" style="margin: 0px; padding: 0px;">
+    <tr>
+        <td>From:</td>
+        <td>{{ searchView.genDate('refSchedSearchData[date1x]',refSchedSearchData.date1) | raw }}</td>
+        <td>{{ searchView.genHour('refSchedSearchData[time1x]',refSchedSearchData.time1) | raw }}</td>
+    </tr><tr>
+        <td>To:</td>
+        <td>{{ searchView.genDate('refSchedSearchData[date2x]',refSchedSearchData.date2) | raw }}</td>
+        <td>{{ searchView.genHour('refSchedSearchData[time2x]',refSchedSearchData.time2) | raw }}</td>
+        <td>
+            Sort By: {{ searchView.genSortByPickList(refSchedSearchData.sortBy) | raw }}
+        </td>
+    </tr>
+</table>
+    <tr><td>
+<table style="margin: 0px; padding: 0px;" >
+    <tr>
+        <td>{{searchView.genAges   (refSchedSearchData) | raw}}</td>
+        <td>{{searchView.genGenders(refSchedSearchData) | raw}}</td>
+    </tr>
+    <tr>
+        <td>{{searchView.genRegions(refSchedSearchData) | raw}}</td>
+        <td></td>
+    </tr>
+</table>
+     </td></tr>
+    <tr>
+        <td align="center"><input type="submit" name="ref_schedule_submit" value="Search" /></td>
+    </tr>
+</table>
+</form>
+</div>
+{% include 'ZaysoAreaBundle:Schedule:list.html.twig' %}    
+
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% include 'ZaysoCoreBundle:Layout:jquery-ui-css.html.twig' %}
+
+<style>
+        .zayso-date-desc { font-family: monospace; font-size: 1.0em; }
+        
+        .ui-widgetxxx { font-family: Trebuchet MS,Verdana,Arial,sans-serif; font-size: .75em; }
+        
+        tr.status-Cancelled
+        {
+            background-color: red;    
+        }
+</style>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% include 'ZaysoCoreBundle:Layout:jquery-ui-js.html.twig' %}
+
+<script>
+
+$(document).ready(function() 
+{
+    // Check loading
+    // Zayso.exclaim('Referee Schedule');
+   
+    // do stuff when DOM is ready
+    $('.zayso-checkbox-all').change(Zayso.checkboxAll);
+    
+    $('.zayso-date-gen').change(Zayso.dateGen);
+    
+    $('.zayso-date-desc').datepicker({
+        dateFormat: 'D M dd yy',
+        firstDay: 0,
+        
+        numberOfMonths:   3,
+        showCurrentAtPos: 1, // Confusing for Dec/Jan, fixed in beforeShow
+        
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        
+        changeMonth: true,
+        changeYear:  true,
+        yearRange: '2001:2016', // Reversing does not seem to work
+        
+        beforeShow: function(input, inst) 
+        { 
+            var options = { showCurrentAtPos: 1 };
+            
+            var date = $(input).val();
+            var month = date.substring(4,7);
+ 
+            if (month == 'Jan') options.showCurrentAtPos = 0;
+            if (month == 'Aug') options.showCurrentAtPos = 0;
+            
+          //console.log(month + ' ' +  options.showCurrentAtPos);
+             
+            return options;
+            
+            alert('Before Show ' + $(input).val());
+        },
+        
+        // onChange would be nice but would need anothe hidden value
+        onClosex: Zayso.dateChanged,
+        
+        onClose: function (dateText, inst)
+        {
+            // Convert date to standard format
+            // Can't call static methods dynamically
+            var dateFormat = $(this).datepicker('option','dateFormat');
+            var date = $.datepicker.parseDate (dateFormat,dateText);
+            dateText = $.datepicker.formatDate('yymmdd',date);
+            
+            // Sets the scope to the dom element
+            Zayso.dateChanged.call(this,dateText);
+            return;
+            
+            alert('Date: ' + dateText);
+            return;
+            var name = $(this).attr('name');
+          //var name =    $(this).html();
+            alert('Selected ' + name + ' ' + $(this).val());
+        }
+    });
+   
+});
+</script>
+
+{% endblock %}
