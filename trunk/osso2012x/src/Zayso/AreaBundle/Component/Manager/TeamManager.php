@@ -16,7 +16,35 @@ class TeamManager extends BaseManager
     
 
     /* ==========================================================================
-     * Dtandard generic team
+     * Query for a bunch of teams
+     */
+    public function queryTeams($params,$qbOnly = false)
+    {
+       // Build query
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->addSelect('team');
+        $qb->addSelect('project');
+        $qb->addSelect('org');
+
+        $qb->from('ZaysoCoreBundle:Team','team');
+        $qb->leftJoin('team.project','project');
+        $qb->leftJoin('team.org',    'org');
+        
+        if (isset($params['projectId']))
+        {
+            $qb->andWhere($qb->expr()->eq('team.project',$qb->expr()->literal($params['projectId'])));
+        }
+        $qb->addOrderBy('team.key1');
+        
+        if ($qbOnly) return $qb;
+        
+        return $qb->getQuery()->getResult();
+        
+   }
+    /* ==========================================================================
+     * Standard generic team
      */
     public function loadTeamForKey($projectId,$key,$keyName)
     {
