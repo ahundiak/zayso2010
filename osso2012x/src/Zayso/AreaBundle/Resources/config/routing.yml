@@ -70,3 +70,16 @@ zayso_area_admin_account_list:
     requirements:
         _method:  GET
         _format:  html|csv
+        
+zayso_area_admin_team_edit:
+    pattern:  /admin/team/edit/{id}
+    defaults: { _controller: ZaysoAreaBundle:Admin\Team\Edit:edit, id: 0}
+    requirements:
+        id: \d+
+
+zayso_area_admin_team_list:
+    pattern:  /admin/team/list.{_format}
+    defaults: { _controller: ZaysoAreaBundle:Admin\Team\List:list, _format: html }
+    requirements:
+        _method:  GET
+        _format:  html|csv
