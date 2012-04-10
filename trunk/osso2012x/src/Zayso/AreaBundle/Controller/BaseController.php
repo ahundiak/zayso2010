@@ -17,10 +17,17 @@ class BaseController extends Controller
     {
         return $this->get('zayso_area.game.manager');
     }
+    protected function getTeamManager()
+    {
+        return $this->get('zayso_area.team.manager');
+    }
     protected function getProjectId()
     {
         return $this->container->getParameter('zayso_area.project.master');
-        return 70;
+    }
+    protected function getCurrentProjectId()
+    {
+        return $this->container->getParameter('zayso_area.project.current');
     }
     protected function isAdmin()
     {
