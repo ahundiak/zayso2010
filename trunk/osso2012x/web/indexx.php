@@ -27,6 +27,9 @@
       <li>
         <a href="<?php echo $host; ?>arbiter/tourn/opencup">USSF Open Cup 2012, Decatur Alabama, April 13-15</a>
       </li>
+      <li>
+        <a href="<?php echo $host; ?>arbiter/tourn/classic">USSF HFC Spring Classic 2012, Huntsville Alabama, April 20-22</a>
+      </li>
     </ul>
     </body>
 </html>
