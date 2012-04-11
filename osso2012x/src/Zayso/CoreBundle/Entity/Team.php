@@ -137,5 +137,12 @@ class Team extends BaseEntity
     
     public function setTeamColors($colors) { $this->set('teamColors',$colors); }
     public function getTeamColors()        { return $this->get('teamColors'); }
+    
+    public function setOrgDesc($desc) {}
+    public function getOrgDesc() 
+    {
+        if (!$this->org) return null;
+        return $this->org->getDesc2();
+    }
 }
 ?>

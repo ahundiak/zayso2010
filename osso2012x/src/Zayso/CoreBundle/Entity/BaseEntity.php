@@ -43,10 +43,11 @@ class BaseEntity implements NotifyPropertyChanged
             // Do nothing if have nothing
             if (!isset($this->data[$name])) return;
             
-            $this->onPropertyChanged($name,$this->data[$name],$value);
-            
             unset($this->data[$name]);
             $this->datax = serialize($this->data);
+            
+            // Still need to test
+            $this->onPropertyChanged('datax',null,$this->datax);
  
             return;
         }
@@ -55,14 +56,15 @@ class BaseEntity implements NotifyPropertyChanged
         if (isset($this->data[$name])) 
         {
             $oldValue = $this->data[$name];
-            if ($oldValue == $value) return;
+            if ($oldValue === $value) return;
         }
         else $oldValue = null;
         
-        $this->onPropertyChanged($name,$oldValue,$value);
-        
         $this->data[$name] = $value;
         $this->datax = serialize($this->data);
+    
+        // Need to specify datax for this to work
+        $this->onPropertyChanged('datax',null,$this->datax);
     }
     /* ========================================================================
      * Property change stuff
@@ -101,6 +103,12 @@ class BaseEntity implements NotifyPropertyChanged
         if ($this->$name === $value) return;
         $this->onPropertyChanged($name,$this->$name,$value);
         $this->$name = $value;
+    }
+    protected function onDataPropertySet($name,$value)
+    {
+        if ($this->get($name) === $value) return;
+        $this->onPropertyChanged($name,$this->get($name),$value);
+        $this->set($name,$value);
     }
 }
 ?>
