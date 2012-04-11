@@ -21,6 +21,13 @@
         </service>
         
         <service
+            id     = "zayso_area.admin.team.edit.formtype"
+            class  = "Zayso\AreaBundle\Component\FormType\Admin\Team\EditFormType"
+            public = "true">
+            <argument type="service" id="doctrine.orm.teams_entity_manager" />
+        </service>
+        
+        <service
             id     = "zayso_area.account.create.formtype"
             class  = "Zayso\AreaBundle\Component\FormType\Account\AccountCreateFormType"
             public = "true">

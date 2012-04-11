@@ -14,6 +14,29 @@ class TeamManager extends BaseManager
 {
     protected $em = null;
     
+    /* =================================================================
+     * Clone an existing validated team
+     */
+    public function cloneTeam($team)
+    {
+        $teamx = new Team();
+        
+        $teamx->setProject($team->getProject());
+        $teamx->setParent ($team->getParent());
+        $teamx->setOrg    ($team->getOrg());
+        $teamx->setType   ($team->getType());
+        $teamx->setSource ('manual');
+        $teamx->setStatus ('status');
+        $teamx->setAge    ($team->getAge());
+        $teamx->setGender ($team->getGender());
+        $teamx->setLevel  ($team->getLevel());
+        
+        $teamx->setDesc1  ($team->getDesc1());
+        $teamx->setDesc2  ($team->getDesc2());
+            
+        $teamx->setTeamKey(md5(uniqid()));
+        return $teamx;
+    }
 
     /* ==========================================================================
      * Query for a bunch of teams
@@ -34,7 +57,11 @@ class TeamManager extends BaseManager
         
         if (isset($params['projectId']))
         {
-            $qb->andWhere($qb->expr()->eq('team.project',$qb->expr()->literal($params['projectId'])));
+            $qb->andWhere($qb->expr()->in('project.id',$params['projectId']));
+        }
+        if (isset($params['teamId']))
+        {
+            $qb->andWhere($qb->expr()->in('team.id',$params['teamId']));
         }
         $qb->addOrderBy('team.key1');
         
@@ -42,7 +69,13 @@ class TeamManager extends BaseManager
         
         return $qb->getQuery()->getResult();
         
-   }
+    }
+    public function queryTeam($teamId)
+    {
+        $teams = $this->queryTeams(array('teamId' => $teamId));
+        if (count($teams) == 1) return $teams[0];
+        return null;
+    }
     /* ==========================================================================
      * Standard generic team
      */
