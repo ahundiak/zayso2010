@@ -1,4 +1,9 @@
 <?php
+
+echo get_class($app->getSession());
+die('session');
+echo $app->getSession()->get();
+
 $fp = fopen('php://temp','r+');
 $headers = array
 (
