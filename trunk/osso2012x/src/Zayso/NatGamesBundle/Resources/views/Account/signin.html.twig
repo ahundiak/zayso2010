@@ -11,7 +11,8 @@
 <tr>
   <td style="width: 100px;">{{ form_label (form.userName) }}</td>
   <td style="width: 200px;">{{ form_widget(form.userName) }}</td>
-  <td style="width: 300px;">{{ form_errors(form.userName) }}</td>
+  <td style="width: 300px;">You can also use your email or your 8 digit AYSO ID number to sign in.<br />
+                            {{ form_errors(form.userName) }}</td>
 </tr>
 <tr>
   <td style="width: 100px;">{{ form_label (form.userPass) }}</td>
@@ -30,14 +31,25 @@
 <br />
 </div>
 <h3>Sign In Using Social Network</h3>
-<p>
+<p style="width: 800px;">
 Click on an icon below to sign using a social network account.  
 You must have previously connected your zayso account to a social network account in your profile.
 If you have not connected your account then sign in using the above form and click on the "View/Edit My Account Profile" link.
 No more passwords to remember if you use a social account.
 </p>
-    <div id="janrainEngageEmbed"></div>
-
+<div id="janrainEngageEmbed"></div>
+<h3>Forgot Your Password?</h3>
+<p style="width: 800px;">
+    If you are getting <span style="color: red;">User name not found</span> 
+    then try using your email or 8 digit AYSO ID number to sign in.  
+    If you still get the message then use the <a href="{{ path('zayso_natgames_contact') }}">Contact Tab</a> for help.
+</p>
+<p style="width: 800px;">
+    If you are getting <span style="color: red;">Invalid password</span> then
+    <a href="{{ path('zayso_natgames_account_reset', { 'id': account.id }) }}">Click Here to reset your password</a>. 
+    This will only work if you have entered a correct user name, email or AYSO ID.
+    An email with instructions will be sent.
+</p>
 {% endblock %}
 {% block janrain %}
     {% include 'ZaysoCoreBundle:Layout:janrain.js.twig' %}
