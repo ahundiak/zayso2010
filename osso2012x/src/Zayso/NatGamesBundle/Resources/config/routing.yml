@@ -53,6 +53,16 @@ zayso_natgames_account_edit:
     defaults: { _controller: ZaysoNatGamesBundle:Account\Edit:edit, id: 0}
     requirements:
         id: \d+
+        
+zayso_natgames_account_reset:
+    pattern:  /account/reset/{id}
+    defaults: { _controller: ZaysoNatGamesBundle:Account\Signin:reset, id: 0}
+    requirements:
+        id: \d+
+        
+zayso_natgames_account_resetx:
+    pattern:  /account/resetx/{reset}
+    defaults: { _controller: ZaysoNatGamesBundle:Account\Signin:resetx, reset: 0}
 
 zayso_natgames_account_signin:
     pattern:  /account/signin
