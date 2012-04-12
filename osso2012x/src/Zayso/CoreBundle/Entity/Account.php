@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="account")
+ * @ORM\Table(name="account",indexes={@ORM\index(name="reset_idx", columns={"reset"})})
  */
 class Account
 {
@@ -32,6 +32,10 @@ class Account
 
     /** @ORM\Column(name="status",type="string",length=16,nullable=false) */
     protected $status = 'Active';
+    
+    /** @ORM\Column(name="reset",type="string",length="40",nullable=true)
+     */
+    protected $reset = null;
 
     /** @ORM\OneToMany(targetEntity="AccountPerson", mappedBy="account") */
     protected $accountPersons;
@@ -71,8 +75,9 @@ class Account
      * End of custom code
      */
 
-    public function getId() { return $this->id; }
-
+    public function getId()    { return $this->id; }
+    public function setId($id) { $this->id = $id; } // For password reset
+    
     public function setUserName($userName) { $this->userName = $userName; }
     public function getUserName()          { return $this->userName; }
 
@@ -81,4 +86,7 @@ class Account
 
     public function setStatus($status) { $this->status = $status; }
     public function getStatus()        { return $this->status; }
+    
+    public function setReset($reset) { $this->reset = $reset; }
+    public function getReset()       { return $this->reset; }
 }
