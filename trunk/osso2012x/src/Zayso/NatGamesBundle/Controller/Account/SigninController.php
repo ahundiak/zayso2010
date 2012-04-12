@@ -14,6 +14,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\CallbackValidator;
+use Symfony\Component\Form\FormValidatorInterface;
+
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -80,6 +85,7 @@ class SigninController extends BaseController
             }
         }
         $tplData = $this->getTplData();
+        $tplData['account'] = $account;
         $tplData['form'] = $form->createView();
         
         return $this->render('ZaysoNatGamesBundle:Account:signin.html.twig',$tplData);
@@ -112,4 +118,127 @@ class SigninController extends BaseController
         // Ad off we go
         return $this->redirect($this->generateUrl('zayso_natgames_home'));
     }
+    public function resetAction(Request $request, $id)
+    {
+        $manager = $this->getAccountManager();
+        $accountPerson = $manager->getAccountPerson(array('accountId'=> $id, 'accountRelation' => 'Primary'));
+        if (!$accountPerson)
+        {
+            return $this->redirect($this->generateUrl('zayso_natgames_account_signin'));
+        }
+        $account = $accountPerson->getAccount();
+        $person  = $accountPerson->getPerson();
+        if (!$account || !$person || !$person->getEmail())
+        {
+            return $this->redirect($this->generateUrl('zayso_natgames_account_signin'));
+        }
+        
+        // Generate the reset code
+        $reset = md5(uniqid());
+        $account->setReset($reset);
+        $manager->flush();
+
+        // Build the message
+        $subject = sprintf('[NatGames2012] Password Reset Request For %s %s',$person->getFirstName(),$person->getLastName());
+        $body    = $this->renderView('ZaysoNatGamesBundle:Account/Reset:email.txt.twig', 
+            array('person' => $person, 'reset' => $reset));
+        
+        // Send email
+        $message = \Swift_Message::newInstance();
+        $message->setSubject($subject);
+        $message->setFrom('admin@zayso.org');
+        $message->setTo  ($person->getEmail());
+        $message->setBcc ('ahundiak@gmail.com');
+        $message->setBody($body);
+
+        $this->get('mailer')->send($message);
+        
+        return $this->render('ZaysoNatGamesBundle:Account/Reset:requested.html.twig',array());
+       
+        // Show results
+        die('Account Reseting ' . $account->getUserName() . ' ' . $person->getEmail() . ' ' . $reset);
+    }
+    public function resetxAction(Request $request, $reset)
+    {
+        $manager = $this->getAccountManager();
+        $accountPerson = $manager->getAccountPerson(array('reset'=> $reset, 'accountRelation' => 'Primary'));
+        if (!$accountPerson)
+        {
+            return $this->redirect($this->generateUrl('zayso_natgames_account_signin'));
+        }
+        $account = $accountPerson->getAccount();
+        $person  = $accountPerson->getPerson();
+        if (!$account || !$person || !$person->getEmail())
+        {
+            return $this->redirect($this->generateUrl('zayso_natgames_account_signin'));
+        }
+        $data = array(
+            'userName' => $account->getUserName(),
+            'userPass1' => null,
+            'userPass2' => null,
+          //'reset'     => $reset,
+        );
+        // die('Reset ' . $account->getUserName());
+        
+        // Form
+        $formType = new AccountResetFormType();
+        $form = $this->createForm($formType, $data);
+
+        if ($request->getMethod() == 'POST')
+        {
+            $form->bindRequest($request);
+
+            if ($form->isValid()) // Checks username and password
+            {
+                $data = $form->getData();
+                $account->setUserPass($data['userPass1']);
+                $account->setReset(null);
+                $manager->flush();
+                
+                $userName = $account->getUserName();
+                $request->getSession()->set(SecurityContext::LAST_USERNAME,$userName);
+                $this->setUser($userName);
+                return $this->redirect($this->generateUrl('zayso_natgames_home'));
+            }
+        }
+        $tplData = array();
+        $tplData['form']  = $form->createView();
+        $tplData['reset'] = $reset;
+        
+        return $this->render('ZaysoNatGamesBundle:Account/Reset:signin.html.twig',$tplData);
+    }
 }
+class AccountResetFormType extends AbstractType
+{
+    public function getName() { return 'accountReset'; }
+  //public function __construct($em) { $this->em = $em; }
+    
+    public function buildForm(FormBuilder $builder, array $options)
+    {
+        $builder->add('userName',  'text',     array('label' => 'User Name', 'read_only' => true));
+        $builder->add('userPass1', 'password', array('label' => 'Password', 'required' => false));
+        $builder->add('userPass2', 'password', array('label' => 'Password(repeat)'));
+
+        //$builder->add('reset','hidden');
+
+        $builder->get('userPass1')->appendClientTransformer(new PasswordTransformer());
+        $builder->get('userPass2')->appendClientTransformer(new PasswordTransformer());
+        
+        $builder->addValidator(new CallbackValidator(function($form)
+        {
+            $userPass1 = $form['userPass1']->getData();
+            $userPass2 = $form['userPass1']->getData();
+            
+            if(!$userPass1)
+            {
+                $form['userPass1']->addError(new FormError('Password Cannot be blank'));
+            }
+            if($userPass1 != $userPass2)
+            {
+                $form['userPass2']->addError(new FormError('Passwords do not match'));
+            }
+       }));
+
+    }
+}
+
