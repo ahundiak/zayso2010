@@ -41,4 +41,6 @@ security:
         - { path: ^/project,        roles: ROLE_USER }
         - { path: ^/account/create, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/account/signin, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/account/reset,  roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/account/resetx, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/account,        roles: ROLE_USER }
