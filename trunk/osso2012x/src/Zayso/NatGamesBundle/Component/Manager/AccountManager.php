@@ -26,7 +26,8 @@ class AccountManager
     {
         return $this->em;
     }
-
+    public function flush() { $this->em->flush(); }
+    
     public function __construct($em)
     {
         $this->em = $em;
@@ -161,6 +162,10 @@ class AccountManager
         if (isset($params['accountRelation']))
         {
             $qb->andWhere($qb->expr()->eq('accountPerson.accountRelation',$qb->expr()->literal($params['accountRelation'])));
+        }
+        if (isset($params['reset']))
+        {
+            $qb->andWhere($qb->expr()->eq('account.reset',$qb->expr()->literal($params['reset'])));
         }
         if ($wantProject)
         {
