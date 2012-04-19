@@ -19,11 +19,19 @@ zayso_area_profile_edit:
     defaults: { _controller: ZaysoAreaBundle:Profile:edit, id: 0 }
     requirements:
         id: \d+
-    
+        
+zayso_area_person_create:
+    pattern:  /home/person/create/{aysoid}
+    defaults: { _controller: ZaysoAreaBundle:Person:create, aysoid: 0 }
+    requirements:
+        id: \d+
+     
 zayso_area_contact:
     pattern:  /contact
     defaults: { _controller: ZaysoAreaBundle:Welcome:contact }
 
+# ===================================================================
+# Account management
 zayso_area_account_signin_rpx:
     pattern:  /account/signin/rpx
     defaults: { _controller: ZaysoAreaBundle:Account\Signin:rpx }
@@ -43,7 +51,19 @@ zayso_area_account_legacy_profile:
 zayso_area_account_legacy_signin:
     pattern:  /account/legacy/signin
     defaults: { _controller: ZaysoAreaBundle:Account\Legacy:signin }
+    
+zayso_area_account_person_add:
+    pattern:  /account/person/add
+    defaults: { _controller: ZaysoAreaBundle:Account\Person:add }
+    
+zayso_area_account_person_edit:
+    pattern:  /home/account/person/edit/{id}
+    defaults: { _controller: ZaysoAreaBundle:Account\Person:edit, id: 0 }
+    requirements:
+        id: \d+
 
+# =====================================================================
+# Scheduling stuff
 zayso_area_schedule_referee_list:
     pattern:  /schedule/referee/list
     defaults: { _controller: ZaysoAreaBundle:Schedule\RefSched:list }
