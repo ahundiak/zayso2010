@@ -1,42 +1,6 @@
 {% extends 'ZaysoAreaBundle:Layout:layout.html.twig' %}
-
-{% block title %}Area - Home{% endblock %}
-
+{% block title %}ZaysoArea - Home{% endblock %}
 {% block content %}
-<div>
-    <h1>Home</h1>
-    <p id="zayso-home-p">
-        This is the home page where you can do all sorts of wonderful things.
-    </p>
-    <input id="zayso-datepicker" type="text" value="01-10-2012" />
-    
-</div>
+
+{% include 'ZaysoAreaBundle:Account/Person:list.html.twig' %}
 {% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
-    {% include 'ZaysoCoreBundle:Layout:jquery-ui-css.html.twig' %}
-
-<style>
-    .zayso-home-green { color: green; }
-    #zayso-datepicker { margin: 5px; display: none; }
-</style>
-{% endblock stylesheets %}
-
-{% block javascripts %}
-    {{ parent() }}
-    {% include 'ZaysoCoreBundle:Layout:jquery-ui-js.html.twig' %}
- <script>
-$(document).ready(function() 
-{
-    // Check loading
-    // Zayso.exclaim('Home');
-   
-    // do stuff when DOM is ready
-    $('#zayso-home-p').addClass('zayso-home-green');
-    
-    //$("#zayso-datepicker").show().datepicker();
-});
-</script>
-
-{% endblock javascripts %}
