@@ -24,6 +24,14 @@ class AccountPersonAyso
     {
         $this->accountPerson = $accountPerson;
     }
+    public function getAccountRelation()
+    {
+        return $this->getAccountPerson()->getAccountRelation();
+    }
+    public function setAccountRelation($relation)
+    {
+        $this->getAccountPerson()->setAccountRelation($relation);
+    }
     /* ==================================================================
      * Account Interface
      * Trick is to create the account if one is not needed
@@ -40,6 +48,10 @@ class AccountPersonAyso
         $accountPerson->setAccount($account); // Also calls account->setAccountPerson
 
         return $account;
+    }
+    public function setAccount($account)
+    {
+        $accountPerson = $this->getAccountPerson()->setAccount($account);
     }
     /** @Assert\NotBlank(message="Account User Name cannot be blank.", groups={"create","edit"}) */
     public function getUserName () { return $this->getAccount()->getUserName(); }
