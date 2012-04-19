@@ -1,0 +1,22 @@
+<table border="1">
+    <tr><th colspan="4">People Associated With This Account</th></tr>
+    <tr>
+        <th>Edit</th>
+        <th>Relation</th>
+        <th>Name</th>
+        <th>Referee Info</th>
+    </tr>
+    {% for ap in accountPersons %}
+    <tr>
+        <td><a href="{{ path('zayso_area_account_person_edit', { 'id': ap.id }) }}">Edit</a></td>
+        <td>{{ ap.accountRelation }}</td>
+        <td>{{ ap.personName      }}</td>
+        <td>{{ ap.refBadge        }}</td>
+    </tr>
+    {% endfor %}
+    <tr><th colspan="4">
+            <a href="{{ path('zayso_area_account_person_add') }}">Add Person to Account</a>
+        </th>
+    </tr>
+</table>
+
