@@ -35,12 +35,18 @@ class PersonController extends BaseController
                 $account = $manager->getAccountReference($accountId);
                 $accountPerson->setAccount($account);
                 
-                $accountPerson = $manager->addAccountPersonAyso($accountPerson);
+                $addedAccountPerson = $manager->addAccountPersonAyso($accountPerson);
                 
                 if (is_object($accountPerson)) 
                 {
+                    $primaryAccountPerson = $manager->loadPrimaryAccountPerson($accountId);
+                    
                     // Security check   
-                    $subject = sprintf('[Area] - Added %s',$accountPerson->getPersonName());
+                    $subject = sprintf('[Area] - Added %s %s TO %s',
+                        $addedAccountPerson->getAccountRelation(),
+                        $addedAccountPerson->getPersonName(),
+                        $primaryAccountPerson->getPersonName());
+                    
                     $this->sendEmail($subject,$subject);
                     
                     return $this->redirect($this->generateUrl('zayso_area_home'));
