@@ -16,20 +16,16 @@ use Zayso\CoreBundle\Entity\PersonRegistered;
 use Zayso\CoreBundle\Entity\ProjectPerson;
 use Zayso\CoreBundle\Entity\Project;
 
-class AccountManager
+class AccountManager extends BaseManager
 {
-    protected $em;
     protected $masterPassword;
     
     public function __construct($em,$masterPassword)
     {
-        $this->em = $em;
+        parent::__construct($em);
         $this->masterPassword = $masterPassword;
     }
     public function getMasterPassword()  { return $this->masterPassword; }
-    public function getEntityManager() { return $this->em; }
-    public function clear() { $this->em->clear(); }
-    public function flush() { $this->em->flush(); }
     
     /* ===========================================================
      * For creating new account
@@ -38,6 +34,13 @@ class AccountManager
     {
         return new AccountPersonAyso();
     }
+    public function addAccountPersonAyso($accountPerson)
+    {
+        // Seems to work okay for adding a person as well
+        $account = $this->createAccountFromAccountPersonAyso($accountPerson);
+        if ($account) return $accountPerson->getAccountPerson();
+        return null;
+     }
     public function createAccountFromAccountPersonAyso($accountPerson)
     {
         $em = $this->getEntityManager();
@@ -85,7 +88,8 @@ class AccountManager
             //$org = $this->loadOrg($person->getOrgKey(),true);
             //if ($org) $person->setOrg($org);
         }
-
+        // Might want to fool around with existing account?
+        
         // And save
         $em->persist($accountPerson->getAccountPerson()); // Everything cascades
 
@@ -95,7 +99,7 @@ class AccountManager
         }
         catch (\Exception $e)
         {
-            return 'Problem creating account';
+            // return 'Problem creating account';
             die('Create Account ' . $e->getMessage() . "\n");
         }
         return $accountPerson->getAccount();
