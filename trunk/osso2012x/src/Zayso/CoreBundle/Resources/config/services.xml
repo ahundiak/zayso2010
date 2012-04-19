@@ -17,6 +17,13 @@
         </service>
         
         <service
+            id     = "zayso_core.account.person.add.formtype"
+            class  = "Zayso\CoreBundle\Component\FormType\Account\AccountPersonAddFormType"
+            public = "true">
+            <argument type="service" id="zayso_core.account.entity_manager" />
+        </service>
+         
+        <service
             id     = "zayso_core.eayso.volunteer.import"
             class  = "Zayso\CoreBundle\Component\Import\Eayso\VolunteerImport"
             public = "true">
