@@ -212,5 +212,38 @@ class AccountManager extends BaseManager
         }
         return $projectPerson;
     }
+    public function loadPrimaryAccountPerson($accountId)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->addSelect('account');
+        $qb->addSelect('accountPerson');
+        $qb->addSelect('person');
+        $qb->addSelect('registeredPerson');
+        $qb->addSelect('projectPerson');
+        $qb->addSelect('org');
+
+        $qb->from('ZaysoCoreBundle:AccountPerson','accountPerson');
+
+        $qb->leftJoin('accountPerson.account',   'account');
+        $qb->leftJoin('accountPerson.person',    'person');
+        $qb->leftJoin('person.registeredPersons','registeredPerson');
+        $qb->leftJoin('person.projectPersons',   'projectPerson');
+        $qb->leftJoin('projectPerson.project',   'project');
+        $qb->leftJoin('person.org',              'org');
+        
+        $qb->andWhere($qb->expr()->eq('account.id',$qb->expr()->literal($accountId)));
+        $qb->andWhere($qb->expr()->eq('accountPerson.accountRelation',$qb->expr()->literal('Primary')));
+        
+        return $qb->getQuery()->getOneOrNullResult();
+
+        $items = $query->getResult();
+
+        if (count($items) == 1) return $items[0];
+
+        return null;
+      
+    }
 }
 ?>
