@@ -1,10 +1,11 @@
 <?php
 
 namespace Zayso\ArbiterBundle\Entity;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @Entity(repositoryClass="Arbiter\GameRepo")
- * @Table(name="arbiter.games")
+ *  Entity(repositoryClass="Arbiter\GameRepo")
+ *  Table(name="arbiter.games")
  */
 class Game
 {
