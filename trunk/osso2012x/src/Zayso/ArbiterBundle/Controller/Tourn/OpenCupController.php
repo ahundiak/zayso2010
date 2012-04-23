@@ -55,8 +55,8 @@ class OpenCupController extends Controller
         $message->setSubject('[OpenCup2012] Ref App ' . $referee->firstName . ' ' . $referee->lastName);
         $message->setFrom(array('ahundiak@zayso.org' => 'ZaysoOpenCup2012'));
         
-        $message->setTo  (array($referee->email,'deanjohnson@knology.net'));
-      //$message->setTo  (array($referee->email));
+      //$message->setTo  (array($referee->email,'deanjohnson@knology.net'));
+        $message->setTo  (array($referee->email));
         
         $message->setBcc (array('ahundiak@gmail.com'));
         
