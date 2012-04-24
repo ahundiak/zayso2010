@@ -4,14 +4,24 @@
         <th>Edit</th>
         <th>Relation</th>
         <th>Name</th>
-        <th>Referee Info</th>
+        <th>AYSO Information</th>
     </tr>
-    {% for ap in accountPersons %}
+    {% for accountPerson in accountPersons %}
+    {% set person   = accountPerson.personz %}
+    {% set aysoCert = person.aysoCertz %}
     <tr>
-        <td><a href="{{ path('zayso_area_account_person_edit', { 'id': ap.id }) }}">Edit</a></td>
-        <td>{{ ap.accountRelation }}</td>
-        <td>{{ ap.personName      }}</td>
-        <td>{{ ap.refBadge        }}</td>
+        <td><a href="{{ path('zayso_area_account_person_edit', { 'id': accountPerson.id }) }}">Edit</a></td>
+        <td>{{ accountPerson.accountRelation }}</td>
+        <td>{{ person.personName }}</td>
+        <td>
+            <table>
+                <tr><td>AYSO ID</td>      <td>{{aysoCert.aysoid}}   </td></tr>
+                <tr><td>Vol Year</td>     <td>{{aysoCert.memYear}}  </td></tr>
+                <tr><td>Safe Haven</td>   <td>{{aysoCert.safeHaven}}</td></tr>
+                <tr><td>Referee Badge</td><td>{{aysoCert.refBadge}} </td></tr>
+                <tr><td>Region</td>       <td>{{person.orgz.desc2}} </td></tr>
+            </table>
+        </td>
     </tr>
     {% endfor %}
     <tr><th colspan="4">
