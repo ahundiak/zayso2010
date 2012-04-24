@@ -183,4 +183,18 @@ class AccountPerson
     public function addOpenid($openid) { $this->openids[] = $openid; }
 
     public function clearOpenids() { $this->openids = new ArrayCollection(); }
+    
+    /* ====================================================
+     * For template stuff
+     */
+    protected $personz = null;
+    
+    public function getPersonz()
+    {
+        if ($this->person)  return $this->person;
+        if ($this->personz) return $this->personz;
+        
+        $this->personz = new Person();
+        return $this->personz;
+    }
 }

@@ -249,4 +249,33 @@ class Person
     }
     public function setDatax($datax) { $this->datax = $datax; }
     public function getDatax() { return $this->datax; }
+    
+    // ==========================================================
+    // This might lead to trouble but try it
+    
+    protected $aysoCertz = null;
+    
+    public function getAysoCertz()
+    {
+        if (isset($this->registeredPersons['AYSOV']) && $this->registeredPersons['AYSOV']) return $this->registeredPersons['AYSOV'];
+        
+        if ($this->aysoCertz) return $this->aysoCertz;
+        
+        $this->aysoCertz = new PersonRegistered();
+        
+        return $this->aysoCertz;
+    }
+    
+    protected $orgz = null;
+    
+    public function getOrgz()
+    {
+        if ($this->org) return $this->org;
+        
+        if (!$this->orgz)
+        {
+            $this->orgz = new Org();
+        }
+        return $this->orgz;
+    }
 }

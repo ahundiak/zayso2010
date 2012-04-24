@@ -83,6 +83,8 @@ class PersonRegistered
     public function setMemYear($memYear)  { return $this->set('mem_year',$memYear); }
     public function getMemYear()          { return $this->get('mem_year'); }
 
+    public function getAysoid() { return substr($this->regKey,5); }
+    
     /* =====================================================================
      * Generated Code
      */
