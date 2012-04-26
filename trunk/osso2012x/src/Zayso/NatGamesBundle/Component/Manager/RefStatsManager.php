@@ -91,7 +91,7 @@ class RefStatsManager
                 
                 default: die('Attend ' . $plans['attend']);
             }
-             switch($plans['will_referee'])
+            switch($plans['will_referee'])
             {
                 case 'NS':    break;  // Not Set
                 case 'NA':    break;  // No answer but plans were set
@@ -101,7 +101,18 @@ class RefStatsManager
                 case 'No':    $keep = false; break;
                 
                 default: die('Attend ' . $plans['attend']);
-            }
+            }/*
+            switch($plans['will_referee'])
+            {
+                case 'NS':    break;  // Not Set, setting to false yields 292, 310
+                case 'NA':    break;  // No answer but plans were set, 325
+                case 'Yes':   break;
+                case 'Yesx':  break;  // If team attends
+                case 'Maybe': break;
+                case 'No':    $keep = false; break;
+                
+                default: die('Attend ' . $plans['attend']);
+            }*/
             
             if ($keep) $itemsx[] = $item;
         }
@@ -120,6 +131,8 @@ class RefStatsManager
         $badge = $reg->getRefBadge();
         if (!$badge) return;
         
+        if ($badge == 'None???') $badge = 'None';
+        
         if (isset($this->badges[$badge])) $this->badges[$badge]++;
         else                              $this->badges[$badge] = 1;
     }
@@ -127,7 +140,7 @@ class RefStatsManager
     {
         $this->badges = array(
             'None'         => 0,
-            'None???'      => 0,
+        //    'None???'      => 0,
             'Regional'     => 0,
             'Intermediate' => 0,
             'Advanced'     => 0,
