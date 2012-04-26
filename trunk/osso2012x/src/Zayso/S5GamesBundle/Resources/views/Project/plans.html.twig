@@ -13,7 +13,7 @@
 
 {% block content %}
 <div>
-<form class="s1" method="post" action="{{ path('zayso_s5games_project_plans') }} {{ form_enctype(form) }}">
+<form class="s1" method="post" action="{{ path('zayso_s5games_project_plans', { 'id': personId }) }} {{ form_enctype(form) }}">
 <fieldset>
     {{ form_row(form.willAttend)  }}
     {{ form_row(form.willReferee) }}
