@@ -245,5 +245,62 @@ class AccountManager extends BaseManager
         return null;
       
     }
+    /* =========================================================================
+     * Use this to present list of people on home page
+     */
+    public function getAccountPersons($params = array())
+    {
+        if (isset($params['projectId'])) $wantProject = true;
+        else                             $wantProject = false;
+
+        // Build query
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->addSelect('accountPerson');
+        $qb->addSelect('account');
+        $qb->addSelect('person');
+        $qb->addSelect('registeredPersons');
+        $qb->addSelect('org');
+
+        if ($wantProject) $qb->addSelect('projectPerson');
+
+        $qb->from('ZaysoCoreBundle:AccountPerson','accountPerson');
+
+        $qb->leftJoin('accountPerson.account',   'account');
+        $qb->leftJoin('accountPerson.person',    'person');
+        $qb->leftJoin('person.registeredPersons','registeredPersons');
+        $qb->leftJoin('person.org',              'org');
+        if ($wantProject)
+        {
+            $qb->leftJoin('person.projectPersons','projectPerson');
+            $qb->leftJoin('projectPerson.project','project');
+        }
+        if (isset($params['accountId']))
+        {
+            $qb->andWhere($qb->expr()->in('account.id',$params['accountId']));
+        }
+        if (isset($params['accountPersonId']))
+        {
+            $qb->andWhere($qb->expr()->in('accountPerson.id',$params['accountPersonId']));
+        }
+        if ($wantProject)
+        {
+            if ($params['projectId'])
+            {
+                $qb->andWhere($qb->expr()->in('project.id',$params['projectId']));
+            }
+        }
+        $query = $qb->getQuery();
+        
+      //die('DQL ' . $query->getSQL());
+        return $query->getResult();        
+    }
+    public function getAccountPerson($params = array())
+    {
+        $accountPersons = $this->getAccountPersons($params);
+        if (count($accountPersons) == 1) return $accountPersons[0];
+        return null;
+    }
 }
 ?>
