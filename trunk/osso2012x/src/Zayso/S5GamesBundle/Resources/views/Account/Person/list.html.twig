@@ -1,0 +1,51 @@
+<table border="1">
+    <tr><th colspan="5">People Associated With This Account</th></tr>
+    <tr>
+        <th>Edit</th>
+        <th>Relation</th>
+        <th>Name</th>
+        <th>AYSO Information</th>
+        <th>S5Games Plans</th>
+    </tr>
+    {% for accountPerson in accountPersons %}
+    {% set person   = accountPerson.personz %}
+    {% set aysoCert = person.aysoCertz %}
+    {% set projectPerson = person.projectPerson(projectId) %}
+    {% if projectPerson %}
+        {% set plans = projectPerson.get('plans') %}
+    {% else %}
+        {%set plans = null %}
+    {% endif %}
+    <tr>
+        <td><a href="{{ path('zayso_s5games_account_person_edit', { 'id': accountPerson.id }) }}">Edit</a></td>
+        <td>{{ accountPerson.accountRelation }}</td>
+        <td>{{ person.personName }}</td>
+        <td>
+            <table>
+                <tr><td>AYSO ID</td>      <td>{{aysoCert.aysoid}}   </td></tr>
+                <tr><td>Vol Year</td>     <td>{{aysoCert.memYear}}  </td></tr>
+                <tr><td>Safe Haven</td>   <td>{{aysoCert.safeHaven}}</td></tr>
+                <tr><td>Referee Badge</td><td>{{aysoCert.refBadge}} </td></tr>
+                <tr><td>Region</td>       <td>{{person.orgz.desc2}} </td></tr>
+            </table>
+        </td>
+        <td>
+            {% if plans %}
+                Will Attend:  {{ plans['willAttend'] }}<br />
+                Will Referee: {{ plans['willReferee'] }}<br />
+                Will Coach:   {{ plans['willCoach'] }}<br />
+                Have Player:  {{ plans['havePlayer'] }}<br />
+                T-Shirt Size: {{ plans['tshirtSize'] }}<br />
+            {% else %}
+                No plans as of yet.<br />
+            {% endif %}
+            <a href="{{ path('zayso_s5games_project_plans', { 'id': person.id }) }}">Update My Tournament Plans</a>
+        </td>
+    </tr>
+    {% endfor %}
+    <tr><th colspan="5">
+            <a href="{{ path('zayso_s5games_account_person_add') }}">Add Person to Account</a>
+        </th>
+    </tr>
+</table>
+
