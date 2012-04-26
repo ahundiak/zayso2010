@@ -86,7 +86,13 @@ zayso_natgames_account_openid_add_rpx:
 
 zayso_natgames_account_person_add:
     pattern:  /account/person/add
-    defaults: { _controller: ZaysoNatGamesBundle:Account\AccountPerson:add }
+    defaults: { _controller: ZaysoS5GamesBundle:Account\Person:add }
+    
+zayso_natgames_account_person_edit:
+    pattern:  /account/person/edit/{id}
+    defaults: { _controller: ZaysoS5GamesBundle:Account\Person:edit, id: 0 }
+    requirements:
+        id: \d+
 
 # Project Person Information
 zayso_natgames_project_plans:
