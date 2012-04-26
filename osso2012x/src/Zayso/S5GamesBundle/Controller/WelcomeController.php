@@ -11,6 +11,10 @@ class WelcomeController extends BaseController
 {
     public function welcomeAction()
     {
+        if ($this->isUser())
+        {
+            return $this->redirect($this->generateUrl('zayso_s5games_home'));
+        }
         $tplData = array();
         return $this->render('ZaysoS5GamesBundle:Welcome:welcome.html.twig',$tplData);
     }
@@ -29,8 +33,18 @@ class WelcomeController extends BaseController
         {
             return $this->redirect($this->generateUrl('zayso_s5games_project_plans'));
         }
+        
+        // Get prople for account
+        $user = $this->getUser();
+        $accountId = $user->getAccountId();
+        $projectId = $this->getProjectId();
+        $params = array('accountId' => $accountId,'projectId' => 0); // Want all projects
+        $accountPersons = $manager->getAccountPersons($params);
+        
         // And Render
         $tplData = array();
+        $tplData['projectId']      = $projectId;
+        $tplData['accountPersons'] = $accountPersons;
         return $this->render('ZaysoS5GamesBundle:Welcome:home.html.twig',$tplData);
     }
     public function contactAction()

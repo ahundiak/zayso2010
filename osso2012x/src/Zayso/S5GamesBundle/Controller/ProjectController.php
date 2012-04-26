@@ -119,7 +119,7 @@ class ProjectPersonPlansFormType extends AbstractType
 }
 class ProjectController extends BaseController
 {
-    public function plansAction(Request $request)
+    public function plansAction(Request $request, $id = 0)
     {   
         $plans = array(
             'willAttend'    => null,
@@ -132,7 +132,14 @@ class ProjectController extends BaseController
             'tshirtSize'    => null,
             'notes'         => null,
         );
-        $projectPerson = $this->getProjectPerson();
+        
+        // Load the project person, create one of needed
+        if ($id) $personId = $id;
+        else     $personId = $this->getUser()->getPersonId();
+        
+        $manager = $this->getAccountManager();
+        
+        $projectPerson = $manager->addProjectPerson($this->getProjectId(),$personId);
         $plansx = $projectPerson->get('plans');
         if (is_array($plansx)) $plans = array_merge($plans,$plansx);
         
@@ -147,13 +154,14 @@ class ProjectController extends BaseController
                 // Update plans
                 $plans = $form->getData();
                 $projectPerson->set('plans',$plans);
-                $this->getAccountManager()->flush();
+                $manager->flush();
                 
                 return $this->redirect($this->generateUrl('zayso_s5games_home'));
             }
         }
         
         $tplData = array();
+        $tplData['personId'] = $personId;
         $tplData['form'] = $form->createView();
 
         return $this->render('ZaysoS5GamesBundle:Project:plans.html.twig',$tplData);
