@@ -85,12 +85,20 @@ zayso_s5games_account_openid_add_rpx:
 
 zayso_s5games_account_person_add:
     pattern:  /account/person/add
-    defaults: { _controller: ZaysoS5GamesBundle:Account\AccountPerson:add }
+    defaults: { _controller: ZaysoS5GamesBundle:Account\Person:add }
+    
+zayso_s5games_account_person_edit:
+    pattern:  /account/person/edit/{id}
+    defaults: { _controller: ZaysoS5GamesBundle:Account\Person:edit, id: 0 }
+    requirements:
+        id: \d+
 
 # Project Person Information
 zayso_s5games_project_plans:
-    pattern:  /project/plans
-    defaults: { _controller: ZaysoS5GamesBundle:Project:plans }
+    pattern:  /project/plans/{id}
+    defaults: { _controller: ZaysoS5GamesBundle:Project:plans, id: 0 }
+    requirements:
+        id: \d+
 
 zayso_s5games_project_levels:
     pattern:  /project/levels

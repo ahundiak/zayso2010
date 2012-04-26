@@ -4,8 +4,7 @@
 
 {% block content %}
 <div>
-    <h1>Home</h1>
-    <p><a href="{{ path('zayso_s5games_project_plans') }}">Update My Tournament Plans</a></p>
+    {% include 'ZaysoS5GamesBundle:Account/Person:list.html.twig' %}
 </div>
 {% endblock %}
 
