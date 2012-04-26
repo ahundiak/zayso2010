@@ -1,34 +1,51 @@
-<div>
-<form action="{{ path('zayso_natgames_account_profile_post') }}" method="post" >
-<table border="1" style="width: 800px;">
-    <tr><th colspan="4">National Games 2012 - People Attached to Account</th></tr>
+<table border="1">
+    <tr><th colspan="5">People Associated With This Account</th></tr>
     <tr>
+        <th>Edit</th>
         <th>Relation</th>
-        <th>Account Person Name</th>
+        <th>Name</th>
         <th>AYSO Information</th>
-        <th>Switch User</th>
+        <th>National Games Plans</th>
     </tr>
-    {% for accountPerson in account.accountPersons %}
+    {% for accountPerson in accountPersons %}
+    {% set person   = accountPerson.personz %}
+    {% set aysoCert = person.aysoCertz %}
+    {% set projectPerson = person.projectPerson(projectId) %}
+    {% if projectPerson %}
+        {% set plans = projectPerson.get('plans') %}
+    {% else %}
+        {%set plans = null %}
+    {% endif %}
     <tr>
-        <td>{{ accountPerson.accountRelation}}</td>
-        <td>{{ accountPerson.personName     }}</td>
+        <td><a href="{{ path('zayso_natgames_account_person_edit', { 'id': accountPerson.id }) }}">Edit</a></td>
+        <td>{{ accountPerson.accountRelation }}</td>
+        <td>{{ person.personName }}</td>
         <td>
-         {{ helper.renderEaysoInfo(accountPerson) | raw }}
-         {# render "ZaysoNatGamesBundle:Account/Profile:renderEaysoInfo" with {'accountPerson': accountPerson} #}
-       </td>
-       <td align="center">
-         <input type="radio" name="accountPersons[switch]" value="{{accountPerson.id}}" />
-       </td>
+            <table>
+                <tr><td>AYSO ID</td>      <td>{{aysoCert.aysoid}}   </td></tr>
+                <tr><td>Vol Year</td>     <td>{{aysoCert.memYear}}  </td></tr>
+                <tr><td>Safe Haven</td>   <td>{{aysoCert.safeHaven}}</td></tr>
+                <tr><td>Referee Badge</td><td>{{aysoCert.refBadge}} </td></tr>
+                <tr><td>Region</td>       <td>{{person.orgz.desc2}} </td></tr>
+            </table>
+        </td>
+        <td>
+            {% if plans %}
+                Will Attend:  {{ plans.attend       }}<br />
+                Will Referee: {{ plans.will_referee }}<br />
+                Have Player:  {{ plans.have_player  }}<br />
+                T-Shirt Size: {{ plans.t_shirt_size }}<br />
+            {% else %}
+                No plans as of yet.<br />
+            {% endif %}
+            <a href="{{ path('zayso_natgames_project_plans', { 'id': person.id }) }}">Update My Tournament Plans</a><br />
+            <a href="{{ path('zayso_natgames_project_levels',{ 'id': person.id }) }}">Update My Referee Levels</a>
+        </td>
     </tr>
     {% endfor %}
-    <tr>
-      <td colspan="3">
-        <a href="{{ path('zayso_natgames_account_person_add') }}">Click here</a> to add additional person to account.<br />
-        This will allow you to sign up the additional person to referee games.
-      </td>
-      <td align="center"><input type="submit" name="switchUserSubmit" value="Switch User" /></td>
+    <tr><th colspan="5">
+            <a href="{{ path('zayso_natgames_account_person_add') }}">Add Person to Account</a>
+        </th>
     </tr>
 </table>
-</form>
-</div>
 
