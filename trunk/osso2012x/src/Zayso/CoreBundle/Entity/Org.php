@@ -75,6 +75,10 @@ class Org
     public function __construct()
     {
     }
+    public function getDesc3()
+    {
+        return substr($this->id,4) . ' ' . $this->city;
+    }
     /* ============================================================
      * Generated code follows
      */
