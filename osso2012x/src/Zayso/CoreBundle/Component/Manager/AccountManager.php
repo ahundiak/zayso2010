@@ -3,6 +3,7 @@
 namespace Zayso\CoreBundle\Component\Manager;
 
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Query\Expr;
 
 use Zayso\CoreBundle\Component\Debug;
 
@@ -147,6 +148,7 @@ class AccountManager extends BaseManager
     }   
     /* =========================================================================
      * Some project person routines
+     * Moved to AccountHomeManager
      */
     public function loadProjectPerson($projectId,$personId)
     {
@@ -181,6 +183,7 @@ class AccountManager extends BaseManager
     }
     /* ============================================================
      * Called when a person signs in to a paroject
+     * Moved to AccountHomeManager
      */
     public function addProjectPerson($project,$person,$data = null)
     {
@@ -273,7 +276,8 @@ class AccountManager extends BaseManager
         $qb->leftJoin('person.org',              'org');
         if ($wantProject)
         {
-            $qb->leftJoin('person.projectPersons','projectPerson');
+            $qb->leftJoin('person.projectPersons','projectPerson', 
+                    Expr\Join::WITH, $qb->expr()->eq('projectPerson.project', $params['projectId']));
             $qb->leftJoin('projectPerson.project','project');
         }
         if (isset($params['accountId']))
@@ -288,7 +292,7 @@ class AccountManager extends BaseManager
         {
             if ($params['projectId'])
             {
-                $qb->andWhere($qb->expr()->in('project.id',$params['projectId']));
+                // $qb->andWhere($qb->expr()->in('project.id',$params['projectId']));
             }
         }
         $query = $qb->getQuery();
