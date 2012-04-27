@@ -38,7 +38,7 @@ class WelcomeController extends BaseController
         $user = $this->getUser();
         $accountId = $user->getAccountId();
         $projectId = $this->getProjectId();
-        $params = array('accountId' => $accountId,'projectId' => 0); // Want all projects
+        $params = array('accountId' => $accountId,'projectId' => $projectId); // Want all projects
         $accountPersons = $manager->getAccountPersons($params);
         
         // And Render
