@@ -7,9 +7,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Zayso\CoreBundle\Component\Debug;
 use Zayso\CoreBundle\Entity\ProjectPerson;
 
-use Zayso\CoreBundle\Controller\BaseController;
+use Zayso\CoreBundle\Controller\BaseController as CoreBaseController;
 
-class WelcomeController extends BaseController
+class WelcomeController extends CoreBaseController
 {
     public function welcomeAction()
     {
@@ -22,9 +22,16 @@ class WelcomeController extends BaseController
     }
     public function homeAction(Request $request)
     {   
+        // Use the home manage
+        $manager = $this->get('zayso_core.account.home.manager');
+        
         // Ensure part of the project
-        $manager = $this->getAccountManager();
-        $projectPerson = $manager->addProjectPerson($this->getProjectId(),$this->getUser()->getPersonId());
+        $user = $this->getUser();
+        $accountId = $user->getAccountId();
+        $personId  = $user->getPersonId();
+        $projectId = $this->getProjectId();
+        
+        $projectPerson = $manager->addProjectPerson($projectId,$personId);
         
         // Verify plans were set
         $plans = $projectPerson->get('plans');
@@ -42,11 +49,7 @@ class WelcomeController extends BaseController
             }
         }
         // Get prople for account
-        $user = $this->getUser();
-        $accountId = $user->getAccountId();
-        $projectId = $this->getProjectId();
-        $params = array('accountId' => $accountId,'projectId' => 0); // Want all projects
-        $accountPersons = $manager->getAccountPersons($params);
+        $accountPersons = $manager->loadAccountPersons($accountId,$projectId);
         
         // And Render
         $tplData = array();

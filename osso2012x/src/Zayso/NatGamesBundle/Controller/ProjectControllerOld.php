@@ -3,13 +3,17 @@
 namespace Zayso\NatGamesBundle\Controller;
 
 use Zayso\CoreBundle\Component\Debug;
-use Zayso\CoreBundle\Controller\BaseController as CoreBaseController;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\CallbackValidator;
+use Symfony\Component\Form\FormValidatorInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class ProjectPersonPlansFormType extends AbstractType
 {
@@ -103,19 +107,19 @@ class ProjectPersonPlansFormType extends AbstractType
             'choices'       => $this->yesNoPickList,
         ));
         $builder->add('avail_thu', 'choice', array(
-            'label'         => 'Available Thursday (Pool Play)',
+            'label'         => 'Available Thursday (Group Play)',
             'required'      => false,
             'empty_value'   => 'Select Answer',
             'choices'       => $this->yesNoPickList,
         ));
         $builder->add('avail_fri', 'choice', array(
-            'label'         => 'Available Friday (Pool Play)',
+            'label'         => 'Available Friday (Group Play)',
             'required'      => false,
             'empty_value'   => 'Select Answer',
             'choices'       => $this->yesNoPickList,
         ));
         $builder->add('avail_sat_morn', 'choice', array(
-            'label'         => 'Available Saturday Morning (Pool Play)',
+            'label'         => 'Available Saturday Morning (Group Play)',
             'required'      => false,
             'empty_value'   => 'Select Answer',
             'choices'       => $this->yesNoPickList,
@@ -188,7 +192,7 @@ class ProjectPersonPlansFormType extends AbstractType
  
 }
 
-class ProjectController extends CoreBaseController
+class ProjectController extends BaseController
 {
     public function plansAction(Request $request, $id = 0)
     {   
@@ -260,10 +264,30 @@ class ProjectController extends CoreBaseController
 
         return $this->render('ZaysoNatGamesBundle:Project:plans.html.twig',$tplData);
     }
+    protected $plansData  = null;
     protected $levelsData = null;
-    
+
+    protected $pickLists = null;
+
+    public function plansxAction()
+    {   
+        $projectPerson = $this->getProjectPerson();
+        if (!$projectPerson) return $this->redirect($this->generateUrl('zayso_natgames_home'));
+        
+        $plansData = $projectPerson->get('plans');
+        if (!$plansData) $plansData = array();
+
+        $this->plansData = $plansData;
+        $this->buildPlansPickLists();
+
+        $tplData = $this->getTplData();
+        $tplData['gen']  = $this;
+        return $this->render('ZaysoNatGamesBundle:Project:plans.html.twig',$tplData);
+    }
     public function levelsAction(Request $request, $id = 0)
     {
+        if ($request->getMethod() == 'POST') return $this->levelsPostAction($request,$id);
+
         // Load project person creating if need be
         if ($id) $personId = $id;
         else     $personId = $this->getUser()->getPersonId();
@@ -277,7 +301,7 @@ class ProjectController extends CoreBaseController
             $projectPerson->set('levels',$levelsData);
             $manager->flush();
 
-            return $this->redirect($this->generateUrl('zayso_natgames_home'));
+            return $this->redirect($this->generateUrl('zayso_natgames_project_home'));
         }
         $levelsData = $projectPerson->get('levels');
         if (!$levelsData) $levelsData = array();
@@ -292,7 +316,7 @@ class ProjectController extends CoreBaseController
             array('desc' => 'EXTRA',             'cat' => 'ex'),
         );
 
-        $tplData = array();
+        $tplData = array(); // $this->getTplData();
         $tplData['gen']    = $this;
         $tplData['levels'] = $levels;
         $tplData['ages']   = array('U10','U12','U14','U16','U19');
@@ -301,6 +325,69 @@ class ProjectController extends CoreBaseController
         $tplData['projectPerson'] = $projectPerson;
         
         return $this->render('ZaysoNatGamesBundle:Project:levels.html.twig',$tplData);
+    }
+    public function plansPostAction(Request $request, $id = 0)
+    {
+        $plansData = $request->request->get('plansData');
+        if (!$plansData) $plansData = array();
+        
+        $projectPerson = $this->getProjectPerson();
+        if (!$projectPerson) return $this->redirect($this->generateUrl('zayso_natgames_home'));
+
+        $projectPerson->set('plans',$plansData);
+        $this->getAccountManager()->getEntityManager()->flush();
+
+        return $this->redirect($this->generateUrl('zayso_natgames_project_plans'));
+    }
+    public function levelsPostAction(Request $request)
+    {
+        if ($id) $personId = $id;
+        else     $personId = $this->getUser()->getPersonId();
+        
+        $manager = $this->get('zayso_core.account.home.manager');
+        
+        $projectPerson = $manager->addProjectPerson($this->getProjectId(),$personId);
+        
+        $levelsData = $request->request->get('levelsData');
+        if (!$levelsData) $levelsData = array();
+        
+        $projectPerson->set('levels',$levelsData);
+        $manager->flush();
+
+        return $this->redirect($this->generateUrl('zayso_natgames_project_home'));
+    }
+    protected function getPlansDataValue($name)
+    {
+        if (!isset($this->plansData[$name])) return null;
+        return htmlspecialchars($this->plansData[$name],ENT_QUOTES);
+    }
+    public function genSelect($name)
+    {
+        $value = $this->getPlansDataValue($name);
+
+        $html = sprintf('%s<select name="plansData[%s]">%s',"\n",$name,"\n");
+
+        $options = $this->pickLists[$name];
+        foreach($options as $key => $desc)
+        {
+            if ($value == $key) $selected = 'selected="selected"';
+            else                $selected = '';
+            $option = sprintf('<option value="%s" %s>%s</option>%s',$key,$selected,$desc,"\n");
+            $html .= $option;
+        }
+        $html .= '</select>' . "\n";
+        return $html;
+    }
+    public function genCheckBox($name)
+    {
+        $value = $this->getPlansDataValue($name);
+
+        if ($value) $checked = 'checked="checked"';
+        else        $checked = '';
+
+        $html = sprintf('<input type="checkbox" name=plansData[%s]" value="1" %s />',$name,$checked);
+
+        return $html;
     }
     public function genLevelCheckBox($cat,$name)
     {
@@ -328,5 +415,100 @@ class ProjectController extends CoreBaseController
             }
         }
         return $html;
+    }
+    public function genRoomMateName($name)
+    {
+        $value = $this->getPlansDataValue($name);
+
+        $html = sprintf('<input type="text" name=plansData[%s]" size="30" value="%s" />',$name,$value);
+
+        return $html;
+    }
+    protected function buildPlansPickLists()
+    {
+        $yesno = array
+        (
+            'NA'    => 'Select Answer',
+            'Yes'   => 'Yes',
+            'No'    => 'No',
+        );
+        $yesnoref = array
+        (
+            'NA'    => 'Select Answer',
+            'Yes'   => 'Yes - Will referee',
+            'No'    => 'No - Will not referee',
+        );
+        $yesnorefx = array
+        (
+            'NA'    => 'Select Answer',
+            'Yes'   => 'Yes - Will referee',
+            'Yesx'  => 'Yes - Will referee if my team advances',
+            'No'    => 'No - Will not referee',
+        );
+
+        $pickLists = array
+        (
+            'attend' => array
+            (
+                'NA'    => 'Select Answer',
+                'Yes'   => 'Yes - For sure',
+                'Yesx'  => 'Yes - If my team is selected',
+                'No'    => 'No',
+                'Maybe' => 'Maybe - Not sure yet',
+            ),
+            'will_referee'     => $yesno,
+            'do_assessments'   => $yesno,
+            'coaching'         => $yesno,
+            'other_jobs'       => $yesno,
+            'ground_transport' => $yesno,
+            
+            'have_player' => array
+            (
+                'NA'    => 'Select Answer',
+                'Yes'   => 'Yes',
+                'Yesx'  => 'Yes - I am a player',
+                'No'    => 'No',
+            ),
+            'want_assessment' => array
+            (
+                'NA'            => 'Select Answer',
+                'No'            => 'No',
+                'Informal'      => 'Informal',
+                'Intermediate'  => 'Intermediate',
+                'AdvancedCR'    => 'Advanced CR',
+                'AdvancedAR'    => 'Advanced AR',
+                'AdvancedCRAR'  => 'Advanced CR and AR',
+                'NationalCR'    => 'National CR',
+                'NationalAR'    => 'National AR',
+                'NationalCRAR'  => 'National CR and AR',
+            ),
+            't_shirt_size' => array
+            (
+                'NA'  => 'Select Size',
+                'YM'  => 'Youth Medium',
+                'YL'  => 'Youth Large',
+                'AS'  => 'Adult Small',
+                'AM'  => 'Adult Medium',
+                'AL'  => 'Adult Large',
+                'AXL' => 'Adult Large X',
+                'A2X' => 'Adult Large XX',
+                'A3X' => 'Adult Large XXX',
+                'A4X' => 'Adult Large XXXX',
+            ),
+            'attend_open' => array
+            (
+                'NA'    => 'Select Answer',
+                'Yes'   => 'Yes - Will participate',
+                'No'    => 'No - Will not be there',
+            ),
+            'avail_wed'       => $yesnoref,
+            'avail_thu'       => $yesnoref,
+            'avail_fri'       => $yesnoref,
+            'avail_sat_morn'  => $yesnoref,
+            'avail_sat_after' => $yesnoref,
+            'avail_sun_morn'  => $yesnorefx,
+            'avail_sun_after' => $yesnorefx,
+        );
+        $this->pickLists = $pickLists;
     }
 }
