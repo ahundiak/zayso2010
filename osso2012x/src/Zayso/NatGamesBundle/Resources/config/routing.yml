@@ -86,38 +86,26 @@ zayso_natgames_account_openid_add_rpx:
 
 zayso_natgames_account_person_add:
     pattern:  /account/person/add
-    defaults: { _controller: ZaysoS5GamesBundle:Account\Person:add }
+    defaults: { _controller: ZaysoNatGamesBundle:Account\Person:add }
     
 zayso_natgames_account_person_edit:
     pattern:  /account/person/edit/{id}
-    defaults: { _controller: ZaysoS5GamesBundle:Account\Person:edit, id: 0 }
+    defaults: { _controller: ZaysoNatGamesBundle:Account\Person:edit, id: 0 }
     requirements:
         id: \d+
 
 # Project Person Information
 zayso_natgames_project_plans:
-    pattern:  /project/plans
-    defaults: { _controller: ZaysoNatGamesBundle:Project:plans }
+    pattern:  /project/plans/{id}
+    defaults: { _controller: ZaysoNatGamesBundle:Project:plans, id: 0 }
     requirements:
-        _method:  GET
-
-zayso_natgames_project_plans_post:
-    pattern:  /project/plans
-    defaults: { _controller: ZaysoNatGamesBundle:Project:plansPost }
-    requirements:
-        _method:  POST
-
+        id: \d+
+        
 zayso_natgames_project_levels:
-    pattern:  /project/levels
-    defaults: { _controller: ZaysoNatGamesBundle:Project:levels }
+    pattern:  /project/levels{id}
+    defaults: { _controller: ZaysoNatGamesBundle:Project:levels, id: 0 }
     requirements:
-        _method:  GET
-
-zayso_natgames_project_levels_post:
-    pattern:  /project/levels
-    defaults: { _controller: ZaysoNatGamesBundle:Project:levelsPost }
-    requirements:
-        _method:  POST
+        id: \d+
 
 zayso_natgames_schedule:
     pattern:  /schedule

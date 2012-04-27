@@ -1,12 +1,12 @@
-{% form_theme form 'ZaysoS5GamesBundle:Layout:fields.html.twig' %}
+{% form_theme form 'ZaysoNatGamesBundle:Layout:fields.html.twig' %}
 
-{% extends 'ZaysoS5GamesBundle:Layout:layout.html.twig' %}
+{% extends 'ZaysoNatGamesBundle:Layout:layout.html.twig' %}
 
-{% block title %}S5Games - AccountPerson - Add{% endblock %}
+{% block title %}NatGames - AccountPerson - Add{% endblock %}
 
 {% block content %}
 <div>
-<form action="{{ path('zayso_s5games_account_person_add') }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ path('zayso_natgames_account_person_add') }}" method="post" {{ form_enctype(form) }}>
 <table border="1" style="width: 800px;">
 <tr><th colspan="3">Add Person to Account</th></tr>
 <tr>

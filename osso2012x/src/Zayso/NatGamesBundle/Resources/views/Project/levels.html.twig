@@ -4,9 +4,9 @@
 
 {% block content %}
 <div>
-<form method="post" action="{{ path('zayso_natgames_project_levels') }}">
+<form method="post" action="{{ path('zayso_natgames_project_levels', { 'id': personId }) }}">
 <table border="1" class="form_table" width="800" id="project-levels">
-    <tr><th colspan="22">Age Groups to Referee</th></tr>
+    <tr><th colspan="22">Age Groups to Referee For {{ projectPerson.person.personName }}</th></tr>
     <tr>
       <td>Category</td>
       <td>NA</td>
