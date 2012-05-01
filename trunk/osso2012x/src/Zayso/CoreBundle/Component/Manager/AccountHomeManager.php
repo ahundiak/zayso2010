@@ -22,6 +22,9 @@ class AccountHomeManager // extends BaseManager
     }
     public function getEntityManager() { return $this->em; }
     public function flush() { $this->em->flush(); }
+    
+    public function refresh($entity) { $this->em->refresh($entity); }
+    
     /* =========================================================================
      * Loads a specific project person
      */
@@ -115,6 +118,40 @@ class AccountHomeManager // extends BaseManager
         
       //die('DQL ' . $query->getSQL());
         return $query->getResult();        
+    }
+    /* =========================================================================
+     * Use to load and edit an account person
+     */
+    public function loadAccountPerson($accountPersonId, $projectId = 0)
+    {
+        // Build query
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->addSelect('accountPerson');
+        $qb->addSelect('account');
+        $qb->addSelect('person');
+        $qb->addSelect('registeredPersons');
+        $qb->addSelect('org');
+        $qb->addSelect('projectPerson');
+        $qb->addSelect('openid');
+
+        $qb->from('ZaysoCoreBundle:AccountPerson','accountPerson');
+
+        $qb->leftJoin('accountPerson.account',   'account');
+        $qb->leftJoin('accountPerson.person',    'person');
+        $qb->leftJoin('accountPerson.openids',   'openid');
+        $qb->leftJoin('person.registeredPersons','registeredPersons');
+        $qb->leftJoin('person.org',              'org');
+        
+        $qb->leftJoin('person.projectPersons','projectPerson', 
+            Expr\Join::WITH, $qb->expr()->eq('projectPerson.project', $projectId));
+        
+        $qb->andWhere($qb->expr()->in('accountPerson.id',$accountPersonId));
+        
+        $item = $qb->getQuery()->getOneOrNullResult();
+
+        return $item;   
     }
 }
 ?>
