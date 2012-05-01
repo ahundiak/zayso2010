@@ -57,8 +57,6 @@ class GameTeamReportFormType extends AbstractType
             'required'  => false,
             'read_only' => true,
         ));
-       
-
     }
 }
 class GameReportFormType extends AbstractType
