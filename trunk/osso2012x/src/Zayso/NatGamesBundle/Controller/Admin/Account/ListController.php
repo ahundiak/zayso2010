@@ -153,7 +153,7 @@ class ListController extends BaseController
         
         $params = array(
             'projectId' => $this->getProjectId(),
-            'accountRelation' => 'Primary',
+//            'accountRelation' => 'Primary',
         );
         $members = $accountManager->getAccountPersons($params);
         
