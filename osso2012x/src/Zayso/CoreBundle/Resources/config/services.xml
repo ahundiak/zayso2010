@@ -7,7 +7,22 @@
     <services>
         
         <service id = "zayso_core.account.entity_manager"  alias = "doctrine.orm.accounts_entity_manager" ></service>
+        <service id = "zayso_core.game.entity_manager"     alias = "doctrine.orm.games_entity_manager"    ></service>
         
+        <service
+            id     = "zayso_core.game.report.formtype"
+            class  = "Zayso\CoreBundle\Component\FormType\Game\GameReportFormType"
+            public = "true">
+            <argument type="service" id="zayso_core.game.entity_manager" />
+        </service>
+        
+        <service
+            id     = "zayso_core.game.manager"
+            class  = "Zayso\CoreBundle\Component\Manager\GameManager"
+            public = "true">
+            <argument type="service" id="zayso_core.game.entity_manager" />
+        </service>
+       
         <service
             id     = "zayso_core.account.manager"
             class  = "Zayso\CoreBundle\Component\Manager\AccountManager"
