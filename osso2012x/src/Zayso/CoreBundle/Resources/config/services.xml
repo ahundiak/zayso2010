@@ -29,7 +29,21 @@
             public = "true">
             <argument type="service" id="zayso_core.account.entity_manager" />
         </service>
-         
+        
+        <service
+            id     = "zayso_core.account.person.edit.formtype"
+            class  = "Zayso\CoreBundle\Component\FormType\Account\AccountPersonEditFormType"
+            public = "true">
+            <argument type="service" id="zayso_core.account.entity_manager" />
+        </service>
+        
+        <service
+            id     = "zayso_core.account.edit.formtype"
+            class  = "Zayso\CoreBundle\Component\FormType\Account\AccountEditFormType"
+            public = "true">
+            <argument type="service" id="zayso_core.account.entity_manager" />
+        </service>
+          
         <service
             id     = "zayso_core.eayso.volunteer.import"
             class  = "Zayso\CoreBundle\Component\Import\Eayso\VolunteerImport"
