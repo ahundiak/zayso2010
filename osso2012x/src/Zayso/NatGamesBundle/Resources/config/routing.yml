@@ -93,6 +93,12 @@ zayso_natgames_account_person_edit:
     defaults: { _controller: ZaysoNatGamesBundle:Account\Person:edit, id: 0 }
     requirements:
         id: \d+
+        
+zayso_natgames_account_person_edit_account:
+    pattern:  /account/person/edit/account/{id}
+    defaults: { _controller: ZaysoNatGamesBundle:Account\Person:editAccount, id: 0 }
+    requirements:
+        id: \d+
 
 # Project Person Information
 zayso_natgames_project_plans:

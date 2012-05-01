@@ -23,6 +23,13 @@
                     </a>
                 </td>
             </tr>
+            {% if accountPerson.isPrimary %}
+            <tr><td>Account:</td><td>
+                <a href="{{ path('zayso_natgames_account_person_edit_account', { 'id': accountPerson.id }) }}">
+                    {{ accountPerson.userName }}
+                </a>
+            </td></tr>
+            {% endif %}
             <tr><td>Relation:</td><td>{{ accountPerson.accountRelation }}</td></tr>
             {% for openid in accountPerson.openids %}
                 <tr><td>Sign In With:</td><td>{{ openid.provider }}</td></tr>
