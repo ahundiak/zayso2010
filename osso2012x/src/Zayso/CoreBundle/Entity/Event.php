@@ -134,6 +134,8 @@ class Event extends BaseEntity
         if (!$this->field) return null;
         return $this->field->getKey();
     }
+    public function setFieldDesc($desc) { return; }
+    
     // ====================================================
     // getters/setters
     public function getId     () { return $this->id;      }
