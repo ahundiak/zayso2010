@@ -52,6 +52,11 @@ doctrine:
                 mappings:
                     ZaysoCoreBundle: ~
 
+            games:
+                connection: osso2012
+                mappings:
+                    ZaysoCoreBundle: ~
+
             accounts:
                 connection: osso2012
                 mappings:
