@@ -80,6 +80,12 @@ zayso_area_schedule_game_edit:
     requirements:
         id: \d+
         
+zayso_area_schedule_game_report:
+    pattern:  /schedule/game/report/{id}
+    defaults: { _controller: ZaysoAreaBundle:Game\GameReport:report}
+    requirements:
+        id: \d+
+        
 zayso_area_admin:
     pattern:  /admin
     defaults: { _controller: ZaysoAreaBundle:Admin\Index:index }
