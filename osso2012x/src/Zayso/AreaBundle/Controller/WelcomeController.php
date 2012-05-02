@@ -12,13 +12,12 @@ class WelcomeController extends BaseController
 {
     public function homeAction()
     {
-        $user = $this->getUser();
-        $accountId = $user->getAccountId();
-      //$accountId = 26; // Sloans
+        // Use the home manage
+        $manager = $this->get('zayso_core.account.home.manager');
         
-        $manager = $this->getAccountManager();
-        $accountPersons = $manager->getAccountPersons(array('accountId' => $accountId));
-        
+        $accountId = $this->getUser()->getAccountId();
+        $accountPersons = $manager->loadAccountPersons($accountId);
+ 
         $tplData = array();
         $tplData['accountPersons'] = $accountPersons;
         return $this->render('ZaysoAreaBundle:Welcome:home.html.twig',$tplData);

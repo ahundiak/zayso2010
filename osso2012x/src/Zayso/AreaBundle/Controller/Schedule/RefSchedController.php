@@ -109,7 +109,7 @@ class RefSchedController extends BaseController
         $tplData['games']     = $games;
         $tplData['gameCount'] = count($games);
         
-        $tplData['gameView']   = $this->getGameViewHelper();
+//      $tplData['gameView']   = $this->getGameViewHelper();
         $tplData['searchView'] = $this->getSearchViewHelper();
        
         $tplData['refSchedSearchData']  = $refSchedSearchData;
