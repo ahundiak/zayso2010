@@ -158,6 +158,17 @@ class EventPerson extends BaseEntity
 
     public function setPerson($person) { $this->onObjectPropertySet('person', $person); }
     public function getPerson()        { return $this->person;  }
+    
+    protected $personz = null;
+    public function getPersonz()       
+    { 
+        if ( $this->person) return $this->person;
+        if (!$this->personz)
+        {
+            $this->personz = new Person();
+        }
+        return $this->personz;  
+    }
 
     public function getPersonName()
     {

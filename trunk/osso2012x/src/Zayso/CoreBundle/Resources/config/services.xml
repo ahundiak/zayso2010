@@ -108,6 +108,10 @@
         <service id="zayso_core.format.html" class="Zayso\CoreBundle\Component\Format\HTML" public="true">
             <argument type="service" id="router" />
         </service>
+        
+        <service id="zayso_core.twig.core.extension" class="Zayso\CoreBundle\Component\Twig\CoreExtension">
+            <tag name="twig.extension" />
+        </service>
 
     </services>
 </container>

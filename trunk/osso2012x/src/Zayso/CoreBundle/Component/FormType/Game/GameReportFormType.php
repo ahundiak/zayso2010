@@ -8,6 +8,8 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\CallbackValidator;
 use Symfony\Component\Form\FormValidatorInterface;
 
+use Zayso\CoreBundle\Component\DataTransformer\StripTagsTransformer;
+
 class GameTeamReportFormType extends AbstractType
 {
     protected $name = 'team';
@@ -83,11 +85,18 @@ class GameReportFormType extends AbstractType
         $builder->add('fieldDesc','text', array('read_only' => true, 'label' => 'Field','required' => false));
         
         $builder->add('status', 'choice', array(
-            'label'   => 'Status',
+            'label'   => 'Game Status',
             'choices' => $this->statusPickList,
         ));
         
         $builder->add('teams', 'collection', array('type' => new GameTeamReportFormType($this->em)));
+        
+        $builder->add('report', 'textarea', array('label' => 'Comments', 'required' => false, 
+            'attr' => array('rows' => 12, 'cols' => 99, 'wrap' => 'hard', 'class' =>'textarea')));
+        
+        $builder->add('reportStatus', 'text', array('read_only' => true, 'label' => 'Report Status', 'required' => false));
+        
+        $builder->get('report')->appendClientTransformer(new StripTagsTransformer());
         
     }
     protected $statusPickList = array('Active' => 'Active', 'Cancelled' => 'Cancelled', 'Processed' => 'Processed');

@@ -159,5 +159,40 @@ class Event extends BaseEntity
     public function setStatus ($value) { $this->onScalerPropertySet('status', $value); }
     public function setProject($value) { $this->onObjectPropertySet('project',$value); }
 
+    // The report comments
+    public function getReport()       { return $this->get('report'); }
+    public function setReport($value) { $this->set('report',$value); }
+    
+    // Report Status
+    public function setReportStatus($value) { $this->set('reportStatus',$value); }
+    
+    /* =======================================================
+     * Blank - Game has not yet been played
+     * Future - Game not yet played
+     * 
+     * Submitted - Referee has submitted a report
+     * Approved - Administrator has reviewed it
+     * Not Required - For canceled games, scrimmages etc
+     * 
+     * Pending - Game has been played, no report submitted yet
+     * Over Due - Game was played, should have been submitted
+     */
+    public function getReportStatus()
+    {
+        // See if already set
+        $reportStatus = $this->get('reportStatus');
+        if ($reportStatus) return $reportStatus;
+        
+        // Deal with cancelled or processed games
+        $status = $this->getStatus();
+        if ($status != 'Active') return 'NotRequired';
+        
+        // See if game has been played, could use time as well
+        $date = $this->getDate();
+        $today = date('Ymd');
+        if ($today >= $date) return 'Pending';
+        
+        return 'Future';
+    }
 }
 ?>
