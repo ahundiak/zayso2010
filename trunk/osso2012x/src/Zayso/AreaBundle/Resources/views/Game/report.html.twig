@@ -44,6 +44,11 @@
     <td>{{ form_widget(form.status) }}</td>
     <td>{{ form_errors(form.status) }}</td>
 </tr>
+<tr>
+    <td>{{ form_label (form.reportStatus) }}</td>
+    <td>{{ form_widget(form.reportStatus) }}</td>
+    <td>{{ form_errors(form.reportStatus) }}</td>
+</tr>
 <tr><td colspan="3"><table border="1">
 <tr>
     <td>&nbsp;</td>
@@ -69,6 +74,9 @@
 {% endfor %}
 </table></td></tr>
 <tr><td colspan="3">{{ form_errors(form) }}</td></tr>
+<tr>
+    <td colspan="3">{{ form_widget(form.report) }}</td>
+</tr>
 <tr>
   <td><a href="{{ path('zayso_area_schedule_referee_list') }}#ref-sched-{{game.num}}">Referee Schedule</a></td>
     <td align="center">

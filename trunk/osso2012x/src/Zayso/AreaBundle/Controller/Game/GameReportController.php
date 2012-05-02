@@ -33,29 +33,17 @@ class GameReportController extends BaseController
 
             if ($form->isValid())
             {
-                die('is valid');
+                $reportStatus = $game->getReportStatus();
                 
-                if ($request->request->get('update_submit'))
-                {
-                    $manager->flush();
-                }
-                if ($request->request->get('delete_submit'))
-                {
-                    $manager->remove($game);
-                    $manager->flush();
-                    return $this->redirect($this->generateUrl('zayso_area_schedule_referee_list'));
-                }
-                if ($request->request->get('clone_submit'))
-                {
-                    $gamex = $manager->cloneGame($game);
-                    $manager->detach ($game);
-                    $manager->persist($gamex);
-                    $manager->flush();
-                   
-                    $id = $gamex->getId();
-                }
+                // Prevent future?
                 
-                return $this->redirect($this->generateUrl('zayso_area_schedule_game_edit',array('id' => $id)));
+                // Turn pending into submitted
+                if ($reportStatus == 'Pending') $game->setReportStatus('Submitted');
+                
+                // And save
+                if ($reportStatus != 'Future') $manager->flush();
+                
+                return $this->redirect($this->generateUrl('zayso_area_schedule_game_report',array('id' => $id)));
             }
         }
         

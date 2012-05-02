@@ -43,26 +43,48 @@
 </form>
 </div>
 <div>
-<table border="1" class="form_table" width="800" id="schedule-referee-list">
+<table class="schedule-referee-list" id="schedule-referee-list">
     <tr><th colspan="6">Referee Schedule - Game Count {{ gameCount }}</th></tr>
     <tr>
-        <td>Game</td>
-        <td>Date</td>
-        <td>Time</td>
-        <td>Field</td>
-        <td>Home/Away Teams</td>
-        <td>Referees</td>
+        <td class="game-num">Game</td>
+        <td class="game-date">Date</td>
+        <td class="game-time">Time</td>
+        <td class="game-field">Field</td>
+        <td class="game-teams">Home/Away Teams</td>
+        <td class="game-officials">Referees</td>
     </tr>
     {% for game in games %}
-    {{ gameView.setGame(game) }}
-        <tr id="ref-sched-{{game.num}}" class="status-{{game.status}}">
-            <td><a href="{{ path('zayso_area_schedule_game_edit', { 'id': game.id })}}">{{ game.getNum() }}</a></td>
-            <td>{{ gameView.date  }}</td>
-            <td>{{ gameView.time  }}</td>
-            <td>{{ gameView.field }}</td>
-            <td>{{ gameView.homeTeam }}<br />
-                {{ gameView.awayTeam }}</td>
-            <td>{{ gameView.officials | raw }}</td>
+        <tr id="ref-sched-{{game.num}}" class="game-status-{{game.status}}">
+            <td>
+                <a href="{{ path('zayso_area_schedule_game_edit', { 'id': game.id })}}">{{ game.getNum() }}</a>
+                {% if game.reportStatus != 'Futurex' %}
+                    <br />
+                    <a  href="{{ path('zayso_area_schedule_game_report', { 'id': game.id })}}"
+                        class="game-report-status-{{game.reportStatus}}">
+                        Report
+                    </a>
+                {% endif %}
+            </td>
+            <td>{{ game_date(game.date) }}</td>
+            <td>{{ game_time(game.time) }}</td>
+            <td>{{ game.fieldDesc       }}</td>
+            <td>
+                {% for team in game.teams %}
+                    {{ team.teamKey }}<br />
+                {% endfor %}
+            </td>
+            <td><table class="game-officials-list">
+                {% for gamePerson in game.persons  %}
+                {% set person = gamePerson.personz %}
+                <tr>
+                    <td>
+                        <a href="{{ path('zayso_area_schedule_referee_assign', { 'id': game.id, 'pos': gamePerson.type }) }}">
+                           {{ gamePerson.type }}:</a>
+                    </td>
+                    <td>{{ person.personName }}</td>
+                </tr>
+                {% endfor %}
+            </table></td>
         </tr>
     {% endfor %}
 </table>
@@ -75,14 +97,106 @@
     {% include 'ZaysoCoreBundle:Layout:jquery-ui-css.html.twig' %}
 
 <style>
-        .zayso-date-desc { font-family: monospace; font-size: 1.0em; }
+table.schedule-referee-list
+{
+    /* width: 1000px; */
+    border: 3px solid black;
+    margin:  0px;
+    padding: 0px;
+    font-size: 85%;
+}
+table.schedule-referee-list tr
+{
+    border: 2px solid red;
+    color: red;
+    margin:  0px;
+    padding: 0px;
+}
+table.schedule-referee-list td,th
+{
+    border: 1px solid green;
+    color: black;
+    margin:  0px;
+    padding: 0px;
+}
+table.schedule-referee-list td.game-num
+{
+    border: 1px solid blue;
+    color:  blue;
+    width:  50px;
+}
+table.schedule-referee-list td.game-date
+{
+    width:  75px;
+}
+table.schedule-referee-list td.game-time
+{
+    width:  75px;
+}
+table.schedule-referee-list td.game-field
+{
+    width:  100px;
+}
+table.schedule-referee-list td.game-teams
+{
+    width:  200px;
+}
+table.schedule-referee-list td.game-officials
+{
+    width:  200px;
+}
+#layout-content table.game-officials-list
+{
+    border: none;
+    margin:  0px;
+    padding: 0px;
+    color: yellow;
+}
+#layout-content table.game-officials-list td
+{
+    border: none;
+    margin:  0px;
+    padding-left: 2px;
+    color: black;
+}
+table.schedule-referee-list table.game-officials-listxxx
+{
+    border: none;
+    margin:  0px;
+    padding: 0px;
+    color: red;
+}
+
+.zayso-date-desc { font-family: monospace; font-size: 1.0em; }
         
-        .ui-widgetxxx { font-family: Trebuchet MS,Verdana,Arial,sans-serif; font-size: .75em; }
-        
-        tr.status-Cancelled
-        {
-            background-color: red;    
-        }
+.ui-widgetxxx { font-family: Trebuchet MS,Verdana,Arial,sans-serif; font-size: .75em; }
+
+#layout-content a.game-report-status-Pending
+{ 
+    color: red; 
+    text-decoration: none;
+}
+#layout-content a.game-report-status-Submitted
+{ 
+    color: magenta; 
+    text-decoration: none;
+}
+#layout-content a.game-report-status-Approved
+{ 
+    color: green; 
+    text-decoration: none;
+}
+#layout-content a.game-report-status-Future
+{ 
+    display: none;
+    color:   red; 
+    text-decoration: none;
+}
+
+tr.game-status-Cancelled
+{
+    background-color: red;    
+}
 </style>
 {% endblock %}
 
