@@ -93,6 +93,13 @@
             public = "true">
             <argument type="service" id="doctrine.orm.accounts_entity_manager" />
         </service>
+        
+        <service
+            id     = "zayso_natgames.account.export"
+            class  = "Zayso\NatGamesBundle\Component\Export\AccountExport"
+            public = "true">
+            <argument type="service" id="zayso_core.format.excel" />
+        </service>
 
     </services>
 </container>
