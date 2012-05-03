@@ -160,8 +160,23 @@ class Event extends BaseEntity
     public function setProject($value) { $this->onObjectPropertySet('project',$value); }
 
     // The report comments
-    public function getReport()       { return $this->get('report'); }
     public function setReport($value) { $this->set('report',$value); }
+    public function getReport()       
+    { 
+        $report = $this->get('report');
+        if ($report) return $report;
+        
+        $report = <<< EOT
+Field Conditions: Okay.
+    
+Serious Injuries: None.
+
+Misconduct: None.
+
+EOT;
+        return $report; 
+        
+    }
     
     // Report Status
     public function setReportStatus($value) { $this->set('reportStatus',$value); }
