@@ -78,13 +78,15 @@
     <td colspan="3">{{ form_widget(form.report) }}</td>
 </tr>
 <tr>
-  <td><a href="{{ path('zayso_area_schedule_referee_list') }}#ref-sched-{{game.num}}">Referee Schedule</a></td>
+    <td><a href="{{ path('zayso_area_schedule_referee_list') }}#ref-sched-{{game.num}}">Referee Schedule</a></td>
     <td align="center">
-        <input type="submit" name="delete_submit"  value="Delete" />
-        <input type="submit" name="clone_submit"   value="Clone"  />
-        <input type="submit" name="update_submit"  value="Update" />
+        <input type="submit" name="submitted"  value="Submit Report" />
     </td>
-    <td align="right">&nbsp;</td>
+    <td align="center">
+        {% if is_granted('ROLE_ADMIN') %}
+            <input type="submit" name="approved"   value="Approve Report"  />
+        {% endif %}
+     </td>
 </tr>
 </table>
 {{ form_rest(form) }}    

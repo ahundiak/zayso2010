@@ -27,23 +27,15 @@ class GameReportController extends BaseController
         $formType = $this->get('zayso_core.game.report.formtype');
         $form = $this->createForm($formType, $game);
 
-        if ($this->isAdmin() && $request->getMethod() == 'POST')
+        if ($request->getMethod() == 'POST')
         {
             $form->bindRequest($request);
 
             if ($form->isValid())
             {
-                $reportStatus = $game->getReportStatus();
+                $saved = $this->saveReport($request,$manager,$game);
                 
-                // Prevent future?
-                
-                // Turn pending into submitted
-                if ($reportStatus == 'Pending') $game->setReportStatus('Submitted');
-                
-                // And save
-                if ($reportStatus != 'Future') $manager->flush();
-                
-                return $this->redirect($this->generateUrl('zayso_area_schedule_game_report',array('id' => $id)));
+                if ($saved) return $this->redirect($this->generateUrl('zayso_area_schedule_game_report',array('id' => $id)));
             }
         }
         
@@ -53,5 +45,34 @@ class GameReportController extends BaseController
         $tplData['game'] = $game;
          
         return $this->render('ZaysoAreaBundle:Game:report.html.twig',$tplData);
+    }
+    protected function saveReport(Request $request, $manager,$game)
+    {
+        $reportStatus = $game->getReportStatus();
+                
+        // Need to be signed in
+        if (!$this->isUser()) return false;
+                
+        // Prevent future?
+        if ($reportStatus == 'Future') return false;
+                
+        // Turn pending into submitted
+        if ($reportStatus == 'Pending') $game->setReportStatus('Submitted');
+        
+        if ($request->request->get('submitted'))
+        {
+            if ($reportStatus == 'Approved') return false;
+        }
+        // Check for approved
+        if ($request->request->get('approved'))
+        {
+            if (!$this->isAdmin()) false;
+            
+            $game->setReportStatus('Approved');
+        }
+        // And save
+        $manager->flush();
+        return true;
+        
     }
 }
