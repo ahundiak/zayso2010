@@ -18,7 +18,17 @@ class User extends BaseUser
             case 1: // Art H
                 return array(new Role('ROLE_SUPER_ADMIN'));
                 
+            case  44: // Debbie Farmer
+            case 355: // James Farmer
+            case 355: // Jim Meehan
+                
             case 406: // Vernon Paulett
+            case 453: // Les Daniel
+                
+            case 263: // Rod Etzel
+            case 275: // Chris Steely
+            case 226: // Aaron Luchini
+                
                 return array(new Role('ROLE_ADMIN'));
         }
         return array(new Role('ROLE_USER'));
