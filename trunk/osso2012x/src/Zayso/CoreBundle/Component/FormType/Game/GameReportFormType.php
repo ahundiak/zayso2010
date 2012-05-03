@@ -34,8 +34,8 @@ class GameTeamReportFormType extends AbstractType
         ));
         $builder->add('goalsScored', 'integer', array(
             'attr' => array('size' => 4),
-            'required' => true,
-            'error_bubbling' => true,
+            'required'        => false,
+            'error_bubbling'  => true,
             'invalid_message' => 'Goals scored must be a number',
         ));
         $builder->add('cautions', 'integer', array(
@@ -86,7 +86,7 @@ class GameReportFormType extends AbstractType
         
         $builder->add('status', 'choice', array(
             'label'   => 'Game Status',
-            'choices' => $this->statusPickList,
+            'choices' => $this->gameStatusPickList,
         ));
         
         $builder->add('teams', 'collection', array('type' => new GameTeamReportFormType($this->em)));
@@ -99,6 +99,18 @@ class GameReportFormType extends AbstractType
         $builder->get('report')->appendClientTransformer(new StripTagsTransformer());
         
     }
-    protected $statusPickList = array('Active' => 'Active', 'Cancelled' => 'Cancelled', 'Processed' => 'Processed');
+    protected $gameStatusPickList = array
+    (
+        'Active'     => 'Scheduled', 
+        'InProgress' => 'In Progress',
+        'Played'     => 'Played',
+        
+        'Suspended'  => 'Suspended',
+        'Terminated' => 'Terminated',
+        
+        'Cancelled'  => 'Cancelled', 
+        'StormedOut' => 'Stormed Out',
+
+    );
 }
 ?>
