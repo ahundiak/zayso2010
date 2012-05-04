@@ -12,19 +12,8 @@ use Zayso\CoreBundle\Component\Debug;
 
 use Zayso\CoreBundle\Entity\ProjectPerson;
 
-class AccountHomeManager // extends BaseManager
+class AccountHomeManager extends BaseManager
 {
-    protected $em;
-    
-    public function __construct($em)
-    {
-        $this->em = $em;
-    }
-    public function getEntityManager() { return $this->em; }
-    public function flush() { $this->em->flush(); }
-    
-    public function refresh($entity) { $this->em->refresh($entity); }
-    
     /* =========================================================================
      * Loads a specific project person
      */
@@ -36,7 +25,7 @@ class AccountHomeManager // extends BaseManager
         if (is_object($personId))  $personId  = $personId->getId();
         
         // Build query
-        $qb = $em->createQueryBuilder();
+        $qb = $this->newQueryBuilder();
 
         $qb->addSelect('projectPerson');
 
@@ -45,9 +34,7 @@ class AccountHomeManager // extends BaseManager
         $qb->andWhere($qb->expr()->eq('projectPerson.project',$projectId));
         $qb->andWhere($qb->expr()->eq('projectPerson.person', $personId));
 
-        $item = $qb->getQuery()->getOneOrNullResult();
-
-        return $item;
+        return $qb->getQuery()->getOneOrNullResult();
     }
     /* ============================================================
      * Called when a person signs in to a project
@@ -58,10 +45,9 @@ class AccountHomeManager // extends BaseManager
         $projectPerson = $this->loadProjectPerson($project,$person);
         if ($projectPerson) return $projectPerson;
         
-        // Allow ids or objects
-        $em = $this->getEntityManager();        
-        if (!is_object($project)) $project = $em->getReference('ZaysoCoreBundle:Project',$project);
-        if (!is_object($person))  $person  = $em->getReference('ZaysoCoreBundle:Person', $person);
+        // Allow ids or objects    
+        if (!is_object($project)) $project = $this->getProjectReference($project);
+        if (!is_object($person))  $person  = $this->getPersonReference ($person);
                 
         // Make a new one
         $projectPerson = new ProjectPerson();
@@ -70,8 +56,12 @@ class AccountHomeManager // extends BaseManager
         $projectPerson->setStatus('Active');
         
         // Handle data later
-        
+        if ($data)
+        {
+            
+        }
         // Still not completely sure about this
+        $em = $this->getEntityManager();        
         try
         {
             $em->persist($projectPerson);
@@ -90,8 +80,7 @@ class AccountHomeManager // extends BaseManager
     public function loadAccountPersons($accountId, $projectId = 0)
     {
         // Build query
-        $em = $this->getEntityManager();
-        $qb = $em->createQueryBuilder();
+        $qb = $this->newQueryBuilder();
 
         $qb->addSelect('accountPerson');
         $qb->addSelect('account');
@@ -125,8 +114,7 @@ class AccountHomeManager // extends BaseManager
     public function loadAccountPerson($accountPersonId, $projectId = 0)
     {
         // Build query
-        $em = $this->getEntityManager();
-        $qb = $em->createQueryBuilder();
+        $qb = $this->newQueryBuilder();
 
         $qb->addSelect('accountPerson');
         $qb->addSelect('account');
@@ -149,9 +137,7 @@ class AccountHomeManager // extends BaseManager
         
         $qb->andWhere($qb->expr()->in('accountPerson.id',$accountPersonId));
         
-        $item = $qb->getQuery()->getOneOrNullResult();
-
-        return $item;   
+        return $qb->getQuery()->getOneOrNullResult(); 
     }
 }
 ?>
