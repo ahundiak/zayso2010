@@ -18,6 +18,8 @@ class AccountExport
     protected $phoneTransformer;
     protected $regionTransformer;
     
+    protected $persons;
+    
     public function __construct($manager,$projectId,$excel)
     {
         $this->manager   = $manager;
@@ -26,8 +28,111 @@ class AccountExport
         
         $this->phoneTransformer  = new PhoneTransformer();
         $this->regionTransformer = new RegionTransformer();
+        
+        $this->persons = null;
+    }
+    // Returns array of flattend people
+    public function getPersons()
+    {
+        if ($this->persons) return $this->persons;
+        
+        $this->persons = array();
+        
+        $items = $this->manager->loadPersonsForProject($this->projectId);
+        foreach($items as $item)
+        {
+            $person = array();
+          
+            $person['id']        = $item->getId();
+            $person['projectId'] = $this->projectId;
+         
+            $person['lastName']  = $item->getLastName();
+            $person['firstName'] = $item->getFirstName();
+            $person['nickName']  = $item->getNickName();
+            $person['email']     = $item->getEmail();
+            $person['cellPhone'] = $item->getCellPhone();   
+            
+            $org = $item->getOrgz();
+          
+            $person['region']    = substr($org->getId(),4);
+            $person['regionDesc']= $org->getDesc2();
+            $person['state']     = $org->getState();
+            
+            $aysoCert = $item->getAysoCertz();
+            $person['aysoid']    = substr($aysoCert->getRegKey(),5);
+            $person['memYear']   = $aysoCert->getMemYear();
+            $person['safeHaven'] = $aysoCert->getSafeHaven();
+            $person['refBadge']  = $aysoCert->getRefBadge();
+            
+            $projectPerson = $item->getProjectPerson($this->projectId);
+            $plans = $projectPerson->get('plans');
+            if (!is_array($plans)) $plans = array();
+            
+            $planItems = array
+            (
+                'attend', 
+                'will_referee',
+                'ground_transport',
+                'hotel', 
+                'do_assessments',
+                'other_jobs',
+                't_shirt_size',
+            );
+            foreach($planItems as $planItem)
+            {
+                if (isset($plans[$planItem])) $person[$planItem] = $plans[$planItem];
+                else                          $person[$planItem] = null;
+            }
+            $this->persons[$item->getId()] = $person;
+        }
+        return $this->persons;
     }
     protected function generateProjectPersons($ss)
+    {
+        $map = array(
+            'PEID'         => 'id',
+            'Last Name'    => 'lastName',
+            'First Name'   => 'firstName',
+            'Nick Name'    => 'nickName',
+            'Email'        => 'email',
+            'Cell Phone'   => 'cellPhone',
+            'Region'       => 'region',
+            'Regon Desc'   => 'regionDesc',
+            'ST'           => 'state',
+            'AYSOID'       => 'aysoid',
+            'MY'           => 'memYear',
+            'Safe Haven'   => 'safeHaven',
+            'Ref Badge'    => 'refBadge',
+            'Attend'       => 'attend',
+            'Referee'      => 'will_referee',
+            'Ground Trans' => 'ground_transport',
+            'Hotel'        => 'hotel',
+            'Will Assess'  => 'do_assessments',
+            'Volunteer'    => 'other_jobs',
+            'T-Shirt'      => 't_shirt_size'
+        );
+        $ws = $ss->setActiveSheetIndex($this->projectPersonsIndex);
+        $ws->setTitle('People');
+        
+        $row = 1;
+        $col = 0;
+        foreach(array_keys($map) as $header)
+        {
+            $ws->setCellValueByColumnAndRow($col++,$row,$header);
+        }
+
+        $persons = $this->getPersons();
+        foreach($persons as $person)
+        {
+            $row++;
+            $col = 0;
+            foreach($map as $propName)
+            {
+                $ws->setCellValueByColumnAndRow($col++,$row,$person[$propName]);
+            }
+        }
+    }
+    protected function generateProjectPersonsx($ss)
     {
         
         $ws = $ss->setActiveSheetIndex($this->projectPersonsIndex);
