@@ -10,30 +10,9 @@ use Zayso\CoreBundle\Component\Debug;
 
 use Doctrine\ORM\ORMException;
 
-use Zayso\CoreBundle\Entity\Org;
-use Zayso\CoreBundle\Entity\Project;
-use Zayso\CoreBundle\Entity\ProjectField;
-
-use Zayso\CoreBundle\Entity\Team;
-use Zayso\CoreBundle\Entity\Event;
-use Zayso\CoreBundle\Entity\EventTeam;
-use Zayso\CoreBundle\Entity\EventPerson;
-
-class GameManager
+class GameManager extends BaseManager
 {
-    protected $em = null;
-    
-    public function getEntityManager() { return $this->em; }
-    
-    public function clear()        { $this->em->clear(); }
-    public function flush()        { $this->em->flush(); }
-    public function remove ($item) { $this->em->remove ($item); }
-    public function detach ($item) { $this->em->detach ($item); }
-    public function persist($item) { $this->em->persist($item); }
-    public function refresh($item) { $this->em->refresh($item); }
-    
-    public function __construct($em) { $this->em = $em; }
-    
+  
     /* ========================================================================
      * Single event stuff
      * Verified used by game edit and referee assinging
@@ -42,7 +21,7 @@ class GameManager
     public function loadEventForId($id)
     {
         // Build query
-        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb = $this->newQueryBuilder();
 
         $qb->addSelect('event');
         $qb->addSelect('field');
