@@ -7,7 +7,7 @@
 {% block content %}
 <div>
 <form action="{{ path('zayso_area_schedule_game_report', { 'id': game.id }) }}" method="post" {{ form_enctype(form) }}>
-<table border="1" style="width: 800px;">
+<table class="game-report">
 <tr><th colspan="3">Game Report For: {{ game.num }}</th></tr>
 <tr>
     <td style="width: 150px;">{{ form_label (form.num) }}</td>
@@ -49,10 +49,10 @@
     <td>{{ form_widget(form.reportStatus) }}</td>
     <td>{{ form_errors(form.reportStatus) }}</td>
 </tr>
-<tr><td colspan="3"><table border="1">
+<tr><td colspan="3"><div style="width: 700px; display: block;"><table class="game-report-teams">
 <tr>
-    <td>&nbsp;</td>
-    <td>Team Key</td>
+    <td style="width: 50px;">&nbsp;</td>
+    <td style="width: 50px;">Team Key</td>
     <td>Goals<br />Scored</td>
     <td>Cautions<br />Yellow</td>
     <td>Send Offs<br />Red</td>
@@ -72,7 +72,7 @@
     <td>{{ form_widget(team.pointsEarned)  }}</td>
 </tr>
 {% endfor %}
-</table></td></tr>
+</table></div></td></tr>
 <tr><td colspan="3">{{ form_errors(form) }}</td></tr>
 <tr>
     <td colspan="3">{{ form_widget(form.report) }}</td>
@@ -92,4 +92,32 @@
 {{ form_rest(form) }}    
 </form>
 </div>
+
+<style>
+#layout-content table.game-report
+{
+    width:     800px;
+    border:    3px solid black;
+    margin:    2px;
+    padding:   2px;
+    font-size: 85%;
+}
+#layout-content table.game-report tr
+{
+    border: 5px solid black;
+}
+#layout-content table.game-report td
+{
+    border: 1px solid black;
+}
+#layout-content table.game-report-teams
+{
+    width:     700px;
+    border:    3px solid red;
+    margin:    0px;
+    padding:   0px;
+    font-size: 85%;
+}
+
+</style>
 {% endblock %}
