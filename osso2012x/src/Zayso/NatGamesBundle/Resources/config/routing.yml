@@ -139,6 +139,13 @@ zayso_natgames_admin_account_list:
     requirements:
         _method:  GET
         _format:  html|csv
+        
+zayso_natgames_admin_person_list:
+    pattern:  /admin/person/list.{_format}
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Person\List:list, _format: html }
+    requirements:
+        _method:  GET
+        _format:  html|csv|xls
 
 zayso_natgames_admin_import:
     pattern:  /admin/import

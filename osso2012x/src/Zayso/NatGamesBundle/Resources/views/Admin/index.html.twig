@@ -7,6 +7,7 @@
   <h3>Admin Links</h3>
   <p><a href="{{ path('zayso_natgames_admin_account_list') }}">List of Accounts and Referees</a></p>
   <p><a href="{{ path('zayso_natgames_admin_account_list', { '_format': 'csv' })  }}">List of Accounts and Referees(Excel)</a></p>
+  <p><a href="{{ path('zayso_natgames_admin_person_list', { '_format': 'xls' })  }}">List of People(Excel)</a></p>
   
 {% if is_granted('ROLE_SUPER_ADMIN') %}  
   <p><a href="{{ path('zayso_natgames_admin_import') }}">Import AYSO Information</a></p>
