@@ -113,7 +113,7 @@ class ExcelCommand extends ContainerAwareCommand
 
         $export = $this->getContainer()->get('zayso_natgames.account.export');
         
-        file_put_contents('../datax/test4.xls',$export->export($accountPersons));
+        file_put_contents('../datax/test4.xls',$export->generate());
         
     }
     protected function execute(InputInterface $input, OutputInterface $output)
