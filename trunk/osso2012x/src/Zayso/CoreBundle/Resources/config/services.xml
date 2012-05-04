@@ -17,6 +17,13 @@
         </service>
         
         <service
+            id     = "zayso_core.person.manager"
+            class  = "Zayso\CoreBundle\Component\Manager\PersonManager"
+            public = "true">
+            <argument type="service" id="zayso_core.account.entity_manager" />
+        </service>
+        
+        <service
             id     = "zayso_core.game.manager"
             class  = "Zayso\CoreBundle\Component\Manager\GameManager"
             public = "true">
