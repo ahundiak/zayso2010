@@ -98,6 +98,8 @@
             id     = "zayso_natgames.account.export"
             class  = "Zayso\NatGamesBundle\Component\Export\AccountExport"
             public = "true">
+            <argument type="service" id="zayso_core.person.manager" />
+            <argument type="string">%zayso_core.project.master%</argument>
             <argument type="service" id="zayso_core.format.excel" />
         </service>
 
