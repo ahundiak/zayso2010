@@ -48,7 +48,7 @@ class EditFormType extends AbstractType
             'label'   => 'Age',
             'choices' => array(
                 'U05' => 'U05', 'U06' => 'U06', 'U07' => 'U07', 'U08' => 'U08',
-                'U10' => 'U10', 'U12' => 'U12', 'U14' => 'U04', 'U16' => 'U16', 'U19' => 'U19',
+                'U10' => 'U10', 'U12' => 'U12', 'U14' => 'U14', 'U16' => 'U16', 'U19' => 'U19',
             ),
         ));
         $builder->add('gender', 'choice', array(
