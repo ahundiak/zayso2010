@@ -20,6 +20,14 @@
             <argument type="service" id="doctrine.orm.accounts_entity_manager" />
         </service>
         
+        <service
+            id     = "zayso_s5games.game2011.export"
+            class  = "Zayso\S5GamesBundle\Component\Export\Game2011Export"
+            public = "true">
+            <argument type="service" id="zayso_core.game.manager" />
+            <argument type="service" id="zayso_core.format.excel" />
+        </service>
+        
 
     </services>
 </container>
