@@ -50,7 +50,7 @@ class AccountExport
             $person['firstName'] = $item->getFirstName();
             $person['nickName']  = $item->getNickName();
             $person['email']     = $item->getEmail();
-            $person['cellPhone'] = $item->getCellPhone();   
+            $person['cellPhone'] = $this->phoneTransformer->transform($item->getCellPhone());   
             
             $org = $item->getOrgz();
           
