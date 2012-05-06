@@ -240,6 +240,73 @@ class AccountExport
             $ws->setCellValueByColumnAndRow(1,$row,$value);
         }
     }
+    protected function generateStates($ws)
+    {
+        $states = array();
+        
+        $ws->setTitle('States');
+        
+        $ws->getColumnDimensionByColumn(0)->setWidth(8);
+        $ws->setCellValueByColumnAndRow(0,1,'State');
+        
+        $ws->getColumnDimensionByColumn(1)->setWidth(8);
+        $ws->setCellValueByColumnAndRow(1,1,'Confirmed');
+        
+        $ws->getColumnDimensionByColumn(1)->setWidth(8);
+        $ws->setCellValueByColumnAndRow(2,1,'Maybe');
+        
+        $ws->getColumnDimensionByColumn(1)->setWidth(8);
+        $ws->setCellValueByColumnAndRow(3,1,'Total');
+ 
+        $persons = $this->getPersons();
+        
+        foreach($persons as $person)
+        {
+            $state = $person['state'];
+            if (!$state) $state='??';
+            
+            $attend =  substr($person['attend'],0,3);
+            $referee = substr($person['will_referee'],0,3);
+            
+            $confirmed = false;
+            if ($attend == 'Yes' && $referee == 'Yes') $confirmed = true;
+            
+            $maybe = true;
+            if ($attend  == 'No') $maybe = false;
+            if ($referee == 'No') $maybe = false;
+            
+            if ($attend == 'Yes' && $referee == 'Yes') $maybe = false;
+            
+            if ($confirmed || $maybe) 
+            {
+                if (!isset($states[$state])) $states[$state] = array('confirmed' => 0, 'maybe' => 0);
+                if ($confirmed) $states[$state]['confirmed']++;
+                if ($maybe)     $states[$state]['maybe']++;
+            }
+        }
+        asort($states);
+        
+        $row = 1;
+        $totalConfirmed = 0;
+        $totalMaybe = 0;
+        
+        foreach($states as $key => $value)
+        {
+            $row++;
+            $ws->setCellValueByColumnAndRow(0,$row,$key);
+            $ws->setCellValueByColumnAndRow(1,$row,$value['confirmed']);
+            $ws->setCellValueByColumnAndRow(2,$row,$value['maybe']);
+            $ws->setCellValueByColumnAndRow(3,$row,$value['confirmed'] + $value['maybe']);
+            
+            $totalConfirmed += $value['confirmed'];
+            $totalMaybe     += $value['maybe'];
+        }
+        $row++;
+        $ws->setCellValueByColumnAndRow(0,$row,'Totals');
+        $ws->setCellValueByColumnAndRow(1,$row,$totalConfirmed);
+        $ws->setCellValueByColumnAndRow(2,$row,$totalMaybe);
+        $ws->setCellValueByColumnAndRow(3,$row,$totalConfirmed + $totalMaybe);
+    }
     public function generate()
     {
         $excel = $this->excel;
@@ -248,8 +315,9 @@ class AccountExport
         
         $this->generateConfirmed      ($ss->createSheet(1));
         $this->generateMaybe          ($ss->createSheet(2));
-        $this->generateGroundTransport($ss->createSheet(3));
-        $this->generateProjectPersons ($ss->createSheet(4));
+        $this->generateStates         ($ss->createSheet(3));
+        $this->generateGroundTransport($ss->createSheet(4));
+        $this->generateProjectPersons ($ss->createSheet(5));
         
         $this->generateCounts($ss->getSheet(0));
         
