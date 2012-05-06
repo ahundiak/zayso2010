@@ -14,11 +14,43 @@ class AccountExport
     protected $projectId = 0;
     
     protected $projectPersonsIndex = 0;
+    protected $groundTransportIndex = 1;
     
     protected $phoneTransformer;
     protected $regionTransformer;
     
     protected $persons;
+    protected $counts = array
+    (
+        'Confirmed Referees'    => 0,
+        'Might Referee'         => 0,
+        'Ground Transportation' => 0,
+        'Everyone'              => 0,
+    );
+    
+    protected $widths = array
+    (
+        'PEID'         =>  5,
+        'AYSOID'       => 10,
+        'Last Name'    => 15,
+        'First Name'   => 15,
+        'Nick Name'    => 10,
+        'Email'        => 10,
+        'Cell Phone'   => 12,
+        'Region'       =>  6,
+        'Regon Desc'   => 25,
+        'ST'           =>  4,
+        'MY'           =>  5,
+        'Safe Haven'   =>  5,
+        'Ref Badge'    => 12,
+        'Attend'       => 10,
+        'Referee'      =>  5,
+        'Ground Trans' =>  5,
+        'Hotel'        => 20,
+        'Will Assess'  => 10,
+        'Volunteer'    => 10,
+        'T-Shirt'      => 10,
+    );
     
     public function __construct($manager,$projectId,$excel)
     {
@@ -31,7 +63,250 @@ class AccountExport
         
         $this->persons = null;
     }
-    // Returns array of flattend people
+    protected function setHeaders($ws,$map)
+    {
+        $col = 0;
+        foreach(array_keys($map) as $header)
+        {
+            $ws->getColumnDimensionByColumn($col)->setWidth($this->widths[$header]);
+            $ws->setCellValueByColumnAndRow($col++,1,$header);
+        }
+        return 1;
+    }
+    protected function setRow($ws,$map,$person,&$row)
+    {
+        $row++;
+        $col = 0;
+        foreach($map as $propName)
+        {
+            $ws->setCellValueByColumnAndRow($col++,$row,$person[$propName]);
+        }
+        return $row;
+    }
+    protected function generateProjectPersons($ws)
+    {
+        $map = array(
+            'PEID'         => 'id',
+            'AYSOID'       => 'aysoid',
+            'Last Name'    => 'lastName',
+            'First Name'   => 'firstName',
+            'Nick Name'    => 'nickName',
+            'Email'        => 'email',
+            'Cell Phone'   => 'cellPhone',
+            'Region'       => 'region',
+            'Regon Desc'   => 'regionDesc',
+            'ST'           => 'state',
+            'MY'           => 'memYear',
+            'Safe Haven'   => 'safeHaven',
+            'Ref Badge'    => 'refBadge',
+            'Attend'       => 'attend',
+            'Referee'      => 'will_referee',
+            'Ground Trans' => 'ground_transport',
+            'Hotel'        => 'hotel',
+            'Will Assess'  => 'do_assessments',
+            'Volunteer'    => 'other_jobs',
+            'T-Shirt'      => 't_shirt_size'
+        );
+        $ws->setTitle('Everyone');
+        $row = $this->setHeaders($ws,$map);
+        
+        $persons = $this->getPersons();
+        foreach($persons as $person)
+        {
+            $this->setRow($ws,$map,$person,$row);
+        }
+        $this->counts['Everyone'] = $row - 1;
+    }
+    protected function generateGroundTransport($ws)
+    {
+        $map = array(
+            'PEID'         => 'id',
+            'AYSOID'       => 'aysoid',
+            'Last Name'    => 'lastName',
+            'First Name'   => 'firstName',
+            'Nick Name'    => 'nickName',
+            'Email'        => 'email',
+            'Cell Phone'   => 'cellPhone',
+            'Regon Desc'   => 'regionDesc',
+            'Ground Trans' => 'ground_transport',
+            'Hotel'        => 'hotel',
+        );
+        $ws->setTitle('Ground Transport');
+        
+        $row = $this->setHeaders($ws,$map);
+        
+        $persons = $this->getPersons();
+        foreach($persons as $person)
+        {
+            if ($person['ground_transport'] == 'Yes') $this->setRow($ws,$map,$person,$row);
+        }
+        $this->counts['Ground Transportation'] = $row - 1;
+    }
+    protected function generateConfirmed($ws)
+    {
+        $map = array(
+            'PEID'         => 'id',
+            'AYSOID'       => 'aysoid',
+            'Last Name'    => 'lastName',
+            'First Name'   => 'firstName',
+            'Nick Name'    => 'nickName',
+            'Email'        => 'email',
+            'Cell Phone'   => 'cellPhone',
+            'Region'       => 'region',
+            'Regon Desc'   => 'regionDesc',
+            'ST'           => 'state',
+            'MY'           => 'memYear',
+            'Safe Haven'   => 'safeHaven',
+            'Ref Badge'    => 'refBadge',
+            'T-Shirt'      => 't_shirt_size',
+            'Attend'       => 'attend',
+            'Referee'      => 'will_referee',
+        );
+        $ws->setTitle('Confirmed');
+        
+        $row = $this->setHeaders($ws,$map);
+        
+        $persons = $this->getPersons();
+        foreach($persons as $person)
+        {
+            $attend =  substr($person['attend'],0,3);
+            $referee = substr($person['will_referee'],0,3);
+            if ($attend == 'Yes' && $referee == 'Yes') 
+            {
+                $this->setRow($ws,$map,$person,$row);
+            }
+        }
+        $this->counts['Confirmed Referees'] = $row - 1;
+    }
+    protected function generateMaybe($ws)
+    {
+        $map = array(
+            'PEID'         => 'id',
+            'AYSOID'       => 'aysoid',
+            'Last Name'    => 'lastName',
+            'First Name'   => 'firstName',
+            'Nick Name'    => 'nickName',
+            'Email'        => 'email',
+            'Cell Phone'   => 'cellPhone',
+            'Region'       => 'region',
+            'Regon Desc'   => 'regionDesc',
+            'ST'           => 'state',
+            'MY'           => 'memYear',
+            'Safe Haven'   => 'safeHaven',
+            'Ref Badge'    => 'refBadge',
+            'T-Shirt'      => 't_shirt_size',
+            'Attend'       => 'attend',
+            'Referee'      => 'will_referee',
+        );
+        $ws->setTitle('Might Referee');
+        
+        $row = $this->setHeaders($ws,$map);
+        
+        $persons = $this->getPersons();
+        foreach($persons as $person)
+        {
+            $attend =  substr($person['attend'],0,3);
+            $referee = substr($person['will_referee'],0,3);
+            
+            $maybe = true;
+            if ($attend  == 'No') $maybe = false;
+            if ($referee == 'No') $maybe = false;
+            
+            if ($attend == 'Yes' && $referee == 'Yes') $maybe = false;
+            
+            if ($maybe) 
+            {
+                $this->setRow($ws,$map,$person,$row);
+            }
+        }
+        $this->counts['Might Referee'] = $row - 1;
+    }
+    protected function generateCounts($ws)
+    {
+        $ws->setTitle('Summary');
+        
+        $ws->getColumnDimensionByColumn(0)->setWidth(30);
+        $ws->setCellValueByColumnAndRow(0,1,'Count Description');
+        
+        $ws->getColumnDimensionByColumn(1)->setWidth(6);
+        $ws->setCellValueByColumnAndRow(1,1,'Count');
+        
+        $row = 1;
+        
+        foreach($this->counts as $key => $value)
+        {
+            $row++;
+            $ws->setCellValueByColumnAndRow(0,$row,$key);
+            $ws->setCellValueByColumnAndRow(1,$row,$value);
+        }
+    }
+    public function generate()
+    {
+        $excel = $this->excel;
+        
+        $ss = $excel->newSpreadSheet();
+        
+        $this->generateConfirmed      ($ss->createSheet(1));
+        $this->generateMaybe          ($ss->createSheet(2));
+        $this->generateGroundTransport($ss->createSheet(3));
+        $this->generateProjectPersons ($ss->createSheet(4));
+        
+        $this->generateCounts($ss->getSheet(0));
+        
+        // Output
+        $ss->setActiveSheetIndex(0);
+        $objWriter = $excel->newWriter($ss); // \PHPExcel_IOFactory::createWriter($ss, 'Excel5');
+
+        ob_start();
+        $objWriter->save('php://output'); // Instead of file name
+        return ob_get_clean();
+    }
+    public function export($accountPersons)
+    {
+        $phoneTransformer = new PhoneTransformer();
+        
+        $excel = $this->excel;
+        
+        $ss = $excel->newSpreadSheet();
+        $ws = $ss->setActiveSheetIndex(0);
+        $ws->setTitle('Referees');
+
+        $headers = array(
+            'AP ID','Account','First Name','Last  Name','Nick  Name',
+            'Email','Cell Phone','Region',
+            'AYSOID','DOB','Gender','Ref Badge','Ref Date','Safe Haven','MY',
+            'Attend','Referee','Sun','Mon','Tue','Wed','Thu','Fri','Sat','Sun');
+
+        $row = 1;
+        $col = 0;
+        foreach($headers as $header)
+        {
+            $ws->setCellValueByColumnAndRow($col,$row,$header);
+            $col++;
+        }
+        foreach($accountPersons as $ap)
+        {
+            $row++;
+            $ws->setCellValueByColumnAndRow( 0,$row,$ap->getId());
+            $ws->setCellValueByColumnAndRow( 1,$row,$ap->getUserName());
+            $ws->setCellValueByColumnAndRow( 2,$row,$ap->getFirstName());
+            $ws->setCellValueByColumnAndRow( 3,$row,$ap->getLastName());
+            $ws->setCellValueByColumnAndRow( 4,$row,$ap->getNickName());
+            $ws->setCellValueByColumnAndRow( 5,$row,$ap->getEmail());
+            $ws->setCellValueByColumnAndRow( 6,$row,$phoneTransformer->transform($ap->getCellPhone()));
+        }
+
+        // Finish up
+        $ss->setActiveSheetIndex(0);
+        $objWriter = $excel->newWriter($ss); // \PHPExcel_IOFactory::createWriter($ss, 'Excel5');
+
+        ob_start();
+        $objWriter->save('php://output'); // Instead of file name
+        return ob_get_clean();
+    }
+    /* =============================================================
+     * Returns array of flattened people
+     */
     public function getPersons()
     {
         if ($this->persons) return $this->persons;
@@ -86,178 +361,6 @@ class AccountExport
             $this->persons[$item->getId()] = $person;
         }
         return $this->persons;
-    }
-    protected function generateProjectPersons($ss)
-    {
-        $map = array(
-            'PEID'         => 'id',
-            'Last Name'    => 'lastName',
-            'First Name'   => 'firstName',
-            'Nick Name'    => 'nickName',
-            'Email'        => 'email',
-            'Cell Phone'   => 'cellPhone',
-            'Region'       => 'region',
-            'Regon Desc'   => 'regionDesc',
-            'ST'           => 'state',
-            'AYSOID'       => 'aysoid',
-            'MY'           => 'memYear',
-            'Safe Haven'   => 'safeHaven',
-            'Ref Badge'    => 'refBadge',
-            'Attend'       => 'attend',
-            'Referee'      => 'will_referee',
-            'Ground Trans' => 'ground_transport',
-            'Hotel'        => 'hotel',
-            'Will Assess'  => 'do_assessments',
-            'Volunteer'    => 'other_jobs',
-            'T-Shirt'      => 't_shirt_size'
-        );
-        $ws = $ss->setActiveSheetIndex($this->projectPersonsIndex);
-        $ws->setTitle('People');
-        
-        $row = 1;
-        $col = 0;
-        foreach(array_keys($map) as $header)
-        {
-            $ws->setCellValueByColumnAndRow($col++,$row,$header);
-        }
-
-        $persons = $this->getPersons();
-        foreach($persons as $person)
-        {
-            $row++;
-            $col = 0;
-            foreach($map as $propName)
-            {
-                $ws->setCellValueByColumnAndRow($col++,$row,$person[$propName]);
-            }
-        }
-    }
-    protected function generateProjectPersonsx($ss)
-    {
-        
-        $ws = $ss->setActiveSheetIndex($this->projectPersonsIndex);
-        $ws->setTitle('People');
-        
-        $headers = array(
-            'PEID','Last Name','First Name','Nick Name',
-            'Email','Cell Phone','Region','Regon Desc','ST',
-            'AYSOID','MY','Safe Haven','Ref Badge',
-            'Attend','Referee','Ground Trans','Hotel','Will Assess','Volunteer','T-Shirt'
-        );
-
-        $row = 1;
-        $col = 0;
-        foreach($headers as $header)
-        {
-            $ws->setCellValueByColumnAndRow($col++,$row,$header);
-        }
-        $persons = $this->manager->loadPersonsForProject($this->projectId);
-        //die('Person Count: ' . count($persons) . "\n");
-        foreach($persons as $person)
-        {
-            $row++;
-            $col = 0;
-          //$ws->setCellValueByColumnAndRow($col++,$row,$this->projectId);
-            $ws->setCellValueByColumnAndRow($col++,$row,$person->getId());
-            $ws->setCellValueByColumnAndRow($col++,$row,$person->getLastName());
-            $ws->setCellValueByColumnAndRow($col++,$row,$person->getFirstName());
-            $ws->setCellValueByColumnAndRow($col++,$row,$person->getNickName());
-            $ws->setCellValueByColumnAndRow($col++,$row,$person->getEmail());
-            $ws->setCellValueByColumnAndRow($col++,$row,$this->phoneTransformer->transform($person->getCellPhone()));   
-            
-            $org = $person->getOrgz();
-          //$ws->setCellValueByColumnAndRow($col++,$row,$this->regionTransformer->transform($org->getId()));
-            $ws->setCellValueByColumnAndRow($col++,$row,substr($org->getId(),4));
-            
-            $ws->setCellValueByColumnAndRow($col++,$row,$org->getDesc2());
-            $ws->setCellValueByColumnAndRow($col++,$row,$org->getState());
-            
-            $aysoCert = $person->getAysoCertz();
-            $ws->setCellValueByColumnAndRow($col++,$row,substr($aysoCert->getRegKey(),5));
-            $ws->setCellValueByColumnAndRow($col++,$row,$aysoCert->getMemYear());
-            $ws->setCellValueByColumnAndRow($col++,$row,$aysoCert->getSafeHaven());
-            $ws->setCellValueByColumnAndRow($col++,$row,$aysoCert->getRefBadge());
-            
-            $projectPerson = $person->getProjectPerson($this->projectId);
-            $plans = $projectPerson->get('plans');
-            if (!is_array($plans)) $plans = array();
-            
-            $items = array
-            (
-                'attend', 
-                'will_referee',
-                'ground_transport',
-                'hotel', 
-                'do_assessments',
-                'other_jobs',
-                't_shirt_size',
-            );
-            foreach($items as $item)
-            {
-                if (isset($plans[$item])) $ws->setCellValueByColumnAndRow($col++,$row,$plans[$item]);
-                else                      $ws->setCellValueByColumnAndRow($col++,$row,'');
-            }
-        }
-        
-    }
-    public function generate()
-    {
-        $excel = $this->excel;
-        
-        $ss = $excel->newSpreadSheet();
-
-        $this->generateProjectPersons($ss);
-        
-        // Output
-        $ss->setActiveSheetIndex(0);
-        $objWriter = $excel->newWriter($ss); // \PHPExcel_IOFactory::createWriter($ss, 'Excel5');
-
-        ob_start();
-        $objWriter->save('php://output'); // Instead of file name
-        return ob_get_clean();
-    }
-    public function export($accountPersons)
-    {
-        $phoneTransformer = new PhoneTransformer();
-        
-        $excel = $this->excel;
-        
-        $ss = $excel->newSpreadSheet();
-        $ws = $ss->setActiveSheetIndex(0);
-        $ws->setTitle('Referees');
-
-        $headers = array(
-            'AP ID','Account','First Name','Last  Name','Nick  Name',
-            'Email','Cell Phone','Region',
-            'AYSOID','DOB','Gender','Ref Badge','Ref Date','Safe Haven','MY',
-            'Attend','Referee','Sun','Mon','Tue','Wed','Thu','Fri','Sat','Sun');
-
-        $row = 1;
-        $col = 0;
-        foreach($headers as $header)
-        {
-            $ws->setCellValueByColumnAndRow($col,$row,$header);
-            $col++;
-        }
-        foreach($accountPersons as $ap)
-        {
-            $row++;
-            $ws->setCellValueByColumnAndRow( 0,$row,$ap->getId());
-            $ws->setCellValueByColumnAndRow( 1,$row,$ap->getUserName());
-            $ws->setCellValueByColumnAndRow( 2,$row,$ap->getFirstName());
-            $ws->setCellValueByColumnAndRow( 3,$row,$ap->getLastName());
-            $ws->setCellValueByColumnAndRow( 4,$row,$ap->getNickName());
-            $ws->setCellValueByColumnAndRow( 5,$row,$ap->getEmail());
-            $ws->setCellValueByColumnAndRow( 6,$row,$phoneTransformer->transform($ap->getCellPhone()));
-        }
-
-        // Finish up
-        $ss->setActiveSheetIndex(0);
-        $objWriter = $excel->newWriter($ss); // \PHPExcel_IOFactory::createWriter($ss, 'Excel5');
-
-        ob_start();
-        $objWriter->save('php://output'); // Instead of file name
-        return ob_get_clean();
     }
 }
 ?>
