@@ -36,7 +36,7 @@ class StateCupController extends Controller
         {
             $form->bindRequest($request);
 
-            if ($form->isValid())
+            if ($form->isValid() && 0)
             {
                 // return $this->redirect($this->generateUrl('zayso_natgames_home'));
                 $this->sendEmail($referee);
