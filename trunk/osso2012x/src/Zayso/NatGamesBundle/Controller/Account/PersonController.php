@@ -107,6 +107,10 @@ class PersonController extends BaseController
                 $manager->flush();
                 
                 // If Primary then reload user infomation
+                if ($accountPerson->isPrimary())
+                {
+                    $this->setUser($accountPerson->getUserName());
+                }
                 
                 return $this->redirect($this->generateUrl('zayso_natgames_home'));
                

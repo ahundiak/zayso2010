@@ -87,9 +87,9 @@ class ClassesForm extends AbstractType
     );
     protected $classPickList = array
     (
-        'National'          => 'National Referee',
-        'Advanced'          => 'Advanced Referee',
-        'Intermediate'      => 'Intermediate Referee',
+      //'National'          => 'National Referee',
+      //'Advanced'          => 'Advanced Referee',
+      //'Intermediate'      => 'Intermediate Referee',
         'Regional Clinic'   => 'Regional Clinic',
         'Assessor'          => 'Referee Assessor',
         'National Assessor' => 'National Referee Assessor',
