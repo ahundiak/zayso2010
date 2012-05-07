@@ -1,0 +1,18 @@
+{% extends 'ZaysoS5GamesBundle:Layout:layout.html.twig' %}
+
+{% block title %}S5Games - Admin{% endblock %}
+
+{% block content %}
+<div>
+  <h3>Admin Links</h3>
+  <p><a href="{{ path('zayso_s5games_admin_account_list') }}">List of Accounts and Referees</a></p>
+  <p><a href="{{ path('zayso_s5games_admin_account_list', { '_format': 'csv' }) }}">List of Accounts and Referees(Excel)</a></p>
+  <p><a href="{{ path('zayso_s5games_admin_person_list',  { '_format': 'xls' })  }}">List of People(Excel)</a></p>
+  
+{% if is_granted('ROLE_SUPER_ADMIN') %}  
+  <p><a href="{{ path('zayso_s5games_admin_import') }}">Import AYSO Information</a></p>
+  <p><a href="{{ path('zayso_s5games_admin_game2011_list', { '_format': 'xls' }) }}">Export 2011 Schedule</a></p>
+{% endif %}
+  
+</div>
+{% endblock %}
