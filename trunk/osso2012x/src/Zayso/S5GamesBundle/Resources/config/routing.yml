@@ -142,6 +142,13 @@ zayso_s5games_admin_account_list:
 zayso_s5games_admin_import:
     pattern:  /admin/import
     defaults: { _controller: ZaysoS5GamesBundle:Admin\Import:index }
+    
+zayso_s5games_admin_person_list:
+    pattern:  /admin/person/list.{_format}
+    defaults: { _controller: ZaysoS5GamesBundle:Admin\Person\List:list, _format: html }
+    requirements:
+        _method:  GET
+        _format:  html|csv|xls
 
 zayso_s5games_admin_game2011_list:
     pattern:  /admin/game2011/list.{_format}
