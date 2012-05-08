@@ -14,10 +14,7 @@ class Game2011Export
     protected $games    = null;
     protected $phyTeams = null;
     protected $schTeams = null;
-    protected $fields   = null;
-    
-    protected $schTeamKeys = null;
-    
+            
     public function __construct($manager,$excel)
     {
         $this->manager   = $manager;
@@ -34,7 +31,12 @@ class Game2011Export
         'Bracket'   => 10,
         'Home Team' => 20,
         'Away Team' => 20,
+        'Home Sch Team' => 14,
+        'Away Sch Team' => 14,
+        'Home Phy Team' => 24,
+        'Away Phy Team' => 24,
         
+        'Sort'   =>  6,
         'Key'    => 24,
         'Region' =>  6,
         'Age'    =>  6,
@@ -85,6 +87,35 @@ class Game2011Export
             $row = $this->setRow($ws,$map,$item,$row);            
         }
     }
+    protected function generateSchedule($ws)
+    {
+        $map = array(
+            'Game'      => 'game_num',
+            'Date'      => 'game_date',
+            'DOW'       => 'game_dow',
+            'Time'      => 'game_time',
+            'Div'       => 'game_div',
+            'Field'     => 'game_field',
+            'Type'      => 'game_type',
+            'Bracket'   => 'game_bracket',
+            'Home Team' => 'home_name',
+            'Away Team' => 'away_name',
+            
+            'Home Sch Team' => 'home_sch_team',
+            'Away Sch Team' => 'away_sch_team',
+            'Home Phy Team' => 'home_phy_team',
+            'Away Phy Team' => 'away_phy_team',
+        );
+        $ws->setTitle('Schedule');
+        
+        $row = $this->setHeaders($ws,$map);
+
+        $items = $this->getGames();
+        foreach($items as $item)
+        {
+            $row = $this->setRow($ws,$map,$item,$row);            
+        }
+    }
     protected function generatePhyTeams($ws)
     {
         $map = array(
@@ -114,6 +145,7 @@ class Game2011Export
     {
         $map = array(
             'Div'    => 'div',
+            'Sort'   => 'sort',
             'Age'    => 'age',
             'Gender' => 'gender',
             'Key'    => 'key',
@@ -126,6 +158,16 @@ class Game2011Export
         $items = $this->getSchTeams();
         foreach($items as $item)
         {
+            switch(substr($item['key'],5,2))
+            {
+                case 'PP': $sort = 'S1PP'; break;
+                case 'QF': $sort = 'S2QF'; break;
+                case 'SF': $sort = 'S3SF'; break;
+                case 'CM': $sort = 'S4CM'; break;
+                case 'FM': $sort = 'S5FM'; break;
+            }
+            $item['sort'] = $sort;
+            
             $row++;
             $col = 0;
             foreach($map as $propName)
@@ -146,6 +188,7 @@ class Game2011Export
         $this->generateGames   ($ss->getSheet(0));
         $this->generatePhyTeams($ss->createSheet(1));
         $this->generateSchTeams($ss->createSheet(2));
+        $this->generateSchedule($ss->createSheet(3));
         
         // Output
         $ss->setActiveSheetIndex(0);
@@ -192,17 +235,17 @@ class Game2011Export
                 if ($phyTeamKey)
                 {   
                     // Already defined team
-                    if ($this->phyTeams[$phyTeamKey]['pool']) return;
+                    if ($this->phyTeams[$phyTeamKey]['pool']) return $this->schTeams[$this->phyTeams[$phyTeamKey]['pool']];
                     {
                         $seq = 1;
                         $pool = $div . ' PP ' . $type;
-                        while(isset($this->schTeamKeys[$pool . $seq])) $seq++;
+                        while(isset($this->schTeams[$pool . $seq])) $seq++;
                         $schTeamKey = $pool . $seq;
                         
                         $this->phyTeams[$phyTeamKey]['pool'] = $schTeamKey;
-                        $this->schTeamKeys[$schTeamKey] = $phyTeamKey;
                     }
                 }
+                else die('No physical team key');
                 break;
             default:
                 switch($teamName)
@@ -210,11 +253,10 @@ class Game2011Export
                     // U10B, U12B
                     case 'Boys 1st in Bracket':
                         $schTeamKey = $pool . 'A 1ST';
-                        if (isset($this->schTeamKeys[$schTeamKey]))
+                        if (isset($this->schTeams[$schTeamKey]))
                         {
                             $schTeamKey = $pool . 'B 1ST';
                         }
-                        $this->schTeamKeys[$schTeamKey] = 'TBD';
                         break;
 
                     // U10G
@@ -242,29 +284,26 @@ class Game2011Export
                     
                     case 'Girls loser 7:30 fie': 
                         $schTeamKey = $div . ' CM RUP SF1'; 
-                        if (isset($this->schTeamKeys[$schTeamKey]))
+                        if (isset($this->schTeams[$schTeamKey]))
                         {
                             $schTeamKey = $div . ' CM RUP SF2';
                         }
-                        $this->schTeamKeys[$schTeamKey] = 'TBD';
                         break;
                         
                     case 'Girls winner 7:30 fi': 
                         $schTeamKey = $div . ' FM WIN SF1'; 
-                        if (isset($this->schTeamKeys[$schTeamKey]))
+                        if (isset($this->schTeams[$schTeamKey]))
                         {
                             $schTeamKey = $div . ' FM WIN SF2';
                         }
-                        $this->schTeamKeys[$schTeamKey] = 'TBD';
                         break;
                         
                     case 'Girls Bracket 2nd ?': 
-                        $schTeamKey = $div . ' SF 2nd? A'; 
-                        if (isset($this->schTeamKeys[$schTeamKey]))
+                        $schTeamKey = $div . ' SF A 2nd'; 
+                        if (isset($this->schTeams[$schTeamKey]))
                         {
-                            $schTeamKey = $div . ' SF 2nd? B';
+                            $schTeamKey = $div . ' SF B 2ND';
                         }
-                        $this->schTeamKeys[$schTeamKey] = 'TBD';
                         break;
                          
                     case 'Girls Bracket 1 Winn' : $schTeamKey = $pool . 'A 1ST';     break;
@@ -280,8 +319,8 @@ class Game2011Export
                     case 'B - 1st in Points': $schTeamKey = $pool . 'A 1ST'; break;
                     case 'B - 2nd in Points': $schTeamKey = $pool . 'A 2ND'; break;
                     
-                    case 'B - 3rd in Points': $schTeamKey = $div . ' CM A 3RD'; break;
-                    case 'B - 4th in Points': $schTeamKey = $div . ' CM A 4TH'; break;
+                    case 'B - 3rd in Points': $schTeamKey = $pool . 'A 3RD'; break;
+                    case 'B - 4th in Points': $schTeamKey = $pool . 'A 4TH'; break;
                      
                     case 'G - Loser B1#1 v B2#' : $schTeamKey = $div . ' CM RUP SF1';     break;
                     case 'G - Loser B2#1 v B1#' : $schTeamKey = $div . ' CM RUP SF2';     break;
@@ -314,7 +353,6 @@ class Game2011Export
         
         if ($phyTeamKey) $team['phy_team_key'] = $phyTeamKey;
         else             $team['phy_team_key'] = $teamName;
-
         
         return $team;
     }
@@ -328,18 +366,23 @@ class Game2011Export
         $this->schTeams = array();
         
         $games = $this->getGames();
-        $teams = array();
         foreach($games as $game)
         {
             $team = $this->getSchTeam($game['game_div'],$game['game_bracket'],$game['home_name']);
-            if ($team) $teams[$team['key']] = $team;
-            
+            if ($team) 
+            {
+                $this->schTeams[$team['key']] = $team;
+                $this->games[$game['game_num']]['home_sch_team'] = $team['key'];
+            }
             $team = $this->getSchTeam($game['game_div'],$game['game_bracket'],$game['away_name']);
-            if ($team) $teams[$team['key']] = $team;
+            if ($team) 
+            {
+                $this->schTeams[$team['key']] = $team;
+                $this->games[$game['game_num']]['away_sch_team'] = $team['key'];
+             }
         }
         // asort($teams);
-        $this->schTeams = $teams;
-        return $teams;
+        return $this->schTeams;
     }
     /* ======================================================================
      * Extract individual physical team
@@ -391,10 +434,17 @@ class Game2011Export
         foreach($games as $game)
         {
             $team = $this->getPhyTeam($game['game_div'],$game['game_bracket'],$game['home_name']);
-            if ($team) $teams[$team['key']] = $team;
-            
+            if ($team) 
+            {
+                $teams[$team['key']] = $team;
+                $this->games[$game['game_num']]['home_phy_team'] = $team['key'];
+            }
             $team = $this->getPhyTeam($game['game_div'],$game['game_bracket'],$game['away_name']);
-            if ($team) $teams[$team['key']] = $team;
+            if ($team) 
+            {
+                $teams[$team['key']] = $team;
+                $this->games[$game['game_num']]['away_phy_team'] = $team['key'];
+           }
         }
         // asort($teams);
         $this->phyTeams = $teams;
@@ -429,7 +479,13 @@ class Game2011Export
             $time = $game['game_time'];
             $game['game_time'] = substr($time,0,2) . ':' . substr($time,2,2);
             
-            $games[] = $game;
+            $game['home_phy_team'] = null;
+            $game['away_phy_team'] = null;
+            
+            $game['home_sch_team'] = null;
+            $game['away_sch_team'] = null;
+            
+            $games[$game['game_num']] = $game;
         }
         $this->games = $games;
         return $this->games;
