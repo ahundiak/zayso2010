@@ -26,6 +26,10 @@ zayso_s5games_contact:
 zayso_s5games_schedule_referee_list:
     pattern:  /schedule/referee/list
     defaults: { _controller: ZaysoS5GamesBundle:Welcome:schedule }
+    
+zayso_s5games_schedule_referee_list2011:
+    pattern:  /schedule/referee/list2011
+    defaults: { _controller: ZaysoS5GamesBundle:Schedule\RefSched:list2011 }
 
 zayso_s5games_schedule_referee_assign:
     pattern:  /schedule/referee/assign/{id}/{pos}
@@ -36,6 +40,12 @@ zayso_s5games_schedule_referee_assign:
 zayso_s5games_schedule_game_edit:
     pattern:  /schedule/game/edit/{id}
     defaults: { _controller: ZaysoS5GamesBundle:Schedule\Game:edit}
+    requirements:
+        id: \d+
+        
+zayso_s5games_schedule_game_report:
+    pattern:  /schedule/game/report/{id}
+    defaults: { _controller: ZaysoS5GamesBundle:Game\GameReport:report}
     requirements:
         id: \d+
 
