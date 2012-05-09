@@ -14,6 +14,10 @@ class Excel
     {
         return \PHPExcel_IOFactory::createWriter($ss, 'Excel5');
     }
+    public function load($file)
+    {
+        return \PHPExcel_IOFactory::load($file);
+    }
 }
  
 ?>
