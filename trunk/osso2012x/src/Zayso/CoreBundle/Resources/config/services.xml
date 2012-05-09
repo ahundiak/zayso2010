@@ -29,6 +29,13 @@
             public = "true">
             <argument type="service" id="zayso_core.game.entity_manager" />
         </service>
+        
+        <service
+            id     = "zayso_core.game.schedule.manager"
+            class  = "Zayso\CoreBundle\Component\Manager\ScheduleManager"
+            public = "true">
+            <argument type="service" id="zayso_core.game.entity_manager" />
+        </service>
        
         <service
             id     = "zayso_core.account.manager"
