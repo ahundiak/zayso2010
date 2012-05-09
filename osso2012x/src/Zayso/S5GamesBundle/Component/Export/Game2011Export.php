@@ -15,6 +15,8 @@ class Game2011Export
     protected $phyTeams = null;
     protected $schTeams = null;
             
+    protected $pools;
+    
     public function __construct($manager,$excel)
     {
         $this->manager   = $manager;
@@ -31,10 +33,11 @@ class Game2011Export
         'Bracket'   => 10,
         'Home Team' => 20,
         'Away Team' => 20,
-        'Home Sch Team' => 14,
-        'Away Sch Team' => 14,
+        'Home Sch Team' => 16,
+        'Away Sch Team' => 16,
         'Home Phy Team' => 24,
         'Away Phy Team' => 24,
+        'Pool' => 12,
         
         'Sort'   =>  6,
         'Key'    => 24,
@@ -101,6 +104,8 @@ class Game2011Export
             'Home Team' => 'home_name',
             'Away Team' => 'away_name',
             
+            'Pool'      => 'pool',
+            
             'Home Sch Team' => 'home_sch_team',
             'Away Sch Team' => 'away_sch_team',
             'Home Phy Team' => 'home_phy_team',
@@ -113,6 +118,35 @@ class Game2011Export
         $items = $this->getGames();
         foreach($items as $item)
         {
+            $item['pool'] = '???';
+            $pool = $item['home_sch_team'];
+            switch(substr($pool,5,2))
+            {
+                case 'PP':
+                    $item['pool'] = substr($pool,0,9);
+                    break;
+                
+                case 'FM':
+                case 'CM':
+                    $item['pool'] = substr($pool,0,7);
+                    break;
+                
+                case 'QF':
+                case 'SF':
+                    $pool = substr($pool,0,7);
+                    for($seq = 1; isset($this->pools[$pool . $seq]); $seq++);
+                    $pool = $pool . $seq;
+                    $this->pools[$pool] = true;
+                    $item['pool'] = $pool;
+                    
+                    // Insert the sf game number
+                    // Need to update the sch team keys as well
+                    $item['home_sch_team'] = $pool . substr($item['home_sch_team'],7);
+                    $item['away_sch_team'] = $pool . substr($item['away_sch_team'],7);
+                    
+                    break;
+                    
+            }
             $row = $this->setRow($ws,$map,$item,$row);            
         }
     }
