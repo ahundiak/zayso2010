@@ -43,5 +43,78 @@ class GameManager extends BaseManager
         return $qb->getQuery()->getOneOrNullResult();
 
     }
+    public function loadPhyTeamForKey($projectId,$key)
+    {
+        if (!$key) return null;
+        
+        $qb = $this->newQueryBuilder();
+        $qb->addSelect('team');
+
+        $qb->from('ZaysoCoreBundle:Team', 'team');
+
+        $qb->andWhere($qb->expr()->eq('team.project',$qb->expr()->literal($projectId)));
+        $qb->andWhere($qb->expr()->eq('team.key1',   $qb->expr()->literal($key)));
+        $qb->andWhere($qb->expr()->eq('team.type',   $qb->expr()->literal('physical')));
+        
+        return $qb->getQuery()->getOneOrNullResult();
+        
+    }
+    public function loadSchTeamForKey($projectId,$key)
+    {
+        if (!$key) return null;
+        
+        $qb = $this->newQueryBuilder();
+        
+        $qb->addSelect('team','phyTeam');
+
+        $qb->from('ZaysoCoreBundle:Team','team');
+        
+        $qb->leftJoin('team.parent','phyTeam');
+
+        $qb->andWhere($qb->expr()->eq('team.project',$qb->expr()->literal($projectId)));
+        $qb->andWhere($qb->expr()->eq('team.key1',   $qb->expr()->literal($key)));
+        $qb->andWhere($qb->expr()->eq('team.type',   $qb->expr()->literal('schedule')));
+        
+        return $qb->getQuery()->getOneOrNullResult(); 
+    }
+    public function loadFieldForKey($projectId,$key)
+    {
+        if (!$key) return null;
+        
+        $qb = $this->newQueryBuilder();
+        
+        $qb->addSelect('field');
+
+        $qb->from('ZaysoCoreBundle:ProjectField','field');
+        
+        $qb->andWhere($qb->expr()->eq('field.project',$qb->expr()->literal($projectId)));
+        $qb->andWhere($qb->expr()->eq('field.key1',   $qb->expr()->literal($key)));
+        
+        return $qb->getQuery()->getOneOrNullResult(); 
+    }
+    public function loadEventForNum($projectId,$num)
+    {
+        // Build query
+        $qb = $this->newQueryBuilder();
+
+        $qb->addSelect('event');
+        $qb->addSelect('field');
+        $qb->addSelect('eventTeam');
+        $qb->addSelect('team');
+        $qb->addSelect('phyTeam');
+        
+        $qb->from('ZaysoCoreBundle:Event', 'event');
+        $qb->leftJoin('event.project',     'project');
+        $qb->leftJoin('event.field',       'field');
+        $qb->leftJoin('event.teams',       'eventTeam');
+        $qb->leftJoin('eventTeam.team',    'team');
+        $qb->leftJoin('team.parent',       'phyTeam');
+
+        $qb->andWhere($qb->expr()->eq('event.project',$qb->expr()->literal($projectId)));
+        $qb->andWhere($qb->expr()->eq('event.num',    $qb->expr()->literal($num)));
+        
+        return $qb->getQuery()->getOneOrNullResult();
+
+    }
 }
 ?>
