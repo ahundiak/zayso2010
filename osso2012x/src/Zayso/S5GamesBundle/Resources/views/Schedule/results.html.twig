@@ -1,0 +1,104 @@
+{% extends 'ZaysoS5GamesBundle:Layout:layout.html.twig' %}
+
+{% block title %}S5Games - Results{% endblock %}
+
+{% block content %}
+<div style="padding: 5px; margin: 5px; border: 5px solid black; width: 300px;">
+<form action="{{ path('zayso_s5games_schedule_results2011') }}" method="post" {{ form_enctype(searchForm) }}>
+    {{ form_widget(searchForm.div)  }}
+    {{ form_widget(searchForm.pool) }}
+    <input type="submit" name="submit_search" value="Search"  />
+    {{ form_rest(searchForm) }} 
+</form>
+</div>        
+<div>
+    <h3>Results 2011</h3>
+    {% for poolKey, pool in pools %}
+    <table border = "1">
+        <tr><th colspan="16">Game Pool Results - {{ poolKey }}</th></tr>
+        <tr><td colspan="16">GS=Goals Scored, PM=Minus Points, PE=Points Earned</td></tr>
+        <tr>
+            <td>Game</td>
+            <td>Status</td>
+            <td>Scores</td>
+            <td>PA</td>
+            <td>DOW Time</td>
+            <td>Field</td>
+            <td>Pool</td>
+            <td>Home Team</td>
+            <td>GS</td>
+            <td>PM</td>
+            <td>PE</td>
+            <td>&nbsp;</td>
+            <td>PE</td>
+            <td>PM</td>
+            <td>GS</td>
+            <td>Away Team</td>
+        </tr>
+        {% for game in pool.games %}
+        <tr id="ref-sched-{{game.num}}" class="game-status-{{game.status}}">
+            <td>
+                {% if game.reportStatus != 'Futurex' %}
+                    <a  href="{{ path('zayso_s5games_schedule_game_report', { 'id': game.id })}}"
+                        class="game-report-status-{{game.reportStatus}}">
+                        {{ game.getNum() }}
+                    </a>
+                {% else %}
+                   <a href="{{ path('zayso_s5games_schedule_game_report', { 'id': game.id })}}">{{ game.getNum() }}</a> 
+                {% endif %}
+            </td>
+            <td>{{ game.status         }}</td>
+            <td>{{ game.reportStatus   }}</td>
+            <td>{{ game.pointsApplied  }}</td>
+            <td>{{ game_dow(game.date) }} {{ game_time(game.time) }}</td>
+            <td>{{ game.fieldDesc      }}</td>
+            <td>{{ game.pool           }}</td>
+            
+            {% set homeTeam = game.homeTeam %}
+            {% set awayTeam = game.awayTeam %}
+            <td>{{ game_team_desc(homeTeam) }}</td>
+            <td>{{ homeTeam.goalsScored     }}</td>
+            <td>{{ homeTeam.pointsMinus     }}</td>
+            <td>{{ homeTeam.pointsEarned    }}</td>
+            <td>&nbsp;</td>
+            <td>{{ awayTeam.pointsEarned    }}</td>
+            <td>{{ awayTeam.pointsMinus     }}</td>
+            <td>{{ awayTeam.goalsScored     }}</td>
+            <td>{{ game_team_desc(awayTeam) }}</td>
+                    
+        </tr>
+        {% endfor %}       
+    </table>
+    <table border = "1">
+        <tr><th colspan="13">Team Pool Results - {{ poolKey }}</th></tr>
+        <tr><td colspan="13">GS=Goals Scored, PM=Minus Points, PE=Points Earned</td></tr>
+        <tr>
+            <td>Pool</td>
+            <td>Team</td>
+            <td>PE</td>
+            <td>PM</td>
+            <td>GP</td>
+            <td>GS</td>
+            <td>GA</td>
+            <td>YC</td>
+            <td>RC</td>
+            <td>SP</td>
+        </tr>
+        {% for team in pool.teams %}
+        <tr>
+            <td>{{ team.teamKey }}</td>                  
+            <td>{{ team.parentTeamKey }}</td>                  
+            <td>{{ team.pointsEarned (poolKey) }} </td>                  
+            <td>{{ team.pointsMinus  (poolKey) }} </td>                  
+            <td>{{ team.gamesPlayed  (poolKey) }} </td>                  
+            <td>{{ team.goalsScored  (poolKey) }} </td>                  
+            <td>{{ team.goalsAllowed (poolKey) }} </td>                  
+            <td>{{ team.cautions     (poolKey) }} </td>                  
+            <td>{{ team.sendoffs     (poolKey) }} </td>                  
+            <td>{{ team.sportsmanship(poolKey) }} </td>                  
+       </tr>
+        {% endfor %}       
+    </table>
+    {% endfor %}
+</div>
+{% endblock %}

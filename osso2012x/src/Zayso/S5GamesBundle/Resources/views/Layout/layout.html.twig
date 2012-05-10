@@ -67,12 +67,14 @@
     <li><a href="{{ path('zayso_s5games_welcome') }}">Create Account</a></li>
 {% endif %}
     
+    <li><a href="{{ path('zayso_s5games_welcome_text_alerts') }}">Text Alerts</a></li>
     <li><a href="{{ path('zayso_s5games_schedule_referee_list') }}">Game Schedule</a></li>
   </ul>
         
   <ul style="float: right">
 
 {% if is_granted('ROLE_ADMIN') %}
+    <li><a href="{{ path('zayso_s5games_schedule_results2011') }}">Results 2011</a></li>
     <li><a href="{{ path('zayso_s5games_schedule_referee_list2011') }}">Schedule 2011</a></li>
     <li><a href="{{ path('zayso_s5games_admin') }}">Admin</a></li>
 {% endif %}

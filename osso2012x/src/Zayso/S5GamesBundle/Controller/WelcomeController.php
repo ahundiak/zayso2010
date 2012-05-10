@@ -47,6 +47,11 @@ class WelcomeController extends BaseController
         $tplData['accountPersons'] = $accountPersons;
         return $this->render('ZaysoS5GamesBundle:Welcome:home.html.twig',$tplData);
     }
+    public function textalertsAction()
+    { 
+        $tplData = array();
+        return $this->render('ZaysoS5GamesBundle:Welcome:text_alerts.html.twig',$tplData);
+    }
     public function contactAction()
     { 
         $tplData = array();
