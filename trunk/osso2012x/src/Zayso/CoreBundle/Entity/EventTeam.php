@@ -79,17 +79,27 @@ class EventTeam extends BaseEntity
     public function setTeamKey($key) { return; }
     
     public function getGoalsScored()   { return $this->get('goalsScored');   }
+    public function getGoalsAllowed()  { return $this->get('goalsAllowed');  }
     public function getCautions()      { return $this->get('cautions');      }
     public function getSendoffs()      { return $this->get('sendoffs');      }
     public function getSportsmanship() { return $this->get('sportsmanship'); }
     public function getFudgeFactor()   { return $this->get('fudgeFactor');   }
     public function getPointsEarned()  { return $this->get('pointsEarned');  }
+    public function getPointsMinus()   { return $this->get('pointsMinus');   }
 
     public function setGoalsScored  ($value) { $this->set('goalsScored',  $value); }
+    public function setGoalsAllowed ($value) { $this->set('goalsAllowed', $value); }
     public function setCautions     ($value) { $this->set('cautions',     $value); }
     public function setSendoffs     ($value) { $this->set('sendoffs',     $value); }
     public function setSportsmanship($value) { $this->set('sportsmanship',$value); }
     public function setFudgeFactor  ($value) { $this->set('fudgeFactor',  $value); }
     public function setPointsEarned ($value) { $this->set('pointsEarned', $value); }
+    public function setPointsMinus  ($value) { $this->set('pointsMinus',  $value); }
+    
+    public function clearReportInfo()
+    {
+        $this->setPointsEarned(null);
+        $this->setPointsMinus (null);
+    }
 }
 ?>

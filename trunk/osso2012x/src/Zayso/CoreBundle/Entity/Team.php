@@ -144,5 +144,63 @@ class Team extends BaseEntity
         if (!$this->org) return null;
         return $this->org->getDesc2();
     }
+    public function getParentTeamKey()
+    {
+        if (!$this->parent) return null;
+        return $this->parent->getTeamKey();
+    }
+    /* ========================================================
+     * Always calculated on the fly
+     */
+    protected $pools;
+    
+    protected function setPoolProp($pool,$name,$value)
+    {
+       $this->pools[$pool][$name] = $value;
+         
+    }
+    protected function addPoolProp($pool,$name,$value)
+    {
+       $this->pools[$pool][$name] = $this->getPoolProp($pool,$name) + $value;
+         
+    }
+    protected function getPoolProp($pool,$name)
+    {
+       if (!isset($this->pools[$pool][$name])) return null;;
+       return $this->pools[$pool][$name];
+    }
+    
+    public function setPointsEarned($pool,$value) { $this->setPoolProp($pool,'pointsEarned',$value); }
+    public function addPointsEarned($pool,$value) { $this->addPoolProp($pool,'pointsEarned',$value); }
+    public function getPointsEarned($pool) { return $this->getPoolProp($pool,'pointsEarned'); }
+    
+    public function setPointsMinus($pool,$value) { $this->setPoolProp($pool,'pointsMinus',$value); }
+    public function addPointsMinus($pool,$value) { $this->addPoolProp($pool,'pointsMinus',$value); }
+    public function getPointsMinus($pool) { return $this->getPoolProp($pool,'pointsMinus'); }
+    
+    public function setGoalsScored($pool,$value) { $this->setPoolProp($pool,'goalsScored',$value); }
+    public function addGoalsScored($pool,$value) { $this->addPoolProp($pool,'goalsScored',$value); }
+    public function getGoalsScored($pool) { return $this->getPoolProp($pool,'goalsScored'); }
+    
+    public function setGoalsAllowed($pool,$value) { $this->setPoolProp($pool,'goalsAllowed',$value); }
+    public function addGoalsAllowed($pool,$value) { $this->addPoolProp($pool,'goalsAllowed',$value); }
+    public function getGoalsAllowed($pool) { return $this->getPoolProp($pool,'goalsAllowed'); }
+    
+    public function setCautions($pool,$value) { $this->setPoolProp($pool,'cautions',$value); }
+    public function addCautions($pool,$value) { $this->addPoolProp($pool,'cautions',$value); }
+    public function getCautions($pool) { return $this->getPoolProp($pool,'cautions'); }
+    
+    public function setSendoffs($pool,$value) { $this->setPoolProp($pool,'sendoffs',$value); }
+    public function addSendoffs($pool,$value) { $this->addPoolProp($pool,'sendoffs',$value); }
+    public function getSendoffs($pool) { return $this->getPoolProp($pool,'sendoffs'); }
+    
+    public function setSportsmanship($pool,$value) { $this->setPoolProp($pool,'sportsmanship',$value); }
+    public function addSportsmanship($pool,$value) { $this->addPoolProp($pool,'sportsmanship',$value); }
+    public function getSportsmanship($pool) { return $this->getPoolProp($pool,'sportsmanship'); }
+    
+    public function setGamesPlayed($pool,$value) { $this->setPoolProp($pool,'gamesPlayed',$value); }
+    public function addGamesPlayed($pool,$value) { $this->addPoolProp($pool,'gamesPlayed',$value); }
+    public function getGamesPlayed($pool) { return $this->getPoolProp($pool,'gamesPlayed'); }
+
 }
 ?>
