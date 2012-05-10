@@ -49,6 +49,11 @@
     <td>{{ form_widget(form.reportStatus) }}</td>
     <td>{{ form_errors(form.reportStatus) }}</td>
 </tr>
+<tr>
+    <td>{{ form_label (form.pointsApplied) }}</td>
+    <td>{{ form_widget(form.pointsApplied) }}</td>
+    <td>{{ form_errors(form.pointsApplied) }}</td>
+</tr>
 <tr><td colspan="3"><div style="width: 700px; display: block;"><table class="game-report-teams">
 <tr>
     <td style="width: 50px;">&nbsp;</td>
@@ -58,6 +63,7 @@
     <td>Send Offs<br />Red</td>
     <td>Sports-<br />manship</td>
     <td>Fudge<br />Factor</td>
+    <td>Points<br />Minus</td>
     <td>Points<br />Earned</td>
 </tr>
 {% for team in form.teams %}
@@ -69,6 +75,7 @@
     <td>{{ form_widget(team.sendoffs)      }}</td>
     <td>{{ form_widget(team.sportsmanship) }}</td>
     <td>{{ form_widget(team.fudgeFactor)   }}</td>
+    <td>{{ form_widget(team.pointsMinus)   }}</td>
     <td>{{ form_widget(team.pointsEarned)  }}</td>
 </tr>
 {% endfor %}
