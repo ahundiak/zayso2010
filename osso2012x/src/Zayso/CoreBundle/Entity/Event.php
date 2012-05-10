@@ -209,5 +209,13 @@ EOT;
         
         return 'Future';
     }
+    public function getPointsApplied()       { return $this->get('pointsApplied'); }
+    public function setPointsApplied($value) { return $this->set('pointsApplied',$value); }
+    public function isPointsApplied()
+    {
+        if ($this->get('pointsApplied') == 'Yes') return true;
+        return false;
+    }
+    
 }
 ?>
