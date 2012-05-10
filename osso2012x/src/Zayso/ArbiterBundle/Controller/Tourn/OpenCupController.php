@@ -34,7 +34,7 @@ class OpenCupController extends Controller
             if ($form->isValid())
             {
                 // return $this->redirect($this->generateUrl('zayso_natgames_home'));
-                $this->sendEmail($referee);
+                //$this->sendEmail($referee);
                 $msg = 'Application Submitted';
               //$msg = $this->csv($referee);
             }
