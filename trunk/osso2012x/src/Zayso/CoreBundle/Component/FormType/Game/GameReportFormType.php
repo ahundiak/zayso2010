@@ -50,16 +50,21 @@ class GameTeamReportFormType extends AbstractType
             'attr' => array('size' => 4),
             'required' => false,
         ));
-         $builder->add('fudgeFactor', 'integer', array(
+         $builder->add('fudgeFactor', 'text', array(
             'attr' => array('size' => 4),
             'required' => false,
         ));
-        $builder->add('pointsEarned', 'integer', array(
+        $builder->add('pointsEarned', 'text', array(
             'attr' => array('size' => 4),
             'required'  => false,
             'read_only' => true,
         ));
-    }
+        $builder->add('pointsMinus', 'text', array(
+            'attr' => array('size' => 4),
+            'required'  => false,
+            'read_only' => true,
+        ));
+   }
 }
 class GameReportFormType extends AbstractType
 {
@@ -75,38 +80,69 @@ class GameReportFormType extends AbstractType
     
     protected function getEntityManager() { return $this->em; }
     
+    protected $builder = null;
+    
+    protected function addText($name,$label,$size=20)
+    {
+       $this->builder->add($name,'text', array
+       (
+           'read_only' =>  true, 
+           'required'  => false,
+           'label'     => $label,
+           'attr'      => array('size' => $size),
+
+        ));
+         
+    }
+    
     public function buildForm(FormBuilder $builder, array $options)
     {
-        $builder->add('num',      'text', array('read_only' => true, 'label' => 'Number'));
-        $builder->add('type',     'text', array('read_only' => true, 'label' => 'Type'));
-        $builder->add('date',     'text', array('read_only' => true, 'label' => 'Date'));
-        $builder->add('time',     'text', array('read_only' => true, 'label' => 'Time'));
-        $builder->add('pool',     'text', array('read_only' => true, 'label' => 'Pool', 'required' => false));
-        $builder->add('fieldDesc','text', array('read_only' => true, 'label' => 'Field','required' => false));
+        $this->builder = $builder;
+        
+        $this->addText('num',      'Number',6);
+        $this->addText('type',     'Type',  6);
+        $this->addText('date',     'Date',  8);
+        $this->addText('time',     'Time',  6);
+        $this->addText('pool',     'Pool', 10);
+        $this->addText('fieldDesc','Field',12);
         
         $builder->add('status', 'choice', array(
             'label'   => 'Game Status',
             'choices' => $this->gameStatusPickList,
         ));
-        
+        $builder->add('pointsApplied', 'choice', array(
+            'label'   => 'Points Applied',
+            'choices' => array(0 => 'Apply Points - ???','Yes' => 'Apply Points - Yes', 'Apply Points - No'),
+        ));
+        $builder->add('reportStatus', 'choice', array(
+            'label'   => 'Report Status',
+            'choices' => array
+            (
+                'Reset'     => 'Reset',
+                'Pending'   => 'Pending',
+                'Submitted' => 'Submitted', 
+                'Approved'  => 'Approved',
+                'Predict'   => 'Predict'
+            ),
+        ));
+          
         $builder->add('teams', 'collection', array('type' => new GameTeamReportFormType($this->em)));
         
         $builder->add('report', 'textarea', array('label' => 'Comments', 'required' => false, 
-            'attr' => array('rows' => 12, 'cols' => 99, 'wrap' => 'hard', 'class' =>'textarea')));
-        
-        $builder->add('reportStatus', 'text', array('read_only' => true, 'label' => 'Report Status', 'required' => false));
+            'attr' => array('rows' => 12, 'cols' => 78, 'wrap' => 'hard', 'class' =>'textarea')));
         
         $builder->get('report')->appendClientTransformer(new StripTagsTransformer());
         
     }
     protected $gameStatusPickList = array
     (
-        'Active'     => 'Scheduled', 
+        'Active'     => 'Active', 
         'InProgress' => 'In Progress',
         'Played'     => 'Played',
         
         'Suspended'  => 'Suspended',
         'Terminated' => 'Terminated',
+        'Forfeited'  => 'Forfeited',
         
         'Cancelled'  => 'Cancelled', 
         'StormedOut' => 'Stormed Out',

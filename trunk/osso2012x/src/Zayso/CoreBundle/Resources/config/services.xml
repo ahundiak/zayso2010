@@ -17,6 +17,13 @@
         </service>
         
         <service
+            id     = "zayso_core.results.search.formtype"
+            class  = "Zayso\CoreBundle\Component\FormType\Game\ResultsSearchFormType"
+            public = "true">
+            <argument type="service" id="zayso_core.game.entity_manager" />
+        </service>
+        
+        <service
             id     = "zayso_core.person.manager"
             class  = "Zayso\CoreBundle\Component\Manager\PersonManager"
             public = "true">
