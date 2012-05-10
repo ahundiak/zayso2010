@@ -38,7 +38,7 @@ class ClassicController extends Controller
 
             if ($form->isValid())
             {
-                $this->sendEmail($referee);
+                //$this->sendEmail($referee);
                 $msg = 'Application Submitted';
             }
         }
