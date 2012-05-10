@@ -6,6 +6,10 @@ zayso_s5games_index:
 zayso_s5games_welcome:
     pattern:  /welcome
     defaults: { _controller: ZaysoS5GamesBundle:Welcome:welcome }
+    
+zayso_s5games_welcome_text_alerts:
+    pattern:  /welcome/textalerts
+    defaults: { _controller: ZaysoS5GamesBundle:Welcome:textalerts }
 
 # Used when user is not authorized
 zayso_s5games_welcomex:
@@ -27,6 +31,14 @@ zayso_s5games_schedule_referee_list:
     pattern:  /schedule/referee/list
     defaults: { _controller: ZaysoS5GamesBundle:Welcome:schedule }
     
+zayso_s5games_schedule_results:
+    pattern:  /schedule/results/{div}/{pool}
+    defaults: { _controller: ZaysoS5GamesBundle:Schedule\Results:results2011, div: 0, pool: 0 }
+    
+zayso_s5games_schedule_results2011:
+    pattern:  /schedule/results2011/{div}/{pool}
+    defaults: { _controller: ZaysoS5GamesBundle:Schedule\Results:results2011, div: 0, pool: 0 }
+     
 zayso_s5games_schedule_referee_list2011:
     pattern:  /schedule/referee/list2011
     defaults: { _controller: ZaysoS5GamesBundle:Schedule\RefSched:list2011 }
