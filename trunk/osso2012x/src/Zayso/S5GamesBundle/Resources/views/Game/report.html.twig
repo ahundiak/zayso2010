@@ -6,7 +6,7 @@
 
 {% block content %}
 <form action="{{ path('zayso_s5games_schedule_game_report', { 'id': game.id }) }}" method="post" {{ form_enctype(form) }}>
-<h1>Game Report For: {{ game.pool }} {{ game.num }}</h1>
+<h1>Game Report For: {{ game.pool }} #{{ game.num }}</h1>
 <div style="padding-left: 5px;">
     {{ form_widget(form.type) }}
     {{ form_widget(form.num)  }}
@@ -15,14 +15,18 @@
     {{ form_widget(form.fieldDesc) }}  
     {{ form_widget(form.pool) }}    
 </div>
-{% set homeTeam = form.teams[0] %}
-{% set awayTeam = form.teams[1] %}
+{% set homeTeamRel = form.teams[0] %}
+{% set awayTeamRel = form.teams[1] %}
+{% set homeTeam = homeTeamRel.team %}
+{% set awayTeam = awayTeamRel.team %}
 <table border="1">
-    <tr><td>&nbsp;</td>       <td>{{ form_widget(homeTeam.type)          }}</td><td>{{ form_widget(awayTeam.type)          }}</td></tr>
+    <tr><td>&nbsp;</td>       <td>{{ form_widget(homeTeamRel.type)       }}</td><td>{{ form_widget(awayTeamRel.type)       }}</td></tr>
     <tr><td>&nbsp;</td>       <td>{{ game_team_desc(game.homeTeam)       }}</td><td>{{ game_team_desc(game.awayTeam)       }}</td></tr>
     <tr><td>Goals Scored</td> <td>{{ form_widget(homeTeam.goalsScored)   }}</td><td>{{ form_widget(awayTeam.goalsScored)   }}</td></tr>
     <tr><td>Cautions</td>     <td>{{ form_widget(homeTeam.cautions)      }}</td><td>{{ form_widget(awayTeam.cautions)      }}</td></tr>
     <tr><td>Send Offs</td>    <td>{{ form_widget(homeTeam.sendoffs)      }}</td><td>{{ form_widget(awayTeam.sendoffs)      }}</td></tr>
+    <tr><td>Coach Dismissal</td>    <td>{{ form_widget(homeTeam.coachTossed) }}</td><td>{{ form_widget(awayTeam.coachTossed) }}</td></tr>
+    <tr><td>Spectator Dismissal</td><td>{{ form_widget(homeTeam.specTossed)  }}</td><td>{{ form_widget(awayTeam.specTossed)  }}</td></tr>
     <tr><td>Sportsmanship</td><td>{{ form_widget(homeTeam.sportsmanship) }}</td><td>{{ form_widget(awayTeam.sportsmanship) }}</td></tr>
     <tr><td>Fudge Factor</td> <td>{{ form_widget(homeTeam.fudgeFactor)   }}</td><td>{{ form_widget(awayTeam.fudgeFactor)   }}</td></tr>
     <tr><td>Points Minus</td> <td>{{ form_widget(homeTeam.pointsMinus)   }}</td><td>{{ form_widget(awayTeam.pointsMinus)   }}</td></tr>  

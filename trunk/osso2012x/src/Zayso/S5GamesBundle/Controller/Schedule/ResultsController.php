@@ -64,21 +64,21 @@ class ResultsController extends BaseController
                 {
                 $pools[$pool]['games'][] = $game;
                 
-                $homeGameTeam = $game->getHomeTeam();
-                $awayGameTeam = $game->getAwayTeam();
+                $homeGameTeam = $game->getHomeTeam()->getTeam();
+                $awayGameTeam = $game->getAwayTeam()->getTeam();
 
-                $homeSchTeam = $homeGameTeam->getTeam();
-                $awaySchTeam = $awayGameTeam->getTeam();
+                $homePoolTeam = $homeGameTeam->getParent();
+                $awayPoolTeam = $awayGameTeam->getParent();
                 
-                if ($homeSchTeam && $awaySchTeam)
+                if ($homePoolTeam && $awayPoolTeam)
                 {
                     if ($game->isPointsApplied())
                     {
-                        $this->calcSchTeamPoints($pool,$homeGameTeam,$homeSchTeam);
-                        $this->calcSchTeamPoints($pool,$awayGameTeam,$awaySchTeam);
+                        $this->calcPoolTeamPoints($homeGameTeam,$homePoolTeam);
+                        $this->calcPoolTeamPoints($awayGameTeam,$awayPoolTeam);
                     }
-                    $pools[$pool]['teams'][$homeSchTeam->getId()] = $homeSchTeam;
-                    $pools[$pool]['teams'][$awaySchTeam->getId()] = $awaySchTeam;
+                    $pools[$pool]['teams'][$homePoolTeam->getId()] = $homePoolTeam;
+                    $pools[$pool]['teams'][$awayPoolTeam->getId()] = $awayPoolTeam;
                 }
             }}
         }
@@ -90,7 +90,6 @@ class ResultsController extends BaseController
             $teams = $pool['teams'];
             
             //sort
-            $this->poolKey = $poolKey;
             usort($teams,array($this,'compareTeamStandings'));
             
             $pools[$poolKey]['teams'] = $teams;
@@ -106,35 +105,36 @@ class ResultsController extends BaseController
         return $this->render('ZaysoS5GamesBundle:Schedule:results.html.twig',$tplData);
         
     }
-    protected function calcSchTeamPoints($pool,$gameTeam,$schTeam)
+    protected function calcPoolTeamPoints($gameTeam,$poolTeam)
     {
-        $schTeam->addPointsEarned($pool,$gameTeam->getPointsEarned());   
-        $schTeam->addPointsMinus ($pool,$gameTeam->getPointsMinus());
+        $poolTeam->addPointsEarned($gameTeam->getPointsEarned());   
+        $poolTeam->addPointsMinus ($gameTeam->getPointsMinus());
         
-        $schTeam->addGoalsScored ($pool,$gameTeam->getGoalsScored());
-        $schTeam->addGoalsAllowed($pool,$gameTeam->getGoalsAllowed());
+        $poolTeam->addGoalsScored ($gameTeam->getGoalsScored());
+        $poolTeam->addGoalsAllowed($gameTeam->getGoalsAllowed());
         
-        $schTeam->addCautions($pool,$gameTeam->getCautions());
-        $schTeam->addSendoffs($pool,$gameTeam->getSendoffs());
+        $poolTeam->addCautions($gameTeam->getCautions());
+        $poolTeam->addSendoffs($gameTeam->getSendoffs());
         
-        $schTeam->addSportsmanship($pool,$gameTeam->getSportsmanship());
+        $poolTeam->addCoachTossed($gameTeam->getCoachTossed());
+        $poolTeam->addSpecTossed ($gameTeam->getSpecTossed());
+        
+        $poolTeam->addSportsmanship($gameTeam->getSportsmanship());
         
         if ($gameTeam->getGoalsScored() !== null)
         {
-            $schTeam->addGamesPlayed($pool,1);
+            $poolTeam->addGamesPlayed(1);
         }
-     }
-
-    protected $poolKey = null;
+    }
     protected function compareTeamStandings($team1,$team2)
     {
-        $pe1 = $team1->getPointsEarned($this->poolKey);
-        $pe2 = $team2->getPointsEarned($this->poolKey);
+        $pe1 = $team1->getPointsEarned();
+        $pe2 = $team2->getPointsEarned();
         if ($pe1 < $pe2) return  1;
         if ($pe1 > $pe2) return -1;
         
-        $key1 = $team1->getTeamKey();
-        $key2 = $team2->getTeamKey();
+        $key1 = $team1->getKey();
+        $key2 = $team2->getKey();
         
         if ($key1 < $key2) return -1;
         if ($key1 > $key2) return  1;
