@@ -317,23 +317,23 @@ class Game2011Export
                     case 'Girls Bracket 3 5th' : $schTeamKey = $pool . 'C 5TH'; break;
                     
                     case 'Girls loser 7:30 fie': 
-                        $schTeamKey = $div . ' CM RUP SF1'; 
+                        $schTeamKey = $div . ' CM SF1 RUP'; 
                         if (isset($this->schTeams[$schTeamKey]))
                         {
-                            $schTeamKey = $div . ' CM RUP SF2';
+                            $schTeamKey = $div . ' CM SF2 RUP';
                         }
                         break;
                         
                     case 'Girls winner 7:30 fi': 
-                        $schTeamKey = $div . ' FM WIN SF1'; 
+                        $schTeamKey = $div . ' FM SF1 WIN'; 
                         if (isset($this->schTeams[$schTeamKey]))
                         {
-                            $schTeamKey = $div . ' FM WIN SF2';
+                            $schTeamKey = $div . ' FM SF2 WIN';
                         }
                         break;
                         
                     case 'Girls Bracket 2nd ?': 
-                        $schTeamKey = $div . ' SF A 2nd'; 
+                        $schTeamKey = $div . ' SF A 2ND'; 
                         if (isset($this->schTeams[$schTeamKey]))
                         {
                             $schTeamKey = $div . ' SF B 2ND';
@@ -345,34 +345,34 @@ class Game2011Export
                     case 'Girls Bracket 3 Winn' : $schTeamKey = $pool . 'C 1ST';     break;
                     case 'Girls Wildcard - hig' : $schTeamKey = $pool . 'WC';        break;
                     
-                    case 'G - 1st in Points': $schTeamKey = $pool . 'A 1ST'; break;
-                    case 'G - 2nd in Points': $schTeamKey = $pool . 'A 2ND'; break;
-                    case 'G - 3rd in Points': $schTeamKey = $pool . 'A 3RD'; break;
-                    case 'G - 4th in Points': $schTeamKey = $pool . 'A 4TH'; break;
+                    case 'G - 1st in Points'    : $schTeamKey = $pool . 'A 1ST'; break;
+                    case 'G - 2nd in Points'    : $schTeamKey = $pool . 'A 2ND'; break;
+                    case 'G - 3rd in Points'    : $schTeamKey = $pool . 'A 3RD'; break;
+                    case 'G - 4th in Points'    : $schTeamKey = $pool . 'A 4TH'; break;
                      
-                    case 'B - 1st in Points': $schTeamKey = $pool . 'A 1ST'; break;
-                    case 'B - 2nd in Points': $schTeamKey = $pool . 'A 2ND'; break;
+                    case 'B - 1st in Points'    : $schTeamKey = $pool . 'A 1ST'; break;
+                    case 'B - 2nd in Points'    : $schTeamKey = $pool . 'A 2ND'; break;
                     
-                    case 'B - 3rd in Points': $schTeamKey = $pool . 'A 3RD'; break;
-                    case 'B - 4th in Points': $schTeamKey = $pool . 'A 4TH'; break;
+                    case 'B - 3rd in Points'    : $schTeamKey = $pool . 'A 3RD'; break;
+                    case 'B - 4th in Points'    : $schTeamKey = $pool . 'A 4TH'; break;
                      
-                    case 'G - Loser B1#1 v B2#' : $schTeamKey = $div . ' CM RUP SF1';     break;
-                    case 'G - Loser B2#1 v B1#' : $schTeamKey = $div . ' CM RUP SF2';     break;
-                    case 'G - Loser B1#3 v B2#' : $schTeamKey = $div . ' CM RUP SF3';     break;
-                    case 'G - Loser B2#3 v B1#' : $schTeamKey = $div . ' CM RUP SF4';     break;
+                    case 'G - Loser B1#1 v B2#' : $schTeamKey = $div . ' CM SF1 RUP';     break;
+                    case 'G - Loser B2#1 v B1#' : $schTeamKey = $div . ' CM SF1 RUP';     break;
+                    case 'G - Loser B1#3 v B2#' : $schTeamKey = $div . ' CM SF3 RUP';     break;
+                    case 'G - Loser B2#3 v B1#' : $schTeamKey = $div . ' CM SF3 RUP';     break;
                     
-                    case 'G - Winner B1#1 v B2' : $schTeamKey = $div . ' FM WIN SF1';     break;
-                    case 'G - Winner B2#1 v B1' : $schTeamKey = $div . ' FM WIN SF2';     break;
-                    case 'G - Winner B1#3 v B2' : $schTeamKey = $div . ' FM WIN SF3';     break;
-                    case 'G - Winner B2#3 v B1' : $schTeamKey = $div . ' FM WIN SF4';     break;
+                    case 'G - Winner B1#1 v B2' : $schTeamKey = $div . ' FM SF1 WIN';     break;
+                    case 'G - Winner B2#1 v B1' : $schTeamKey = $div . ' FM SF1 WIN';     break;
+                    case 'G - Winner B1#3 v B2' : $schTeamKey = $div . ' FM SF1 WIN';     break;
+                    case 'G - Winner B2#3 v B1' : $schTeamKey = $div . ' FM SF1 WIN';     break;
                     
-                    case 'B - Winner #1 v #4' : $schTeamKey = $div . ' FM WIN SF1';     break;
-                    case 'B - Winner #2 v #3' : $schTeamKey = $div . ' FM WIN SF2';     break;
+                    case 'B - Winner #1 v #4'   : $schTeamKey = $div . ' FM WIN SF1';     break;
+                    case 'B - Winner #2 v #3'   : $schTeamKey = $div . ' FM WIN SF2';     break;
                     
-                    case 'G - Loser #2 v #3' : $schTeamKey = $div . ' CM RUP SF1';     break;
-                    case 'G - Loser #1 v #4' : $schTeamKey = $div . ' CM RUP SF2';     break;
-                    case 'G - Winner #1 v #4': $schTeamKey = $div . ' FM WIN SF1';     break;
-                    case 'G - Winner #2 v #3': $schTeamKey = $div . ' FM WIN SF2';     break;
+                    case 'G - Loser #2 v #3'    : $schTeamKey = $div . ' CM SF1 RUP';     break;
+                    case 'G - Loser #1 v #4'    : $schTeamKey = $div . ' CM SF2 RUP';     break;
+                    case 'G - Winner #1 v #4'   : $schTeamKey = $div . ' FM SF1 WIN';     break;
+                    case 'G - Winner #2 v #3'   : $schTeamKey = $div . ' FM SF2 WIN';     break;
                }
         }
         if ($schTeamKey == 'TBD') echo sprintf('Sch Team Key ' . $div . ' ' . $teamName . "\n");

@@ -20,13 +20,6 @@
         <tr id="ref-sched-{{game.num}}" class="game-status-{{game.status}}">
             <td>
                 <a href="{{ path('zayso_s5games_schedule_game_edit', { 'id': game.id })}}">{{ game.getNum() }}</a>
-                {% if game.reportStatus != 'Futurex' %}
-                    <br />
-                    <a  href="{{ path('zayso_s5games_schedule_game_report', { 'id': game.id })}}"
-                        class="game-report-status-{{game.reportStatus}}">
-                        Report
-                    </a>
-                {% endif %}
             </td>
             <td>{{ game_dow(game.date) }} {{ game_time(game.time) }}</td>
             <td>{{ game.fieldDesc      }}</td>

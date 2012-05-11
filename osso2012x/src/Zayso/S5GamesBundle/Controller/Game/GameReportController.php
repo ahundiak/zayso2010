@@ -48,15 +48,18 @@ class GameReportController extends BaseController
          
         return $this->render('ZaysoS5GamesBundle:Game:report.html.twig',$tplData);
     }
-    protected function calcPointsEarnedForTeam($game,$team1,$team2)
+    protected function calcPointsEarnedForTeam($game,$gameTeam1Rel,$gameTeam2Rel)
     {
+        $team1 = $gameTeam1Rel->getTeam();
+        $team2 = $gameTeam2Rel->getTeam();
+        
         // Make scores are set
         $team1Goals = $team1->getGoalsScored();
         $team2Goals = $team2->getGoalsScored();
         if (($team1Goals === null) || ($team2Goals === null)) 
         {
-            $team1->clearReportInfo();
-            $team2->clearReportInfo();
+            //$team1->clearReportInfo();
+            //$team2->clearReportInfo();
             return;
         }
         $team1->setGoalsAllowed($team2Goals);
@@ -79,7 +82,9 @@ class GameReportController extends BaseController
       //if ($fudgeFactor < 0) $pointsMinus += abs($fudgeFactor);
         $pointsMinus  += $fudgeFactor;
          
-        $pointsMinus  -= ($team1->getSendoffs() * 2);
+        $pointsMinus  -= ($team1->getSendoffs()    * 2);
+        $pointsMinus  -= ($team1->getCoachTossed() * 3);
+        $pointsMinus  -= ($team1->getSpecTossed()  * 0);
         
         $pointsEarned += $pointsMinus;
         
