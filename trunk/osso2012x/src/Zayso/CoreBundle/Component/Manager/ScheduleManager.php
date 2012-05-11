@@ -38,27 +38,26 @@ class ScheduleManager extends BaseManager
 
         $qb->addSelect('game');
         $qb->addSelect('field');
+        $qb->addSelect('gameTeamRel');
         $qb->addSelect('gameTeam');
-        $qb->addSelect('schTeam');
+        $qb->addSelect('poolTeam');
         $qb->addSelect('phyTeam');
         $qb->addSelect('gamePerson');
         $qb->addSelect('person');
 
         $qb->from('ZaysoCoreBundle:Event','game');
         $qb->leftJoin('game.field',       'field');
-        $qb->leftJoin('game.teams',       'gameTeam');
-        $qb->leftJoin('gameTeam.team',    'schTeam');
-        $qb->leftJoin('schTeam.parent',   'phyTeam');
+        $qb->leftJoin('game.teams',       'gameTeamRel');
+        $qb->leftJoin('gameTeamRel.team', 'gameTeam');
+        $qb->leftJoin('gameTeam.parent',  'poolTeam');
+        $qb->leftJoin('poolTeam.parent',  'phyTeam');
         $qb->leftJoin('game.persons',     'gamePerson');
         $qb->leftJoin('gamePerson.person','person');
 
         $qb->andWhere($qb->expr()->eq('game.project',$qb->expr()->literal($projectId)));
         
-        if (isset($params['age']))    $qb->andWhere($qb->expr()->in('schTeam.age',   $params['age']));
-        if (isset($params['gender'])) $qb->andWhere($qb->expr()->in('schTeam.gender',$params['gender']));
-        
-        if ($ages)    $qb->andWhere($qb->expr()->in('schTeam.age',   $ages));
-        if ($genders) $qb->andWhere($qb->expr()->in('schTeam.gender',$genders));
+        if ($ages)    $qb->andWhere($qb->expr()->in('gameTeam.age',   $ages));
+        if ($genders) $qb->andWhere($qb->expr()->in('gameTeam.gender',$genders));
 
         return $qb->getQuery()->getResult();
         

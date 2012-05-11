@@ -64,24 +64,38 @@ class CoreExtension extends \Twig_Extension
      * 
      * The attached physical team is optional
      * Really a tournament team description
+     * 
+     * gameTeamRel => gameTeam - Should always have a game team
+     * 
+     * gameTeamRel => gameTeam => null - Playoff game, no physical team issigned yet
+     * gameTeamRel => gameTeam => phyTeam - Playoff game with assigned physical team
+     * 
+     * gameTeamRel => gameTeam => poolTeam => null - Probably should not happen
+     * gameTeamRel => gameTeam => poolTeam => phyTeam
      */
     public function gameTeamDesc($gameTeam)
     {
-        $schTeam = $gameTeam->getTeam();
-        if (!$schTeam)
+        // Investigate is_a and namespaces
+        if (get_class($gameTeam) != 'Zayso\CoreBundle\Entity\Team') $gameTeam = $gameTeam->getTeam();
+        
+        if (!$gameTeam)
         {
-            return $gameTeam->getType() . ' ' . 'No Schedule team';
+            // Really should not be possible
+            return $gameTeam->getType() . ' ' . 'No Game team';
         }
-        $schTeamKey = substr($schTeam->getTeamKey(),8);
+        $gameTeamKey = $gameTeam->getKey();
+        if (!$gameTeamKey) $gameTeamKey = $gameTeam->getDesc(); // Pool keys stored here
         
-        $phyTeam = $schTeam->getParent();
-        if (!$phyTeam) return $schTeamKey;
+        $gameTeamKey = substr($gameTeamKey,8);
         
-        $phyTeamKey = $phyTeam->getTeamKey();
+        $phyTeam = $gameTeam->getParentForType('physical');
+        if (!$phyTeam) return $gameTeamKey;
+        
+        $phyTeamKey = $phyTeam->getKey();
         $region = substr($phyTeamKey, 0,5);
         $coach  = substr($phyTeamKey,10);
         
-        return $schTeamKey . ' ' . $region . ' ' . $coach;
+        return $gameTeamKey . ' ' . $region . ' ' . $coach;
     }
     /* ---------------------------------------------------
      * This was an attemt to process both teams
