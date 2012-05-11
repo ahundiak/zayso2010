@@ -7,7 +7,7 @@ use Zayso\CoreBundle\Component\Import\ExcelBaseImport;
 
 use Zayso\CoreBundle\Entity\Team;
 use Zayso\CoreBundle\Entity\Event        as Game;
-use Zayso\CoreBundle\Entity\EventTeam    as GameTeam;
+use Zayso\CoreBundle\Entity\EventTeam    as GameTeamRel;
 use Zayso\CoreBundle\Entity\ProjectField as Field;
 
 class TournImport extends ExcelBaseImport
@@ -33,26 +33,37 @@ class TournImport extends ExcelBaseImport
       'homePhyTeam' => array('cols' => 'Home Phy Team','req' => true,  'default' => 0),
       'awayPhyTeam' => array('cols' => 'Away Phy Team','req' => true,  'default' => 0),
     );
-    public function processSchTeam($key)
+    protected function newTeam($div,$type = null, $key = null, $org = null)
     {
+        $team = new Team();
+        $team->setProject($this->project);
+        $team->setType($type);
+        $team->setStatus ('Active');
+        $team->setSource ('import');
+        $team->setKey    ($key);
+        $team->setOrg    ($org);
+        $team->setAge    (substr($div,0,3));
+        $team->setGender (substr($div,3,1));
+       
+        return $team;
+    }
+    // U10B PP A2
+    public function processPoolTeam($key)
+    {
+        // Verify it is a pool play game
         if (!$key) return null;
+        if (substr($key,5,2) != 'PP') return null;
+        
         $manager = $this->manager;
         
-        $team = $manager->loadSchTeamForKey($this->projectId,$key);
+        $team = $manager->loadPoolTeamForKey($this->projectId,$key);
         
         if ($team) return $team;
         
         $parts  = explode(' ',$key);
         $div    = trim($parts[0]);
         
-        $team = new Team();
-        $team->setProject($this->project);
-        $team->setType('schedule');
-        $team->setStatus('Active');
-        $team->setSource('import');
-        $team->setTeamKey($key);
-        $team->setAge   (substr($div,0,3));
-        $team->setGender(substr($div,3,1));
+        $team = $this->newTeam($div,'pool',$key);
         
         $manager->persist($team);
         
@@ -74,22 +85,33 @@ class TournImport extends ExcelBaseImport
         
         $org = $manager->getRegionReference('AYSO' . $region);
         
-       
-        $team = new Team();
-        $team->setProject($this->project);
-        $team->setType('physical');
-        $team->setStatus('Active');
-        $team->setSource('import');
-        $team->setTeamKey($key);
-        $team->setOrg($org);
-        $team->setAge   (substr($div,0,3));
-        $team->setGender(substr($div,3,1));
+        $team = $this->newTeam($div,'physical',$key,$org);
         
         $manager->persist($team);
         
         return $team;
     }
-    public function processGame($item,$field,$homeSchTeam,$awaySchTeam)
+    protected function addTeamToGame($game,$div,$type,$poolTeam,$schTeamKey)
+    {
+        $gameTeam = $this->newTeam($div,'game');
+        if ($poolTeam) 
+        {
+            $gameTeam->setParent($poolTeam);
+            $gameTeam->setDesc  ($poolTeam->getKey());
+        }
+        else $gameTeam->setKey($schTeamKey);
+        
+       $gameTeamRel = new GameTeamRel();
+       $gameTeamRel->setGame($game);
+       $gameTeamRel->setType($type);
+       $gameTeamRel->setTeam($gameTeam);
+        
+       $this->manager->persist($gameTeamRel);
+       $this->manager->persist($gameTeam);
+      
+       return $gameTeam;
+    }
+    public function processGame($item,$field,$homePoolTeam,$awayPoolTeam)
     {
         $manager = $this->manager;
         
@@ -97,33 +119,29 @@ class TournImport extends ExcelBaseImport
         $num = (int)$item->num;
         if (!$num) return null;
         
+        $div = substr($item->pool,0,4);
+        
         $game = $manager->loadEventForNum($this->projectId,$num);
+        
         if (!$game)
         {
             $game = new Game();
             $game->setProject($this->project);
-            $game->setNum($num);
-            
-            $homeGameTeam = new GameTeam();
-            $homeGameTeam->setEvent($game);
-            $homeGameTeam->setType('Home');
-            
-            $awayGameTeam = new GameTeam();
-            $awayGameTeam->setEvent($game);
-            $awayGameTeam->setType('Away');
-            
-            $game->addTeam($homeGameTeam);
-            $game->addTeam($awayGameTeam);
-            
+            $game->setNum ($num);
+            $game->setPool($item->pool);
+
+            $homeTeam = $this->addTeamToGame($game,$div,'Home',$homePoolTeam,$item->homeSchTeam);
+            $awayTeam = $this->addTeamToGame($game,$div,'Away',$awayPoolTeam,$item->awaySchTeam);
+   
             $manager->persist($game);
         }
         $game->setDate ($item->date);
         $game->setTime ($item->time);
-        $game->setPool ($item->pool);
+      //$game->setPool ($item->pool);
         $game->setField($field);
         
-        $game->getHomeTeam()->setTeam($homeSchTeam);
-        $game->getAwayTeam()->setTeam($awaySchTeam);
+        //$game->getHomeTeam()->setTeam($homePoolTeam);
+        //$game->getAwayTeam()->setTeam($awayPoolTeam);
         
         return $game;
     }
@@ -150,22 +168,23 @@ class TournImport extends ExcelBaseImport
         $homePhyTeam = $this->processPhyTeam($item->homePhyTeam);
         $awayPhyTeam = $this->processPhyTeam($item->awayPhyTeam);
         
-        $homeSchTeam = $this->processSchTeam($item->homeSchTeam);
-        $awaySchTeam = $this->processSchTeam($item->awaySchTeam);
+        $homePoolTeam = $this->processPoolTeam($item->homeSchTeam);
+        $awayPoolTeam = $this->processPoolTeam($item->awaySchTeam);
         
-        if ($homePhyTeam) $homeSchTeam->setParent($homePhyTeam);
-        if ($awayPhyTeam) $awaySchTeam->setParent($awayPhyTeam);
+        if ($homePoolTeam) $homePoolTeam->setParent($homePhyTeam);
+        if ($awayPoolTeam) $awayPoolTeam->setParent($awayPhyTeam);
         
         $field = $this->processField($item->field);
         
         $item->time = str_replace(':','',$item->time);
         
-        $game = $this->processGame($item,$field,$homeSchTeam,$awaySchTeam);
+        $game = $this->processGame($item,$field,$homePoolTeam,$awayPoolTeam);
         
         $manager->flush();
+        return;
         
-        //Debug::dump($item);
-        //die('Item processed' . "\n");
+        Debug::dump($item);
+        die('Item processed' . "\n");
     }
     
 }

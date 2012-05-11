@@ -77,29 +77,29 @@ class EventTeam extends BaseEntity
         return $this->team->getTeamKey();
     }
     public function setTeamKey($key) { return; }
-    
-    public function getGoalsScored()   { return $this->get('goalsScored');   }
-    public function getGoalsAllowed()  { return $this->get('goalsAllowed');  }
-    public function getCautions()      { return $this->get('cautions');      }
-    public function getSendoffs()      { return $this->get('sendoffs');      }
-    public function getSportsmanship() { return $this->get('sportsmanship'); }
-    public function getFudgeFactor()   { return $this->get('fudgeFactor');   }
-    public function getPointsEarned()  { return $this->get('pointsEarned');  }
-    public function getPointsMinus()   { return $this->get('pointsMinus');   }
+ /*   
+    public function getGoalsScored()   { return $this->team->getGoalsScored() ;  }
+    public function getGoalsAllowed()  { return $this->team->getGoalsAllowed();  }
+    public function getCautions()      { return $this->team->getCautions();      }
+    public function getSendoffs()      { return $this->team->getSendoffs();      }
+    public function getSportsmanship() { return $this->team->getSportsmanship(); }
+    public function getFudgeFactor()   { return $this->team->getFudgeFactor();   }
+    public function getPointsEarned()  { return $this->team->getPointsEarned();  }
+    public function getPointsMinus()   { return $this->team->getPointsMinus();   }
 
-    public function setGoalsScored  ($value) { $this->set('goalsScored',  $value); }
-    public function setGoalsAllowed ($value) { $this->set('goalsAllowed', $value); }
-    public function setCautions     ($value) { $this->set('cautions',     $value); }
-    public function setSendoffs     ($value) { $this->set('sendoffs',     $value); }
-    public function setSportsmanship($value) { $this->set('sportsmanship',$value); }
-    public function setFudgeFactor  ($value) { $this->set('fudgeFactor',  $value); }
-    public function setPointsEarned ($value) { $this->set('pointsEarned', $value); }
-    public function setPointsMinus  ($value) { $this->set('pointsMinus',  $value); }
+    public function setGoalsScored  ($value) { $this->team->setGoalsScored  ($value); }
+    public function setGoalsAllowed ($value) { $this->team->setGoalsAllowed ($value); }
+    public function setCautions     ($value) { $this->team->setCautions     ($value); }
+    public function setSendoffs     ($value) { $this->team->setSendoffs     ($value); }
+    public function setSportsmanship($value) { $this->team->setSportsmanship($value); }
+    public function setFudgeFactor  ($value) { $this->team->setFudgeFactor  ($value); }
+    public function setPointsEarned ($value) { $this->team->setPointsEarned ($value); }
+    public function setPointsMinus  ($value) { $this->team->setPointsMinus  ($value); }
     
     public function clearReportInfo()
     {
         $this->setPointsEarned(null);
         $this->setPointsMinus (null);
-    }
+    }*/
 }
 ?>

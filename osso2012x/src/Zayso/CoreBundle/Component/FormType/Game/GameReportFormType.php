@@ -24,10 +24,10 @@ class GameTeamReportFormType extends AbstractType
     
     public function buildForm(FormBuilder $builder, array $options)
     {
-        $builder->add('type', 'text', array(
-            'attr' => array('size' => 6),
-            'read_only' => true,
-        ));
+        //$builder->add('type', 'text', array(
+        //    'attr' => array('size' => 6),
+        //    'read_only' => true,
+        //));
         $builder->add('teamKey', 'text', array(
             'attr' => array('size' => 30),
             'read_only' => true,
@@ -43,6 +43,14 @@ class GameTeamReportFormType extends AbstractType
             'required' => false,
         ));
         $builder->add('sendoffs', 'integer', array(
+            'attr' => array('size' => 4),
+            'required' => false,
+        ));
+        $builder->add('coachTossed', 'integer', array(
+            'attr' => array('size' => 4),
+            'required' => false,
+        ));
+        $builder->add('specTossed', 'integer', array(
             'attr' => array('size' => 4),
             'required' => false,
         ));
@@ -65,6 +73,31 @@ class GameTeamReportFormType extends AbstractType
             'read_only' => true,
         ));
    }
+    public function getParent(array $options)
+    {
+        return 'form';
+    }
+}
+class GameTeamRelReportFormType extends AbstractType
+{
+    protected $name = 'teamRel';
+    public function getName() { return $this->name; }
+    
+    public function __construct($em,$emName = null)
+    {
+        $this->em = $em;
+        $this->emName = $emName;
+    }
+    protected $em;
+    
+    public function buildForm(FormBuilder $builder, array $options)
+    {
+        $builder->add('type', 'text', array(
+            'attr' => array('size' => 6),
+            'read_only' => true,
+        ));
+        $builder->add('team', new GameTeamReportFormType($this->em));
+    }
 }
 class GameReportFormType extends AbstractType
 {
@@ -126,7 +159,7 @@ class GameReportFormType extends AbstractType
             ),
         ));
           
-        $builder->add('teams', 'collection', array('type' => new GameTeamReportFormType($this->em)));
+        $builder->add('teams', 'collection', array('type' => new GameTeamRelReportFormType($this->em)));
         
         $builder->add('report', 'textarea', array('label' => 'Comments', 'required' => false, 
             'attr' => array('rows' => 12, 'cols' => 78, 'wrap' => 'hard', 'class' =>'textarea')));

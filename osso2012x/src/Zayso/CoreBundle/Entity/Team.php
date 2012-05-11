@@ -98,6 +98,7 @@ class Team extends BaseEntity
     public function getAge    () { return $this->age;     }
     public function getOrg    () { return $this->org;     }
     public function getType   () { return $this->type;    }
+    public function getDesc   () { return $this->desc1;   }
     public function getDesc1  () { return $this->desc1;   }
     public function getDesc2  () { return $this->desc2;   }
     public function getLevel  () { return $this->level;   }
@@ -110,6 +111,7 @@ class Team extends BaseEntity
     public function setAge    ($value) { $this->onScalerPropertySet('age',    $value); }
     public function setOrg    ($value) { $this->onObjectPropertySet('org',    $value); }
     public function setType   ($value) { $this->onScalerPropertySet('type',   $value); }
+    public function setDesc   ($value) { $this->onScalerPropertySet('desc1',  $value); }
     public function setDesc1  ($value) { $this->onScalerPropertySet('desc1',  $value); }
     public function setDesc2  ($value) { $this->onScalerPropertySet('desc2',  $value); }
     public function setLevel  ($value) { $this->onScalerPropertySet('level',  $value); }
@@ -120,9 +122,12 @@ class Team extends BaseEntity
     public function setProject($value) { $this->onObjectPropertySet('project',$value); }
     
     // Custom getter/setters
+    public function setKey($key) { $this->onScalerPropertySet('key1',$key); }
+    public function getKey()     { return $this->key1; }
+    
     public function setTeamKey($key) { $this->onScalerPropertySet('key1',$key); }
     public function getTeamKey()     { return $this->key1; }
-    
+     
     public function setTeamKeyExpanded($key) { $this->onScalerPropertySet('key2',$key); }
     public function getTeamKeyExpanded()     { return $this->key2; }
     
@@ -149,58 +154,78 @@ class Team extends BaseEntity
         if (!$this->parent) return null;
         return $this->parent->getTeamKey();
     }
+    public function getParentForType($type)
+    {
+        if ($this->type == $type) return $this;
+        if ($this->parent) return $this->parent->getParentForType($type);
+        return null;
+    }
     /* ========================================================
      * Always calculated on the fly
      */
     protected $pools;
     
-    protected function setPoolProp($pool,$name,$value)
+    protected function setReportProp($name,$value)
     {
-       $this->pools[$pool][$name] = $value;
-         
+        $report = $this->get('report');
+        $report[$name] = $value;
+        $this->set('report',$report);
     }
-    protected function addPoolProp($pool,$name,$value)
+    protected function addReportProp($name,$value)
     {
-       $this->pools[$pool][$name] = $this->getPoolProp($pool,$name) + $value;
-         
+        $value += $this->getReportProp($name);
+        $this->setReportProp($name,$value); 
     }
-    protected function getPoolProp($pool,$name)
+    protected function getReportProp($name)
     {
-       if (!isset($this->pools[$pool][$name])) return null;;
-       return $this->pools[$pool][$name];
+        $report = $this->get('report');
+        if (isset($report[$name])) return $report[$name];
+        return null;
     }
     
-    public function setPointsEarned($pool,$value) { $this->setPoolProp($pool,'pointsEarned',$value); }
-    public function addPointsEarned($pool,$value) { $this->addPoolProp($pool,'pointsEarned',$value); }
-    public function getPointsEarned($pool) { return $this->getPoolProp($pool,'pointsEarned'); }
+    public function setPointsEarned($value) { $this->setReportProp('pointsEarned',$value); }
+    public function addPointsEarned($value) { $this->addReportProp('pointsEarned',$value); }
+    public function getPointsEarned(){ return $this->getReportProp('pointsEarned'); }
     
-    public function setPointsMinus($pool,$value) { $this->setPoolProp($pool,'pointsMinus',$value); }
-    public function addPointsMinus($pool,$value) { $this->addPoolProp($pool,'pointsMinus',$value); }
-    public function getPointsMinus($pool) { return $this->getPoolProp($pool,'pointsMinus'); }
+    public function setPointsMinus($value) { $this->setReportProp('pointsMinus',$value); }
+    public function addPointsMinus($value) { $this->addReportProp('pointsMinus',$value); }
+    public function getPointsMinus(){ return $this->getReportProp('pointsMinus'); }
     
-    public function setGoalsScored($pool,$value) { $this->setPoolProp($pool,'goalsScored',$value); }
-    public function addGoalsScored($pool,$value) { $this->addPoolProp($pool,'goalsScored',$value); }
-    public function getGoalsScored($pool) { return $this->getPoolProp($pool,'goalsScored'); }
+    public function setGoalsScored($value) { $this->setReportProp('goalsScored',$value); }
+    public function addGoalsScored($value) { $this->addReportProp('goalsScored',$value); }
+    public function getGoalsScored(){ return $this->getReportProp('goalsScored'); }
     
-    public function setGoalsAllowed($pool,$value) { $this->setPoolProp($pool,'goalsAllowed',$value); }
-    public function addGoalsAllowed($pool,$value) { $this->addPoolProp($pool,'goalsAllowed',$value); }
-    public function getGoalsAllowed($pool) { return $this->getPoolProp($pool,'goalsAllowed'); }
+    public function setGoalsAllowed($value) { $this->setReportProp('goalsAllowed',$value); }
+    public function addGoalsAllowed($value) { $this->addReportProp('goalsAllowed',$value); }
+    public function getGoalsAllowed(){ return $this->getReportProp('goalsAllowed'); }
     
-    public function setCautions($pool,$value) { $this->setPoolProp($pool,'cautions',$value); }
-    public function addCautions($pool,$value) { $this->addPoolProp($pool,'cautions',$value); }
-    public function getCautions($pool) { return $this->getPoolProp($pool,'cautions'); }
+    public function setCautions($value) { $this->setReportProp('cautions',$value); }
+    public function addCautions($value) { $this->addReportProp('cautions',$value); }
+    public function getCautions() {return $this->getReportProp('cautions'); }
     
-    public function setSendoffs($pool,$value) { $this->setPoolProp($pool,'sendoffs',$value); }
-    public function addSendoffs($pool,$value) { $this->addPoolProp($pool,'sendoffs',$value); }
-    public function getSendoffs($pool) { return $this->getPoolProp($pool,'sendoffs'); }
+    public function setSendoffs($value) { $this->setReportProp('sendoffs',$value); }
+    public function addSendoffs($value) { $this->addReportProp('sendoffs',$value); }
+    public function getSendoffs(){ return $this->getReportProp('sendoffs'); }
     
-    public function setSportsmanship($pool,$value) { $this->setPoolProp($pool,'sportsmanship',$value); }
-    public function addSportsmanship($pool,$value) { $this->addPoolProp($pool,'sportsmanship',$value); }
-    public function getSportsmanship($pool) { return $this->getPoolProp($pool,'sportsmanship'); }
+    public function setCoachTossed($value) { $this->setReportProp('coachTossed',$value); }
+    public function addCoachTossed($value) { $this->addReportProp('coachTossed',$value); }
+    public function getCoachTossed(){ return $this->getReportProp('coachTossed'); }
     
-    public function setGamesPlayed($pool,$value) { $this->setPoolProp($pool,'gamesPlayed',$value); }
-    public function addGamesPlayed($pool,$value) { $this->addPoolProp($pool,'gamesPlayed',$value); }
-    public function getGamesPlayed($pool) { return $this->getPoolProp($pool,'gamesPlayed'); }
+    public function setSpecTossed($value) { $this->setReportProp('specTossed',$value); }
+    public function addSpecTossed($value) { $this->addReportProp('specTossed',$value); }
+    public function getSpecTossed(){ return $this->getReportProp('specTossed'); }
+    
+    public function setFudgeFactor($value) { $this->setReportProp('fudgeFactor',$value); }
+    public function addFudgeFactor($value) { $this->addReportProp('fudgeFactor',$value); }
+    public function getFudgeFactor(){ return $this->getReportProp('fudgeFactor'); }
+    
+    public function setSportsmanship($value) { $this->setReportProp('sportsmanship',$value); }
+    public function addSportsmanship($value) { $this->addReportProp('sportsmanship',$value); }
+    public function getSportsmanship(){ return $this->getReportProp('sportsmanship'); }
+    
+    public function setGamesPlayed($value) { $this->setReportProp('gamesPlayed',$value); }
+    public function addGamesPlayed($value) { $this->addReportProp('gamesPlayed',$value); }
+    public function getGamesPlayed(){ return $this->getReportProp('gamesPlayed'); }
 
 }
 ?>
