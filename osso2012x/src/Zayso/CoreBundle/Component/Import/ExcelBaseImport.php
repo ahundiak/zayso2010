@@ -72,7 +72,7 @@ class ExcelBaseImport extends BaseImport
         else                                  $this->clientFileName = $this->inputFileName;
 
         if (isset($params['sheetName'])) $sheetName = $params['sheetName'];
-        else                             $sheetName = null;
+        else                             $sheetName = 'Schedule';
         
         // Process it
         $this->processInputFile($inputFileName,$sheetName);
