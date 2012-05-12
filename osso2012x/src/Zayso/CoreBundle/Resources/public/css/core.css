@@ -1,0 +1,58 @@
+/* =====================================================
+ * Core shared styles
+ */
+
+/* =====================================================
+ * Some global stuff
+
+/* This breaks the Janrain div */
+divx
+{
+    margin-left: 5px;
+}
+/* #layout-content */
+p
+{
+    width: 700px;
+    margin-left: 10px;
+    margin-bottom: 5px;
+    
+}
+h1,h2,h3
+{
+    margin:  0 0 0 5px;
+    padding: 5px;
+}
+table
+{
+    margin: 10px;
+}
+/* ========================================================
+ * Account Person List
+ */
+table.account-person-list
+{
+    margin-top: 10px;
+}
+
+/* ========================================================
+ * Bit of janrain styling
+ */
+div.janrainContent
+{
+    margin: 5px;
+}
+
+/* ========================================================
+ * Rained out text alerts
+ */
+div.text-alerts
+{
+    width: 700px;
+    margin-left: 10px;
+}
+div.text-alerts p
+{
+    margin-bottom: 5px;
+    
+}
