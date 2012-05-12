@@ -13,7 +13,7 @@ class WelcomeController extends CoreBaseController
 {
     public function welcomeAction()
     {
-        if ($this->isUser())
+        if ($this->isUser() && !$this->isAdmin())
         {
             return $this->redirect($this->generateUrl('zayso_natgames_home'));
         }
