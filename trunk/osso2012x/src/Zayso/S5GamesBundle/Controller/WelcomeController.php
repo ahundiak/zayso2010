@@ -11,7 +11,7 @@ class WelcomeController extends BaseController
 {
     public function welcomeAction()
     {
-        if ($this->isUser())
+        if ($this->isUser() && !$this->isAdmin())
         {
             return $this->redirect($this->generateUrl('zayso_s5games_home'));
         }

@@ -8,8 +8,10 @@
     
 {% block stylesheets %}
 
-    {% stylesheets output='bundles/zaysos5games/css/layout.css' debug=false
-        '@ZaysoS5GamesBundle/Resources/public/css/layout.css'
+     {% stylesheets output='bundles/zaysoscore/css/zayso.css' debug=false
+        '@ZaysoCoreBundle/Resources/public/css/reset.css'
+        '@ZaysoCoreBundle/Resources/public/css/layout.css'
+        '@ZaysoCoreBundle/Resources/public/css/core.css'
     %}
         <link rel="stylesheet" href="{{ asset_url }}" media="all" />
     {% endstylesheets %}
@@ -93,7 +95,7 @@
   <div class="inner-block"></div>
 </div>
 
-<div id="layout-content">
+<div id="layout-contentccc">
   {% block content %}
   {% endblock %}
 </div>
