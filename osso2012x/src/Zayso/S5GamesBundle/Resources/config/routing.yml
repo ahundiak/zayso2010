@@ -2,12 +2,24 @@
 zayso_s5games_index:
     pattern:  /
     defaults: { _controller: ZaysoS5GamesBundle:Welcome:welcome }
+    
+zayso_core_index:
+    pattern:  /
+    defaults: { _controller: ZaysoS5GamesBundle:Welcome:welcome }
 
 zayso_s5games_welcome:
     pattern:  /welcome
     defaults: { _controller: ZaysoS5GamesBundle:Welcome:welcome }
     
+zayso_core_welcome:
+    pattern:  /welcome
+    defaults: { _controller: ZaysoS5GamesBundle:Welcome:welcome }
+    
 zayso_s5games_welcome_text_alerts:
+    pattern:  /welcome/textalerts
+    defaults: { _controller: ZaysoS5GamesBundle:Welcome:textalerts }
+    
+zayso_core_textalerts:
     pattern:  /welcome/textalerts
     defaults: { _controller: ZaysoS5GamesBundle:Welcome:textalerts }
 
@@ -16,12 +28,24 @@ zayso_s5games_welcomex:
     pattern:  /welcome
     defaults: { _controller: ZaysoS5GamesBundle:Welcome:welcome }
     
+zayso_core_welcomex:
+    pattern:  /welcome
+    defaults: { _controller: ZaysoS5GamesBundle:Welcome:welcome }
+    
 zayso_s5games_home:
+    pattern:  /home
+    defaults: { _controller: ZaysoS5GamesBundle:Welcome:home }
+    
+zayso_core_home:
     pattern:  /home
     defaults: { _controller: ZaysoS5GamesBundle:Welcome:home }
 
 zayso_s5games_contact:
     pattern:  /contact
+    defaults: { _controller: ZaysoS5GamesBundle:Welcome:contact }
+    
+zayso_core_contact:
+    pattern:  /welcome/contact
     defaults: { _controller: ZaysoS5GamesBundle:Welcome:contact }
 
 # ===============================================================
@@ -67,19 +91,7 @@ zayso_s5games_account_create:
     pattern:  /account/create
     defaults: { _controller: ZaysoS5GamesBundle:Account\Create:create }
 
-zayso_s5games_account_profile:
-    pattern:  /account/profile
-    defaults: { _controller: ZaysoS5GamesBundle:Account\Profile:index }
-    requirements:
-        _method:  GET
-
-zayso_s5games_account_profile_post:
-    pattern:  /account/profile
-    defaults: { _controller: ZaysoS5GamesBundle:Account\Profile:post }
-    requirements:
-        _method:  POST
-
-zayso_s5games_account_edit:
+zayso_core_account_edit:
     pattern:  /account/edit/{id}
     defaults: { _controller: ZaysoS5GamesBundle:Account\Edit:edit, id: 0}
     requirements:
@@ -92,24 +104,28 @@ zayso_s5games_account_signin:
 zayso_s5games_account_signin_rpx:
     pattern:  /account/signin/rpx
     defaults: { _controller: ZaysoS5GamesBundle:Account\Signin:signinRpx }
+    
+zayso_core_account_signin_rpx:
+    pattern:  /account/signin/rpx
+    defaults: { _controller: ZaysoS5GamesBundle:Account\Signin:signinRpx }
 
 zayso_s5games_account_signout:
     pattern:  /account/signout
     defaults: { _controller: ZaysoS5GamesBundle:Account\Signin:signout }
 
-zayso_s5games_account_openid_add:
+zayso_core_account_openid_add:
     pattern:  /account/openid/add
     defaults: { _controller: ZaysoS5GamesBundle:Account\Openid:add }
 
-zayso_s5games_account_openid_add_rpx:
+zayso_core_account_openid_add_rpx:
     pattern:  /account/openid/add/rpx
     defaults: { _controller: ZaysoS5GamesBundle:Account\Openid:addRpx }
 
-zayso_s5games_account_person_add:
+zayso_core_account_person_add:
     pattern:  /account/person/add
     defaults: { _controller: ZaysoS5GamesBundle:Account\Person:add }
     
-zayso_s5games_account_person_edit:
+zayso_core_account_person_edit:
     pattern:  /account/person/edit/{id}
     defaults: { _controller: ZaysoS5GamesBundle:Account\Person:edit, id: 0 }
     requirements:
