@@ -1,11 +1,10 @@
+<div>
 <table class="account-person-list" border="1">
-    <tr><th colspan="5">People Associated With This Account</th></tr>
+    <tr><th colspan="3">People Associated With This Account</th></tr>
     <tr>
-        <th>Edit</th>
-        <th>Relation</th>
-        <th>Name</th>
+        <th>Account Information</th>
         <th>AYSO Information</th>
-        <th>S5Games Plans</th>
+        <th>Section 5 Games Plans</th>
     </tr>
     {% for accountPerson in accountPersons %}
     {% set person   = accountPerson.personz %}
@@ -17,35 +16,56 @@
         {%set plans = null %}
     {% endif %}
     <tr>
-        <td><a href="{{ path('zayso_s5games_account_person_edit', { 'id': accountPerson.id }) }}">Edit</a></td>
-        <td>{{ accountPerson.accountRelation }}</td>
-        <td>{{ person.personName }}</td>
-        <td>
-            <table>
-                <tr><td>AYSO ID</td>      <td>{{aysoCert.aysoid}}   </td></tr>
-                <tr><td>Vol Year</td>     <td>{{aysoCert.memYear}}  </td></tr>
-                <tr><td>Safe Haven</td>   <td>{{aysoCert.safeHaven}}</td></tr>
-                <tr><td>Referee Badge</td><td>{{aysoCert.refBadge}} </td></tr>
-                <tr><td>Region</td>       <td>{{person.orgz.desc2}} </td></tr>
-            </table>
-        </td>
-        <td>
-            {% if plans %}
-                Will Attend:  {{ plans['willAttend'] }}<br />
-                Will Referee: {{ plans['willReferee'] }}<br />
-                Will Coach:   {{ plans['willCoach'] }}<br />
-                Have Player:  {{ plans['havePlayer'] }}<br />
-                T-Shirt Size: {{ plans['tshirtSize'] }}<br />
-            {% else %}
-                No plans as of yet.<br />
+        <td><table>
+            <tr>
+                <td colspan="2">
+                    <a href="{{ path('zayso_core_account_person_edit', { 'id': accountPerson.id }) }}">
+                        {{ person.personName }}
+                    </a>
+                </td>
+            </tr>
+            {% if accountPerson.isPrimary %}
+            <tr><td>Account:</td><td>
+                <a href="{{ path('zayso_core_account_edit', { 'id': accountPerson.id }) }}">
+                    {{ accountPerson.userName }}
+                </a>
+            </td></tr>
             {% endif %}
-            <a href="{{ path('zayso_s5games_project_plans', { 'id': person.id }) }}">Update My Tournament Plans</a>
-        </td>
+            <tr><td>Relation:</td><td>{{ accountPerson.accountRelation }}</td></tr>
+            {% for openid in accountPerson.openids %}
+                <tr><td>Sign In With:</td><td>{{ openid.provider }}</td></tr>
+            {% endfor %}
+        </table></td>
+        <td><table>
+            <tr><td>AYSO ID:</td>      <td>{{aysoCert.aysoid}}   </td></tr>
+            <tr><td>Vol Year:</td>     <td>{{aysoCert.memYear}}  </td></tr>
+            <tr><td>Safe Haven:</td>   <td>{{aysoCert.safeHaven}}</td></tr>
+            <tr><td>Referee Badge:</td><td>{{aysoCert.refBadge}} </td></tr>
+            <tr><td>Region:</td>       <td>{{person.orgz.desc3}} </td></tr>
+        </table></td>
+        <td><table>
+            {% if plans %}
+                <tr><td>Will Attend: </td><td>{{ plans.willAttend  }}</td></tr>
+                <tr><td>Will Referee:</td><td>{{ plans.willReferee }}</td></tr>
+                <tr><td>Have Player: </td><td>{{ plans.havePlayer  }}</td></tr>
+            {% else %}
+                <tr><td colspan="2">No plans as of yet.</td></tr>
+            {% endif %}
+            {% if accountPerson.isPrimary or accountPerson.isFamily %}
+            <tr><td colspan="2">
+                <a href="{{ path('zayso_s5games_project_plans', { 'id': person.id }) }}">Update My Tournament Plans</a>
+            </td></tr>
+            {% endif %}
+        </table></td>
     </tr>
     {% endfor %}
     <tr><th colspan="5">
-            <a href="{{ path('zayso_s5games_account_person_add') }}">Add Person to Account</a>
+            <a href="{{ path('zayso_core_account_person_add') }}">Add Person to Account</a>
+        </th>
+    </tr>
+    <tr><th colspan="5">
+            <a href="{{ path('zayso_core_account_openid_add') }}">Link Zayso Account to Social Network for Signing In</a>
         </th>
     </tr>
 </table>
-
+</div>

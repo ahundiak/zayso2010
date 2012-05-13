@@ -5,33 +5,10 @@
 {% block content %}
 <div>
     {% include 'ZaysoS5GamesBundle:Account/Person:list.html.twig' %}
+    <p>
+        Pease keep your tournament plans up to date.
+    </p><p>
+        Check back as the tournament draws closer.  More information will be added.
+    </p>
 </div>
 {% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
-    {% include 'ZaysoCoreBundle:Layout:jquery-ui-css.html.twig' %}
-
-<style>
-    .zayso-home-green { color: green; }
-    #zayso-datepicker { margin: 5px; display: none; }
-</style>
-{% endblock stylesheets %}
-
-{% block javascripts %}
-    {{ parent() }}
-    {% include 'ZaysoCoreBundle:Layout:jquery-ui-js.html.twig' %}
- <script>
-$(document).ready(function() 
-{
-    // Check loading
-    // Zayso.exclaim('Home');
-   
-    // do stuff when DOM is ready
-    $('#zayso-home-p').addClass('zayso-home-green');
-    
-    //$("#zayso-datepicker").show().datepicker();
-});
-</script>
-
-{% endblock javascripts %}

@@ -23,9 +23,16 @@ class WelcomeController extends BaseController
         // Need to be signed in, security system does this
         if (!$this->isUser()) return $this->redirect($this->generateUrl('zayso_s5games_welcome'));
         
-        // Ensure part of the project
-        $manager = $this->getAccountManager();
-        $projectPerson = $manager->addProjectPerson($this->getProjectId(),$this->getUser()->getPersonId());
+        // Use the home manage
+        $manager = $this->get('zayso_core.account.home.manager');
+        
+         // Ensure part of the project
+        $user = $this->getUser();
+        $accountId = $user->getAccountId();
+        $projectId = $this->getProjectId();
+        $personId  = $user->getPersonId();
+        
+        $projectPerson = $manager->addProjectPerson($projectId,$personId);
         
         // Verify plans were set
         $plans = $projectPerson->get('plans');
@@ -34,18 +41,16 @@ class WelcomeController extends BaseController
             return $this->redirect($this->generateUrl('zayso_s5games_project_plans'));
         }
         
-        // Get prople for account
-        $user = $this->getUser();
-        $accountId = $user->getAccountId();
-        $projectId = $this->getProjectId();
-        $params = array('accountId' => $accountId,'projectId' => $projectId); // Want all projects
-        $accountPersons = $manager->getAccountPersons($params);
+        // Get people for account
+        $accountPersons = $manager->loadAccountPersons($accountId,$projectId);
         
         // And Render
         $tplData = array();
         $tplData['projectId']      = $projectId;
         $tplData['accountPersons'] = $accountPersons;
+        
         return $this->render('ZaysoS5GamesBundle:Welcome:home.html.twig',$tplData);
+
     }
     public function textalertsAction()
     { 
