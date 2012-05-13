@@ -48,7 +48,7 @@ class EditController extends BaseController
                     $account->setUserName($userName);
                     $needFlush = true;
                 }
-                if ($userPass && $userPass != $userPassCurrent())
+                if ($userPass && $userPass != $userPassCurrent)
                 {
                     $account->setUserPass($userPass);
                     $needFlush = true;
