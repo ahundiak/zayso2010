@@ -1,3 +1,4 @@
- ./console cache:clear --env=prod --no-debug
-./console assets:install $HOME/public_html/area5c
-./console assetic:dump   $HOME/public_html/area5c
+#!/bin/bash
+php console cache:clear --env=prod --no-debug
+php console assets:install $HOME/public_html/area5c
+php console assetic:dump   $HOME/public_html/area5c
