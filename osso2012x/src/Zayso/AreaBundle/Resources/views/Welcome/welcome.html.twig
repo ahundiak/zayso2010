@@ -23,7 +23,12 @@
     <p>
         If you already gone through this process once then click on an icon below to sign in:
     </p>
-    <div id="janrainEngageEmbed"></div>
+        <div id="janrainEngageEmbed">
+<iframe
+    src="http://zayso.rpxnow.com/openid/embed?token_url={{ url('zayso_area_account_signin_rpx') }}"
+    scrolling="no"  frameBorder="no"  allowtransparency="true"  style="width:400px;height:240px">
+</iframe>
+    </div>
     <h2>Social Network (above) Now Required!</h2>
     <p>
         The biggest immediate change is that I am now going to require that all users use a social network icon (see above) to sign in.
@@ -66,6 +71,6 @@
 {% endblock %}
 
 {% block janrain %}
-    {% include 'ZaysoCoreBundle:Layout:janrain.js.twig' %}
+    {# include 'ZaysoCoreBundle:Layout:janrain.js.twig' #}
 {% endblock %}
 
