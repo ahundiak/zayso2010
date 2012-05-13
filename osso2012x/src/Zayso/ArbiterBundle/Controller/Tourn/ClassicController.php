@@ -1,8 +1,6 @@
 <?php
 namespace Zayso\ArbiterBundle\Controller\Tourn;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -22,8 +20,10 @@ class ClassicTournForm extends TournForm
     // protected $levelToRefPickList = array('D1' => 'Division 1', 'D2' => 'Division 2');
  
 }
-class ClassicController extends Controller
+class ClassicController extends TournController
 {
+    protected $tournName = 'Classic';
+       
     public function signupAction(Request $request)
     {
         $msg = null;
@@ -38,6 +38,8 @@ class ClassicController extends Controller
 
             if ($form->isValid())
             {
+                $this->trap($referee);
+                
                 //$this->sendEmail($referee);
                 $msg = 'Application Submitted';
             }

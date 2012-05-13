@@ -1,8 +1,6 @@
 <?php
 namespace Zayso\ArbiterBundle\Controller\Tourn;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -22,8 +20,10 @@ class StateCupFFTournForm extends TournForm
     protected $levelToRefPickList = array('D1' => 'Division 1', 'D2' => 'Division 2');
  
 }
-class StateCupFFController extends Controller
+class StateCupFFController extends TournController
 {
+    protected $tournName = 'StateCupFF';
+    
     public function signupAction(Request $request)
     {
         $msg = null;
@@ -38,10 +38,10 @@ class StateCupFFController extends Controller
 
             if ($form->isValid())
             {
-                // return $this->redirect($this->generateUrl('zayso_natgames_home'));
+                $this->trap($referee);
+                
                 //$this->sendEmail($referee);
                 $msg = 'Application Submitted';
-              //$msg = $this->csv($referee);
             }
         }
         
