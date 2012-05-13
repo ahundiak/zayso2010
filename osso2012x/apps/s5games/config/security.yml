@@ -3,7 +3,7 @@ parameters:
 
 security:
     encoders:
-        Zayso\NatGamesBundle\Component\User\User:
+        Zayso\S5GamesBundle\Component\User\User:
             id: zayso_core.user.encoder
 
     role_hierarchy:
