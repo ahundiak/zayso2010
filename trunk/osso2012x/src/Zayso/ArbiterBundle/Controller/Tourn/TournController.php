@@ -1,6 +1,8 @@
 <?php
 namespace Zayso\ArbiterBundle\Controller\Tourn;
 
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,20 +17,33 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Zayso\CoreBundle\Component\DataTransformer\PhoneTransformer;
 use Zayso\CoreBundle\Component\DataTransformer\UssfidTransformer;
 
-class StateCupTournForm extends TournForm
+class TournController extends Controller
 {
-    protected $levelToRefPickList = array('D1' => 'Division 1', 'D2' => 'Division 2');
- 
-}
-class StateCupController extends TournController
-{
-    protected $tournName = 'StateCupFF';
-       
+    protected $tournName = 'BaseTourn';
+    
+    protected function trap($referee)
+    {
+        $mailerEnabled = $this->container->getParameter('mailer_enabled');
+        if (!$mailerEnabled) return;
+        
+        $message = \Swift_Message::newInstance();
+        
+        $subject = sprintf('[ZaysoTrap][%s] %s %s',$this->tournName,$referee->firstName,$referee->lastName);
+        
+        $message->setSubject($subject);
+        $message->setFrom(array('ahundiak@zayso.org' => 'ZaysoTrap'));
+        $message->setTo  (array('ahundiak@gmail.com'));
+        
+        $message->setBody($subject);
+
+        $this->get('mailer')->send($message);
+    }
+
     public function signupAction(Request $request)
     {
         $msg = null;
         
-        $formType = new StateCupTournForm();
+        $formType = new StateCupFFTournForm();
         $referee  = new TournOfficial();
         
         $form = $this->createForm($formType, $referee);
@@ -36,12 +51,10 @@ class StateCupController extends TournController
         {
             $form->bindRequest($request);
 
-            if ($form->isValid() && 0)
+            if ($form->isValid())
             {
-                $this->trap($referee);
-                
                 // return $this->redirect($this->generateUrl('zayso_natgames_home'));
-                // $this->sendEmail($referee);
+                //$this->sendEmail($referee);
                 $msg = 'Application Submitted';
               //$msg = $this->csv($referee);
             }
@@ -51,7 +64,7 @@ class StateCupController extends TournController
         $tplData['form'] = $form->createView();
         $tplData['msg']  = $msg;
 
-        return $this->render('ZaysoArbiterBundle:Tourn\StateCup:form.html.twig',$tplData);
+        return $this->render('ZaysoArbiterBundle:Tourn\StateCupFF:form.html.twig',$tplData);
     }
     protected function sendEmail($referee)
     {
@@ -59,15 +72,15 @@ class StateCupController extends TournController
         if (!$mailerEnabled) return;
         
         $message = \Swift_Message::newInstance();
-        $message->setSubject('[StateCup2012] Ref App ' . $referee->firstName . ' ' . $referee->lastName);
-        $message->setFrom(array('ahundiak@zayso.org' => 'ZaysoStateCup2012'));
+        $message->setSubject('[StateCupFF2012] Ref App ' . $referee->firstName . ' ' . $referee->lastName);
+        $message->setFrom(array('ahundiak@zayso.org' => 'ZaysoStateCupFF2012'));
         
         $message->setTo  (array($referee->email,'ohannesy@yahoo.com'));
       //$message->setTo  (array($referee->email));
         
         $message->setBcc (array('ahundiak@gmail.com'));
         
-        $message->setBody($this->renderView('ZaysoArbiterBundle:Tourn\StateCup:email.txt.twig', 
+        $message->setBody($this->renderView('ZaysoArbiterBundle:Tourn\StateCupFF:email.txt.twig', 
             array('referee' => $referee, 'gen' => $this)
         ));
 

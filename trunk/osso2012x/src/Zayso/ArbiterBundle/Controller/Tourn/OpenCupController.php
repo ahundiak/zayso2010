@@ -1,8 +1,6 @@
 <?php
 namespace Zayso\ArbiterBundle\Controller\Tourn;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -17,8 +15,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Zayso\CoreBundle\Component\DataTransformer\PhoneTransformer;
 use Zayso\CoreBundle\Component\DataTransformer\UssfidTransformer;
 
-class OpenCupController extends Controller
+class OpenCupController extends TournController
 {
+    protected $tournName = 'OpenCup';
+       
     public function signupAction(Request $request)
     {
         $msg = null;
@@ -33,6 +33,8 @@ class OpenCupController extends Controller
 
             if ($form->isValid())
             {
+                $this->trap($referee);
+                
                 // return $this->redirect($this->generateUrl('zayso_natgames_home'));
                 //$this->sendEmail($referee);
                 $msg = 'Application Submitted';

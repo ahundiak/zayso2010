@@ -1,16 +1,16 @@
 <?php
 namespace Zayso\ArbiterBundle\Controller\Tourn;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use Zayso\CoreBundle\Component\DataTransformer\PhoneTransformer;
 use Zayso\CoreBundle\Component\DataTransformer\UssfidTransformer;
 
-class KicksController extends Controller
+class KicksController extends TournController
 {
+    protected $tournName = 'Kicks';
+       
     public function signupAction(Request $request)
     {
         $msg = null;
@@ -25,6 +25,8 @@ class KicksController extends Controller
 
             if ($form->isValid())
             {
+                $this->trap($referee);
+                
                 //die($referee->notes);
                 // return $this->redirect($this->generateUrl('zayso_natgames_home'));
                 //$this->sendEmail($referee);
