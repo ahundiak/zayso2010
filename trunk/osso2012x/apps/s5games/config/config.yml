@@ -1,4 +1,5 @@
 imports:
+    - { resource: setup.ini }
     - { resource: parameters.ini }
     - { resource: session.yml }
     - { resource: security.yml }
