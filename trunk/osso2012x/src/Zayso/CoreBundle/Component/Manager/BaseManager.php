@@ -45,21 +45,29 @@ class BaseManager
     /* ========================================================
      * References are handy to have
      */
+    public function getReference($name,$projectId)
+    {
+        return $this->getEntityManager()->getReference('ZaysoCoreBundle:' . $name,$projectId);
+    }
     public function getProjectReference($projectId)
     {
-        return $this->getEntityManager()->getReference('ZaysoCoreBundle:Project',$projectId);
+        return $this->getReference('Project',$projectId);
     }
     public function getRegionReference($orgId)
     {
-        return $this->getEntityManager()->getReference('ZaysoCoreBundle:Org',$orgId);
+        return $this->getReference('Org',$orgId);
     }
     public function getPersonReference($personId)
     {
-        return $this->getEntityManager()->getReference('ZaysoCoreBundle:Person',$personId);
+        return $this->getReference('Person',$personId);
     }
     public function getAccountReference($accountId)
     {
-        return $this->getEntityManager()->getReference('ZaysoCoreBundle:Account',$accountId);
+        return $this->getReference('Account',$accountId);
+    }
+    public function getAccountPersonReference($accountPersonId)
+    {
+        return $this->getReference('AccountPerson',$accountPersonId);
     }
 }
 ?>

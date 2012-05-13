@@ -11,6 +11,7 @@ use Doctrine\ORM\Query\Expr;
 use Zayso\CoreBundle\Component\Debug;
 
 use Zayso\CoreBundle\Entity\ProjectPerson;
+use Zayso\CoreBundle\Entity\AccountOpenid;
 
 class AccountHomeManager extends BaseManager
 {
@@ -138,6 +139,47 @@ class AccountHomeManager extends BaseManager
         $qb->andWhere($qb->expr()->in('accountPerson.id',$accountPersonId));
         
         return $qb->getQuery()->getOneOrNullResult(); 
+    }
+    /* ========================================================
+     * Check for exitence of openid
+     */
+    public function loadOpenidForIdentifier($identifier)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->addSelect('openid');
+      //$qb->addSelect('account');
+      //$qb->addSelect('accountPerson');
+      //$qb->addSelect('person');
+
+        $qb->from('ZaysoCoreBundle:AccountOpenid','openid');
+
+      //$qb->leftJoin('openid.accountPerson', 'accountPerson');
+      //$qb->leftJoin('accountPerson.account','account');
+      //$qb->leftJoin('accountPerson.person', 'person');
+
+        $qb->andWhere($qb->expr()->eq('openid.identifier',$qb->expr()->literal($identifier)));
+ 
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+    public function addOpenidToAccountPerson($accountPerson,$profile = array())
+    {
+        if (!is_object($accountPerson)) $accountPerson = $this->getAccountPersonReference($accountPerson);
+               
+        $openid = new AccountOpenid();
+        $openid->setProfile($profile);
+        $openid->setAccountPerson($accountPerson);
+
+        $this->persist($openid);
+
+        return $openid;
+    }
+    public function deleteOpenid($id)
+    {
+        $openid = $this->getReference('AccountOpenid',$id);
+        $this->remove($openid);
+        return;
     }
 }
 ?>

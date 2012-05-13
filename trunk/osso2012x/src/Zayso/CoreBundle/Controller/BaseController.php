@@ -33,6 +33,14 @@ class BaseController extends Controller
     {
         return $this->get('security.context')->isGranted('ROLE_USER');
     }
+    protected function isUserAdmin()
+    {
+        return $this->get('security.context')->isGranted('ROLE_ADMIN');
+    }
+    protected function isUserSuperAdmin()
+    {
+        return $this->get('security.context')->isGranted('ROLE_SUPER_ADMIN');
+    }
     // Be aware that this returns the string anon for non users
     protected function getUser()
     {
@@ -55,6 +63,7 @@ class BaseController extends Controller
         $this->get('security.context')->setToken($token);
         return $user;
     }
+    // @Depreciated
     protected function getProjectPerson()
     {
         $manager = $this->getAccountManager();
@@ -81,6 +90,32 @@ class BaseController extends Controller
 
         $this->get('mailer')->send($message);
 
+    }
+    /* =========================================================================
+     * Add some automatic bundle name processing
+     */
+    protected $myBundleName  = 'ZaysoCoreBundle';
+    protected $myTitlePrefix = 'ZaysoCore ';
+    
+    protected function getMyBundleName()
+    {
+        if ($this->container->hasParameter('my_bundle_name')) return $this->container->getParameter('my_bundle_name');
+        return $this->myBundleName;
+    }
+    protected function getMyTitlePrefix()
+    {
+        if ($this->container->hasParameter('my_title_prefix')) return $this->container->getParameter('my_title_prefix');
+        return $this->myTitlePrefix;
+    }
+    protected function renderx($tplName,$tplData = array())
+    {
+        $myBundleName  = $this->getMyBundleName();
+        $myTitlePrefix = $this->getMyTitlePrefix();
+   
+        $tplData['myBundleName']  = $myBundleName;
+        $tplData['myTitlePrefix'] = $myTitlePrefix;
+        
+        return $this->render($myBundleName . ':' . $tplName,$tplData);
     }
 }
 ?>
