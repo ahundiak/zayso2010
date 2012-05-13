@@ -57,22 +57,18 @@ class GameReportController extends BaseController
         if ($reportStatus == 'Future') return false;
                 
         // Turn pending into submitted
+        if ($reportStatus == 'Reset')   $game->setReportStatus('Pending');
         if ($reportStatus == 'Pending') $game->setReportStatus('Submitted');
         
-        if ($request->request->get('submitted'))
+        // Only admin can approve
+        if ($reportStatus == 'Approved') 
         {
-            if ($reportStatus == 'Approved') return false;
+            if (!$this->isAdmin()) return false;
         }
-        // Check for approved
-        if ($request->request->get('approved'))
-        {
-            if (!$this->isAdmin()) false;
-            
-            $game->setReportStatus('Approved');
-        }
+        
         // And save
         $manager->flush();
-        return true;
         
+        return true;
     }
 }
