@@ -1,5 +1,5 @@
 parameters:
-    zayso_core.user.class: Zayso\NatGamesBundle\Component\User\User
+    zayso_core.user.class: Zayso\S5GamesBundle\Component\User\User
 
 security:
     encoders:
