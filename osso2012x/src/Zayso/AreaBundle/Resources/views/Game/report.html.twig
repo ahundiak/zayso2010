@@ -40,7 +40,7 @@
     {{ form_widget(form.status) }}
     {{ form_widget(form.pointsApplied)  }}
     {{ form_widget(form.reportStatus) }}  
-    {% if is_granted('ROLE_ADMIN') %}
+    {% if is_granted('ROLE_USER') %}
         <input type="submit" name="submit_report" value="Save"  />
     {% endif %}
 </div>
@@ -52,7 +52,9 @@
 </form>
 <ul style="padding: 5px; margin: 0px; list-style-type: disc;">
     <li style="margin-left: 20px;">Set the game status to Played (or one of the other options)</li>
-    <li style="margin-left: 20px;">Explicitly apply the points by selecting 'Appl Points - Yes'</li>
+    <li style="margin-left: 20px;">Explicitly apply the points by selecting 'Apply Points - Yes'</li>
     <li style="margin-left: 20px;">The report status will change from Pending to Submitted by itself</li> 
+    <li style="margin-left: 20px;">Only Administrators can approve reports.</li> 
+    <li style="margin-left: 20px;">Points Earned is for tournaments(pool play).</li> 
 </ul>
 {% endblock %}
