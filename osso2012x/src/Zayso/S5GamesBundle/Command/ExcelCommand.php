@@ -80,6 +80,7 @@ class ExcelCommand extends ContainerAwareCommand
     }
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->test4();
         $this->test6();
     }
 }
