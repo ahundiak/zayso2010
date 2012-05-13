@@ -357,17 +357,17 @@ class Game2011Export
                     case 'B - 4th in Points'    : $schTeamKey = $pool . 'A 4TH'; break;
                      
                     case 'G - Loser B1#1 v B2#' : $schTeamKey = $div . ' CM SF1 RUP';     break;
-                    case 'G - Loser B2#1 v B1#' : $schTeamKey = $div . ' CM SF1 RUP';     break;
+                    case 'G - Loser B2#1 v B1#' : $schTeamKey = $div . ' CM SF2 RUP';     break;
                     case 'G - Loser B1#3 v B2#' : $schTeamKey = $div . ' CM SF3 RUP';     break;
-                    case 'G - Loser B2#3 v B1#' : $schTeamKey = $div . ' CM SF3 RUP';     break;
+                    case 'G - Loser B2#3 v B1#' : $schTeamKey = $div . ' CM SF4 RUP';     break;
                     
                     case 'G - Winner B1#1 v B2' : $schTeamKey = $div . ' FM SF1 WIN';     break;
-                    case 'G - Winner B2#1 v B1' : $schTeamKey = $div . ' FM SF1 WIN';     break;
-                    case 'G - Winner B1#3 v B2' : $schTeamKey = $div . ' FM SF1 WIN';     break;
-                    case 'G - Winner B2#3 v B1' : $schTeamKey = $div . ' FM SF1 WIN';     break;
+                    case 'G - Winner B2#1 v B1' : $schTeamKey = $div . ' FM SF2 WIN';     break;
+                    case 'G - Winner B1#3 v B2' : $schTeamKey = $div . ' FM SF3 WIN';     break;
+                    case 'G - Winner B2#3 v B1' : $schTeamKey = $div . ' FM SF4 WIN';     break;
                     
-                    case 'B - Winner #1 v #4'   : $schTeamKey = $div . ' FM WIN SF1';     break;
-                    case 'B - Winner #2 v #3'   : $schTeamKey = $div . ' FM WIN SF2';     break;
+                    case 'B - Winner #1 v #4'   : $schTeamKey = $div . ' FM SF1 WIN';     break;
+                    case 'B - Winner #2 v #3'   : $schTeamKey = $div . ' FM SF2 WIN';     break;
                     
                     case 'G - Loser #2 v #3'    : $schTeamKey = $div . ' CM SF1 RUP';     break;
                     case 'G - Loser #1 v #4'    : $schTeamKey = $div . ' CM SF2 RUP';     break;
