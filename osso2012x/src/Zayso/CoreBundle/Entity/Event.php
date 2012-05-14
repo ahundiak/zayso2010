@@ -195,12 +195,13 @@ EOT;
     public function getReportStatus()
     {
         // See if already set
-        $reportStatus = $this->get('reportStatus');
+        $reportStatus = $this->get('reportStatus');// die('Report Status: ' . $reportStatus);
         if ($reportStatus) return $reportStatus;
         
         // Deal with cancelled or processed games
+        // This got confusing so for now 
         $status = $this->getStatus();
-        if ($status != 'Active') return 'NotRequired';
+        if ($status == 'Cancelled') return 'NotRequired';
         
         // See if game has been played, could use time as well
         $date = $this->getDate();
