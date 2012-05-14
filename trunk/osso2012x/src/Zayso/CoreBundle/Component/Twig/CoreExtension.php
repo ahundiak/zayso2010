@@ -73,25 +73,46 @@ class CoreExtension extends \Twig_Extension
      * gameTeamRel => gameTeam => poolTeam => null - Probably should not happen
      * gameTeamRel => gameTeam => poolTeam => phyTeam
      */
-    public function gameTeamDesc($gameTeam)
+    public function gameTeamDesc($gameTeamRel)
     {
+        $gameTeam = $gameTeamRel->getTeam();
+        $pool = trim($gameTeamRel->getGame()->getPool());
+        $poolLen = strlen($pool);
+        if (substr($pool,5,2) == 'PP') $poolLen--;
+        
         // Investigate is_a and namespaces
-        if (get_class($gameTeam) != 'Zayso\CoreBundle\Entity\Team') $gameTeam = $gameTeam->getTeam();
+        // if (get_class($gameTeam) != 'Zayso\CoreBundle\Entity\Team') $gameTeam = $gameTeam->getTeam();
         
         if (!$gameTeam)
         {
             // Really should not be possible
-            return $gameTeam->getType() . ' ' . 'No Game team';
+            return $gameTeam->getType() . ' ' . 'No Game Team';
         }
-        $gameTeamKey = $gameTeam->getKey();
-        if (!$gameTeamKey) $gameTeamKey = $gameTeam->getDesc(); // Pool keys stored here
+        $gameTeamKey = $gameTeam->getKeyx();
+        if (!$gameTeamKey) return 'No Game Team Key'; // $gameTeamKey = $gameTeam->getDesc(); // Pool keys stored here
         
-        $gameTeamKey = substr($gameTeamKey,8);
+        /* =================================================
+         * Need for tournaments
+         * Game Pool U10G SF1
+         * Team Key  U10G SF1 A 1ST 
+         * Return    A 1ST
+         *
+         * Might want to check against game pool?
+         * But that requires a link back to the game which means the input would alway have to a gameTeamRel
+        */
+        //$gameTeamKey = trim(substr($gameTeamKey,strlen($pool)-1));
+        $gameTeamKey = trim(substr($gameTeamKey,$poolLen));
         
         $phyTeam = $gameTeam->getParentForType('physical');
         if (!$phyTeam) return $gameTeamKey;
         
-        $phyTeamKey = $phyTeam->getKey();
+        $phyTeamKey = $phyTeam->getKeyx();
+        
+        if ($gameTeamKey == $phyTeamKey) return $gameTeamKey;
+        
+        // Do I really need this?
+        // $gameTeamKey = substr($gameTeamKey,8);
+        
         $region = substr($phyTeamKey, 0,5);
         $coach  = substr($phyTeamKey,10);
         
