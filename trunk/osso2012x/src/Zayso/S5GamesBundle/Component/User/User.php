@@ -22,6 +22,10 @@ class User extends BaseUser
             case 355: // James Farmer
             case 337: // Jim Meehan
                 
+            case 121: // Diane Stratton
+            case 115: // Bob Denne
+            case   2: // David Holt
+            
             //case 406: // Vernon Paulett
             //case 453: // Les Daniel
                 
