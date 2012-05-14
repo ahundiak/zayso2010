@@ -58,6 +58,10 @@ class ScheduleManager extends BaseManager
         
         if ($ages)    $qb->andWhere($qb->expr()->in('gameTeam.age',   $ages));
         if ($genders) $qb->andWhere($qb->expr()->in('gameTeam.gender',$genders));
+        
+        $qb->addOrderBy('game.date');
+        $qb->addOrderBy('game.time');
+        $qb->addOrderBy('field.key1');
 
         return $qb->getQuery()->getResult();
         

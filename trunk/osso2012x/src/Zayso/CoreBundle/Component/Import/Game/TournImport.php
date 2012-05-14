@@ -8,6 +8,7 @@ use Zayso\CoreBundle\Component\Import\ExcelBaseImport;
 use Zayso\CoreBundle\Entity\Team;
 use Zayso\CoreBundle\Entity\Event        as Game;
 use Zayso\CoreBundle\Entity\EventTeam    as GameTeamRel;
+use Zayso\CoreBundle\Entity\EventPerson  as GameReferee;
 use Zayso\CoreBundle\Entity\ProjectField as Field;
 
 class TournImport extends ExcelBaseImport
@@ -111,6 +112,20 @@ class TournImport extends ExcelBaseImport
       
        return $gameTeam;
     }
+    protected function addReferee($game,$type)
+    {
+        $gameReferee = new GameReferee();
+        
+        $gameReferee->setType($type);
+        $gameReferee->setEvent($game);
+        $gameReferee->setProtected(true);
+        
+        $game->addPerson($gameReferee);
+        
+        $this->manager->persist($gameReferee);
+        
+        return $gameReferee;
+    }
     public function processGame($item,$field,$homePoolTeam,$awayPoolTeam)
     {
         $manager = $this->manager;
@@ -133,6 +148,10 @@ class TournImport extends ExcelBaseImport
             $homeTeam = $this->addTeamToGame($game,$div,'Home',$homePoolTeam,$item->homeSchTeam);
             $awayTeam = $this->addTeamToGame($game,$div,'Away',$awayPoolTeam,$item->awaySchTeam);
    
+            $this->addReferee($game,GameReferee::TypeCR);
+            $this->addReferee($game,GameReferee::TypeAR1);
+            $this->addReferee($game,GameReferee::TypeAR2);
+            
             $manager->persist($game);
         }
         $game->setDate ($item->date);

@@ -151,11 +151,13 @@ class GameReportFormType extends AbstractType
             'label'   => 'Report Status',
             'choices' => array
             (
-                'Reset'     => 'Reset',
-                'Pending'   => 'Pending',
-                'Submitted' => 'Submitted', 
-                'Approved'  => 'Approved',
-                'Predict'   => 'Predict'
+                'Pending'     => 'Pending',
+                'Submitted'   => 'Submitted', 
+                'Approved'    => 'Approved',
+                
+                'Predict'     => 'Predict',
+                'NotRequired' => 'Not Required',
+                'Reset'       => 'Reset',
             ),
         ));
           
