@@ -22,6 +22,19 @@ class GameReportController extends BaseController
         {
             return $this->redirect($this->generateUrl('zayso_s5games_schedule_results'));
         }
+        // Hokie default value
+        if (!$game->getPointsApplied()) $game->setPointsApplied('Yes');
+        
+        $gameStatus = $game->getStatus();
+        switch($gameStatus)
+        {
+            case 'Active': 
+            case 'InProgress': 
+                $game->setStatus('Played'); 
+                $reportStatus = $game->getReportStatus();
+              //die('Report Status ' . $reportStatus);
+                break;
+        }
         
         // Form
         $formType = $this->get('zayso_core.game.report.formtype');
