@@ -217,6 +217,10 @@ EOT;
         if ($this->get('pointsApplied') == 'Yes') return true;
         return false;
     }
-    
+    public function isPoolPlay()
+    {
+        if (strpos($this->pool,'PP') === false) return false;
+        return true;
+    }
 }
 ?>

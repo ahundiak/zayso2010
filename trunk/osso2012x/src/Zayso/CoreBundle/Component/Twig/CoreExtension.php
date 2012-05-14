@@ -76,9 +76,11 @@ class CoreExtension extends \Twig_Extension
     public function gameTeamDesc($gameTeamRel)
     {
         $gameTeam = $gameTeamRel->getTeam();
-        $pool = trim($gameTeamRel->getGame()->getPool());
+        $game     = $gameTeamRel->getGame();
+        
+        $pool = trim($game->getPool());
         $poolLen = strlen($pool);
-        if (substr($pool,5,2) == 'PP') $poolLen--;
+        if ($game->isPoolPlay()) $poolLen--;
         
         // Investigate is_a and namespaces
         // if (get_class($gameTeam) != 'Zayso\CoreBundle\Entity\Team') $gameTeam = $gameTeam->getTeam();
@@ -100,18 +102,15 @@ class CoreExtension extends \Twig_Extension
          * Might want to check against game pool?
          * But that requires a link back to the game which means the input would alway have to a gameTeamRel
         */
-        //$gameTeamKey = trim(substr($gameTeamKey,strlen($pool)-1));
-        $gameTeamKey = trim(substr($gameTeamKey,$poolLen));
         
         $phyTeam = $gameTeam->getParentForType('physical');
-        if (!$phyTeam) return $gameTeamKey;
+        if (!$phyTeam) return trim(substr($gameTeamKey,$poolLen));
         
         $phyTeamKey = $phyTeam->getKeyx();
+        if ($gameTeamKey == $phyTeamKey) return $gameTeamKey; // Non-pool games?, unique key?
         
-        if ($gameTeamKey == $phyTeamKey) return $gameTeamKey;
-        
-        // Do I really need this?
-        // $gameTeamKey = substr($gameTeamKey,8);
+        // Do I really need this? yep, see above
+        $gameTeamKey = trim(substr($gameTeamKey,$poolLen));
         
         $region = substr($phyTeamKey, 0,5);
         $coach  = substr($phyTeamKey,10);
