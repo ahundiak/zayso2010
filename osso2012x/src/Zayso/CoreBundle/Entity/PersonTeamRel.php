@@ -8,7 +8,7 @@ use Zayso\CoreBundle\Component\Debug;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="person_team",
+ * @ORM\Table(name="person_team_rel",
      uniqueConstraints={
          @ORM\UniqueConstraint(name="person_team_type", columns={"person_id", "team_id", "type"})
    })
