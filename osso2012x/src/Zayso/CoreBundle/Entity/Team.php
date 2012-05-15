@@ -88,11 +88,21 @@ class Team extends BaseEntity
     /** @ORM\Column(type="string",name="level",length=20,nullable=false) */
     protected $level = '';
     
+    /**
+     *  @ORM\OneToMany(targetEntity="PersonTeamRel", mappedBy="team")
+     */
+    protected $personRels;
+    
     /** @ORM\Column(type="string",name="status",length=20,nullable=false) */
     protected $status = 'Active';
     
     /** @ORM\Column(type="text", name="datax", nullable=true) */
     protected $datax = null;
+    
+    public function __construct()
+    {
+        $this->personRels  = new ArrayCollection();
+    }
     
     public function getId     () { return $this->id;      }
     public function getAge    () { return $this->age;     }

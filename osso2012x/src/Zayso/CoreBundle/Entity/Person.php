@@ -50,6 +50,11 @@ class Person
      *  @ORM\OneToMany(targetEntity="PersonRegistered", mappedBy="person", indexBy="regType", cascade={"persist"})
      */
     protected $registeredPersons;
+    
+    /**
+     *  @ORM\OneToMany(targetEntity="PersonTeamRel", mappedBy="person")
+     */
+    protected $teamRels;
 
     /**
      * Probably do not need this
@@ -99,6 +104,7 @@ class Person
     {
         $this->registeredPersons = new ArrayCollection();
         $this->projectPersons    = new ArrayCollection();
+        $this->teamRels          = new ArrayCollection();
     }
     public function addProjectPerson($projectPerson)
     {
@@ -277,5 +283,18 @@ class Person
             $this->orgz = new Org();
         }
         return $this->orgz;
+    }
+    /* ========================================================================
+     * Team relations
+     */
+    public function getTeamRels() { return $this->teamRels; }
+    
+    public function addTeamRel($rel)
+    {
+        $this->teamRels[$rel->getId()] = $rel;
+    }
+    public function removeTeamRel($rel)
+    {
+        unset($this->teamRels[$rel->getId()]);
     }
 }
