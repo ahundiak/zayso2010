@@ -1,12 +1,24 @@
 zayso_area_index:
     pattern:  /
     defaults: { _controller: ZaysoAreaBundle:Welcome:welcome }
+    
+zayso_core_index:
+    pattern:  /
+    defaults: { _controller: ZaysoAreaBundle:Welcome:welcome }
 
 zayso_area_welcome:
     pattern:  /welcome
     defaults: { _controller: ZaysoAreaBundle:Welcome:welcome }
+    
+zayso_core_welcome:
+    pattern:  /welcome
+    defaults: { _controller: ZaysoAreaBundle:Welcome:welcome }
 
 zayso_area_home:
+    pattern:  /home
+    defaults: { _controller: ZaysoAreaBundle:Welcome:home }
+    
+zayso_core_home:
     pattern:  /home
     defaults: { _controller: ZaysoAreaBundle:Welcome:home }
     
@@ -29,7 +41,20 @@ zayso_area_person_create:
 zayso_area_contact:
     pattern:  /contact
     defaults: { _controller: ZaysoAreaBundle:Welcome:contact }
+    
+zayso_core_contact:
+    pattern:  /contact
+    defaults: { _controller: ZaysoAreaBundle:Welcome:contact }
 
+# ===================================================================
+# Person oriented routes
+#
+zayso_core_person_team_list:
+    pattern:  /person/team/list/{personId}
+    defaults: { _controller: ZaysoAreaBundle:Person\Team:list, personId: 0 }
+    requirements:
+        personId: \d+
+    
 # ===================================================================
 # Account management
 zayso_area_account_signin_rpx:
