@@ -1,0 +1,51 @@
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
+
+{% block title %}{{ myTitlePrefix }} Person Team List{% endblock %}
+
+{% block content %}
+<div>
+<form action="{{ path('zayso_core_person_team_list', { 'personId': person.id }) }}" method="post" {{ form_enctype(listForm) }}>
+
+    <table border="1">
+        <tr>
+            <td>Team</td>
+            <td>Relation</td>
+            <td>Remove</td>
+        </tr>
+        {% for teamRel in listForm.teamRels %}
+        <tr>
+            <td>{{ form_widget(teamRel.team) }}</td>
+            <td>{{ form_widget(teamRel.type) }}</td>
+            <td align="center">{{ form_widget(teamRel.delete) }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td><a href="{{ path('zayso_core_home') }}">Return to Home Page</a></td>
+            <td align="right"><input type="submit" name="personTeamListSubmit" value="Update Teams For Person" /></td>
+            <td>&nbsp;</td>
+        </tr>
+    </table>
+{{ form_rest(listForm) }}
+</form>
+</div>
+{% if addForm is defined %}
+<div>
+<form action="{{ path('zayso_core_person_team_add') }}" method="post" {{ form_enctype(addForm) }}>
+
+    {{ form_widget(addForm.team) }}
+    {{ form_widget(addForm.type) }}
+<input type="submit" name="personTeamAddSubmit" value="Add Team To Person" />
+
+{{ form_rest(addForm) }}
+</form>
+</div>
+{% endif %}
+
+<div>
+    <h3>Instructions</h3>
+    <p>
+        Adding a team blah blah blah
+    </p>
+</div>
+
+{% endblock %}
