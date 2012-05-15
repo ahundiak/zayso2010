@@ -39,15 +39,15 @@ class PersonTeamEditFormType extends AbstractType
     protected $relPickList = array
     (
         'Parent'    => 'I am a parent/guardian of a player on this team',
-        'Player'    => 'I play on this team',
         'Spectator' => 'I plan to watch this team play',
+        'Player'    => 'I play on this team',
         
         'Head-Coach' => 'I am the head coach of this team',
         'Asst-Coach' => 'I am the assistant coach of this team',
-        'Manager'    => 'I am the manager of ths team',
+        'Manager'    => 'I am the manager of this team',
         
-        'Blocked-Soft'      => 'I should avoid refereeing this team',
-        'Blocked-By-Person' => 'I will not referee this team',
+        'Blocked-Soft'      => 'Blocked-Soft - I should avoid refereeing this team',
+        'Blocked-By-Person' => 'Blocked-Hard - I will not referee this team',
     );
     public function buildForm(FormBuilder $builder, array $options)
     {
