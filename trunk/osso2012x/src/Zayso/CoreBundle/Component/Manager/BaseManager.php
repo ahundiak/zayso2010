@@ -27,8 +27,11 @@ class BaseManager
 {
     protected $em = null;
     
-    public function getEntityManager() { return $this->em; }
-    public function newQueryBuilder($entityClass = null) { return $this->em->createQueryBuilder($entityClass); }
+    public function getEntityManager()     { return $this->em; }
+    public function getEntityManagerName() { return $this->emName; }
+    
+    public function newQueryBuilder   ($entityClass = null) { return $this->em->createQueryBuilder($entityClass); }
+    public function createQueryBuilder($entityClass = null) { return $this->em->createQueryBuilder($entityClass); }
     
     // Kind of hokay but think of this as an extended EntityManager
     public function clear()        { $this->em->clear(); }
@@ -38,9 +41,10 @@ class BaseManager
     public function persist($item) { $this->em->persist($item); }
     public function refresh($item) { $this->em->refresh($item); }
     
-    public function __construct($em)
+    public function __construct($em, $emName = null)
     {
         $this->em = $em;
+        $this->emName = $emName;
     }    
     /* ========================================================
      * References are handy to have
