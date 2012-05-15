@@ -25,6 +25,14 @@ class BaseController extends Controller
     {
         return $this->container->getParameter('zayso_core.project.master');
     }
+    protected function getMasterProjectId()
+    {
+        return $this->container->getParameter('zayso_core.project.master');
+    }
+    protected function getCurrentProjectId()
+    {
+        return $this->container->getParameter('zayso_core.project.current');
+    }
     protected function isAdmin()
     {
         return $this->get('security.context')->isGranted('ROLE_ADMIN');
