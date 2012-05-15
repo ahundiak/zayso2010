@@ -132,9 +132,13 @@ class AccountHomeManager extends BaseManager
         $qb->leftJoin('accountPerson.openids',   'openid');
         $qb->leftJoin('person.registeredPersons','registeredPersons');
         $qb->leftJoin('person.org',              'org');
+        $qb->leftJoin('person.teamRels',         'teamRel');
         
         $qb->leftJoin('person.projectPersons','projectPerson', 
             Expr\Join::WITH, $qb->expr()->eq('projectPerson.project', $projectId));
+        
+        $qb->leftJoin('teamRel','team', 
+            Expr\Join::WITH, $qb->expr()->eq('team.project', $projectId));
         
         $qb->andWhere($qb->expr()->in('accountPerson.id',$accountPersonId));
         
