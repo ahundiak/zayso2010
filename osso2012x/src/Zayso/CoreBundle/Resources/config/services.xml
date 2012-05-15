@@ -28,6 +28,7 @@
             class  = "Zayso\CoreBundle\Component\Manager\PersonManager"
             public = "true">
             <argument type="service" id="zayso_core.account.entity_manager" />
+            <argument type="string">accounts</argument>
         </service>
         
         <service
