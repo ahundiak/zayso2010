@@ -12,12 +12,14 @@
     <tr>
         <td><table>
             <tr>
-                <td colspan="2">
+                <td>Person:</td>
+                <td colspan="1">
                     <a href="{{ path('zayso_area_account_person_edit', { 'id': accountPerson.id }) }}">
                         {{ person.personName }}
                     </a>
                 </td>
             </tr>
+            <tr><td>Relation:</td><td>{{ accountPerson.accountRelation }}</td></tr>
             {% if accountPerson.isPrimary %}
             <tr><td>Account:</td><td>
                 <a href="{{ path('zayso_area_account_person_edit_account', { 'id': accountPerson.id }) }}">
@@ -25,9 +27,8 @@
                 </a>
             </td></tr>
             {% endif %}
-            <tr><td>Relation:</td><td>{{ accountPerson.accountRelation }}</td></tr>
             {% for openid in accountPerson.openids %}
-                <tr><td>Sign In With:</td><td>{{ openid.provider }}</td></tr>
+                <tr><td>Sign In:</td><td>{{ openid.provider }}<br />{{ openid.userName }}</td></tr>
             {% endfor %}
         </table></td>
         <td><table>
@@ -39,7 +40,7 @@
         </table></td>
         <td><table>
             {% for teamRel in teamRels %}
-                <tr><td>{{ teamRel.type }}</td><td>{{ teamRel.team.keyx }}</td></tr>
+                <tr><td>{{ teamRel.type }}</td><td>{{ teamRel.team.key }}</td></tr>
             {% endfor %}
             <tr><td colspan="2">
                 <a href="{{ path('zayso_core_person_team_list', { 'personId': person.id }) }}">Add Team To Person</a>

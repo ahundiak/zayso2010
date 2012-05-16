@@ -96,8 +96,16 @@ zayso_area_account_person_edit_account:
 zayso_area_account_openid_add:
     pattern:  /account/openid/add
     defaults: { _controller: ZaysoAreaBundle:Account\Openid:add }
+    
+zayso_core_account_openid_add:
+    pattern:  /account/openid/add
+    defaults: { _controller: ZaysoAreaBundle:Account\Openid:add }
 
 zayso_area_account_openid_add_rpx:
+    pattern:  /account/openid/add/rpx
+    defaults: { _controller: ZaysoAreaBundle:Account\Openid:addRpx }
+    
+zayso_core_account_openid_add_rpx:
     pattern:  /account/openid/add/rpx
     defaults: { _controller: ZaysoAreaBundle:Account\Openid:addRpx }
 
