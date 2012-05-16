@@ -1,0 +1,12 @@
+{% if signinForm is defined  %}
+<div class="account-signin">
+<form action="{{ path('zayso_core_account_signin') }}" method="post" {{ form_enctype(signinForm) }}>
+    {{ form_label(signinForm.userName) }}{{ form_widget(signinForm.userName) }}
+    {{ form_label(signinForm.userPass) }}{{ form_widget(signinForm.userPass) }}
+    <input type="submit" name="signin_submit" value="Signin" />
+    {{ form_errors(signinForm.userName) }}
+    {{ form_errors(signinForm.userPass) }}
+    {{ form_rest  (signinForm) }}
+</form>        
+</div>
+{% endif %}
