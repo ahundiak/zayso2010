@@ -91,7 +91,7 @@ class ClassesForm extends AbstractType
       //'Advanced'          => 'Advanced Referee',
       //'Intermediate'      => 'Intermediate Referee',
         'Regional Clinic'   => 'Regional Clinic',
-        'Assessor'          => 'Referee Assessor',
+      //'Assessor'          => 'Referee Assessor',
         'National Assessor' => 'National Referee Assessor',
     );
     protected $rolePickList = array
