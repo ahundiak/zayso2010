@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 use Zayso\CoreBundle\Controller\BaseController;
 
+use Zayso\CoreBundle\Entity\Account;
+
 class WelcomeController extends BaseController
 {
     public function welcomeAction()
@@ -15,7 +17,14 @@ class WelcomeController extends BaseController
         {
             return $this->redirect($this->generateUrl('zayso_core_home'));
         }
+        $account = new Account();
+        
+        $signinFormType = $this->get('zayso_core.account.signin.formtype');
+
+        $signinForm = $this->createForm($signinFormType, $account);
+        
         $tplData = array();
+        $tplData['signinForm'] = $signinForm->createView();
         return $this->renderx('Welcome:welcome.html.twig',$tplData);
     }
     public function textalertsAction()

@@ -113,13 +113,13 @@ zayso_core_account_edit:
     requirements:
         id: \d+
 
-zayso_s5games_account_signin:
-    pattern:  /account/public/signin
-    defaults: { _controller: ZaysoS5GamesBundle:Account\Signin:signin }
-    
 zayso_core_account_signin:
     pattern:  /account/public/signin
-    defaults: { _controller: ZaysoS5GamesBundle:Account\Signin:signin }
+    defaults: { _controller: ZaysoCoreBundle:Account\Signin:signin }
+    
+zayso_core_account_signout:
+    pattern:  /account/public/signout
+    defaults: { _controller: ZaysoCoreBundle:Account\Signin:signout }
 
 zayso_s5games_account_signin_rpx:
     pattern:  /account/public/signin/rpx
@@ -132,14 +132,6 @@ zayso_core_account_signin_rpx:
 zayso_core_account_signin_rpx:
     pattern:  /account/public/signin/rpx
     defaults: { _controller: ZaysoS5GamesBundle:Account\Signin:signinRpx }
-
-zayso_s5games_account_signout:
-    pattern:  /account/public/signout
-    defaults: { _controller: ZaysoS5GamesBundle:Account\Signin:signout }
-    
-zayso_core_account_signout:
-    pattern:  /account/public/signout
-    defaults: { _controller: ZaysoS5GamesBundle:Account\Signin:signout }
 
 zayso_core_account_openid_add:
     pattern:  /account/openid/add

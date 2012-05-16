@@ -1,6 +1,6 @@
-{% extends 'ZaysoS5GamesBundle:Layout:layout.html.twig' %}
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
 
-{% block title %}S5Games - Welcome{% endblock %}
+{% block title %}{{ myTitlePrefix }} Welcome{% endblock %}
 
 {% block content %}
 <div>
@@ -24,6 +24,7 @@
     scrolling="no"  frameBorder="no"  allowtransparency="true"  style="width:400px;height:240px">
 </iframe>
     </div>
+    {% include 'ZaysoCoreBundle:Account/Signin:form.html.twig' %}
     <h2>Create New Account</h2>
     <p>
         Start by clicking on one of the social network icons above.  
@@ -47,7 +48,7 @@
     <p>
         Feel free to contact Art Hundiak at 256.457.5943 if the above instructions are confusing or don't seem to work.
     </p>
-    {% include 'ZaysoS5GamesBundle:Welcome:rained_out.html.twig' %}
+    {% include myBundleName ~ ':Welcome:rained_out.html.twig' %}
 </div>
 {% endblock %}
 
