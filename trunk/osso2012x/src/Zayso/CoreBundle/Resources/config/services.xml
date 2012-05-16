@@ -89,6 +89,13 @@
         </service>
         
         <service
+            id     = "zayso_core.game.teams.import"
+            class  = "Zayso\CoreBundle\Component\Import\Game\TeamsImport"
+            public = "true">
+            <argument type="service" id="zayso_core.game.manager" />
+        </service>
+        
+        <service
             id     = "zayso_core.eayso.volunteer.import"
             class  = "Zayso\CoreBundle\Component\Import\Eayso\VolunteerImport"
             public = "true">
