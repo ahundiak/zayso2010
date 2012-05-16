@@ -83,17 +83,19 @@ class GameReportController extends BaseController
         
         if ($team1Goals  > $team2Goals) $pointsEarned = 6;
         if ($team1Goals == $team2Goals) $pointsEarned = 3;
-        if ($team2Goals == 0) $pointsEarned++;
+        
+        // Shutout
+        //if ($team2Goals == 0) $pointsEarned++;
         
         $maxGoals = $team1Goals;
         if ($maxGoals > 3) $maxGoals = 3;
         $pointsEarned += $maxGoals;
         
         $fudgeFactor = $team1->getFudgeFactor();
-      //$pointsEarned += $fudgeFactor;
+        $pointsEarned += $fudgeFactor;
         
       //if ($fudgeFactor < 0) $pointsMinus += abs($fudgeFactor);
-        $pointsMinus  += $fudgeFactor;
+      //$pointsMinus  += $fudgeFactor;
          
         $pointsMinus  -= ($team1->getSendoffs()    * 2);
         $pointsMinus  -= ($team1->getCoachTossed() * 3);

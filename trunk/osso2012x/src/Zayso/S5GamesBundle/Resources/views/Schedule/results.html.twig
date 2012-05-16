@@ -81,6 +81,7 @@
             <td>&nbsp;</td>
             <td>PM</td>
             <td>GP</td>
+            <td>GW</td>
             <td>GS</td>
             <td>GA</td>
             <td>YC</td>
@@ -97,6 +98,7 @@
             <td>&nbsp;</td>
             <td>{{ team.pointsMinus   }} </td>                  
             <td>{{ team.gamesPlayed   }} </td>                  
+            <td>{{ team.gamesWon      }} </td>                  
             <td>{{ team.goalsScored   }} </td>                  
             <td>{{ team.goalsAllowed  }} </td>                  
             <td>{{ team.cautions      }} </td>                  
@@ -105,7 +107,7 @@
             <td>{{ team.specTossed    }} </td>                  
             <td>{{ team.sportsmanship }} </td>                  
        </tr>
-        {% endfor %}       
+       {% endfor %}       
     </table>
     {% endfor %}
 </div>

@@ -58,7 +58,7 @@ class ResultsController extends BaseController
         foreach($games as $game)
         {
             $pool = $game->getPool();
-            if (substr($pool,5,2) == 'PP') 
+            if ($game->isPoolPlay())
             {
                 if (!$poolFilter || $poolFilter == substr($pool,8,1))
                 {
@@ -111,7 +111,10 @@ class ResultsController extends BaseController
         $poolTeam->addPointsMinus ($gameTeam->getPointsMinus());
         
         $poolTeam->addGoalsScored ($gameTeam->getGoalsScored());
-        $poolTeam->addGoalsAllowed($gameTeam->getGoalsAllowed());
+        
+        $goalsAllowed = $gameTeam->getGoalsAllowed();
+        if ($goalsAllowed > 5) $goalsAllowed = 5;
+        $poolTeam->addGoalsAllowed($goalsAllowed);
         
         $poolTeam->addCautions($gameTeam->getCautions());
         $poolTeam->addSendoffs($gameTeam->getSendoffs());
@@ -124,15 +127,38 @@ class ResultsController extends BaseController
         if ($gameTeam->getGoalsScored() !== null)
         {
             $poolTeam->addGamesPlayed(1);
+            if ($gameTeam->getGoalsScored() > $gameTeam->getGoalsAllowed()) $poolTeam->addGamesWon(1);
         }
     }
     protected function compareTeamStandings($team1,$team2)
     {
+        // Points earned
         $pe1 = $team1->getPointsEarned();
         $pe2 = $team2->getPointsEarned();
         if ($pe1 < $pe2) return  1;
         if ($pe1 > $pe2) return -1;
         
+        // Head to head
+        
+        // Games won
+        $gw1 = $team1->getGamesWon();
+        $gw2 = $team2->getGamesWon();
+        if ($gw1 < $gw2) return  1;
+        if ($gw1 > $gw2) return -1;
+        
+        // Sportsmanship deductions
+        $pm1 = $team1->getPointsMinus();
+        $pm2 = $team2->getPointsMinus();
+        if ($pm1 < $pm2) return  1;
+        if ($pm1 > $pm2) return -1;
+         
+        // Goals Allowed
+        $ga1 = $team1->getGoalsAllowed();
+        $ga2 = $team2->getGoalsAllowed();
+        if ($ga1 < $ga2) return -1;
+        if ($ga1 > $ga2) return  1;
+        
+        // Just the key
         $key1 = $team1->getKey();
         $key2 = $team2->getKey();
         
