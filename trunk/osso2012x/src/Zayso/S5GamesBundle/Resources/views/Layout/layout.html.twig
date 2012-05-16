@@ -59,14 +59,14 @@
 
 <div id="layout-top-menu">
   <ul style="float:left ">
-    <li><a href="{{ path('zayso_s5games_welcome') }}">Welcome</a></li>
+    <li><a href="{{ path('zayso_core_welcome') }}">Welcome</a></li>
     
 {% if is_granted('ROLE_USER') %}
-    <li><a href="{{ path('zayso_s5games_home') }}">Home</a></li>
+    <li><a href="{{ path('zayso_core_home') }}">Home</a></li>
 {% endif %}
     
     
-    <li><a href="{{ path('zayso_s5games_welcome_text_alerts') }}">Text Alerts</a></li>
+    <li><a href="{{ path('zayso_core_textalerts') }}">Text Alerts</a></li>
     <li><a href="{{ path('zayso_s5games_schedule_referee_list') }}">Game Schedule</a></li>
   </ul>
         
@@ -78,14 +78,14 @@
     <li><a href="{{ path('zayso_s5games_admin') }}">Admin</a></li>
 {% endif %}
     
-   <li><a href="{{ path('zayso_s5games_contact') }}">Contact Us</a></li>
+   <li><a href="{{ path('zayso_core_contact') }}">Contact Us</a></li>
    
 {% if is_granted('ROLE_USER') %}
-   <li><a href="{{ path('zayso_s5games_account_signout') }}">Sign Out</a></li>
+   <li><a href="{{ path('zayso_core_account_signout') }}">Sign Out</a></li>
 {% endif %}
    
 {% if not is_granted('ROLE_USER') %}
-   <li><a href="{{ path('zayso_s5games_welcome') }}">Sign In</a></li>
+   <li><a href="{{ path('zayso_core_welcome') }}">Sign In</a></li>
 {% endif %}          
 
   </ul>
