@@ -244,6 +244,10 @@ class Team extends BaseEntity
     public function setGamesPlayed($value) { $this->setReportProp('gamesPlayed',$value); }
     public function addGamesPlayed($value) { $this->addReportProp('gamesPlayed',$value); }
     public function getGamesPlayed(){ return $this->getReportProp('gamesPlayed'); }
+    
+    public function setGamesWon($value) { $this->setReportProp('gamesWon',$value); }
+    public function addGamesWon($value) { $this->addReportProp('gamesWon',$value); }
+    public function getGamesWon(){ return $this->getReportProp('gamesWon'); }
 
 }
 ?>
