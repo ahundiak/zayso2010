@@ -14,7 +14,7 @@ class CreateController extends BaseController
         if (!$this->isProfileValid($profile)) $profile = null;
         if (!$profile)
         {
-            return $this->redirect($this->generateUrl('zayso_s5games_welcome'));
+            return $this->redirect($this->generateUrl('zayso_core_welcome'));
         }
         // New form stuff
         $accountManager = $this->getAccountManager();
@@ -24,7 +24,13 @@ class CreateController extends BaseController
         $accountPerson->setOpenidDisplayName($profile['displayName']);
         $accountPerson->setOpenidProvider   ($profile['providerName']);
 
-        if (isset($profile['preferredUsername'])) $accountPerson->setUserName($profile['preferredUsername']);
+        // Pretty much confirmed that we always get one of these
+        if (isset($profile['preferredUsername'])) 
+        {
+            $accountPerson->setOpenidUserName($profile['preferredUsername']);
+            $accountPerson->setUserName      ($profile['preferredUsername']);
+        }
+        // Not for openid
         if (isset($profile['email']))             $accountPerson->setEmail($profile['email']);
         if (isset($profile['verifiedEmail']))     $accountPerson->setEmail($profile['verifiedEmail']);
             
@@ -32,7 +38,10 @@ class CreateController extends BaseController
         if (isset($profile['name']['familyName'])) $accountPerson->setLastName ($profile['name']['familyName']);
         
         // Not real sure about this
-        $accountPerson->setUserName(md5(uniqid()));
+        if (!$accountPerson->getUserName())
+        {
+            $accountPerson->setUserName(md5(uniqid()));
+        }
         $accountPerson->setUserPass(md5(uniqid()));
         
         
@@ -45,7 +54,7 @@ class CreateController extends BaseController
         {
             $form->bindRequest($request);
 
-            if ($form->isValid())
+            if ($form->isValid() && 1)
             {
                 $accountPerson->setProjectPersonData($this->getProjectId());
                 if ($profile)
@@ -61,20 +70,21 @@ class CreateController extends BaseController
                     $user = $this->setUser($account->getUserName());
                     
                     // Send email
-                    $subject = sprintf('[S5Games] - Created %s %s %s',
+                    $subject = sprintf('[%s] - Created %s %s %s',
+                            $this->getMyBundleName(),
                             $user->getName(),$user->getRegion(),$user->getAysoid());
                     $this->sendEmail($subject,$subject);
                     
-                    return $this->redirect($this->generateUrl('zayso_s5games_home'));
+                    return $this->redirect($this->generateUrl('zayso_core_home'));
                 }
             }
         }
         $tplData = array();
         $tplData['form'] = $form->createView();
 
-        return $this->render('ZaysoS5GamesBundle:Account:create.html.twig',$tplData);
+        return $this->renderx('Account:create.html.twig',$tplData);
     }
-    public function createAccount($accountPerson)
+    public function createAccountXXX($accountPerson)
     {
         $accountManager = $this->getAccountManager();
 

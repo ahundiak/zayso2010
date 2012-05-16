@@ -88,7 +88,11 @@ zayso_s5games_schedule_game_report:
 # ===============================================================
 # Account stuff
 zayso_s5games_account_create:
-    pattern:  /account/create
+    pattern:  /account/public/create
+    defaults: { _controller: ZaysoS5GamesBundle:Account\Create:create }
+    
+zayso_core_account_create:
+    pattern:  /account/public/create
     defaults: { _controller: ZaysoS5GamesBundle:Account\Create:create }
 
 zayso_core_account_edit:
@@ -98,19 +102,31 @@ zayso_core_account_edit:
         id: \d+
 
 zayso_s5games_account_signin:
-    pattern:  /account/signin
+    pattern:  /account/public/signin
+    defaults: { _controller: ZaysoS5GamesBundle:Account\Signin:signin }
+    
+zayso_core_account_signin:
+    pattern:  /account/public/signin
     defaults: { _controller: ZaysoS5GamesBundle:Account\Signin:signin }
 
 zayso_s5games_account_signin_rpx:
-    pattern:  /account/signin/rpx
+    pattern:  /account/public/signin/rpx
     defaults: { _controller: ZaysoS5GamesBundle:Account\Signin:signinRpx }
     
 zayso_core_account_signin_rpx:
-    pattern:  /account/signin/rpx
+    pattern:  /account/public/signin/rpx
+    defaults: { _controller: ZaysoS5GamesBundle:Account\Signin:signinRpx }
+    
+zayso_core_account_signin_rpx:
+    pattern:  /account/public/signin/rpx
     defaults: { _controller: ZaysoS5GamesBundle:Account\Signin:signinRpx }
 
 zayso_s5games_account_signout:
-    pattern:  /account/signout
+    pattern:  /account/public/signout
+    defaults: { _controller: ZaysoS5GamesBundle:Account\Signin:signout }
+    
+zayso_core_account_signout:
+    pattern:  /account/public/signout
     defaults: { _controller: ZaysoS5GamesBundle:Account\Signin:signout }
 
 zayso_core_account_openid_add:
