@@ -38,9 +38,11 @@ class PersonTeamEditFormType extends AbstractType
     // Relations
     protected $relPickList = array
     (
-        'Parent'    => 'I am a parent/guardian of a player on this team',
-        'Spectator' => 'I plan to watch this team play',
-        'Player'    => 'I play on this team',
+        'Referee'    => 'I am a referee for this team',
+        
+        'Parent'     => 'I am a parent/guardian of a player on this team',
+        'Spectator'  => 'I plan to watch this team play',
+        'Player'     => 'I play on this team',
         
         'Head-Coach' => 'I am the head coach of this team',
         'Asst-Coach' => 'I am the assistant coach of this team',
