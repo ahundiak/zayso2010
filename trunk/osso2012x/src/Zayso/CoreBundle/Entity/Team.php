@@ -2,6 +2,7 @@
 namespace Zayso\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 use Zayso\CoreBundle\Component\Debug;
 
@@ -142,6 +143,9 @@ class Team extends BaseEntity
         return null;
     }
     public function setKeyx($value) {}
+    
+    public function setKey2($key) { $this->onScalerPropertySet('key2',$key); }
+    public function getKey2()     { return $this->key2; }
     
     public function setTeamKey($key) { $this->onScalerPropertySet('key1',$key); }
     public function getTeamKey()     { return $this->key1; }
