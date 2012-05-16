@@ -188,10 +188,12 @@ class AccountPersonAyso
 
         return $openid;
     }
-    public function getOpenidDisplayName() { return $this->getFirstOpenid()->getDisplayName();  }
+    public function getOpenidUserName   () { return $this->getFirstOpenid()->getUserName();    }
+    public function getOpenidDisplayName() { return $this->getFirstOpenid()->getDisplayName(); }
     public function getOpenidProvider   () { return $this->getFirstOpenid()->getProvider   (); }
-    public function getOpenidIdentifier () { return $this->getFirstOpenid()->getIdentifier ();   }
+    public function getOpenidIdentifier () { return $this->getFirstOpenid()->getIdentifier (); }
 
+    public function setOpenidUserName   ($value) { $this->getFirstOpenid()->setUserName   ($value); }
     public function setOpenidDisplayName($value) { $this->getFirstOpenid()->setDisplayName($value); }
     public function setOpenidProvider   ($value) { $this->getFirstOpenid()->setProvider   ($value); }
     public function setOpenidIdentifier ($value) { $this->getFirstOpenid()->setIdentifier ($value); }
