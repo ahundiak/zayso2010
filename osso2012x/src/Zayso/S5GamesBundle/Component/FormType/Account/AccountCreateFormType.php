@@ -25,10 +25,10 @@ class AccountCreateFormType extends AccountBaseFormType
     
     public function buildForm(FormBuilder $builder, array $options)
     {
-        //$builder->add('userName', 'text', array('label' => 'User Name', 'attr' => array('size' => 35)));
+        $builder->add('userName', 'text', array('label' => 'Zayso User Name', 'attr' => array('size' => 35)));
 
-        //$builder->add('userPass1', 'password', array('property_path' => 'userPass', 'label' => 'Password'));
-        //$builder->add('userPass2', 'password', array('property_path' => false,      'label' => 'Password(confirm)'));
+        $builder->add('userPass1', 'password', array('property_path' => 'userPass', 'label' => 'Zayso Password'));
+        $builder->add('userPass2', 'password', array('property_path' => false,      'label' => 'Zayso Password(confirm)'));
 
         $builder->add('firstName', 'text', array('label' => 'AYSO First Name'));
         $builder->add('lastName',  'text', array('label' => 'AYSO Last Name'));
@@ -45,24 +45,27 @@ class AccountCreateFormType extends AccountBaseFormType
             'choices'       => $this->refBadgePickList,
         ));
         
-        $builder->add('openidDisplayName', 'text', array('label' => 'Social Network User',
+        $builder->add('openidDisplayName', 'text', array('label' => 'Social Network Display Name',
+            'attr' => array('required' => false, 'readonly' => true)));
+        
+        $builder->add('openidUserName', 'text', array('label' => 'Social Network User Name',
             'attr' => array('required' => false, 'readonly' => true)));
         
         $builder->add('openidProvider', 'text', array('label' => 'Social Network Provider',
             'attr' => array('required' => false, 'readonly' => true)));
 
-      //$builder->addValidator(new CallbackValidator(function($form)
-      //{
-      //    if($form['userPass1']->getData() != $form['userPass2']->getData())
-      //    {
-      //        $form['userPass2']->addError(new FormError('Passwords do not match'));
-      //    }
-      //}));
-      //$builder->addValidator(new UserNameValidator($this->em));
+        $builder->addValidator(new CallbackValidator(function($form)
+        {
+            if($form['userPass1']->getData() != $form['userPass2']->getData())
+            {
+                $form['userPass2']->addError(new FormError('Passwords do not match'));
+            }
+        }));
+        $builder->addValidator(new UserNameValidator($this->em));
         $builder->addValidator(new RegionValidator  ($this->em));
 
-      //$builder->get('userPass1')->appendClientTransformer(new PasswordTransformer());
-      //$builder->get('userPass2')->appendClientTransformer(new PasswordTransformer());
+        $builder->get('userPass1')->appendClientTransformer(new PasswordTransformer());
+        $builder->get('userPass2')->appendClientTransformer(new PasswordTransformer());
         $builder->get('cellPhone')->appendClientTransformer(new PhoneTransformer());
         $builder->get('region'   )->appendClientTransformer(new RegionTransformer());
         $builder->get('aysoid'   )->appendClientTransformer(new AysoidTransformer());

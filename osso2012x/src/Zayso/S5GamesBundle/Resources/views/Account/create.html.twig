@@ -1,12 +1,12 @@
-{% form_theme form 'ZaysoS5GamesBundle:Layout:fields.html.twig' %}
+{% form_theme form myBundleName ~ ':Layout:fields.html.twig' %}
 
-{% extends 'ZaysoS5GamesBundle:Layout:layout.html.twig' %}
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
 
-{% block title %}S5Games - Account - Create{% endblock %}
+{% block title %}{{ myTitlePrefix }} Account Create{% endblock %}
 
 {% block content %}
 <div>
-<form action="{{ path('zayso_s5games_account_create') }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ path('zayso_core_account_create') }}" method="post" {{ form_enctype(form) }}>
 <table border="1" style="width: 800px;">
 <tr><th colspan="3">Create New Zayso Account</th></tr>
 <tr>
@@ -18,6 +18,27 @@
     <td>{{ form_label (form.openidDisplayName) }}</td>
     <td>{{ form_widget(form.openidDisplayName) }}</td>
     <td>{{ form_errors(form.openidDisplayName) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (form.openidUserName) }}</td>
+    <td>{{ form_widget(form.openidUserName) }}</td>
+    <td>{{ form_errors(form.openidUserName) }}</td>
+</tr>
+<tr><td colspan="3"></td></tr>
+<tr>
+    <td>{{ form_label (form.userName) }}</td>
+    <td>{{ form_widget(form.userName) }}</td>
+    <td>{{ form_errors(form.userName) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (form.userPass1) }}</td>
+    <td>{{ form_widget(form.userPass1) }}</td>
+    <td>{{ form_errors(form.userPass1) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (form.userPass2) }}</td>
+    <td>{{ form_widget(form.userPass2) }}</td>
+    <td>{{ form_errors(form.userPass2) }}</td>
 </tr>
 <tr><td colspan="3"></td></tr>
 <tr>
