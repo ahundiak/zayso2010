@@ -1,10 +1,10 @@
-{% extends 'ZaysoS5GamesBundle:Layout:layout.html.twig' %}
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
 
-{% block title %}S5Games - Home{% endblock %}
+{% block title %}{{ myTitlePrefix }} Home{% endblock %}
 
 {% block content %}
 <div>
-    {% include 'ZaysoS5GamesBundle:Account/Person:list.html.twig' %}
+    {% include myBundleName ~ ':Account/Person:list.html.twig' %}
     <p>
         Pease keep your tournament plans up to date.
     </p><p>

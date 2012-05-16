@@ -34,11 +34,11 @@ zayso_core_welcomex:
     
 zayso_s5games_home:
     pattern:  /home
-    defaults: { _controller: ZaysoS5GamesBundle:Welcome:home }
+    defaults: { _controller: ZaysoS5GamesBundle:Home:index }
     
 zayso_core_home:
     pattern:  /home
-    defaults: { _controller: ZaysoS5GamesBundle:Welcome:home }
+    defaults: { _controller: ZaysoS5GamesBundle:Home:index }
 
 zayso_s5games_contact:
     pattern:  /contact
@@ -84,6 +84,18 @@ zayso_s5games_schedule_game_report:
     defaults: { _controller: ZaysoS5GamesBundle:Game\GameReport:report}
     requirements:
         id: \d+
+        
+zayso_s5games_schedule:
+    pattern:  /schedule/public
+    defaults: { _controller: ZaysoS5GamesBundle:Schedule:index }
+    requirements:
+        _method:  GET
+        
+zayso_core_schedule:
+    pattern:  /schedule/public
+    defaults: { _controller: ZaysoS5GamesBundle:Schedule:index }
+    requirements:
+        _method:  GET
 
 # ===============================================================
 # Account stuff
@@ -147,30 +159,26 @@ zayso_core_account_person_edit:
     requirements:
         id: \d+
 
+# ================================================
+# Person stuff
+zayso_core_person_team_list:
+    pattern:  /home/person/team/list/{personId}
+    defaults: { _controller: ZaysoS5GamesBundle:Person\Team:list, personId: 0 }
+    requirements:
+        personId: \d+
+
 # Project Person Information
 zayso_s5games_project_plans:
-    pattern:  /project/plans/{id}
+    pattern:  /home/project/plans/{id}
     defaults: { _controller: ZaysoS5GamesBundle:Project:plans, id: 0 }
     requirements:
         id: \d+
-
-zayso_s5games_project_levels:
-    pattern:  /project/levels
-    defaults: { _controller: ZaysoS5GamesBundle:Project:levels }
+        
+zayso_core_project_plans:
+    pattern:  /home/project/plans/{id}
+    defaults: { _controller: ZaysoS5GamesBundle:Project:plans, id: 0 }
     requirements:
-        _method:  GET
-
-zayso_s5games_project_levels_post:
-    pattern:  /project/levels
-    defaults: { _controller: ZaysoS5GamesBundle:Project:levelsPost }
-    requirements:
-        _method:  POST
-
-zayso_s5games_schedule:
-    pattern:  /schedule
-    defaults: { _controller: ZaysoS5GamesBundle:Schedule:index }
-    requirements:
-        _method:  GET
+        id: \d+
 
 # =================================================
 # Admin stuff
