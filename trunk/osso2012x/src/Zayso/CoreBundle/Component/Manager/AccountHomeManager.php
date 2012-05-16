@@ -90,6 +90,8 @@ class AccountHomeManager extends BaseManager
         $qb->addSelect('org');
         $qb->addSelect('projectPerson');
         $qb->addSelect('openid');
+        $qb->addSelect('teamRel');
+      //$qb->addSelect('team');
 
         $qb->from('ZaysoCoreBundle:AccountPerson','accountPerson');
 
@@ -101,6 +103,11 @@ class AccountHomeManager extends BaseManager
         
         $qb->leftJoin('person.projectPersons','projectPerson', 
             Expr\Join::WITH, $qb->expr()->eq('projectPerson.project', $projectId));
+        
+        $qb->leftJoin('person.teamRels','teamRel');
+        // Seems to load nulls
+        //$qb->leftJoin('teamRel.team','team', 
+          //  Expr\Join::WITH, $qb->expr()->eq('team.project', $projectId));
         
         $qb->andWhere($qb->expr()->in('account.id',$accountId));
         
@@ -124,6 +131,8 @@ class AccountHomeManager extends BaseManager
         $qb->addSelect('org');
         $qb->addSelect('projectPerson');
         $qb->addSelect('openid');
+        $qb->addSelect('teamRel');
+      //$qb->addSelect('team');
 
         $qb->from('ZaysoCoreBundle:AccountPerson','accountPerson');
 
@@ -137,8 +146,8 @@ class AccountHomeManager extends BaseManager
         $qb->leftJoin('person.projectPersons','projectPerson', 
             Expr\Join::WITH, $qb->expr()->eq('projectPerson.project', $projectId));
         
-        $qb->leftJoin('teamRel','team', 
-            Expr\Join::WITH, $qb->expr()->eq('team.project', $projectId));
+      //$qb->leftJoin('teamRel.team','team', 
+      //    Expr\Join::WITH, $qb->expr()->eq('team.project', $projectId));
         
         $qb->andWhere($qb->expr()->in('accountPerson.id',$accountPersonId));
         
