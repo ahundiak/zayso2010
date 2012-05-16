@@ -123,7 +123,10 @@ class BaseController extends Controller
         $tplData['myBundleName']  = $myBundleName;
         $tplData['myTitlePrefix'] = $myTitlePrefix;
         
-        return $this->render($myBundleName . ':' . $tplName,$tplData);
+        // Prepend bundle name if needed
+        if (substr_count($tplName,':') < 2) $tplName = $myBundleName . ':' . $tplName;
+        
+        return $this->render($tplName,$tplData);
     }
 }
 ?>
