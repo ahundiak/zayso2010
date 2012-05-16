@@ -56,3 +56,24 @@ div.text-alerts p
     margin-bottom: 5px;
     
 }
+/* ========================================================
+ * Form based signin
+ */
+div.account-signin
+{
+    font-size: 1.0em;
+    padding: 5px; 
+    margin:  5px; 
+    border:  2px solid black; 
+    max-width: 700px;    
+}
+div.account-signin label
+{
+    margin-left:  2px;  
+    margin-right: 2px;  
+}
+div.account-signin ul
+{
+    margin-left: 5px;  
+    color:       red;
+}

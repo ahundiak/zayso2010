@@ -7,6 +7,20 @@
     <services>
         
         <service
+            id     = "zayso_core.game.report.formtype"
+            class  = "Zayso\CoreBundle\Component\FormType\Game\GameReportFormType"
+            public = "true">
+            <argument type="service" id="zayso_core.game.entity_manager" />
+        </service>
+        
+        <service
+            id     = "zayso_core.results.search.formtype"
+            class  = "Zayso\CoreBundle\Component\FormType\Game\ResultsSearchFormType"
+            public = "true">
+            <argument type="service" id="zayso_core.game.entity_manager" />
+        </service>
+          
+        <service
             id     = "zayso_core.person.team.edit.formtype"
             class  = "Zayso\CoreBundle\Component\FormType\Person\PersonTeamEditFormType"
             public = "true">
@@ -20,6 +34,34 @@
             public = "true">
             <argument type="service" id="zayso_core.person.manager" />     
             <argument type="string">%zayso_core.project.current%</argument>        
+        </service>
+
+       <service
+            id     = "zayso_core.account.person.add.formtype"
+            class  = "Zayso\CoreBundle\Component\FormType\Account\AccountPersonAddFormType"
+            public = "true">
+            <argument type="service" id="zayso_core.account.entity_manager" />
+        </service>
+        
+        <service
+            id     = "zayso_core.account.person.edit.formtype"
+            class  = "Zayso\CoreBundle\Component\FormType\Account\AccountPersonEditFormType"
+            public = "true">
+            <argument type="service" id="zayso_core.account.entity_manager" />
+        </service>
+        
+        <service
+            id     = "zayso_core.account.edit.formtype"
+            class  = "Zayso\CoreBundle\Component\FormType\Account\AccountEditFormType"
+            public = "true">
+            <argument type="service" id="zayso_core.account.entity_manager" />
+        </service>
+        
+        <service
+            id     = "zayso_core.account.signin.formtype"
+            class  = "Zayso\CoreBundle\Component\FormType\Account\AccountSigninFormType"
+            public = "true">
+            <argument type="service" id="zayso_core.account.entity_manager" />
         </service>
         
     </services>
