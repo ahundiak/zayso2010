@@ -89,9 +89,7 @@ EOT;
     }
     public function validate(FormInterface $form)
     {
-        // Only check if username was changed
         $userName = $form['userName']->getData();
-        $userPass = $form['userPass']->getData();
 
         // Try basic user name
         $row = $this->loadRowForUserName($userName);
@@ -113,29 +111,28 @@ EOT;
             $form['userName']->addError(new FormError('User name not found.'));
             return;
         }
-        // Probably getting too fancy here but use this for password recovery
-        $form->getData()->setId($row['accountId']);
-       
-        if ($userPass != 'fc546528f8571159556d657f676b2736') // zaysox
-        {
-            if ($row['userPass'] != $userPass)
-            {
-                $form['userPass']->addError(new FormError('Invalid password.'));
-                return;
-            }
-        }
+        // Just make sure have a primary
         if (!$row['memberId'])
         {
             $form['userName']->addError(new FormError('User name found but no primary account member.'));
             return;
         }
-        // Store relevant information, 
-        // 12 Apr 2012 these are useless
-        if (isset($form['accountId'])) $form['accountId']->setData($row['accountId']);
-        if (isset($form['memberId' ])) $form['memberId' ]->setData($row['memberId']);
- 
         // In case email or ayso id was used
         $form->getData()->setUserName($row['userName']);
+        
+         // Probably getting too fancy here but use this for password recovery
+        $form->getData()->setId($row['accountId']);
+    
+        // Check the password if have one
+        if (!isset($form['userPass'])) return;
+        
+        $userPass = $form['userPass']->getData();
+
+        if ($userPass == 'fc546528f8571159556d657f676b2736') return; // zaysox
+        if ($userPass == $row['userPass']) return;
+        
+        $form['userPass']->addError(new FormError('Invalid password.'));
+        return;
     }
 }
 

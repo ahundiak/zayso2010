@@ -153,6 +153,28 @@ class AccountHomeManager extends BaseManager
         
         return $qb->getQuery()->getOneOrNullResult(); 
     }
+    /* =========================================================================
+     * Mostly to deal with password reseting
+     */
+    public function loadPrimaryAccountPersonForAccount($accountId)
+    {
+        // Build query
+        $qb = $this->newQueryBuilder();
+
+        $qb->addSelect('accountPerson');
+        $qb->addSelect('account');
+        $qb->addSelect('person');
+
+        $qb->from('ZaysoCoreBundle:AccountPerson','accountPerson');
+        
+        $qb->leftJoin('accountPerson.account','account');
+        $qb->leftJoin('accountPerson.person', 'person');
+        
+        $qb->andWhere($qb->expr()->eq('accountPerson.account',$accountId));
+        $qb->andWhere($qb->expr()->eq('accountPerson.accountRelation',$qb->expr()->literal('Primary')));
+        
+        return $qb->getQuery()->getOneOrNullResult(); 
+    }
     /* ========================================================
      * Check for exitence of openid
      */
