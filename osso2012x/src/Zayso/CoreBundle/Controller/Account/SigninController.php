@@ -25,29 +25,48 @@ class SigninController extends BaseController
         $account = new Account();
         $account->setUserName($request->getSession()->get(SecurityContext::LAST_USERNAME));
 
-        // Form
-        $formType = $this->get('zayso_core.account.signin.formtype');
-        $form = $this->createForm($formType, $account);
+        // Forms
+        $signinFormType = $this->get('zayso_core.account.signin.formtype');
+        $signinForm = $this->createForm($signinFormType, $account);
+        
+        $resetPasswordFormType = $this->get('zayso_core.account.reset.password.formtype');
+        $resetPasswordForm     = $this->createForm($resetPasswordFormType, $account);
 
         if ($request->getMethod() == 'POST')
         {
-            $form->bindRequest($request);
-
-            if ($form->isValid()) // Checks username and password
+            if ($request->request->get('signin_submit'))
             {
-                $userName = $account->getUserName();
-                $request->getSession()->set(SecurityContext::LAST_USERNAME,$userName);
-                $this->setUser($userName);
-                return $this->redirect($this->generateUrl('zayso_core_home'));
+                $signinForm->bindRequest($request);
+
+                if ($signinForm->isValid()) // Checks username and password
+                {
+                    $userName = $account->getUserName();
+                    $request->getSession()->set(SecurityContext::LAST_USERNAME,$userName);
+                    $this->setUser($userName);
+                    return $this->redirect($this->generateUrl('zayso_core_home'));
+                }
+            }
+            if ($request->request->get('reset_password_submit'))
+            {
+                $resetPasswordForm->bindRequest($request);
+
+                if ($resetPasswordForm->isValid()) // Checks username
+                {
+                    return $this->resetPassword($account->getId());
+                    
+                    die('Reset Password For: ' . $account->getId());
+                    $userName = $account->getUserName();
+                    $request->getSession()->set(SecurityContext::LAST_USERNAME,$userName);
+                    $this->setUser($userName);
+                    return $this->redirect($this->generateUrl('zayso_core_home'));
+                }
             }
         }
         $tplData = array();
-      //$tplData['account'] = $account;
-        $tplData['signinForm'] = $form->createView();
+        $tplData['signinForm']        = $signinForm->createView();
+        $tplData['resetPasswordForm'] = $resetPasswordForm->createView();
         
         return $this->renderx('ZaysoCoreBundle:Account/Signin:help.html.twig',$tplData);
-        
-        return $this->renderx('ZaysoNatGamesBundle:Account:signin.html.twig',$tplData);
     }
     public function signinRpxAction(Request $request)
     {
@@ -77,30 +96,44 @@ class SigninController extends BaseController
         // Ad off we go
         return $this->redirect($this->generateUrl('zayso_natgames_home'));
     }
-    public function resetAction(Request $request, $id)
+    /* ======================================================
+     * Should have a valid account id here
+     */
+    public function resetPassword($accountId)
     {
-        $manager = $this->getAccountManager();
-        $accountPerson = $manager->getAccountPerson(array('accountId'=> $id, 'accountRelation' => 'Primary'));
+        $manager = $this->get('zayso_core.account.home.manager');
+        
+        $accountPerson = $manager->loadPrimaryAccountPersonForAccount($accountId);
+        
         if (!$accountPerson)
         {
-            return $this->redirect($this->generateUrl('zayso_natgames_account_signin'));
+            return $this->redirect($this->generateUrl('zayso_core_account_signin'));
         }
+        
         $account = $accountPerson->getAccount();
         $person  = $accountPerson->getPerson();
         if (!$account || !$person || !$person->getEmail())
         {
-            return $this->redirect($this->generateUrl('zayso_natgames_account_signin'));
+            return $this->redirect($this->generateUrl('zayso_core_account_signin'));
         }
         
         // Generate the reset code
         $reset = md5(uniqid());
         $account->setReset($reset);
         $manager->flush();
-
+        
         // Build the message
-        $subject = sprintf('[NatGames2012] Password Reset Request For %s %s',$person->getFirstName(),$person->getLastName());
-        $body    = $this->renderView('ZaysoNatGamesBundle:Account/Reset:email.txt.twig', 
-            array('person' => $person, 'reset' => $reset));
+        $subject = sprintf('[%s] Password Reset Request For %s %s',
+                $this->getMyTitlePrefix(),
+                $person->getFirstName(),$person->getLastName());
+        
+        $body = $this->renderView('ZaysoCoreBundle:Account/PasswordReset:email.txt.twig', 
+            array(
+                'person' => $person, 
+                'reset'  => $reset,
+              //'myBundleName'  => $this->getMyBundleName(),
+              //'myTitlePrefix' => $this->getMyTitlePrefix(),
+           ));
         
         // Send email
         $message = \Swift_Message::newInstance();
@@ -112,7 +145,7 @@ class SigninController extends BaseController
 
         $this->get('mailer')->send($message);
         
-        return $this->render('ZaysoNatGamesBundle:Account/Reset:requested.html.twig',array());
+        return $this->renderx('ZaysoCoreBundle:Account/PasswordReset:requested.html.twig',array());
        
         // Show results
         die('Account Reseting ' . $account->getUserName() . ' ' . $person->getEmail() . ' ' . $reset);
