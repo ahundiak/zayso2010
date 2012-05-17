@@ -64,5 +64,12 @@
             <argument type="service" id="zayso_core.account.entity_manager" />
         </service>
         
+        <service
+            id     = "zayso_core.account.reset.password.formtype"
+            class  = "Zayso\CoreBundle\Component\FormType\Account\AccountResetPasswordFormType"
+            public = "true">
+            <argument type="service" id="zayso_core.account.entity_manager" />
+        </service>
+         
     </services>
 </container>
