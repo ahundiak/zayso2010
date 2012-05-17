@@ -24,6 +24,7 @@ class User extends BaseUser
                 
             case 406: // Vernon Paulett
             case 453: // Les Daniel
+            case 485: // Ray Cassell
                 
             case 263: // Rod Etzel
             case 275: // Chris Steely
