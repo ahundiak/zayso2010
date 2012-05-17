@@ -4,26 +4,22 @@
 
 {% block content %}
 <div>
-    <h2>Account Signin Help</h2>
-    <h3>Signin with Social Network:</h3>
-    <div id="janrainEngageEmbed">
-<iframe
-    src="http://zayso.rpxnow.com/openid/embed?token_url={{ url('zayso_core_account_signin_rpx') }}"
-    scrolling="no"  frameBorder="no"  allowtransparency="true"  style="width:400px;height:240px">
-</iframe>
-    </div>
-    <h3>Signin with form:</h3>
+    <h2>Account Sign In Help</h2>
+    <h3>Sign In with Social Network:</h3>
+    {% include 'ZaysoCoreBundle:Account/Signin:janrain.html.twig' %}
+    <h3>Sign In with Form:</h3>
     {% include 'ZaysoCoreBundle:Account/Signin:form.html.twig' %}
     <p>
         Notice that if you have forgotten your Zayso User name then you can also use 
         your Zayso Email or your 8-digit volunter AYSO ID number.  If you still can't get past 
         <span style="color: red">User name not found</span> then contact me.
     </p>
-    <h2>Password Recovery</h2>
+    <h3>Password Recovery</h3>
     <p>
         If none of your social networds are working and you know your user name but can't remember your password 
         then use this form to request a reset:
     </p>
+    {% include 'ZaysoCoreBundle:Account/PasswordReset:form.html.twig' %}
     <p>
         An email will be sent with a link to click on.
     </p>

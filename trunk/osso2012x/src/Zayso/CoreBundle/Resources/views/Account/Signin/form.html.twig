@@ -3,7 +3,7 @@
 <form action="{{ path('zayso_core_account_signin') }}" method="post" {{ form_enctype(signinForm) }}>
     {{ form_label(signinForm.userName) }}{{ form_widget(signinForm.userName) }}
     {{ form_label(signinForm.userPass) }}{{ form_widget(signinForm.userPass) }}
-    <input type="submit" name="signin_submit" value="Signin" />
+    <input type="submit" name="signin_submit" value="Sign In" />
     {{ form_errors(signinForm.userName) }}
     {{ form_errors(signinForm.userPass) }}
     {{ form_rest  (signinForm) }}
