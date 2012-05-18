@@ -156,7 +156,7 @@ class ProjectController extends BaseController
                 $projectPerson->set('plans',$plans);
                 $manager->flush();
                 
-                return $this->redirect($this->generateUrl('zayso_s5games_home'));
+                return $this->redirect($this->generateUrl('zayso_core_home'));
             }
         }
         
@@ -164,7 +164,7 @@ class ProjectController extends BaseController
         $tplData['personId'] = $personId;
         $tplData['form'] = $form->createView();
 
-        return $this->render('ZaysoS5GamesBundle:Project:plans.html.twig',$tplData);
+        return $this->renderx('Project:plans.html.twig',$tplData);
     }
 
 }

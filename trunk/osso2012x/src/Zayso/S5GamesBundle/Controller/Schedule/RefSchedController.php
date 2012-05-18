@@ -28,7 +28,7 @@ class RefSchedController extends BaseController
         $tplData['games'] = $games;
         $tplData['gameCount'] = count($games);
         
-        return $this->render('ZaysoS5GamesBundle:Schedule:referee.html.twig',$tplData);
+        return $this->renderx('Schedule:referee.html.twig',$tplData);
         
     }
     public function list2011Actionx(Request $request)

@@ -1,11 +1,11 @@
-{% form_theme form 'ZaysoS5GamesBundle:Layout:fields.html.twig' %}
+{% form_theme form myBundleName ~ ':Layout:fields.html.twig' %}
 
-{% extends 'ZaysoS5GamesBundle:Layout:layout.html.twig' %}
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
 
-{% block title %}S5Games - Game - Report{% endblock %}
+{% block title %}{{ myTitlePrefix }} Game Report{% endblock %}
 
 {% block content %}
-<form action="{{ path('zayso_s5games_schedule_game_report', { 'id': game.id }) }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ path('zayso_core_schedule_game_report', { 'id': game.id }) }}" method="post" {{ form_enctype(form) }}>
 <h1>Game Report For: {{ game.pool }} #{{ game.num }}</h1>
 <div style="padding-left: 5px;">
     {{ form_widget(form.type) }}
@@ -36,7 +36,7 @@
     {{ form_widget(form.report) }}
 </div>
 <div style="padding-left: 5px;">
-    <a href="{{ path('zayso_s5games_schedule_results') }}">Return to Game Results</a>
+    <a href="{{ path('zayso_core_schedule_results') }}">Return to Game Results</a>
     {{ form_widget(form.status) }}
     {{ form_widget(form.pointsApplied)  }}
     {{ form_widget(form.reportStatus) }}  

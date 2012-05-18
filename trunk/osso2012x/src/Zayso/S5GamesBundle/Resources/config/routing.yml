@@ -1,95 +1,66 @@
-
-zayso_s5games_index:
-    pattern:  /
-    defaults: { _controller: ZaysoS5GamesBundle:Welcome:welcome }
-    
+# The public welcome stuff
 zayso_core_index:
     pattern:  /
-    defaults: { _controller: ZaysoS5GamesBundle:Welcome:welcome }
-
-zayso_s5games_welcome:
-    pattern:  /welcome
     defaults: { _controller: ZaysoS5GamesBundle:Welcome:welcome }
     
 zayso_core_welcome:
     pattern:  /welcome
     defaults: { _controller: ZaysoS5GamesBundle:Welcome:welcome }
     
-zayso_s5games_welcome_text_alerts:
-    pattern:  /welcome/textalerts
-    defaults: { _controller: ZaysoS5GamesBundle:Welcome:textalerts }
-    
+zayso_core_welcomex:
+    pattern:  /welcomex
+    defaults: { _controller: ZaysoS5GamesBundle:Welcome:welcome }
+
 zayso_core_textalerts:
     pattern:  /welcome/textalerts
     defaults: { _controller: ZaysoS5GamesBundle:Welcome:textalerts }
-
-# Used when user is not authorized
-zayso_s5games_welcomex:
-    pattern:  /welcome
-    defaults: { _controller: ZaysoS5GamesBundle:Welcome:welcome }
-    
-zayso_core_welcomex:
-    pattern:  /welcome
-    defaults: { _controller: ZaysoS5GamesBundle:Welcome:welcome }
-    
-zayso_s5games_home:
-    pattern:  /home
-    defaults: { _controller: ZaysoS5GamesBundle:Home:index }
-    
-zayso_core_home:
-    pattern:  /home
-    defaults: { _controller: ZaysoS5GamesBundle:Home:index }
-
-zayso_s5games_contact:
-    pattern:  /contact
-    defaults: { _controller: ZaysoS5GamesBundle:Welcome:contact }
     
 zayso_core_contact:
     pattern:  /welcome/contact
     defaults: { _controller: ZaysoS5GamesBundle:Welcome:contact }
 
+# Home stuff requires user
+zayso_core_home:
+    pattern:  /home
+    defaults: { _controller: ZaysoS5GamesBundle:Home:index }
+
 # ===============================================================
 # Schedule Stuff
-
-zayso_s5games_schedule_referee_list:
+# Mixture of public and user
+#
+zayso_core_schedule_referee_list:
     pattern:  /schedule/referee/list
     defaults: { _controller: ZaysoS5GamesBundle:Welcome:schedule }
     
-zayso_s5games_schedule_results:
-    pattern:  /schedule/results/{div}/{pool}
+zayso_core_schedule_results:
+    pattern:  /schedule/public/results/{div}/{pool}
     defaults: { _controller: ZaysoS5GamesBundle:Schedule\Results:results2011, div: 0, pool: 0 }
     
-zayso_s5games_schedule_results2011:
+zayso_core_schedule_results2011:
     pattern:  /schedule/results2011/{div}/{pool}
     defaults: { _controller: ZaysoS5GamesBundle:Schedule\Results:results2011, div: 0, pool: 0 }
      
-zayso_s5games_schedule_referee_list2011:
+zayso_core_schedule_referee_list2011:
     pattern:  /schedule/referee/list2011
     defaults: { _controller: ZaysoS5GamesBundle:Schedule\RefSched:list2011 }
 
-zayso_s5games_schedule_referee_assign:
+zayso_core_schedule_referee_assign:
     pattern:  /schedule/referee/assign/{id}/{pos}
     defaults: { _controller: ZaysoS5GamesBundle:Schedule\RefAssign:assign, id: 0, pos: ''}
     requirements:
         id: \d+
         
-zayso_s5games_schedule_game_edit:
+zayso_core_schedule_game_edit:
     pattern:  /schedule/game/edit/{id}
     defaults: { _controller: ZaysoS5GamesBundle:Schedule\Game:edit}
     requirements:
         id: \d+
         
-zayso_s5games_schedule_game_report:
+zayso_core_schedule_game_report:
     pattern:  /schedule/game/report/{id}
     defaults: { _controller: ZaysoS5GamesBundle:Game\GameReport:report}
     requirements:
         id: \d+
-        
-zayso_s5games_schedule:
-    pattern:  /schedule/public
-    defaults: { _controller: ZaysoS5GamesBundle:Schedule:index }
-    requirements:
-        _method:  GET
         
 zayso_core_schedule:
     pattern:  /schedule/public
@@ -99,10 +70,6 @@ zayso_core_schedule:
 
 # ===============================================================
 # Account stuff
-zayso_s5games_account_create:
-    pattern:  /account/public/create
-    defaults: { _controller: ZaysoS5GamesBundle:Account\Create:create }
-    
 zayso_core_account_create:
     pattern:  /account/public/create
     defaults: { _controller: ZaysoS5GamesBundle:Account\Create:create }
@@ -113,21 +80,13 @@ zayso_core_account_edit:
     requirements:
         id: \d+
 
-zayso_core_account_signin:
-    pattern:  /account/public/signin
-    defaults: { _controller: ZaysoCoreBundle:Account\Signin:signin }
-    
 zayso_core_account_signout:
     pattern:  /account/public/signout
     defaults: { _controller: ZaysoCoreBundle:Account\Signin:signout }
-
-zayso_s5games_account_signin_rpx:
-    pattern:  /account/public/signin/rpx
-    defaults: { _controller: ZaysoS5GamesBundle:Account\Signin:signinRpx }
     
-zayso_core_account_signin_rpx:
-    pattern:  /account/public/signin/rpx
-    defaults: { _controller: ZaysoS5GamesBundle:Account\Signin:signinRpx }
+zayso_core_account_signin:
+    pattern:  /account/public/signin
+    defaults: { _controller: ZaysoCoreBundle:Account\Signin:signin }
     
 zayso_core_account_signin_rpx:
     pattern:  /account/public/signin/rpx
@@ -162,16 +121,9 @@ zayso_core_person_team_list:
     defaults: { _controller: ZaysoS5GamesBundle:Person\Team:list, personId: 0 }
     requirements:
         personId: \d+
-
-# Project Person Information
-zayso_s5games_project_plans:
-    pattern:  /home/project/plans/{id}
-    defaults: { _controller: ZaysoS5GamesBundle:Project:plans, id: 0 }
-    requirements:
-        id: \d+
         
 zayso_core_project_plans:
-    pattern:  /home/project/plans/{id}
+    pattern:  /home/person/project/plans/{id}
     defaults: { _controller: ZaysoS5GamesBundle:Project:plans, id: 0 }
     requirements:
         id: \d+
