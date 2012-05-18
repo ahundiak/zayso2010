@@ -41,8 +41,8 @@ zayso_core_schedule_results2011:
     defaults: { _controller: ZaysoS5GamesBundle:Schedule\Results:results2011, div: 0, pool: 0 }
      
 zayso_core_schedule_referee_list2011:
-    pattern:  /schedule/referee/list2011
-    defaults: { _controller: ZaysoS5GamesBundle:Schedule\RefSched:list2011 }
+    pattern:  /schedule/referee/list2011/{search}
+    defaults: { _controller: ZaysoS5GamesBundle:Schedule\RefSched:list2011, search: 0 }
 
 zayso_core_schedule_referee_assign:
     pattern:  /schedule/referee/assign/{id}/{pos}
