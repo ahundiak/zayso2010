@@ -2,7 +2,7 @@
 <div class="account-signin">
 <form action="{{ path('zayso_core_account_signin') }}" method="post" {{ form_enctype(resetPasswordForm) }}>
     {{ form_label(resetPasswordForm.userName) }}{{ form_widget(resetPasswordForm.userName) }}
-    <input type="submit" name="reset_password_submit" value="Reset Password" />
+    <input type="submit" name="password_reset_submit" value="Reset Password" />
     {{ form_errors(resetPasswordForm.userName) }}
     {{ form_rest  (resetPasswordForm) }}
 </form>      

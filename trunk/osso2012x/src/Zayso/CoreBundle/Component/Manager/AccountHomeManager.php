@@ -175,6 +175,19 @@ class AccountHomeManager extends BaseManager
         
         return $qb->getQuery()->getOneOrNullResult(); 
     }
+    public function loadAccountForReset($reset)
+    {
+        // Build query
+        $qb = $this->createQueryBuilder();
+
+        $qb->addSelect('account');
+        
+        $qb->from('ZaysoCoreBundle:Account','account');
+        
+        $qb->andWhere($qb->expr()->eq('account.reset',$qb->expr()->literal($reset)));
+        
+        return $qb->getQuery()->getOneOrNullResult(); 
+    }
     /* ========================================================
      * Check for exitence of openid
      */
