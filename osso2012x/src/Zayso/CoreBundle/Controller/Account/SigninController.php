@@ -46,19 +46,13 @@ class SigninController extends BaseController
                     return $this->redirect($this->generateUrl('zayso_core_home'));
                 }
             }
-            if ($request->request->get('reset_password_submit'))
+            if ($request->request->get('password_reset_submit'))
             {
                 $resetPasswordForm->bindRequest($request);
 
                 if ($resetPasswordForm->isValid()) // Checks username
                 {
-                    return $this->resetPassword($account->getId());
-                    
-                    die('Reset Password For: ' . $account->getId());
-                    $userName = $account->getUserName();
-                    $request->getSession()->set(SecurityContext::LAST_USERNAME,$userName);
-                    $this->setUser($userName);
-                    return $this->redirect($this->generateUrl('zayso_core_home'));
+                    return $this->passwordResetRequest($account->getId());
                 }
             }
         }
@@ -83,7 +77,7 @@ class SigninController extends BaseController
         catch (UsernameNotFoundException $e)
         {
             $request->getSession()->setFlash('account_signin_error','Account not found');
-            return $this->redirect($this->generateUrl('zayso_natgames_account_signin'));
+            return $this->redirect($this->generateUrl('zayso_core_account_signin'));
         }
         // Continue with normal signin
         $request->getSession()->set(SecurityContext::LAST_USERNAME,$user->getUserName());
@@ -94,12 +88,12 @@ class SigninController extends BaseController
         // $this->getAccountManager()->addProjectPerson($this->getProjectId(),$user->getPersonId());
         
         // Ad off we go
-        return $this->redirect($this->generateUrl('zayso_natgames_home'));
+        return $this->redirect($this->generateUrl('zayso_core_home'));
     }
     /* ======================================================
      * Should have a valid account id here
      */
-    public function resetPassword($accountId)
+    public function passwordResetRequest($accountId)
     {
         $manager = $this->get('zayso_core.account.home.manager');
         
@@ -150,54 +144,22 @@ class SigninController extends BaseController
         // Show results
         die('Account Reseting ' . $account->getUserName() . ' ' . $person->getEmail() . ' ' . $reset);
     }
-    public function resetxAction(Request $request, $reset)
+    public function passwordResetAction(Request $request, $reset)
     {
-        $manager = $this->getAccountManager();
-        $accountPerson = $manager->getAccountPerson(array('reset'=> $reset, 'accountRelation' => 'Primary'));
-        if (!$accountPerson)
-        {
-            return $this->redirect($this->generateUrl('zayso_natgames_account_signin'));
-        }
-        $account = $accountPerson->getAccount();
-        $person  = $accountPerson->getPerson();
-        if (!$account || !$person || !$person->getEmail())
-        {
-            return $this->redirect($this->generateUrl('zayso_natgames_account_signin'));
-        }
-        $data = array(
-            'userName' => $account->getUserName(),
-            'userPass1' => null,
-            'userPass2' => null,
-          //'reset'     => $reset,
-        );
-        // die('Reset ' . $account->getUserName());
+        $manager = $this->get('zayso_core.account.home.manager');
         
-        // Form
-        $formType = new AccountResetFormType();
-        $form = $this->createForm($formType, $data);
-
-        if ($request->getMethod() == 'POST')
-        {
-            $form->bindRequest($request);
-
-            if ($form->isValid()) // Checks username and password
-            {
-                $data = $form->getData();
-                $account->setUserPass($data['userPass1']);
-                $account->setReset(null);
-                $manager->flush();
-                
-                $userName = $account->getUserName();
-                $request->getSession()->set(SecurityContext::LAST_USERNAME,$userName);
-                $this->setUser($userName);
-                return $this->redirect($this->generateUrl('zayso_natgames_home'));
-            }
-        }
-        $tplData = array();
-        $tplData['form']  = $form->createView();
-        $tplData['reset'] = $reset;
+        $account = $manager->loadAccountForReset($reset);
         
-        return $this->render('ZaysoNatGamesBundle:Account/Reset:signin.html.twig',$tplData);
+        if (!$account)
+        {
+            return $this->redirect($this->generateUrl('zayso_core_account_signin'));
+        }
+        $this->setUser($account->getUserName());
+        
+        $account->setReset(null);
+        $manager->flush();
+        
+        return $this->redirect($this->generateUrl('zayso_core_account_edit'));
     }
 }
 
