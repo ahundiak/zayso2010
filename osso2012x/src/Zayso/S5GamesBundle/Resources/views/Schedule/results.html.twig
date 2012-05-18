@@ -1,10 +1,10 @@
-{% extends 'ZaysoS5GamesBundle:Layout:layout.html.twig' %}
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
 
-{% block title %}S5Games - Results{% endblock %}
+{% block title %}{{ myTitlePrefix }} Results{% endblock %}
 
 {% block content %}
 <div style="padding: 5px; margin: 5px; border: 5px solid black; width: 300px;">
-<form action="{{ path('zayso_s5games_schedule_results2011') }}" method="post" {{ form_enctype(searchForm) }}>
+<form action="{{ path('zayso_core_schedule_results2011') }}" method="post" {{ form_enctype(searchForm) }}>
     {{ form_widget(searchForm.div)  }}
     {{ form_widget(searchForm.pool) }}
     <input type="submit" name="submit_search" value="Search"  />
@@ -39,12 +39,12 @@
         <tr id="ref-sched-{{game.num}}" class="game-status-{{game.status}}">
             <td>
                 {% if game.reportStatus != 'Futurex' %}
-                    <a  href="{{ path('zayso_s5games_schedule_game_report', { 'id': game.id })}}"
+                    <a  href="{{ path('zayso_core_schedule_game_report', { 'id': game.id })}}"
                         class="game-report-status-{{game.reportStatus}}">
                         {{ game.getNum() }}
                     </a>
                 {% else %}
-                   <a href="{{ path('zayso_s5games_schedule_game_report', { 'id': game.id })}}">{{ game.getNum() }}</a> 
+                   <a href="{{ path('zayso_core_schedule_game_report', { 'id': game.id })}}">{{ game.getNum() }}</a> 
                 {% endif %}
             </td>
             <td>{{ game.status         }}</td>

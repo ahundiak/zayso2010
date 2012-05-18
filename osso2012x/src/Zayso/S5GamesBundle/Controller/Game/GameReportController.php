@@ -20,7 +20,7 @@ class GameReportController extends BaseController
         $game = $manager->loadEventForId($id);
         if (!$game)
         {
-            return $this->redirect($this->generateUrl('zayso_s5games_schedule_results'));
+            return $this->redirect($this->generateUrl('zayso_core_schedule_results'));
         }
         // Hokie default value
         if (!$game->getPointsApplied()) $game->setPointsApplied('Yes');
@@ -50,7 +50,7 @@ class GameReportController extends BaseController
                 
                 $saved = $this->saveReport($request,$manager,$game);
                 
-                if ($saved) return $this->redirect($this->generateUrl('zayso_s5games_schedule_game_report',array('id' => $id)));
+                if ($saved) return $this->redirect($this->generateUrl('zayso_core_schedule_game_report',array('id' => $id)));
             }
         }
         
@@ -59,7 +59,7 @@ class GameReportController extends BaseController
         $tplData['form'] = $form->createView();
         $tplData['game'] = $game;
          
-        return $this->render('ZaysoS5GamesBundle:Game:report.html.twig',$tplData);
+        return $this->renderx('Game:report.html.twig',$tplData);
     }
     protected function calcPointsEarnedForTeam($game,$gameTeam1Rel,$gameTeam2Rel)
     {

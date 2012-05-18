@@ -1,5 +1,8 @@
 <?php
-
+/* =============================================
+ * 18 May 2012
+ * Depreciated - Replaced with Core Controller
+ */
 namespace Zayso\S5GamesBundle\Controller\Account;
 
 use Zayso\CoreBundle\Controller\BaseController;
@@ -19,7 +22,7 @@ class SigninController extends BaseController
         // So easy once the secret is known, need both
         $this->get('security.context')->setToken(null);
         $request->getSession()->remove('_security_secured_area');
-        return $this->redirect($this->generateUrl('zayso_s5games_welcome'));
+        return $this->redirect($this->generateUrl('zayso_core_welcome'));
     }
     public function signinRpxAction(Request $request)
     {
@@ -36,7 +39,7 @@ class SigninController extends BaseController
         catch (UsernameNotFoundException $e)
         {
             $request->getSession()->set('openidProfile',$profile);
-            return $this->redirect($this->generateUrl('zayso_s5games_account_create'));
+            return $this->redirect($this->generateUrl('zayso_core_account_create'));
         }
         
         // Continue with normal signin
@@ -50,6 +53,6 @@ class SigninController extends BaseController
         $browserManager->add($request->server->get('HTTP_USER_AGENT'));
         
         // Ad off we go
-        return $this->redirect($this->generateUrl('zayso_s5games_home'));
+        return $this->redirect($this->generateUrl('zayso_core_home'));
     }
 }

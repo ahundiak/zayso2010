@@ -29,7 +29,7 @@ class ResultsController extends BaseController
                 
                 $request->getSession()->set('resultsSearchData',$data);
                 
-                return $this->redirect($this->generateUrl('zayso_s5games_schedule_results2011',$form->getData()));
+                return $this->redirect($this->generateUrl('zayso_core_schedule_results2011',$form->getData()));
             }
         }
         if (!$div)
@@ -37,7 +37,7 @@ class ResultsController extends BaseController
             $data = $request->getSession()->get('resultsSearchData');
             if (is_array($data) && isset($data['div']) && $data['div'])
             {
-                return $this->redirect($this->generateUrl('zayso_s5games_schedule_results2011',$data));
+                return $this->redirect($this->generateUrl('zayso_core_schedule_results2011',$data));
             }
         }
         $manager = $this->getScheduleManager();
@@ -102,7 +102,7 @@ class ResultsController extends BaseController
         $tplData['games'] = $games;
         $tplData['gameCount'] = count($games);
         
-        return $this->render('ZaysoS5GamesBundle:Schedule:results.html.twig',$tplData);
+        return $this->renderx('Schedule:results.html.twig',$tplData);
         
     }
     protected function calcPoolTeamPoints($gameTeam,$poolTeam)
