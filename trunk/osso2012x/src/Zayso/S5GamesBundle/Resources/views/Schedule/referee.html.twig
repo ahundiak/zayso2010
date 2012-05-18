@@ -3,6 +3,7 @@
 {% block title %}{{ myTitlePrefix }} Schedule{% endblock %}
 
 {% block content %}
+{% include myBundleName ~ ':Schedule:search.html.twig' %}
 <div>
     <h3>Game Schedule 2011</h3>
     <table border = "1">
@@ -45,4 +46,29 @@
         {% endfor %}       
     </table>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% include 'ZaysoCoreBundle:Layout:zaysocore-js.html.twig' %}
+
+<script>
+
+$(document).ready(function() 
+{
+    // Check loading
+    // Zayso.exclaim('Referee Schedule');
+   
+    // do stuff when DOM is ready
+    
+    // name = schSearch[*][ALL]
+    $('input[type=checkbox][name^="schSearch["][name$="][ALL]"]').change(Zayso.checkboxAll);
+    
+  //$('input[type=checkbox][name="schSearch[dows][ALL]"   ]').change(Zayso.checkboxAll);
+  //$('input[type=checkbox][name="schSearch[ages][ALL]"   ]').change(Zayso.checkboxAll);
+  //$('input[type=checkbox][name="schSearch[genders][ALL]"]').change(Zayso.checkboxAll);
+    
+  //$('.zayso-checkbox-all').change(Zayso.checkboxAll);
+})
+</script>
 {% endblock %}
