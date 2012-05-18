@@ -15,7 +15,8 @@ Zayso.checkboxAll = function(e)
         
         //var group = ':checkbox[name=' + $(this).attr('name') + ']';
         
-    var group = ':checkbox[name^="' + nameRoot + '"]';
+  //var group = ':checkbox[name^="' + nameRoot + '"]';
+    var group = 'input[type=checkbox][name^="' + nameRoot + '"]';
     
     // attr return undefined if not set, 'checked' if it is
     var checked = $(this).attr('checked') ? true : false;

@@ -13,10 +13,13 @@ class ScheduleManager extends BaseManager
     protected function getValues($search,$name,$default = null)
     {
         if (!isset($search[$name])) return $default;
-
         $values = $search[$name];
+
+        return $values;
+        
         if (!is_array($values)) return $values;
 
+        // Not sure why indexed
         $valuesIndexed = array();
         foreach($values as $value)
         {
@@ -30,9 +33,13 @@ class ScheduleManager extends BaseManager
         if (!$projectId) return array();
         
         $ages    = $this->getValues($search,'ages');
+        $dates   = $this->getValues($search,'dows');
         $genders = $this->getValues($search,'genders');
         $regions = $this->getValues($search,'regions');
         
+        $time1 = $this->getValues($search,'time1');
+        $time2 = $this->getValues($search,'time2');
+    
         // Build query
         $qb = $this->newQueryBuilder();
 
@@ -55,6 +62,10 @@ class ScheduleManager extends BaseManager
         $qb->leftJoin('gamePerson.person','person');
 
         $qb->andWhere($qb->expr()->eq('game.project',$qb->expr()->literal($projectId)));
+        
+        if ($dates) $qb->andWhere($qb->expr()->in ('game.date',$dates));
+        if ($time1) $qb->andWhere($qb->expr()->gte('game.time',$qb->expr()->literal($time1)));
+        if ($time2) $qb->andWhere($qb->expr()->lte('game.time',$qb->expr()->literal($time2)));
         
         if ($ages)    $qb->andWhere($qb->expr()->in('gameTeam.age',   $ages));
         if ($genders) $qb->andWhere($qb->expr()->in('gameTeam.gender',$genders));
