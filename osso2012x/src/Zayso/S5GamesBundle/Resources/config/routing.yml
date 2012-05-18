@@ -134,7 +134,7 @@ zayso_core_account_signin_rpx:
     defaults: { _controller: ZaysoS5GamesBundle:Account\Signin:signinRpx }
     
 zayso_core_account_password_reset:
-    pattern:  /account/password/reset/{reset}
+    pattern:  /account/public/password/reset/{reset}
     defaults: { _controller: ZaysoCoreBundle:Account\Signin:passwordReset, reset: 0}
 
 zayso_core_account_openid_add:
