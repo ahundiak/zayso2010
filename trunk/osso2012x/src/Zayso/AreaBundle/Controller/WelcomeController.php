@@ -16,7 +16,8 @@ class WelcomeController extends BaseController
         $manager = $this->get('zayso_core.account.home.manager');
         
         $accountId = $this->getUser()->getAccountId();
-        $accountPersons = $manager->loadAccountPersons($accountId);
+        $projectId = $this->getCurrentProjectId();
+        $accountPersons = $manager->loadAccountPersons($accountId,$projectId);
  
         $tplData = array();
         $tplData['accountPersons'] = $accountPersons;
