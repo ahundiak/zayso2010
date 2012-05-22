@@ -43,6 +43,10 @@ class UserProvider implements UserProviderInterface
      */
     public function loadUserByUsername($username)
     {
+        // Called during the sign in process
+        // Called again with setUser
+        // die('loadUserByUsername');
+        
         $sql = <<<EOT
 SELECT
   account.id        AS accountId,
@@ -151,7 +155,7 @@ EOT;
     public function refreshUser(UserInterface $user)
     {
         // Appears to be called when page refreshes
-        // die('refreshUser');
+        //die('refreshUser');
         return $user;
 
         if (!$user instanceof $this->class) {
