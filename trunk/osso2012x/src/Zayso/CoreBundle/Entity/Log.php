@@ -22,10 +22,9 @@ class Log extends BaseEntity
     protected $id;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Project")
-     * @ORM\JoinColumn(name="project_id", referencedColumnName="id",nullable=true)
+     * @ORM\Column(type="integer",name="project_id")
      */
-    protected $project;
+    protected $projectId = 0;
     
     /** 
      * @ORM\Column(type="string",name="dtg",length=20,nullable=false) 
@@ -39,9 +38,12 @@ class Log extends BaseEntity
     protected $type = '';
    
     /** 
-     * @ORM\Column(type="string",name="message",length=100,nullable=false) 
+     * @ORM\Column(type="text",name="message",nullable=false) 
      */
     protected $message = '';
+    
+    /** @ORM\Column(type="text", name="datax", nullable=true) */
+    protected $datax = null;
     
     public function getDtg      () { return $this->dtg;     }
     public function getType     () { return $this->type;    }

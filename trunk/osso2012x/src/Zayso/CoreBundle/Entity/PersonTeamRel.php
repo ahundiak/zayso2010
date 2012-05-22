@@ -36,6 +36,15 @@ class PersonTeamRel extends BaseEntity
     protected $id;
     
     /**
+     * Wanted to avoid this but found it necessary when querying to restrict
+     * teams to a given project.  Maybe a view?
+     * 
+     * @ORM\ManyToOne(targetEntity="Project")
+     * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
+     */
+    protected $project;
+    
+    /**
      * @ORM\ManyToOne(targetEntity="Person", inversedBy="teamRels")
      * @ORM\JoinColumn(name="person_id", referencedColumnName="id")
      */
@@ -83,6 +92,9 @@ class PersonTeamRel extends BaseEntity
     
     public function setPerson($person) { $this->onObjectPropertySet('person', $person); }
     public function getPerson()        { return $this->person;  }
+    
+    public function setProject($project) { $this->onObjectPropertySet('project', $project); }
+    public function getProject()         { return $this->project;  }
 
 }
 ?>
