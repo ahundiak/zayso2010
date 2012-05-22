@@ -121,6 +121,13 @@
             class="Zayso\CoreBundle\Component\Twig\CoreExtension">
             <tag name="twig.extension" />
         </service>
-
+        
+        <service
+            id     = "zayso_core.logger"
+            class  = "Zayso\CoreBundle\Monolog\Logger"
+            public = "true">
+            <argument type="string">zayso_core</argument>
+        </service>
+ 
     </services>
 </container>
