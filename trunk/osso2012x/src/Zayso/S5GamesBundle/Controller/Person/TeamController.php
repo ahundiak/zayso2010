@@ -2,15 +2,16 @@
 namespace Zayso\S5GamesBundle\Controller\Person;
 
 use Zayso\CoreBundle\Controller\BaseController;
+use Zayso\CoreBundle\Controller\Person\TeamController as PersonTeamBaseController;
 use Zayso\CoreBundle\Component\Debug;
 
 use Zayso\CoreBundle\Entity\PersonTeamRel;
 
 use Symfony\Component\HttpFoundation\Request;
 
-class TeamController extends BaseController
+class TeamController extends PersonTeamBaseController
 {
-    public function listAction(Request $request, $personId = 0)
+    public function listActionXXX(Request $request, $personId = 0)
     {
         if (!$personId) $personId = $this->getUser()->getPersonId();
         
@@ -26,6 +27,7 @@ class TeamController extends BaseController
         }
         $personTeamRel = new PersonTeamRel();
         $personTeamRel->setId(-1);
+        $personTeamRel->setProject($manager->getProjectReference($projectId));
         $personTeamRel->setPerson($person);
         $person->addTeamRel($personTeamRel);
         
