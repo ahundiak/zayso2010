@@ -28,9 +28,10 @@ class PersonManager extends BaseManager
         $qb->leftJoin('person.projectPersons','projectPerson', 
             Expr\Join::WITH, $qb->expr()->eq('projectPerson.project', $projectId));
         
-        $qb->leftJoin('person.teamRels','teamRel');
-        $qb->leftJoin('teamRel.team',   'team',
-             Expr\Join::WITH, $qb->expr()->eq('team.project', $projectId));
+        $qb->leftJoin('person.teamRels','teamRel',
+             Expr\Join::WITH, $qb->expr()->eq('teamRel.project', $projectId));
+        
+        $qb->leftJoin('teamRel.team','team');
        
         //die($qb->getQuery()->getSQL());
         
