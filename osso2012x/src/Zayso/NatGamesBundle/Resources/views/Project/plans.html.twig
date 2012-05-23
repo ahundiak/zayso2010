@@ -15,7 +15,7 @@
 
 {% block content %}
 <div>
-<form class="s3" method="post" action="{{ path('zayso_natgames_project_plans', { 'id': personId }) }} {{ form_enctype(form) }}">
+<form class="s3" method="post" action="{{ path('zayso_core_project_plans', { 'id': personId }) }} {{ form_enctype(form) }}">
 <fieldset><legend>General Plans For {{ projectPerson.person.personName }}</legend>
     {{ form_row(form.attend)          }}
     {{ form_row(form.will_referee)    }}

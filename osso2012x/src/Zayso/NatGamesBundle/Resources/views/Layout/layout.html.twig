@@ -58,8 +58,9 @@
     <li><a href="{{ path('zayso_natgames_account_create') }}">Create Account</a></li>
 {% endif %}
     
-    <li><a href="{{ path('zayso_natgames_schedule')}}">Game Schedule</a></li>
-    <li><a href="{{ path('zayso_natgames_classes') }}">Referee Classes</a></li>
+    <li><a href="{{ path('zayso_core_textalerts')}}">Text Alerts</a></li>
+    <li><a href="{{ path('zayso_core_schedule')}}">Game Schedule</a></li>
+    <li><a href="{{ path('zayso_core_classes') }}">Referee Classes</a></li>
   </ul>
         
   <ul style="float: right">
@@ -68,7 +69,7 @@
     <li><a href="{{ path('zayso_natgames_admin')          }}">Admin</a></li>
 {% endif %}
 
-   <li><a href="{{ path('zayso_natgames_contact') }}">Contact Us</a></li>
+   <li><a href="{{ path('zayso_core_contact') }}">Contact Us</a></li>
    
 {% if is_granted('ROLE_USER') %}
    <li><a href="{{ path('zayso_natgames_account_signout') }}">Sign Out</a></li>

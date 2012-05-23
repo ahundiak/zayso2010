@@ -40,7 +40,7 @@
 </tr>
 <tr><td colspan="3"></td></tr>
 <tr>
-  <td><a href="{{ path('zayso_natgames_home')  }}">Home</a></td>
+  <td><a href="{{ path('zayso_core_home')  }}">Home</a></td>
   <td>
     {% if     contactFlash %}{{ contactFlash }}{% endif %}
     {% if not contactFlash %} &nbsp; {% endif %}
@@ -68,7 +68,7 @@
     {% endfor %}
     <tr>
       <td colspan="3">
-        <a href="{{ path('zayso_natgames_account_openid_add') }}">Click here</a> 
+        <a href="{{ path('zayso_core_account_openid_add') }}">Click here</a> 
         to link a social network (Google, Facebook, Twitter etc) to your Zayso account.
         This will allow you to sign in to Zayso without using a password or needing to remember your Zayso user name.
       </td>
@@ -98,7 +98,7 @@
 </tr>
 <tr><td colspan="3"></td></tr>
 <tr>
-  <td><a href="{{ path('zayso_natgames_home')  }}">Home</a></td>
+  <td><a href="{{ path('zayso_core_home')  }}">Home</a></td>
   <td>
     {% if     passwordFlash %}{{ passwordFlash }}{% endif %}
     {% if not passwordFlash %} &nbsp; {% endif %}
