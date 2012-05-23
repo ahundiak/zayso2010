@@ -42,6 +42,10 @@ zayso_core_classes_org:
     defaults: { _controller: ZaysoNatGamesBundle:Classes:signup }
 
 # Home stuff requires user
+zayso_natgames_home:
+    pattern:  /home
+    defaults: { _controller: ZaysoNatGamesBundle:Home:index }
+    
 zayso_core_home:
     pattern:  /home
     defaults: { _controller: ZaysoNatGamesBundle:Home:index }
@@ -57,10 +61,6 @@ zayso_core_project_levels:
     defaults: { _controller: ZaysoNatGamesBundle:Project:levels, id: 0 }
     requirements:
         id: \d+
-    
-zayso_natgames_home:
-    pattern:  /home
-    defaults: { _controller: ZaysoNatGamesBundle:Home:index }
 
 # ===============================================================
 # Account stuff
