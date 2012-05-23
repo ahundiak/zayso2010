@@ -1,12 +1,10 @@
-{% extends 'ZaysoNatGamesBundle:Layout:layout.html.twig' %}
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
 
-{% block title %}NatGames - Welcome{% endblock %}
+{% block title %}{{ myTitlePrefix }} Home{% endblock %}
 
 {% block content %}
 <div>
-    <h3>Home Page</h3>
-    {% include 'ZaysoNatGamesBundle:Account/Person:list.html.twig' %}
-
+    {% include myBundleName ~ ':Account/Person:list.html.twig' %}
     <p>
         Pease keep your tournament plans up to date.
     </p><p>

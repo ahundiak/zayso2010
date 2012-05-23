@@ -31,7 +31,7 @@
 <p><em>{{ msg }}</em></p>
 {% endif %}
 
-<form class="s1" action="{{ path('zayso_natgames_classes') }}" method="post" {{ form_enctype(form) }}>
+<form class="s1" action="{{ path('zayso_core_classes') }}" method="post" {{ form_enctype(form) }}>
     <fieldset><legend><span>Contact Information</span></legend>
         {{ form_row(form.firstName) }}
         {{ form_row(form.lastName)  }}

@@ -1,13 +1,16 @@
-<table border="1">
-    <tr><th colspan="5">People Associated With This Account</th></tr>
+<div>
+<table class="account-person-list" border="1">
+    <tr><th colspan="4">People Associated With This Account</th></tr>
     <tr>
         <th>Account Information</th>
         <th>AYSO Information</th>
-        <th>National Games Plans</th>
-    </tr>
+        <th>My NatGames Plans</th>
+        <th>My NatGames Teams</th>
+   </tr>
     {% for accountPerson in accountPersons %}
     {% set person   = accountPerson.personz %}
     {% set aysoCert = person.aysoCertz %}
+    {% set teamRels = person.teamRels %}
     {% set projectPerson = person.projectPerson(projectId) %}
     {% if projectPerson %}
         {% set plans = projectPerson.get('plans') %}
@@ -17,57 +20,63 @@
     <tr>
         <td><table>
             <tr>
-                <td colspan="2">
-                    <a href="{{ path('zayso_natgames_account_person_edit', { 'id': accountPerson.id }) }}">
+                <td>Person:</td>
+                <td colspan="1">
+                    <a href="{{ path('zayso_core_account_person_edit', { 'id': accountPerson.id }) }}">
                         {{ person.personName }}
                     </a>
                 </td>
             </tr>
+            <tr><td>Relation:</td><td>{{ accountPerson.accountRelation }}</td></tr>
             {% if accountPerson.isPrimary %}
             <tr><td>Account:</td><td>
-                <a href="{{ path('zayso_natgames_account_person_edit_account', { 'id': accountPerson.id }) }}">
+                <a href="{{ path('zayso_core_account_edit', { 'id': accountPerson.id }) }}">
                     {{ accountPerson.userName }}
                 </a>
             </td></tr>
             {% endif %}
-            <tr><td>Relation:</td><td>{{ accountPerson.accountRelation }}</td></tr>
             {% for openid in accountPerson.openids %}
-                <tr><td>Sign In With:</td><td>{{ openid.provider }}</td></tr>
+                <tr><td>Sign In:</td><td>{{ openid.provider }}<br />{{ openid.userName }}</td></tr>
             {% endfor %}
         </table></td>
         <td><table>
             <tr><td>AYSO ID:</td>      <td>{{aysoCert.aysoid}}   </td></tr>
             <tr><td>Vol Year:</td>     <td>{{aysoCert.memYear}}  </td></tr>
             <tr><td>Safe Haven:</td>   <td>{{aysoCert.safeHaven}}</td></tr>
-            <tr><td>Referee Badge:</td><td>{{aysoCert.refBadge}} </td></tr>
+            <tr><td>Ref Badge:</td><td>{{aysoCert.refBadge}} </td></tr>
             <tr><td>Region:</td>       <td>{{person.orgz.desc3}} </td></tr>
         </table></td>
         <td><table>
             {% if plans %}
-                <tr><td>Will Attend: </td><td>{{ plans.attend       }}</td></tr>
+                <tr><td>Will Attend: </td><td>{{ plans.attend  }}</td></tr>
                 <tr><td>Will Referee:</td><td>{{ plans.will_referee }}</td></tr>
                 <tr><td>Have Player: </td><td>{{ plans.have_player  }}</td></tr>
             {% else %}
-                <tr><td colspan="2">No plans as of yet.</td></tr>
+                <tr><td colspan="2">No plans yet.</td></tr>
             {% endif %}
             {% if accountPerson.isPrimary or accountPerson.isFamily %}
             <tr><td colspan="2">
-                <a href="{{ path('zayso_natgames_project_plans', { 'id': person.id }) }}">Update My Tournament Plans</a>
-            </td></tr>
-            <tr><td colspan="2">
-                <a href="{{ path('zayso_natgames_project_levels',{ 'id': person.id }) }}">Update My Referee Levels</a>
+                <a href="{{ path('zayso_core_project_plans', { 'id': person.id }) }}">My NatGames Plans</a>
             </td></tr>
             {% endif %}
+        </table></td>
+        <td><table>
+            {% for teamRel in teamRels %}
+                <tr><td>{{ teamRel.type }}</td><td>{{ teamRel.team.key }}</td></tr>
+            {% endfor %}
+            <tr><td colspan="2">
+                <a href="{{ path('zayso_core_person_team_list', { 'personId': person.id }) }}">Add Team To Person</a>
+            </td></tr>
         </table></td>
     </tr>
     {% endfor %}
     <tr><th colspan="5">
-            <a href="{{ path('zayso_natgames_account_person_add') }}">Add Person to Account</a>
+            <a href="{{ path('zayso_core_account_person_add') }}">Add Person to Account</a>
         </th>
     </tr>
     <tr><th colspan="5">
-            <a href="{{ path('zayso_natgames_account_openid_add') }}">Link Zayso Account to Social Network for Signing In</a>
+            <a href="{{ path('zayso_core_account_openid_add') }}">Link Zayso Account to Social Network for Signing In</a>
         </th>
     </tr>
 </table>
-
+</div>

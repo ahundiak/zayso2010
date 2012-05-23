@@ -4,31 +4,63 @@
 #   prefix:   /_internal
     
 # National Games Routes
-zayso_natgames_index:
+zayso_core_index:
     pattern:  /
     defaults: { _controller: ZaysoNatGamesBundle:Welcome:welcome }
 
 zayso_natgames_welcome:
     pattern:  /welcome
     defaults: { _controller: ZaysoNatGamesBundle:Welcome:welcome }
-
-# Used when user is not authorized
-zayso_natgames_welcomex:
+    
+zayso_core_welcome:
     pattern:  /welcome
     defaults: { _controller: ZaysoNatGamesBundle:Welcome:welcome }
+
+# Used when user is not authorized
+zayso_core_welcomex:
+    pattern:  /welcome
+    defaults: { _controller: ZaysoNatGamesBundle:Welcome:welcome }
+
+zayso_core_textalerts:
+    pattern:  /welcome/textalerts
+    defaults: { _controller: ZaysoNatGamesBundle:Welcome:textalerts }
+    
+zayso_core_contact:
+    pattern:  /welcome/contact
+    defaults: { _controller: ZaysoNatGamesBundle:Welcome:contact }
+    
+zayso_core_contact_org:
+    pattern:  /contact
+    defaults: { _controller: ZaysoNatGamesBundle:Welcome:contact }
+    
+zayso_core_classes:
+    pattern:  /welcome/classes
+    defaults: { _controller: ZaysoNatGamesBundle:Classes:signup }
+    
+zayso_core_classes_org:
+    pattern:  /classes
+    defaults: { _controller: ZaysoNatGamesBundle:Classes:signup }
+
+# Home stuff requires user
+zayso_core_home:
+    pattern:  /home
+    defaults: { _controller: ZaysoNatGamesBundle:Home:index }
+    
+zayso_core_project_plans:
+    pattern:  /home/person/project/plans/{id}
+    defaults: { _controller: ZaysoNatGamesBundle:Project:plans, id: 0 }
+    requirements:
+        id: \d+
+        
+zayso_core_project_levels:
+    pattern:  /home/person/project/levels{id}
+    defaults: { _controller: ZaysoNatGamesBundle:Project:levels, id: 0 }
+    requirements:
+        id: \d+
     
 zayso_natgames_home:
     pattern:  /home
-    defaults: { _controller: ZaysoNatGamesBundle:Welcome:home }
-
-
-zayso_natgames_contact:
-    pattern:  /contact
-    defaults: { _controller: ZaysoNatGamesBundle:Contact:contact }
-    
-zayso_natgames_classes:
-    pattern:  /classes
-    defaults: { _controller: ZaysoNatGamesBundle:Classes:signup }
+    defaults: { _controller: ZaysoNatGamesBundle:Home:index }
 
 # ===============================================================
 # Account stuff
@@ -48,7 +80,7 @@ zayso_natgames_account_profile_post:
     requirements:
         _method:  POST
 
-zayso_natgames_account_edit:
+zayso_core_account_edit:
     pattern:  /account/edit/{id}
     defaults: { _controller: ZaysoNatGamesBundle:Account\Edit:edit, id: 0}
     requirements:
@@ -76,45 +108,35 @@ zayso_natgames_account_signout:
     pattern:  /account/signout
     defaults: { _controller: ZaysoNatGamesBundle:Account\Signin:signout }
 
-zayso_natgames_account_openid_add:
+zayso_core_account_openid_add:
     pattern:  /account/openid/add
     defaults: { _controller: ZaysoNatGamesBundle:Account\Openid:add }
 
-zayso_natgames_account_openid_add_rpx:
+zayso_core_account_openid_add_rpx:
     pattern:  /account/openid/add/rpx
     defaults: { _controller: ZaysoNatGamesBundle:Account\Openid:addRpx }
 
-zayso_natgames_account_person_add:
+zayso_core_account_person_add:
     pattern:  /account/person/add
     defaults: { _controller: ZaysoNatGamesBundle:Account\Person:add }
     
-zayso_natgames_account_person_edit:
+zayso_core_account_person_edit:
     pattern:  /account/person/edit/{id}
     defaults: { _controller: ZaysoNatGamesBundle:Account\Person:edit, id: 0 }
     requirements:
         id: \d+
-        
-zayso_natgames_account_person_edit_account:
-    pattern:  /account/person/edit/account/{id}
-    defaults: { _controller: ZaysoNatGamesBundle:Account\Person:editAccount, id: 0 }
-    requirements:
-        id: \d+
 
-# Project Person Information
-zayso_natgames_project_plans:
-    pattern:  /project/plans/{id}
-    defaults: { _controller: ZaysoNatGamesBundle:Project:plans, id: 0 }
-    requirements:
-        id: \d+
-        
-zayso_natgames_project_levels:
-    pattern:  /project/levels{id}
-    defaults: { _controller: ZaysoNatGamesBundle:Project:levels, id: 0 }
-    requirements:
-        id: \d+
+# =================================================================
+# Scheduling stuff
 
-zayso_natgames_schedule:
-    pattern:  /schedule
+zayso_core_person_team_list:
+    pattern:  /home/person/team/list/{personId}
+    defaults: { _controller: ZaysoNatGamesBundle:Person\Team:list, personId: 0 }
+    requirements:
+        personId: \d+
+
+zayso_core_schedule:
+    pattern:  /schedule/public
     defaults: { _controller: ZaysoNatGamesBundle:Schedule:index }
     requirements:
         _method:  GET
