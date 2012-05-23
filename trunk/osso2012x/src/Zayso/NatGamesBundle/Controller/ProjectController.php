@@ -249,7 +249,7 @@ class ProjectController extends CoreBaseController
                 $projectPerson->set('plans',$plans);
                 $manager->flush();
                 
-                return $this->redirect($this->generateUrl('zayso_natgames_home'));
+                return $this->redirect($this->generateUrl('zayso_core_home'));
             }
         }
         
@@ -277,7 +277,7 @@ class ProjectController extends CoreBaseController
             $projectPerson->set('levels',$levelsData);
             $manager->flush();
 
-            return $this->redirect($this->generateUrl('zayso_natgames_home'));
+            return $this->redirect($this->generateUrl('zayso_core_home'));
         }
         $levelsData = $projectPerson->get('levels');
         if (!$levelsData) $levelsData = array();

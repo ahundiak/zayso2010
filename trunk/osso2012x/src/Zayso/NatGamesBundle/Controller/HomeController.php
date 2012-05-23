@@ -1,35 +1,26 @@
 <?php
-
 namespace Zayso\NatGamesBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-use Zayso\CoreBundle\Component\Debug;
-use Zayso\CoreBundle\Entity\ProjectPerson;
+use Zayso\CoreBundle\Controller\BaseController;
 
-use Zayso\CoreBundle\Controller\BaseController as CoreBaseController;
-
-class WelcomeController extends CoreBaseController
+class HomeController extends BaseController
 {
-    public function welcomeAction()
+    public function indexAction()
     {
-        if ($this->isUser() && !$this->isAdmin())
-        {
-            return $this->redirect($this->generateUrl('zayso_core_home'));
-        }
-        $tplData = array();
-        return $this->render('ZaysoNatGamesBundle:Welcome:welcome.html.twig',$tplData);
-    }
-    public function homeAction(Request $request)
-    {   
+        // Need to be signed in, security system does this
+        if (!$this->isUser()) return $this->redirect($this->generateUrl('zayso_core_welcome'));
+        
         // Use the home manage
         $manager = $this->get('zayso_core.account.home.manager');
         
-        // Ensure part of the project
+         // Ensure part of the project
         $user = $this->getUser();
         $accountId = $user->getAccountId();
-        $personId  = $user->getPersonId();
         $projectId = $this->getProjectId();
+        $personId  = $user->getPersonId();
         
         $projectPerson = $manager->addProjectPerson($projectId,$personId);
         
@@ -48,7 +39,8 @@ class WelcomeController extends CoreBaseController
                 return $this->redirect($this->generateUrl('zayso_core_project_levels'));
             }
         }
-        // Get prople for account
+        
+        // Get people for account
         $accountPersons = $manager->loadAccountPersons($accountId,$projectId);
         
         // And Render
@@ -56,6 +48,8 @@ class WelcomeController extends CoreBaseController
         $tplData['projectId']      = $projectId;
         $tplData['accountPersons'] = $accountPersons;
         
-        return $this->render('ZaysoNatGamesBundle:Welcome:home.html.twig',$tplData);
+        return $this->renderx('Welcome:home.html.twig',$tplData);
+
     }
 }
+?>

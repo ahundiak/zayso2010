@@ -1,5 +1,8 @@
 <?php
-
+/* ==========================================
+ * 23 May 2012
+ * Should be obsolete
+ */
 namespace Zayso\NatGamesBundle\Controller\Account;
 
 use Zayso\NatGamesBundle\Controller\BaseController;
@@ -128,12 +131,12 @@ class ProfileController extends BaseController
 
         // Get the current id
         $user = $this->getUser();
-        if ($accountPersonId != $user->getAccountPersonId()) return $this->redirect($this->generateUrl('zayso_natgames_welcomex'));
+        if ($accountPersonId != $user->getAccountPersonId()) return $this->redirect($this->generateUrl('zayso_core_welcomex'));
 
         // Get the account
         $accountManager = $this->getAccountManager();
         $accountPerson = $accountManager->getAccountPerson(array('accountPersonId' => $accountPersonId));
-        if (!$accountPerson) return $this->redirect($this->generateUrl('zayso_natgames_welcomex'));
+        if (!$accountPerson) return $this->redirect($this->generateUrl('zayso_core_welcomex'));
 
         // Validate
         $form = $this->getPasswordForm($accountPerson);

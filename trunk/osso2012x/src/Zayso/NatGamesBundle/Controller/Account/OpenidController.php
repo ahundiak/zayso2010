@@ -15,14 +15,14 @@ class OpenidController extends BaseController
         if (!is_array($profile))
         {
             $request->getSession()->setFlash('openid_add_error',$profile);
-            return $this->redirect($this->generateUrl('zayso_natgames_account_openid_add'));
+            return $this->redirect($this->generateUrl('zayso_core_account_openid_add'));
         }
         // Maybe move all of this to account manager
 
         // See if already have one
         $accountManager = $this->getAccountManager();
         $openid = $accountManager->getOpenidForIdentifier($profile['identifier']);
-        if ($openid) return $this->redirect($this->generateUrl('zayso_natgames_account_openid_add'));
+        if ($openid) return $this->redirect($this->generateUrl('zayso_core_account_openid_add'));
 
         // Make one
         $em = $this->getAccountManager()->getEntityManager();
@@ -36,7 +36,7 @@ class OpenidController extends BaseController
         $em->persist($openid);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('zayso_natgames_account_openid_add'));
+        return $this->redirect($this->generateUrl('zayso_core_account_openid_add'));
     }
     // Move to account manager?
     protected function addOpenId($profile)
@@ -82,7 +82,7 @@ class OpenidController extends BaseController
                 $this->getAccountManager()->deleteOpenid($id);
             }
         }
-        return $this->redirect($this->generateUrl('zayso_natgames_account_openid_add'));
+        return $this->redirect($this->generateUrl('zayso_core_account_openid_add'));
 
     }
 }
