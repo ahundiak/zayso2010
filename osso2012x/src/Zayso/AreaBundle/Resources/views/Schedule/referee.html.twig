@@ -69,8 +69,8 @@
             <td>{{ game_time(game.time) }}</td>
             <td>{{ game.fieldDesc       }}</td>
             <td>
-                {% for team in game.teams %}
-                    {{ team.teamKey }}<br />
+                {% for teamRel in game.teams %}
+                    {{ game_team_desc2(teamRel) }}<br />
                 {% endfor %}
             </td>
             <td><table class="game-officials-list">
