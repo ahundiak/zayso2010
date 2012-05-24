@@ -57,7 +57,7 @@ zayso_core_project_plans:
         id: \d+
         
 zayso_core_project_levels:
-    pattern:  /home/person/project/levels{id}
+    pattern:  /home/person/project/levels/{id}
     defaults: { _controller: ZaysoNatGamesBundle:Project:levels, id: 0 }
     requirements:
         id: \d+
@@ -68,21 +68,9 @@ zayso_natgames_account_create:
     pattern:  /account/create
     defaults: { _controller: ZaysoNatGamesBundle:Account\Create:create }
 
-zayso_natgames_account_profile:
-    pattern:  /account/profile
-    defaults: { _controller: ZaysoNatGamesBundle:Account\Profile:index }
-    requirements:
-        _method:  GET
-
-zayso_natgames_account_profile_post:
-    pattern:  /account/profile
-    defaults: { _controller: ZaysoNatGamesBundle:Account\Profile:post }
-    requirements:
-        _method:  POST
-
 zayso_core_account_edit:
     pattern:  /account/edit/{id}
-    defaults: { _controller: ZaysoNatGamesBundle:Account\Edit:edit, id: 0}
+    defaults: { _controller: ZaysoCoreBundle:Account\Edit:edit, id: 0}
     requirements:
         id: \d+
         
@@ -110,11 +98,11 @@ zayso_natgames_account_signout:
 
 zayso_core_account_openid_add:
     pattern:  /account/openid/add
-    defaults: { _controller: ZaysoNatGamesBundle:Account\Openid:add }
+    defaults: { _controller: ZaysoCoreBundle:Account\Openid:add }
 
 zayso_core_account_openid_add_rpx:
     pattern:  /account/openid/add/rpx
-    defaults: { _controller: ZaysoNatGamesBundle:Account\Openid:addRpx }
+    defaults: { _controller: ZaysoCoreBundle:Account\Openid:addRpx }
 
 zayso_core_account_person_add:
     pattern:  /account/person/add
