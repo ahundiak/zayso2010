@@ -1,12 +1,10 @@
-{# src/Acme/SecurityBundle/Resources/views/Security/login.html.twig #}
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
 
-{% extends 'ZaysoNatGamesBundle:Layout:layout.html.twig' %}
-
-{% block title %}NatGames - Openid - Add{% endblock %}
+{% block title %}{{ myTitlePrefix }} Openid Add{% endblock %}
 
 {% block content %}
 
-{% include 'ZaysoNatGamesBundle:Account/Openid:list.html.twig' %}
+{% include myBundleName ~ ':Account/Openid:list.html.twig' %}
 
 {% if error %}
 <div style="color: red;">{{ error }}</div>
@@ -27,7 +25,7 @@ Zayso does not in fact have the ability to update any information on the social 
 <p>
 If you do not wish to use one of the common sites then use the myOpenID one.
 This is a very generic account management site with the usual password recovery features.
-<a href="http://www.myopenid.com/">Click here to create an account on myOpenID</a> which you can then link to Zayso.
+<a href="http://www.myopenid.com/" target="_blank">Click here to create an account on myOpenID</a> which you can then link to Zayso.
 </p>
 
 <iframe

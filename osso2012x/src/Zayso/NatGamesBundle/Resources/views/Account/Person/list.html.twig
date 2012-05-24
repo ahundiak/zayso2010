@@ -56,7 +56,8 @@
             {% endif %}
             {% if accountPerson.isPrimary or accountPerson.isFamily %}
             <tr><td colspan="2">
-                <a href="{{ path('zayso_core_project_plans', { 'id': person.id }) }}">My NatGames Plans</a>
+                <a href="{{ path('zayso_core_project_plans',  { 'id': person.id }) }}">My NatGames Plans</a><br />
+                <a href="{{ path('zayso_core_project_levels', { 'id': person.id }) }}">My Referee Levels</a>
             </td></tr>
             {% endif %}
         </table></td>
