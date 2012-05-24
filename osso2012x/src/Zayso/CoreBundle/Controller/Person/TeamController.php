@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 /* ===========================================================
  * Area
  * S5Games
+ * NatGames
  */
 class TeamController extends BaseController
 {
