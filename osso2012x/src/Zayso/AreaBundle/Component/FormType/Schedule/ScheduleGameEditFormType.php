@@ -16,10 +16,11 @@ class ScheduleTeamFormType extends AbstractType
     protected $name = 'team';
     public function getName() { return $this->name; }
     
-    public function __construct($em,$emName)
+    public function __construct($em,$emName,$projectId)
     {
         $this->em = $em;
         $this->emName = $emName;
+        $this->projectId = $projectId;
     }
     protected $em;
     
@@ -33,7 +34,7 @@ class ScheduleTeamFormType extends AbstractType
           //'class' => 'ZaysoCoreBundle:EventTeam',
         ));
         
-        $projectId = 78;
+        $projectId = $this->projectId;
         
         $qb = $this->em->createQueryBuilder();
         $qb->addSelect('team');
@@ -81,10 +82,11 @@ class ScheduleGameEditFormType extends AbstractType
             'choices' => $this->statusPickList,
         ));
         
-        $builder->add('teams', 'collection', array('type' => new ScheduleTeamFormType($this->em,$this->emName)));
+        $game = $builder->getData();
+        $projectId = $game->getProject()->getId();
         
-        $projectId = 78;
-        
+        $builder->add('teams', 'collection', array('type' => new ScheduleTeamFormType($this->em,$this->emName,$projectId)));
+
         $qb = $this->em->createQueryBuilder();
         $qb->addSelect('field');
         $qb->from('ZaysoCoreBundle:ProjectField','field');
