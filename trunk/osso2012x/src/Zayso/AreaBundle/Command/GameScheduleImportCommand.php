@@ -43,11 +43,20 @@ class GameScheduleImportCommand extends ContainerAwareCommand
         $officials = $manager->getOfficialsForAccount(0,$accountId);
         echo 'Officials ' . count($officials) . "\n";
     }
+    protected function testSendoffImport()
+    {
+        $import = $this->getContainer()->get('zayso_area.sendoff.import');
+        
+        $params = array();
+        $params['projectId'] = 79; //$this->getProjectId();
+        $params['inputFileName'] = '../datax/Sendoff20120524.xls';
+        
+        $import->process($params);
+        echo $import->getResultMessage() . "\n";
+    }
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-      //$this->test1();
-        $this->test3();
-      //$this->testGetOfficialsForAccount();
+        $this->testSendoffImport();
     }
 }
 ?>
