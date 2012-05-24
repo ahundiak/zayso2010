@@ -23,11 +23,12 @@ class CoreExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'game_dow'       => new \Twig_Function_Method($this, 'gameDOW'),
-            'game_date'      => new \Twig_Function_Method($this, 'gameDate'),
-            'game_time'      => new \Twig_Function_Method($this, 'gameTime'),
-            'game_teams'     => new \Twig_Function_Method($this, 'gameTeams'),
-            'game_team_desc' => new \Twig_Function_Method($this, 'gameTeamDesc'),
+            'game_dow'        => new \Twig_Function_Method($this, 'gameDOW'),
+            'game_date'       => new \Twig_Function_Method($this, 'gameDate'),
+            'game_time'       => new \Twig_Function_Method($this, 'gameTime'),
+            'game_teams'      => new \Twig_Function_Method($this, 'gameTeams'),
+            'game_team_desc'  => new \Twig_Function_Method($this, 'gameTeamDesc'),
+            'game_team_desc2' => new \Twig_Function_Method($this, 'gameTeamDesc2'),
         );
     }
     public function gameDOW($date)
@@ -116,6 +117,39 @@ class CoreExtension extends \Twig_Extension
         $coach  = substr($phyTeamKey,10);
         
         return $gameTeamKey . ' ' . $region . ' ' . $coach;
+    }
+    /* ==========================================================
+     * This is an attempt to make an overlap between a regular schedule
+     * and a tourn schedule
+     */
+    public function gameTeamDesc2($gameTeamRel)
+    {
+        $gameTeam = $gameTeamRel->getTeam();
+        $game     = $gameTeamRel->getGame();
+        
+        $pool = trim($game->getPool());
+        $poolLen = strlen($pool);
+        if ($game->isPoolPlay()) $poolLen--;
+        
+        if (!$gameTeam)
+        {
+            // Really should not be possible
+            return $gameTeam->getType() . ' ' . 'No Game Team';
+        }
+        $gameTeamKey = $gameTeam->getKey();
+        if ($gameTeamKey) return $gameTeamKey;
+        
+        // Should mean it is pool play
+        $poolTeam = $gameTeam->getParentForType('pool');
+        if (!$poolTeam) return 'No Pool Found';
+        $poolTeamKey = $poolTeam->getKey();
+        
+        // See if phyTeam has been assigned to pool team
+        $phyTeam = $poolTeam->getParentForType('physical');
+        if (!$phyTeam) return $poolTeamKey;
+        $phyTeamKey = $phyTeam->getKey();
+        
+        return substr($poolTeamKey,8,2) . ' ' . $phyTeamKey;
     }
     /* ---------------------------------------------------
      * This was an attemt to process both teams
