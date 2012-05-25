@@ -9,18 +9,27 @@ use Symfony\Component\HttpFoundation\Request;
 
 class GameReportController extends BaseController
 {
-    protected function getGameManager()
-    {
-        return $this->get('zayso_core.game.manager');
-    }
     public function reportAction(Request $request, $id = 0)
     {
         // Grab the game
-        $manager = $this->getGameManager();
+        $manager = $this->get('zayso_core.game.schedule.results.manager');
         $game = $manager->loadEventForId($id);
         if (!$game)
         {
-            return $this->redirect($this->generateUrl('zayso_area_schedule_referee_list'));
+            return $this->redirect($this->generateUrl('zayso_core_schedule_referee_list'));
+        }
+       // Hokie default value
+        if (!$game->getPointsApplied()) $game->setPointsApplied('Yes');
+        
+        $gameStatus = $game->getStatus();
+        switch($gameStatus)
+        {
+            case 'Active': 
+            case 'InProgress': 
+                $game->setStatus('Played'); 
+              //$reportStatus = $game->getReportStatus();
+              //die('Report Status ' . $reportStatus);
+                break;
         }
         
         // Form
@@ -33,9 +42,11 @@ class GameReportController extends BaseController
 
             if ($form->isValid())
             {
+                $manager->calcPointsEarned($game);
+                
                 $saved = $this->saveReport($request,$manager,$game);
                 
-                if ($saved) return $this->redirect($this->generateUrl('zayso_area_schedule_game_report',array('id' => $id)));
+                if ($saved) return $this->redirect($this->generateUrl('zayso_core_schedule_game_report',array('id' => $id)));
             }
         }
         
@@ -44,7 +55,7 @@ class GameReportController extends BaseController
         $tplData['form'] = $form->createView();
         $tplData['game'] = $game;
          
-        return $this->render('ZaysoAreaBundle:Game:report.html.twig',$tplData);
+        return $this->renderx('Game:report.html.twig',$tplData);
     }
     protected function saveReport(Request $request, $manager,$game)
     {

@@ -1,11 +1,11 @@
-{% form_theme form 'ZaysoCoreBundle:Layout:fields.html.twig' %}
+{% form_theme form myBundleName ~ ':Layout:fields.html.twig' %}
 
-{% extends 'ZaysoAreaBundle:Layout:layout.html.twig' %}
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
 
-{% block title %}Area - Game - Report{% endblock %}
+{% block title %}{{ myTitlePrefix }} Game Report{% endblock %}
 
 {% block content %}
-<form action="{{ path('zayso_area_schedule_game_report', { 'id': game.id }) }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ path('zayso_core_schedule_game_report', { 'id': game.id }) }}" method="post" {{ form_enctype(form) }}>
 <h1>Game Report For: {{ game.pool }} #{{ game.num }}</h1>
 <div style="padding-left: 5px;">
     {{ form_widget(form.type) }}
@@ -15,13 +15,15 @@
     {{ form_widget(form.fieldDesc) }}  
     {{ form_widget(form.pool) }}    
 </div>
+{% set homeTeamRelEntity = game.homeTeam %}
+{% set awayTeamRelEntity = game.awayTeam %}
 {% set homeTeamRel = form.teams[0] %}
 {% set awayTeamRel = form.teams[1] %}
 {% set homeTeam = homeTeamRel.team %}
 {% set awayTeam = awayTeamRel.team %}
 <table border="1">
-    <tr><td>&nbsp;</td>       <td>{{ form_widget(homeTeamRel.type)       }}</td><td>{{ form_widget(awayTeamRel.type)       }}</td></tr>
-    <tr><td>&nbsp;</td>       <td>{{ form_widget(homeTeam.teamKey)       }}</td><td>{{ form_widget(awayTeam.teamKey)       }}</td></tr>
+    <tr><td>&nbsp;</td>       <td>{{ homeTeamRelEntity.type              }}</td><td>{{ awayTeamRelEntity.type              }}</td></tr>
+    <tr><td>&nbsp;</td>       <td>{{ game_team_desc2(homeTeamRelEntity)  }}</td><td>{{ game_team_desc2(awayTeamRelEntity)  }}</td></tr>
     <tr><td>Goals Scored</td> <td>{{ form_widget(homeTeam.goalsScored)   }}</td><td>{{ form_widget(awayTeam.goalsScored)   }}</td></tr>
     <tr><td>Cautions</td>     <td>{{ form_widget(homeTeam.cautions)      }}</td><td>{{ form_widget(awayTeam.cautions)      }}</td></tr>
     <tr><td>Send Offs</td>    <td>{{ form_widget(homeTeam.sendoffs)      }}</td><td>{{ form_widget(awayTeam.sendoffs)      }}</td></tr>
@@ -36,7 +38,8 @@
     {{ form_widget(form.report) }}
 </div>
 <div style="padding-left: 5px;">
-    <a href="{{ path('zayso_area_schedule_referee_list') }}">Return to Referee Schedule</a>
+    <a href="{{ path('zayso_core_schedule_referee_list') }}">Schedule</a>
+    <a href="{{ path('zayso_core_schedule_results')      }}">Results</a>
     {{ form_widget(form.status) }}
     {{ form_widget(form.pointsApplied)  }}
     {{ form_widget(form.reportStatus) }}  
