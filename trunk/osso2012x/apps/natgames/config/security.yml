@@ -26,7 +26,7 @@ security:
             access_denied_url: /welcome
             anonymous: ~
             form_login:
-                login_path:  /account/signin
+                login_path:  /account/public/signin
                 check_path:  /login_check
             logout:
                path:   /logout
@@ -38,9 +38,8 @@ security:
         - { path: ^/admin/import,   roles: ROLE_SUPER_ADMIN }
         - { path: ^/admin,          roles: ROLE_ADMIN }     
         - { path: ^/home,           roles: ROLE_USER }
-        - { path: ^/project,        roles: ROLE_USER }
         - { path: ^/account/create, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/account/signin, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/account/public, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/account/reset,  roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/account/resetx, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/account,        roles: ROLE_USER }
