@@ -5,7 +5,8 @@ namespace Zayso\NatGamesBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 use Zayso\CoreBundle\Component\Debug;
-use Zayso\CoreBundle\Entity\ProjectPerson;
+
+use Zayso\CoreBundle\Entity\Account;
 
 use Zayso\CoreBundle\Controller\BaseController as CoreBaseController;
 
@@ -17,8 +18,16 @@ class WelcomeController extends CoreBaseController
         {
             return $this->redirect($this->generateUrl('zayso_core_home'));
         }
+        $account = new Account();
+        
+        $signinFormType = $this->get('zayso_core.account.signin.formtype');
+
+        $signinForm = $this->createForm($signinFormType, $account);
+        
         $tplData = array();
-        return $this->render('ZaysoNatGamesBundle:Welcome:welcome.html.twig',$tplData);
+        $tplData['signinForm'] = $signinForm->createView();
+
+        return $this->renderx('Welcome:welcome.html.twig',$tplData);
     }
     public function textalertsAction()
     { 
