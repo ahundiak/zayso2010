@@ -90,6 +90,9 @@ class AccountManager extends BaseManager
             //if ($org) $person->setOrg($org);
         }
         // Might want to fool around with existing account?
+
+        // Normally require an openid but not always
+        $accountPerson->validateOpenids();
         
         // And save
         $em->persist($accountPerson->getAccountPerson()); // Everything cascades
