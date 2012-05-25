@@ -76,6 +76,11 @@ class SigninController extends BaseController
         }
         catch (UsernameNotFoundException $e)
         {
+            // Assume they want to create a new account
+            $request->getSession()->set('openidProfile',$profile);
+            return $this->redirect($this->generateUrl('zayso_core_account_create'));
+            
+            // Or maybe an actual error?
             $request->getSession()->setFlash('account_signin_error','Account not found');
             return $this->redirect($this->generateUrl('zayso_core_account_signin'));
         }

@@ -188,6 +188,20 @@ class AccountPersonAyso
 
         return $openid;
     }
+    public function validateOpenids()
+    {
+        $accountPerson = $this->getAccountPerson();
+        
+        $openids = $accountPerson->getOpenids();
+        if (count($openids) == 0) return;
+        
+        $openid = $openids[0];
+        if ($openid->getIdentifier()) return;
+        
+        // Remove it
+        $accountPerson->clearOpenids();
+        
+    }
     public function getOpenidUserName   () { return $this->getFirstOpenid()->getUserName();    }
     public function getOpenidDisplayName() { return $this->getFirstOpenid()->getDisplayName(); }
     public function getOpenidProvider   () { return $this->getFirstOpenid()->getProvider   (); }

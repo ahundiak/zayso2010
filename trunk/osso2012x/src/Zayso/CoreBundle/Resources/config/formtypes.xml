@@ -51,6 +51,13 @@
         </service>
         
         <service
+            id     = "zayso_core.account.create.formtype"
+            class  = "Zayso\CoreBundle\Component\FormType\Account\AccountCreateFormType"
+            public = "true">
+            <argument type="service" id="zayso_core.account.entity_manager" />
+        </service>
+        
+        <service
             id     = "zayso_core.account.edit.formtype"
             class  = "Zayso\CoreBundle\Component\FormType\Account\AccountEditFormType"
             public = "true">
