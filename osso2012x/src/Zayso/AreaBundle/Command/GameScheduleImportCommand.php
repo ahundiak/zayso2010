@@ -49,7 +49,7 @@ class GameScheduleImportCommand extends ContainerAwareCommand
         
         $params = array();
         $params['projectId'] = 79; //$this->getProjectId();
-        $params['inputFileName'] = '../datax/Sendoff20120524.xls';
+        $params['inputFileName'] = '../datax/Sendoff20120525.xls';
         
         $import->process($params);
         echo $import->getResultMessage() . "\n";
