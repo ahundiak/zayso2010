@@ -1,7 +1,3 @@
-zayso_area_index:
-    pattern:  /
-    defaults: { _controller: ZaysoAreaBundle:Welcome:welcome }
-    
 zayso_core_index:
     pattern:  /
     defaults: { _controller: ZaysoAreaBundle:Welcome:welcome }
@@ -21,16 +17,6 @@ zayso_area_home:
 zayso_core_home:
     pattern:  /home
     defaults: { _controller: ZaysoAreaBundle:Welcome:home }
-    
-zayso_area_profile:
-    pattern:  /home/profile
-    defaults: { _controller: ZaysoAreaBundle:Profile:index }
-    
-zayso_area_profile_edit:
-    pattern:  /home/profile/edit/{id}
-    defaults: { _controller: ZaysoAreaBundle:Profile:edit, id: 0 }
-    requirements:
-        id: \d+
         
 zayso_area_person_create:
     pattern:  /home/person/create/{aysoid}
@@ -114,6 +100,10 @@ zayso_core_account_openid_add_rpx:
 zayso_area_schedule_referee_list:
     pattern:  /schedule/referee/list
     defaults: { _controller: ZaysoAreaBundle:Schedule\RefSched:list }
+    
+zayso_core_schedule_referee_list:
+    pattern:  /schedule/referee/list
+    defaults: { _controller: ZaysoAreaBundle:Schedule\RefSched:list }
 
 zayso_area_schedule_referee_assign:
     pattern:  /schedule/referee/assign/{id}/{pos}
@@ -133,6 +123,18 @@ zayso_area_schedule_game_report:
     requirements:
         id: \d+
         
+zayso_core_schedule_game_report:
+    pattern:  /schedule/game/report/{id}
+    defaults: { _controller: ZaysoAreaBundle:Game\GameReport:report}
+    requirements:
+        id: \d+
+        
+zayso_core_schedule_results:
+    pattern:  /schedule/public/results/{div}/{pool}
+    defaults: { _controller: ZaysoAreaBundle:Schedule\Results:results, div: 0, pool: 0 }
+       
+# ================================================
+# Admin stuff
 zayso_area_admin:
     pattern:  /admin
     defaults: { _controller: ZaysoAreaBundle:Admin\Index:index }

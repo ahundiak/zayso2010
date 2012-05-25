@@ -50,13 +50,14 @@
 
 <div id="layout-top-menu">
   <ul style="float:left ">
-    <li><a href="{{ path('zayso_area_welcome') }}">Welcome</a></li>
+    <li><a href="{{ path('zayso_core_welcome') }}">Welcome</a></li>
     
 {% if is_granted('ROLE_USER') %}
-    <li><a href="{{ path('zayso_area_home') }}">Home</a></li>
+    <li><a href="{{ path('zayso_core_home') }}">Home</a></li>
 {% endif %}
     
-    <li><a href="{{ path('zayso_area_schedule_referee_list') }}">Game Schedule</a></li>
+    <li><a href="{{ path('zayso_core_schedule_referee_list') }}">Game Schedule</a></li>
+    <li><a href="{{ path('zayso_core_schedule_results')      }}">Sendoff Results</a></li>
   </ul>
         
   <ul style="float: right">
@@ -72,7 +73,7 @@
 {% endif %}
    
 {% if not is_granted('ROLE_USER') %}
-   <li><a href="{{ path('zayso_area_welcome') }}">Sign In</a></li>
+   <li><a href="{{ path('zayso_core_welcome') }}">Sign In</a></li>
 {% endif %}          
 
   </ul>
