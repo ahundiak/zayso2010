@@ -136,9 +136,16 @@ class CoreExtension extends \Twig_Extension
             // Really should not be possible
             return $gameTeam->getType() . ' ' . 'No Game Team';
         }
+        // This should be the norm for pool teams and eventually for all
+        $gameTeamDesc = $gameTeam->getDesc1();
+        if ($gameTeamDesc) return $gameTeamDesc;
+        
+        // This is the norm for the rest
         $gameTeamKey = $gameTeam->getKey();
         if ($gameTeamKey) return $gameTeamKey;
         
+        // Should just return
+        // 
         // Should mean it is pool play
         $poolTeam = $gameTeam->getParentForType('pool');
         if (!$poolTeam) return 'No Pool Found';
