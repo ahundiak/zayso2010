@@ -64,37 +64,32 @@ zayso_core_project_levels:
 
 # ===============================================================
 # Account stuff
-zayso_natgames_account_create:
-    pattern:  /account/create
-    defaults: { _controller: ZaysoNatGamesBundle:Account\Create:create }
+
+zayso_core_account_create:
+    pattern:  /account/public/create
+    defaults: { _controller: ZaysoCoreBundle:Account\Create:create }
+
+zayso_core_account_signout:
+    pattern:  /account/public/signout
+    defaults: { _controller: ZaysoCoreBundle:Account\Signin:signout }
+    
+zayso_core_account_signin:
+    pattern:  /account/public/signin
+    defaults: { _controller: ZaysoCoreBundle:Account\Signin:signin }
+    
+zayso_core_account_signin_rpx:
+    pattern:  /account/public/signin/rpx
+    defaults: { _controller: ZaysoCoreBundle:Account\Signin:signinRpx }
+    
+zayso_core_account_password_reset:
+    pattern:  /account/public/password/reset/{reset}
+    defaults: { _controller: ZaysoCoreBundle:Account\Signin:passwordReset, reset: 0}
 
 zayso_core_account_edit:
     pattern:  /account/edit/{id}
     defaults: { _controller: ZaysoCoreBundle:Account\Edit:edit, id: 0}
     requirements:
         id: \d+
-        
-zayso_natgames_account_reset:
-    pattern:  /account/reset/{id}
-    defaults: { _controller: ZaysoNatGamesBundle:Account\Signin:reset, id: 0}
-    requirements:
-        id: \d+
-        
-zayso_natgames_account_resetx:
-    pattern:  /account/resetx/{reset}
-    defaults: { _controller: ZaysoNatGamesBundle:Account\Signin:resetx, reset: 0}
-
-zayso_natgames_account_signin:
-    pattern:  /account/signin
-    defaults: { _controller: ZaysoNatGamesBundle:Account\Signin:signin }
-
-zayso_natgames_account_signin_rpx:
-    pattern:  /account/signin/rpx
-    defaults: { _controller: ZaysoNatGamesBundle:Account\Signin:signinRpx }
-
-zayso_natgames_account_signout:
-    pattern:  /account/signout
-    defaults: { _controller: ZaysoNatGamesBundle:Account\Signin:signout }
 
 zayso_core_account_openid_add:
     pattern:  /account/openid/add

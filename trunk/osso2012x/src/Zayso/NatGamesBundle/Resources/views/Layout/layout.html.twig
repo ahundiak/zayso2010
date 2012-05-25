@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="{{ asset_url }}" media="all" />
     {% endstylesheets %}   
 {% endblock %}
-        
+          
 {# Need this at the top to remember which account was last used to sign in #}
 {% block janrain %}{% endblock %}
         
@@ -48,14 +48,10 @@
 
 <div id="layout-top-menu">
   <ul style="float:left ">
-    <li><a href="{{ path('zayso_natgames_welcome')       }}">Welcome</a></li>
+    <li><a href="{{ path('zayso_core_welcome')       }}">Welcome</a></li>
     
 {% if is_granted('ROLE_USER') %}
-    <li><a href="{{ path('zayso_natgames_home')           }}">Home</a></li>
-{% endif %}
-    
-{% if not is_granted('ROLE_USER') %}    
-    <li><a href="{{ path('zayso_natgames_account_create') }}">Create Account</a></li>
+    <li><a href="{{ path('zayso_core_home')           }}">Home</a></li>
 {% endif %}
     
     <li><a href="{{ path('zayso_core_textalerts')}}">Text Alerts</a></li>
@@ -72,11 +68,11 @@
    <li><a href="{{ path('zayso_core_contact') }}">Contact Us</a></li>
    
 {% if is_granted('ROLE_USER') %}
-   <li><a href="{{ path('zayso_natgames_account_signout') }}">Sign Out</a></li>
+   <li><a href="{{ path('zayso_core_account_signout') }}">Sign Out</a></li>
 {% endif %}
    
 {% if not is_granted('ROLE_USER') %}
-   <li><a href="{{ path('zayso_natgames_account_signin') }}">Sign In</a></li>
+   <li><a href="{{ path('zayso_core_account_signin') }}">Sign In</a></li>
 {% endif %}          
 
   </ul>
