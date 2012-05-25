@@ -33,6 +33,13 @@ class ResultsSearchFormType extends AbstractType
             'label'   => 'Pool',
             'choices' => array(0 => 'Pool', 'A' => 'A', 'B' => 'B', 'C' => 'C', 'D' => 'D',),
         ));       
+        $builder->addValidator(new CallbackValidator(function($form)
+        {
+            if(!$form['div']->getData())
+            {
+                $form['div']->addError(new FormError('Need to pick a division'));
+            }
+        }));
     }
     protected $divPickList = array
     (

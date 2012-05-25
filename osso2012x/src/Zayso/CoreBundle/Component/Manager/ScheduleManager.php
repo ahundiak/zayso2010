@@ -8,7 +8,7 @@ namespace Zayso\CoreBundle\Component\Manager;
 
 use Zayso\CoreBundle\Component\Debug;
 
-class ScheduleManager extends BaseManager
+class ScheduleManager extends GameManager
 {
     protected function getValues($search,$name,$default = null)
     {
