@@ -74,7 +74,7 @@ class CreateController extends BaseController
                     $user = $this->setUser($account->getUserName());
                     
                     // Send email
-                    $subject = sprintf('[%s] - Created %s %s %s',
+                    $subject = sprintf('[%s][Account] Created %s %s %s',
                             $this->getMyTitlePrefix(),
                             $user->getName(),$user->getRegion(),$user->getAysoid());
                     $this->sendEmail($subject,$subject);

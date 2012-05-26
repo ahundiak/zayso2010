@@ -5,6 +5,7 @@ namespace Zayso\NatGamesBundle\Component\Import;
 use Zayso\CoreBundle\Component\Debug;
 use Zayso\CoreBundle\Component\Import\ExcelBaseImport;
 
+use Zayso\CoreBundle\Entity\Org;
 use Zayso\CoreBundle\Entity\Team;
 use Zayso\CoreBundle\Entity\Event        as Game;
 use Zayso\CoreBundle\Entity\EventTeam    as GameTeamRel;
@@ -17,7 +18,8 @@ use Doctrine\ORM\Events;
 class TeamImport extends ExcelBaseImport
 {
     protected $manager = null;
-    protected $orgs = null;
+    protected $orgs  = null;
+    protected $teams = null;
     
     public function __construct($manager,$projectId = 0)
     {
@@ -40,9 +42,62 @@ class TeamImport extends ExcelBaseImport
         return $team;
     }
     /* =============================================================
+     * Need when adding a new region
+     */
+    protected function processSection($section)
+    {
+        $key = sprintf('AYSOS%02u',$section);
+        if (isset($this->orgs[$key])) return $this->orgs[$key];
+        
+        $org = $this->manager->loadOrgForKey($key);
+        if ($org)
+        {
+           // Got it
+            $this->orgs[$key] = $org;
+            return $org;
+        }
+        
+        // Make one
+        echo $key . "\n";die();
+        
+    }
+    /* =============================================================
+     * Need when adding a new region
+     */
+    protected function processArea($section,$area)
+    {
+        $key = sprintf('AYSOA%02u%s',$section,$area);
+        if (isset($this->orgs[$key])) return $this->orgs[$key];
+        
+        $org = $this->manager->loadOrgForKey($key);
+        if ($org)
+        {
+           // Got it
+            $this->orgs[$key] = $org;
+            return $org;
+        }
+        
+        // Make one
+        echo $key . "\n";
+        
+        $sectionEntity = $this->processSection($section);
+        $desc = sprintf('AYSO Area %02u%s',$section,$area);
+        $org = new Org();
+        $org->setId($key);
+        $org->setParent($sectionEntity);
+        $org->setDesc1($desc);
+        $org->setStatus('Active');
+        
+        $this->manager->persist($org);
+        
+        $this->orgs[$key] = $org;
+        return $org;
+        
+    }
+    /* =============================================================
      * See if have a region
      */
-    protected function processOrg($section,$area,$region)
+    protected function processRegion($section,$area,$region)
     {
         $key = sprintf('AYSOR%04u',$region);
         if (isset($this->orgs[$key])) return $this->orgs[$key];
@@ -51,14 +106,47 @@ class TeamImport extends ExcelBaseImport
         if ($org)
         {
             // Maybe check section and area?
-            
+            $desc = $org->getDesc2();
+            $sectionx = (int)substr($desc,1,2);
+            $areax    =      substr($desc,3,1);
+            if ($section != $sectionx)
+            {
+                echo sprintf("Mismatch section %s %d %s\n",$desc,$section,$area);
+            }
+            if ($area != $areax)
+            {
+                echo sprintf("Mismatch area    %s %d %s\n",$desc,$section,$area);
+            }
             // Got it
             $this->orgs[$key] = $org;
             return $org;
         }
+        $areaEntity = $this->processArea($section,$area);
+        
+        $desc1 = sprintf('AYSO Region %04u',$region);
+        $desc2 = sprintf('A%02u%s-R%04u TBD, %s',$section,$area,$region,$areaEntity->getState());
+
+        echo $desc2 . "\n";
+        
+        $org = new Org();
+        $org->setId($key);
+        $org->setParent($areaEntity);
+        $org->setState ($areaEntity->getState());
+        
+        $org->setDesc1($desc1);
+        $org->setDesc2($desc2);
+        
+        $org->setStatus('Active');
+        
+        $this->manager->persist($org);
+        
+        $this->orgs[$key] = $org;
+        
+        return $org;
+        
         $this->orgs[$key] = true;
         
-        echo sprintf("A%02u%s-R%04u\n",$section,$area,$region);
+      //echo sprintf("A%02u%s-R%04u\n",$section,$area,$region);
         return null;
     }
     /* =============================================================
@@ -71,8 +159,9 @@ class TeamImport extends ExcelBaseImport
         $region  = (int)trim($row[2]);
         $div     =      trim($row[3]);
         $note    =      trim($row[4]);
-        
+       
         if ($note == 'open') return;
+        $org = $this->processRegion($section,$area,$region);
         
         $age    = substr($div,1,3);
         $gender = substr($div,0,1);
@@ -81,9 +170,28 @@ class TeamImport extends ExcelBaseImport
         
         //echo $key . "\n";
        
-        $this->processOrg($section,$area,$region);
+        // Should not have dups
+        if (isset($this->teams[$key]))
+        {
+            echo "Dup Team Key $key \n";
+            return;
+        }
+        // See if exists
+        $team = $this->manager->loadPhyTeamForKey($this->projectId,$key);
+        if ($team)
+        {
+            $this->teams[$key] = $team;
+            return;
+        }
+        // Create
+        $team = $this->newTeam($age . $gender,'physical', $key, $org);
         
-        //$this->processPhyTeam ($phyTeamKey);
+        $this->manager->persist($team);
+        
+        $this->teams[$key] = $team;
+        
+        echo 'Added ' . $key . "\n";
+       
     }
     /* =================================================================
      * One sheet at a time
@@ -137,7 +245,8 @@ class TeamImport extends ExcelBaseImport
         if (isset($params['type'])) $this->teamType = $params['type'];
         else                        $this->teamType = 'regular';
         
-        $this->orgs = array();
+        $this->orgs  = array();
+        $this->teams = array();
         
         $reader = $this->excel->load($inputFileName);
 
