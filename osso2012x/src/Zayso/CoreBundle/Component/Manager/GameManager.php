@@ -113,6 +113,20 @@ class GameManager extends BaseManager
         
         return $qb->getQuery()->getOneOrNullResult(); 
     }
+    public function loadOrgForKey($key)
+    {
+        if (!$key) return null;
+        
+        $qb = $this->newQueryBuilder();
+        
+        $qb->addSelect('org');
+
+        $qb->from('ZaysoCoreBundle:Org','org');
+        
+        $qb->andWhere($qb->expr()->eq('org.id',$qb->expr()->literal($key)));
+        
+        return $qb->getQuery()->getOneOrNullResult(); 
+    }
     public function loadEventForNum($projectId,$num)
     {
         // Build query

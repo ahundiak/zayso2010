@@ -53,8 +53,9 @@ class ImportType extends AbstractType
             'choices' => array
             (
                 0 => 'Auto Detect',
-                'Sendoff2012Schedule' => 'Sendoff2012Schedule',
-                'S5Games2011Schedule' => 'S5Games2011Schedule',
+                'Sendoff2012Schedule'  => 'Sendoff2012Schedule',
+                'S5Games2011Schedule'  => 'S5Games2011Schedule',
+                'NatGames2012PhyTeams' => 'NatGames2012PhyTeams',
             ),
         ));
         
@@ -87,8 +88,9 @@ class ImportFileValidator implements FormValidatorInterface
     );
     protected $importServiceIdTypeMap = array
     (
-        'Sendoff2012Schedule' => 'zayso_area.sendoff.import',
-        'S5Games2011Schedule' => 'zayso_core.game.tourn.import',
+        'Sendoff2012Schedule'  => 'zayso_area.sendoff.import',
+        'S5Games2011Schedule'  => 'zayso_core.game.tourn.import',
+        'NatGames2012PhyTeams' => 'zayso_natgames.team.import',    
     );
     protected function getImportServiceId($tmpFileName, $type = null)
     {
