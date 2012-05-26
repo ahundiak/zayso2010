@@ -88,7 +88,7 @@ class SendoffImport extends ExcelBaseImport
         $schTeamKey  = trim($row[11]);
         $phyTeamKey  = trim($row[12]);
         
-        echo sprintf("%s %s %s\n",$poolTeamKey,$phyTeamKey,$schTeamKey);
+      //echo sprintf("%s %s %s\n",$poolTeamKey,$phyTeamKey,$schTeamKey);
     
         $poolTeam = $this->processPoolTeam($poolTeamKey);
         $phyTeam  = $this->processPhyTeam ($phyTeamKey);
@@ -239,7 +239,7 @@ class SendoffImport extends ExcelBaseImport
         $game->setTime ($time);
         $game->setField($field);
         
-        echo sprintf("Game %02u %s %s %s %s %s\n",$gameNum,$date,$time,$field->getKey(),$homeSchTeamKey,$awaySchTeamKey);
+      //echo sprintf("Game %02u %s %s %s %s %s\n",$gameNum,$date,$time,$field->getKey(),$homeSchTeamKey,$awaySchTeamKey);
         
     }
     protected function processAge($reader,$age)
@@ -276,7 +276,9 @@ class SendoffImport extends ExcelBaseImport
         // Often have a project
         if (isset($params['projectId']) && $params['projectId']) $projectId = $params['projectId'];
         else                                                     $projectId = 79;
-
+        
+        $projectId = 79;
+        
         if ($projectId)
         {
             $this->projectId = $projectId;

@@ -20,6 +20,7 @@ class ImportData implements \ArrayAccess
     public $inputFileName;
     public $clientFileName;
     public $importServiceId;
+    public $type;
     
     public $attachment;
 
@@ -46,6 +47,15 @@ class ImportType extends AbstractType
         
         // Really don't need and would probably be a session variable
         // $builder->add('processed', 'text',  array('label' => 'Processed File', 'attr' => array('size' => 40, 'readonly'=>true)));
+        
+        $builder->add('type', 'choice', array(
+            'label'   => 'Import Type',
+            'choices' => array
+            (
+                0 => 'Auto Detect',
+                'Sendoff2012Schedule' => 'Sendoff2012Schedule',
+            ),
+        ));
         
         $builder->addValidator(new ImportFileValidator());
     }
@@ -74,8 +84,20 @@ class ImportFileValidator implements FormValidatorInterface
             array('Home','Home Team'),
             array('Away','Away Team')),
     );
-    protected function getImportServiceId($tmpFileName)
+    protected $importServiceIdTypeMap = array
+    (
+        'Sendoff2012Schedule' => 'zayso_area.sendoff.import',
+    );
+    protected function getImportServiceId($tmpFileName, $type = null)
     {
+        if ($type)
+        {
+            if (!isset($this->importServiceIdTypeMap[$type]))
+            {
+                return null;
+            }
+            return $this->importServiceIdTypeMap[$type];
+        }
         $fp = fopen($tmpFileName,'r');
         if (!$fp) return null;
 
@@ -116,7 +138,7 @@ class ImportFileValidator implements FormValidatorInterface
         $importData->clientFileName = $clientFileName;
         
         // Match file with import service id
-        $serviceId = $this->getImportServiceId($inputFileName);
+        $serviceId = $this->getImportServiceId($inputFileName,$form['type']->getData());
         if (!$serviceId)
         {
             $form['attachment']->addError(new FormError('Cannot determine type of file to import.'));

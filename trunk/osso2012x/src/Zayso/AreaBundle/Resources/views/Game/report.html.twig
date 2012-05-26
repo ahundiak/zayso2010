@@ -22,7 +22,7 @@
 {% set homeTeam = homeTeamRel.team %}
 {% set awayTeam = awayTeamRel.team %}
 <table border="1">
-    <tr><td>&nbsp;</td>       <td>{{ homeTeamRelEntity.type              }}</td><td>{{ awayTeamRelEntity.type              }}</td></tr>
+    <tr><td>&nbsp;</td>       <td>{{ form_widget(homeTeamRel.type)       }}</td><td>{{ form_widget(awayTeamRel.type)       }}</td></tr>
     <tr><td>&nbsp;</td>       <td>{{ game_team_desc2(homeTeamRelEntity)  }}</td><td>{{ game_team_desc2(awayTeamRelEntity)  }}</td></tr>
     <tr><td>Goals Scored</td> <td>{{ form_widget(homeTeam.goalsScored)   }}</td><td>{{ form_widget(awayTeam.goalsScored)   }}</td></tr>
     <tr><td>Cautions</td>     <td>{{ form_widget(homeTeam.cautions)      }}</td><td>{{ form_widget(awayTeam.cautions)      }}</td></tr>
