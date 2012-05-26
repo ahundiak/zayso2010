@@ -66,7 +66,7 @@ class ImportCommand extends ContainerAwareCommand
          $import = $this->getContainer()->get('zayso_natgames.team.import');
          $params = array
          (
-            'inputFileName'  => '../datax/NatGamesTeams20120506.xls',
+            'inputFileName'  => '../datax/NatGamesTeams20120524.xls',
             'projectId'      => 52,
             'type'           => 'regular',
          );

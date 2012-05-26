@@ -174,7 +174,7 @@ class ImportController extends BaseController
                 $msg = $import->getResultMessage();
                 $request->getSession()->setFlash('importMsg',$msg);
                 
-                return $this->redirect($this->generateUrl('zayso_area_admin_import'));
+                return $this->redirect($this->generateUrl('zayso_core_admin_import'));
                 
                 die($import->getResultMessage());
             }

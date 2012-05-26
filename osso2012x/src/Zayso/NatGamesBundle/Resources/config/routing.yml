@@ -161,3 +161,7 @@ zayso_natgames_admin_person_list:
 zayso_natgames_admin_import:
     pattern:  /admin/import
     defaults: { _controller: ZaysoCoreBundle:Admin\Import:index }
+    
+zayso_core_admin_import:
+    pattern:  /admin/import
+    defaults: { _controller: ZaysoCoreBundle:Admin\Import:index }
