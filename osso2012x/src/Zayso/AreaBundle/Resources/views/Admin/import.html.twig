@@ -13,6 +13,10 @@
   <td>{{ form_widget(form.attachment) }}</td>
 </tr>
 <tr>
+  <td>{{ form_label (form.type) }}</td>
+  <td>{{ form_widget(form.type) }}</td>
+</tr>
+<tr>
   <td><a href="{{ path('zayso_area_admin') }}">Admin</a></td>
   <td align="center"><input type="submit" name="import_submit" value="Import" />
 </tr>
