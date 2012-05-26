@@ -135,6 +135,12 @@ zayso_s5games_admin:
     defaults: { _controller: ZaysoS5GamesBundle:Admin\Admin:index }
     requirements:
         _method:  GET
+        
+zayso_core_admin:
+    pattern:  /admin
+    defaults: { _controller: ZaysoS5GamesBundle:Admin\Admin:index }
+    requirements:
+        _method:  GET
 
 zayso_s5games_admin_account_edit:
     pattern:  /admin/account/edit/{id}
@@ -151,7 +157,11 @@ zayso_s5games_admin_account_list:
 
 zayso_s5games_admin_import:
     pattern:  /admin/import
-    defaults: { _controller: ZaysoS5GamesBundle:Admin\Import:index }
+    defaults: { _controller: ZaysoCoreBundle:Admin\Import:index }
+    
+zayso_core_admin_import:
+    pattern:  /admin/import
+    defaults: { _controller: ZaysoCoreBundle:Admin\Import:index }
     
 zayso_s5games_admin_person_list:
     pattern:  /admin/person/list.{_format}
