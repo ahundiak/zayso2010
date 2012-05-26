@@ -21,8 +21,8 @@ class ImportCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('NatGames:import')
-            ->setDescription('Import Accounts')
+            ->setName('natgames:import')
+            ->setDescription('Import Stuff')
             ->addArgument('file', InputArgument::OPTIONAL, 'Input File Name','../datax/AccountImports20111223.csv')
         ;
     }
@@ -61,13 +61,29 @@ class ImportCommand extends ContainerAwareCommand
         $results = $import->process($params);
         echo "Zayso Import {$results['msg']} \n";
     }
+    protected function importTeams()
+    {
+         $import = $this->getContainer()->get('zayso_natgames.team.import');
+         $params = array
+         (
+            'inputFileName'  => '../datax/NatGamesTeams20120506.xls',
+            'projectId'      => 52,
+            'type'           => 'regular',
+         );
+        $results = $import->process($params);
+        echo "Zayso Import {$results['msg']} \n";
+       
+    }
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $inputFileName = $input->getArgument('file');
+        // $inputFileName = $input->getArgument('file');
 
-        $this->importAccounts($inputFileName);
+        // $this->importAccounts($inputFileName);
 
         // $this->importSchedule2010('../datax/Schedule2010.csv');
+        
+        $this->importTeams();
+        
 
         return;        
     }
