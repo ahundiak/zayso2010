@@ -28,6 +28,8 @@ twig:
     strict_variables: %kernel.debug%
     globals:
         janrain_token_route: %zayso_core.openid.rpxRoute%
+        myBundleName:        %my_bundle_name%
+        myTitlePrefix:       %my_title_prefix%
 
 # Assetic Configuration
 assetic:
