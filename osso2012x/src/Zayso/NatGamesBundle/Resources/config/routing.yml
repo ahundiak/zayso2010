@@ -131,6 +131,12 @@ zayso_natgames_admin:
     defaults: { _controller: ZaysoNatGamesBundle:Admin\Admin:index }
     requirements:
         _method:  GET
+        
+zayso_core_admin:
+    pattern:  /admin
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Admin:index }
+    requirements:
+        _method:  GET
 
 zayso_natgames_admin_account_edit:
     pattern:  /admin/account/edit/{id}
@@ -154,4 +160,4 @@ zayso_natgames_admin_person_list:
 
 zayso_natgames_admin_import:
     pattern:  /admin/import
-    defaults: { _controller: ZaysoNatGamesBundle:Admin\Import:index }
+    defaults: { _controller: ZaysoCoreBundle:Admin\Import:index }
