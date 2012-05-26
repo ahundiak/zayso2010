@@ -8,18 +8,18 @@ use Zayso\CoreBundle\Component\Debug;
 
 class ResultsManager extends ScheduleManager
 {
-    protected function calcPointsEarnedForTeam($game,$gameTeam1Rel,$gameTeam2Rel)
+    protected function calcPointsEarnedForTeam($game,$team1,$team2)
     {
-        $team1 = $gameTeam1Rel->getTeam();
-        $team2 = $gameTeam2Rel->getTeam();
+        ///$team1 = $gameTeam1Rel->getTeam();
+        ///$team2 = $gameTeam2Rel->getTeam();
         
         // Make scores are set
         $team1Goals = $team1->getGoalsScored();
         $team2Goals = $team2->getGoalsScored();
         if (($team1Goals === null) || ($team2Goals === null)) 
         {
-            //$team1->clearReportInfo();
-            //$team2->clearReportInfo();
+            $team1->clearReportInfo();
+            $team2->clearReportInfo();
             return;
         }
         $team1->setGoalsAllowed($team2Goals);
@@ -56,9 +56,15 @@ class ResultsManager extends ScheduleManager
     // Points earned during a game
     public function calcPointsEarned($game)
     {
-        $homeTeam = $game->getHomeTeam();
-        $awayTeam = $game->getAwayTeam();
+        $homeTeam = $game->getHomeTeam()->getTeam();
+        $awayTeam = $game->getAwayTeam()->getTeam();
         
+        if ($game->getReportStatus() == 'Reset')
+        {
+            $homeTeam->clearReportInfo();
+            $awayTeam->clearReportInfo();
+            return;
+        }
         $this->calcPointsEarnedForTeam($game,$homeTeam,$awayTeam);
         $this->calcPointsEarnedForTeam($game,$awayTeam,$homeTeam);
     }
