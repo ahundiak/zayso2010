@@ -253,5 +253,9 @@ class Team extends BaseEntity
     public function addGamesWon($value) { $this->addReportProp('gamesWon',$value); }
     public function getGamesWon(){ return $this->getReportProp('gamesWon'); }
 
+    public function clearReportInfo()
+    {
+        $this->set('report',null);
+    }
 }
 ?>
