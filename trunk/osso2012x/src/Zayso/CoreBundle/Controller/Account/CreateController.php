@@ -75,7 +75,7 @@ class CreateController extends BaseController
                     
                     // Send email
                     $subject = sprintf('[%s] - Created %s %s %s',
-                            $this->getMyBundleName(),
+                            $this->getMyTitlePrefix(),
                             $user->getName(),$user->getRegion(),$user->getAysoid());
                     $this->sendEmail($subject,$subject);
                     
