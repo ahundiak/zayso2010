@@ -101,5 +101,30 @@ class EventTeam extends BaseEntity
         $this->setPointsEarned(null);
         $this->setPointsMinus (null);
     }*/
+    protected $teamReport = null;
+    
+    public function getReport()
+    {
+        if ($this->teamReport) return $this->teamReport;
+        
+        $data = $this->get('report');
+        if (!is_array($data)) $data = array();
+        
+        $this->teamReport = new TeamReport();
+        
+        $this->teamReport->setData($data);
+        
+        return $this->teamReport;
+    }
+    public function saveReport($teamReport = null)
+    {
+        if (!$teamReport) $teamReport = $this->teamReport;
+    
+        if (!$teamReport) return;
+        
+        $data = $teamReport->getData();
+        
+        $this->set('report',$data);
+    }
 }
 ?>
