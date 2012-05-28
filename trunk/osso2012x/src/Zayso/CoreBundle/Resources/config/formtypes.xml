@@ -14,6 +14,13 @@
         </service>
         
         <service
+            id     = "zayso_core.schedule.refassign.formtype"
+            class  = "Zayso\CoreBundle\Component\FormType\Schedule\RefAssignFormType"
+            public = "true">
+            <argument type="service" id="zayso_core.game.entity_manager" />
+        </service>
+        
+        <service
             id     = "zayso_core.results.search.formtype"
             class  = "Zayso\CoreBundle\Component\FormType\Game\ResultsSearchFormType"
             public = "true">
