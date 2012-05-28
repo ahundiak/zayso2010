@@ -56,13 +56,13 @@ class ResultsManager extends ScheduleManager
     // Points earned during a game
     public function calcPointsEarned($game)
     {
-        $homeTeam = $game->getHomeTeam()->getTeam();
-        $awayTeam = $game->getAwayTeam()->getTeam();
+        $homeTeam = $game->getHomeTeam()->getReport();
+        $awayTeam = $game->getAwayTeam()->getReport();
         
         if ($game->getReportStatus() == 'Reset')
         {
-            $homeTeam->clearReportInfo();
-            $awayTeam->clearReportInfo();
+            $homeTeam->clrData();
+            $awayTeam->clrData();
             return;
         }
         $this->calcPointsEarnedForTeam($game,$homeTeam,$awayTeam);
@@ -78,25 +78,26 @@ class ResultsManager extends ScheduleManager
             {
                 if (!$poolFilter || $poolFilter == substr($pool,8,1))
                 {
-                $pools[$pool]['games'][] = $game;
+                    $pools[$pool]['games'][] = $game;
                 
-                $homeGameTeam = $game->getHomeTeam()->getTeam();
-                $awayGameTeam = $game->getAwayTeam()->getTeam();
+                    $homeTeamRelReport = $game->getHomeTeam()->getReport();
+                    $awayTeamRelReport = $game->getAwayTeam()->getReport();
+                    
+                    $homePoolTeam = $game->getHomeTeam()->getTeam();
+                    $awayPoolTeam = $game->getAwayTeam()->getTeam();
 
-                $homePoolTeam = $homeGameTeam->getParent();
-                $awayPoolTeam = $awayGameTeam->getParent();
-                
-                if ($homePoolTeam && $awayPoolTeam)
-                {
+                    $homePoolTeamReport = $homePoolTeam->getReport();
+                    $awayPoolTeamReport = $awayPoolTeam->getReport();
+                    
                     if ($game->isPointsApplied())
                     {
-                        $this->calcPoolTeamPoints($homeGameTeam,$homePoolTeam);
-                        $this->calcPoolTeamPoints($awayGameTeam,$awayPoolTeam);
+                        $this->calcPoolTeamPoints($homePoolTeamReport,$homeTeamRelReport);
+                        $this->calcPoolTeamPoints($awayPoolTeamReport,$awayTeamRelReport);
                     }
                     $pools[$pool]['teams'][$homePoolTeam->getId()] = $homePoolTeam;
                     $pools[$pool]['teams'][$awayPoolTeam->getId()] = $awayPoolTeam;
-                }
-            }}
+                }    
+            }
         }
         ksort($pools);
         
@@ -112,7 +113,8 @@ class ResultsManager extends ScheduleManager
         }
         return $pools;
     }
-    protected function calcPoolTeamPoints($gameTeam,$poolTeam)
+    // Passed in report objects, gameTeam is actually gameTeamRelReport
+    protected function calcPoolTeamPoints($poolTeam,$gameTeam)
     {
         $poolTeam->addPointsEarned($gameTeam->getPointsEarned());   
         $poolTeam->addPointsMinus ($gameTeam->getPointsMinus());
@@ -137,8 +139,11 @@ class ResultsManager extends ScheduleManager
             if ($gameTeam->getGoalsScored() > $gameTeam->getGoalsAllowed()) $poolTeam->addGamesWon(1);
         }
     }
-    protected function compareTeamStandings($team1,$team2)
+    protected function compareTeamStandings($team1x,$team2x)
     {
+        $team1 = $team1x->getReport();
+        $team2 = $team2x->getReport();
+        
         // Points earned
         $pe1 = $team1->getPointsEarned();
         $pe2 = $team2->getPointsEarned();
@@ -166,8 +171,8 @@ class ResultsManager extends ScheduleManager
         if ($ga1 > $ga2) return  1;
         
         // Just the key
-        $key1 = $team1->getKey();
-        $key2 = $team2->getKey();
+        $key1 = $team1x->getKey();
+        $key2 = $team2x->getKey();
         
         if ($key1 < $key2) return -1;
         if ($key1 > $key2) return  1;
