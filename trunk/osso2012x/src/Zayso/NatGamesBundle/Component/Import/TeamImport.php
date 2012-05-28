@@ -126,7 +126,7 @@ class TeamImport extends ExcelBaseImport
         $desc1 = sprintf('AYSO Region %04u',$region);
         $desc2 = sprintf('A%02u%s-R%04u TBD, %s',$section,$area,$region,$areaEntity->getState());
 
-        echo $desc2 . "\n";
+//      echo $desc2 . "\n";
         
         $org = new Org();
         $org->setId($key);
@@ -166,7 +166,7 @@ class TeamImport extends ExcelBaseImport
         $age    = substr($div,1,3);
         $gender = substr($div,0,1);
         
-        $key = sprintf('R%04u-%s%s',$region,$age,$gender);
+        $key = sprintf('R%04u-%s%sR',$region,$age,$gender);
         
         //echo $key . "\n";
        
@@ -185,12 +185,13 @@ class TeamImport extends ExcelBaseImport
         }
         // Create
         $team = $this->newTeam($age . $gender,'physical', $key, $org);
+        $team->setLevel('regular');
         
         $this->manager->persist($team);
         
         $this->teams[$key] = $team;
         
-        echo 'Added ' . $key . "\n";
+//      echo 'Added ' . $key . "\n";
        
     }
     /* =================================================================
