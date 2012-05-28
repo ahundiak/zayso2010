@@ -1,5 +1,5 @@
 <?php
-namespace Zayso\CoreBundle\Component\FormType\Game;
+namespace Zayso\CoreBundle\Component\FormType\Schedule;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
@@ -28,10 +28,10 @@ class GameTeamReportFormType extends AbstractType
         //    'attr' => array('size' => 6),
         //    'read_only' => true,
         //));
-        //$builder->add('teamKey', 'text', array(
-        //    'attr' => array('size' => 30),
-        //    'read_only' => true,
-        //));
+        $builder->add('teamKey', 'text', array(
+            'attr' => array('size' => 30),
+            'read_only' => true,
+        ));
         $builder->add('goalsScored', 'integer', array(
             'attr' => array('size' => 4),
             'required'        => false,
@@ -96,12 +96,12 @@ class GameTeamRelReportFormType extends AbstractType
             'attr' => array('size' => 6),
             'read_only' => true,
         ));
-        $builder->add('report', new GameTeamReportFormType($this->em));
+        $builder->add('team', new GameTeamReportFormType($this->em));
     }
 }
-class GameReportFormType extends AbstractType
+class RefAssignFormType extends AbstractType
 {
-    protected $name = 'gameReport';
+    protected $name = 'gameRefAssign';
     public function getName() { return $this->name; }
 
     public function __construct($em)
@@ -138,28 +138,12 @@ class GameReportFormType extends AbstractType
         $this->addText('time',     'Time',  6);
         $this->addText('pool',     'Pool', 10);
         $this->addText('fieldDesc','Field',12);
-        
+        /*
         $builder->add('status', 'choice', array(
             'label'   => 'Game Status',
             'choices' => $this->gameStatusPickList,
-        ));
-        $builder->add('pointsApplied', 'choice', array(
-            'label'   => 'Points Applied',
-            'choices' => array(0 => 'Apply Points - ???','Yes' => 'Apply Points - Yes', 'Apply Points - No'),
-        ));
-        $builder->add('reportStatus', 'choice', array(
-            'label'   => 'Report Status',
-            'choices' => array
-            (
-                'Pending'     => 'Pending',
-                'Submitted'   => 'Submitted', 
-                'Approved'    => 'Approved',
-                
-                'Predict'     => 'Predict',
-                'NotRequired' => 'Not Required',
-                'Reset'       => 'Reset',
-            ),
-        ));
+        ));*/
+        /*
           
         $builder->add('teams', 'collection', array('type' => new GameTeamRelReportFormType($this->em)));
         
@@ -167,7 +151,7 @@ class GameReportFormType extends AbstractType
             'attr' => array('rows' => 12, 'cols' => 78, 'wrap' => 'hard', 'class' =>'textarea')));
         
         $builder->get('report')->appendClientTransformer(new StripTagsTransformer());
-        
+        */
     }
     protected $gameStatusPickList = array
     (
