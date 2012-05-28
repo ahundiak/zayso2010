@@ -94,6 +94,11 @@ class SendoffImport extends ExcelBaseImport
         $phyTeam  = $this->processPhyTeam ($phyTeamKey);
         
         $poolTeam->setParent($phyTeam);
+        $poolTeam->setOrg($phyTeam->getOrg());
+        
+        // Maybe do pool team description as well?
+        $desc = substr($poolTeamKey,8,2) . ' ' . $phyTeamKey;
+        $poolTeam->setDesc($desc);
         
         $this->teams[$schTeamKey] = $poolTeam;
     }
@@ -135,9 +140,8 @@ class SendoffImport extends ExcelBaseImport
     }
     protected function addTeamToGame($game,$div,$type,$poolTeam,$schTeamKey)
     {
-        $gameTeam = $this->newTeam($div,'game');
-        if ($poolTeam) 
-        {
+        if ($poolTeam) $gameTeam = $poolTeam;
+      /*{
             $gameTeam->setParent($poolTeam);
             
             $poolTeamKey = $poolTeam->getKey();
@@ -150,10 +154,12 @@ class SendoffImport extends ExcelBaseImport
             else $gameTeamDesc = $poolTeamKey;
             
             $gameTeam->setDesc($gameTeamDesc);
-        }
+        } */
         else 
         {
+            $gameTeam = $this->newTeam($div,'playoff');
             $gameTeam->setKey($schTeamKey);
+            $this->manager->persist($gameTeam);
         }
         $gameTeamRel = new GameTeamRel();
         $gameTeamRel->setGame($game);
@@ -161,7 +167,6 @@ class SendoffImport extends ExcelBaseImport
         $gameTeamRel->setTeam($gameTeam);
         
         $this->manager->persist($gameTeamRel);
-        $this->manager->persist($gameTeam);
       
         return $gameTeam;
     }
@@ -300,7 +305,7 @@ class SendoffImport extends ExcelBaseImport
         
         $reader = $this->excel->load($inputFileName);
 
-        $ages = array('U10','U12','U19');
+        $ages = array('U10','U12','U14','U19');
         foreach($ages as $age)
         {
             $this->processAge($reader,$age);

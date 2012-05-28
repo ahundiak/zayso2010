@@ -38,14 +38,7 @@
         {% for game in pool.games %}
         <tr id="ref-sched-{{game.num}}" class="game-status-{{game.status}}">
             <td>
-                {% if game.reportStatus != 'Futurex' %}
-                    <a  href="{{ path('zayso_core_schedule_game_report', { 'id': game.id })}}"
-                        class="game-report-status-{{game.reportStatus}}">
-                        {{ game.getNum() }}
-                    </a>
-                {% else %}
-                   <a href="{{ path('zayso_core_schedule_game_report', { 'id': game.id })}}">{{ game.getNum() }}</a> 
-                {% endif %}
+                <a href="{{ path('zayso_core_schedule_game_report', { 'id': game.id })}}">{{ game.getNum() }}</a>                
             </td>
             <td>{{ game.status         }}</td>
             <td>{{ game.reportStatus   }}</td>
@@ -59,13 +52,13 @@
             {% set homeTeam    = homeTeamRel.team %}
             {% set awayTeam    = awayTeamRel.team %}
             <td>{{ game_team_desc(homeTeamRel) }}</td>
-            <td>{{ homeTeam.goalsScored     }}</td>
-            <td>{{ homeTeam.pointsMinus     }}</td>
-            <td>{{ homeTeam.pointsEarned    }}</td>
+            <td>{{ homeTeamRel.report.goalsScored     }}</td>
+            <td>{{ homeTeamRel.report.pointsMinus     }}</td>
+            <td>{{ homeTeamRel.report.pointsEarned    }}</td>
             <td>&nbsp;</td>
-            <td>{{ awayTeam.pointsEarned    }}</td>
-            <td>{{ awayTeam.pointsMinus     }}</td>
-            <td>{{ awayTeam.goalsScored     }}</td>
+            <td>{{ awayTeamRel.report.pointsEarned    }}</td>
+            <td>{{ awayTeamRel.report.pointsMinus     }}</td>
+            <td>{{ awayTeamRel.report.goalsScored     }}</td>
             <td>{{ game_team_desc(awayTeamRel) }}</td>
                     
         </tr>
@@ -91,21 +84,22 @@
             <td>SP</td>
         </tr>
         {% for team in pool.teams %}
+        {% set report = team.report %}
         <tr>
             <td>{{ team.teamKey }}</td>                  
             <td>{{ team.parentTeamKey   }}</td>                  
-            <td>{{ team.pointsEarned () }} </td>
+            <td>{{ report.pointsEarned () }} </td>
             <td>&nbsp;</td>
-            <td>{{ team.pointsMinus   }} </td>                  
-            <td>{{ team.gamesPlayed   }} </td>                  
-            <td>{{ team.gamesWon      }} </td>                  
-            <td>{{ team.goalsScored   }} </td>                  
-            <td>{{ team.goalsAllowed  }} </td>                  
-            <td>{{ team.cautions      }} </td>                  
-            <td>{{ team.sendoffs      }} </td>                  
-            <td>{{ team.coachTossed   }} </td>                  
-            <td>{{ team.specTossed    }} </td>                  
-            <td>{{ team.sportsmanship }} </td>                  
+            <td>{{ report.pointsMinus   }} </td>                  
+            <td>{{ report.gamesPlayed   }} </td>                  
+            <td>{{ report.gamesWon      }} </td>                  
+            <td>{{ report.goalsScored   }} </td>                  
+            <td>{{ report.goalsAllowed  }} </td>                  
+            <td>{{ report.cautions      }} </td>                  
+            <td>{{ report.sendoffs      }} </td>                  
+            <td>{{ report.coachTossed   }} </td>                  
+            <td>{{ report.specTossed    }} </td>                  
+            <td>{{ report.sportsmanship }} </td>                  
        </tr>
        {% endfor %}       
     </table>
