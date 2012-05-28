@@ -46,7 +46,7 @@ zayso_core_schedule_referee_list2011:
 
 zayso_core_schedule_referee_assign:
     pattern:  /schedule/referee/assign/{id}/{pos}
-    defaults: { _controller: ZaysoS5GamesBundle:Schedule\RefAssign:assign, id: 0, pos: ''}
+    defaults: { _controller: ZaysoCoreBundle:Schedule\RefAssign:assign, id: 0, pos: ''}
     requirements:
         id: \d+
         
