@@ -19,8 +19,8 @@
 {% set awayTeamRelEntity = game.awayTeam %}
 {% set homeTeamRel = form.teams[0] %}
 {% set awayTeamRel = form.teams[1] %}
-{% set homeTeam = homeTeamRel.team %}
-{% set awayTeam = awayTeamRel.team %}
+{% set homeTeam = homeTeamRel.report %}
+{% set awayTeam = awayTeamRel.report %}
 <table border="1">
     <tr><td>&nbsp;</td>       <td>{{ form_widget(homeTeamRel.type)       }}</td><td>{{ form_widget(awayTeamRel.type)       }}</td></tr>
     <tr><td>&nbsp;</td>       <td>{{ game_team_desc2(homeTeamRelEntity)  }}</td><td>{{ game_team_desc2(awayTeamRelEntity)  }}</td></tr>
@@ -48,8 +48,8 @@
     {% endif %}
 </div>
 <div style="display: none;">
-    {{ form_widget(homeTeam.teamKey) }}
-    {{ form_widget(awayTeam.teamKey) }}
+    {# form_widget(homeTeam.teamKey) #}
+    {# form_widget(awayTeam.teamKey) #}
 </div>
 {{ form_rest(form) }} 
 </form>

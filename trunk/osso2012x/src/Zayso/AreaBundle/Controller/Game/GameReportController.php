@@ -77,7 +77,10 @@ class GameReportController extends BaseController
             if (!$this->isAdmin()) return false;
         }
         
-        // And save
+        // And save, sort of fragile, form calls getReport but not setReport???
+        $game->getHomeTeam()->saveReport();
+        $game->getAwayTeam()->saveReport();
+        
         $manager->flush();
         
         return true;
