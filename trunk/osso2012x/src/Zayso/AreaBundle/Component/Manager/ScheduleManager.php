@@ -66,9 +66,18 @@ class ScheduleManager extends BaseManager
 
         if ($ages)    $qbGameId->andWhere($qbGameId->expr()->in('teamGameId.age',   $ages));
         if ($genders) $qbGameId->andWhere($qbGameId->expr()->in('teamGameId.gender',$genders));
-        if ($regions) $qbGameId->andWhere($qbGameId->expr()->in('teamGameId.org',   $regions));
+        
+        if ($regions) 
+        {
+            // $regions[] = NULL;
+            // $qbGameId->andWhere($qbGameId->expr()->in('teamGameId.org',   $regions));
+            
+            $qbGameId->andWhere($qbGameId->expr()->orX(
+                $qbGameId->expr()->in('teamGameId.org',$regions),
+                $qbGameId->expr()->isNull('teamGameId.org')
+            ));
 
-
+        }
         //$gameIds = $qbGameId->getQuery()->getArrayResult();
         //Debug::dump($gameIds);die();
         //return $gameIds;
