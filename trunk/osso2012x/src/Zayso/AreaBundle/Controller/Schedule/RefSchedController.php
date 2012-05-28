@@ -7,6 +7,7 @@ use Zayso\CoreBundle\Component\Format\HTML as FormatHTML;
 use Zayso\CoreBundle\Component\Debug;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 use Zayso\CoreBundle\Entity\Person;
 use Zayso\CoreBundle\Entity\EventPerson;
@@ -31,7 +32,7 @@ class RefSchedController extends BaseController
         $format = $this->get('zayso_core.format.html');
         return new RefSchedSearchViewHelper($format);
     }
-    public function listAction(Request $request)
+    public function listAction(Request $request, $_format)
     {
         $session = $request->getSession();
         
@@ -103,6 +104,8 @@ class RefSchedController extends BaseController
         // Grab the games
         $games = $this->getScheduleManager()->queryGames($refSchedSearchData);
 
+        if ($_format == 'xls') return $this->generateExcel($games);
+        
         // Pass it all on
         $tplData = array();
 
@@ -156,5 +159,71 @@ class RefSchedController extends BaseController
 
         $html = sprintf('%s<br /><input type="checkbox" name="schedSearchData[regions][%s]" value="AYSO%s" %s />',$region,$region,$region,$checked);
         return $html;
+    }
+    /* ========================================================
+     * Hack upon hack
+     */
+    protected function generateExcel($games)
+    {
+        $excel = $this->get('zayso_core.format.excel');
+        
+        // Build the spreadsheet
+        $ss = $excel->newSpreadSheet();
+        $ws = $ss->setActiveSheetIndex(0);
+        $ws->setTitle('Schedule');
+        
+        // The headers
+        $headers = array
+        (
+            'Game#','Date','Time','Field','Pool','Home Team','Away Team'
+        );
+        $row = 1;
+        $col = 0;
+        foreach($headers as $header)
+        {
+            $ws->setCellValueByColumnAndRow($col,$row,$header);
+            $col++;
+        }
+        // The games
+        foreach($games as $game)
+        {
+            $row++;
+            $col = 0;
+            $ws->setCellValueByColumnAndRow($col++,$row,$game->getNum());
+            $ws->setCellValueByColumnAndRow($col++,$row,$game->getDate());
+            $ws->setCellValueByColumnAndRow($col++,$row,$game->getTime());
+            $ws->setCellValueByColumnAndRow($col++,$row,$game->getFieldDesc());
+            $ws->setCellValueByColumnAndRow($col++,$row,$game->getPool());
+            
+            $homeTeam = $game->getHomeTeam()->getTeam();
+            $awayTeam = $game->getAwayTeam()->getTeam();
+            
+            $homeTeamDesc = $homeTeam->getDesc();
+            $awayTeamDesc = $awayTeam->getDesc();
+            
+            if (!$homeTeamDesc) $homeTeamDesc = $homeTeam->getKey();
+            if (!$awayTeamDesc) $awayTeamDesc = $awayTeam->getKey();
+            
+            $ws->setCellValueByColumnAndRow($col++,$row,$homeTeamDesc);
+            $ws->setCellValueByColumnAndRow($col++,$row,$awayTeamDesc);
+        }
+        // Generate Content
+        $ss->setActiveSheetIndex(0);
+        $objWriter = $excel->newWriter($ss); // \PHPExcel_IOFactory::createWriter($ss, 'Excel5');
+
+        ob_start();
+        $objWriter->save('php://output'); // Instead of file name
+        $content = ob_get_clean();
+
+        // Produce response
+        $outFileName = 'AreaSchedule' . date('Ymd') . '.xls';
+        
+        $response = new Response();
+        $response->setContent($content);
+        
+        $response->headers->set('Content-Type', 'application/vnd.ms-excel');
+        $response->headers->set('Content-Disposition', "attachment; filename=\"$outFileName\"");
+        
+        return $response;
     }
 }

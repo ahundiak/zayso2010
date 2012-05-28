@@ -98,12 +98,16 @@ zayso_core_account_openid_add_rpx:
 # =====================================================================
 # Scheduling stuff
 zayso_area_schedule_referee_list:
-    pattern:  /schedule/referee/list
-    defaults: { _controller: ZaysoAreaBundle:Schedule\RefSched:list }
+    pattern:  /schedule/referee/list.{_format}
+    defaults: { _controller: ZaysoAreaBundle:Schedule\RefSched:list, _format: html }
+    requirements:
+        _format:  html|csv|xls
     
 zayso_core_schedule_referee_list:
-    pattern:  /schedule/referee/list
-    defaults: { _controller: ZaysoAreaBundle:Schedule\RefSched:list }
+    pattern:  /schedule/referee/list.{_format}
+    defaults: { _controller: ZaysoAreaBundle:Schedule\RefSched:list, _format: html }
+    requirements:
+        _format:  html|csv|xls
 
 zayso_area_schedule_referee_assign:
     pattern:  /schedule/referee/assign/{id}/{pos}
