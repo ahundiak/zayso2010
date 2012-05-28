@@ -6,7 +6,7 @@
 <div>
     <p></p>
 <div>
-<form method="post" action="{{ path('zayso_area_schedule_referee_list') }}">
+<form method="post" action="{{ path('zayso_core_schedule_referee_list') }}">
 <table border="1" class="form_table" width="800" id="schedule-referee-search">
     <tr><th colspan="1">Search Referee Schedule</th></tr>
     <tr><td>
@@ -15,6 +15,9 @@
         <td>From:</td>
         <td>{{ searchView.genDate('refSchedSearchData[date1x]',refSchedSearchData.date1) | raw }}</td>
         <td>{{ searchView.genHour('refSchedSearchData[time1x]',refSchedSearchData.time1) | raw }}</td>
+        <td>
+            <a href="{{ path('zayso_core_schedule_referee_list', { '_format': 'xls' }) }}">Excel</a>
+        </td>
     </tr><tr>
         <td>To:</td>
         <td>{{ searchView.genDate('refSchedSearchData[date2x]',refSchedSearchData.date2) | raw }}</td>
@@ -57,7 +60,7 @@
         <tr id="ref-sched-{{game.num}}" class="game-status-{{game.status}}">
             <td>
                 <a href="{{ path('zayso_area_schedule_game_edit', { 'id': game.id })}}">{{ game.getNum() }}</a>
-                {% if game.reportStatus != 'Futurex' %}
+                {% if game.reportStatus == 'Fake' %}
                     <br />
                     <a  href="{{ path('zayso_area_schedule_game_report', { 'id': game.id })}}"
                         class="game-report-status-{{game.reportStatus}}">

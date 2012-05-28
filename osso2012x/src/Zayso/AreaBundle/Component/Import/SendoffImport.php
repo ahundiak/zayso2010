@@ -158,7 +158,8 @@ class SendoffImport extends ExcelBaseImport
         else 
         {
             $gameTeam = $this->newTeam($div,'playoff');
-            $gameTeam->setKey($schTeamKey);
+            $gameTeam->setKey ($schTeamKey);
+            $gameTeam->setDesc($schTeamKey);
             $this->manager->persist($gameTeam);
         }
         $gameTeamRel = new GameTeamRel();
@@ -203,7 +204,7 @@ class SendoffImport extends ExcelBaseImport
         if ($homePoolTeam) $pool = substr($homePoolTeam->getKey(),0,9);
         else
         {
-            $pool = substr($homeSchTeamKey,0,7);
+            $pool = trim(substr($homeSchTeamKey,0,8));
             $type = substr($pool,5,2);
             switch($type)
             {
