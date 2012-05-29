@@ -165,3 +165,12 @@ zayso_natgames_admin_import:
 zayso_core_admin_import:
     pattern:  /admin/import
     defaults: { _controller: ZaysoCoreBundle:Admin\Import:index }
+
+# ============================================
+zayso_core_legacy_account_create:
+    pattern:  /account/create
+    defaults: { _controller: ZaysoCoreBundle:Account\Create:create }
+
+zayso_core_legacy_account_password_reset:
+    pattern:  /account/resetx/{reset}
+    defaults: { _controller: ZaysoCoreBundle:Account\Signin:passwordReset, reset: 0}
