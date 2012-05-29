@@ -183,6 +183,6 @@ zayso_core_legacy_contact:
     pattern:  /contact
     defaults: { _controller: ZaysoS5GamesBundle:Welcome:welcome }
     
-zayso_core_legacy_schedule-stats:
+zayso_core_legacy_schedule_stats:
     pattern:  /schedule-stats
     defaults: { _controller: ZaysoS5GamesBundle:Welcome:welcome }
