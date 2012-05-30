@@ -17,6 +17,20 @@ class DeleteCommand extends ContainerAwareCommand
             ->setDescription('Delete Schedule')
         ;
     }
+    protected function showGames()
+    {
+        $sql = <<<EOT
+SELECT game.id,game.pool,game_team_rel.type,team.type,team.key1,team.desc1,phyTeam.desc1 
+FROM   event as game
+LEFT JOIN event_team as game_team_rel on game_team_rel.event_id = game.id
+LEFT JOIN team as team on team.id = game_team_rel.team_id 
+LEFT JOIN team as phyTeam on phyTeam.id = team.parent_id 
+
+WHERE game.project_id = 61
+ORDER BY  game.pool; 
+EOT;
+        
+    }
     protected function deleteSchedule($projectId)
     {
         $em = $this->getContainer()->get('zayso_core.game.entity_manager');
@@ -48,6 +62,9 @@ class DeleteCommand extends ContainerAwareCommand
         $query->setParameter('type','game');
         $count = $query->getResult();
         
+        $query->setParameter('type','playoff');
+        $count = $query->getResult();
+        
         $query->setParameter('type','pool');
         $count = $query->getResult();
         
@@ -58,7 +75,7 @@ class DeleteCommand extends ContainerAwareCommand
     }
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->deleteSchedule(79);
+        $this->deleteSchedule(61);
     }
 }
 ?>

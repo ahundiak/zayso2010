@@ -14,6 +14,7 @@ use Zayso\CoreBundle\Entity\ProjectField as Field;
 class TournImport extends ExcelBaseImport
 {
     protected $manager = null;
+    protected $teams = array();
     
     public function __construct($manager)
     {
@@ -55,6 +56,8 @@ class TournImport extends ExcelBaseImport
         if (!$key) return null;
         if (substr($key,5,2) != 'PP') return null;
         
+        if (isset($this->teams[$key])) return $this->teams[$key];
+        
         $manager = $this->manager;
         
         $team = $manager->loadPoolTeamForKey($this->projectId,$key);
@@ -65,15 +68,20 @@ class TournImport extends ExcelBaseImport
         $div    = trim($parts[0]);
         
         $team = $this->newTeam($div,'pool',$key);
+        $team->setDesc($key);
         
         $manager->persist($team);
         
+        $this->teams[$key] = $team;
+ 
         return $team;
     }
     public function processPhyTeam($key)
     {
         if (!$key) return null;
         $manager = $this->manager;
+        
+        if (isset($this->teams[$key])) return $this->teams[$key];
         
         $team = $manager->loadPhyTeamForKey($this->projectId,$key);
         
@@ -87,28 +95,33 @@ class TournImport extends ExcelBaseImport
         $org = $manager->getRegionReference('AYSO' . $region);
         
         $team = $this->newTeam($div,'physical',$key,$org);
+        $team->setDesc($key);
         
         $manager->persist($team);
+        
+        $this->teams[$key] = $team;
         
         return $team;
     }
     protected function addTeamToGame($game,$div,$type,$poolTeam,$schTeamKey)
     {
-        $gameTeam = $this->newTeam($div,'game');
         if ($poolTeam) 
         {
-            $gameTeam->setParent($poolTeam);
-            $gameTeam->setDesc  ($poolTeam->getKey());
+            $gameTeam = $poolTeam;
         }
-        else $gameTeam->setKey($schTeamKey);
-        
+        else 
+        {
+            $gameTeam = $this->newTeam($div,'playoff');
+            $gameTeam->setKey ($schTeamKey);
+            $gameTeam->setDesc($schTeamKey);
+            $this->manager->persist($gameTeam);
+        }
        $gameTeamRel = new GameTeamRel();
        $gameTeamRel->setGame($game);
        $gameTeamRel->setType($type);
        $gameTeamRel->setTeam($gameTeam);
         
        $this->manager->persist($gameTeamRel);
-       $this->manager->persist($gameTeam);
       
        return $gameTeam;
     }
@@ -145,8 +158,8 @@ class TournImport extends ExcelBaseImport
             $game->setNum ($num);
             $game->setPool($item->pool);
 
-            $homeTeam = $this->addTeamToGame($game,$div,'Home',$homePoolTeam,$item->homeSchTeam);
-            $awayTeam = $this->addTeamToGame($game,$div,'Away',$awayPoolTeam,$item->awaySchTeam);
+            $this->addTeamToGame($game,$div,'Home',$homePoolTeam,$item->homeSchTeam);
+            $this->addTeamToGame($game,$div,'Away',$awayPoolTeam,$item->awaySchTeam);
    
             $this->addReferee($game,GameReferee::TypeCR);
             $this->addReferee($game,GameReferee::TypeAR1);
@@ -190,14 +203,14 @@ class TournImport extends ExcelBaseImport
         $homePoolTeam = $this->processPoolTeam($item->homeSchTeam);
         $awayPoolTeam = $this->processPoolTeam($item->awaySchTeam);
         
-        if ($homePoolTeam) $homePoolTeam->setParent($homePhyTeam);
-        if ($awayPoolTeam) $awayPoolTeam->setParent($awayPhyTeam);
+        $this->setPhyTeamForPoolTeam($homePoolTeam,$homePhyTeam);
+        $this->setPhyTeamForPoolTeam($awayPoolTeam,$awayPhyTeam);
         
         $field = $this->processField($item->field);
         
         $item->time = str_replace(':','',$item->time);
         
-        $game = $this->processGame($item,$field,$homePoolTeam,$awayPoolTeam);
+        $this->processGame($item,$field,$homePoolTeam,$awayPoolTeam);
         
         $manager->flush();
         return;
@@ -205,6 +218,26 @@ class TournImport extends ExcelBaseImport
         Debug::dump($item);
         die('Item processed' . "\n");
     }
-    
+    protected function setPhyTeamForPoolTeam($poolTeam,$phyTeam)
+    {
+        if (!$poolTeam || !$phyTeam) return;
+        
+        $poolTeam->setParent($phyTeam);
+        $poolTeam->setOrg   ($phyTeam->getOrg());
+        
+        $phyTeamKey  = $phyTeam->getKey();  // R0894-U14G Coach
+        $poolTeamKey = $poolTeam->getKey(); // U14G PP A1
+        
+        $parts = explode(' ',$poolTeamKey);
+        if (!isset ($parts[2])) return;
+        $num = trim($parts[2]);
+        
+        $coach  = substr($phyTeamKey,11);
+        $region = substr($phyTeamKey,0,5);
+        
+        $desc = sprintf('%s %s %s',$num,$region,$coach);
+        
+        $poolTeam->setDesc($desc);
+    }
 }
 ?>
