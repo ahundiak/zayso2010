@@ -72,11 +72,11 @@ zayso_core_schedule:
 # Account stuff
 zayso_core_account_create:
     pattern:  /account/public/create
-    defaults: { _controller: ZaysoS5GamesBundle:Account\Create:create }
+    defaults: { _controller: ZaysoCoreBundle:Account\Create:create }
 
 zayso_core_account_edit:
     pattern:  /account/edit/{id}
-    defaults: { _controller: ZaysoS5GamesBundle:Account\Edit:edit, id: 0}
+    defaults: { _controller: ZaysoCoreBundle:Account\Edit:edit, id: 0}
     requirements:
         id: \d+
 
@@ -90,7 +90,7 @@ zayso_core_account_signin:
     
 zayso_core_account_signin_rpx:
     pattern:  /account/public/signin/rpx
-    defaults: { _controller: ZaysoS5GamesBundle:Account\Signin:signinRpx }
+    defaults: { _controller: ZaysoCoreBundle:Account\Signin:signinRpx }
     
 zayso_core_account_password_reset:
     pattern:  /account/public/password/reset/{reset}
@@ -98,19 +98,19 @@ zayso_core_account_password_reset:
 
 zayso_core_account_openid_add:
     pattern:  /account/openid/add
-    defaults: { _controller: ZaysoS5GamesBundle:Account\Openid:add }
+    defaults: { _controller: ZaysoCoreBundle:Account\Openid:add }
 
 zayso_core_account_openid_add_rpx:
     pattern:  /account/openid/add/rpx
-    defaults: { _controller: ZaysoS5GamesBundle:Account\Openid:addRpx }
+    defaults: { _controller: ZaysoCoreBundle:Account\Openid:addRpx }
 
 zayso_core_account_person_add:
     pattern:  /account/person/add
-    defaults: { _controller: ZaysoS5GamesBundle:Account\Person:add }
+    defaults: { _controller: ZaysoCoreBundle:Account\Person:add }
     
 zayso_core_account_person_edit:
     pattern:  /account/person/edit/{id}
-    defaults: { _controller: ZaysoS5GamesBundle:Account\Person:edit, id: 0 }
+    defaults: { _controller: ZaysoCoreBundle:Account\Person:edit, id: 0 }
     requirements:
         id: \d+
 
