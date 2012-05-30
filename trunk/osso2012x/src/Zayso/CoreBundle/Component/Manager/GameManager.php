@@ -151,5 +151,31 @@ class GameManager extends BaseManager
         return $qb->getQuery()->getOneOrNullResult();
 
     }
+    /* ========================================================================
+     * Returns a list of all the referees associated with a given account
+     * and (eventually) project
+     * Started from Area
+     */
+    public function loadOfficialsForAccount($projectId,$accountId)
+    {
+        // Build query
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->addSelect('person');
+        $qb->addSelect('personRegistered');
+        $qb->addSelect('projectPerson');
+
+        $qb->from('ZaysoCoreBundle:Person',       'person');
+        $qb->leftJoin('person.accountPersons',    'accountPerson');
+        $qb->leftJoin('person.registeredPersons', 'personRegistered'); // Limit to ayso
+        $qb->leftJoin('person.projectPersons',    'projectPerson');
+
+        $qb->andWhere($qb->expr()->eq('accountPerson.account',$qb->expr()->literal($accountId)));
+
+        $items = $qb->getQuery()->getResult();
+        
+        return $items;
+    }
 }
 ?>

@@ -1,0 +1,40 @@
+{% form_theme form myBundleName ~ ':Layout:fields.html.twig' %}
+
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
+
+{% block title %}{{ myTitlePrefix }} Assign {% endblock %}
+
+{% block content %}
+<form method="post" action="{{ path('zayso_core_schedule_referee_assign', { 'id': game.id }) }}" {{ form_enctype(form) }}>
+<table border="2" class="form_table" width="600">
+<input type="hidden" name="gameId" value="{{ game.id }}" />
+    <tr><th colspan="2">Referee Assigment</th></tr>
+    <tr>
+        <td style="width: 150px;">Game Number</td><td>{{ game.num }}</td>
+    </tr><tr>
+        <td>Date</td><td>{{ game_date(game.date) }}</td>
+    </tr><tr>
+        <td>Time</td><td>{{ game_time(game.time) }}</td>
+    </tr><tr>
+        <td>Field</td><td>{{ game.fieldDesc }}</td>
+    </tr><tr>
+        <td>Home Team</td><td>{{ game.homeTeam.team.desc }}</td>
+    </tr><tr>
+        <td>Away Team</td><td>{{ game.awayTeam.team.desc }}</td>
+    </tr>
+    <tr><td colspan="2"></td></tr>
+    {% for person in form.persons %}
+        {{ form_widget(person.type) }}
+        <tr>
+            <td>{{ form_widget(person.typeDesc) }}</td>
+            <td>{{ form_widget(person.personId) }}</td>
+        </tr>
+    {% endfor %}
+    <tr>
+        <td><a href="{{ path('zayso_core_schedule_referee_list') }}#ref-sched-{{game.num}}">Referee Schedule</a></td>
+        <td><input type="submit" name="refAssignSubmit" value="Sign Up" /></td>
+    </tr>
+</table>
+{{ form_rest(form) }}        
+</form>
+{% endblock %}
