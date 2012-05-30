@@ -26,8 +26,8 @@
             <td>{{ game.fieldDesc      }}</td>
             <td>{{ game.pool           }}</td>
             <td>
-                {% for team in game.teams %}
-                    {{ game_team_desc(team) }}<br />
+                {% for teamRel in game.teams %}
+                    {{ teamRel.team.desc }}<br />
                 {% endfor %}
             </td>
             <td><table class="game-officials-list">
