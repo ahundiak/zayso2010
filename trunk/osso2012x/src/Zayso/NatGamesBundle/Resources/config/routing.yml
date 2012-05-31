@@ -178,3 +178,15 @@ zayso_core_legacy_account_password_reset:
 zayso_core_legacy_schedule:
     pattern:  /schedule
     defaults: { _controller: ZaysoNatGamesBundle:Schedule:index }
+    
+zayso_core_legacy_project_plans:
+    pattern:  /home/project/plans/{id}
+    defaults: { _controller: ZaysoNatGamesBundle:Project:plans, id: 0 }
+    requirements:
+        id: \d+
+        
+zayso_core_legacy_project_levels:
+    pattern:  /home/person/project/levels/{id}
+    defaults: { _controller: ZaysoNatGamesBundle:Project:levels, id: 0 }
+    requirements:
+        id: \d+
