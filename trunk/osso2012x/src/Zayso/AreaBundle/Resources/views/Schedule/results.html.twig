@@ -3,16 +3,33 @@
 {% block title %}{{ myTitlePrefix }} Results{% endblock %}
 
 {% block content %}
-<div style="padding: 5px; margin: 5px; border: 5px solid black; width: 300px;">
-<form action="{{ path('zayso_core_schedule_results') }}" method="get" {{ form_enctype(searchForm) }}>
-    {{ form_widget(searchForm.div)  }}
-    {{ form_widget(searchForm.pool) }}
-    <input type="submit" name="submit_search" value="Search"  />
-    {{ form_rest(searchForm) }} 
-</form>
-</div>        
+{% set ages = [ 'U10','U12','U14','U16','U19'  ] %}
+{% set genders = { 'B' : 'Boys', 'G' : 'Girls' } %}
+{% if cache %}
+    {% set resultsRoute = 'zayso_core_schedule_results_cached' %}
+{% else %}
+    {% set resultsRoute = 'zayso_core_schedule_results' %}
+{% endif %}
+<table border="1">
+    <tr><td>&nbsp;</td>
+    {% for age in ages %}
+        <td align="center">{{ age }}</td>
+    {% endfor %}
+    </tr>
+    {% for gender,genderDesc in genders %}
+    <tr><td>{{ genderDesc }}</td>
+        {% for age in ages %}
+        <td>
+            {% for px,py in { 'All' : '', 'A' : 'A', 'B' : 'B', 'C' : 'C', 'D' : 'D' } %}
+                <a href="{{ path(resultsRoute, { 'div': age ~ gender, 'pool' : py}) }}">{{ px }}</a>
+            {% endfor %}
+        </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
 <div>
-    <h3>Sendoff Results</h3>
+    <h3>Sendoff Results {{ dtg }} </h3>
     {% for poolKey, pool in pools %}
     <table border = "1">
         <tr><th colspan="16">Game Pool Results - {{ poolKey }}</th></tr>
@@ -38,7 +55,11 @@
         {% for game in pool.games %}
         <tr id="ref-sched-{{game.num}}" class="game-status-{{game.status}}">
             <td>
-                <a href="{{ path('zayso_core_schedule_game_report', { 'id': game.id })}}">{{ game.getNum() }}</a>                
+                {% if cache %}
+                    {{ game.getNum() }}
+                {% else %}
+                    <a href="{{ path('zayso_core_schedule_game_report', { 'id': game.id })}}">{{ game.getNum() }}</a>
+                {% endif %}   
             </td>
             <td>{{ game.status         }}</td>
             <td>{{ game.reportStatus   }}</td>
