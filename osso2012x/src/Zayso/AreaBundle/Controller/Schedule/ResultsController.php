@@ -9,35 +9,23 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ResultsController extends BaseController
 {
-    public function resultsAction(Request $request, $div, $pool)
-    {           
-        $data = array('div' => $div, 'pool' => $pool);
-        
-        $formType = $this->get('zayso_core.results.search.formtype');
-        $form = $this->createForm($formType, $data);
-
-        //if ($request->getMethod() == 'POST') // Form no longer posts, probably check to see if request has data
-        {
-            $form->bindRequest($request);
-
-            if ($form->isValid()) // Fails if division was not selected
-            {   
-                $data = $form->getData();
-                
-                $request->getSession()->set('resultsSearchData',$data);
-                
-                return $this->redirect($this->generateUrl('zayso_core_schedule_results',$form->getData()));
-            }
-            else $form->setData($data);
-        }
+    public function resultsAction(Request $request, $div, $pool, $cache)
+    {   
         if (!$div)
         {
             $data = $request->getSession()->get('resultsSearchData');
             if (is_array($data) && isset($data['div']) && $data['div'])
             {
-                return $this->redirect($this->generateUrl('zayso_core_schedule_results',$data));
+                // A redirect seems to be the cleanest
+                if (!$cache) return $this->redirect($this->generateUrl('zayso_core_schedule_results',$data));
+                else         return $this->redirect($this->generateUrl('zayso_core_schedule_results_cached',$data));
+                
+                // Works but url doesn't update
+                $div = $data['div'];
+                if (isset($data['pool'])) $pool = $data['pool'];
             }
         }
+        else $request->getSession()->set('resultsSearchData',array('div' => $div, 'pool' => $pool));
         
         $manager = $this->get('zayso_core.game.schedule.results.manager');
         if (strlen($div) == 4)
@@ -59,11 +47,19 @@ class ResultsController extends BaseController
         $pools = $manager->getPools($games,$pool);
         
         $tplData = array();
-        $tplData['pools']      = $pools;
-        $tplData['searchForm'] = $form->createView();
+        $tplData['dtg']   = date('Y-m-d H:i:s',time());
+        $tplData['pools'] = $pools;
+        $tplData['cache'] = $cache;
         
-        return $this->renderx('Schedule:results.html.twig',$tplData);
+      //$tplData['searchForm'] = $form->createView();
         
+        $response = $this->renderx('Schedule:results.html.twig',$tplData);
+        if (!$cache) return $response;
+        
+        $response->setPublic();
+        $response->setSharedMaxAge(120);
+        return $response;
+
     }
 }
 ?>
