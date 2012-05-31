@@ -133,9 +133,13 @@ zayso_core_schedule_game_report:
     requirements:
         id: \d+
         
+zayso_core_schedule_results_cached:
+    pattern:  /schedule/public/results/cached/{div}/{pool}
+    defaults: { _controller: ZaysoAreaBundle:Schedule\Results:results, div: 0, pool: 0, cache: 1 }
+    
 zayso_core_schedule_results:
     pattern:  /schedule/public/results/{div}/{pool}
-    defaults: { _controller: ZaysoAreaBundle:Schedule\Results:results, div: 0, pool: 0 }
+    defaults: { _controller: ZaysoAreaBundle:Schedule\Results:results, div: 0, pool: 0, cache: 0 }
        
 # ================================================
 # Admin stuff
