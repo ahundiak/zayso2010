@@ -109,7 +109,6 @@ class Team extends BaseEntity
     public function getAge    () { return $this->age;     }
     public function getOrg    () { return $this->org;     }
     public function getType   () { return $this->type;    }
-    public function getDesc   () { return $this->desc1;   }
     public function getDesc1  () { return $this->desc1;   }
     public function getDesc2  () { return $this->desc2;   }
     public function getLevel  () { return $this->level;   }
@@ -158,6 +157,12 @@ class Team extends BaseEntity
     
     public function setEaysoTeamDesig($key) { $this->onScalerPropertySet('key4',$key); }
     public function getEaysoTeamDesig()     { return $this->key4; }
+    
+    public function getDesc() 
+    { 
+        if ($this->desc1) return $this->desc1;   
+        return $this->key1;
+    }
     
     public function setTeamName($name) { $this->set('teamName',$name); }
     public function getTeamName()      { return $this->get('teamName'); }
