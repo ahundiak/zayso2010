@@ -43,7 +43,7 @@ class ScheduleTeamFormType extends AbstractType
         $qb->addOrderBy('team.key1');
          
         $builder->add('team', 'entity', array(
-            'property' => 'teamKey',
+            'property' => 'desc',
             'class'    => 'ZaysoCoreBundle:Team',
             'em'       => $this->emName,
             'query_builder' => $qb,
