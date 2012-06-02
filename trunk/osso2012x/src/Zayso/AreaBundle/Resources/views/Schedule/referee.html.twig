@@ -45,6 +45,7 @@
 </table>
 </form>
 </div>
+<div style="color: red"><p>Games marked in red are canceled.</p></div>
 <div>
 <table class="schedule-referee-list" id="schedule-referee-list">
     <tr><th colspan="6">Referee Schedule - Game Count {{ gameCount }}</th></tr>
@@ -60,6 +61,7 @@
         <tr id="ref-sched-{{game.num}}" class="game-status-{{game.status}}">
             <td>
                 <a href="{{ path('zayso_area_schedule_game_edit', { 'id': game.id })}}">{{ game.getNum() }}</a>
+                <br />{{ game.status }}
                 {% if game.reportStatus == 'Fake' %}
                     <br />
                     <a  href="{{ path('zayso_area_schedule_game_report', { 'id': game.id })}}"
