@@ -18,8 +18,8 @@ class ResultsManager extends ScheduleManager
         $team2Goals = $team2->getGoalsScored();
         if (($team1Goals === null) || ($team2Goals === null)) 
         {
-            $team1->clearReportInfo();
-            $team2->clearReportInfo();
+            $team1->clrData();
+            $team2->clrData();
             return;
         }
         $team1->setGoalsAllowed($team2Goals);
