@@ -3,6 +3,10 @@ zayso_core_index:
     pattern:  /
     defaults: { _controller: ZaysoS5GamesBundle:Welcome:welcome }
     
+zayso_core_index_php:
+    pattern:  /index.php
+    defaults: { _controller: ZaysoS5GamesBundle:Welcome:welcome }
+    
 zayso_core_welcome:
     pattern:  /welcome
     defaults: { _controller: ZaysoS5GamesBundle:Welcome:welcome }
