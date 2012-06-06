@@ -18,15 +18,13 @@ class ListController extends BaseController
         $tplData = array();
         $tplData['persons'] = $persons;
         
-        return $this->render('ZaysoS5GamesBundle:Admin:Person/list.html.twig',$tplData);
+        if ($_format == 'html') return $this->render('ZaysoS5GamesBundle:Admin:Person/list.html.twig',$tplData);
         
-        print_r($persons[1]);
-        die('Count ' . count($persons));
+        $tplData['excel'] = $this->get('zayso_core.format.excel');
         
-        $outFileName = 'NatGamesPeople' . date('Ymd') . '.xls';
+        $response = $this->render('ZaysoS5GamesBundle:Admin:Person/list.excel.php',$tplData);
         
-        $response = new Response();
-        $response->setContent($export->generate());
+        $outFileName = 'S5GamesPeople' . date('Ymd') . '.xls';
         
         $response->headers->set('Content-Type', 'application/vnd.ms-excel');
         $response->headers->set('Content-Disposition', "attachment; filename=\"$outFileName\"");
