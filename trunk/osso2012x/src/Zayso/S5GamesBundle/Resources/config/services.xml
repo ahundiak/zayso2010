@@ -13,6 +13,13 @@
             <argument type="service" id="doctrine.orm.accounts_entity_manager" />
         </service>
         
+        <service 
+            id     = "zayso_s5games.person.manager" 
+            class  = "Zayso\S5GamesBundle\Manager\PersonManager" 
+            public = "true">
+            <argument type="service" id="doctrine.orm.accounts_entity_manager" />
+        </service>
+        
         <service
             id     = "zayso_s5games.account.create.formtype"
             class  = "Zayso\S5GamesBundle\Component\FormType\Account\AccountCreateFormType"

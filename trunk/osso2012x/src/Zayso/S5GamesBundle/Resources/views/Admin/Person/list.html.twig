@@ -1,0 +1,41 @@
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
+
+{% block title %}{{ myTitlePrefix }} Person List {% endblock %}
+
+{% block content %}
+<div>
+<table class="project-person-list" border="1">
+    <tr>
+        <th>Person Information</th>
+        <th>AYSO Information</th>
+        <th>S5Games Plans</th>
+    </tr>
+    {% for person in persons %}
+    <tr>
+        <td><table>
+            <tr><td>Person ID:</td> <td>{{person.id       }}</td></tr>
+            <tr><td>Last Name:</td> <td>{{person.lastName }}</td></tr>
+            <tr><td>First Name:</td><td>{{person.firstName}}</td></tr>
+            <tr><td>Nick Name:</td> <td>{{person.nickName }}</td></tr>
+            <tr><td>Cell Phone:</td><td>{{person.cellPhone}}</td></tr>
+            <tr><td>Email:</td>     <td>{{person.email    }}</td></tr>
+        </table></td>
+        <td><table>
+            <tr><td>AYSO ID:</td>   <td>{{person.aysoid}}   </td></tr>
+            <tr><td>Vol Year:</td>  <td>{{person.memYear}}  </td></tr>
+            <tr><td>Safe Haven:</td><td>{{person.safeHaven}}</td></tr>
+            <tr><td>Ref Badge:</td> <td>{{person.refBadge}} </td></tr>
+            <tr><td>Region:</td>    <td>{{person.regionDesc}} </td></tr>
+        </table></td>
+        <td><table>
+                <tr><td>Will Attend: </td><td>{{ person.willAttend  }}</td></tr>
+                <tr><td>Will Referee:</td><td>{{ person.willReferee }}</td></tr>
+                <tr><td>Will Assess: </td><td>{{ person.willAssess  }}</td></tr>
+                <tr><td>Want Assess: </td><td>{{ person.wantAssess  }}</td></tr>
+                <tr><td>Have Player: </td><td>{{ person.havePlayer  }}</td></tr>
+      </table></td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+{% endblock content %}
