@@ -41,6 +41,13 @@
             <argument type="service" id="zayso_core.format.excel" />
         </service>
         
+        <service
+            id     = "zayso_s5games.schedule.import"
+            class  = "Zayso\S5GamesBundle\Import\ScheduleImport"
+            public = "true">
+            <argument type="service" id="zayso_core.game.manager" />
+        </service>
+        
 
     </services>
 </container>

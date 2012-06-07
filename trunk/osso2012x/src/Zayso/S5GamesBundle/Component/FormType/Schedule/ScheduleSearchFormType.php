@@ -32,7 +32,7 @@ class ScheduleSearchFormType extends AbstractType
             'label'         => 'Days of Week',
             'required'      => true,
                                // Fri = Label, FRI keys/value
-            'choices'       => array('ALL' => 'All', '20110617' => 'Fri', '20110618' => 'Sat', '20110619' => 'Sun'),
+            'choices'       => array('ALL' => 'All', '20120615' => 'Fri', '20120616' => 'Sat', '20120617' => 'Sun'),
             'expanded'      => true,
             'multiple'      => true,
             'attr' => array('class' => 'zayso-checkbox-all'),

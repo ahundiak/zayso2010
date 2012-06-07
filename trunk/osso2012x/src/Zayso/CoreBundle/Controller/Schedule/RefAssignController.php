@@ -18,7 +18,8 @@ class RefAssignController extends BaseController
         $manager = $this->get('zayso_core.game.manager');
         
         // Grab the game
-        $game = $manager->loadEventForId($id);
+        $gameId = $id;
+        $game = $manager->loadEventForId($gameId);
         if (!$game)
         {
             return  $this->redirect($this->generateUrl('zayso_core_schedule_referee_list'));
@@ -45,18 +46,21 @@ class RefAssignController extends BaseController
             $person = $gamePerson->getPerson();
             if ($person) $personId = $person->getId();
             else         $personId = 0;
+            if ($person) $personName = $person->getPersonName();
+            else         $personName = null;
             $personData = array(
-                'type'     => $gamePerson->getType(),
-                'typeDesc' => $gamePerson->getTypeDesc(),
-                'personId' => $personId,
+                'type'       => $gamePerson->getType(),
+                'typeDesc'   => $gamePerson->getTypeDesc(),
+                'personId'   => $personId,
+                'personName' => $personName,
             );
             $formData['persons'][] = $personData;
         }
         // The form stuff
         $formType = $this->get('zaysocore.schedule.refassign.formtype');
-        $formType->setOfficials($officialsPickList);
-        
+        $formType->setOfficials($officials);
         $form = $this->createForm($formType, $formData);
+        
         if ($request->getMethod() == 'POST')
         {
             $form->bindRequest($request);
@@ -64,7 +68,12 @@ class RefAssignController extends BaseController
             if ($form->isValid())
             {   
                 $formData = $form->getData();
-                print_r($formData); die('Posted');
+                $this->assignOfficials($game,$formData);
+                
+                // Should redirect
+                return $this->redirect($this->generateUrl('zayso_core_schedule_referee_assign',array('id' => $gameId)));
+
+                // print_r($formData); die('Posted');
             }
         }
         // And do it
@@ -72,68 +81,52 @@ class RefAssignController extends BaseController
         $tplData['game'] = $game;
         $tplData['form'] = $form->createView();
         return $this->render('ZaysoCoreBundle:Schedule:assign.html.twig',$tplData);
+    }
+    /* =====================================================
+     * This is going to get ugly
+     */
+    protected function assignOfficial($game,$personData)
+    {
+        $type     = $personData['type'];
+        $personId = $personData['personId'];
         
-        // Only the primary account holder can use this or administrator?
-        $accountPersonId = $this->getUser()->getAccountPersonId();
-        
-        $accountPerson = $manager->loadAccountPerson($accountPersonId);
-        if (!$accountPerson)
+        $gamePersonRel = $game->getPersonForType($type);
+        if (!$gamePersonRel)
         {
-           return $this->redirect($this->generateUrl('zayso_core_home'));            
+            // Adding new person not yet supported
+            return;
         }
-        $account = $accountPerson->getAccount();
-        
-        $formType = $this->get('zaysocore.account.edit.formtype');
-        
-        $form = $this->createForm($formType, $account);
-        
-        if ($request->getMethod() == 'POST')
+        $person = $gamePersonRel->getPerson();
+        if ($person)
         {
-            $form->bindRequest($request);
-
-            if ($form->isValid())
-            {    
-                $userName = $account->getUserName();
-                $userPass = $account->getUserPass();
-                
-                $manager->refresh($account);
-                
-                $userNameCurrent = $account->getUserName();
-                $userPassCurrent = $account->getUserPass();
-                
-                $needFlush = false;
-                
-                if ($userName != $userNameCurrent)
-                {
-                    $account->setUserName($userName);
-                    $needFlush = true;
-                }
-                if ($userPass && $userPass != $userPassCurrent)
-                {
-                    $account->setUserPass($userPass);
-                    $needFlush = true;
-                }
-                if ($needFlush) 
-                {
-                   $manager->flush();  
-                   
-                    // Security check   
-                    $subject = sprintf('[%s][Account] Edit %s TO %s FOR %s',
-                        $this->getMyTitlePrefix(),
-                        $userNameCurrent,
-                        $userName,
-                        $accountPerson->getPersonName());
-                    
-                    $this->sendEmail($subject,$subject);               
-                }
-                return $this->redirect($this->generateUrl('zayso_core_home'));
-            }
+            // No change
+            if ($person->getId() == $personId) return;
+            
+            
         }
-        $tplData = array();
-        $tplData['form'] = $form->createView();
-        $tplData['accountPerson'] = $accountPerson;
-        
-        return $this->renderx('Account:edit.html.twig',$tplData);
+        else
+        {
+            // No current person assigned, was there an id
+            $personId = (int)$personId;
+            if (!$personId) return;
+            
+            // Assign them
+            $manager = $this->get('zayso_core.game.manager');
+            $person = $manager->getPersonReference($personId);
+            $gamePersonRel->setPerson($person);
+            $manager->flush();
+            
+            return;
+        }
+    }
+    protected function assignOfficials($game,$data)
+    {
+        $gamePersonRels = $game->getEventPersonsSorted();
+        $persons = $data['persons'];
+        foreach($persons as $person)
+        {
+            $this->assignOfficial($game,$person);
+        }
         
     }
 }

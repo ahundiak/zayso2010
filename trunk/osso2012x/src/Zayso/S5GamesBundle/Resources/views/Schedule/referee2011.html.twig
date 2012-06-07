@@ -1,13 +1,13 @@
 {% extends myBundleName ~ ':Layout:layout.html.twig' %}
 
-{% block title %}{{ myTitlePrefix }} Schedule {% endblock %}
+{% block title %}{{ myTitlePrefix }} Schedule{% endblock %}
 
 {% block content %}
 {% include myBundleName ~ ':Schedule:search.html.twig' %}
 <div>
-    <h3>Game Schedule 2012</h3>
+    <h3>Game Schedule 2011</h3>
     <table border = "1">
-        <tr><th colspan="7">Referee Schedule 2012 - Game Count {{ gameCount }}</th></tr>
+        <tr><th colspan="7">Referee Schedule 2011 - Game Count {{ gameCount }}</th></tr>
         <tr><td colspan="7">PP=Pool Play, SF=Semi-Final, CM=Consolation Match, FM=Final Match</td></tr>
         <tr>
             <td>Game</td>
@@ -20,11 +20,7 @@
         {% for game in games %}
         <tr id="ref-sched-{{game.num}}" class="game-status-{{game.status}}">
             <td>
-                {% if 0 %}
                 <a href="{{ path('zayso_core_schedule_game_edit', { 'id': game.id })}}">{{ game.getNum() }}</a>
-                {% else %}
-                {{ game.num }}
-                {% endif %}
             </td>
             <td>{{ game_dow(game.date) }} {{ game_time(game.time) }}</td>
             <td>{{ game.fieldDesc      }}</td>
