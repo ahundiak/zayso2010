@@ -34,7 +34,7 @@ zayso_core_home:
 #
 zayso_core_schedule_referee_list:
     pattern:  /schedule/referee/list
-    defaults: { _controller: ZaysoS5GamesBundle:Welcome:schedule }
+    defaults: { _controller: ZaysoS5GamesBundle:Schedule\RefSched:list }
     
 zayso_core_schedule_results:
     pattern:  /schedule/public/results/{div}/{pool}

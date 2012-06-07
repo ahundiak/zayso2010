@@ -62,7 +62,22 @@ class GameManager extends BaseManager
         return $qb->getQuery()->getOneOrNullResult();
         
     }
-    public function loadSchTeamForKey($projectId,$key)
+    public function loadPhyTeamForKey2($projectId,$key)
+    {
+        if (!$key) return null;
+        
+        $qb = $this->newQueryBuilder();
+        $qb->addSelect('team');
+
+        $qb->from('ZaysoCoreBundle:Team','team');
+
+        $qb->andWhere($qb->expr()->eq('team.project',$qb->expr()->literal($projectId)));
+        $qb->andWhere($qb->expr()->eq('team.key2',   $qb->expr()->literal($key)));
+        $qb->andWhere($qb->expr()->eq('team.type',   $qb->expr()->literal('physical')));
+        
+        return $qb->getQuery()->getOneOrNullResult();
+   }
+   public function loadSchTeamForKey($projectId,$key)
     {
         if (!$key) return null;
         
