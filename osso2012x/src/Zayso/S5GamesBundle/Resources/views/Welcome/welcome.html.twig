@@ -24,6 +24,11 @@
         Start by clicking on one of the social network icons above.  
         You will them be asked for your AYSO id as well as some basic contact info.
     </p>
+    <p>
+        If you really really want to create a new account without using a social network
+        (perhaps you are behind a very restrictive firewall) then click
+        <a href="{{ path('zayso_core_account_create') }}">here</a>.
+    </p>
     <h2>Sign In to Existing Account</h2>
     {% include 'ZaysoCoreBundle:Account/Signin:form.html.twig' %}
     <h2>Social Network (above) Now Required!</h2>
