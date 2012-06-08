@@ -1,6 +1,7 @@
 update team set key1 = 'R0160-U10B Meehan' where id = 924;
 update team set key2 = 'U10B Meehan-160'   where id = 924;
-update team set key1 = 'U10B Womick-1588'  where id = 931;
+
+update team set key1 = 'R1588-U10B Womick' where id = 931;
 update team set key2 = 'U10B Womick-1588'  where id = 931;
 
 update team set key1   = 'R0132-U10G Rasmussen'  where id = 942;
