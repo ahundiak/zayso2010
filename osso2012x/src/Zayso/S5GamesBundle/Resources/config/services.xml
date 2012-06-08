@@ -32,6 +32,12 @@
             class  = "Zayso\S5GamesBundle\Component\FormType\Schedule\ScheduleSearchFormType"
             public = "true">
         </service>
+        
+        <service
+            id     = "zayso_s5games.admin.schedule.list.formtype"
+            class  = "Zayso\S5GamesBundle\Component\FormType\Admin\Schedule\ScheduleListFormType"
+            public = "true">
+        </service>
        
         <service
             id     = "zayso_s5games.game2011.export"

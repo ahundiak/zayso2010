@@ -1,0 +1,30 @@
+{% if listForm is defined  %}
+{% set form = listForm     %}
+<div class="schedule-list">
+<form action="{{ path('zayso_core_admin_schedule_referee_list') }}" method="post" {{ form_enctype(form) }}>
+<table border="1">
+{% for game in form.games %}
+{% set gamex = game.vars.value %}
+<tr>  
+    <td>
+        {{ gamex.num }}-{{gamex.id}}<br />
+        {{ form_widget(game.status) }}
+    </td>
+    <td>{{ game_dow(gamex.date)   }} {{ game_time(gamex.time) }}</td>
+    <td>{{ gamex.fieldDesc        }}</td>
+    <td>{{ form_widget(game.pool) }}</td>
+    <td>
+        {% for teamRel in gamex.teams %}
+            {{ teamRel.team.desc }}<br />
+        {% endfor %}
+    </td>
+</tr>
+{% endfor %}
+<tr><td colspan="20" align="right">
+    <input type="submit" name="schListSubmit" value="Process" />
+</td></tr>
+</table>
+{{ form_rest  (form) }}
+</form>        
+</div>
+{% endif %}
