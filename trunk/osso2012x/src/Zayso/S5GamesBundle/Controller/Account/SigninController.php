@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
-class SigninController extends BaseController
+class SigninControllerOld extends BaseController
 {
     public function signoutAction(Request $request)
     {   
@@ -26,6 +26,7 @@ class SigninController extends BaseController
     }
     public function signinRpxAction(Request $request)
     {
+        die('S5Games RPX');
         // Load the profile
         $profile = $this->get('zayso_core.openid.rpx')->getProfile();
         $identifier = $profile['identifier'];
