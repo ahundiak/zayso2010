@@ -10,6 +10,7 @@ use Zayso\CoreBundle\Component\Debug;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 
 class SigninController extends BaseController
 {
