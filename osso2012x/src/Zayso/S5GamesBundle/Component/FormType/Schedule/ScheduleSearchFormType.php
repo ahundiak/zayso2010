@@ -71,7 +71,14 @@ class ScheduleSearchFormType extends AbstractType
             'expanded'      => false,
             'multiple'      => false,
         ));
-
+        $builder->add('coach','text',array(
+            'label'     => 'Coach:',
+            'required'  => false,
+        ));
+        $builder->add('official','text',array(
+            'label'     => 'Referee:',
+            'required'  => false,
+        ));
     }
     protected $times = array(
         '0600' => '06 AM', '0700' => '07 AM', '0800' => '08 AM', '0900' => '09 AM',
