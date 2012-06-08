@@ -2,7 +2,8 @@
 {% set form = searchForm     %}
 <div class="schedule-search">
 <form action="{{ path('zayso_core_schedule_referee_list') }}" method="post" {{ form_enctype(form) }}>
-<table border="1"><tr>  
+<table border="1">
+<tr>  
         
     <td><table border="1"><tr>
     {% for item in form.dows %}
@@ -24,9 +25,14 @@
     {% for item in form.genders %}
         <td align="center">{{ form_label(item) }}<br />{{ form_widget(item) }}</td>
     {% endfor %}
-    <tr></table></td>
-    
+    <tr></table></td>    
 </tr>
+<tr>
+    <td colspan="2">{{ form_row(form.coach) }}</td>
+    <td colspan="1">{{ form_row(form.official) }}</td>
+    <td>&nbsp;</td>
+</tr>
+
 <tr><td colspan="5" align="right">
     <input type="submit" name="schSearchSubmit" value="Search" />
 </td></tr>

@@ -33,6 +33,10 @@ zayso_core_home:
 # Mixture of public and user
 #
 zayso_core_schedule_referee_list:
+    pattern:  /schedule/public/referee/list
+    defaults: { _controller: ZaysoS5GamesBundle:Schedule\RefSched:list }
+    
+zayso_core_schedule_referee_list_old:
     pattern:  /schedule/referee/list
     defaults: { _controller: ZaysoS5GamesBundle:Schedule\RefSched:list }
     
@@ -190,3 +194,7 @@ zayso_core_legacy_contact:
 zayso_core_legacy_schedule_stats:
     pattern:  /schedule-stats
     defaults: { _controller: ZaysoS5GamesBundle:Welcome:welcome }
+    
+zayso_core_legacy_schedule:
+    pattern:  /schedule
+    defaults: { _controller: ZaysoS5GamesBundle:Schedule\RefSched:list }
