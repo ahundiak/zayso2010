@@ -35,8 +35,10 @@ security:
 
     # If signed in as user, then get access denied exception
     access_control:
-        - { path: ^/admin/import,   roles: ROLE_SUPER_ADMIN }
-        - { path: ^/admin,          roles: ROLE_ADMIN }     
-        - { path: ^/home,           roles: ROLE_USER }
-        - { path: ^/account/public, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/account,        roles: ROLE_USER }
+        - { path: ^/admin/import,    roles: ROLE_SUPER_ADMIN }
+        - { path: ^/admin,           roles: ROLE_ADMIN }     
+        - { path: ^/home,            roles: ROLE_USER }
+        - { path: ^/account/public,  roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/account,         roles: ROLE_USER }
+        - { path: ^/schedule/public, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/schedule,        roles: ROLE_USER }
