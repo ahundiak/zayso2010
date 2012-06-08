@@ -180,6 +180,24 @@ class EventPerson extends BaseEntity
         if (!$this->person) return 0;
         return $this->person->getId();
     }
+    protected $personIdx = null;
+    
+    public function setPersonId($personId)
+    {
+        $this->personIdx = $personId;
+    }
+    public function getPersonIdx() { return $this->personIdx; }
+    
+    // Real hack here, want to perserve state for form processing
+    protected $statex = null;
+    
+    public function setStatex($state) { $this->statex = $state; }
+    public function getStatex()       
+    { 
+        if ($this->statex) return $this->statex;
+        return $this->state;
+    }
+    
     public function setProtected($value) { $this->protected = $value; }
     public function getProtected() { return $this->protected; }
     public function isProtected () { return $this->protected ? true : false; }

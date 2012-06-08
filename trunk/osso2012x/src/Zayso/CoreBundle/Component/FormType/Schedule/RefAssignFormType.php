@@ -33,23 +33,36 @@ class RefAssignPersonSubscriber implements EventSubscriberInterface
 
     public function preSetData(DataEvent $event)
     {
-        $data = $event->getData();
-        $form = $event->getForm();
+        $eventPerson = $event->getData();
+        $form        = $event->getForm();
 
         // During form creation setData() is called with null as an argument
         // by the FormBuilder constructor. We're only concerned with when
         // setData is called with an actual Entity object in it (whether new,
         // or fetched with Doctrine). This if statement let's us skip right
         // over the null condition.
-        if (null === $data) {
-            return;
-        }
-        $personId = $data['personId'];
+        if (!$eventPerson) return;
         
+        $person   = $eventPerson->getPersonz();
+        $personId = $person->getId();
+        
+        $statePickList = array
+        (
+            'RequestAssignment'   => 'Request Assignment',
+            'RequestRemoval'      => 'Request Removal',
+            'AssignmentRequested' => 'Assignment Requested',
+            'AssignmentApproved'  => 'Assignment Approved',
+        );
         $officialsPickList = array();
-        if ($personId) $officialsPickList[0] = 'Remove';
-        else           $officialsPickList[0] = 'Unassigned';
+        //if ($personId) $officialsPickList[0] = 'Remove';
+        //else           $officialsPickList[0] = 'Unassigned';
         
+        if ($personId) $emptyValue = null;
+        else 
+        {
+            $emptyValue = 'Select Your Name';
+            $statePickList = array('RequestAssignment' => 'Request Assignment');
+        }
         $matched = false;
         foreach($this->officials as $official)
         {
@@ -59,20 +72,45 @@ class RefAssignPersonSubscriber implements EventSubscriberInterface
         if ($personId && !$matched)
         {
             // Someone not in officials is currently assigned
-            $officialsPickList = array($personId => $data['personName']);
+            $officialsPickList = array($personId => $person->getPersonName());
+            $emptyValue = false;
+            $state = $eventPerson->getState();
+            $stateDesc = $statePickList[$state];
+            $statePickList = array($state => $stateDesc);
+        }
+        if ($personId && $matched)
+        {
+            $officialsPickList = array($personId => $person->getPersonName());
+            $emptyValue = false;
+            
+            $statePickList = array
+            (
+                'RequestRemoval'      => 'Request Removal',
+                'AssignmentRequested' => 'Assignment Requested',
+                'AssignmentApproved'  => 'Assignment Approved',
+            );
         }
         $form->add($this->factory->createNamed('choice','personId', null, array(
             'label'         => 'Person',
             'required'      => false,
-            'empty_value'   => false,
+            'empty_value'   => $emptyValue,
+            'empty_data'    => false,
             'choices'       => $officialsPickList,
         )));
-        return;
         
-        // check if the product object is "new"
-        if (!$data->getId()) {
-            $form->add($this->factory->createNamed('text', 'name'));
-        }
+        // Mess with state
+        $state = $eventPerson->getState();
+        if (!$state) $state = 'RequestAssignment';
+        $form->add($this->factory->createNamed('choice','statex', null, array(
+            'label'         => 'State',
+            'required'      => false,
+            'empty_value'   => false,
+            'empty_data'    => false,
+            'choices'       => $statePickList,
+        )));
+        
+        // Done
+        return;
     }
 }
 
@@ -139,8 +177,7 @@ class RefAssignFormType extends AbstractType
     }
     public function buildForm(FormBuilder $builder, array $options)
     {     
-        $builder->add('persons', 'collection', array('type' => new RefAssignPersonFormType($this->officials)));
-        
+        $builder->add('eventPersonsSorted', 'collection', array('type' => new RefAssignPersonFormType($this->officials)));
     }
 }
 ?>
