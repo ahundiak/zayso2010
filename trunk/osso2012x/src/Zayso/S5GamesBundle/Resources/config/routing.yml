@@ -184,6 +184,10 @@ zayso_s5games_admin_game2011_list:
     requirements:
         _method:  GET
         _format:  html|csv|xls
+        
+zayso_core_admin_schedule_referee_list:
+    pattern:  /admin/schedule/referee/list
+    defaults: { _controller: ZaysoS5GamesBundle:Admin\Schedule\RefSched:list }
 
 # =================================================================
 # These seem to keep popping up
