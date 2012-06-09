@@ -11,8 +11,8 @@
   <p><a href="{{ path('zayso_s5games_admin_person_list',  { '_format': 'xls' })  }}">List of People(Excel)</a></p>
   
 {% if is_granted('ROLE_SUPER_ADMIN') %}  
+  <p><a href="{{ path('zayso_core_schedule_iapp_list', { '_format': 'csv' }) }}">Iapp Listing</a></p>
   <p><a href="{{ path('zayso_s5games_admin_import') }}">Import AYSO Information</a></p>
-  <p><a href="{{ path('zayso_s5games_admin_game2011_list', { '_format': 'xls' }) }}">Export 2011 Schedule</a></p>
 {% endif %}
   
 </div>
