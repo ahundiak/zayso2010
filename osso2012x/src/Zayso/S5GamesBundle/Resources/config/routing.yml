@@ -42,7 +42,17 @@ zayso_core_schedule_referee_list_old:
     
 zayso_core_schedule_results:
     pattern:  /schedule/public/results/{div}/{pool}
-    defaults: { _controller: ZaysoS5GamesBundle:Schedule\Results:results2011, div: 0, pool: 0 }
+    defaults: { _controller: ZaysoS5GamesBundle:Schedule\Results:results, div: 0, pool: 0}
+    
+zayso_core_admin_schedule_results:
+    pattern:  /admin/schedule/results/{div}/{pool}
+    defaults: { _controller: ZaysoS5GamesBundle:Admin\Schedule\Results:results, div: 0, pool: 0}
+    
+zayso_core_admin_schedule_game_report:
+    pattern:  /admin/schedule/game/report/{id}
+    defaults: { _controller: ZaysoS5GamesBundle:Admin\Schedule\GameReport:report}
+    requirements:
+        id: \d+
     
 zayso_core_schedule_results2011:
     pattern:  /schedule/results2011/{div}/{pool}
