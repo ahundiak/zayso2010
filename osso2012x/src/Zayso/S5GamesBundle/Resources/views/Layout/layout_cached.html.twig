@@ -1,4 +1,5 @@
 <!doctype html>
+{% set cached = true %}
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -49,10 +50,7 @@
     </p>
     <p style="margin-top: 2px; color: black; width: 800px;">
       <span style="color: blue;">Zayso User: </span>
-      <span style="color: black; font-size: 14px;">
-        {% if     is_granted('ROLE_USER') %}{{ app.user.name }} {{ app.user.getAYSOCertsDescription }}{% endif %}
-        {% if not is_granted('ROLE_USER') %}Guest{% endif %}          
-      </span>
+      <span style="color: black; font-size: 14px;">Cached Page {{ cache_dtg() }}</span>
     </p>
   </div>
 </div>
@@ -60,40 +58,15 @@
 <div id="layout-top-menu">
   <ul style="float:left ">
     <li><a href="{{ path('zayso_core_welcome') }}">Welcome</a></li>
-    
-{% if is_granted('ROLE_USER') %}
-    <li><a href="{{ path('zayso_core_home') }}">Home</a></li>
-{% endif %}
-    
-    
     <li><a href="{{ path('zayso_core_textalerts')            }}">Text Alerts</a></li>
     <li><a href="{{ path('zayso_core_schedule_referee_list') }}">Game Schedule</a></li>
     <li><a href="{{ path('zayso_core_schedule_results')      }}">Results</a></li>
   </ul>
         
-  <ul style="float: right">
-
-{% if is_granted('ROLE_ADMIN') %}
-    <li><a href="{{ path('zayso_core_admin_schedule_results')      }}">Admin Results</a></li>
-    <li><a href="{{ path('zayso_s5games_admin') }}">Admin</a></li>
-{% endif %}
-    
-{% if is_granted('ROLE_SUPER_ADMIN') %}
-    <li><a href="{{ path('zayso_core_admin_schedule_referee_list') }}">Admin Schedule</a></li>
-{% endif %}
-    
-   <li><a href="{{ path('zayso_core_contact') }}">Contact Us</a></li>
-   
-{% if is_granted('ROLE_USER') %}
-   <li><a href="{{ path('zayso_core_account_signout') }}">Sign Out</a></li>
-{% endif %}
-   
-{% if not is_granted('ROLE_USER') %}
-   <li><a href="{{ path('zayso_core_welcome') }}">Sign In</a></li>
-{% endif %}          
-
-  </ul>
-  <div class="inner-block"></div>
+    <ul style="float: right">
+        <li><a href="{{ path('zayso_core_contact') }}">Contact Us</a></li>
+    </ul>
+    <div class="inner-block"></div>
 </div>
 
 <div id="layout-contentccc">
