@@ -68,37 +68,62 @@ class ResultsManager extends ScheduleManager
         $this->calcPointsEarnedForTeam($game,$homeTeam,$awayTeam);
         $this->calcPointsEarnedForTeam($game,$awayTeam,$homeTeam);
     }
+    protected $pools;
+    protected $gameTeams;
+    
+    protected function processPoolGame($game,$pool,$poolFilter)
+    {
+        if ($poolFilter && $poolFilter != substr($pool,8,1)) return;
+
+        $this->pools[$pool]['games'][$game->getId()] = $game;
+                
+        $homeTeamRelReport = $game->getHomeTeam()->getReport();
+        $awayTeamRelReport = $game->getAwayTeam()->getReport();
+                    
+        $homePoolTeam = $game->getHomeTeam()->getTeam();
+        $awayPoolTeam = $game->getAwayTeam()->getTeam();
+
+        $homePoolTeamReport = $homePoolTeam->getReport();
+        $awayPoolTeamReport = $awayPoolTeam->getReport();
+                    
+        if ($game->isPointsApplied())
+        {
+            $this->calcPoolTeamPoints($game,$homePoolTeam,$homePoolTeamReport,$homeTeamRelReport);
+            $this->calcPoolTeamPoints($game,$awayPoolTeam,$awayPoolTeamReport,$awayTeamRelReport);
+        }
+        if ($pool == substr($homePoolTeam->getKey(),0,strlen($pool)))
+        {
+            $this->pools[$pool]['teams'][$homePoolTeam->getId()] = $homePoolTeam;
+        }
+         if ($pool == substr($awayPoolTeam->getKey(),0,strlen($pool)))
+         {
+            $this->pools[$pool]['teams'][$awayPoolTeam->getId()] = $awayPoolTeam;
+         }
+    }
     public function getPools($games, $poolFilter = null)
     {
-        $pools = array();
+        $this->pools = array();
+        $this->gameTeams = array();
+        
         foreach($games as $game)
         {
-            $pool = $game->getPool();
             if ($game->isPoolPlay())
             {
-                if (!$poolFilter || $poolFilter == substr($pool,8,1))
+                $pool = $game->getPool();
+                if (strlen($pool) == 9) $this->processPoolGame($game,$pool,$poolFilter);
+                else
                 {
-                    $pools[$pool]['games'][] = $game;
-                
-                    $homeTeamRelReport = $game->getHomeTeam()->getReport();
-                    $awayTeamRelReport = $game->getAwayTeam()->getReport();
+                    $pool1 = substr($pool,0,9);
+                    $this->processPoolGame($game,$pool1,$poolFilter);
                     
-                    $homePoolTeam = $game->getHomeTeam()->getTeam();
-                    $awayPoolTeam = $game->getAwayTeam()->getTeam();
-
-                    $homePoolTeamReport = $homePoolTeam->getReport();
-                    $awayPoolTeamReport = $awayPoolTeam->getReport();
+                    $pool2 = substr($pool,0,8) . substr($pool,9,1);
+                    $this->processPoolGame($game,$pool2,$poolFilter);
                     
-                    if ($game->isPointsApplied())
-                    {
-                        $this->calcPoolTeamPoints($homePoolTeamReport,$homeTeamRelReport);
-                        $this->calcPoolTeamPoints($awayPoolTeamReport,$awayTeamRelReport);
-                    }
-                    $pools[$pool]['teams'][$homePoolTeam->getId()] = $homePoolTeam;
-                    $pools[$pool]['teams'][$awayPoolTeam->getId()] = $awayPoolTeam;
-                }    
+                    //echo $game->getNum() . ' ' . $pool1 . ' ' . $pool2 . "<br \>";
+                }                
             }
-        }
+        } // die();
+        $pools = $this->pools;
         ksort($pools);
         
         // Sort the teams by standing within each pool
@@ -114,8 +139,12 @@ class ResultsManager extends ScheduleManager
         return $pools;
     }
     // Passed in report objects, gameTeam is actually gameTeamRelReport
-    protected function calcPoolTeamPoints($poolTeam,$gameTeam)
+    protected function calcPoolTeamPoints($game,$team,$poolTeam,$gameTeam)
     {
+        // Avoid processing the same team twice for cross bracket play
+        if (isset($this->gameTeams[$game->getId()][$team->getId()])) return;
+        $this->gameTeams[$game->getId()][$team->getId()] = true;
+        
         $poolTeam->addPointsEarned($gameTeam->getPointsEarned());   
         $poolTeam->addPointsMinus ($gameTeam->getPointsMinus());
         
