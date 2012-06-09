@@ -75,6 +75,13 @@ zayso_core_schedule:
     defaults: { _controller: ZaysoS5GamesBundle:Schedule:index }
     requirements:
         _method:  GET
+        
+zayso_core_schedule_iapp_list:
+    pattern:  /schedule/public/iapp/list.{_format}
+    defaults: { _controller: ZaysoS5GamesBundle:Schedule\Iapp:list, _format: html }
+    requirements:
+        _method:  GET
+        _format:  html|csv|xls
 
 # ===============================================================
 # Account stuff
