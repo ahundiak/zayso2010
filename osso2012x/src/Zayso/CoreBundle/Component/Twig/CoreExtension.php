@@ -23,13 +23,20 @@ class CoreExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
+            'cache_dtg'       => new \Twig_Function_Method($this, 'cacheDTG'),
+            
             'game_dow'        => new \Twig_Function_Method($this, 'gameDOW'),
             'game_date'       => new \Twig_Function_Method($this, 'gameDate'),
             'game_time'       => new \Twig_Function_Method($this, 'gameTime'),
             'game_teams'      => new \Twig_Function_Method($this, 'gameTeams'),
             'game_team_desc'  => new \Twig_Function_Method($this, 'gameTeamDesc'),
             'game_team_desc2' => new \Twig_Function_Method($this, 'gameTeamDesc2'),
+            'game_team_desc3' => new \Twig_Function_Method($this, 'gameTeamDesc3'),
         );
+    }
+    public function cacheDTG()
+    {
+        return date('Y-m-d H:i:s',time());
     }
     public function gameDOW($date)
     {
@@ -126,6 +133,51 @@ class CoreExtension extends \Twig_Extension
     {
         $gameTeam = $gameTeamRel->getTeam();
         $game     = $gameTeamRel->getGame();
+        
+        $pool = trim($game->getPool());
+        $poolLen = strlen($pool);
+        if ($game->isPoolPlay()) $poolLen--;
+        
+        if (!$gameTeam)
+        {
+            // Really should not be possible
+            return $gameTeam->getType() . ' ' . 'No Game Team';
+        }
+        // This should be the norm for pool teams and eventually for all
+        $gameTeamDesc = $gameTeam->getDesc1();
+        if ($gameTeamDesc) return $gameTeamDesc;
+        
+        // This is the norm for the rest
+        $gameTeamKey = $gameTeam->getKey();
+        if ($gameTeamKey) return $gameTeamKey;
+        
+        // Should just return
+        // 
+        // Should mean it is pool play
+        $poolTeam = $gameTeam->getParentForType('pool');
+        if (!$poolTeam) return 'No Pool Found';
+        $poolTeamKey = $poolTeam->getKey();
+        
+        // See if phyTeam has been assigned to pool team
+        $phyTeam = $poolTeam->getParentForType('physical');
+        if (!$phyTeam) return $poolTeamKey;
+        $phyTeamKey = $phyTeam->getKey();
+        
+        return substr($poolTeamKey,8,2) . ' ' . $phyTeamKey;
+    }
+    /* ==========================================================
+     * Try 3, for pool play games drop division from description
+     */
+    public function gameTeamDesc3($gameTeamRel)
+    {
+        $gameTeam = $gameTeamRel->getTeam();
+        $game     = $gameTeamRel->getGame();
+        
+        $desc = $gameTeam->getDesc();
+        
+        if (!$game->isPoolPlay()) return $desc;
+        
+        return substr($desc,0,8) . substr($desc,13);
         
         $pool = trim($game->getPool());
         $poolLen = strlen($pool);
