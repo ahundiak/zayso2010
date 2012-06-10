@@ -55,7 +55,8 @@ Swift::registerAutoload($ws.'Symfony/vendor/swiftmailer/lib/swift_init.php');
 ini_set('include_path','.' .
 
     // Needed for Zend because it uses includes
-    PATH_SEPARATOR . $ws . 'ZendFramework-1.11.11/library'
+    PATH_SEPARATOR . $ws . 'ZendFramework-1.11.11/library' .
+    PATH_SEPARATOR . $ws
 );
 
 unset($ws);
