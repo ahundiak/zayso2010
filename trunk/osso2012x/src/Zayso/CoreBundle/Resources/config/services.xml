@@ -122,6 +122,12 @@
             class="Zayso\CoreBundle\Component\Format\Excel" 
             public="true">
         </service>
+        
+        <service 
+            id="zayso_core.format.tcpdf" 
+            class="Zayso\CoreBundle\Component\Format\TCPDFService" 
+            public="true">
+        </service>
          
         <service 
             id="zayso_core.twig.core.extension" 
