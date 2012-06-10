@@ -57,6 +57,12 @@
     <li><a href="{{ path('zayso_core_textalerts')}}">Text Alerts</a></li>
     <li><a href="{{ path('zayso_core_schedule')}}">Game Schedule</a></li>
     <li><a href="{{ path('zayso_core_classes') }}">Referee Classes</a></li>
+        
+{% if is_granted('ROLE_USER') %}
+    <li>
+        <a href="https://utconferences.outreach.utk.edu/ei/getdemo.ei?id=262&s=_0N4104D7F" target="_blank">Laurel Hall Reservations</a>
+    </li>
+{% endif %}
   </ul>
         
   <ul style="float: right">
