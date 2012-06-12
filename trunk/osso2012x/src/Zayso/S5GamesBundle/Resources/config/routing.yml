@@ -31,10 +31,12 @@ zayso_core_home:
 # ===============================================================
 # Schedule Stuff
 # Mixture of public and user
-#
+#   
 zayso_core_schedule_referee_list:
-    pattern:  /schedule/public/referee/list
-    defaults: { _controller: ZaysoS5GamesBundle:Schedule\RefSched:list }
+    pattern:  /schedule/public/referee/list.{_format}
+    defaults: { _controller: ZaysoS5GamesBundle:Schedule\RefSched:list, _format: html }
+    requirements:
+        _format:  html|csv|xls|pdf
     
 zayso_core_schedule_referee_list_old:
     pattern:  /schedule/referee/list

@@ -27,50 +27,7 @@ class RefSchedController extends BaseController
             'official' => null,
        );
     }
-    public function list2011Action(Request $request, $search = null)
-    {
-        $searchData = $this->initSearchData();
-        
-        // Pull from session if nothing was passed
-        if (!$search) $search = $request->getSession()->get('refSchSearchData');
-        
-        if ($search) $searchData = array_merge($searchData,json_decode($search,true));
-
-        $searchFormType = $this->get('zayso_s5games.schedule.search.formtype');
-        
-        $searchForm = $this->createForm($searchFormType,$searchData);
-        
-        if ($request->getMethod() == 'POST')
-        {
-            $searchForm->bindRequest($request);
-
-            if ($searchForm->isValid())
-            {
-                // JSON_HEX_TAG ???
-                // JSON_UNESCAPED_UNICODE 5.4
-                // JSON_NUMERIC_CHECK Don't use, 0900 > 900
-                $search = $searchForm->getData();
-                $search = json_encode($search);
-                $request->getSession()->set('refSchSearchData',$search);
-                return $this->redirect($this->generateUrl('zayso_core_schedule_referee_list2011',array('search' => $search)));
-            }
-        }
-        $manager = $this->getScheduleManager();
-        
-        // Should projectId be in regular search data?  Probably
-        $searchData['projectId'] = 61;
-        
-        $games = $manager->loadGames($searchData);
-      //$games = array();
-        
-        $tplData = array();
-        $tplData['games'] = $games;
-        $tplData['gameCount'] = count($games);
-        $tplData['searchForm'] = $searchForm->createView();
-        return $this->renderx('Schedule:referee.html.twig',$tplData);
-        
-    }
-    public function listAction(Request $request, $search = null)
+    public function listAction(Request $request, $_format, $search = null)
     {
         $searchData = $this->initSearchData();
         
@@ -105,7 +62,19 @@ class RefSchedController extends BaseController
         
         $games = $manager->loadGames($searchData);
         $games = $this->filterGames($games,$searchData['coach'],$searchData['official']);
-      //$games = array();
+        
+        if ($_format == 'csv')
+        {
+            $tplData = array();
+            $tplData['games'] = $games;
+            $response = $this->renderx('Schedule:referee.csv.php',$tplData);
+        
+            $outFileName = 'RefSchedule' . date('Ymd') . '.csv';
+        
+            $response->headers->set('Content-Type', 'text/csv;');
+            $response->headers->set('Content-Disposition', "attachment; filename=\"$outFileName\"");
+            return $response;
+        }
         
         $tplData = array();
         $tplData['games'] = $games;
