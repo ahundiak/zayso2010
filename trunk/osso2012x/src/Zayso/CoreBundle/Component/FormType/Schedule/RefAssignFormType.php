@@ -87,7 +87,7 @@ class RefAssignPersonSubscriber implements EventSubscriberInterface
             (
                 'RequestRemoval'      => 'Request Removal',
                 'AssignmentRequested' => 'Assignment Requested',
-                'AssignmentApproved'  => 'Assignment Approved',
+//              'AssignmentApproved'  => 'Assignment Approved',
             );
         }
         $form->add($this->factory->createNamed('choice','personId', null, array(
