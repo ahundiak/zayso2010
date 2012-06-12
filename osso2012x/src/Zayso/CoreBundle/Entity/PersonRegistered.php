@@ -79,7 +79,13 @@ class PersonRegistered
 
     public function setSafeHaven($safeHaven) { return $this->set('safe_haven',$safeHaven); }
     public function getSafeHaven()           { return $this->get('safe_haven'); }
-
+    public function hasSafeHaven()
+    {
+        $safeHaven = $this->get('safe_haven');
+        if ($safeHaven) return true;
+        else            return false;
+    }
+    
     public function setMemYear($memYear)  { return $this->set('mem_year',$memYear); }
     public function getMemYear()          { return $this->get('mem_year'); }
 

@@ -110,7 +110,7 @@ class Event extends BaseEntity
         $this->persons[$person->getType()] = $person; // Not going to call change here, not a property?
     }
     // Might want to add some sort of sorting here?
-    public function getPersons()      { return $this->persons; }
+    public function getPersons()      { return $this->getEventPersonsSorted(); }
     public function getEventPersons() { return $this->persons; }
     public function getPersonForType($type)
     {
