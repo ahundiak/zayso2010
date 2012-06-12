@@ -3,21 +3,45 @@
 <div class="schedule-list">
 <form action="{{ path('zayso_core_admin_schedule_referee_list') }}" method="post" {{ form_enctype(form) }}>
 <table border="1">
+<tr>
+    <td>Game Count {{ gameCount }}</td>
+    <td>Home Team</td>
+    <td>Away Team</td>
+    <td colspan="20" align="right">
+      <input type="submit" name="schListSubmit" value="Process" />
+    </td>
+</tr>
 {% for game in form.games %}
 {% set gamex = game.vars.value %}
 <tr>  
     <td>
         {{ gamex.num }}-{{gamex.id}}<br />
-        {{ form_widget(game.status) }}
+        {{ form_widget(game.status) }}<br />
+        {{ game_dow(gamex.date)   }} {{ game_time(gamex.time) }} <br />
+        {{ gamex.fieldDesc        }}<br>
+        {{ form_widget(game.pool) }}
     </td>
-    <td>{{ game_dow(gamex.date)   }} {{ game_time(gamex.time) }}</td>
-    <td>{{ gamex.fieldDesc        }}</td>
-    <td>{{ form_widget(game.pool) }}</td>
-    <td>
-        {% for teamRel in gamex.teams %}
+    {% for teamRel in gamex.teams %}
+        <td>
             {{ teamRel.team.desc }}<br />
-        {% endfor %}
-    </td>
+            {{ teamRel.team.org.desc2 }}<br />
+       </td>
+    {% endfor %}
+    {% for gamePersonRel in game.persons %}
+        {% set gamePersonRelx = gamePersonRel.vars.value %}
+        {% set personx = gamePersonRelx.personz %}
+        {% set certx = personx.aysoCertz %}
+        <td>    
+            {{ form_widget(gamePersonRel.state) }} <br />
+            {{ form_widget(gamePersonRel.person) }} <br />
+            {{ personx.orgz.desc2 }} <br />
+            {{ personx.email }} <br />
+            {{ certx.aysoid  }}
+            {{ certx.memYear }}
+            {{ certx.hasSafeHaven }}
+            {{ certx.refBadge }} <br />
+        </td>
+    {% endfor %}
 </tr>
 {% endfor %}
 <tr><td colspan="20" align="right">

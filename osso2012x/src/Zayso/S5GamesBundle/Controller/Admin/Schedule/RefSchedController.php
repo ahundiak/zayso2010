@@ -63,6 +63,9 @@ class RefSchedController extends BaseController
         $games = $this->filterGames($games,$searchData['coach'],$searchData['official']);
         
         $listFormType = $this->get('zayso_s5games.admin.schedule.list.formtype');
+        $listFormType->setManager($manager);
+        $listFormType->setProjectId(62);
+         
         $listForm = $this->createForm($listFormType,array('games' => $games));
         
         if ($request->getMethod() == 'POST' && $request->request->get('schListSubmit'))
