@@ -22,13 +22,15 @@
             class  = "Zayso\CoreBundle\Component\Manager\GameManager"
             public = "true">
             <argument type="service" id="zayso_core.game.entity_manager" />
-        </service>
+            <argument type="string">games</argument>
+       </service>
         
         <service
             id     = "zayso_core.game.schedule.manager"
             class  = "Zayso\CoreBundle\Component\Manager\ScheduleManager"
             public = "true">
             <argument type="service" id="zayso_core.game.entity_manager" />
+            <argument type="string">games</argument>
         </service>
         
         <service
@@ -36,6 +38,7 @@
             class  = "Zayso\CoreBundle\Component\Manager\ResultsManager"
             public = "true">
             <argument type="service" id="zayso_core.game.entity_manager" />
+            <argument type="string">games</argument>
         </service>
        
         <service
