@@ -35,6 +35,7 @@ class AccountExport
         'Last Name'    => 15,
         'First Name'   => 15,
         'Nick Name'    => 10,
+        'Gender'       =>  5,
         'Email'        => 10,
         'Cell Phone'   => 12,
         'Region'       =>  6,
@@ -91,6 +92,7 @@ class AccountExport
             'Last Name'    => 'lastName',
             'First Name'   => 'firstName',
             'Nick Name'    => 'nickName',
+            'Gender'       => 'gender',
             'Email'        => 'email',
             'Cell Phone'   => 'cellPhone',
             'Region'       => 'region',
@@ -150,6 +152,7 @@ class AccountExport
             'Last Name'    => 'lastName',
             'First Name'   => 'firstName',
             'Nick Name'    => 'nickName',
+            'Gender'       => 'gender',
             'Email'        => 'email',
             'Cell Phone'   => 'cellPhone',
             'Region'       => 'region',
@@ -186,6 +189,7 @@ class AccountExport
             'Last Name'    => 'lastName',
             'First Name'   => 'firstName',
             'Nick Name'    => 'nickName',
+            'Gender'       => 'gender',
             'Email'        => 'email',
             'Cell Phone'   => 'cellPhone',
             'Region'       => 'region',
@@ -392,6 +396,8 @@ class AccountExport
             $person['lastName']  = $item->getLastName();
             $person['firstName'] = $item->getFirstName();
             $person['nickName']  = $item->getNickName();
+            $person['gender']    = $item->getGender();
+            $person['dob']       = $item->getDOB();
             $person['email']     = $item->getEmail();
             $person['cellPhone'] = $this->phoneTransformer->transform($item->getCellPhone());   
             
