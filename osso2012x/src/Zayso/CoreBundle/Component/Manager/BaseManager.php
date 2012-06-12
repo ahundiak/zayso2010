@@ -73,5 +73,9 @@ class BaseManager
     {
         return $this->getReference('AccountPerson',$accountPersonId);
     }
+    /* =============================================================
+     * Tuck some of these in here as well
+     */
+    public function getEventPersonClass() { return 'Zayso\CoreBundle\Entity\EventPerson'; }
 }
 ?>

@@ -8,6 +8,8 @@ namespace Zayso\CoreBundle\Component\Manager;
 
 use Zayso\CoreBundle\Component\Debug;
 
+use Doctrine\ORM\Query\Expr;
+
 class ScheduleManager extends GameManager
 {
     protected function getValues($search,$name,$default = null)
@@ -77,6 +79,31 @@ class ScheduleManager extends GameManager
         return $qb->getQuery()->getResult();
         
     }
+    public function qbRefereesForProject($projectId)
+    {   
+        $qb = $this->createQueryBuilder();
+        
+        $qb->addSelect('person');
+        $qb->addSelect('cert');
+        $qb->addSelect('org');
+        
+        $qb->from('ZaysoCoreBundle:Person','person');
+        
+        $qb->leftJoin('person.org','org');
+        
+        $qb->leftJoin('person.projectPersons','projectPerson');
+         
+        $qb->leftJoin('person.registeredPersons','cert',
+            Expr\Join::WITH, $qb->expr()->eq('cert.regType', $qb->expr()->literal('AYSOV')));
+        
+        $qb->andWhere($qb->expr()->eq('projectPerson.project',$projectId));
+        
+        $qb->addOrderBy('person.firstName,person.lastName');
+        
+        //die($qb->getDQL());
+
+        return $qb;
+    }
   
- }
+}
 ?>
