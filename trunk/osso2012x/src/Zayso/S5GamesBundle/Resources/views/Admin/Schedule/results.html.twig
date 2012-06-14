@@ -7,7 +7,10 @@
 {% set genders = { 'B' : 'Boys', 'G' : 'Girls' }    %}
 {% set resultsRoute = 'zayso_core_admin_schedule_results' %}
 <table border="1">
-    <tr><td>&nbsp;</td>
+    <tr>
+        <td>
+            <a href="{{ path('zayso_core_admin_schedule_results_excel') }}">Excel</a>
+        </td>
     {% for age in ages %}
         <td align="center">{{ age }} Results</td>
     {% endfor %}
