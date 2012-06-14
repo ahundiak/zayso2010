@@ -13,6 +13,33 @@ class ResultsController extends BaseController
     {
         return $this->get('zayso_core.game.schedule.manager');
     }
+    public function resultsExcelAction(Request $request)
+    {
+        $manager = $this->get('zayso_core.game.schedule.results.manager');
+        
+        $params = array
+        (
+            'projectId' => 62,
+        );
+        $games = $manager->loadGames($params);
+        $pools = $manager->getPools($games);
+  
+        $tplData = array();
+        $tplData['games'] = $games;
+        $tplData['pools'] = $pools;
+        $tplData['excel'] = $this->get('zayso_core.format.excel');
+        
+        $response = $this->render('ZaysoS5GamesBundle:Admin:Schedule/results.excel.php',$tplData);
+        
+        $outFileName = 'S5GamesResults' . date('YmdHi') . '.xls';
+        
+        $response->headers->set('Content-Type', 'application/vnd.ms-excel');
+        $response->headers->set('Content-Disposition', "attachment; filename=\"$outFileName\"");
+        
+        return $response;
+          
+        die('excel ' . count($pools));
+    }
     public function resultsAction(Request $request, $div, $pool)
     {
         if (!$div)
