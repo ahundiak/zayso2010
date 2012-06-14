@@ -75,6 +75,19 @@ class RefSchedController extends BaseController
             $response->headers->set('Content-Disposition', "attachment; filename=\"$outFileName\"");
             return $response;
         }
+        if ($_format == 'xls')
+        {
+            $tplData = array();
+            $tplData['games'] = $games;
+            $tplData['excel'] = $this->get('zayso_core.format.excel');
+            $response = $this->renderx('Schedule:referee.excel.php',$tplData);
+        
+            $outFileName = 'RefSchedule' . date('YmdHi') . '.xls';
+        
+            $response->headers->set('Content-Type', 'application/vnd.ms-excel');
+            $response->headers->set('Content-Disposition', "attachment; filename=\"$outFileName\"");
+            return $response;
+        }
         
         $tplData = array();
         $tplData['games'] = $games;
