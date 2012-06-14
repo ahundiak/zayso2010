@@ -46,6 +46,10 @@ zayso_core_schedule_results:
     pattern:  /schedule/public/results/{div}/{pool}
     defaults: { _controller: ZaysoS5GamesBundle:Schedule\Results:results, div: 0, pool: 0}
     
+zayso_core_admin_schedule_results_excel:
+    pattern:  /admin/schedule/results/excel/{div}/{pool}
+    defaults: { _controller: ZaysoS5GamesBundle:Admin\Schedule\Results:resultsExcel, div: 0, pool: 0}
+    
 zayso_core_admin_schedule_results:
     pattern:  /admin/schedule/results/{div}/{pool}
     defaults: { _controller: ZaysoS5GamesBundle:Admin\Schedule\Results:results, div: 0, pool: 0}
