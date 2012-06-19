@@ -7,7 +7,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /** ==================================================
  * @ORM\Entity
- * @ORM\Table(name="project_person")
+ * @ORM\Table(name="project_person",
+     uniqueConstraints={
+         @ORM\UniqueConstraint(name="project_person", columns={"person_id", "project_id"})
+   })
  * @ORM\HasLifecycleCallbacks
  *
  * In one sense it doesn't really make sense to explicitly link this to the project item
