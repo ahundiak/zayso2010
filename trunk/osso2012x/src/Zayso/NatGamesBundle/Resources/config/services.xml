@@ -22,6 +22,12 @@
             public = "true">
             <argument type="service" id="doctrine.orm.accounts_entity_manager" />
         </service>
+        <service 
+            id     = "zayso_natgames.person.manager" 
+            class  = "Zayso\NatGamesBundle\Component\Manager\PersonManager" 
+            public = "true">
+            <argument type="service" id="doctrine.orm.accounts_entity_manager" />
+        </service>
         
         <service 
             id     = "zayso_natgames.account.import" 
