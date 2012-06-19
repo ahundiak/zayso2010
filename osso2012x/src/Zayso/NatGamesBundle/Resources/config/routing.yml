@@ -1,8 +1,4 @@
-# Internal routing configuration to handle ESI
-#_internal:
-#   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
-#   prefix:   /_internal
-    
+
 # National Games Routes
 zayso_core_index:
     pattern:  /
@@ -123,6 +119,12 @@ zayso_core_schedule:
     defaults: { _controller: ZaysoNatGamesBundle:Schedule:index }
     requirements:
         _method:  GET
+        
+zayso_core_schedule_referee_list:
+    pattern:  /schedule/public/referee/list.{_format}
+    defaults: { _controller: ZaysoS5GamesBundle:Schedule\RefSched:list, _format: html }
+    requirements:
+        _format:  html|csv|xls|pdf
 
 # =================================================
 # Admin stuff
@@ -157,7 +159,7 @@ zayso_natgames_admin_person_list:
     requirements:
         _method:  GET
         _format:  html|csv|xls
-
+        
 zayso_natgames_admin_import:
     pattern:  /admin/import
     defaults: { _controller: ZaysoCoreBundle:Admin\Import:index }
