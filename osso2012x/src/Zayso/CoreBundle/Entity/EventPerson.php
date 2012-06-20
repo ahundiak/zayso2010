@@ -98,9 +98,16 @@ class EventPerson extends BaseEntity
      */
     protected $state = null;
 
+    /** @ORM\Column(type="datetime", name="modified_user", nullable=true) */
+    protected $userModified = null;
+    
+    /** @ORM\Column(type="datetime", name="modified_admin", nullable=true) */
+    protected $adminModified = null;
+     
     /** @ORM\Column(type="text", name="datax", nullable=true) */
     protected $datax = null;
 
+    
     /* =========================================================
      * Custom code
      */
@@ -201,5 +208,20 @@ class EventPerson extends BaseEntity
     public function setProtected($value) { $this->protected = $value; }
     public function getProtected() { return $this->protected; }
     public function isProtected () { return $this->protected ? true : false; }
+    
+    // Date time stuff
+    public function getUserModified()  { return $this->userModified; }
+    public function getAdminModified() { return $this->adminModified; }
+    
+    public function setUserModified($dt = null) 
+    {
+        if (!$dt) $dt = new \DateTime('now');
+        $this->onObjectPropertySet('userModified', $dt);
+    }
+    public function setAdminModified($dt = null) 
+    {
+        if (!$dt) $dt = new \DateTime('now');
+        $this->onObjectPropertySet('adminModified', $dt);
+    }    
 }
 ?>
