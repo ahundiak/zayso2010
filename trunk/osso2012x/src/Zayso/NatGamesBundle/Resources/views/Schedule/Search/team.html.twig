@@ -15,23 +15,21 @@
         <td>{{ form_widget(form.time1) }}<br />{{ form_widget(form.time2) }}</td>
     <tr></table></td>
     
-    <td>
-        <a href="{{ path('zayso_core_schedule_team_list', { '_format' : 'csv'}) }}">CSV</a>
-        <a href="{{ path('zayso_core_schedule_team_list', { '_format' : 'xls'}) }}">Excel</a>
-    </td>
-     
-</tr>
-<tr>
     <td><table border="1">
         <tr><td>{{ form_widget(form.team1) }}</td></tr>
         <tr><td>{{ form_widget(form.team2) }}</td></tr>
         <tr><td>{{ form_widget(form.team3) }}</td></tr>
     </table></td>
 </tr>
-
-<tr><td colspan="5" align="right">
-    <input type="submit" name="schSearchSubmit" value="Search" />
-</td></tr>
+<tr>
+    <td>
+        <a href="{{ path('zayso_core_schedule_team_list', { '_format' : 'xls'}) }}">Excel</a>
+        <a href="{{ path('zayso_core_schedule_team_list', { '_format' : 'csv'}) }}">CSV</a>
+    </td>
+    <td colspan="5" align="right">
+        <input type="submit" name="schSearchSubmit" value="Search" />
+    </td>
+</tr>
 </table>
 {{ form_rest  (form) }}
 </form>        
