@@ -61,12 +61,19 @@ class TeamSchedController extends BaseController
         $searchData['projectId'] = 62;
   
         $teams = array();
-        if (isset($searchData['team1']) && $searchData['team1']) $teams[] = (int)$searchData['team1'];
-        if (isset($searchData['team2']) && $searchData['team2']) $teams[] = (int)$searchData['team2'];
-        if (isset($searchData['team3']) && $searchData['team3']) $teams[] = (int)$searchData['team3'];
+        $teamKeys = array('team1','team2','team3');
+        foreach($teamKeys as $key)
+        {
+            if (isset($searchData[$key]) && $searchData[$key]) 
+            {
+                $teamId = (int)$searchData[$key];
+                $teams[$teamId] = $teamId;
+            }
+        }
         if (count($teams)) $searchData['teams'] = $teams;
         
         $games = $manager->loadGames($searchData);
+
         $games = $this->filterGames($games,$searchData['coach'],$searchData['official']);
         
         if ($_format == 'csv')
@@ -97,6 +104,7 @@ class TeamSchedController extends BaseController
         
         $tplData = array();
         $tplData['games'] = $games;
+        $tplData['teams'] = $teams;
         $tplData['gameCount'] = count($games);
         $tplData['searchForm'] = $searchForm->createView();
         return $this->renderx('Schedule:team.html.twig',$tplData);

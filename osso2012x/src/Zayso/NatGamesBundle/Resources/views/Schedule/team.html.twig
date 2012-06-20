@@ -24,12 +24,29 @@
             <td>{{ game_dow(game.date) }} {{ game_time(game.time) }}</td>
             <td>{{ game.fieldDesc          }}</td>
             <td>{{ game.pool               }}</td>
-            <td>{{ game.homeTeam.team.desc }}</td>
-            <td>{{ game.awayTeam.team.desc }}</td>
+            <td>
+                {% set teamClass = game_team_class(teams,game.homeTeam.team) %}
+                {% if teamClass %}
+                    <span class="{{ teamClass }}">{{ game.homeTeam.team.desc }}</span>
+                {% else %}
+                    {{ game.homeTeam.team.desc }}
+                {% endif %}
+            </td>
+            <td>
+                {% set teamClass = game_team_class(teams,game.awayTeam.team) %}
+                {% if teamClass %}
+                    <span class="{{ teamClass }}">{{ game.awayTeam.team.desc }}</span>
+                {% else %}
+                    {{ game.awayTeam.team.desc }}
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}       
     </table>
 </div>
+<style>
+.team-hilite { color: green; }
+</style>
 {% endblock %}
 
 {% block javascripts %}
