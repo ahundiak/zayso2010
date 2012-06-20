@@ -36,6 +36,7 @@ class ScheduleManager extends GameManager
         
         $ages    = $this->getValues($search,'ages');
         $dates   = $this->getValues($search,'dows');
+        $teams   = $this->getValues($search,'teams');
         $genders = $this->getValues($search,'genders');
         $regions = $this->getValues($search,'regions');
         
@@ -68,6 +69,8 @@ class ScheduleManager extends GameManager
         if ($dates) $qb->andWhere($qb->expr()->in ('game.date',$dates));
         if ($time1) $qb->andWhere($qb->expr()->gte('game.time',$qb->expr()->literal($time1)));
         if ($time2) $qb->andWhere($qb->expr()->lte('game.time',$qb->expr()->literal($time2)));
+        
+        if ($teams) $qb->andWhere($qb->expr()->in('phyTeam.id',   $teams));
         
         if ($ages)    $qb->andWhere($qb->expr()->in('gameTeam.age',   $ages));
         if ($genders) $qb->andWhere($qb->expr()->in('gameTeam.gender',$genders));
@@ -104,6 +107,24 @@ class ScheduleManager extends GameManager
 
         return $qb;
     }
-  
+    public function qbPhyTeamsForProject($projectId)
+    {
+        $qb = $this->createQueryBuilder();
+        $qb->addSelect('team');
+        $qb->from('ZaysoCoreBundle:Team','team');
+        
+        $qb->andWhere($qb->expr()->in('team.project', $projectId));
+        $qb->andWhere($qb->expr()->in('team.type',    array('Physical','physical')));
+        
+        $qb->addOrderBy('team.key1');
+
+        return $qb;
+    }
+    public function loadPhyTeamsForProject($projectId)
+    {
+        $qb = $this->qbPhyTeamsForProject($projectId);
+        return $qb->getQuery()->getResults();        
+    }
+ 
 }
 ?>
