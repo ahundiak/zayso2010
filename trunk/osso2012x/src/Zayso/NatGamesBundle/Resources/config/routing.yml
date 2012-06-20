@@ -122,9 +122,27 @@ zayso_core_schedule:
         
 zayso_core_schedule_referee_list:
     pattern:  /schedule/public/referee/list.{_format}
-    defaults: { _controller: ZaysoS5GamesBundle:Schedule\RefSched:list, _format: html }
+    defaults: { _controller: ZaysoNatGamesBundle:Schedule\RefSched:list, _format: html }
     requirements:
         _format:  html|csv|xls|pdf
+        
+zayso_core_schedule_team_list:
+    pattern:  /schedule/public/team/list.{_format}
+    defaults: { _controller: ZaysoNatGamesBundle:Schedule\TeamSched:list, _format: html }
+    requirements:
+        _format:  html|csv|xls|pdf
+        
+zayso_core_schedule_my_list:
+    pattern:  /schedule/public/my/list.{_format}
+    defaults: { _controller: ZaysoNatGamesBundle:Schedule\MySched:list, _format: html }
+    requirements:
+        _format:  html|csv|xls|pdf
+        
+zayso_core_schedule_referee_assign:
+    pattern:  /schedule/referee/assign/{id}/{pos}
+    defaults: { _controller: ZaysoNatGamesBundle:Schedule\RefAssign:assign, id: 0, pos: ''}
+    requirements:
+        id: \d+
 
 # =================================================
 # Admin stuff

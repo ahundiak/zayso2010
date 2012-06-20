@@ -6,6 +6,32 @@
 
     <services>
         
+        <service
+            id     = "zayso_natgames.schedule.my.search.formtype"
+            class  = "Zayso\NatGamesBundle\Component\Form\Type\Schedule\MySearchFormType"
+            public = "true">
+        </service>
+        
+        <service
+            id     = "zayso_natgames.schedule.team.search.formtype"
+            class  = "Zayso\NatGamesBundle\Component\Form\Type\Schedule\TeamSearchFormType"
+            public = "true">
+           <argument type="service" id="zayso_core.game.schedule.manager" />
+         </service>
+        
+         <service
+            id     = "zayso_natgames.schedule.referee.search.formtype"
+            class  = "Zayso\NatGamesBundle\Component\Form\Type\Schedule\RefSearchFormType"
+            public = "true">
+        </service>
+               
+        <service
+            id     = "zayso_natgames.schedule.refassign.formtype"
+            class  = "Zayso\NatGamesBundle\Component\Form\Type\Schedule\RefAssignFormType"
+            public = "true">
+            <argument type="service" id="zayso_core.game.entity_manager" />
+        </service>
+        
         <service 
             id     = "zayso_natgames.ref_stats.manager" 
             class  = "Zayso\NatGamesBundle\Component\Manager\RefStatsManager" 
