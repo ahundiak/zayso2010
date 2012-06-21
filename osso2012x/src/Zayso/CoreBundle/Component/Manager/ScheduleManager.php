@@ -42,9 +42,12 @@ class ScheduleManager extends GameManager
         if (isset($search['genders'])) $genders = $search['genders'];
         else                           $genders = array();
         
-        if (isset($search['teams'])) $teams = $search['teams'];
-        else                         $teams = array();
+        if (isset($search['teamIds'])) $teamIds = $search['teamIds'];
+        else                           $teamIds = array();
         
+        if (isset($search['personIds'])) $personIds = $search['personIds'];
+        else                             $personIds = array();
+    
         if (isset($search['dows' ])) $dates = $search['dows'];
         else                         $dates = array();
         
@@ -66,6 +69,8 @@ class ScheduleManager extends GameManager
         $qb->leftJoin('gamex.teams',      'gameTeamRelx');
         $qb->leftJoin('gameTeamRelx.team','gameTeamx');  // Pool or Playoff
         $qb->leftJoin('gameTeamx.parent', 'phyTeamx');
+        $qb->leftJoin('gamex.persons',    'gamePersonRelx');
+        $qb->leftJoin('gamePersonRelx.person','personx');
         
         $qb->andWhere($qb->expr()->eq('gamex.project',$qb->expr()->literal($projectId)));
        
@@ -74,10 +79,17 @@ class ScheduleManager extends GameManager
         if ($time1) $qb->andWhere($qb->expr()->gte('gamex.time',$qb->expr()->literal($time1)));
         if ($time2) $qb->andWhere($qb->expr()->lte('gamex.time',$qb->expr()->literal($time2)));
         
-        if (count($teams)) $qb->andWhere($qb->expr()->in('phyTeamx.id',$teams));
-        
-        if (count($ages))    $qb->andWhere($qb->expr()->in('gameTeamx.age',   $ages));
-        if (count($genders)) $qb->andWhere($qb->expr()->in('gameTeamx.gender',$genders));
+        if (count($teamIds) || count($personIds) || count($ages) || count($genders))
+        {   
+            $orx = $qb->expr()->orX();
+            
+            if (count($teamIds  )) $orx->add($qb->expr()->in('phyTeamx.id',     $teamIds));
+            if (count($personIds)) $orx->add($qb->expr()->in('personx.id',      $personIds));
+            if (count($ages))      $orx->add($qb->expr()->in('gameTeamx.age',   $ages));
+            if (count($genders))   $orx->add($qb->expr()->in('gameTeamx.gender',$genders));
+            
+            $qb->andWhere($orx);
+        }
         
       //print_r($qb->getQuery()->getResult()); die('qb');
         
@@ -213,6 +225,39 @@ class ScheduleManager extends GameManager
         $qb = $this->qbPhyTeamsForProject($projectId);
         return $qb->getQuery()->getResults();        
     }
- 
+    public function loadTeamsForProjectAccount($projectId,$accountId)
+    {
+        $qb = $this->createQueryBuilder();
+        $qb->addSelect('team');
+        $qb->from('ZaysoCoreBundle:Team','team');
+        
+        $qb->leftJoin('team.personRels','personRel');
+        $qb->leftJoin('personRel.person','person');
+        $qb->leftJoin('person.accountPersons','accountPerson');
+           
+        $qb->andWhere($qb->expr()->eq('team.project',          $qb->expr()->literal($projectId)));
+        $qb->andWhere($qb->expr()->eq('accountPerson.account', $qb->expr()->literal($accountId)));
+        
+        $qb->addOrderBy('team.key1');
+        
+        return $qb->getQuery()->getResult();
+    }
+    public function loadPersonsForProjectAccount($projectId,$accountId)
+    {
+        $qb = $this->createQueryBuilder();
+        $qb->addSelect('person');
+        $qb->from('ZaysoCoreBundle:Person','person');
+        
+        $qb->leftJoin('person.accountPersons','accountPerson');
+           
+      //$qb->andWhere($qb->expr()->eq('team.project',          $qb->expr()->literal($projectId)));
+        $qb->andWhere($qb->expr()->eq('accountPerson.account', $qb->expr()->literal($accountId)));
+        
+        $qb->addOrderBy('person.nickName');
+        $qb->addOrderBy('person.firstName');
+        $qb->addOrderBy('person.lastName');
+        
+        return $qb->getQuery()->getResult();
+    }
 }
 ?>

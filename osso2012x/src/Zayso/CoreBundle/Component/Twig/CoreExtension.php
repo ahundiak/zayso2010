@@ -32,8 +32,10 @@ class CoreExtension extends \Twig_Extension
             'game_team_desc'  => new \Twig_Function_Method($this, 'gameTeamDesc'),
             'game_team_desc2' => new \Twig_Function_Method($this, 'gameTeamDesc2'),
             'game_team_desc3' => new \Twig_Function_Method($this, 'gameTeamDesc3'),
-            'game_team_class' => new \Twig_Function_Method($this, 'gameTeamClass'),
-        );
+            
+            'game_team_class'   => new \Twig_Function_Method($this, 'gameTeamClass'),
+            'game_person_class' => new \Twig_Function_Method($this, 'gamePersonClass'),
+       );
     }
     public function cacheDTG()
     {
@@ -70,14 +72,22 @@ class CoreExtension extends \Twig_Extension
     /* =====================================================
      * Generate a class for a game team suitable for high lighting
      */
-    public function gameTeamClass($teams,$team)
+    public function gameTeamClass($teamIds,$team)
     {
         $parent = $team->getParent();
         if (!$parent) return null;
         
-        if (!in_array($parent->getId(),$teams)) return null;
+        if (!in_array($parent->getId(),$teamIds)) return null;
         
         return 'team-hilite';
+    }
+    public function gamePersonClass($personIds,$person)
+    {
+        if (!$person) return null;
+        
+        if (!in_array($person->getId(),$personIds)) return null;
+        
+        return 'person-hilite';
     }
     /* =====================================================
      * This assumes we have a schedule team with a key starting with
