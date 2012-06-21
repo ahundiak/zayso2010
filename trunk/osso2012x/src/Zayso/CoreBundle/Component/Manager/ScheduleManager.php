@@ -29,7 +29,95 @@ class ScheduleManager extends GameManager
         }
         return $valuesIndexed;
     }
+    public function qbGameIds($search)
+    {
+        // Always need projectId for now
+        if (isset($search['projectId'])) $projectId = $search['projectId'];
+        else                             $projectId = null;
+        if (!$projectId) return null;
+        
+        if (isset($search['ages']))  $ages = $search['ages'];
+        else                         $ages = array();
+        
+        if (isset($search['genders'])) $genders = $search['genders'];
+        else                           $genders = array();
+        
+        if (isset($search['teams'])) $teams = $search['teams'];
+        else                         $teams = array();
+        
+        if (isset($search['dows' ])) $dates = $search['dows'];
+        else                         $dates = array();
+        
+        if (isset($search['time1'])) $time1 = $search['time1'];
+        else                         $time1 = null;
+        
+        if (isset($search['time2'])) $time2 = $search['time2'];
+        else                         $time2 = null;
+        
+        if (isset($search['projectId'])) $projectId = $search['projectId'];
+        else                             $projectId = null;
+        
+        // Build query
+        $qb = $this->createQueryBuilder();
+        
+        $qb->addSelect('distinct gamex.id');
+        
+        $qb->from('ZaysoCoreBundle:Event','gamex');
+        $qb->leftJoin('gamex.teams',      'gameTeamRelx');
+        $qb->leftJoin('gameTeamRelx.team','gameTeamx');  // Pool or Playoff
+        $qb->leftJoin('gameTeamx.parent', 'phyTeamx');
+        
+        $qb->andWhere($qb->expr()->eq('gamex.project',$qb->expr()->literal($projectId)));
+       
+        if (count($dates)) $qb->andWhere($qb->expr()->in('gamex.date',$dates));
+        
+        if ($time1) $qb->andWhere($qb->expr()->gte('gamex.time',$qb->expr()->literal($time1)));
+        if ($time2) $qb->andWhere($qb->expr()->lte('gamex.time',$qb->expr()->literal($time2)));
+        
+        if (count($teams)) $qb->andWhere($qb->expr()->in('phyTeamx.id',$teams));
+        
+        if (count($ages))    $qb->andWhere($qb->expr()->in('gameTeamx.age',   $ages));
+        if (count($genders)) $qb->andWhere($qb->expr()->in('gameTeamx.gender',$genders));
+        
+      //print_r($qb->getQuery()->getResult()); die('qb');
+        
+        return $qb;
+    }
     public function loadGames($search)
+    {
+        // Distinct list of ids
+        $qbGameIds = $this->qbGameIds($search);
+        if (!$qbGameIds) return array();
+        
+        // Build query
+        $qb = $this->createQueryBuilder();
+
+        $qb->addSelect('game');
+        $qb->addSelect('field');
+        $qb->addSelect('gameTeamRel');
+        $qb->addSelect('gameTeam');
+        $qb->addSelect('phyTeam');
+        $qb->addSelect('gamePerson');
+        $qb->addSelect('person');
+
+        $qb->from('ZaysoCoreBundle:Event','game');
+        $qb->leftJoin('game.field',       'field');
+        $qb->leftJoin('game.teams',       'gameTeamRel');
+        $qb->leftJoin('gameTeamRel.team', 'gameTeam');
+        $qb->leftJoin('gameTeam.parent',  'phyTeam');
+        $qb->leftJoin('game.persons',     'gamePerson');
+        $qb->leftJoin('gamePerson.person','person');
+        
+        $qb->andWhere($qb->expr()->in('game.id',$qbGameIds->getDQL()));
+        
+        $qb->addOrderBy('game.date');
+        $qb->addOrderBy('game.time');
+        $qb->addOrderBy('field.key1');
+
+        return $qb->getQuery()->getResult();
+        
+    }
+    public function loadGamesx($search)
     {
         $projectId = $this->getValues($search,'projectId');
         if (!$projectId) return array();
