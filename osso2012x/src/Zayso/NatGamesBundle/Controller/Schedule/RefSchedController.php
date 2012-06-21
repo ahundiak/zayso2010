@@ -21,7 +21,7 @@ class RefSchedController extends BaseController
         $manager = $this->getScheduleManager();
         
         $user = $this->getUser();
-        if ($user) $accountId = $user->getAccountId();
+        if (is_object($user)) $accountId = $user->getAccountId();
         else       $accountId = 0;
         
         // My Teams
