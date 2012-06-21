@@ -13,8 +13,7 @@ use Symfony\Component\Form\FormValidatorInterface;
 
 class RefSearchFormType extends AbstractType
 {
-    protected $name = 'schSearch';
-    public function getName() { return $this->name; }
+    public function getName() { return 'refSchSearch'; }
     
     protected $em;
     protected $emName;
@@ -24,6 +23,9 @@ class RefSearchFormType extends AbstractType
         $this->em = $em;
         $this->emName = $emName;
     }
+    public function setTeams($teams)     { $this->teams   = $teams; }
+    public function setPersons($persons) { $this->persons = $persons; }
+    
     protected $days = array
     (
         'ALL' => 'All', 
@@ -81,12 +83,30 @@ class RefSearchFormType extends AbstractType
             'multiple'      => false,
         ));
         $builder->add('coach','text',array(
-            'label'     => 'Coach:',
-            'required'  => false,
-        ));
+            'label'    => 'Filter Coach ',
+            'required' => false,
+            'attr'     => array('size' => 30)
+         ));
         $builder->add('official','text',array(
-            'label'     => 'Referee:',
-            'required'  => false,
+            'label'    => 'Filter Referee ',
+            'required' => false,
+            'attr'     => array('size' => 30)
+        ));
+        $builder->add('teamIds', 'choice', array(
+            'label'         => 'My Teams',
+            'required'      => true,
+            'choices'       => $this->teams,
+            'expanded'      => true,
+            'multiple'      => true,
+            'attr' => array('class' => 'zayso-checkbox-all'),
+        ));
+        $builder->add('personIds', 'choice', array(
+            'label'         => 'My People',
+            'required'      => true,
+            'choices'       => $this->persons,
+            'expanded'      => true,
+            'multiple'      => true,
+            'attr' => array('class' => 'zayso-checkbox-all'),
         ));
     }
     protected $times = array(

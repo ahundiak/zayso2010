@@ -11,9 +11,9 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\CallbackValidator;
 use Symfony\Component\Form\FormValidatorInterface;
 
-class ScheduleSearchFormType extends AbstractType
+class MySearchFormType extends AbstractType
 {
-    protected $name = 'schSearch';
+    protected $name = 'mySchSearch';
     public function getName() { return $this->name; }
     
     protected $em;
@@ -27,12 +27,14 @@ class ScheduleSearchFormType extends AbstractType
     protected $days = array
     (
         'ALL' => 'All', 
-            '20120704' => 'Wen', 
-            '20120705' => 'Thu', 
-            '20120615' => 'Fri', 
-            '20120616' => 'Sat', 
-            '20120617' => 'Sun'
+        '20120704' => 'Wen', 
+        '20120705' => 'Thu', 
+        '20120615' => 'Fri', 
+        '20120616' => 'Sat', 
+        '20120617' => 'Sun'
     );
+    public function setTeams($teams)     { $this->teams   = $teams; }
+    public function setPersons($persons) { $this->persons = $persons; }
     
     public function buildForm(FormBuilder $builder, array $options)
     {
@@ -40,28 +42,23 @@ class ScheduleSearchFormType extends AbstractType
         $builder->add('dows', 'choice', array(
             'label'         => 'Days of Week',
             'required'      => true,
-                               // Fri = Label, FRI keys/value
             'choices'       => $this->days,
             'expanded'      => true,
             'multiple'      => true,
             'attr' => array('class' => 'zayso-checkbox-all'),
         ));
-        $builder->add('genders', 'choice', array(
-            'label'         => 'Genders',
+        $builder->add('teamIds', 'choice', array(
+            'label'         => 'My Teams',
             'required'      => true,
-            'choices'       => array('ALL' => 'All', 'B' => 'Boys', 'G' => 'Girls'),
+            'choices'       => $this->teams,
             'expanded'      => true,
             'multiple'      => true,
             'attr' => array('class' => 'zayso-checkbox-all'),
         ));
-        $builder->add('ages', 'choice', array(
-            'label'         => 'Ages',
+        $builder->add('personIds', 'choice', array(
+            'label'         => 'My People',
             'required'      => true,
-            'choices'       => array(
-                'ALL' => 'All', 
-                'U10' => 'U10', 'U12' => 'U12', 'U14' => 'U14', 
-                'U16' => 'U16', 'U19' => 'U19',
-            ),
+            'choices'       => $this->persons,
             'expanded'      => true,
             'multiple'      => true,
             'attr' => array('class' => 'zayso-checkbox-all'),
@@ -79,14 +76,6 @@ class ScheduleSearchFormType extends AbstractType
             'choices'       => $this->times,
             'expanded'      => false,
             'multiple'      => false,
-        ));
-        $builder->add('coach','text',array(
-            'label'     => 'Coach:',
-            'required'  => false,
-        ));
-        $builder->add('official','text',array(
-            'label'     => 'Referee:',
-            'required'  => false,
         ));
     }
     protected $times = array(
