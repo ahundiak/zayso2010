@@ -2,18 +2,34 @@
 {% set form = searchForm     %}
 <div class="schedule-search">
 <form action="{{ path('zayso_core_schedule_referee_list') }}" method="post" {{ form_enctype(form) }}>
-<table border="1">
+<table border="1" style="max-width: 850px;">
 <tr>  
         
-    <td><table border="1"><tr>
+    <td style="width: 200px;"><table border="1"><tr>
     {% for item in form.dows %}
         <td align="center">{{ form_label(item) }}<br />{{ form_widget(item) }}</td>
     {% endfor %}
     <tr></table></td>
     
-    <td><table border="1"><tr>
+    <td align="center" style="width: 125px;"><table border="1"><tr>
         <td>{{ form_widget(form.time1) }}<br />{{ form_widget(form.time2) }}</td>
     <tr></table></td>
+    
+    <td><table border="1">
+        <tr><td align="center">My Teams</td></tr>
+        {% for team in form.teamIds %}
+            <tr><td>{{ form_widget(team) }}{{ form_label(team) }}</td></tr>
+        {% endfor %} 
+    <tr></table></td>
+    
+    <td><table border="1">
+        <tr><td align="center">My People</td></tr>
+        {% for item in form.personIds %}
+            <tr><td>{{ form_widget(item) }}{{ form_label(item) }}</td></tr>
+        {% endfor %} 
+    <tr></table></td>
+</tr>
+<tr>
     
     <td><table border="1"><tr>
     {% for item in form.ages %}
@@ -25,20 +41,30 @@
     {% for item in form.genders %}
         <td align="center">{{ form_label(item) }}<br />{{ form_widget(item) }}</td>
     {% endfor %}
-    <tr></table></td>    
+    <tr></table></td> 
+    <td colspan="2"><table border="1">
+        <tr><td>{{ form_label(form.coach)   }}</td><td>{{ form_widget(form.coach)   }}</td></tr>
+        <tr><td>{{ form_label(form.official)}}</td><td>{{ form_widget(form.official)}}</td></tr>
+    </table></td>
 </tr>
 <tr>
-    <td colspan="2">{{ form_row(form.coach) }}</td>
-    <td colspan="1">{{ form_row(form.official) }}</td>
-    <td>
-        <a href="{{ path('zayso_core_schedule_referee_list', { '_format' : 'csv'}) }}">CSV</a>
-        <a href="{{ path('zayso_core_schedule_referee_list', { '_format' : 'xls'}) }}">Excel</a>
+    <td colspan="3">
+        <a href="{{ path('zayso_core_schedule_referee_list', { '_format' : 'xls'}) }}">Excel Spreadsheet</a>
+        <a href="{{ path('zayso_core_schedule_referee_list', { '_format' : 'csv'}) }}">Text File</a>
+   </td>
+    <td colspan="5" align="center">
+         <input type="submit" name="schSearchSubmit" value="Search" />
     </td>
 </tr>
-
-<tr><td colspan="5" align="right">
-    <input type="submit" name="schSearchSubmit" value="Search" />
-</td></tr>
+<tr>
+<td colspan="10">
+The form may look a bit complicated but it's really straight forward.  
+If you have added teams or people to your account on the Home page then select them to see their games.
+Then select the age you wish to referee and press search.
+Sign up for a game by clicking on the links over to the right of the games.
+You must be logged into zayso to see the links.
+</td>
+</tr>
 </table>
 {{ form_rest  (form) }}
 </form>        

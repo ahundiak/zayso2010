@@ -5,7 +5,7 @@
 {% block content %}
 {% include myBundleName ~ ':Schedule:Search/team.html.twig' %}
 <div>
-    <table border = "1">
+    <table border="1" style="max-width: 850px;">
         <tr><th colspan="7">Team Schedule 2012 - Game Count {{ gameCount }}</th></tr>
         <tr><td colspan="7">PP=Pool Play, QF=Quarter-Final, SF=Semi-Final, CM=Consolation Match, FM=Final Match</td></tr>
         <tr>
@@ -25,17 +25,17 @@
             <td>{{ game.fieldDesc          }}</td>
             <td>{{ game.pool               }}</td>
             <td>
-                {% set teamClass = game_team_class(teams,game.homeTeam.team) %}
-                {% if teamClass %}
-                    <span class="{{ teamClass }}">{{ game.homeTeam.team.desc }}</span>
+                {% set itemClass = game_team_class(teamIds,game.homeTeam.team) %}
+                {% if  itemClass %}
+                    <span class="{{ itemClass }}">{{ game.homeTeam.team.desc }}</span>
                 {% else %}
                     {{ game.homeTeam.team.desc }}
                 {% endif %}
             </td>
             <td>
-                {% set teamClass = game_team_class(teams,game.awayTeam.team) %}
-                {% if teamClass %}
-                    <span class="{{ teamClass }}">{{ game.awayTeam.team.desc }}</span>
+                {% set itemClass = game_team_class(teamIds,game.awayTeam.team) %}
+                {% if  itemClass %}
+                    <span class="{{ itemClass }}">{{ game.awayTeam.team.desc }}</span>
                 {% else %}
                     {{ game.awayTeam.team.desc }}
                 {% endif %}

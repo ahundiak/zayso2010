@@ -17,6 +17,31 @@ class RefSchedController extends BaseController
     }
     protected function initSearchData()
     {
+        // Need teams for account
+        $manager = $this->getScheduleManager();
+        
+        $user = $this->getUser();
+        if ($user) $accountId = $user->getAccountId();
+        else       $accountId = 0;
+        
+        // My Teams
+        $items = $manager->loadTeamsForProjectAccount($this->projectId,$accountId);
+        $teams   = array();
+        $teamIds = array();
+        foreach($items as $item)
+        {
+            $teams[$item->getId()] = $item->getDesc(); // For Pick List
+            $teamIds[] = $item->getDesc();             // Selected teams
+        }
+        // My Persons
+        $items = $manager->loadPersonsForProjectAccount(62,$accountId);
+        $persons   = array();
+        $personIds = array();
+        foreach($items as $item)
+        {
+            $persons[$item->getId()] = $item->getPersonName(); // For Pick List
+            $personIds[] = $item->getPersonName();             // Selected teams
+        }
         return array(
             'dows'     => array('FRI','SUN'),
             'ages'     => array(),
@@ -25,18 +50,35 @@ class RefSchedController extends BaseController
             'time2'    => '2100',
             'coach'    => null,
             'official' => null,
+            
+            'teams'    => $teams,
+            'teamIds'  => $teamIds,
+            'persons'  => $persons,
+            'personIds'=> $personIds,
        );
     }
+    protected $projectId     = 62;
+    protected $sessionDataId = 'refSchSearchData';
+    protected $searchFormId  = 'zayso_natgames.schedule.referee.search.formtype';
+    protected $routeId       = 'zayso_core_schedule_referee_list';
+    
+    protected $csvTpl   = 'Schedule:referee.csv.php';
+    protected $excelTpl = 'Schedule:referee.excel.php';
+    protected $htmlTpl  = 'Schedule:referee.html.twig';
+    protected $fileName = 'RefSchedule';
+    
     public function listAction(Request $request, $_format, $search = null)
     {
         $searchData = $this->initSearchData();
         
         // Pull from session if nothing was passed
-        if (!$search) $search = $request->getSession()->get('refSchSearchData');
+        if (!$search) $search = $request->getSession()->get($this->sessionDataId);
         
         if ($search) $searchData = array_merge($searchData,json_decode($search,true));
 
-        $searchFormType = $this->get('zayso_natgames.schedule.referee.search.formtype');
+        $searchFormType = $this->get($this->searchFormId);
+        $searchFormType->setTeams  ($searchData['teams']);
+        $searchFormType->setPersons($searchData['persons']);
         
         $searchForm = $this->createForm($searchFormType,$searchData);
         
@@ -48,14 +90,14 @@ class RefSchedController extends BaseController
             {
                 $search = $searchForm->getData();
                 $search = json_encode($search);
-                $request->getSession()->set('refSchSearchData',$search);
-                return $this->redirect($this->generateUrl('zayso_core_schedule_referee_list',array('search' => $search)));
+                $request->getSession()->set($this->sessionDataId,$search);
+                return $this->redirect($this->generateUrl($this->routeId, array('search' => $search)));
             }
         }
         $manager = $this->getScheduleManager();
         
         // Should projectId be in regular search data?  Probably
-        $searchData['projectId'] = 62;
+        $searchData['projectId'] = $this->projectId;
         
         $games = $manager->loadGames($searchData);
         $games = $this->filterGames($games,$searchData['coach'],$searchData['official']);
@@ -64,9 +106,9 @@ class RefSchedController extends BaseController
         {
             $tplData = array();
             $tplData['games'] = $games;
-            $response = $this->renderx('Schedule:referee.csv.php',$tplData);
+            $response = $this->renderx($this->csvTpl,$tplData);
         
-            $outFileName = 'RefSchedule' . date('Ymd') . '.csv';
+            $outFileName = $this->fileName . date('Ymd') . '.csv';
         
             $response->headers->set('Content-Type', 'text/csv;');
             $response->headers->set('Content-Disposition', "attachment; filename=\"$outFileName\"");
@@ -77,9 +119,9 @@ class RefSchedController extends BaseController
             $tplData = array();
             $tplData['games'] = $games;
             $tplData['excel'] = $this->get('zayso_core.format.excel');
-            $response = $this->renderx('Schedule:referee.excel.php',$tplData);
+            $response = $this->renderx($this->excelTpl,$tplData);
         
-            $outFileName = 'RefSchedule' . date('YmdHi') . '.xls';
+            $outFileName = $this->fileName . date('YmdHi') . '.xls';
         
             $response->headers->set('Content-Type', 'application/vnd.ms-excel');
             $response->headers->set('Content-Disposition', "attachment; filename=\"$outFileName\"");
@@ -89,9 +131,10 @@ class RefSchedController extends BaseController
         $tplData = array();
         $tplData['games'] = $games;
         $tplData['gameCount'] = count($games);
+        $tplData['teamIds']    = $searchData['teamIds'];
+        $tplData['personIds']  = $searchData['personIds'];
         $tplData['searchForm'] = $searchForm->createView();
-        return $this->renderx('Schedule:referee.html.twig',$tplData);
-        
+        return $this->renderx($this->htmlTpl,$tplData);
     }
     protected function filterGames($games,$coach,$official)
     {

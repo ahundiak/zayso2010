@@ -15,32 +15,30 @@
         <td>{{ form_widget(form.time1) }}<br />{{ form_widget(form.time2) }}</td>
     <tr></table></td>
     
-    <td><table border="1"><tr>
-    {% for item in form.ages %}
-        <td align="center">{{ form_label(item) }}<br />{{ form_widget(item) }}</td>
-    {% endfor %}
+    <td><table border="1">
+        <tr><td align="center">My Teams</td></tr>
+        {% for team in form.teamIds %}
+            <tr><td>{{ form_widget(team) }}{{ form_label(team) }}</td></tr>
+        {% endfor %} 
     <tr></table></td>
     
-    <td><table border="1"><tr>
-    {% for item in form.genders %}
-        <td align="center">{{ form_label(item) }}<br />{{ form_widget(item) }}</td>
-    {% endfor %}
-    <tr></table></td>    
+    <td><table border="1">
+        <tr><td align="center">My People</td></tr>
+        {% for item in form.personIds %}
+            <tr><td>{{ form_widget(item) }}{{ form_label(item) }}</td></tr>
+        {% endfor %} 
+    <tr></table></td>
+    
 </tr>
 <tr>
-    <td colspan="2">{{ form_row(form.coach) }}</td>
-    <td colspan="1">{{ form_row(form.official) }}</td>
-    <td>
-        <a href="{{ path('zayso_core_schedule_referee_list', { '_format' : 'csv'}) }}">CSV</a>
-        <a href="{{ path('zayso_core_schedule_referee_list', { '_format' : 'xls'}) }}">Excel</a>
+    <td colspan="2">
+        <a href="{{ path('zayso_core_schedule_my_list', { '_format' : 'xls'}) }}">Excel Spreadsheet</a>
+        <a href="{{ path('zayso_core_schedule_my_list', { '_format' : 'csv'}) }}">Text File</a>
     </td>
+    <td colspan="4" align="right"><input type="submit" name="schSearchSubmit" value="Search" /></td>
 </tr>
-
-<tr><td colspan="5" align="right">
-    <input type="submit" name="schSearchSubmit" value="Search" />
-</td></tr>
 </table>
-{{ form_rest  (form) }}
+{{ form_rest(form) }}
 </form>        
 </div>
 {% endif %}

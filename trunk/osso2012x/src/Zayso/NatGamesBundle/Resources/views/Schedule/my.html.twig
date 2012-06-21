@@ -1,12 +1,12 @@
 {% extends myBundleName ~ ':Layout:layout.html.twig' %}
 
-{% block title %}{{ myTitlePrefix }} Schedule {% endblock %}
+{% block title %}{{ myTitlePrefix }} My Schedule {% endblock %}
 
 {% block content %}
-{% include myBundleName ~ ':Schedule:Search/referee.html.twig' %}
+{% include myBundleName ~ ':Schedule:Search/my.html.twig' %}
 <div>
-    <table border="1" style="max-width: 850px;">
-        <tr><th colspan="7">Referee Schedule 2012 - Game Count {{ gameCount }}</th></tr>
+    <table border = "1">
+        <tr><th colspan="7">My Schedule 2012 - Game Count {{ gameCount }}</th></tr>
         <tr><td colspan="7">PP=Pool Play, QF=Quarter-Final, SF=Semi-Final, CM=Consolation Match, FM=Final Match</td></tr>
         <tr>
             <td>Game</td>
@@ -14,25 +14,21 @@
             <td>Field</td>
             <td>Pool</td>
             <td>Home / Away Teams</td>
-            <td>Official Signup</td>
+            <td>Officials</td>
         </tr>
         {% for game in games %}
-        <tr id="ref-sched-{{game.num}}" class="game-status-{{game.status}}">
+        <tr id="team-sched-{{game.num}}" class="game-status-{{game.status}}">
             <td>
-                {% if 0 %}
-                <a href="{{ path('zayso_core_schedule_game_edit', { 'id': game.id })}}">{{ game.getNum() }}</a>
-                {% else %}
                 {{ game.num }}
-                {% endif %}
             </td>
             <td>{{ game_dow(game.date) }} {{ game_time(game.time) }}</td>
-            <td>{{ game.fieldDesc      }}</td>
-            <td>{{ game.pool           }}</td>
+            <td>{{ game.fieldDesc          }}</td>
+            <td>{{ game.pool               }}</td>
             <td>
                 {% for teamRel in game.teams %}
-                    {% set itemClass = game_team_class(teamIds,teamRel.team) %}
-                    {% if  itemClass %}
-                        <span class="{{ itemClass }}">{{ teamRel.team.desc }}</span><br />
+                    {% set teamClass = game_team_class(teamIds,teamRel.team) %}
+                    {% if teamClass %}
+                        <span class="{{ teamClass }}">{{ teamRel.team.desc }}</span><br />
                     {% else %}
                         {{ teamRel.team.desc }}<br />
                     {% endif %}
@@ -76,13 +72,9 @@
     {% include 'ZaysoCoreBundle:Layout:zaysocore-js.html.twig' %}
 
 <script>
-
 $(document).ready(function() 
 {
-    // Check loading
-    // Zayso.exclaim('Referee Schedule');
-
-    $('input[type=checkbox][name^="refSchSearch["][name$="][ALL]"]').change(Zayso.checkboxAll);
+    $('input[type=checkbox][name^="mySchSearch["][name$="][ALL]"]').change(Zayso.checkboxAll);
 })
 </script>
 {% endblock %}
