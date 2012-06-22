@@ -10,7 +10,8 @@ select event.project_id, event.id, event.pool, event_person.id,event_person.pers
 from event_person left join event on event.id = event_person.event_id
 where project_id = 62 and event_person.person_id is not null and event_person.state is null;
 
-select event.project_id, event.id, event.pool, event_person.id,event_person.person_id, event_person.state, project_person.id
+select event.project_id, event.id as game_id, event.pool, 
+event_person.id as game_person_id, event_person.person_id, event_person.state, project_person.id as project_person_id
 from event_person 
 left join event on event.id = event_person.event_id
 left join project_person on project_person.person_id = event_person.person_id and project_person.project_id = 62
