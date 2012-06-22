@@ -7,6 +7,14 @@
     <services>
         
         <service
+            id     = "zayso_natgames.game.schedule.results.manager"
+            class  = "Zayso\NatGamesBundle\Component\Manager\ResultsManager"
+            public = "true">
+            <argument type="service" id="zayso_core.game.entity_manager" />
+            <argument type="string">games</argument>
+        </service>
+        
+        <service
             id     = "zayso_natgames.schedule.my.search.formtype"
             class  = "Zayso\NatGamesBundle\Component\Form\Type\Schedule\MySearchFormType"
             public = "true">
