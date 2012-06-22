@@ -7,8 +7,13 @@
     <meta name="author" content="Art Hundiak"/>
     
 {% block stylesheets %}
-    {% stylesheets output='bundles/zaysonatgames/css/natgames.css' debug=false
+    {# stylesheets output='bundles/zaysonatgames/css/natgames.css' debug=false
         '@ZaysoNatGamesBundle/Resources/public/css/natgames.css'
+    #}
+     {% stylesheets output='bundles/zaysocore/css/zayso.css' debug=false
+        '@ZaysoCoreBundle/Resources/public/css/reset.css'
+        '@ZaysoCoreBundle/Resources/public/css/layout.css'
+        '@ZaysoCoreBundle/Resources/public/css/core.css'
     %}
         <link rel="stylesheet" href="{{ asset_url }}" media="all" />
     {% endstylesheets %}   
@@ -48,34 +53,37 @@
 
 <div id="layout-top-menu">
   <ul style="float:left ">
-    <li><a href="{{ path('zayso_core_welcome')       }}">Welcome</a></li>
+    <li><a href="{{ path('zayso_core_welcome')   }}">Welcome</a></li>
     
 {% if is_granted('ROLE_USER') %}
-    <li><a href="{{ path('zayso_core_home')           }}">Home</a></li>
+    <li><a href="{{ path('zayso_core_home')      }}">Home</a></li>
 {% endif %}
     
     <li><a href="{{ path('zayso_core_textalerts')}}">Text Alerts</a></li>
+    <li><a href="{{ path('zayso_core_classes')   }}">Referee Classes</a></li>
+    <li><a href="{{ path('zayso_core_schedule')  }}">Game Schedule</a></li>
     
-    <li><a href="{{ path('zayso_core_schedule_my_list')     }}">My Schedule</a></li>
+{% if is_granted('ROLE_SUPER_ADMIN') %}
     <li><a href="{{ path('zayso_core_schedule_team_list')   }}">Team Schedule</a></li>
+    <li><a href="{{ path('zayso_core_schedule_my_list')     }}">My Schedule</a></li>
     <li><a href="{{ path('zayso_core_schedule_referee_list')}}">Referee Schedule</a></li>
-    
-    <li><a href="{{ path('zayso_core_classes') }}">Referee Classes</a></li>
+{% endif %}
         
 {% if is_granted('ROLE_USER') %}
     <li>
         <a href="https://utconferences.outreach.utk.edu/ei/getdemo.ei?id=262&s=_0N4104D7F" target="_blank">Laurel Hall Reservations</a>
     </li>
 {% endif %}
-  </ul>
+    
+</ul>
         
-  <ul style="float: right">
+<ul style="float: right">
 
 {% if is_granted('ROLE_ADMIN') %}
-    <li><a href="{{ path('zayso_natgames_admin')          }}">Admin</a></li>
+    <li><a href="{{ path('zayso_natgames_admin') }}">Admin</a></li>
 {% endif %}
 
-   <li><a href="{{ path('zayso_core_contact') }}">Contact Us</a></li>
+    <li><a href="{{ path('zayso_core_contact') }}">Contact Us</a></li>
    
 {% if is_granted('ROLE_USER') %}
    <li><a href="{{ path('zayso_core_account_signout') }}">Sign Out</a></li>
