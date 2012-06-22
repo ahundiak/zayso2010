@@ -74,32 +74,170 @@ class ScheduleManager extends GameManager
         
         $qb->andWhere($qb->expr()->eq('gamex.project',$qb->expr()->literal($projectId)));
        
+        // Date and time always needs to match
         if (count($dates)) $qb->andWhere($qb->expr()->in('gamex.date',$dates));
         
         if ($time1) $qb->andWhere($qb->expr()->gte('gamex.time',$qb->expr()->literal($time1)));
         if ($time2) $qb->andWhere($qb->expr()->lte('gamex.time',$qb->expr()->literal($time2)));
         
-        if (count($teamIds) || count($personIds) || count($ages) || count($genders))
+        if (count($teamIds) || count($personIds))
         {   
-            $orx = $qb->expr()->orX();
+            $orxTP = $qb->expr()->orX();
             
-            if (count($teamIds  )) $orx->add($qb->expr()->in('phyTeamx.id',     $teamIds));
-            if (count($personIds)) $orx->add($qb->expr()->in('personx.id',      $personIds));
-            if (count($ages))      $orx->add($qb->expr()->in('gameTeamx.age',   $ages));
-            if (count($genders))   $orx->add($qb->expr()->in('gameTeamx.gender',$genders));
-            
-            $qb->andWhere($orx);
+            if (count($teamIds  )) $orxTP->add($qb->expr()->in('phyTeamx.id',     $teamIds));
+            if (count($personIds)) $orxTP->add($qb->expr()->in('personx.id',      $personIds));
         }
+        else $orxTP = null;
         
+        if (count($ages) || count($genders))
+        {   
+            $andxAG = $qb->expr()->andX();
+            
+            if (count($ages))      $andxAG->add($qb->expr()->in('gameTeamx.age',   $ages));
+            if (count($genders))   $andxAG->add($qb->expr()->in('gameTeamx.gender',$genders));
+        }
+        else $andxAG = null;
+        
+        // If have both then wrap in orx
+        if ($orxTP && $andxAG)
+        {
+            $orx = $qb->expr()->orX();
+            $orx->add($orxTP);
+            $orx->add($andxAG);
+            $qb->addWhere($orx);
+        }
+        else
+        {
+            if ($orxTP)  $qb->andWhere($orxTP);
+            if ($andxAG) $qb->andWhere($andxAG);
+        }
       //print_r($qb->getQuery()->getResult()); die('qb');
         
         return $qb;
     }
+    /* =========================================================================
+     * Tried to do it the tricky way but can't seem to get or to work 
+     * Research later, for now just grab the ids and move on
+     */
+    public function loadGameIdsForTeamsPersons($search)
+    {   
+        if (isset($search['teamIds'])) $teamIds = $search['teamIds'];
+        else                           $teamIds = array();
+        
+        if (isset($search['personIds'])) $personIds = $search['personIds'];
+        else                             $personIds = array();
+    
+        if (isset($search['dows' ])) $dates = $search['dows'];
+        else                         $dates = array();
+        
+        if (isset($search['time1'])) $time1 = $search['time1'];
+        else                         $time1 = null;
+        
+        if (isset($search['time2'])) $time2 = $search['time2'];
+        else                         $time2 = null;
+        
+        if (!count($teamIds) && !count($personIds)) return array();
+        
+        // Build query
+        $qb = $this->createQueryBuilder();
+        
+        $qb->addSelect('distinct gamex.id');
+        
+        $qb->from('ZaysoCoreBundle:Event','gamex');
+        $qb->leftJoin('gamex.teams',      'gameTeamRelx');
+        $qb->leftJoin('gameTeamRelx.team','gameTeamx');  // Pool or Playoff
+        $qb->leftJoin('gameTeamx.parent', 'phyTeamx');
+        $qb->leftJoin('gamex.persons',    'gamePersonRelx');
+        $qb->leftJoin('gamePersonRelx.person','personx');
+        
+        // Date and time always needs to match
+        if (count($dates)) $qb->andWhere($qb->expr()->in('gamex.date',$dates));
+        
+        if ($time1) $qb->andWhere($qb->expr()->gte('gamex.time',$qb->expr()->literal($time1)));
+        if ($time2) $qb->andWhere($qb->expr()->lte('gamex.time',$qb->expr()->literal($time2)));
+        
+        // Add in game/person
+        $orx = $qb->expr()->orX();
+        if (count($teamIds  )) $orx->add($qb->expr()->in('phyTeamx.id',$teamIds));
+        if (count($personIds)) $orx->add($qb->expr()->in('personx.id', $personIds));
+        
+        $qb->andWhere($orx);
+        
+        $items = $qb->getQuery()->getArrayResult();
+        $ids = array();
+        foreach($items as $item) $ids[] = $item['id'];
+        
+        return $ids;
+        print_r($ids); die('ids');
+    }
+    public function loadGameIdsForAgesGenders($search)
+    {   
+        // Always need projectId for now
+        if (isset($search['projectId'])) $projectId = $search['projectId'];
+        else                             $projectId = null;
+        if (!$projectId) return array();
+        
+        if (isset($search['ages']))  $ages = $search['ages'];
+        else                         $ages = array();
+        
+        if (isset($search['genders'])) $genders = $search['genders'];
+        else                           $genders = array();
+        
+        if (isset($search['dows' ])) $dates = $search['dows'];
+        else                         $dates = array();
+        
+        if (isset($search['time1'])) $time1 = $search['time1'];
+        else                         $time1 = null;
+        
+        if (isset($search['time2'])) $time2 = $search['time2'];
+        else                         $time2 = null;
+        
+        if (!count($ages) && !count($genders)) return array();
+       
+        // Build query
+        $qb = $this->createQueryBuilder();
+        
+        $qb->addSelect('distinct gamex.id');
+        
+        $qb->from('ZaysoCoreBundle:Event','gamex');
+        $qb->leftJoin('gamex.teams',      'gameTeamRelx');
+        $qb->leftJoin('gameTeamRelx.team','gameTeamx');  // Pool or Playoff
+      //$qb->leftJoin('gameTeamx.parent', 'phyTeamx');
+      //$qb->leftJoin('gamex.persons',    'gamePersonRelx');
+      //$qb->leftJoin('gamePersonRelx.person','personx');
+        
+        // Project
+        $qb->andWhere($qb->expr()->eq('gamex.project',$qb->expr()->literal($projectId)));
+       
+        // Date and time always needs to match
+        if (count($dates)) $qb->andWhere($qb->expr()->in('gamex.date',$dates));
+        
+        if ($time1) $qb->andWhere($qb->expr()->gte('gamex.time',$qb->expr()->literal($time1)));
+        if ($time2) $qb->andWhere($qb->expr()->lte('gamex.time',$qb->expr()->literal($time2)));
+            
+        if (count($ages))    $qb->andWhere($qb->expr()->in('gameTeamx.age',   $ages));
+        if (count($genders)) $qb->andWhere($qb->expr()->in('gameTeamx.gender',$genders));
+         
+        $items = $qb->getQuery()->getArrayResult();
+        $ids = array();
+        foreach($items as $item) $ids[] = $item['id'];
+        
+        return $ids;
+        print_r($ids); die('ids');
+    }
     public function loadGames($search)
     {
+        $gameIds = array_merge
+        (
+            $this->loadGameIdsForTeamsPersons($search),
+            $this->loadGameIdsForAgesGenders ($search)
+        );
+        if (!count($gameIds)) return array();
+        
+
         // Distinct list of ids
-        $qbGameIds = $this->qbGameIds($search);
-        if (!$qbGameIds) return array();
+        // $qbGameIds = $this->qbGameIds($search);
+        //if (!$qbGameIds) return array();
         
         // Build query
         $qb = $this->createQueryBuilder();
@@ -120,7 +258,7 @@ class ScheduleManager extends GameManager
         $qb->leftJoin('game.persons',     'gamePerson');
         $qb->leftJoin('gamePerson.person','person');
         
-        $qb->andWhere($qb->expr()->in('game.id',$qbGameIds->getDQL()));
+        $qb->andWhere($qb->expr()->in('game.id',$gameIds));
         
         $qb->addOrderBy('game.date');
         $qb->addOrderBy('game.time');
