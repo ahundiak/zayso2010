@@ -31,3 +31,28 @@ insert into project_person values(NULL,62,414,'Active','');
 
 update event_person set state = 'AssignmentRequested' where
 id in (4633,4663,4842,4790,4822,4879,4890,4957);
+
+mysql> select * from account_person where id = 790;
++-----+-----------+------------+----------+--------+------------------+
+| id  | person_id | account_id | verified | status | account_relation |
++-----+-----------+------------+----------+--------+------------------+
+| 790 |       738 |        689 | No       | Active | Primary          |
++-----+-----------+------------+----------+--------+------------------+
+1 row in set (0.00 sec)
+
+mysql> delete from account_person where id = 790;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> delete from account where id = 689;
+Query OK, 1 row affected (0.03 sec)
+
+mysql> delete from project_person where person_id = 738;
+Query OK, 1 row affected (0.12 sec)
+
+mysql> delete from person_registered where person_id = 738;
+Query OK, 1 row affected (0.03 sec)
+
+mysql> delete from person where id = 738;
+Query OK, 1 row affected (0.03 sec)
+
+mysql>
