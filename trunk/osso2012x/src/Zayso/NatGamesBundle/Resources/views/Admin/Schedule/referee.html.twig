@@ -1,0 +1,22 @@
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
+
+{% block title %}{{ myTitlePrefix }} Schedule Admin {% endblock %}
+
+{% block content %}
+{% include myBundleName ~ ':Admin/Schedule:search.html.twig' %}
+{% include myBundleName ~ ':Admin/Schedule:list.html.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% include 'ZaysoCoreBundle:Layout:zaysocore-js.html.twig' %}
+
+<script>
+
+$(document).ready(function() 
+{
+    // name = schSearch[*][ALL]
+    $('input[type=checkbox][name^="schSearch["][name$="][ALL]"]').change(Zayso.checkboxAll);
+})
+</script>
+{% endblock %}

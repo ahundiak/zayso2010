@@ -78,7 +78,11 @@
 </ul>
         
 <ul style="float: right">
-
+    
+{% if is_granted('ROLE_SUPER_ADMIN') %}
+    <li><a href="{{ path('zayso_core_admin_schedule_results') }}">Results</a></li>
+{% endif %}
+    
 {% if is_granted('ROLE_ADMIN') %}
     <li><a href="{{ path('zayso_natgames_admin') }}">Admin</a></li>
 {% endif %}

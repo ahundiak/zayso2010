@@ -143,7 +143,25 @@ zayso_core_schedule_referee_assign:
     defaults: { _controller: ZaysoNatGamesBundle:Schedule\RefAssign:assign, id: 0, pos: ''}
     requirements:
         id: \d+
-
+        
+zayso_core_schedule_results:
+    pattern:  /schedule/public/results/{div}/{pool}
+    defaults: { _controller: ZaysoNatGamesBundle:Schedule\Results:results, div: 0, pool: 0}
+    
+zayso_core_admin_schedule_results_excel:
+    pattern:  /admin/schedule/results/excel/{div}/{pool}
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Schedule\Results:resultsExcel, div: 0, pool: 0}
+    
+zayso_core_admin_schedule_results:
+    pattern:  /admin/schedule/results/{div}/{pool}
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Schedule\Results:results, div: 0, pool: 0}
+    
+zayso_core_admin_schedule_game_report:
+    pattern:  /admin/schedule/game/report/{id}
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Schedule\GameReport:report}
+    requirements:
+        id: \d+
+   
 # =================================================
 # Admin stuff
 zayso_natgames_admin:
