@@ -43,6 +43,7 @@ class AccountBaseFormType extends AbstractType
         'AYSO'    => 'AYSO',
         'Coach'   => 'Coach',
         'Referee' => 'Referee',
+        'Youth'   => 'Youth NA',
     );
     protected $genderPickList = array
     (
