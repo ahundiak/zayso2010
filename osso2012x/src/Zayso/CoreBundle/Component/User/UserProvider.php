@@ -28,13 +28,15 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class UserProvider implements UserProviderInterface
 {
     private $em;
+    private $projectId;
     private $userClass;
 
     // Started as a clone of EntityUserManager
-    public function __construct(EntityManager $em, $userClass)
+    public function __construct(EntityManager $em, $userClass, $projectId = 0)
     {
         $this->em = $em;
         $this->userClass = $userClass;
+        $this->projectId = (int)$projectId;
         return;
     }
 
@@ -100,6 +102,10 @@ EOT;
             unset($row['person_registered_datax']);
             if (is_array($datax)) $row = array_merge($row,$datax);
         }
+        
+        // Now do a query for roles
+        // 
+        
         // Build the user
         $user = new $this->userClass($row);
 
