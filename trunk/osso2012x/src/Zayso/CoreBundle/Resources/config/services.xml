@@ -111,6 +111,7 @@
         <service id="zayso_core.user.provider" class="Zayso\CoreBundle\Component\User\UserProvider" public="true">
             <argument type="service" id="doctrine.orm.accounts_entity_manager" />
             <argument type="string">%zayso_core.user.class%</argument>
+            <argument type="string">%zayso_core.project.master%</argument>
         </service>
 
         <service id="zayso_core.user.encoder" class="Zayso\CoreBundle\Component\User\Encoder" public="true">
