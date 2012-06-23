@@ -60,18 +60,18 @@
 {% endif %}
     
     <li><a href="{{ path('zayso_core_textalerts')}}">Text Alerts</a></li>
-    <li><a href="{{ path('zayso_core_classes')   }}">Referee Classes</a></li>
+    <li><a href="{{ path('zayso_core_classes')   }}">Ref Class</a></li>
     <li><a href="{{ path('zayso_core_schedule')  }}">Game Schedule</a></li>
     
 {% if is_granted('ROLE_SUPER_ADMIN') %}
     <li><a href="{{ path('zayso_core_schedule_team_list')   }}">Team Schedule</a></li>
     <li><a href="{{ path('zayso_core_schedule_my_list')     }}">My Schedule</a></li>
-    <li><a href="{{ path('zayso_core_schedule_referee_list')}}">Referee Schedule</a></li>
+    <li><a href="{{ path('zayso_core_schedule_referee_list')}}">Ref Schedule</a></li>
 {% endif %}
         
 {% if is_granted('ROLE_USER') %}
     <li>
-        <a href="https://utconferences.outreach.utk.edu/ei/getdemo.ei?id=262&s=_0N4104D7F" target="_blank">Laurel Hall Reservations</a>
+        <a href="https://utconferences.outreach.utk.edu/ei/getdemo.ei?id=262&s=_0N4104D7F" target="_blank">Laurel Hall</a>
     </li>
 {% endif %}
     
@@ -79,7 +79,7 @@
         
 <ul style="float: right">
     
-{% if is_granted('ROLE_SUPER_ADMIN') %}
+{% if is_granted('ROLE_SCORER') %}
     <li><a href="{{ path('zayso_core_admin_schedule_results') }}">Results</a></li>
 {% endif %}
     

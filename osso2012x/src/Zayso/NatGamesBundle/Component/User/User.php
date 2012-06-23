@@ -16,7 +16,7 @@ class User extends BaseUser
         switch($aysoid)
         {
             case 'AYSOV99437977': // Art H
-                return array(new Role('ROLE_SUPER_ADMIN'));
+                return array(new Role('ROLE_SUPER_ADMIN'), new Role('ROLE_SCORER'));
                 
             case 'AYSOV90001476': // David Holt
             case 'AYSOV98037803': // Jack Graham
