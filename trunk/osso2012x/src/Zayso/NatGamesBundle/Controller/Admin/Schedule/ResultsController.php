@@ -74,6 +74,9 @@ class ResultsController extends BaseController
         
         $tplData = array();
         $tplData['pools']  = $pools;
+
+        if ($this->isUserScorer()) $tplData['isScorer'] = 'User is a scorer';
+        else                       $tplData['isScorer'] = 'User is NOT a scorer';
         
         $response = $this->renderx('Admin\Schedule:results.html.twig',$tplData);
       //$response->setPublic();
