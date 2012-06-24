@@ -145,6 +145,10 @@ class Team extends BaseEntity
     
     public function setKey2($key) { $this->onScalerPropertySet('key2',$key); }
     public function getKey2()     { return $this->key2; }
+    public function setKey3($key) { $this->onScalerPropertySet('key3',$key); }
+    public function getKey3()     { return $this->key3; }
+    public function setKey4($key) { $this->onScalerPropertySet('key4',$key); }
+    public function getKey4()     { return $this->key4; }
     
     public function setTeamKey($key) { $this->onScalerPropertySet('key1',$key); }
     public function getTeamKey()     { return $this->key1; }
