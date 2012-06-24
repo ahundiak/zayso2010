@@ -33,7 +33,7 @@ class ResultsController extends BaseController
             $gender = substr($div,3,1);
             $params = array
             (
-                'projectId' => 62,
+                'projectId' => 52,
                 'ages'      => array($age),
                 'genders'   => array($gender),
             );
