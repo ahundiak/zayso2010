@@ -76,6 +76,13 @@
             public = "true">
             <argument type="service" id="doctrine.orm.osso2012_entity_manager" />
         </service>
+        
+        <service 
+            id     = "zayso_natgames.schedule2012.import" 
+            class  = "Zayso\NatGamesBundle\Component\Import\Schedule2012Import" 
+            public = "true">
+            <argument type="service" id="zayso_core.game.manager" />
+        </service>
 
         <service 
             id     = "zayso_natgames.account.create.formtype" 
