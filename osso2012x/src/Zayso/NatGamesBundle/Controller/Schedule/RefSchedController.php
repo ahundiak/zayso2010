@@ -57,7 +57,7 @@ class RefSchedController extends BaseController
             'personIds'=> $personIds,
        );
     }
-    protected $projectId     = 62;
+    protected $projectId     = 52;
     protected $sessionDataId = 'refSchSearchData';
     protected $searchFormId  = 'zayso_natgames.schedule.referee.search.formtype';
     protected $routeId       = 'zayso_core_schedule_referee_list';

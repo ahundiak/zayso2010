@@ -19,7 +19,7 @@ class ResultsController extends BaseController
         
         $params = array
         (
-            'projectId' => 62,
+            'projectId' => 52,
         );
         $games = $manager->loadGames($params);
         $pools = $manager->getPools($games);
@@ -60,7 +60,7 @@ class ResultsController extends BaseController
             $gender = substr($div,3,1);
             $params = array
             (
-                'projectId' => 62,
+                'projectId' => 52,
                 'ages'      => array($age),
                 'genders'   => array($gender),
             );
