@@ -26,9 +26,9 @@ class TeamSearchFormType extends AbstractType
     (
         'ALL' => 'All', 
         '20120705' => 'Thu', 
-        '20120615' => 'Fri', 
-        '20120616' => 'Sat', 
-        '20120617' => 'Sun'
+        '20120706' => 'Fri', 
+        '20120707' => 'Sat', 
+        '20120708' => 'Sun'
     );
     
     public function buildForm(FormBuilder $builder, array $options)
@@ -60,7 +60,7 @@ class TeamSearchFormType extends AbstractType
         
         $manager = $this->manager;
         
-        $teams = $manager->qbPhyTeamsForProject(62)->getQuery()->getResult();
+        $teams = $manager->qbPhyTeamsForProject(52)->getQuery()->getResult();
         $teamsx = array();
         foreach($teams as $team)
         {

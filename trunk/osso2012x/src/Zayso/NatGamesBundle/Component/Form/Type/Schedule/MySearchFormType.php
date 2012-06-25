@@ -29,9 +29,9 @@ class MySearchFormType extends AbstractType
         'ALL' => 'All', 
         '20120704' => 'Wen', 
         '20120705' => 'Thu', 
-        '20120615' => 'Fri', 
-        '20120616' => 'Sat', 
-        '20120617' => 'Sun'
+        '20120706' => 'Fri', 
+        '20120707' => 'Sat', 
+        '20120708' => 'Sun'
     );
     public function setTeams($teams)     { $this->teams   = $teams; }
     public function setPersons($persons) { $this->persons = $persons; }

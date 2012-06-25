@@ -121,6 +121,11 @@ class ScheduleManager extends GameManager
      */
     public function loadGameIdsForTeamsPersons($search)
     {   
+        // Always need projectId for now
+        if (isset($search['projectId'])) $projectId = $search['projectId'];
+        else                             $projectId = null;
+        if (!$projectId) return array();
+        
         if (isset($search['teamIds'])) $teamIds = $search['teamIds'];
         else                           $teamIds = array();
         
@@ -150,7 +155,10 @@ class ScheduleManager extends GameManager
         $qb->leftJoin('gamex.persons',    'gamePersonRelx');
         $qb->leftJoin('gamePersonRelx.person','personx');
         
-        // Date and time always needs to match
+        // Project
+        $qb->andWhere($qb->expr()->eq('gamex.project',$qb->expr()->literal($projectId)));
+        
+       // Date and time always needs to match
         if (count($dates)) $qb->andWhere($qb->expr()->in('gamex.date',$dates));
         
         if ($time1) $qb->andWhere($qb->expr()->gte('gamex.time',$qb->expr()->literal($time1)));
