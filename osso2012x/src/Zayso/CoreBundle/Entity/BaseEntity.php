@@ -98,6 +98,18 @@ class BaseEntity implements NotifyPropertyChanged
         
         $this->$name = $newObject;
     }
+    protected function onObjectPropertySetx($name,$newObject)
+    {
+        $oldObject = $this->$name;
+        
+        if ($oldObject && $newObject)
+        {
+            // if ($oldObject->getId() == $newObject->getId()) return;
+        }
+        $this->onPropertyChanged($name,$oldObject,$newObject);
+        
+        $this->$name = $newObject;
+    }
     protected function onScalerPropertySet($name,$value)
     {
         if ($this->$name === $value) return;
