@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MySchedController extends RefSchedController
 {
-    protected $sessionDataId = 'mySchSearchData';
+    protected $sessionDataId = 'mySchSearchData2012';
     protected $searchFormId  = 'zayso_natgames.schedule.my.search.formtype';
     protected $routeId       = 'zayso_core_schedule_my_list';
     
@@ -55,7 +55,7 @@ class MySchedController extends RefSchedController
         $manager = $this->getScheduleManager();
         
         // Should projectId be in regular search data?  Probably
-        $searchData['projectId'] = 62;
+        $searchData['projectId'] = 52;
         
         $games = $manager->loadGames($searchData);
         

@@ -22,7 +22,7 @@ class RefSchedController extends BaseController
         
         $user = $this->getUser();
         if (is_object($user)) $accountId = $user->getAccountId();
-        else       $accountId = 0;
+        else                  $accountId = 0;
         
         // My Teams
         $items = $manager->loadTeamsForProjectAccount($this->projectId,$accountId);
@@ -33,8 +33,9 @@ class RefSchedController extends BaseController
             $teams[$item->getId()] = $item->getDesc(); // For Pick List
             $teamIds[] = $item->getDesc();             // Selected teams
         }
+        
         // My Persons
-        $items = $manager->loadPersonsForProjectAccount(62,$accountId);
+        $items = $manager->loadPersonsForProjectAccount($this->projectId,$accountId);
         $persons   = array();
         $personIds = array();
         foreach($items as $item)
@@ -58,7 +59,7 @@ class RefSchedController extends BaseController
        );
     }
     protected $projectId     = 52;
-    protected $sessionDataId = 'refSchSearchData';
+    protected $sessionDataId = 'refSchSearchData2012';
     protected $searchFormId  = 'zayso_natgames.schedule.referee.search.formtype';
     protected $routeId       = 'zayso_core_schedule_referee_list';
     
@@ -75,7 +76,6 @@ class RefSchedController extends BaseController
         if (!$search) $search = $request->getSession()->get($this->sessionDataId);
         
         if ($search) $searchData = array_merge($searchData,json_decode($search,true));
-
         $searchFormType = $this->get($this->searchFormId);
         $searchFormType->setTeams  ($searchData['teams']);
         $searchFormType->setPersons($searchData['persons']);

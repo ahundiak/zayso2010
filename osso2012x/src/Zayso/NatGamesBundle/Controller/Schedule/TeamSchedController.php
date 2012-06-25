@@ -58,7 +58,7 @@ class TeamSchedController extends BaseController
         $manager = $this->getScheduleManager();
         
         // Should projectId be in regular search data?  Probably
-        $searchData['projectId'] = 62;
+        $searchData['projectId'] = 52;
   
         $teamIds = array();
         $teamKeys = array('team1','team2','team3');
