@@ -135,11 +135,11 @@ class Schedule2012Import extends ExcelBaseImport
             $areax    =      substr($desc,3,1);
             if ($section != $sectionx)
             {
-                echo sprintf("Mismatch section %s %d %s\n",$desc,$section,$area);
+                //echo sprintf("Mismatch section %s %d %s\n",$desc,$section,$area);
             }
             if ($area != $areax)
             {
-                echo sprintf("Mismatch area    %s %d %s\n",$desc,$section,$area);
+                //echo sprintf("Mismatch area    %s %d %s\n",$desc,$section,$area);
             }
             // Got it
             $this->orgs[$key] = $org;
@@ -205,12 +205,17 @@ class Schedule2012Import extends ExcelBaseImport
         
         $this->phyTeams[$key] = $team;
         
-        echo 'Added phy team ' . $key . "\n";
+        //echo 'Added phy team ' . $key . "\n";
         
         return $team;
     }
     protected function processTeam($gid,$key3)
     {
+        // VACant teams
+        if (!$key3) return;
+        if (strpos($key3,'VAC') !== FALSE) return;
+        if (strpos($key3,'BYE') !== FALSE) return;
+        
         $pools = array(
             'A1','A2','A3','A4','A5','A6','A7','A8',
             'B1','B2','B3','B4','B5','B6','B7','B8',
@@ -304,7 +309,6 @@ class Schedule2012Import extends ExcelBaseImport
         $home  = trim($row[ 7]);
         $away  = trim($row[11]);
         
-      //if ($seq > 100) { print_r($row); die(); }
         $this->processGame('U' . $sheetName,$seq,$num,$date,$time,$field,$home,$away);
         
         return;
@@ -323,16 +327,46 @@ class Schedule2012Import extends ExcelBaseImport
         $home  = trim($row[23]);
         $away  = trim($row[27]);
         
-      //if ($seq > 100) { print_r($row); die(); }
         $this->processGame('U' . $sheetName,$seq,$num,$date,$time,$field,$home,$away);
         
         return;
         
    }
+    protected function processNewPoolTeam($div,$key)
+    {
+        // E1 G3
+        if (strlen($key) != 2) return $key;
+        
+        $key = $key . ' ' . $div;
+        
+        if (isset($this->poolTeams[$key])) return $key;
+        
+        // See if exists
+        $team = $this->manager->loadPoolTeamForKey($this->projectId,$key);
+        if ($team)
+        {
+            $this->poolTeams[$key] = $team; echo $key . "\n";
+            return $key;
+        }
+           
+        // Create
+        $team = $this->newTeam($div, 'pool', $key);
+        $team->setLevel('regular');
+        $team->setDesc1($key);
+         
+        $this->manager->persist($team);
+        
+        $this->poolTeams[$key] = $team;
+        
+        return $key;
+    }
     protected function processGame($div,$seq,$num,$date,$time,$fieldKey,$homeTeamKey,$awayTeamKey)
     {
-        if ($seq < 100) return;
-       
+        if ($seq < 10) return;
+        
+        if (strpos($homeTeamKey,'VAC') !== FALSE) return;
+        if (strpos($awayTeamKey,'VAC') !== FALSE) return;
+        
         // Need to sleep on bye
         if (strpos($homeTeamKey,'BYE') !== false) return;
         if (strpos($awayTeamKey,'BYE') !== false) return;
@@ -347,14 +381,16 @@ class Schedule2012Import extends ExcelBaseImport
         {
             die('No field for ' . $seq);
         }
-       
+        $homeTeamKey = $this->processNewPoolTeam($div,$homeTeamKey);
+        $awayTeamKey = $this->processNewPoolTeam($div,$awayTeamKey);
+        
         // Teams
         if (isset($this->poolTeams[$homeTeamKey])) $homeTeam = $this->poolTeams[$homeTeamKey];
         else                                       $homeTeam = null;
        
         if (isset($this->poolTeams[$awayTeamKey])) $awayTeam = $this->poolTeams[$awayTeamKey];
         else                                       $awayTeam = null;
-       
+
         // Make sure have both or neither
         // Bye will tirgger this
         if ($homeTeam || $awayTeam)
@@ -364,37 +400,10 @@ class Schedule2012Import extends ExcelBaseImport
             
         }
         else
-        {
+        {   
             $pool = $div . ' ' . substr($num,3);
             $homeTeamKey = $div . ' ' . $homeTeamKey;
             $awayTeamKey = $div . ' ' . $awayTeamKey;
-             
-            /*
-            // Must be playoff
-            $poolsx = array(
-                'QTR1' => 'QF1', 'QTR2' => 'QF2', 'QTR3' => 'QF3', 'QTR4' => 'QF4',
-                'SF1'  => 'SF1', 'SF2'  => 'SF2', 'SF3'  => 'SF3', 'SF4'  => 'SF4',
-            );
-            if (isset($poolsx[substr($num,3)])) $pool = $div . ' ' . $poolsx[substr($num,3)];
-            else
-            {
-                // return;
-                // Un processed type
-                die('Pool ' . $div . ' ' . $num);
-            }
-            $teamsx = array(
-                '1st Group A' => 'A 1ST', '1st Group B' => 'B 1ST', '1st Group C' => 'C 1ST', '1st Group D' => 'D 1ST',
-                '2nd Group A' => 'A 2ND', '2nd Group B' => 'B 2ND', '2nd Group C' => 'C 2ND', '2nd Group D' => 'D 2ND',
-                
-                'WINNER QTR 1' => 'SF1 WIN', 'WINNER QTR 2' => 'SF2 WIN', 'WINNER QTR 3' => 'SF3 WIN', 'WINNER QTR 4' => 'SF4 WIN', 
-           );
-            
-            if (isset($teamsx[$homeTeamKey])) $homeTeamKey = $div . ' ' . $teamsx[$homeTeamKey];
-            else die('homeTeamKey ' . $div . ' ' . $homeTeamKey . "\n");
-            
-            if (isset($teamsx[$awayTeamKey])) $awayTeamKey = $div . ' ' . $teamsx[$awayTeamKey];
-            else die('awayTeamKey ' . $div . ' ' . $awayTeamKey . "\n");
-            */
         }
         
         // Do the games
@@ -528,8 +537,8 @@ class Schedule2012Import extends ExcelBaseImport
         
         $reader = $this->excel->load($inputFileName);
 
-        $sheets = array('12B','12G','14B','14G');
-        $sheets = array('14G');
+        $sheets = array('10B','10G','12B','12G','14B','14G','16B','16G','19B','19G');
+      //$sheets = array('10B');
         foreach($sheets as $sheet)
         {
             $this->processSheet($reader,$sheet);
