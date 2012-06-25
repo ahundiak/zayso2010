@@ -97,8 +97,8 @@ class RefAssignController extends BaseController
                 if ($state == 'AssignmentRequested')
                 {
                     $gamePersonRel->setPerson(null);
-                    $gamePersonRel->setState(null);
-                  //$gamePersonRel->setUserModified(); // Crashes, don't know why
+                    $gamePersonRel->setState (null);
+                    $gamePersonRel->setUserModified();
                     return true;
                 }
                 else
