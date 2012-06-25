@@ -38,6 +38,9 @@
     <td colspan="4" align="right"><input type="submit" name="schSearchSubmit" value="Search" /></td>
 </tr>
 </table>
+<div style="display: none;">
+    {{ form_widget(form.teamIds) }}{{form_widget(form.personIds) }}
+</div>
 {{ form_rest(form) }}
 </form>        
 </div>

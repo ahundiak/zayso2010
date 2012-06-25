@@ -66,6 +66,9 @@ You must be logged into zayso to see the signup links.
 </td>
 </tr>
 </table>
+<div style="display: none;">
+    {{ form_widget(form.teamIds) }}{{form_widget(form.personIds) }}
+</div>
 {{ form_rest  (form) }}
 </form>        
 </div>

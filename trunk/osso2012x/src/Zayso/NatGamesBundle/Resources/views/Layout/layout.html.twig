@@ -68,11 +68,13 @@
     </li>
 {% endif %}
     
-{% if is_granted('ROLE_SUPER_ADMIN') or true %}
     <li><a href="{{ path('zayso_core_schedule_team_list')   }}">Team Schedule</a></li>
+
+{% if is_granted('ROLE_USER') %}
     <li><a href="{{ path('zayso_core_schedule_my_list')     }}">My Schedule</a></li>
+{%endif %}
+    
     <li><a href="{{ path('zayso_core_schedule_referee_list')}}">Ref Schedule</a></li>
-{% endif %}
             
 </ul>
         
