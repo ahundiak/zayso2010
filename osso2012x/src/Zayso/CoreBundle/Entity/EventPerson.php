@@ -216,12 +216,12 @@ class EventPerson extends BaseEntity
     public function setUserModified($dt = null) 
     {
         if (!$dt) $dt = new \DateTime('now');
-        $this->onObjectPropertySet('userModified', $dt);
+        $this->onObjectPropertySetx('userModified', $dt);
     }
     public function setAdminModified($dt = null) 
-    {
+    {   
         if (!$dt) $dt = new \DateTime('now');
-        $this->onObjectPropertySet('adminModified', $dt);
+        $this->onObjectPropertySetx('adminModified', $dt);
     }    
 }
 ?>
