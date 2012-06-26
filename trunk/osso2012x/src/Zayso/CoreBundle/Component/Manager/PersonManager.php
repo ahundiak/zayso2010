@@ -42,7 +42,7 @@ class PersonManager extends BaseManager
     {   
         $qb = $this->newQueryBuilder();
 
-        $qb->addSelect('person,projectPerson','personCert','org');
+        $qb->addSelect('person,projectPerson','aysoCert','org','gameRel','game');
 
         $qb->from('ZaysoCoreBundle:Person','person');
         
@@ -50,10 +50,13 @@ class PersonManager extends BaseManager
         
         $qb->leftJoin('person.projectPersons','projectPerson');
         
-        $qb->leftJoin('person.registeredPersons','personCert'); 
+//        $qb->leftJoin('person.registeredPersons','personCert'); 
         
-//        $qb->leftJoin('person.registeredPersons','aysoCert', 
-//            Expr\Join::WITH, $qb->expr()->eq('aysoCert.regType', 'AYSOV'));
+        $qb->leftJoin('person.registeredPersons','aysoCert', 
+            Expr\Join::WITH, $qb->expr()->eq('aysoCert.regType',  $qb->expr()->literal('AYSOV')));
+        
+        $qb->leftJoin('person.gameRels','gameRel');
+        $qb->leftJoin('gameRel.event', 'game');
         
         $qb->andWhere($qb->expr()->eq('projectPerson.project',$projectId));
 
