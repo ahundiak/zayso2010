@@ -7,6 +7,7 @@
 <div class="schedule-list">
     <table border="1" style="max-width: 850px;">
         <tr><th colspan="7">Referee Schedule 2012 - Game Count {{ gameCount }}</th></tr>
+        <tr><th colspan="7">Signups for U10 have been disabled while we adjust the schedule</th></tr>
         <tr>
             <td>Game</td>
             <td>DOW Time</td>
@@ -42,7 +43,7 @@
                 {% set person = gamePerson.personz %}
                 <tr>
                     <td>
-                        {% if is_granted('ROLE_USER') and game.isPoolPlay %}
+                        {% if is_granted('ROLE_USER') and game.isPoolPlay and game.homeTeam.team.age != 'U10' %}
                         <a href="{{ path('zayso_core_schedule_referee_assign', { 'id': game.id, 'pos': gamePerson.type }) }}">
                            {{ gamePerson.type }}:</a>
                         {% else %}
