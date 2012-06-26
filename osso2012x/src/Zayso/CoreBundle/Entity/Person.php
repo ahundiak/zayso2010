@@ -55,7 +55,14 @@ class Person
      *  @ORM\OneToMany(targetEntity="PersonTeamRel", mappedBy="person")
      */
     protected $teamRels;
+    
+    /**
+     *  @ORM\OneToMany(targetEntity="EventPerson", mappedBy="person")
+     */
+    protected $gameRels;
 
+    public function getGameRels() { return $this->gameRels; }
+    
     /**
      * Probably do not need this
      * Need for query to get all people for a given account
@@ -105,6 +112,20 @@ class Person
         $this->registeredPersons = new ArrayCollection();
         $this->projectPersons    = new ArrayCollection();
         $this->teamRels          = new ArrayCollection();
+        $this->gameRels          = new ArrayCollection();
+    }
+    public function getGameRelsForProject($projectId)
+    {
+        $gameRelsx = array();
+        foreach($this->gameRels as $gameRel)
+        {
+            $game = $gameRel->getEvent();
+            if ($game)
+            {
+                if ($game->getProject()->getId() == $projectId) $gameRelsx[] = $gameRel;
+            }
+        }
+        return $gameRelsx;
     }
     public function addProjectPerson($projectPerson)
     {
