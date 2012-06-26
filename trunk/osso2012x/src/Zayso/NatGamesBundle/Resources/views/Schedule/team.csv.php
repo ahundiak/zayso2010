@@ -5,7 +5,7 @@ $fp = fopen('php://temp','r+');
 
 // Header
 $row = array(
-    "Game","Date","Time","Field",
+    "Game","Date","DOW","Time","Field",
     "Pool","Home Team","Away Team"
 );
 fputcsv($fp,$row);
@@ -16,7 +16,8 @@ foreach($games as $game)
     // Date
     $date = $game->getDate();
     $stamp = mktime(0,0,0,substr($date,4,2),substr($date,6,2),substr($date,0,4));
-    $date = date('D M d',$stamp);
+    $dow  = date('D',  $stamp);
+    $date = date('M d',$stamp);
     
     // Time
     $time = $game->getTime();
@@ -26,6 +27,7 @@ foreach($games as $game)
     $row = array();
     $row[] = $game->getNum();
     $row[] = $date;
+    $row[] = $dow;
     $row[] = $time;
     $row[] = $game->getFieldDesc();
     

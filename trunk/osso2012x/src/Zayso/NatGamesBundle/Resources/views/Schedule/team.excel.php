@@ -10,6 +10,9 @@ class NatGamesScheduleTeamExport
         'Status 2'  => 10,
         'PA'        =>  4,
         'DOW Time'  => 15,
+        'DOW'       =>  5,
+        'Date'      =>  7,
+        'Time'      => 10,
         'Field'     =>  6,
         'Pool'      => 12,
             
@@ -83,7 +86,9 @@ class NatGamesScheduleTeamExport
     {
         $map = array(
             'Game'     => 'game',
-            'DOW Time' => 'date',
+            'Date'     => 'date',
+            'DOW'      => 'dow',
+            'Time'     => 'time',
             'Field'    => 'field',
             'Pool'     => 'pool',
             
@@ -106,7 +111,8 @@ class NatGamesScheduleTeamExport
             $time = $game->getTime();
             
             $stamp = mktime(0,0,0,substr($date,4,2),substr($date,6,2),substr($date,0,4));
-            $date = date('D',$stamp);
+            $dow  = date('D',  $stamp);
+            $date = date('M d',$stamp);
             
             $stamp = mktime(substr($time,0,2),substr($time,2,2));
             $time = date('h:i A',$stamp);
@@ -114,7 +120,9 @@ class NatGamesScheduleTeamExport
             $dtg = $date . ' ' . $time;
           
             $ws->setCellValueByColumnAndRow($col++,$row,$game->getNum());
-            $ws->setCellValueByColumnAndRow($col++,$row,$dtg);
+            $ws->setCellValueByColumnAndRow($col++,$row,$date);
+            $ws->setCellValueByColumnAndRow($col++,$row,$dow);
+            $ws->setCellValueByColumnAndRow($col++,$row,$time);
             $ws->setCellValueByColumnAndRow($col++,$row,$game->getFieldDesc());
             $ws->setCellValueByColumnAndRow($col++,$row,$game->getPool());
             
