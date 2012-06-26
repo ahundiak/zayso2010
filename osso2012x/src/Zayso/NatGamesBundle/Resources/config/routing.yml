@@ -213,6 +213,10 @@ zayso_core_legacy_account_password_reset:
     pattern:  /account/resetx/{reset}
     defaults: { _controller: ZaysoCoreBundle:Account\Signin:passwordReset, reset: 0}
     
+zayso_core_legacy_account_signin:
+    pattern:  /account/signin
+    defaults: { _controller: ZaysoCoreBundle:Account\Signin:signin }
+    
 zayso_core_legacy_schedule:
     pattern:  /schedule
     defaults: { _controller: ZaysoNatGamesBundle:Schedule:index }

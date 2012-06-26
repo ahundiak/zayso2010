@@ -1,5 +1,5 @@
 <?php
-namespace Zayso\S5GamesBundle\Controller\Schedule;
+namespace Zayso\NatGamesBundle\Controller\Schedule;
 
 use Zayso\CoreBundle\Component\Debug;
 use Zayso\CoreBundle\Controller\BaseController;
@@ -37,22 +37,20 @@ class ResultsController extends BaseController
                 'ages'      => array($age),
                 'genders'   => array($gender),
             );
-            if ($gender == 'B') $params['genders'][] = 'C';
+            // if ($gender == 'B') $params['genders'][] = 'C';
             
             $games = $manager->loadGames($params);
         }
         else $games = array();
         
-        $pools = $manager->getPools($games,$pool);
+        //$pools = $manager->getPools($games,$pool);
         
         $tplData = array();
-      //$tplData['dtg']    = date('Y-m-d H:i:s',time());
-        $tplData['pools']  = $pools;
-      //$tplData['cached'] = true;
+      //$tplData['pools']  = $pools;
         
         $response = $this->renderx('Schedule:results.html.twig',$tplData);
-        $response->setPublic();
-        $response->setSharedMaxAge(15);
+      //$response->setPublic();
+      //$response->setSharedMaxAge(0);
         return $response;
          
     }

@@ -1,9 +1,9 @@
-{% extends myBundleName ~ ':Layout:layout_cached.html.twig' %}
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
 
 {% block title %}{{ myTitlePrefix }} Results {% endblock %}
 
 {% block content %}
-{% set ages = [ 'U10','U12','U14','U19'  ]          %}
+{% set ages = [ 'U10','U12','U14','U16','U19'  ]    %}
 {% set genders = { 'B' : 'Boys', 'G' : 'Girls' }    %}
 {% set resultsRoute = 'zayso_core_schedule_results' %}
 <table border="1">
@@ -11,12 +11,20 @@
     {% for age in ages %}
         <td align="center">{{ age }}</td>
     {% endfor %}
+    <td rowspan="3">Report incorrect scores by<br />sending an email to: <br />Please be sure to include the game number.</td>
     </tr>
     {% for gender,genderDesc in genders %}
     <tr><td>{{ genderDesc }}</td>
         {% for age in ages %}
         <td>
-            {% for px,py in { 'All' : '', 'A' : 'A', 'B' : 'B', 'C' : 'C' } %}
+            {% set pp = { 'All' : '', 'A' : 'A', 'B' : 'B', 'C' : 'C', 'D' : 'D' } %}
+            {% if  age == 'U10' %}
+            {% set pp = { 'All' : '', 'A' : 'A', 'B' : 'B', 'C' : 'C', 'D' : 'D', 'E' : 'E', 'F' : 'F', 'G' : 'G', 'H' : 'H'  } %}
+            {% endif %}
+            {% if  age == 'U16' or age == 'U19' %}
+            {% set pp = { 'All' : '', 'A' : 'A', 'B' : 'B', 'C' : 'C' } %}
+            {% endif %}
+            {% for px,py in pp %}
                 <a href="{{ path(resultsRoute, { 'div': age ~ gender, 'pool' : py}) }}">{{ px }}</a>
             {% endfor %}
         </td>
@@ -24,6 +32,8 @@
     </tr>
     {% endfor %}
 </table> 
+<p>Scoring results will be shown here once the games begin.</p>
+{#
 <div>
     {% for poolKey, pool in pools %}
     <table border = "1">
@@ -116,4 +126,5 @@
     </table>
     {% endfor %}
 </div>
+#}
 {% endblock %}
