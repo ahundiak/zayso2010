@@ -25,7 +25,7 @@ class ListController extends BaseController
         
         $export = $this->get('zayso_natgames.account.export');
         
-        $outFileName = 'NatGamesPeople' . date('Ymd') . '.xls';
+        $outFileName = 'NatGamesPeople' . date('YmdHi') . '.xls';
         
         $response = new Response();
         $response->setContent($export->generate());

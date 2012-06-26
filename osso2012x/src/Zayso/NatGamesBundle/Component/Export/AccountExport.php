@@ -32,6 +32,7 @@ class AccountExport
     (
         'PEID'         =>  5,
         'AYSOID'       => 10,
+        'Games'        =>  5,
         'Last Name'    => 15,
         'First Name'   => 15,
         'Nick Name'    => 10,
@@ -48,9 +49,17 @@ class AccountExport
         'Referee'      =>  5,
         'Ground Trans' =>  5,
         'Hotel'        => 20,
-        'Will Assess'  => 10,
+        'Will Assess'  => 20,
+        'Want Assess'  => 20,
         'Volunteer'    => 10,
         'T-Shirt'      => 10,
+        
+        'Thursday'  => 10,
+        'Friday'    => 10,
+        'Sat Morn'  => 10,
+        'Sat After' => 10,
+        'Sun Morn'  => 10,
+        'Sun After' => 10,
     );
     
     public function __construct($manager,$projectId,$excel)
@@ -89,6 +98,7 @@ class AccountExport
         $map = array(
             'PEID'         => 'id',
             'AYSOID'       => 'aysoid',
+            'Games'        => 'gameCount',
             'Last Name'    => 'lastName',
             'First Name'   => 'firstName',
             'Nick Name'    => 'nickName',
@@ -124,6 +134,7 @@ class AccountExport
         $map = array(
             'PEID'         => 'id',
             'AYSOID'       => 'aysoid',
+            'Games'        => 'gameCount',
             'Last Name'    => 'lastName',
             'First Name'   => 'firstName',
             'Nick Name'    => 'nickName',
@@ -149,6 +160,7 @@ class AccountExport
         $map = array(
             'PEID'         => 'id',
             'AYSOID'       => 'aysoid',
+            'Games'        => 'gameCount',
             'Last Name'    => 'lastName',
             'First Name'   => 'firstName',
             'Nick Name'    => 'nickName',
@@ -181,11 +193,96 @@ class AccountExport
         }
         $this->counts['Confirmed Referees'] = $row - 1;
     }
+    protected function generateAssessments($ws)
+    {
+        $map = array(
+            'PEID'         => 'id',
+            'AYSOID'       => 'aysoid',
+            'Last Name'    => 'lastName',
+            'First Name'   => 'firstName',
+            'Nick Name'    => 'nickName',
+            'Gender'       => 'gender',
+            'Email'        => 'email',
+            'Cell Phone'   => 'cellPhone',
+            'Region'       => 'region',
+            'Regon Desc'   => 'regionDesc',
+            'ST'           => 'state',
+            'MY'           => 'memYear',
+            'Safe Haven'   => 'safeHaven',
+            'Ref Badge'    => 'refBadge',
+            'Attend'       => 'attend',
+            'Referee'      => 'will_referee',
+            'Games'        => 'gameCount',
+            'Want Assess'  => 'want_assessment',
+            'Will Assess'  => 'do_assessments',
+       );
+        $ws->setTitle('Assessments');
+        
+        $row = $this->setHeaders($ws,$map);
+        
+        $persons = $this->getPersons();
+        foreach($persons as $person)
+        {
+            $attend =  substr($person['attend'],0,3);
+            $referee = substr($person['will_referee'],0,3);
+            if ($attend == 'Yes' && $referee == 'Yes') 
+            {
+                $this->setRow($ws,$map,$person,$row);
+            }
+        }
+      //$this->counts['Confirmed Referees'] = $row - 1;
+    }
+    protected function generateAvailability($ws)
+    {
+        $map = array(
+            'PEID'         => 'id',
+            'AYSOID'       => 'aysoid',
+            'Last Name'    => 'lastName',
+            'First Name'   => 'firstName',
+            'Nick Name'    => 'nickName',
+            'Gender'       => 'gender',
+            'Email'        => 'email',
+            'Cell Phone'   => 'cellPhone',
+            'Region'       => 'region',
+            'Regon Desc'   => 'regionDesc',
+            'ST'           => 'state',
+            'MY'           => 'memYear',
+            'Safe Haven'   => 'safeHaven',
+            'Ref Badge'    => 'refBadge',
+            'Attend'       => 'attend',
+            'Referee'      => 'will_referee',
+            
+            'Games'        => 'gameCount',
+            
+            'Thursday'  => 'avail_thu',
+            'Friday'    => 'avail_fri',
+            'Sat Morn'  => 'avail_sat_morn',
+            'Sat After' => 'avail_sat_after',
+            'Sun Morn'  => 'avail_sun_morn',
+            'Sun After' => 'avail_sun_after',
+        );
+        $ws->setTitle('Availability');
+        
+        $row = $this->setHeaders($ws,$map);
+        
+        $persons = $this->getPersons();
+        foreach($persons as $person)
+        {
+            $attend =  substr($person['attend'],0,3);
+            $referee = substr($person['will_referee'],0,3);
+            if ($attend == 'Yes' && $referee == 'Yes') 
+            {
+                $this->setRow($ws,$map,$person,$row);
+            }
+        }
+      //$this->counts['Confirmed Referees'] = $row - 1;
+    }
     protected function generateMaybe($ws)
     {
         $map = array(
             'PEID'         => 'id',
             'AYSOID'       => 'aysoid',
+            'Games'        => 'gameCount',
             'Last Name'    => 'lastName',
             'First Name'   => 'firstName',
             'Nick Name'    => 'nickName',
@@ -321,7 +418,10 @@ class AccountExport
         $this->generateMaybe          ($ss->createSheet(2));
         $this->generateStates         ($ss->createSheet(3));
         $this->generateGroundTransport($ss->createSheet(4));
-        $this->generateProjectPersons ($ss->createSheet(5));
+        
+        $this->generateAssessments    ($ss->createSheet(5));
+        $this->generateAvailability   ($ss->createSheet(6));
+        $this->generateProjectPersons ($ss->createSheet(7));
         
         $this->generateCounts($ss->getSheet(0));
         
@@ -413,6 +513,9 @@ class AccountExport
             $person['safeHaven'] = $aysoCert->getSafeHaven();
             $person['refBadge']  = $aysoCert->getRefBadge();
             
+            $person['gameSlots'] = $item->getGameRelsForProject($this->projectId);
+            $person['gameCount'] = count($person['gameSlots']);
+            
             $projectPerson = $item->getProjectPerson($this->projectId);
             $plans = $projectPerson->get('plans');
             if (!is_array($plans)) $plans = array();
@@ -423,9 +526,15 @@ class AccountExport
                 'will_referee',
                 'ground_transport',
                 'hotel', 
+                
                 'do_assessments',
+                'want_assessment',
+                
                 'other_jobs',
                 't_shirt_size',
+                
+                'attend_open','avail_wed','avail_thu','avail_fri','avail_sat_morn',
+                'avail_sat_after','avail_sun_morn','avail_sun_after'
             );
             foreach($planItems as $planItem)
             {
