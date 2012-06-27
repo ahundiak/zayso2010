@@ -76,10 +76,10 @@ class ImportCommand extends ContainerAwareCommand
     }
     protected function importSchedule()
     {
-         $import = $this->getContainer()->get('zayso_natgames.schedule2012.import');
+         $import = $this->getContainer()->get('zayso_natgames.schedule2012.import2');
          $params = array
          (
-            'inputFileName'  => 'C:/home/ahundiak/datax/NatGames/Schedules/NG2012Sched20120625.xls',
+            'inputFileName'  => 'C:/home/ahundiak/datax/NatGames/Schedules/Work20120627/RefScheduleU10.xls',
             'projectId'      => 52,
             'type'           => 'regular',
          );
