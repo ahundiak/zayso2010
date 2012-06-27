@@ -11,6 +11,8 @@
   <p><a href="{{ path('zayso_natgames_admin_person_list',  { '_format': 'html'})  }}">List of People</a></p>
   <p><a href="{{ path('zayso_natgames_admin_person_list',  { '_format': 'xls' })  }}">List of People(Excel)</a></p>
   
+  <p><a href="{{ path('zayso_core_admin_schedule_game_list',  { '_format': 'xls' })  }}">Game Schedule(Excel)</a></p>
+  
 {% if is_granted('ROLE_SUPER_ADMIN') %}  
   <p><a href="{{ path('zayso_natgames_admin_import') }}">Import AYSO Information</a></p>
 {% endif %}
