@@ -119,7 +119,7 @@ class S5GamesRefereeExport
             $date = date('M d',$stamp);
             
             $stamp = mktime(substr($time,0,2),substr($time,2,2));
-            $time = date('h:i A',$stamp);
+            $time = date('H:i A',$stamp);
             
             $ws->setCellValueByColumnAndRow($col++,$row,$game->getNum());
             $ws->setCellValueByColumnAndRow($col++,$row,$date);
