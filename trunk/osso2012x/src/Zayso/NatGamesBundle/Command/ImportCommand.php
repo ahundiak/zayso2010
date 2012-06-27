@@ -87,6 +87,19 @@ class ImportCommand extends ContainerAwareCommand
         echo "Zayso Import {$results['msg']} \n";
        
     }
+    protected function importSoccerfest()
+    {
+         $import = $this->getContainer()->get('zayso_natgames.soccerfest.import');
+         $params = array
+         (
+            'inputFileName'  => 'C:/home/ahundiak/datax/NatGames/Schedules/Work20120627/RefScheduleU10.xls',
+            'projectId'      => 52,
+            'type'           => 'regular',
+         );
+        $results = $import->process($params);
+        echo "Zayso Import {$results['msg']} \n";
+       
+    }
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // $inputFileName = $input->getArgument('file');
@@ -95,7 +108,7 @@ class ImportCommand extends ContainerAwareCommand
 
         // $this->importSchedule2010('../datax/Schedule2010.csv');
         
-        $this->importSchedule();
+        $this->importSoccerfest();
         
 
         return;        
