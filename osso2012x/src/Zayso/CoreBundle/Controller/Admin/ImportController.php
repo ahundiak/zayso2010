@@ -53,12 +53,13 @@ class ImportType extends AbstractType
             'choices' => array
             (
                 0 => 'Auto Detect',
-                'Sendoff2012Schedule'  => 'Sendoff2012Schedule',
-                'S5Games2011Schedule'  => 'S5Games2011Schedule',
-                'S5Games2012Schedule'  => 'S5Games2012Schedule',
-                'NatGames2012PhyTeams' => 'NatGames2012PhyTeams',
-                'NatGames2012Schedule' => 'NatGames2012Schedule',
+              //'Sendoff2012Schedule'  => 'Sendoff2012Schedule',
+              //'S5Games2011Schedule'  => 'S5Games2011Schedule',
+              //'S5Games2012Schedule'  => 'S5Games2012Schedule',
+              //'NatGames2012PhyTeams' => 'NatGames2012PhyTeams',
+              //'NatGames2012Schedule' => 'NatGames2012Schedule',
                 'NatGames2012RefSched' => 'NatGames2012RefSched',
+                'NatGames2012Soccerfest' => 'NatGames2012Soccerfest',
             ),
         ));
         
@@ -97,6 +98,7 @@ class ImportFileValidator implements FormValidatorInterface
         'NatGames2012PhyTeams' => 'zayso_natgames.team.import',    
         'NatGames2012Schedule' => 'zayso_natgames.schedule2012.import',    
         'NatGames2012RefSched' => 'zayso_natgames.schedule2012.import2',    
+        'NatGames2012Soccerfest' => 'zayso_natgames.soccerfest.import',    
     );
     protected function getImportServiceId($tmpFileName, $type = null)
     {
