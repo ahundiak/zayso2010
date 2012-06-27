@@ -83,6 +83,13 @@
             public = "true">
             <argument type="service" id="zayso_core.game.manager" />
         </service>
+        
+        <service 
+            id     = "zayso_natgames.schedule2012.import2" 
+            class  = "Zayso\NatGamesBundle\Component\Import\Schedule2012Import2" 
+            public = "true">
+            <argument type="service" id="zayso_core.game.manager" />
+        </service>
 
         <service 
             id     = "zayso_natgames.account.create.formtype" 
@@ -147,6 +154,13 @@
             public = "true">
             <argument type="service" id="zayso_core.person.manager" />
             <argument type="string">%zayso_core.project.master%</argument>
+            <argument type="service" id="zayso_core.format.excel" />
+        </service>
+        
+        <service
+            id     = "zayso_natgames.game.export"
+            class  = "Zayso\NatGamesBundle\Component\Export\GameExport"
+            public = "true">
             <argument type="service" id="zayso_core.format.excel" />
         </service>
         
