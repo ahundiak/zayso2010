@@ -194,6 +194,8 @@ class ScheduleManager extends GameManager
         if (isset($search['dows' ])) $dates = $search['dows'];
         else                         $dates = array();
         
+        if (isset($search['dates' ])) $dates = $search['dates'];
+     
         if (isset($search['time1'])) $time1 = $search['time1'];
         else                         $time1 = null;
         
