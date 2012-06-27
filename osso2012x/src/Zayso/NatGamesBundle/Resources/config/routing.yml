@@ -161,6 +161,13 @@ zayso_core_admin_schedule_game_report:
     defaults: { _controller: ZaysoNatGamesBundle:Admin\Schedule\GameReport:report}
     requirements:
         id: \d+
+        
+zayso_core_admin_schedule_game_list:
+    pattern:  /admin/schedule/game/list.{_format}
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Schedule\GameSched:list, _format: xls }
+    requirements:
+        _method:  GET
+        _format:  html|csv|xls
    
 # =================================================
 # Admin stuff
