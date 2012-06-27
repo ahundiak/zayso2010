@@ -222,5 +222,10 @@ EOT;
         if (strpos($this->pool,'PP') === false) return false;
         return true;
     }
+    public function isSoccerfest()
+    {
+        if (strpos($this->pool,'Soccerfest') === false) return false;
+        return true;
+    }
 }
 ?>
