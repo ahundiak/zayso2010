@@ -58,6 +58,7 @@ class ImportType extends AbstractType
                 'S5Games2012Schedule'  => 'S5Games2012Schedule',
                 'NatGames2012PhyTeams' => 'NatGames2012PhyTeams',
                 'NatGames2012Schedule' => 'NatGames2012Schedule',
+                'NatGames2012RefSched' => 'NatGames2012RefSched',
             ),
         ));
         
@@ -95,6 +96,7 @@ class ImportFileValidator implements FormValidatorInterface
         'S5Games2012Schedule'  => 'zayso_s5games.schedule.import',
         'NatGames2012PhyTeams' => 'zayso_natgames.team.import',    
         'NatGames2012Schedule' => 'zayso_natgames.schedule2012.import',    
+        'NatGames2012RefSched' => 'zayso_natgames.schedule2012.import2',    
     );
     protected function getImportServiceId($tmpFileName, $type = null)
     {
