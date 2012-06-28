@@ -59,7 +59,7 @@ class ImportType extends AbstractType
               //'NatGames2012PhyTeams' => 'NatGames2012PhyTeams',
               //'NatGames2012Schedule' => 'NatGames2012Schedule',
                 'NatGames2012RefSched' => 'NatGames2012RefSched',
-                'NatGames2012Soccerfest' => 'NatGames2012Soccerfest',
+              //'NatGames2012Soccerfest' => 'NatGames2012Soccerfest',
             ),
         ));
         
