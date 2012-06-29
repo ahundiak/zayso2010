@@ -501,6 +501,8 @@ class AccountExport
             $person['email']     = $item->getEmail();
             $person['cellPhone'] = $this->phoneTransformer->transform($item->getCellPhone());   
             
+            $person['gender']    = $person['gender'] . substr($person['dob'],0,4);
+            
             $org = $item->getOrgz();
           
             $person['region']    = substr($org->getId(),4);
