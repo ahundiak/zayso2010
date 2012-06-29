@@ -37,12 +37,42 @@ class CoreExtension extends \Twig_Extension
             'game_person_class' => new \Twig_Function_Method($this, 'gamePersonClass'),
             
             'person_org'       => new \Twig_Function_Method($this, 'personOrg'),
+            'person_org_class' => new \Twig_Function_Method($this, 'personOrgClass'),
             'person_ref_badge' => new \Twig_Function_Method($this, 'personRefBadge'),
             'person_age'       => new \Twig_Function_Method($this, 'personAge'),
             'person_vol'       => new \Twig_Function_Method($this, 'personVol'),
             'person_aysoid'    => new \Twig_Function_Method($this, 'personAysoid'),
 
        );
+    }
+    public function personOrgClass($game,$person)
+    {
+        if (!$person->getId()) return null;
+        
+        switch($person->getAysoCertz()->getAysoid())
+        {
+            case '65069981': // Randy Chappel
+                return null;
+        }
+        $desc = $person->getOrgz()->getDesc2();
+        if (!$desc) return null;
+        
+        $area   = substr($desc,0,4);
+        $region = substr($desc,5,5);
+        foreach($game->getTeams() as $teamRel)
+        {
+            $team = $teamRel->getTeam();
+            if (!$team) return null;
+            
+            $org = $team->getOrgDesc();
+         
+            if (!$org) return null;
+            
+            if (strpos($org,$region) !== false) return 'person-region-issue';
+            if (strpos($org,$area  ) !== false) return 'person-area-issue';
+            
+        }
+        return null;
     }
     public function personOrg($person)
     {
