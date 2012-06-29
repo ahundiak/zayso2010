@@ -49,7 +49,15 @@
                            {{ gamePerson.type }}
                         {% endif %}
                     </td>
-                    <td>{{ person_org(person) }}</td>
+                    <td>
+                   {% set itemClass = person_org_class(game,person) %}
+                   {% if  itemClass %}
+                        <span class="{{ itemClass }}">{{ person_org(person) }}</span>
+                   {% else %}
+                        {{ person_org(person) }}
+                   {% endif %}
+                    </td>
+                    
                     <td>{{ person_ref_badge(person) }}</td>
                     <td>{{ person_age(person) }}</td>
                     <td>
@@ -61,7 +69,7 @@
                     {% endif %}
                     </td>
                     <td>{{ person_aysoid(person) }}</td>
-                    <td>{{ person_vol   (person) }}</td>
+                    <td><span class="person-vol-issue">{{ person_vol   (person) }}</span></td>
                 </tr>
                 {% endfor %}
             </table></td>
@@ -70,8 +78,12 @@
     </table>
 </div>
 <style>
-.team-hilite   { color: green; }
-.person-hilite { color: green; }
+.team-hilite      { color: green; }
+.person-hilite    { color: green; }
+.person-vol-issue { color: red; }
+.person-region-issue { color: red; }
+.person-area-issue   { color: magenta; }
+
 </style>
 {% endblock %}
 
