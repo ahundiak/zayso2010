@@ -40,6 +40,7 @@ class CoreExtension extends \Twig_Extension
             'person_ref_badge' => new \Twig_Function_Method($this, 'personRefBadge'),
             'person_age'       => new \Twig_Function_Method($this, 'personAge'),
             'person_vol'       => new \Twig_Function_Method($this, 'personVol'),
+            'person_aysoid'    => new \Twig_Function_Method($this, 'personAysoid'),
 
        );
     }
@@ -51,6 +52,8 @@ class CoreExtension extends \Twig_Extension
     }
     public function personAge($person)
     {
+        if (!$person->getId()) return;
+        
         $gender = $person->getGender();
         $age    = 2012 - (int)substr($person->getDob(),0,4);
         
@@ -71,6 +74,8 @@ class CoreExtension extends \Twig_Extension
     }
     public function personRefBadge($person)
     {
+        if (!$person->getId()) return;
+        
         $badge = $person->getAysoCertz()->getRefBadge();
         
         switch($badge)
@@ -82,6 +87,38 @@ class CoreExtension extends \Twig_Extension
             case 'National 2':   return 'NAT';
         }
         return $badge;
+    }
+    public function personAysoid($person)
+    {
+        if (!$person->getId()) return;
+
+        return $person->getAysoCertz()->getAysoid();;
+    }
+    public function personVol($person)
+    {
+        if (!$person->getId()) return;
+
+        $memYear   = $person->getAysoCertz()->getMemYear();
+        
+        if ($memYear < 2011) $memYear = 'VOL FORM ' . $memYear;
+        else $memYear = '';
+        
+        $safeHaven = $person->getAysoCertz()->getSafeHaven();
+        
+        switch($safeHaven)
+        {
+            case 'Coach':
+            case 'Referee':
+            case 'AYSO':
+            case 'Youth':
+                $safeHaven = '';
+                break;
+            default:
+                $safeHaven = 'NO SAFE HAVEN';
+        }
+        if (!$memYear && !$safeHaven) return '';
+        
+        return $memYear . ' ' . $safeHaven;
     }
     public function cacheDTG()
     {
