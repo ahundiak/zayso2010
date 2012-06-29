@@ -35,7 +35,37 @@ class CoreExtension extends \Twig_Extension
             
             'game_team_class'   => new \Twig_Function_Method($this, 'gameTeamClass'),
             'game_person_class' => new \Twig_Function_Method($this, 'gamePersonClass'),
+            
+            'person_org'       => new \Twig_Function_Method($this, 'personOrg'),
+            'person_ref_badge' => new \Twig_Function_Method($this, 'personRefBadge'),
+            'person_age'       => new \Twig_Function_Method($this, 'personAge'),
+            'person_vol'       => new \Twig_Function_Method($this, 'personVol'),
+
        );
+    }
+    public function personOrg($person)
+    {
+        $desc = $person->getOrgz()->getDesc2();
+        if (!$desc) return '';
+        return substr($desc,0,10);
+    }
+    public function personAge($person)
+    {
+        return $person->getGender() . substr($person->getDob(),0,4);
+    }
+    public function personRefBadge($person)
+    {
+        $badge = $person->getAysoCertz()->getRefBadge();
+        
+        switch($badge)
+        {
+            case 'Regional':     return 'REG';
+            case 'Intermediate': return 'INT';
+            case 'Advanced':     return 'ADV';
+            case 'National':     return 'NAT';
+            case 'National 2':   return 'NAT';
+        }
+        return $badge;
     }
     public function cacheDTG()
     {
