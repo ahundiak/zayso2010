@@ -162,11 +162,16 @@ zayso_core_admin_schedule_game_report:
     requirements:
         id: \d+
         
+zayso_core_admin_schedule_referee_list:
+    pattern:  /admin/schedule/referee/list.{_format}
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Schedule\RefSched:list, _format: html }
+    requirements:
+        _format:  html|csv|xls
+        
 zayso_core_admin_schedule_game_list:
     pattern:  /admin/schedule/game/list.{_format}
-    defaults: { _controller: ZaysoNatGamesBundle:Admin\Schedule\GameSched:list, _format: xls }
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Schedule\GameSched:list, _format: html }
     requirements:
-        _method:  GET
         _format:  html|csv|xls
    
 # =================================================
