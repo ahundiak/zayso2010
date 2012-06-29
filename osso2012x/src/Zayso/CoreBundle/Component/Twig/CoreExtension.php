@@ -51,7 +51,23 @@ class CoreExtension extends \Twig_Extension
     }
     public function personAge($person)
     {
-        return $person->getGender() . substr($person->getDob(),0,4);
+        $gender = $person->getGender();
+        $age    = 2012 - (int)substr($person->getDob(),0,4);
+        
+        if ($age > 100)
+        {
+            if ($gender) return $gender . '???';
+            return '';
+        }
+        if ($age > 80) return $gender . '80+';
+        if ($age > 70) return $gender . '70+';
+        if ($age > 60) return $gender . '60+';
+        if ($age > 50) return $gender . '50+';
+        if ($age > 40) return $gender . '40+';
+        if ($age > 30) return $gender . '30+';
+        if ($age > 21) return $gender . '21+';
+        
+        return $gender . $age;
     }
     public function personRefBadge($person)
     {
