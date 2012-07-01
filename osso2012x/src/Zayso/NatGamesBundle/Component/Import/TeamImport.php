@@ -27,171 +27,42 @@ class TeamImport extends ExcelBaseImport
         $this->projectId = $projectId;
         parent::__construct($manager->getEntityManager());
     }
-    protected function newTeam($div,$type = null, $key = null, $org = null)
+    protected function processPhyTeamRow($row)
     {
-        $team = new Team();
-        $team->setProject($this->project);
-        $team->setType($type);
-        $team->setStatus ('Active');
-        $team->setSource ('import');
-        $team->setKey    ($key);
-        $team->setOrg    ($org);
-        $team->setAge    (substr($div,0,3));
-        $team->setGender (substr($div,3,1));
-       
-        return $team;
-    }
-    /* =============================================================
-     * Need when adding a new region
-     */
-    protected function processSection($section)
-    {
-        $key = sprintf('AYSOS%02u',$section);
-        if (isset($this->orgs[$key])) return $this->orgs[$key];
+        $region  = (int)trim($row[13]);
+        $age     =      trim($row[14]);
+        $gender  =      trim($row[15]);
+        $coach   =      trim($row[20]);
         
-        $org = $this->manager->loadOrgForKey($key);
-        if ($org)
+        $div = $age . $gender;
+        
+        if (!$region) return;
+        
+        $parts = explode(' ', $coach);
+        $coach = $parts[count($parts) - 1];
+        
+        // R0003-U16BR
+        $teamKey = sprintf('R%04u-%sR',$region,$div);
+        
+        $team = $this->manager->loadPhyTeamForKey($this->projectId,$teamKey);
+        if (!$team)
         {
-           // Got it
-            $this->orgs[$key] = $org;
-            return $org;
-        }
-        
-        // Make one
-        echo $key . "\n";die();
-        
-    }
-    /* =============================================================
-     * Need when adding a new region
-     */
-    protected function processArea($section,$area)
-    {
-        $key = sprintf('AYSOA%02u%s',$section,$area);
-        if (isset($this->orgs[$key])) return $this->orgs[$key];
-        
-        $org = $this->manager->loadOrgForKey($key);
-        if ($org)
-        {
-           // Got it
-            $this->orgs[$key] = $org;
-            return $org;
-        }
-        
-        // Make one
-        echo $key . "\n";
-        
-        $sectionEntity = $this->processSection($section);
-        $desc = sprintf('AYSO Area %02u%s',$section,$area);
-        $org = new Org();
-        $org->setId($key);
-        $org->setParent($sectionEntity);
-        $org->setDesc1($desc);
-        $org->setStatus('Active');
-        
-        $this->manager->persist($org);
-        
-        $this->orgs[$key] = $org;
-        return $org;
-        
-    }
-    /* =============================================================
-     * See if have a region
-     */
-    protected function processRegion($section,$area,$region)
-    {
-        $key = sprintf('AYSOR%04u',$region);
-        if (isset($this->orgs[$key])) return $this->orgs[$key];
-        
-        $org = $this->manager->loadOrgForKey($key);
-        if ($org)
-        {
-            // Maybe check section and area?
-            $desc = $org->getDesc2();
-            $sectionx = (int)substr($desc,1,2);
-            $areax    =      substr($desc,3,1);
-            if ($section != $sectionx)
-            {
-                echo sprintf("Mismatch section %s %d %s\n",$desc,$section,$area);
-            }
-            if ($area != $areax)
-            {
-                echo sprintf("Mismatch area    %s %d %s\n",$desc,$section,$area);
-            }
-            // Got it
-            $this->orgs[$key] = $org;
-            return $org;
-        }
-        $areaEntity = $this->processArea($section,$area);
-        
-        $desc1 = sprintf('AYSO Region %04u',$region);
-        $desc2 = sprintf('A%02u%s-R%04u TBD, %s',$section,$area,$region,$areaEntity->getState());
-
-//      echo $desc2 . "\n";
-        
-        $org = new Org();
-        $org->setId($key);
-        $org->setParent($areaEntity);
-        $org->setState ($areaEntity->getState());
-        
-        $org->setDesc1($desc1);
-        $org->setDesc2($desc2);
-        
-        $org->setStatus('Active');
-        
-        $this->manager->persist($org);
-        
-        $this->orgs[$key] = $org;
-        
-        return $org;
-        
-        $this->orgs[$key] = true;
-        
-      //echo sprintf("A%02u%s-R%04u\n",$section,$area,$region);
-        return null;
-    }
-    /* =============================================================
-     * Individual team row
-     */
-    protected function processTeamRow($row)
-    {
-        $section = (int)trim($row[0]);
-        $area    =      trim($row[1]);
-        $region  = (int)trim($row[2]);
-        $div     =      trim($row[3]);
-        $note    =      trim($row[4]);
-       
-        if ($note == 'open') return;
-        $org = $this->processRegion($section,$area,$region);
-        
-        $age    = substr($div,1,3);
-        $gender = substr($div,0,1);
-        
-        $key = sprintf('R%04u-%s%sR',$region,$age,$gender);
-        
-        //echo $key . "\n";
-       
-        // Should not have dups
-        if (isset($this->teams[$key]))
-        {
-            echo "Dup Team Key $key \n";
+            echo 'No phy team for ' . $div . ' ' . $region . ' ' . $coach . "\n";
             return;
         }
-        // See if exists
-        $team = $this->manager->loadPhyTeamForKey($this->projectId,$key);
-        if ($team)
+        
+        $orgKey = sprintf('AYSOR%04u',$region);
+        $org = $this->manager->loadOrgForKey($orgKey);
+        if (!$org)
         {
-            $this->teams[$key] = $team;
+            echo 'No org ' . $region . ' ' . $coach . "\n";
             return;
         }
-        // Create
-        $team = $this->newTeam($age . $gender,'physical', $key, $org);
-        $team->setLevel('regular');
+        $teamDesc = sprintf('R%04u-%s %s',$region,$div,$coach);
+        $team->setDesc($teamDesc);
         
-        $this->manager->persist($team);
-        
-        $this->teams[$key] = $team;
-        
-//      echo 'Added ' . $key . "\n";
+      //echo $team->getKey() . ' ' . $region . ' ' . $coach . ' ' . $phyTeamDesc . "\n";
+        return;
        
     }
     /* =================================================================
@@ -206,9 +77,29 @@ class TeamImport extends ExcelBaseImport
         // Loop once for team
         foreach($rows as $row)
         {
-            $this->processTeamRow($row);
+            $this->processPhyTeamRow($row);
         }
-    }    
+    }
+    protected function processGameTeams()
+    {
+        $gameTeams = $this->manager->loadGameTeamsForProject($this->projectId);
+        foreach($gameTeams as $gameTeam)
+        {
+            $phyTeam = $gameTeam->getParent();
+            if ($phyTeam)
+            {
+                $gameTeamDesc = $gameTeam->getDesc();
+                $phyTeamDesc  = $phyTeam->getDesc();
+                
+                $coach = substr($phyTeamDesc,11);
+                $desc = substr($gameTeamDesc,0,13) . ' ' . $coach;
+                
+                $gameTeam->setDesc($desc);
+                
+              //die($gameTeamDesc . ' # ' . $phyTeamDesc . ' # ' . $desc);
+            }
+        }
+    }
     /* =================================================================
      * Merge this back into the base class after some testing
      */
@@ -246,17 +137,18 @@ class TeamImport extends ExcelBaseImport
         if (isset($params['type'])) $this->teamType = $params['type'];
         else                        $this->teamType = 'regular';
         
-        $this->orgs  = array();
-        $this->teams = array();
-        
         $reader = $this->excel->load($inputFileName);
 
-        $sheets = array('All Divisions Accepted');
+        $sheets = array('U10G','U10B','U12B','U12G','U14B','U14G','U16B','U16G','U19G','U19B');
         foreach($sheets as $sheet)
         {
             $this->processSheet($reader,$sheet);
         }
+        $this->getEntityManager()->flush();
+        $this->getEntityManager()->clear();
 
+        $this->processGameTeams();
+        
         // Finish up
         $this->getEntityManager()->flush();
         $this->getEntityManager()->clear(); // Need for multiple files
