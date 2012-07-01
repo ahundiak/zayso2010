@@ -60,6 +60,11 @@ class TeamController extends BaseController
                     }
                 }
                 $manager->flush();
+                
+                // Reset some search forms
+                $request->getSession()->set('mySchSearchData2012', null);
+                $request->getSession()->set('refSchSearchData2012',null);
+                
                 return $this->redirect($this->generateUrl('zayso_core_person_team_list',array('personId' => $personId)));
             }
         }
