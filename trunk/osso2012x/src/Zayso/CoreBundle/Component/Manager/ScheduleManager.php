@@ -368,10 +368,33 @@ class ScheduleManager extends GameManager
 
         return $qb;
     }
+     public function qbGameTeamsForProject($projectId)
+    {
+        $qb = $this->createQueryBuilder();
+        
+        $qb->addSelect('team');
+        $qb->addSelect('phyTeam');
+        
+        $qb->from('ZaysoCoreBundle:Team','team');
+        
+        $qb->leftJoin('team.parent','phyTeam');
+       
+        $qb->andWhere($qb->expr()->in('team.project', $projectId));
+        $qb->andWhere($qb->expr()->in('team.type',    array('pool','playoff')));
+        
+        $qb->addOrderBy('team.key1');
+
+        return $qb;
+    }
     public function loadPhyTeamsForProject($projectId)
     {
         $qb = $this->qbPhyTeamsForProject($projectId);
-        return $qb->getQuery()->getResults();        
+        return $qb->getQuery()->getResult();        
+    }
+    public function loadGameTeamsForProject($projectId)
+    {
+        $qb = $this->qbGameTeamsForProject($projectId);
+        return $qb->getQuery()->getResult();        
     }
     public function loadTeamsForProjectAccount($projectId,$accountId)
     {
