@@ -63,7 +63,7 @@
         </table></td>
         <td><table>
             {% for teamRel in teamRels %}
-                <tr><td>{{ teamRel.type }}</td><td>{{ teamRel.team.key }}</td></tr>
+                <tr><td>{{ teamRel.type }}</td><td>{{ teamRel.team.desc }}</td></tr>
             {% endfor %}
             <tr><td colspan="2">
                 <a href="{{ path('zayso_core_person_team_list', { 'personId': person.id }) }}">Add Team To Person</a>
