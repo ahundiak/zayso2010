@@ -1,6 +1,6 @@
 {% extends myBundleName ~ ':Layout:layout.html.twig' %}
 
-{% block title %}{{ myTitlePrefix }} Scoring {% endblock %}
+{% block title %}{{ myTitlePrefix }} Results {% endblock %}
 
 {% block content %}
 {% set ages = [ 'U10','U12','U14','U16','U19'  ]          %}
@@ -32,7 +32,7 @@
     {% for poolKey, pool in pools %}
     <table border = "1">
         <tr><th colspan="16">Game Pool Results - {{ poolKey }}</th></tr>
-        <tr><td colspan="16">GS=Goals Scored, SP=Sportsmanship, YC=Caution, RC=Sendoff, CE=Coach Expelled, PE=Points Earned</td></tr>
+        <tr><td colspan="16">PA=Points Applied, GS=Goals Scored, PE=Points Earned, PM=Minus Points</td></tr>
         <tr>
             <td>Game</td>
             <td>Status 1</td>
@@ -41,43 +41,44 @@
             <td>DOW Time</td>
             <td>Field</td>
             <td>Pool</td>
-            <td>Home/Away Team</td>
+            <td>Home Team</td>
             <td>GS</td>
-            <td>SP</td>
-            <td>YC</td>
-            <td>RC</td>
-            <td>CE</td>
+            <td>PM</td>
             <td>PE</td>
+            <td>&nbsp;</td>
+            <td>PE</td>
+            <td>PM</td>
+            <td>GS</td>
+            <td>Away Team</td>
         </tr>
         {% for game in pool.games %}
-        {% set one = 1 %}
-        {% for teamRel in game.teams %}
-        
-        {% if one %}
         
         <tr id="ref-sched-{{game.num}}" class="game-status-{{game.status}}">
-            <td rowspan="2">
+            <td>
                 <a href="{{ path('zayso_core_admin_schedule_game_report', { 'id': game.id })}}">{{ game.getNum() }}</a>
             </td>
-            <td rowspan="2">{{ game.status         }}</td>
-            <td rowspan="2">{{ game.reportStatus   }}</td>
-            <td rowspan="2">{{ game.pointsApplied  }}</td>
-            <td rowspan="2">{{ game_dow(game.date) }} {{ game_time(game.time) }}</td>
-            <td rowspan="2">{{ game.fieldDesc      }}</td>
-            <td rowspan="2">{{ game.pool           }}</td>
-        {% endif %}    
-            {% set one = 0 %}
-            {% set team = teamRel.team %}
+            <td>{{ game.status         }}</td>
+            <td>{{ game.reportStatus   }}</td>
+            <td>{{ game.pointsApplied  }}</td>
+            <td>{{ game_dow(game.date) }} {{ game_time(game.time) }}</td>
+            <td>{{ game.fieldDesc      }}</td>
+            <td>{{ game.pool           }}</td>
             
-            <td>{{ game_team_desc2(teamRel)     }}</td>
-            <td>{{ teamRel.report.goalsScored  }}</td>
-            <td>{{ teamRel.report.sportsmanship}}</td>
-            <td>{{ teamRel.report.cautions     }}</td>
-            <td>{{ teamRel.report.sendOffs     }}</td>
-            <td>{{ teamRel.report.coachTossed  }}</td>
-            <td>{{ teamRel.report.pointsEarned }}</td>
+            {% set homeTeamRel = game.homeTeam %}
+            {% set awayTeamRel = game.awayTeam %}
+            {% set homeTeam    = homeTeamRel.team %}
+            {% set awayTeam    = awayTeamRel.team %}
+            
+            <td>{{ game_team_desc3(homeTeamRel)       }}</td>
+            <td>{{ homeTeamRel.report.goalsScored     }}</td>
+            <td>{{ homeTeamRel.report.pointsMinus     }}</td>
+            <td>{{ homeTeamRel.report.pointsEarned    }}</td>
+            <td>&nbsp;</td>
+            <td>{{ awayTeamRel.report.pointsEarned    }}</td>
+            <td>{{ awayTeamRel.report.pointsMinus     }}</td>
+            <td>{{ awayTeamRel.report.goalsScored     }}</td>
+            <td>{{ game_team_desc3(awayTeamRel)       }}</td>
         </tr>
-        {% endfor %}
         {% endfor %}       
     </table>
     <table border = "1">
