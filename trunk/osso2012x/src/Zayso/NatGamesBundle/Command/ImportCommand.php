@@ -66,7 +66,7 @@ class ImportCommand extends ContainerAwareCommand
          $import = $this->getContainer()->get('zayso_natgames.team.import');
          $params = array
          (
-            'inputFileName'  => '../datax/NatGamesTeams20120524.xls',
+            'inputFileName'  => 'C:/home/ahundiak/datax/NatGames/Teams/NG2012Teams20120624.xls',
             'projectId'      => 52,
             'type'           => 'regular',
          );
@@ -108,7 +108,7 @@ class ImportCommand extends ContainerAwareCommand
 
         // $this->importSchedule2010('../datax/Schedule2010.csv');
         
-        $this->importSoccerfest();
+        $this->importTeams();
         
 
         return;        
