@@ -69,12 +69,12 @@ class PersonTeamEditFormType extends AbstractType
         
         $builder->add('team','entity', array(
             'label'         => 'Team',
-            'property'      => 'key',
+            'property'      => 'desc',
             'required'      => false,
             'empty_value'   => 'Choose Team',
             'class'         => $manager->getTeamClass(), // 'Zayso\CoreBundle\Entity\Team',
             'em'            => $manager->getEntityManagerName(),
-            'query_builder' => $manager->qbTeamsForProject($this->projectId),
+            'query_builder' => $manager->qbPhyTeamsForProject($this->projectId),
         ));
     }
 }
