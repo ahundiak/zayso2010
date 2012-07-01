@@ -78,6 +78,19 @@ class PersonManager extends BaseManager
 
         return $qb;
     }
+    public function qbPhyTeamsForProject($projectId)
+    {
+        $qb = $this->createQueryBuilder();
+        $qb->addSelect('team');
+        $qb->from('ZaysoCoreBundle:Team','team');
+        
+        $qb->andWhere($qb->expr()->in('team.project', $projectId));
+        $qb->andWhere($qb->expr()->in('team.type',    array('Physical','physical')));
+        
+        $qb->addOrderBy('team.key1');
+
+        return $qb;
+    }
     public function getPersonTeamRelClass() { return 'Zayso\CoreBundle\Entity\PersonTeamRel'; }
     public function getTeamClass()          { return 'Zayso\CoreBundle\Entity\Team'; }
 }
