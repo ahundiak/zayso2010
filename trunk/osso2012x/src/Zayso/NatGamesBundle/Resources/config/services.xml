@@ -171,10 +171,17 @@
         </service>
         
         <service
+            id     = "zayso_natgames.team.export"
+            class  = "Zayso\NatGamesBundle\Component\Export\TeamExport"
+            public = "true">
+            <argument type="service" id="zayso_core.format.excel" />
+        </service>
+        
+        <service
             id     = "zayso_natgames.team.import"
             class  = "Zayso\NatGamesBundle\Component\Import\TeamImport"
             public = "true">
-            <argument type="service" id="zayso_core.game.manager" />
+            <argument type="service" id="zayso_core.game.schedule.manager" />
             <argument type="string">%zayso_core.project.master%</argument>
         </service>
 

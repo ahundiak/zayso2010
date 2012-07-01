@@ -173,6 +173,12 @@ zayso_core_admin_schedule_game_list:
     defaults: { _controller: ZaysoNatGamesBundle:Admin\Schedule\GameSched:list, _format: html }
     requirements:
         _format:  html|csv|xls
+        
+zayso_core_admin_team_list:
+    pattern:  /admin/team/list.{_format}
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Team\List:list, _format: html }
+    requirements:
+        _format:  html|csv|xls
    
 # =================================================
 # Admin stuff
