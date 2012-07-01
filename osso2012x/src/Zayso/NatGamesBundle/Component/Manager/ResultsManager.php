@@ -26,32 +26,29 @@ class ResultsManager extends ScheduleManager
         $team1->setGoalsAllowed($team2Goals);
         $team2->setGoalsAllowed($team1Goals);
         
-        $pointsMinus  = 0;
         $pointsEarned = 0;
         
         if ($team1Goals  > $team2Goals) $pointsEarned = 6;
         if ($team1Goals == $team2Goals) $pointsEarned = 3;
         
         // Shutout
-        //if ($team2Goals == 0) $pointsEarned++;
+        if ($team2Goals == 0) $pointsEarned++;
         
-        $maxGoals = $team1Goals;
-        if ($maxGoals > 3) $maxGoals = 3;
-        $pointsEarned += $maxGoals;
+        // Differential
+        $diff = $team1Goals - $team2Goals;
+        if ($diff < 0) $diff = 0;
+        if ($diff > 3) $diff = 3;
+        
+        $pointsEarned += $diff;
         
         $fudgeFactor = $team1->getFudgeFactor();
+        
         $pointsEarned += $fudgeFactor;
-        
-      //if ($fudgeFactor < 0) $pointsMinus += abs($fudgeFactor);
-      //$pointsMinus  += $fudgeFactor;
          
-        $pointsMinus  -= ($team1->getSendoffs()    * 2);
-        $pointsMinus  -= ($team1->getCoachTossed() * 3);
-        $pointsMinus  -= ($team1->getSpecTossed()  * 0);
+        $pointsEarned -= ($team1->getSendoffs()    * 1);
+        $pointsEarned -= ($team1->getCoachTossed() * 1);
+        $pointsEarned -= ($team1->getSpecTossed()  * 0);
         
-        $pointsEarned += $pointsMinus;
-        
-        $team1->setPointsMinus ($pointsMinus);
         $team1->setPointsEarned($pointsEarned);
     }
     // Points earned during a game
