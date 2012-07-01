@@ -1,6 +1,6 @@
 <?php
 
-namespace Zayso\S5gamesBundle\Controller\Admin\Schedule;
+namespace Zayso\NatGamesBundle\Controller\Admin\Schedule;
 
 use Zayso\CoreBundle\Controller\BaseController;
 use Zayso\CoreBundle\Component\Debug;
@@ -12,7 +12,7 @@ class GameReportController extends BaseController
     public function reportAction(Request $request, $id = 0)
     {
         // Grab the game
-        $manager = $this->get('zayso_core.game.schedule.results.manager');
+        $manager = $this->get('zayso_natgames.game.schedule.results.manager');
         $game = $manager->loadEventForId($id);
         if (!$game)
         {
