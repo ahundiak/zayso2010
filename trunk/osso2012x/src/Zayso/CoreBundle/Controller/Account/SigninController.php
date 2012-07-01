@@ -44,6 +44,10 @@ class SigninController extends BaseController
                     $userName = $account->getUserName();
                     $request->getSession()->set(SecurityContext::LAST_USERNAME,$userName);
                     $this->setUser($userName);
+                    
+                    $request->getSession()->set('mySchSearchData2012', null);
+                    $request->getSession()->set('refSchSearchData2012',null);
+ 
                     return $this->redirect($this->generateUrl('zayso_core_home'));
                 }
             }
@@ -93,6 +97,9 @@ class SigninController extends BaseController
         // This actually gets handled by the home controller
         // $this->getAccountManager()->addProjectPerson($this->getProjectId(),$user->getPersonId());
         
+                $request->getSession()->set('mySchSearchData2012', null);
+                $request->getSession()->set('refSchSearchData2012',null);
+         
         // Ad off we go
         return $this->redirect($this->generateUrl('zayso_core_home'));
     }
