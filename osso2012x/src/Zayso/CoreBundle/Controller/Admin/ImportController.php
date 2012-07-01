@@ -56,7 +56,7 @@ class ImportType extends AbstractType
               //'Sendoff2012Schedule'  => 'Sendoff2012Schedule',
               //'S5Games2011Schedule'  => 'S5Games2011Schedule',
               //'S5Games2012Schedule'  => 'S5Games2012Schedule',
-              //'NatGames2012PhyTeams' => 'NatGames2012PhyTeams',
+                'NatGames2012PhyTeams' => 'NatGames2012PhyTeams',
               //'NatGames2012Schedule' => 'NatGames2012Schedule',
                 'NatGames2012RefSched' => 'NatGames2012RefSched',
               //'NatGames2012Soccerfest' => 'NatGames2012Soccerfest',
