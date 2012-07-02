@@ -27,7 +27,7 @@ class TeamExport
     protected $widths = array(
         'GID' => 5,   'PID'  => 5, 'FID' => 5, 'TR_ID' => 6, 'GT_ID' => 6, 'PT_ID' => 6,
         'DOW' => 5, 'Date' => 10, 'Time' => 6, 'Field' => 8, 'Pool' => 12, 'Game' => 6,
-        'SP' => 5,
+        'SFSP' => 5,
         
         'TR_TYPE'  => 8,'GT_TYPE' => 8,'PT_TYPE' => 8,
         
@@ -42,7 +42,7 @@ class TeamExport
         $ws->setTitle('Teams');
         
         $headers = array(
-            'PID','SP',
+            'PID','SFSP',
             'GT_ID','GT_TYPE','GT_KEY1','GT_DESC1',
             'PT_ID','PT_TYPE','PT_KEY1','PT_DESC1'
         );
@@ -54,7 +54,7 @@ class TeamExport
             $row++;
             $ws->setCellValueByColumnAndRow($col++,$row,$team->getProject()->getId());
             
-            $ws->setCellValueByColumnAndRow($col++,$row,0); // Sportsmanship
+            $ws->setCellValueByColumnAndRow($col++,$row,$team->getSfSP()); // Sportsmanship
             
             $ws->setCellValueByColumnAndRow($col++,$row,$team->getId());
             $ws->setCellValueByColumnAndRow($col++,$row,$team->getType());
