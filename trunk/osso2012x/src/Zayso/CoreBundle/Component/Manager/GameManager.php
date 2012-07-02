@@ -46,6 +46,21 @@ class GameManager extends BaseManager
         return $qb->getQuery()->getOneOrNullResult();
 
     }
+    public function loadTeamForId($id)
+    {
+        if (!$id) return null;
+        
+        $qb = $this->newQueryBuilder();
+        
+        $qb->addSelect('team');
+
+        $qb->from('ZaysoCoreBundle:Team', 'team');
+
+        $qb->andWhere($qb->expr()->eq('team.id',$qb->expr()->literal($id)));
+        
+        return $qb->getQuery()->getOneOrNullResult();
+        
+    }
     public function loadPhyTeamForKey($projectId,$key)
     {
         if (!$key) return null;
