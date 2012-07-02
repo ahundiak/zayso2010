@@ -27,46 +27,41 @@ class TeamImport extends ExcelBaseImport
         $this->projectId = $projectId;
         parent::__construct($manager->getEntityManager());
     }
-    protected function processTeamRow($row)
+    protected function processPhyTeamRow($row)
     {
-        $gameTeamId   = (int)trim($row[2]);
-        $gameTeamDesc =      trim($row[5]);
-        $gameTeamSP   = (int)trim($row[1]);
+        $region  = (int)trim($row[13]);
+        $age     =      trim($row[14]);
+        $gender  =      trim($row[15]);
+        $coach   =      trim($row[20]);
         
-        $phyTeamId    = (int)trim($row[6]);
-        $phyTeamDesc  =      trim($row[9]);
+        $div = $age . $gender;
         
-        if (!$gameTeamId) return;
+        if (!$region) return;
         
-        if ($gameTeamId) $gameTeam = $this->manager->loadTeamForId($gameTeamId);
-        else             return;
+        $parts = explode(' ', $coach);
+        $coach = $parts[count($parts) - 1];
         
-        if ($phyTeamId) $phyTeam = $this->manager->loadTeamForId($phyTeamId);
-        else            $phyTeam = null;
+        // R0003-U16BR
+        $teamKey = sprintf('R%04u-%sR',$region,$div);
         
-        if ($phyTeam) $phyTeam->setDesc($phyTeamDesc);
-        
-        $gameTeam->setDesc($gameTeamDesc);
-        $gameTeam->setSfSP($gameTeamSP);
-        
-        // Mees with parent to avoid unneeded updates
-        $parentTeam = $gameTeam->getParent();
-        if (!$parentTeam)
+        $team = $this->manager->loadPhyTeamForKey($this->projectId,$teamKey);
+        if (!$team)
         {
-            // Just added parent
-            if ($phyTeam) $gameTeam->setParent($phyTeam);
+            echo 'No phy team for ' . $div . ' ' . $region . ' ' . $coach . "\n";
             return;
         }
-        if (!$phyTeam) 
+        
+        $orgKey = sprintf('AYSOR%04u',$region);
+        $org = $this->manager->loadOrgForKey($orgKey);
+        if (!$org)
         {
-            $gameTeam->setParent(null); // Took parent away
+            echo 'No org ' . $region . ' ' . $coach . "\n";
+            return;
         }
+        $teamDesc = sprintf('R%04u-%s %s',$region,$div,$coach);
+        $team->setDesc($teamDesc);
         
-        // Have parent and phyTeam
-        if ($parentTeam->getId() == $phyTeam->getId()) return;
-        
-        $gameTeam->setParent($phyTeam);
-        
+      //echo $team->getKey() . ' ' . $region . ' ' . $coach . ' ' . $phyTeamDesc . "\n";
         return;
        
     }
@@ -82,7 +77,27 @@ class TeamImport extends ExcelBaseImport
         // Loop once for team
         foreach($rows as $row)
         {
-            $this->processTeamRow($row);
+            $this->processPhyTeamRow($row);
+        }
+    }
+    protected function processGameTeams()
+    {
+        $gameTeams = $this->manager->loadGameTeamsForProject($this->projectId);
+        foreach($gameTeams as $gameTeam)
+        {
+            $phyTeam = $gameTeam->getParent();
+            if ($phyTeam)
+            {
+                $gameTeamDesc = $gameTeam->getDesc();
+                $phyTeamDesc  = $phyTeam->getDesc();
+                
+                $coach = substr($phyTeamDesc,11);
+                $desc = substr($gameTeamDesc,0,13) . ' ' . $coach;
+                
+                $gameTeam->setDesc($desc);
+                
+              //die($gameTeamDesc . ' # ' . $phyTeamDesc . ' # ' . $desc);
+            }
         }
     }
     /* =================================================================
@@ -125,11 +140,14 @@ class TeamImport extends ExcelBaseImport
         $reader = $this->excel->load($inputFileName);
 
         $sheets = array('U10G','U10B','U12B','U12G','U14B','U14G','U16B','U16G','U19G','U19B');
-        $sheets = array('Teams');
         foreach($sheets as $sheet)
         {
             $this->processSheet($reader,$sheet);
         }
+        $this->getEntityManager()->flush();
+        $this->getEntityManager()->clear();
+
+        $this->processGameTeams();
         
         // Finish up
         $this->getEntityManager()->flush();
