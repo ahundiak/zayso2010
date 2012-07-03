@@ -44,4 +44,9 @@ class ProjectField
     public function setPool   ($value) { $this->pool    = $value; }
     public function setStatus ($value) { $this->status  = $value; }
     public function setProject($value) { $this->project = $value; }
+    
+    // Hack for national games
+    public function getVenue()       { return $this->status;  }
+    public function setVenue($value) { $this->status  = $value; }
+
 }
