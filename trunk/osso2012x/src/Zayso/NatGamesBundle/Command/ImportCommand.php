@@ -102,6 +102,30 @@ class ImportCommand extends ContainerAwareCommand
         echo "Zayso Import {$results['msg']} \n";
        
     }
+    protected function processField($field)
+    {
+        $key = $field->getKey();
+        
+        if (substr($key,0,2) == 'BC')    $field->setVenue('BC');
+        if (substr($key,0,2) == 'RR')    $field->setVenue('RRSCH');
+        if (substr($key,0,3) == 'SCH')   $field->setVenue('RRSCH');
+        if (substr($key,0,3) == 'ASH')   $field->setVenue('ASH');
+        if (substr($key,0,3) == 'TAR')   $field->setVenue('TAR');
+        if (substr($key,0,4) == 'CELL')  $field->setVenue('CELL');
+        if (substr($key,0,5) == 'REGAL') $field->setVenue('REGAL');
+        
+    }
+    protected function setFieldVenues()
+    {
+        $manager = $this->getContainer()->get('zayso_core.game.schedule.manager');
+        
+        $fields = $manager->loadFieldsForProject(52);
+        foreach($fields as $field)
+        {
+            $this->processField($field);
+        }
+        $manager->flush();
+    }
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // $inputFileName = $input->getArgument('file');
@@ -110,7 +134,9 @@ class ImportCommand extends ContainerAwareCommand
 
         // $this->importSchedule2010('../datax/Schedule2010.csv');
         
-        $this->importSchedule();
+        // $this->importSchedule();
+        
+        $this->setFieldVenues();
         
 
         return;        
