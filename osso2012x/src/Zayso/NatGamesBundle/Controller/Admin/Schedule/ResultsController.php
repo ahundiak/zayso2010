@@ -60,7 +60,6 @@ class ResultsController extends BaseController
                 'ages'      => array($age),
                 'genders'   => array($gender),
             );
-            if ($gender == 'B') $params['genders'][] = 'C';
             
             $games = $manager->loadGames($params);
         }
