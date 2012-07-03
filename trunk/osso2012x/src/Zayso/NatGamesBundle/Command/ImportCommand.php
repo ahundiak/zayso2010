@@ -76,10 +76,11 @@ class ImportCommand extends ContainerAwareCommand
     }
     protected function importSchedule()
     {
-         $import = $this->getContainer()->get('zayso_natgames.schedule2012.import2');
+         $import = $this->getContainer()->get('zayso_natgames.schedule2012.import');
          $params = array
          (
-            'inputFileName'  => 'C:/home/ahundiak/datax/NatGames/Schedules/Work20120627/RefScheduleU10.xls',
+          //'inputFileName'  => 'C:/home/ahundiak/datax/NatGames/Schedules/Work20120627/RefScheduleU10.xls',
+            'inputFileName'  => 'C:/home/ahundiak/datax/NatGames/Schedules/Work20120702/NG2012SchedU14GAdded.xls',
             'projectId'      => 52,
             'type'           => 'regular',
          );
@@ -92,7 +93,8 @@ class ImportCommand extends ContainerAwareCommand
          $import = $this->getContainer()->get('zayso_natgames.soccerfest.import');
          $params = array
          (
-            'inputFileName'  => 'C:/home/ahundiak/datax/NatGames/Schedules/Work20120627/RefScheduleU10.xls',
+             // Wrong file name
+          //'inputFileName'  => 'C:/home/ahundiak/datax/NatGames/Schedules/Work20120702/NG2012SchedU14GAdded.xls',
             'projectId'      => 52,
             'type'           => 'regular',
          );
@@ -108,7 +110,7 @@ class ImportCommand extends ContainerAwareCommand
 
         // $this->importSchedule2010('../datax/Schedule2010.csv');
         
-        $this->importTeams();
+        $this->importSchedule();
         
 
         return;        
