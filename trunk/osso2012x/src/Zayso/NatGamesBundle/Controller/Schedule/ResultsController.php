@@ -9,10 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ResultsController extends BaseController
 {
-    protected function getScheduleManager()
-    {
-        return $this->get('zayso_core.game.schedule.manager');
-    }
     public function resultsAction(Request $request, $div, $pool)
     {
         if (!$div)
@@ -26,7 +22,7 @@ class ResultsController extends BaseController
         }
         else $request->getSession()->set('resultsSearchData',array('div' => $div, 'pool' => $pool));
         
-        $manager = $this->get('zayso_core.game.schedule.results.manager');
+        $manager = $this->get('zayso_natgames.game.schedule.results.manager');
         if (strlen($div) == 4)
         {
             $age    = substr($div,0,3);
@@ -37,20 +33,19 @@ class ResultsController extends BaseController
                 'ages'      => array($age),
                 'genders'   => array($gender),
             );
-            // if ($gender == 'B') $params['genders'][] = 'C';
             
             $games = $manager->loadGames($params);
         }
         else $games = array();
         
-        //$pools = $manager->getPools($games,$pool);
+        $pools = $manager->getPools($games,$pool);
         
         $tplData = array();
-      //$tplData['pools']  = $pools;
+        $tplData['pools']  = $pools;
         
         $response = $this->renderx('Schedule:results.html.twig',$tplData);
-      //$response->setPublic();
-      //$response->setSharedMaxAge(0);
+        $response->setPublic();
+        $response->setSharedMaxAge(30);
         return $response;
          
     }
