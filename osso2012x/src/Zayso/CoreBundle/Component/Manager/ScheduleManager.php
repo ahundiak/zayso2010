@@ -270,12 +270,24 @@ class ScheduleManager extends GameManager
         
         $qb->andWhere($qb->expr()->in('game.id',$gameIds));
         
-        $qb->addOrderBy('game.date');
-        $qb->addOrderBy('game.time');
-        $qb->addOrderBy('field.key1');
-
-        return $qb->getQuery()->getResult();
+        if (isset($search['orderBy'])) $orderBy = $search['orderBy'];
+        else                           $orderBy = 'date_time_field';
         
+        switch($orderBy)
+        {
+            case 'print':
+                $qb->addOrderBy('field.status'); // Venue
+                $qb->addOrderBy('game.date');
+                $qb->addOrderBy('game.time');
+                $qb->addOrderBy('field.key1');
+                break;
+           
+            default:
+                $qb->addOrderBy('game.date');
+                $qb->addOrderBy('game.time');
+                $qb->addOrderBy('field.key1');
+        }
+        return $qb->getQuery()->getResult();
     }
     public function loadGamesx($search)
     {
@@ -429,6 +441,21 @@ class ScheduleManager extends GameManager
         $qb->addOrderBy('person.lastName');
         
         return $qb->getQuery()->getResult();
+    }
+    public function loadFieldsForProject($projectId)
+    {
+        $qb = $this->createQueryBuilder();
+        
+        $qb->addSelect('field');
+        
+        $qb->from('ZaysoCoreBundle:ProjectField','field');
+        
+        $qb->andWhere($qb->expr()->eq('field.project',$qb->expr()->literal($projectId)));
+        
+        $qb->addOrderBy('field.key1');
+        
+        return $qb->getQuery()->getResult();
+        
     }
 }
 ?>
