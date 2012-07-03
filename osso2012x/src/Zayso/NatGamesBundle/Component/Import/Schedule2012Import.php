@@ -197,6 +197,7 @@ class Schedule2012Import extends ExcelBaseImport
             $this->phyTeams[$key] = $team; // echo $key . "\n";
             return $team;
         }
+        
         // Create
         $team = $this->newTeam($age . $gender, 'physical', $key, $org);
         $team->setLevel('regular');
@@ -367,9 +368,12 @@ class Schedule2012Import extends ExcelBaseImport
         if (strpos($homeTeamKey,'VAC') !== FALSE) return;
         if (strpos($awayTeamKey,'VAC') !== FALSE) return;
         
+        if (in_array($seq,array(512,524,534,546,559)) == false) return;
+        
         // Need to sleep on bye
         if (strpos($homeTeamKey,'BYE') !== false) return;
         if (strpos($awayTeamKey,'BYE') !== false) return;
+        
         
         // Date time
         $date = $this->processDate($date);
@@ -478,7 +482,8 @@ class Schedule2012Import extends ExcelBaseImport
         // Loop once for team
         foreach($rows as $row)
         {
-            $this->processTeamRowLeft($row);
+            // U14G Pool D Add
+            //$this->processTeamRowLeft($row);
         }
         foreach($rows as $row)
         {
@@ -486,7 +491,8 @@ class Schedule2012Import extends ExcelBaseImport
         }
         foreach($rows as $row)
         {
-            $this->processGameRowLeft($sheetName,$row);
+            // U14G Pool D Add
+            // $this->processGameRowLeft($sheetName,$row);
         }
         foreach($rows as $row)
         {
@@ -538,7 +544,7 @@ class Schedule2012Import extends ExcelBaseImport
         $reader = $this->excel->load($inputFileName);
 
         $sheets = array('10B','10G','12B','12G','14B','14G','16B','16G','19B','19G');
-      //$sheets = array('10B');
+        $sheets = array('14G');
         foreach($sheets as $sheet)
         {
             $this->processSheet($reader,$sheet);
