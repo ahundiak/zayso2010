@@ -16,7 +16,7 @@ class User extends BaseUser
         switch($aysoid)
         {
             case 'AYSOV99437977': // Art H
-                return array(new Role('ROLE_SUPER_ADMIN'), new Role('ROLE_SCORER'));
+                return array(new Role('ROLE_SUPER_ADMIN'), new Role('ROLE_SCORER'), new Role('ROLE_SCORERX'));
                 
             case 'AYSOV90001476': // David Holt
             case 'AYSOV98037803': // Jack Graham
@@ -26,6 +26,12 @@ class User extends BaseUser
             case 'AYSOV91000961': // Mike F
             case 'AYSOV52552170': // Bill Mize
                 return array(new Role('ROLE_ADMIN'));
+                
+//            case 'AYSOV53218432': // Jeff Ward
+//                return array(new Role('ROLE_SCORER'));
+                
+            case 'AYSOV59172591': // Cassie Hundiak
+                return array(new Role('ROLE_SCORER'), new Role('ROLE_SCORERX'));
         }
         return array(new Role('ROLE_USER'));
     }
