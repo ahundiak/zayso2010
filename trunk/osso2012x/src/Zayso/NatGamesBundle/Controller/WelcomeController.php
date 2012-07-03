@@ -44,4 +44,9 @@ class WelcomeController extends CoreBaseController
         $tplData = array();
         return $this->renderx('Schedule:schedule.html.twig',$tplData);
     }
+    public function shuttleAction()
+    { 
+        $tplData = array();
+        return $this->renderx('Welcome:shuttle.html.twig',$tplData);
+    }
 }
