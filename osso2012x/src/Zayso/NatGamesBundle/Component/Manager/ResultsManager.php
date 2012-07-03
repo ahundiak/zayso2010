@@ -74,6 +74,8 @@ class ResultsManager extends ScheduleManager
         if ($poolFilter && $poolFilter != substr($pool,8,1)) return;
 
         $this->pools[$pool]['games'][$game->getId()] = $game;
+            
+        if (!isset($this->pools[$pool]['teams'])) $this->pools[$pool]['teams'] = array();
                 
         $homeTeamRelReport = $game->getHomeTeam()->getReport();
         $awayTeamRelReport = $game->getAwayTeam()->getReport();
@@ -84,19 +86,27 @@ class ResultsManager extends ScheduleManager
         $homePoolTeamReport = $homePoolTeam->getReport();
         $awayPoolTeamReport = $awayPoolTeam->getReport();
                     
-        if ($game->isPointsApplied())
-        {
-            $this->calcPoolTeamPoints($game,$homePoolTeam,$homePoolTeamReport,$homeTeamRelReport);
-            $this->calcPoolTeamPoints($game,$awayPoolTeam,$awayPoolTeamReport,$awayTeamRelReport);
-        }
+        // Updates list of teams
         if ($pool == substr($homePoolTeam->getKey(),0,strlen($pool)))
         {
-            $this->pools[$pool]['teams'][$homePoolTeam->getId()] = $homePoolTeam;
+            if (!isset($this->pools[$pool]['teams'][$homePoolTeam->getId()] ))
+            {
+                $homePoolTeamReport->addPointsEarned($homePoolTeam->getSfSP());   
+                $this->pools[$pool]['teams'][$homePoolTeam->getId()] = $homePoolTeam;
+            }
         }
-         if ($pool == substr($awayPoolTeam->getKey(),0,strlen($pool)))
-         {
-            $this->pools[$pool]['teams'][$awayPoolTeam->getId()] = $awayPoolTeam;
-         }
+        if ($pool == substr($awayPoolTeam->getKey(),0,strlen($pool)))
+        {
+            if (!isset($this->pools[$pool]['teams'][$awayPoolTeam->getId()] ))
+            {
+                $awayPoolTeamReport->addPointsEarned($awayPoolTeam->getSfSP());   
+                $this->pools[$pool]['teams'][$awayPoolTeam->getId()] = $awayPoolTeam;
+            }
+        }
+        // Calc the points
+        $this->calcPoolTeamPoints($game,$homePoolTeam,$homePoolTeamReport,$homeTeamRelReport);
+        $this->calcPoolTeamPoints($game,$awayPoolTeam,$awayPoolTeamReport,$awayTeamRelReport);
+        
     }
     public function getPools($games, $poolFilter = null)
     {
@@ -113,14 +123,9 @@ class ResultsManager extends ScheduleManager
                 {
                     $pool1 = substr($pool,0,9);
                     $this->processPoolGame($game,$pool1,$poolFilter);
-                    
-                    $pool2 = substr($pool,0,8) . substr($pool,9,1);
-                    $this->processPoolGame($game,$pool2,$poolFilter);
-                    
-                    //echo $game->getNum() . ' ' . $pool1 . ' ' . $pool2 . "<br \>";
                 }                
             }
-        } // die();
+        }
         $pools = $this->pools;
         ksort($pools);
         
@@ -128,6 +133,8 @@ class ResultsManager extends ScheduleManager
         foreach($pools as $poolKey => $pool)
         {
             $teams = $pool['teams'];
+            
+            $this->headToHeadGames = $pool['games'];
             
             //sort
             usort($teams,array($this,'compareTeamStandings'));
@@ -138,18 +145,20 @@ class ResultsManager extends ScheduleManager
     }
     // Passed in report objects, gameTeam is actually gameTeamRelReport
     protected function calcPoolTeamPoints($game,$team,$poolTeam,$gameTeam)
-    {
-        // Avoid processing the same team twice for cross bracket play
-        if (isset($this->gameTeams[$game->getId()][$team->getId()])) return;
-        $this->gameTeams[$game->getId()][$team->getId()] = true;
+    {   
+        // Always do this even if not points not applied
+        $poolTeam->addGamesTotal(1);
         
+        // Only if points are applied
+        if (!$game->isPointsApplied()) return;
+        
+        // Only if points are applied
         $poolTeam->addPointsEarned($gameTeam->getPointsEarned());   
-        $poolTeam->addPointsMinus ($gameTeam->getPointsMinus());
-        
+     
         $poolTeam->addGoalsScored ($gameTeam->getGoalsScored());
         
         $goalsAllowed = $gameTeam->getGoalsAllowed();
-        if ($goalsAllowed > 5) $goalsAllowed = 5;
+      //if ($goalsAllowed > 5) $goalsAllowed = 5;
         $poolTeam->addGoalsAllowed($goalsAllowed);
         
         $poolTeam->addCautions($gameTeam->getCautions());
@@ -165,6 +174,19 @@ class ResultsManager extends ScheduleManager
             $poolTeam->addGamesPlayed(1);
             if ($gameTeam->getGoalsScored() > $gameTeam->getGoalsAllowed()) $poolTeam->addGamesWon(1);
         }
+        if ($poolTeam->getGamesPlayed())
+        {
+            $wpf = $poolTeam->getPointsEarned() / ($poolTeam->getGamesPlayed() * 10);
+            $wpf = sprintf('%.3f',$wpf);
+        }
+        else $wpf = null;
+        
+        $poolTeam->setWinPercent($wpf);
+        
+    }
+    protected function compareHeadToHead($team1,$team2)
+    {
+        return 0;
     }
     protected function compareTeamStandings($team1x,$team2x)
     {
@@ -172,25 +194,22 @@ class ResultsManager extends ScheduleManager
         $team2 = $team2x->getReport();
         
         // Points earned
-        $pe1 = $team1->getPointsEarned();
+        $pe1 = $team1->getPointsEarned(); // getWinPercent if uneven number of games
         $pe2 = $team2->getPointsEarned();
         if ($pe1 < $pe2) return  1;
         if ($pe1 > $pe2) return -1;
         
         // Head to head
+        $cmp = $this->compareHeadToHead($team1,$team2);
+        if ($cmp) return $cmp;
         
-        // Games won
-        $gw1 = $team1->getGamesWon();
-        $gw2 = $team2->getGamesWon();
-        if ($gw1 < $gw2) return  1;
-        if ($gw1 > $gw2) return -1;
+        // Sportsmanship
+        $sp1 = $team1->getSportsmanship();
+        $sp2 = $team2->getSportsmanship();
         
-        // Sportsmanship deductions
-        $pm1 = $team1->getPointsMinus();
-        $pm2 = $team2->getPointsMinus();
-        if ($pm1 < $pm2) return  1;
-        if ($pm1 > $pm2) return -1;
-         
+        if ($sp1 < $sp2) return  1;
+        if ($sp1 > $sp2) return -1;
+        
         // Goals Allowed
         $ga1 = $team1->getGoalsAllowed();
         $ga2 = $team2->getGoalsAllowed();
