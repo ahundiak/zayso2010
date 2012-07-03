@@ -1,17 +1,19 @@
-{% extends myBundleName ~ ':Layout:layout.html.twig' %}
+{% extends myBundleName ~ ':Layout:layout_cached.html.twig' %}
 
 {% block title %}{{ myTitlePrefix }} Results {% endblock %}
 
 {% block content %}
-{% set ages = [ 'U10','U12','U14','U16','U19'  ]    %}
+{% set ages = [ 'U10','U12','U14','U16','U19'  ]          %}
 {% set genders = { 'B' : 'Boys', 'G' : 'Girls' }    %}
 {% set resultsRoute = 'zayso_core_schedule_results' %}
 <table border="1">
-    <tr><td>&nbsp;</td>
+    <tr>
+        <td>
+            &nbsp;
+        </td>
     {% for age in ages %}
-        <td align="center">{{ age }}</td>
+        <td align="center">{{ age }} Results</td>
     {% endfor %}
-    <td rowspan="3">Report incorrect scores by<br />sending an email to: <br />Please be sure to include the game number.</td>
     </tr>
     {% for gender,genderDesc in genders %}
     <tr><td>{{ genderDesc }}</td>
@@ -32,13 +34,12 @@
     </tr>
     {% endfor %}
 </table> 
-<p>Scoring results will be shown here once the games begin.</p>
-{#
+<br />
 <div>
     {% for poolKey, pool in pools %}
     <table border = "1">
         <tr><th colspan="16">Game Pool Results - {{ poolKey }}</th></tr>
-        <tr><td colspan="16">PA=Points Applied, GS=Goals Scored, PE=Points Earned, PM=Minus Points</td></tr>
+        <tr><td colspan="16">GS=Goals Scored, SP=Sportsmanship, YC=Caution, RC=Sendoff, CE=Coach Expelled, PE=Points Earned</td></tr>
         <tr>
             <td>Game</td>
             <td>Status 1</td>
@@ -47,84 +48,103 @@
             <td>DOW Time</td>
             <td>Field</td>
             <td>Pool</td>
-            <td>Home Team</td>
+            <td>Home/Away Team</td>
             <td>GS</td>
-            <td>PM</td>
+            <td>SP</td>
+            <td>YC</td>
+            <td>RC</td>
+            <td>CE</td>
             <td>PE</td>
-            <td>&nbsp;</td>
-            <td>PE</td>
-            <td>PM</td>
-            <td>GS</td>
-            <td>Away Team</td>
         </tr>
+        {% set even = false %}
         {% for game in pool.games %}
+        {% set one = 1 %}
+        {% for teamRel in game.teams %}
         
-        <tr id="ref-sched-{{game.num}}" class="game-status-{{game.status}}">
-            <td>{{ game.getNum()       }}</td>
-            <td>{{ game.status         }}</td>
-            <td>{{ game.reportStatus   }}</td>
-            <td>{{ game.pointsApplied  }}</td>
-            <td>{{ game_dow(game.date) }} {{ game_time(game.time) }}</td>
-            <td>{{ game.fieldDesc      }}</td>
-            <td>{{ game.pool           }}</td>
+        {% if one %}
+        {% if even %}
+            <tr id="ref-sched-{{game.num}}" class="game-status-{{game.status}} row-even">
+        {% else %}
+            <tr id="ref-sched-{{game.num}}" class="game-status-{{game.status}}">
+        {% endif %}
+            <td rowspan="2">
+                {{ game.getNum() }}
+            </td>
+            <td rowspan="2">{{ game.status         }}</td>
+            <td rowspan="2">{{ game.reportStatus   }}</td>
+            <td rowspan="2">{{ game.pointsApplied  }}</td>
+            <td rowspan="2">{{ game_dow(game.date) }} {{ game_time(game.time) }}</td>
+            <td rowspan="2">{{ game.fieldDesc      }}</td>
+            <td rowspan="2">{{ game.pool           }}</td>
+        {% else %}
+        {% endif %}  {# one #}  
+            {# set one = 0 #}
+            {% set team = teamRel.team %}
             
-            {% set homeTeamRel = game.homeTeam %}
-            {% set awayTeamRel = game.awayTeam %}
-            {% set homeTeam    = homeTeamRel.team %}
-            {% set awayTeam    = awayTeamRel.team %}
-            
-            <td>{{ game_team_desc3(homeTeamRel)       }}</td>
-            <td>{{ homeTeamRel.report.goalsScored     }}</td>
-            <td>{{ homeTeamRel.report.pointsMinus     }}</td>
-            <td>{{ homeTeamRel.report.pointsEarned    }}</td>
-            <td>&nbsp;</td>
-            <td>{{ awayTeamRel.report.pointsEarned    }}</td>
-            <td>{{ awayTeamRel.report.pointsMinus     }}</td>
-            <td>{{ awayTeamRel.report.goalsScored     }}</td>
-            <td>{{ game_team_desc3(awayTeamRel)       }}</td>
+            <td>{{ game_team_desc2(teamRel)     }}</td>
+            <td align="center">{{ teamRel.report.goalsScored  }}</td>
+            <td align="center">{{ teamRel.report.sportsmanship}}</td>
+            <td align="center">{{ teamRel.report.cautions     }}</td>
+            <td align="center">{{ teamRel.report.sendOffs     }}</td>
+            <td align="center">{{ teamRel.report.coachTossed  }}</td>
+            <td align="center">{{ teamRel.report.pointsEarned }}</td>
         </tr>
+        {% if one %}
+            {% set one = 0 %}
+                {% if even %}
+                    <tr class="game-status-{{game.status}} row-even">
+                {% else %}
+                    <tr class="game-status-{{game.status}}">
+                {% endif %}
+        {% else %}
+            {% if even %}{% set even = false %}{% else %}{%set even = true %}{% endif %}
+        {% endif %}
+        {% endfor %}
         {% endfor %}       
     </table>
+    <br />
     <table border = "1">
         <tr><th colspan="16">Team Pool Results - {{ poolKey }}</th></tr>
-        <tr><td colspan="16">GP=Games Played, GA=Goals Allowed, YC=Yellow Cards, RC=Red Cards, SP=Sportsmanship</td></tr>
+        <tr><td colspan="16">T=Total, GT=Games Total, GP=Games Played, GW=Games Won, SFP=Soccerfest Points</td></tr>
         <tr>
             <td>Pool</td>
             <td>Team</td>
-            <td>PE</td>
+            <td>TPE</td>
             <td>&nbsp;</td>
-            <td>PM</td>
+            <td>GT</td>
             <td>GP</td>
             <td>GW</td>
-            <td>GS</td>
-            <td>GA</td>
-            <td>YC</td>
-            <td>RC</td>
-            <td>CD</td>
-            <td>SD</td>
-            <td>SP</td>
+            <td>TGS</td>
+            <td>TGA</td>
+            <td>TYC</td>
+            <td>TRC</td>
+            <td>TCE</td>
+            <td>TSP</td>
+            <td>SFP</td>
         </tr>
         {% for team in pool.teams %}
         {% set report = team.report %}
         <tr>
-            <td>{{ team.teamKey }}</td>                  
-            <td>{{ team.parentTeamKey   }}</td>                  
-            <td>{{ report.pointsEarned () }} </td>
-            <td>&nbsp;</td>
-            <td>{{ report.pointsMinus   }} </td>                  
-            <td>{{ report.gamesPlayed   }} </td>                  
-            <td>{{ report.gamesWon      }} </td>                  
-            <td>{{ report.goalsScored   }} </td>                  
-            <td>{{ report.goalsAllowed  }} </td>                  
-            <td>{{ report.cautions      }} </td>                  
-            <td>{{ report.sendoffs      }} </td>                  
-            <td>{{ report.coachTossed   }} </td>                  
-            <td>{{ report.specTossed    }} </td>                  
-            <td>{{ report.sportsmanship }} </td>                  
+            <td>{{ team.key  }}</td>                  
+            <td>{{ team.desc }}</td>                  
+            <td align="center">{{ report.pointsEarned () }} </td>
+            <td>&nbsp;</td>              
+            <td align="center">{{ report.gamesTotal    }} </td>                  
+            <td align="center">{{ report.gamesPlayed   }} </td>                                  
+            <td align="center">{{ report.gamesWon      }} </td>                  
+            <td align="center">{{ report.goalsScored   }} </td>                  
+            <td align="center">{{ report.goalsAllowed  }} </td>                  
+            <td align="center">{{ report.cautions      }} </td>                  
+            <td align="center">{{ report.sendoffs      }} </td>                  
+            <td align="center">{{ report.coachTossed   }} </td>                               
+            <td align="center">{{ report.sportsmanship }} </td>                  
+            <td align="center">{{ team.sfSp            }} </td>                  
         </tr>
         {% endfor %}       
-    </table>
+    </table><br />
     {% endfor %}
 </div>
-#}
+<style>
+.row-even      { background-color: #E0FFFF; } {# #E0FFFF PaleCyan #}
+</style>
 {% endblock %}
