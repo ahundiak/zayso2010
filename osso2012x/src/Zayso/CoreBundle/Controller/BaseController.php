@@ -53,6 +53,10 @@ class BaseController extends Controller
     {
         return $this->get('security.context')->isGranted('ROLE_SCORER');
     }
+    protected function isUserScorerx()
+    {
+        return $this->get('security.context')->isGranted('ROLE_SCORERX');
+    }
     // Be aware that this returns the string anon for non users
     protected function getUser()
     {
