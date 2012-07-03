@@ -62,7 +62,7 @@ class GameReportController extends BaseController
         $reportStatus = $game->getReportStatus();
                 
         // Need to be signed in
-        if (!$this->isUserAdmin()) return false;
+        if (!$this->isUserScorer()) return false;
                 
         // Prevent future?
         if ($reportStatus == 'Future') return false;
@@ -71,10 +71,10 @@ class GameReportController extends BaseController
         if ($reportStatus == 'Reset')   $game->setReportStatus('Pending');
         if ($reportStatus == 'Pending') $game->setReportStatus('Submitted');
         
-        // Only admin can approve
+        // Only scorer admin can approve
         if ($reportStatus == 'Approved') 
         {
-            if (!$this->isAdmin()) return false;
+            if (!$this->isUserScorerx()) return false;
         }
         
         // And save, sort of fragile, form calls getReport but not setReport???
