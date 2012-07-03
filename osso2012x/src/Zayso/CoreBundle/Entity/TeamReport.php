@@ -73,6 +73,14 @@ class TeamReport
     public function addGamesWon($value) { $this->addReportProp('gamesWon',$value); }
     public function getGamesWon(){ return $this->getReportProp('gamesWon'); }
 
+    public function setGamesTotal($value) { $this->setReportProp('gamesTotal',$value); }
+    public function addGamesTotal($value) { $this->addReportProp('gamesTotal',$value); }
+    public function getGamesTotal(){ return $this->getReportProp('gamesTotal'); }
+
+    public function setWinPercent($value) { $this->setReportProp('winPercent',$value); }
+    public function addWinPercent($value) { $this->addReportProp('winPercent',$value); }
+    public function getWinPercent(){ return $this->getReportProp('winPercent'); }
+
     public function clrData()      { $this->data = array(); }
     public function setData($data) { $this->data = $data; }
     public function getData()      { return $this->data; }
