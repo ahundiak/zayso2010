@@ -1,5 +1,5 @@
 <?php
-class S5GamesRefereeExport
+class NatGamesPrintExport
 {
     protected $counts = array();
     
@@ -26,32 +26,12 @@ class S5GamesRefereeExport
         'AR1'     => 26,
         'AR2'     => 26,
         
-        'HGS'       =>  5,
-        'HPM'       =>  5,
-        'HPE'       =>  5,
-        'AGS'       =>  5,
-        'APM'       =>  5,
-        'APE'       =>  5,
-        
         'Pool'     => 12,
         'Team'     => 30,
-            
-        'PE' => 8,
-        'PM' => 5,
-        'GP' => 5,
-        'GW' => 5,
-        'GS' => 5,
-        'GA' => 5,
-        'YC' => 5,
-        'RC' => 5,
-        'CD' => 5,
-        'SD' => 5,
-        'SP' => 5,
     );
     protected $center = array
     (
-        'Game','HGS','HPM','HPE','APE','APM','AGS',
-        'PE','PM','GP','GW','GS','GA','YC','RC','CD','SD','SP',
+        'Game','Game#',
     );
     
     public function __construct($excel,$games)
@@ -72,16 +52,6 @@ class S5GamesRefereeExport
                 // Works but not for multiple sheets?
                 // $ws->getStyle($col)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
             }
-        }
-        return $row;
-    }
-    protected function setRow($ws,$map,$person,&$row)
-    {
-        $row++;
-        $col = 0;
-        foreach($map as $propName)
-        {
-            $ws->setCellValueByColumnAndRow($col++,$row,$person[$propName]);
         }
         return $row;
     }
@@ -106,8 +76,7 @@ class S5GamesRefereeExport
             'Game#'   => 'game',
         );
         $ws->setTitle('Games');
-        $row = 1;
-        $row = $this->setHeaders($ws,$map,$row);
+        $row = 0;
         
         $timex = null;
         
@@ -131,7 +100,19 @@ class S5GamesRefereeExport
             
             if ($timex != $time)
             {
-                if ($timex) $row++;
+                if ($timex) { $row++; }
+                
+                switch($time)
+                {
+                    case '08:00 AM':
+                    case '12:00 PM':
+                    case '13:30 PM':
+                        
+                        if ($timex) $ws->setBreak('A' . ($row - 1), \PHPExcel_Worksheet::BREAK_ROW);
+                        
+                        $this->setHeaders($ws,$map,$row);
+                        $row++;
+                }
                 $timex = $time;
             }
             $ws->setCellValueByColumnAndRow($col++,$row,$game->getNum());
@@ -178,7 +159,7 @@ class S5GamesRefereeExport
         
     }
 }
-$export = new S5GamesRefereeExport($excel,$games);
+$export = new NatGamesPrintExport($excel,$games);
 
 echo $export->generate();
  

@@ -156,6 +156,26 @@ zayso_core_admin_schedule_results:
     pattern:  /admin/schedule/results/{div}/{pool}
     defaults: { _controller: ZaysoNatGamesBundle:Admin\Schedule\Results:results, div: 0, pool: 0}
     
+zayso_core_admin_schedule_print_soccerfest:
+    pattern:  /admin/schedule/print/soccerfest
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Schedule\PrintSched:soccerfest }
+    
+zayso_core_admin_schedule_print_thursday:
+    pattern:  /admin/schedule/print/thursday
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Schedule\PrintSched:thursday }
+    
+zayso_core_admin_schedule_print_friday:
+    pattern:  /admin/schedule/print/friday
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Schedule\PrintSched:friday }
+    
+zayso_core_admin_schedule_print_saturday:
+    pattern:  /admin/schedule/print/saturday
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Schedule\PrintSched:saturday }
+    
+zayso_core_admin_schedule_print_sunday:
+    pattern:  /admin/schedule/print/sunday
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Schedule\PrintSched:sunday }
+    
 zayso_core_admin_schedule_game_report:
     pattern:  /admin/schedule/game/report/{id}
     defaults: { _controller: ZaysoNatGamesBundle:Admin\Schedule\GameReport:report}
