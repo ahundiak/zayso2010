@@ -9,13 +9,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ResultsController extends BaseController
 {
-    protected function getScheduleManager()
-    {
-        return $this->get('zayso_core.game.schedule.manager');
-    }
     public function resultsExcelAction(Request $request)
     {
-        $manager = $this->get('zayso_core.game.schedule.results.manager');
+        $manager = $this->get('zayso_natgames.game.schedule.results.manager');
         
         $params = array
         (
@@ -53,7 +49,7 @@ class ResultsController extends BaseController
         }
         else $request->getSession()->set('resultsSearchData',array('div' => $div, 'pool' => $pool));
         
-        $manager = $this->get('zayso_core.game.schedule.results.manager');
+        $manager = $this->get('zayso_natgames.game.schedule.results.manager');
         if (strlen($div) == 4)
         {
             $age    = substr($div,0,3);
