@@ -25,6 +25,10 @@ zayso_core_contact:
     pattern:  /welcome/contact
     defaults: { _controller: ZaysoNatGamesBundle:Welcome:contact }
     
+zayso_core_shuttle:
+    pattern:  /welcome/shuttle
+    defaults: { _controller: ZaysoNatGamesBundle:Welcome:shuttle }
+    
 zayso_core_contact_org:
     pattern:  /contact
     defaults: { _controller: ZaysoNatGamesBundle:Welcome:contact }
