@@ -16,6 +16,8 @@ class ResultsController extends BaseController
         $params = array
         (
             'projectId' => 52,
+            'dates' => array('20120705','20120706','20120707'),
+            'genders' => array('B','G'),
         );
         $games = $manager->loadGames($params);
         $pools = $manager->getPools($games);
@@ -25,16 +27,14 @@ class ResultsController extends BaseController
         $tplData['pools'] = $pools;
         $tplData['excel'] = $this->get('zayso_core.format.excel');
         
-        $response = $this->render('ZaysoS5GamesBundle:Admin:Schedule/results.excel.php',$tplData);
+        $response = $this->renderx('Admin\Schedule:results.excel.php',$tplData);
         
-        $outFileName = 'S5GamesResults' . date('YmdHi') . '.xls';
+        $outFileName = 'NatGamesResults' . date('YmdHi') . '.xls';
         
         $response->headers->set('Content-Type', 'application/vnd.ms-excel');
         $response->headers->set('Content-Disposition', "attachment; filename=\"$outFileName\"");
         
         return $response;
-          
-        die('excel ' . count($pools));
     }
     public function resultsAction(Request $request, $div, $pool)
     {
