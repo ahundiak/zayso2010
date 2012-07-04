@@ -83,9 +83,17 @@
             public = "true">
             <argument type="service" id="zayso_core.game.manager" />
         </service>
+        
         <service 
             id     = "zayso_natgames.soccerfest.import" 
             class  = "Zayso\NatGamesBundle\Component\Import\SoccerfestImport" 
+            public = "true">
+            <argument type="service" id="zayso_core.game.manager" />
+        </service>
+        
+        <service 
+            id     = "zayso_natgames.game.import" 
+            class  = "Zayso\NatGamesBundle\Component\Import\GameImport" 
             public = "true">
             <argument type="service" id="zayso_core.game.manager" />
         </service>
