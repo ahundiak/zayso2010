@@ -26,7 +26,7 @@ class GameExport
     }
     protected $widths = array(
         'GID' => 5,   'PID'  => 5, 'FID' => 5, 'TR_ID' => 6, 'GT_ID' => 6, 'PT_ID' => 6,
-        'DOW' => 5, 'Date' => 10, 'Time' => 6, 'Field' => 8, 'Pool' => 12, 'Game' => 6,
+        'DOW' => 5, 'Date' => 10, 'Time' => 6, 'Field' => 8, 'Pool' => 12, 'Poolx' => 12, 'Game' => 6,
         
         'TR_TYPE'  => 8,'GT_TYPE' => 8,'PT_TYPE' => 8,
         
@@ -115,11 +115,47 @@ class GameExport
             $row++;
          }
     }
+    protected function generateGamesPool($ws,$games)
+    {
+        $ws->setTitle('Games');
+        
+        $headers = array(
+            'PID','GID','Game','DOW','Date','Time','FID','Field','Pool','Poolx',
+        );
+        $row = $this->setHeaders($ws,$headers);
+        
+        foreach($games as $game)
+        {
+            $date = $game->getDate();
+            $time = $game->getTime();
+            
+            $stamp = mktime(0,0,0,substr($date,4,2),substr($date,6,2),substr($date,0,4));
+            $dow  = date('D',  $stamp);
+          //$date = date('M d',$stamp);
+            
+            $stamp = mktime(substr($time,0,2),substr($time,2,2));
+          //$time = date('h:i A',$stamp);
+
+            $col = 0;
+            $row++;
+            $ws->setCellValueByColumnAndRow($col++,$row,$game->getProject()->getId());
+            $ws->setCellValueByColumnAndRow($col++,$row,$game->getId());
+            $ws->setCellValueByColumnAndRow($col++,$row,$game->getNum());
+            $ws->setCellValueByColumnAndRow($col++,$row,$dow);
+            $ws->setCellValueByColumnAndRow($col++,$row,$date);
+            $ws->setCellValueByColumnAndRow($col++,$row,$time);
+            $ws->setCellValueByColumnAndRow($col++,$row,$game->getField()->getId());
+            $ws->setCellValueByColumnAndRow($col++,$row,$game->getField()->getDesc());
+            $ws->setCellValueByColumnAndRow($col++,$row,$game->getPool());
+            $ws->setCellValueByColumnAndRow($col++,$row,substr($game->getPool(),5));
+            
+         }
+    }
     public function generate($games)
     {
         $ss = $this->excel->newSpreadSheet();
        
-        $this->generateGames($ss->getSheet(0),$games);
+        $this->generateGamesPool($ss->getSheet(0),$games);
         
         // Output
         $ss->setActiveSheetIndex(0);
