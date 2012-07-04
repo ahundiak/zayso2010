@@ -33,8 +33,8 @@ class GameSchedController extends BaseController
         
         $searchData = array(
             'projectId' => $this->projectId,
-            'dates'     => array('20120705','20120706'),
-            'ages'      => array('U10'),
+            'dates'     => array('20120705','20120706','20120707','20120708'),
+            'genders'   => array('B','G'),
         );
         $games = $manager->loadGames($searchData);
        
