@@ -176,7 +176,8 @@ class ResultsManager extends ScheduleManager
         }
         if ($poolTeam->getGamesPlayed())
         {
-            $wpf = $poolTeam->getPointsEarned() / ($poolTeam->getGamesPlayed() * 10);
+            // The 6 comes from the six soccer fest points
+            $wpf = $poolTeam->getPointsEarned() / (($poolTeam->getGamesPlayed() * 10) + 6);
             $wpf = sprintf('%.3f',$wpf);
         }
         else $wpf = null;
