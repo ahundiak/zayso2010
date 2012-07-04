@@ -12,30 +12,28 @@ class S5GamesResultsExport
         'DOW Time'  => 15,
         'Field'     =>  6,
         'Pool'      => 12,
+        'Type'      => 6,
+        'Team'      => 30,
             
-        'Home Team' => 30,
-        'Away Team' => 30,
-        'HGS'       =>  5,
-        'HPM'       =>  5,
-        'HPE'       =>  5,
-        'AGS'       =>  5,
-        'APM'       =>  5,
-        'APE'       =>  5,
-        
-        'Pool'     => 12,
-        'Team'     => 30,
-            
-        'PE' => 8,
-        'PM' => 5,
-        'GP' => 5,
-        'GW' => 5,
         'GS' => 5,
-        'GA' => 5,
+        'SP' => 5,
         'YC' => 5,
         'RC' => 5,
-        'CD' => 5,
-        'SD' => 5,
-        'SP' => 5,
+        'CE' => 5,
+        'PE' => 5,
+        
+        'WPF' => 5,
+        'TPE' => 5,
+        'GT'  => 5,
+        'GP'  => 5,
+        'GW'  => 5,
+        'TGS' => 5,
+        'TGA' => 5,
+        'TYC' => 5,
+        'TRC' => 5,
+        'TCE' => 5,
+        'TSP' => 5,
+        'SfP' => 5,
     );
     protected $center = array
     (
@@ -64,16 +62,6 @@ class S5GamesResultsExport
         }
         return $row;
     }
-    protected function setRow($ws,$map,$person,&$row)
-    {
-        $row++;
-        $col = 0;
-        foreach($map as $propName)
-        {
-            $ws->setCellValueByColumnAndRow($col++,$row,$person[$propName]);
-        }
-        return $row;
-    }
     public function generatePoolGames($ws,$games,&$row)
     {
         $map = array(
@@ -84,21 +72,21 @@ class S5GamesResultsExport
             'DOW Time' => 'date',
             'Field'    => 'field',
             'Pool'     => 'pool',
+            'Type'     => true,
+            'Team'     => true,
             
-            'Home Team' => 'homeTeam',
-            'HGS'       => 'homeGS',
-            'HPM'       => 'homePM',
-            'HPE'       => 'homePE',
-            
-            'APE'       => 'awayPE',
-            'APM'       => 'awayPM',
-            'AGS'       => 'awayGS',
-            'Away Team' => 'awayTeam',
+            'GS' => true,
+            'SP' => true,
+            'YC' => true,
+            'RC' => true,
+            'CE' => true,
+            'PE' => true,
         );
         $row = $this->setHeaders($ws,$map,$row);
         
         foreach($games as $game)
         {
+            
             $row++;
             $col = 0;
            
@@ -106,6 +94,15 @@ class S5GamesResultsExport
             $awayTeam   = $game->getAwayTeam();
             $homeReport = $homeTeam->getReport();
             $awayReport = $awayTeam->getReport();
+            
+            // Page break on pool change
+            $poolx = null;
+            $pool = $game->getPool();
+            if ($poolx != $pool)
+            {
+                 //if ($poolx) $ws->setBreak('A' . $row, \PHPExcel_Worksheet::BREAK_ROW);
+            }
+            $poolx = $pool;
             
             $date = $game->getDate();
             $time = $game->getTime();
@@ -126,17 +123,33 @@ class S5GamesResultsExport
             $ws->setCellValueByColumnAndRow($col++,$row,$game->getFieldDesc());
             $ws->setCellValueByColumnAndRow($col++,$row,$game->getPool());
             
-            $ws->setCellValueByColumnAndRow($col++,$row,$homeTeam->getTeam()->getDesc());
+            $awayFlag = false;
+            foreach(array($homeTeam,$awayTeam) as $team)
+            {
+                $report = $team->getReport();
+                
+                if ($awayFlag)
+                {
+                    $row++;
+                    $ws->setCellValueByColumnAndRow(0,$row,$game->getNum());
+                    $col = 7;
+                }
+                if ($awayFlag) $ws->setCellValueByColumnAndRow($col++,$row,'Away');
+                else           $ws->setCellValueByColumnAndRow($col++,$row,'Home');
+                
+                $ws->setCellValueByColumnAndRow($col++,$row,$team->getTeam()->getDesc());
             
-            $ws->setCellValueByColumnAndRow($col++,$row,$homeReport->getGoalsScored());
-            $ws->setCellValueByColumnAndRow($col++,$row,$homeReport->getPointsMinus());
-            $ws->setCellValueByColumnAndRow($col++,$row,$homeReport->getPointsEarned());
+                $ws->setCellValueByColumnAndRow($col++,$row,$report->getGoalsScored());
+                $ws->setCellValueByColumnAndRow($col++,$row,$report->getSportsmanship());
+                $ws->setCellValueByColumnAndRow($col++,$row,$report->getCautions());
             
-            $ws->setCellValueByColumnAndRow($col++,$row,$awayReport->getPointsEarned());
-            $ws->setCellValueByColumnAndRow($col++,$row,$awayReport->getPointsMinus());
-            $ws->setCellValueByColumnAndRow($col++,$row,$awayReport->getGoalsScored());
+                $ws->setCellValueByColumnAndRow($col++,$row,$report->getSendoffs());
+                $ws->setCellValueByColumnAndRow($col++,$row,$report->getCoachTossed());
+                
+                $ws->setCellValueByColumnAndRow($col++,$row,$report->getPointsEarned());
  
-            $ws->setCellValueByColumnAndRow($col++,$row,$awayTeam->getTeam()->getDesc());
+                $awayFlag = true;
+            }
             
         }
         return;
@@ -148,17 +161,18 @@ class S5GamesResultsExport
             'Pool'     => 'pool',
             'Team'     => 'team',
             
-            'PE' => 'status',
-            'PM' => 'pointsApplied',
-            'GP' => 'date',
-            'GW' => 'field',
-            'GS' => 'pool',
-            'GA' => 'homeTeam',
-            'YC' => 'homeGS',
-            'RC' => 'homePM',
-            'CD' => 'homePE',
-            'SD' => 'awayPE',
-            'SP' => 'awayPM',
+            'WPF' => true,
+            'TPE' => true,
+            'GT'  => true,
+            'GP'  => true,
+            'GW'  => true,
+            'TGS' => true,
+            'TGA' => true,
+            'TYC' => true,
+            'TRC' => true,
+            'TCE' => true,
+            'SfP' => true,
+            'TSP' => true,
         );
         $row = $this->setHeaders($ws,$map,$row);
         
@@ -170,10 +184,11 @@ class S5GamesResultsExport
             $report = $team->getReport();    
            
             $ws->setCellValueByColumnAndRow($col++,$row,$team->getKey());
-            $ws->setCellValueByColumnAndRow($col++,$row,$team->getParentTeamKey());
+            $ws->setCellValueByColumnAndRow($col++,$row,$team->getDesc());
             
+            $ws->setCellValueByColumnAndRow($col++,$row,$report->getWinPercent());
             $ws->setCellValueByColumnAndRow($col++,$row,$report->getPointsEarned());
-            $ws->setCellValueByColumnAndRow($col++,$row,$report->getPointsMinus());
+            $ws->setCellValueByColumnAndRow($col++,$row,$report->getGamesTotal());
             $ws->setCellValueByColumnAndRow($col++,$row,$report->getGamesPlayed());
             $ws->setCellValueByColumnAndRow($col++,$row,$report->getGamesWon());
             $ws->setCellValueByColumnAndRow($col++,$row,$report->getGoalsScored());
@@ -181,44 +196,99 @@ class S5GamesResultsExport
             $ws->setCellValueByColumnAndRow($col++,$row,$report->getCautions());
             $ws->setCellValueByColumnAndRow($col++,$row,$report->getSendoffs());
             $ws->setCellValueByColumnAndRow($col++,$row,$report->getCoachTossed());
-            $ws->setCellValueByColumnAndRow($col++,$row,$report->getSpecTossed());
+            $ws->setCellValueByColumnAndRow($col++,$row,$team->getSfSP());
             $ws->setCellValueByColumnAndRow($col++,$row,$report->getSportsmanship());
-            
         }
+        return;
+    }
+    protected function pageSetup($ws,$ftoh = 0)
+    {
+        $ws->getPageSetup()->setOrientation(\PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
+        $ws->getPageSetup()->setPaperSize  (\PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
+        $ws->getPageSetup()->setFitToPage(true);
+        $ws->getPageSetup()->setFitToWidth(1);
+        $ws->getPageSetup()->setFitToHeight($ftoh);
+        $ws->setPrintGridLines(true);
         return;
     }
     public function generate()
     {
         // Spreadsheet
-        $ss = $this->excel->newSpreadSheet();        
+        $ss = $this->excel->newSpreadSheet();  
+        
         $i = 0;
+ 
+        // One sheet with all for printing
+        $gameWS = $ss->createSheet($i++);
+        $this->pageSetup($gameWS);
+        $gameWS->setTitle('Games ' . 'ALL');
+        $gameRow = 1;
+        
+        $teamWS = $ss->createSheet($i++);
+        $this->pageSetup($teamWS);
+        $teamWS->setTitle('Teams ' . 'ALL');
+        $teamRow = 1;
+
         $keyx = null;
         foreach($this->pools as $key => $pool)
         {
+            if (count($pool['teams'])) {
+                
             if (substr($keyx,0,7) == substr($key,0,7))
             {
-                $gameRow += 3;           
+                $gameRow += 2;           
+                $teamRow += 1;           
+            }
+            else
+            {
+                if ($keyx) 
+                {
+                    $gameWS->setBreak('A' . $gameRow, \PHPExcel_Worksheet::BREAK_ROW);
+                    $teamWS->setBreak('A' . $teamRow, \PHPExcel_Worksheet::BREAK_ROW);
+                    $gameRow += 1;           
+                    $teamRow += 1;           
+                }
+            }
+            $this->generatePoolGames($gameWS,$pool['games'],$gameRow);               
+            $this->generatePoolTeams($teamWS,$pool['teams'],$teamRow);               
+            $keyx = $key;
+        }}
+        
+        // Individual sheets
+        $keyx = null;
+        foreach($this->pools as $key => $pool)
+        {
+            if (count($pool['teams'])) {
+                
+            if (substr($keyx,0,7) == substr($key,0,7))
+            {           
+                $gameRow += 2;                         
                 $teamRow += 3;           
             }
             else
             {
                 $gameWS = $ss->createSheet($i++);
+                $this->pageSetup($gameWS);
                 $gameWS->setTitle('Games ' . substr($key,0,7));
                 $gameRow = 1;
                 
                 $teamWS = $ss->createSheet($i++);
+                $this->pageSetup($teamWS,1);
                 $teamWS->setTitle('Teams ' . substr($key,0,7));
                 $teamRow = 1;
             }
-            $this->generatePoolGames($gameWS,$pool['games'],$gameRow);               
+            // Gets called for once for A B C D etc
+            
+            if ($gameRow != 1) $gameWS->setBreak('A' . ($gameRow - 1), \PHPExcel_Worksheet::BREAK_ROW);
+             
+            $this->generatePoolGames($gameWS,$pool['games'],$gameRow);   
+            
+            
             $this->generatePoolTeams($teamWS,$pool['teams'],$teamRow);               
             $keyx = $key;
-        }
-      //$ws = $ss->getSheet(0);
-      //$ws->setTitle('Pools');
-        
-        // $this->generateProjectPersons ($ss->getSheet(0),$this->persons);
+        }}
 
+         
         // Output
         $ss->setActiveSheetIndex(0);
         $objWriter = $this->excel->newWriter($ss); // \PHPExcel_IOFactory::createWriter($ss, 'Excel5');
