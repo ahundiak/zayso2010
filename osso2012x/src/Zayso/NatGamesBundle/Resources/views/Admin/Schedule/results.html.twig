@@ -105,7 +105,7 @@
     <br />
     <table border = "1">
         <tr><th colspan="16">Team Pool Results - {{ poolKey }}</th></tr>
-        <tr><td colspan="16">T=Total, GT=Games Total, GP=Games Played, GW=Games Won, SFP=Soccerfest Points</td></tr>
+        <tr><td colspan="16">T=Total, GT=Games Total, GP=Games Played, GW=Games Won, SfP=Soccerfest Points</td></tr>
         <tr>
             <td>Pool</td>
             <td>Team</td>
@@ -120,8 +120,8 @@
             <td>TYC</td>
             <td>TRC</td>
             <td>TCE</td>
+            <td>SfP</td>
             <td>TSP</td>
-            <td>SFP</td>
         </tr>
         {% for team in pool.teams %}
         {% set report = team.report %}
@@ -138,9 +138,9 @@
             <td align="center">{{ report.goalsAllowed  }} </td>                  
             <td align="center">{{ report.cautions      }} </td>                  
             <td align="center">{{ report.sendoffs      }} </td>                  
-            <td align="center">{{ report.coachTossed   }} </td>                               
-            <td align="center">{{ report.sportsmanship }} </td>                  
+            <td align="center">{{ report.coachTossed   }} </td>                                               
             <td align="center">{{ team.sfSp            }} </td>                  
+            <td align="center">{{ report.sportsmanship }} </td>                  
         </tr>
         {% endfor %}       
     </table><br />
