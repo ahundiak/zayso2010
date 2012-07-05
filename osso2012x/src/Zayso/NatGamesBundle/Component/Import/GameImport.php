@@ -34,11 +34,15 @@ class GameImport extends ExcelBaseImport
         
         $pool     =      trim($row[8]);
         
+        $time     = (int)trim($row[5]);
+        
         if (!$gameId) return;
         
         $game = $this->manager->loadEventForId($gameId);
         
-        $game->setPool($pool);
+        // $game->setPool($pool);
+        $time = sprintf('%04u',$time);
+        $game->setTime($time);
         
         return;
        
