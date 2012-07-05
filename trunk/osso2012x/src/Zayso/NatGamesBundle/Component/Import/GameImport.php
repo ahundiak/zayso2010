@@ -30,9 +30,9 @@ class GameImport extends ExcelBaseImport
     protected function processGameRow($row)
     {
         $gameId   = (int)trim($row[1]);
-        $pool     = (int)trim($row[6]);
+        $fieldId  = (int)trim($row[6]);
         
-        $fieldId  =      trim($row[8]);
+        $pool     =      trim($row[8]);
         
         if (!$gameId) return;
         
