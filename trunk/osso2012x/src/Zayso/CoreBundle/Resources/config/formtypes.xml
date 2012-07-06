@@ -12,6 +12,12 @@
             public = "true">
             <argument type="service" id="zayso_core.game.entity_manager" />
         </service>
+        <service
+            id     = "zayso_core.game.edit.formtype"
+            class  = "Zayso\CoreBundle\Component\FormType\Game\GameEditFormType"
+            public = "true">
+            <argument type="service" id="zayso_core.game.entity_manager" />
+        </service>
         
         <service
             id     = "zayso_core.schedule.refassign.formtype"
