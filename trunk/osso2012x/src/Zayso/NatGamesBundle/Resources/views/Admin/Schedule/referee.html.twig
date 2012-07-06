@@ -6,7 +6,7 @@
 {% include myBundleName ~ ':Admin/Schedule/Search:referee.html.twig' %}
 <div class="schedule-list">
     <table border="1" style="max-width: 850px;">
-        <tr><th colspan="7">Referee Schedule 2012 - Game Count {{ gameCount }}</th></tr>
+        <tr><th colspan="7">Referee Schedule 2012x - Game Count {{ gameCount }}</th></tr>
         <tr>
             <td>Game</td>
             <td>DOW Time</td>
@@ -18,8 +18,8 @@
         {% for game in games %}
         <tr id="ref-sched-{{game.num}}" class="game-status-{{game.status}}">
             <td>
-                {% if 0 %}
-                <a href="{{ path('zayso_core_schedule_game_edit', { 'id': game.id })}}">{{ game.getNum() }}</a>
+                {% if is_granted('ROLE_SUPER_ADMIN')  or 1 %}
+                <a href="{{ path('zayso_core_admin_schedule_game_edit', { 'id': game.id })}}">{{ game.getNum() }}</a>
                 {% else %}
                 {{ game.num }}
                 {% endif %}
@@ -68,8 +68,9 @@
                         {{ person.personName }}
                     {% endif %}
                     </td>
+                    {#
                     <td>{{ person_aysoid(person) }}</td>
-                    <td><span class="person-vol-issue">{{ person_vol   (person) }}</span></td>
+                    <td><span class="person-vol-issue">{{ person_vol   (person) }}</span></td>#}
                 </tr>
                 {% endfor %}
             </table></td>
