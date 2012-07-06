@@ -186,6 +186,12 @@ zayso_core_admin_schedule_game_report:
     requirements:
         id: \d+
         
+zayso_core_admin_schedule_game_edit:
+    pattern:  /admin/schedule/game/edit/{id}
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Schedule\GameEdit:edit}
+    requirements:
+        id: \d+
+        
 zayso_core_admin_schedule_referee_list:
     pattern:  /admin/schedule/referee/list.{_format}
     defaults: { _controller: ZaysoNatGamesBundle:Admin\Schedule\RefSched:list, _format: html }
