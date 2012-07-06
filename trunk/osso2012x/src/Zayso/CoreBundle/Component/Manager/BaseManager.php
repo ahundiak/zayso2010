@@ -61,6 +61,10 @@ class BaseManager
     {
         return $this->getReference('Org',$orgId);
     }
+    public function getTeamReference($teamId)
+    {
+        return $this->getReference('Team',$teamId);
+    }
     public function getPersonReference($personId)
     {
         return $this->getReference('Person',$personId);
