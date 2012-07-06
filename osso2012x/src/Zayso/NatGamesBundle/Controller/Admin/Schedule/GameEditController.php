@@ -1,6 +1,6 @@
 <?php
 
-namespace Zayso\NatGamesBundle\Controller\Schedule;
+namespace Zayso\NatGamesBundle\Controller\Admin\Schedule;
 
 use Zayso\CoreBundle\Controller\BaseController;
 use Zayso\CoreBundle\Component\Debug;
@@ -12,15 +12,40 @@ class GameEditController extends BaseController
     public function editAction(Request $request, $id = 0)
     {
         // Grab the game
-        $manager = $this->get('zayso_natgames.game.schedule.manager');
+        $manager = $this->get('zayso_core.game.schedule.manager');
         $game = $manager->loadEventForId($id);
         if (!$game)
         {
             return $this->redirect($this->generateUrl('zayso_core_admin_schedule_list'));
         }
-        die(' game ' . $id);
+        // Form
+        $formType = $this->get('zayso_core.game.edit.formtype');
+        $form = $this->createForm($formType, $game);
+
+        if ($request->getMethod() == 'POST')
+        {
+            $form->bindRequest($request);
+            
+            if ($form->isValid() || 0)
+            {
+                $manager->flush();
+                
+                //$manager->calcPointsEarned($game);
+                
+                //$saved = $this->saveReport($request,$manager,$game);
+                
+                return $this->redirect($this->generateUrl('zayso_core_admin_schedule_game_edit',array('id' => $id)));
+            }
+            else die('not valid');
+        }
+        
+        // Gather up data
+        $tplData = array();
+        $tplData['form'] = $form->createView();
+        $tplData['game'] = $game;
+         
+        return $this->renderx('Admin\Schedule:edit.html.twig',$tplData);
     }
-}
     public function editActionx(Request $request, $id = 0)
     {
         // Grab the game
