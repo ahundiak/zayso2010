@@ -1,0 +1,44 @@
+{% form_theme form myBundleName ~ ':Layout:fields.html.twig' %}
+
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
+
+{% block title %}{{ myTitlePrefix }} Game Edit{% endblock %}
+
+{% block content %}
+<form action="{{ path('zayso_core_admin_schedule_game_edit', { 'id': game.id }) }}" method="post" {{ form_enctype(form) }}>
+<h1>Game Edit For: {{ game.pool }} #{{ game.num }}</h1>
+
+<table border="1">
+    <tr><td>Type</td><td> {{ form_widget(form.type) }}</td></tr>
+    <tr><td>Num</td><td>  {{ form_widget(form.num)  }}</td></tr>
+    <tr><td>Date</td><td> {{ form_widget(form.date) }}</td></tr>
+    <tr><td>Time</td><td> {{ form_widget(form.time) }}</td></tr>
+    <tr><td>Field</td><td>{{ form_widget(form.fieldDesc) }}  </td></tr>
+    <tr><td>Pool</td><td> {{ form_widget(form.pool) }}       </td></tr> 
+    
+{% set homeTeamRelEntity = game.homeTeam %}
+{% set awayTeamRelEntity = game.awayTeam %}
+{% set homeTeamRel = form.teams[0] %}
+{% set awayTeamRel = form.teams[1] %}
+{% set homeTeam = homeTeamRel.team %}
+{% set awayTeam = awayTeamRel.team %}
+    
+<tr><td colspan="2"<table border="1">
+    <tr><td>{{ form_widget(homeTeamRel.type) }}</td><td>{{ form_widget(awayTeamRel.type)  }}</td></tr>
+    <tr><td>{{ form_widget(homeTeam.type) }}</td><td>{{ form_widget(awayTeam.type)  }}</td></tr>
+    <tr><td>{{ form_widget(homeTeam.key)  }}</td><td>{{ form_widget(awayTeam.key )  }}</td></tr>
+    <tr><td>{{ form_widget(homeTeam.desc1)}}</td><td>{{ form_widget(awayTeam.desc1) }}</td></tr>
+</td></tr></table>
+    <tr>
+        <td>
+            <a href="{{ path('zayso_core_admin_schedule_referee_list') }}">Back to Schedule</a>
+        </td>
+        <td>
+            <input type="submit" name="submit_game_edit" value="Save"  />
+        </td>
+    </tr>
+</table>
+{{ form_rest(form) }} 
+</form>
+
+{% endblock %}
