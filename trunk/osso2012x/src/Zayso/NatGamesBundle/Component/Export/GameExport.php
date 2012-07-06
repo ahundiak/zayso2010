@@ -120,7 +120,7 @@ class GameExport
         $ws->setTitle('Games');
         
         $headers = array(
-            'PID','GID','Game','DOW','Date','Time','FID','Field','Pool','Poolx',
+            'PID','GID','Game','DOW','Date','Time','FID','Field','Pool','Poolx','TR_ID','GT_ID'
         );
         $row = $this->setHeaders($ws,$headers);
         
@@ -149,6 +149,15 @@ class GameExport
             $ws->setCellValueByColumnAndRow($col++,$row,$game->getPool());
             $ws->setCellValueByColumnAndRow($col++,$row,substr($game->getPool(),5));
             
+            
+            foreach($game->getTeams() as $teamRel)
+            {
+                $team = $teamRel->getTeam();
+                
+                $ws->setCellValueByColumnAndRow($col++,$row,$teamRel->getId());
+                $ws->setCellValueByColumnAndRow($col++,$row,$team->getId());
+                
+            }
          }
     }
     public function generate($games)
