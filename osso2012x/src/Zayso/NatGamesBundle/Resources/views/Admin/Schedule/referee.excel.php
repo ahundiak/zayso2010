@@ -24,6 +24,7 @@ class NatGamesRefereeExport
         'Region'       => 12,
         'Badge'        => 6,
         'Age'          => 7,
+        'Cell'         => 10,
         'Aysoid'       => 10,
         'Vol'          => 6,
         
@@ -84,7 +85,7 @@ class NatGamesRefereeExport
             'Badge'  => '',
             'Age'    => '',
             'Referee Name' => '',
-            'Aysoid'  => '',
+            'Cell'   => '',
             'Vol'    => '',
         );
         $ws->setTitle('Games');
@@ -131,7 +132,11 @@ class NatGamesRefereeExport
                 
                 $ws->setCellValueByColumnAndRow($col++,$row,$person->getPersonName());
                 
-                $ws->setCellValueByColumnAndRow($col++,$row,$this->ext->personAysoid($person));
+                $cell = $person->getCellPhone();
+                $cell = substr($cell,0,3) . '.' . substr($cell,3,3) . '.' . substr($cell,6,4);
+                
+                $ws->setCellValueByColumnAndRow($col++,$row,$cell);
+              //$ws->setCellValueByColumnAndRow($col++,$row,$this->ext->personAysoid($person));
                 $ws->setCellValueByColumnAndRow($col++,$row,$this->ext->personVol   ($person));
             }
             $row++;
