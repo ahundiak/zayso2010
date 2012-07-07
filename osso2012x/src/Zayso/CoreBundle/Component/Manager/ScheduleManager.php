@@ -275,6 +275,14 @@ class ScheduleManager extends GameManager
         
         switch($orderBy)
         {
+            case 'playoffs':
+                $qb->addOrderBy('game.date');
+                $qb->addOrderBy('game.pool');
+                
+                $qb->addOrderBy('game.time');
+                $qb->addOrderBy('field.key1');
+                break;
+            
             case 'print':
                 $qb->addOrderBy('field.status'); // Venue
                 $qb->addOrderBy('game.date');
