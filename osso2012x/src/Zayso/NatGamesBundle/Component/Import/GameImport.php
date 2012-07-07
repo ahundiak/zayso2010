@@ -148,7 +148,7 @@ class GameImport extends ExcelBaseImport
         // Loop once for team
         foreach($rows as $row)
         {
-            $this->processGameRowU10B($row);
+            $this->processGameRow($row);
         }
     }
     /* =================================================================
