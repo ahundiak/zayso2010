@@ -30,6 +30,7 @@ class TeamImport extends ExcelBaseImport
     protected function processTeamRow($row)
     {
         $gameTeamId   = (int)trim($row[2]);
+        $gameTeamKey  =      trim($row[4]);
         $gameTeamDesc =      trim($row[5]);
         $gameTeamSP   = (int)trim($row[1]);
         
@@ -47,6 +48,7 @@ class TeamImport extends ExcelBaseImport
         if ($phyTeam) $phyTeam->setDesc($phyTeamDesc);
         
         $gameTeam->setDesc($gameTeamDesc);
+        $gameTeam->setKey ($gameTeamKey);
       //$gameTeam->setSfSP($gameTeamSP);
         
         // Mees with parent to avoid unneeded updates
