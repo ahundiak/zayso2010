@@ -47,7 +47,7 @@ class TeamImport extends ExcelBaseImport
         if ($phyTeam) $phyTeam->setDesc($phyTeamDesc);
         
         $gameTeam->setDesc($gameTeamDesc);
-        $gameTeam->setSfSP($gameTeamSP);
+      //$gameTeam->setSfSP($gameTeamSP);
         
         // Mees with parent to avoid unneeded updates
         $parentTeam = $gameTeam->getParent();
