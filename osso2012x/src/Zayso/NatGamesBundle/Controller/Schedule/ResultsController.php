@@ -49,5 +49,37 @@ class ResultsController extends BaseController
         return $response;
          
     }
+    public function playoffsAction(Request $request, $div, $pool)
+    {
+        
+        $manager = $this->get('zayso_natgames.game.schedule.results.manager');
+        $params = array
+        (
+            'projectId' => 52,
+            'ages'      => array('U12','U14','U16','U19'),
+            'dates'     => array('20120707'),
+            'orderBy'   => 'playoffs',
+        );
+            
+        $games = $manager->loadGames($params);
+        $gamesx = array();
+        foreach($games as $game)
+        {
+            if (!$game->isPoolPlay())
+            {
+                $gamesx[] = $game;
+            }
+        }
+        $games = $gamesx;
+        
+        $tplData = array();
+        $tplData['games']  = $games;
+        
+        $response = $this->renderx('Schedule:playoffs.html.twig',$tplData);
+      //$response->setPublic();
+      //$response->setSharedMaxAge(30);
+        return $response;
+         
+    }
 }
 ?>
