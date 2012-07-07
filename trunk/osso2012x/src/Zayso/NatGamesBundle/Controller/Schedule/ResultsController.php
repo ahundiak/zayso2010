@@ -57,7 +57,7 @@ class ResultsController extends BaseController
         (
             'projectId' => 52,
             'ages'      => array('U12','U14','U16','U19'),
-            'dates'     => array('20120707'),
+            'dates'     => array('20120707','20120708'),
             'orderBy'   => 'playoffs',
         );
             
