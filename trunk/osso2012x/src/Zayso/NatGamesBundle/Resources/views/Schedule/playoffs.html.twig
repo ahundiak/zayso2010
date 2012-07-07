@@ -25,8 +25,8 @@
 
         <tr id="playoffs-{{game.num}}" class="game-status-{{game.status}}">
             <td>
-                {% if 0 %}
-                <a href="{{ path('zayso_core_schedule_game_report', { 'id': game.id })}}">{{ game.getNum() }}</a>
+                {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('zayso_core_admin_schedule_game_report', { 'id': game.id })}}">{{ game.getNum() }}</a>
                 {% else %}
                 {{ game.num }}
                 {% endif %}
