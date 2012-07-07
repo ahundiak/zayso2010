@@ -28,6 +28,8 @@ class NatGamesRefereeExport
         'Email'        => 10,
         'Aysoid'       => 10,
         'Vol'          => 6,
+        'RelId'        => 6,
+        'PersonId'     => 6,
         
     );
     protected $center = array
@@ -85,10 +87,10 @@ class NatGamesRefereeExport
             'Region' => '',
             'Badge'  => '',
             'Age'    => '',
+            'Aysoid' => '',
             'Referee Name' => '',
             'Cell'   => '',
             'Email'  => '',
-            'Vol'    => '',
         );
         $ws->setTitle('Games');
         $row = 1;
@@ -132,6 +134,7 @@ class NatGamesRefereeExport
                 $ws->setCellValueByColumnAndRow($col++,$row,$this->ext->personRefBadge($person));
                 $ws->setCellValueByColumnAndRow($col++,$row,$this->ext->personAge     ($person));
                 
+                $ws->setCellValueByColumnAndRow($col++,$row,$this->ext->personAysoid($person));
                 $ws->setCellValueByColumnAndRow($col++,$row,$person->getPersonName());
                 
                 $cell = $person->getCellPhone();
@@ -140,7 +143,7 @@ class NatGamesRefereeExport
                 $ws->setCellValueByColumnAndRow($col++,$row,$cell);
                 $ws->setCellValueByColumnAndRow($col++,$row,$person->getEmail());
              //$ws->setCellValueByColumnAndRow($col++,$row,$this->ext->personAysoid($person));
-                $ws->setCellValueByColumnAndRow($col++,$row,$this->ext->personVol   ($person));
+              //$ws->setCellValueByColumnAndRow($col++,$row,$this->ext->personVol   ($person));
             }
             $row++;
         }
