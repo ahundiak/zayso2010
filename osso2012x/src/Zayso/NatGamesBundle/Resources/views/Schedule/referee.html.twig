@@ -42,7 +42,7 @@
                 {% set person = gamePerson.personz %}
                 <tr>
                     <td>
-                        {% if is_granted('ROLE_USER') and (game.isPoolPlay or game.isSoccerfest or 0) %}
+                        {% if is_granted('ROLE_USER') and (game.isPoolPlay or game.isSoccerfest or 1) %}
                         <a href="{{ path('zayso_core_schedule_referee_assign', { 'id': game.id, 'pos': gamePerson.type }) }}">
                            {{ gamePerson.type }}:</a>
                         {% else %}
