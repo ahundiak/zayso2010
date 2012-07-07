@@ -62,6 +62,7 @@ class TeamImport extends ExcelBaseImport
         if (!$phyTeam) 
         {
             $gameTeam->setParent(null); // Took parent away
+            return;
         }
         
         // Have parent and phyTeam
