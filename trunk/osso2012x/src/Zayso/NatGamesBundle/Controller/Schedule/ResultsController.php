@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ResultsController extends BaseController
 {
-    public function resultsAction(Request $request, $div, $pool)
+    public function poolplayAction(Request $request, $div, $pool)
     {
         if (!$div)
         {
@@ -17,7 +17,7 @@ class ResultsController extends BaseController
             if (is_array($data) && isset($data['div']) && $data['div'])
             {
                 // A redirect seems to be the cleanest
-                return $this->redirect($this->generateUrl('zayso_core_schedule_results',$data));
+                return $this->redirect($this->generateUrl('zayso_core_schedule_poolplay',$data));
             }
         }
         else $request->getSession()->set('resultsSearchData',array('div' => $div, 'pool' => $pool));
