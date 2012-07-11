@@ -1,0 +1,286 @@
+
+# National Games Routes
+zayso_core_index:
+    pattern:  /
+    defaults: { _controller: ZaysoNatGamesBundle:Welcome:welcome }
+
+zayso_natgames_welcome:
+    pattern:  /welcome
+    defaults: { _controller: ZaysoNatGamesBundle:Welcome:welcome }
+    
+zayso_core_welcome:
+    pattern:  /welcome
+    defaults: { _controller: ZaysoNatGamesBundle:Welcome:welcome }
+
+# Used when user is not authorized
+zayso_core_welcomex:
+    pattern:  /welcome
+    defaults: { _controller: ZaysoNatGamesBundle:Welcome:welcome }
+
+zayso_core_textalerts:
+    pattern:  /welcome/textalerts
+    defaults: { _controller: ZaysoNatGamesBundle:Welcome:textalerts }
+    
+zayso_core_contact:
+    pattern:  /welcome/contact
+    defaults: { _controller: ZaysoNatGamesBundle:Welcome:contact }
+    
+zayso_core_shuttle:
+    pattern:  /welcome/shuttle
+    defaults: { _controller: ZaysoNatGamesBundle:Welcome:shuttle }
+    
+zayso_core_contact_org:
+    pattern:  /contact
+    defaults: { _controller: ZaysoNatGamesBundle:Welcome:contact }
+    
+zayso_core_classes:
+    pattern:  /welcome/classes
+    defaults: { _controller: ZaysoNatGamesBundle:Classes:signup }
+    
+zayso_core_classes_org:
+    pattern:  /classes
+    defaults: { _controller: ZaysoNatGamesBundle:Classes:signup }
+
+# Home stuff requires user
+zayso_natgames_home:
+    pattern:  /home
+    defaults: { _controller: ZaysoNatGamesBundle:Home:index }
+    
+zayso_core_home:
+    pattern:  /home
+    defaults: { _controller: ZaysoNatGamesBundle:Home:index }
+    
+zayso_core_project_plans:
+    pattern:  /home/person/project/plans/{id}
+    defaults: { _controller: ZaysoNatGamesBundle:Project:plans, id: 0 }
+    requirements:
+        id: \d+
+        
+zayso_core_project_levels:
+    pattern:  /home/person/project/levels/{id}
+    defaults: { _controller: ZaysoNatGamesBundle:Project:levels, id: 0 }
+    requirements:
+        id: \d+
+
+# ===============================================================
+# Account stuff
+
+zayso_core_account_create:
+    pattern:  /account/public/create
+    defaults: { _controller: ZaysoCoreBundle:Account\Create:create }
+
+zayso_core_account_signout:
+    pattern:  /account/public/signout
+    defaults: { _controller: ZaysoCoreBundle:Account\Signin:signout }
+    
+zayso_core_account_signin:
+    pattern:  /account/public/signin
+    defaults: { _controller: ZaysoCoreBundle:Account\Signin:signin }
+    
+zayso_core_account_signin_rpx:
+    pattern:  /account/public/signin/rpx
+    defaults: { _controller: ZaysoCoreBundle:Account\Signin:signinRpx }
+    
+zayso_core_account_password_reset:
+    pattern:  /account/public/password/reset/{reset}
+    defaults: { _controller: ZaysoCoreBundle:Account\Signin:passwordReset, reset: 0}
+
+zayso_core_account_edit:
+    pattern:  /account/edit/{id}
+    defaults: { _controller: ZaysoCoreBundle:Account\Edit:edit, id: 0}
+    requirements:
+        id: \d+
+
+zayso_core_account_openid_add:
+    pattern:  /account/openid/add
+    defaults: { _controller: ZaysoCoreBundle:Account\Openid:add }
+
+zayso_core_account_openid_add_rpx:
+    pattern:  /account/openid/add/rpx
+    defaults: { _controller: ZaysoCoreBundle:Account\Openid:addRpx }
+
+zayso_core_account_person_add:
+    pattern:  /account/person/add
+    defaults: { _controller: ZaysoNatGamesBundle:Account\Person:add }
+    
+zayso_core_account_person_edit:
+    pattern:  /account/person/edit/{id}
+    defaults: { _controller: ZaysoNatGamesBundle:Account\Person:edit, id: 0 }
+    requirements:
+        id: \d+
+
+# =================================================================
+# Scheduling stuff
+
+zayso_core_person_team_list:
+    pattern:  /home/person/team/list/{personId}
+    defaults: { _controller: ZaysoNatGamesBundle:Person\Team:list, personId: 0 }
+    requirements:
+        personId: \d+
+
+zayso_core_schedule:
+    pattern:  /schedule/public
+    defaults: { _controller: ZaysoNatGamesBundle:Schedule:index }
+    requirements:
+        _method:  GET
+        
+zayso_core_schedule_referee_list:
+    pattern:  /schedule/public/referee/list.{_format}
+    defaults: { _controller: ZaysoNatGamesBundle:Schedule\RefSched:list, _format: html }
+    requirements:
+        _format:  html|csv|xls|pdf
+        
+zayso_core_schedule_team_list:
+    pattern:  /schedule/public/team/list.{_format}
+    defaults: { _controller: ZaysoNatGamesBundle:Schedule\TeamSched:list, _format: html }
+    requirements:
+        _format:  html|csv|xls|pdf
+        
+zayso_core_schedule_my_list:
+    pattern:  /schedule/public/my/list.{_format}
+    defaults: { _controller: ZaysoNatGamesBundle:Schedule\MySched:list, _format: html }
+    requirements:
+        _format:  html|csv|xls|pdf
+        
+zayso_core_schedule_referee_assign:
+    pattern:  /schedule/referee/assign/{id}/{pos}
+    defaults: { _controller: ZaysoNatGamesBundle:Schedule\RefAssign:assign, id: 0, pos: ''}
+    requirements:
+        id: \d+
+        
+zayso_core_schedule_results:
+    pattern:  /schedule/public/results/{div}/{pool}
+    defaults: { _controller: ZaysoNatGamesBundle:Schedule\Results:results, div: 0, pool: 0}
+    
+zayso_core_schedule_playoffs:
+    pattern:  /schedule/public/playoffs
+    defaults: { _controller: ZaysoNatGamesBundle:Schedule\Results:playoffs, div: 0, pool: 0}
+    
+zayso_core_admin_schedule_results_excel:
+    pattern:  /admin/schedule/results/excel/{div}/{pool}
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Schedule\Results:resultsExcel, div: 0, pool: 0}
+    
+zayso_core_admin_schedule_results:
+    pattern:  /admin/schedule/results/{div}/{pool}
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Schedule\Results:results, div: 0, pool: 0}
+    
+zayso_core_admin_schedule_print_soccerfest:
+    pattern:  /admin/schedule/print/soccerfest
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Schedule\PrintSched:soccerfest }
+    
+zayso_core_admin_schedule_print_thursday:
+    pattern:  /admin/schedule/print/thursday
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Schedule\PrintSched:thursday }
+    
+zayso_core_admin_schedule_print_friday:
+    pattern:  /admin/schedule/print/friday
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Schedule\PrintSched:friday }
+    
+zayso_core_admin_schedule_print_saturday:
+    pattern:  /admin/schedule/print/saturday
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Schedule\PrintSched:saturday }
+    
+zayso_core_admin_schedule_print_sunday:
+    pattern:  /admin/schedule/print/sunday
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Schedule\PrintSched:sunday }
+    
+zayso_core_admin_schedule_game_report:
+    pattern:  /admin/schedule/game/report/{id}
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Schedule\GameReport:report}
+    requirements:
+        id: \d+
+        
+zayso_core_admin_schedule_game_edit:
+    pattern:  /admin/schedule/game/edit/{id}
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Schedule\GameEdit:edit}
+    requirements:
+        id: \d+
+        
+zayso_core_admin_schedule_referee_list:
+    pattern:  /admin/schedule/referee/list.{_format}
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Schedule\RefSched:list, _format: html }
+    requirements:
+        _format:  html|csv|xls
+        
+zayso_core_admin_schedule_game_list:
+    pattern:  /admin/schedule/game/list.{_format}
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Schedule\GameSched:list, _format: html }
+    requirements:
+        _format:  html|csv|xls
+        
+zayso_core_admin_team_list:
+    pattern:  /admin/team/list.{_format}
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Team\List:list, _format: html }
+    requirements:
+        _format:  html|csv|xls
+   
+# =================================================
+# Admin stuff
+zayso_natgames_admin:
+    pattern:  /admin
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Admin:index }
+    requirements:
+        _method:  GET
+        
+zayso_core_admin:
+    pattern:  /admin
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Admin:index }
+    requirements:
+        _method:  GET
+
+zayso_natgames_admin_account_edit:
+    pattern:  /admin/account/edit/{id}
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Account\Edit:edit, id: 0}
+    requirements:
+        id: \d+
+        
+zayso_natgames_admin_account_list:
+    pattern:  /admin/account/list.{_format}
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Account\List:list, _format: html }
+    requirements:
+        _method:  GET
+        _format:  html|csv
+        
+zayso_natgames_admin_person_list:
+    pattern:  /admin/person/list.{_format}
+    defaults: { _controller: ZaysoNatGamesBundle:Admin\Person\List:list, _format: html }
+    requirements:
+        _method:  GET
+        _format:  html|csv|xls
+        
+zayso_natgames_admin_import:
+    pattern:  /admin/import
+    defaults: { _controller: ZaysoCoreBundle:Admin\Import:index }
+    
+zayso_core_admin_import:
+    pattern:  /admin/import
+    defaults: { _controller: ZaysoCoreBundle:Admin\Import:index }
+
+# ============================================
+zayso_core_legacy_account_create:
+    pattern:  /account/create
+    defaults: { _controller: ZaysoCoreBundle:Account\Create:create }
+
+zayso_core_legacy_account_password_reset:
+    pattern:  /account/resetx/{reset}
+    defaults: { _controller: ZaysoCoreBundle:Account\Signin:passwordReset, reset: 0}
+    
+zayso_core_legacy_account_signin:
+    pattern:  /account/signin
+    defaults: { _controller: ZaysoCoreBundle:Account\Signin:signin }
+    
+zayso_core_legacy_schedule:
+    pattern:  /schedule
+    defaults: { _controller: ZaysoNatGamesBundle:Schedule:index }
+    
+zayso_core_legacy_project_plans:
+    pattern:  /home/project/plans/{id}
+    defaults: { _controller: ZaysoNatGamesBundle:Project:plans, id: 0 }
+    requirements:
+        id: \d+
+        
+zayso_core_legacy_project_levels:
+    pattern:  /home/person/project/levels/{id}
+    defaults: { _controller: ZaysoNatGamesBundle:Project:levels, id: 0 }
+    requirements:
+        id: \d+

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Zayso\Osso2007Bundle\Entity\Project" table="project">
+    <change-tracking-policy>DEFERRED_IMPLICIT</change-tracking-policy>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="typeId" type="integer" column="type_id"/>
+    <field name="eventNum" type="integer" column="event_num"/>
+    <field name="memYear" type="integer" column="mem_year"/>
+    <field name="calYear" type="integer" column="cal_year"/>
+    <field name="seasonTypeId" type="integer" column="season_type_id"/>
+    <field name="adminOrgId" type="integer" column="admin_org_id"/>
+    <field name="sportTypeId" type="integer" column="sport_type_id"/>
+    <field name="sort1" type="integer" column="sort1"/>
+    <field name="status" type="integer" column="status"/>
+    <field name="desc1" type="string" column="desc1" length="80"/>
+    <field name="dateBeg" type="string" column="date_beg" length="8"/>
+    <field name="dateEnd" type="string" column="date_end" length="8"/>
+    <lifecycle-callbacks/>
+  </entity>
+</doctrine-mapping>

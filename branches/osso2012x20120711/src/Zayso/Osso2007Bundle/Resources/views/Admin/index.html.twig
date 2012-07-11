@@ -1,0 +1,59 @@
+{% extends 'Osso2007Bundle::layout.html.twig' %}
+
+{% block title %}Osso2007 Admin{% endblock %}
+
+{% block content %}
+<div>
+<h3>Administrative Commands</h3>
+<table border="1">
+<tr>
+    <td>Search for and edit volunteers</td>
+    <td><a href="{{ path('_osso2007_person_list') }}">People</a></td>
+</tr>
+<tr>
+    <td>Create and edit season teams</td>
+    <td><a href="{{ path('_osso2007_phy_team_list') }}">Season Teams</a></td>
+</tr>
+<tr>
+    <td>Create and edit schedule teams</td>
+    <td><a href="{{ path('_osso2007_sch_team_list') }}">Schedule Teams</a></td>
+</tr>
+<tr>
+    <td>Create and edit games, scrimmages and practices</td>
+    <td><a href="{{ path('_osso2007_event_edit') }}">Games</a></td>
+</tr>
+<tr>
+    <td>Create and edit soccer fields and sites</td>
+    <td><a href="{{ path('_osso2007_field_site_list') }}">Fields and Sites</a></td>
+</tr>
+<tr>
+    <td>Create and edit regions and soccer clubs</td>
+    <td><a href="{{ path('_osso2007_unit_list') }}">Regions</a></td>
+</tr>
+<tr>
+    <td>Division Schedules</td>
+    <td><a href="{{ path('_osso2007_sched_div_list') }}">Division Schedules</a></td>
+</tr>
+<tr>
+    <td>Referee Schedules</td>
+    <td><a href="{{ path('_osso2007_sched_ref_list') }}">Schedule Referees</a></td>
+</tr>
+<tr>
+    <td>Import</td>
+    <td><a href="{{ path('_osso2007_import_proc') }}">Import Information</a></td>
+</tr>
+<tr>
+    <td>Import Eayso</td>
+    <td><a href="{{ path('_osso2007_import_eayso') }}">Import From Eayso</a></td>
+</tr>
+<tr>
+    <td>Reports</td>
+    <td><a href="{{ path('_osso2007_report_proc') }}">Reports</a></td>
+</tr>
+<tr>
+    <td>Account Management</td>
+    <td><a href="{{ path('_osso2007_account_list') }}">Accounts</a></td>
+</tr>
+</table>
+</div>
+{% endblock %}

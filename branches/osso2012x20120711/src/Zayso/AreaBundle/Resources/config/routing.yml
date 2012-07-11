@@ -1,0 +1,186 @@
+zayso_core_index:
+    pattern:  /
+    defaults: { _controller: ZaysoAreaBundle:Welcome:welcome }
+
+zayso_area_welcome:
+    pattern:  /welcome
+    defaults: { _controller: ZaysoAreaBundle:Welcome:welcome }
+    
+zayso_core_welcome:
+    pattern:  /welcome
+    defaults: { _controller: ZaysoAreaBundle:Welcome:welcome }
+
+zayso_area_home:
+    pattern:  /home
+    defaults: { _controller: ZaysoAreaBundle:Welcome:home }
+    
+zayso_core_home:
+    pattern:  /home
+    defaults: { _controller: ZaysoAreaBundle:Welcome:home }
+        
+zayso_area_person_create:
+    pattern:  /home/person/create/{aysoid}
+    defaults: { _controller: ZaysoAreaBundle:Person:create, aysoid: 0 }
+    requirements:
+        id: \d+
+     
+zayso_area_contact:
+    pattern:  /contact
+    defaults: { _controller: ZaysoAreaBundle:Welcome:contact }
+    
+zayso_core_contact:
+    pattern:  /contact
+    defaults: { _controller: ZaysoAreaBundle:Welcome:contact }
+
+# ===================================================================
+# Person oriented routes
+#
+zayso_core_person_team_list:
+    pattern:  /person/team/list/{personId}
+    defaults: { _controller: ZaysoAreaBundle:Person\Team:list, personId: 0 }
+    requirements:
+        personId: \d+
+    
+# ===================================================================
+# Account management
+zayso_area_account_signin_rpx:
+    pattern:  /account/signin/rpx
+    defaults: { _controller: ZaysoAreaBundle:Account\Signin:rpx }
+    
+zayso_area_account_signout:
+    pattern:  /account/signout
+    defaults: { _controller: ZaysoAreaBundle:Account\Signin:signout }
+
+zayso_area_account_create:
+    pattern:  /account/create
+    defaults: { _controller: ZaysoAreaBundle:Account\Create:create }
+    
+zayso_area_account_legacy_profile:
+    pattern:  /account/legacy/profile
+    defaults: { _controller: ZaysoAreaBundle:Account\Legacy:profile }
+
+zayso_area_account_legacy_signin:
+    pattern:  /account/legacy/signin
+    defaults: { _controller: ZaysoAreaBundle:Account\Legacy:signin }
+    
+zayso_area_account_person_add:
+    pattern:  /account/person/add
+    defaults: { _controller: ZaysoAreaBundle:Account\Person:add }
+    
+zayso_area_account_person_edit:
+    pattern:  /home/account/person/edit/{id}
+    defaults: { _controller: ZaysoAreaBundle:Account\Person:edit, id: 0 }
+    requirements:
+        id: \d+
+        
+zayso_area_account_person_edit_account:
+    pattern:  /account/person/edit/account/{id}
+    defaults: { _controller: ZaysoAreaBundle:Account\Person:editAccount, id: 0 }
+    requirements:
+        id: \d+
+        
+zayso_area_account_openid_add:
+    pattern:  /account/openid/add
+    defaults: { _controller: ZaysoAreaBundle:Account\Openid:add }
+    
+zayso_core_account_openid_add:
+    pattern:  /account/openid/add
+    defaults: { _controller: ZaysoAreaBundle:Account\Openid:add }
+
+zayso_area_account_openid_add_rpx:
+    pattern:  /account/openid/add/rpx
+    defaults: { _controller: ZaysoAreaBundle:Account\Openid:addRpx }
+    
+zayso_core_account_openid_add_rpx:
+    pattern:  /account/openid/add/rpx
+    defaults: { _controller: ZaysoAreaBundle:Account\Openid:addRpx }
+
+# =====================================================================
+# Scheduling stuff
+zayso_area_schedule_referee_list:
+    pattern:  /schedule/referee/list.{_format}
+    defaults: { _controller: ZaysoAreaBundle:Schedule\RefSched:list, _format: html }
+    requirements:
+        _format:  html|csv|xls
+    
+zayso_core_schedule_referee_list:
+    pattern:  /schedule/referee/list.{_format}
+    defaults: { _controller: ZaysoAreaBundle:Schedule\RefSched:list, _format: html }
+    requirements:
+        _format:  html|csv|xls
+
+zayso_area_schedule_referee_assign:
+    pattern:  /schedule/referee/assign/{id}/{pos}
+    defaults: { _controller: ZaysoAreaBundle:Schedule\RefAssign:assign, id: 0, pos: ''}
+    requirements:
+        id: \d+
+        
+zayso_area_schedule_game_edit:
+    pattern:  /schedule/game/edit/{id}
+    defaults: { _controller: ZaysoAreaBundle:Schedule\Game:edit}
+    requirements:
+        id: \d+
+        
+zayso_area_schedule_game_report:
+    pattern:  /schedule/game/report/{id}
+    defaults: { _controller: ZaysoAreaBundle:Game\GameReport:report}
+    requirements:
+        id: \d+
+        
+zayso_core_schedule_game_report:
+    pattern:  /schedule/game/report/{id}
+    defaults: { _controller: ZaysoAreaBundle:Game\GameReport:report}
+    requirements:
+        id: \d+
+        
+zayso_core_schedule_results_cached:
+    pattern:  /schedule/public/results/cached/{div}/{pool}
+    defaults: { _controller: ZaysoAreaBundle:Schedule\Results:results, div: 0, pool: 0, cache: 1 }
+    
+zayso_core_schedule_results:
+    pattern:  /schedule/public/results/{div}/{pool}
+    defaults: { _controller: ZaysoAreaBundle:Schedule\Results:results, div: 0, pool: 0, cache: 0 }
+       
+# ================================================
+# Admin stuff
+zayso_area_admin:
+    pattern:  /admin
+    defaults: { _controller: ZaysoAreaBundle:Admin\Index:index }
+    
+zayso_core_admin:
+    pattern:  /admin
+    defaults: { _controller: ZaysoAreaBundle:Admin\Index:index }
+    
+zayso_area_admin_import:
+    pattern:  /admin/import
+    defaults: { _controller: ZaysoCoreBundle:Admin\Import:index }
+    
+zayso_core_admin_import:
+    pattern:  /admin/import
+    defaults: { _controller: ZaysoCoreBundle:Admin\Import:index }
+    
+zayso_area_admin_account_edit:
+    pattern:  /admin/account/edit/{id}
+    defaults: { _controller: ZaysoAreaBundle:Admin\Account\Edit:edit, id: 0}
+    requirements:
+        id: \d+
+
+zayso_area_admin_account_list:
+    pattern:  /admin/account/list.{_format}
+    defaults: { _controller: ZaysoAreaBundle:Admin\Account\List:list, _format: html }
+    requirements:
+        _method:  GET
+        _format:  html|csv
+        
+zayso_area_admin_team_edit:
+    pattern:  /admin/team/edit/{id}
+    defaults: { _controller: ZaysoAreaBundle:Admin\Team\Edit:edit, id: 0}
+    requirements:
+        id: \d+
+
+zayso_area_admin_team_list:
+    pattern:  /admin/team/list.{_format}
+    defaults: { _controller: ZaysoAreaBundle:Admin\Team\List:list, _format: html }
+    requirements:
+        _method:  GET
+        _format:  html|csv

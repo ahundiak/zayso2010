@@ -1,0 +1,28 @@
+Zayso\Osso2007Bundle\Entity\PhyTeamPerson:
+  type: entity
+  table: phy_team_person
+  fields:
+    phyTeamPersonId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: phy_team_person_id
+      generator:
+        strategy: IDENTITY
+    phyTeamId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: phy_team_id
+    personId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: person_id
+    volTypeId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: vol_type_id
+  lifecycleCallbacks: {  }

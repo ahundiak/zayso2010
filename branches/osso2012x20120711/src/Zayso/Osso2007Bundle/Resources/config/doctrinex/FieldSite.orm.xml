@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Zayso\Osso2007Bundle\Entity\FieldSite" table="field_site">
+    <change-tracking-policy>DEFERRED_IMPLICIT</change-tracking-policy>
+    <id name="fieldSiteId" type="integer" column="field_site_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="unitId" type="integer" column="unit_id"/>
+    <field name="keyx" type="string" column="keyx" length="20"/>
+    <field name="sortx" type="string" column="sortx" length="10"/>
+    <field name="descx" type="string" column="descx" length="20"/>
+    <lifecycle-callbacks/>
+  </entity>
+</doctrine-mapping>

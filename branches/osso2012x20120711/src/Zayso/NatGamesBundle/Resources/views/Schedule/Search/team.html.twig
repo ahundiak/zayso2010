@@ -1,0 +1,41 @@
+{% if searchForm is defined  %}
+{% set form = searchForm     %}
+<div class="schedule-search">
+<form action="{{ path('zayso_core_schedule_team_list') }}" method="post" {{ form_enctype(form) }}>
+<table border="1" style="max-width: 850px;">
+<tr>  
+        
+    <td><table border="1"><tr>
+    {% for item in form.dows %}
+        <td align="center">{{ form_label(item) }}<br />{{ form_widget(item) }}</td>
+    {% endfor %}
+    <tr></table></td>
+    
+    <td><table border="1"><tr>
+        <td>{{ form_widget(form.time1) }}<br />{{ form_widget(form.time2) }}</td>
+    <tr></table></td>
+    
+    <td><table border="1">
+        <tr><td>{{ form_widget(form.team1) }}</td></tr>
+        <tr><td>{{ form_widget(form.team2) }}</td></tr>
+        <tr><td>{{ form_widget(form.team3) }}</td></tr>
+    </table></td>
+</tr>
+<tr>
+    <td colspan="2">
+        <a href="{{ path('zayso_core_schedule_team_list', { '_format' : 'xls'}) }}">Excel Spreadsheet</a>
+        <a href="{{ path('zayso_core_schedule_team_list', { '_format' : 'csv'}) }}">Text File</a>
+        <a href="http://goo.gl/maps/p2Va" target="_blank">Field Sites</a>
+    </td>
+    <td colspan="5" align="right">
+        <input type="submit" name="schSearchSubmit" value="Search" />
+    </td>
+</tr>
+<tr><td colspan="10">
+Select one or more teams then press search to see the schedule.
+</td></tr>
+</table>
+{{ form_rest  (form) }}
+</form>        
+</div>
+{% endif %}

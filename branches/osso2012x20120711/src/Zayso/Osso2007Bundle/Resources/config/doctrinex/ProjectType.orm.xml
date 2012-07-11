@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Zayso\Osso2007Bundle\Entity\ProjectType" table="project_type">
+    <change-tracking-policy>DEFERRED_IMPLICIT</change-tracking-policy>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="key1" type="string" column="key1" length="10"/>
+    <field name="desc1" type="string" column="desc1" length="80"/>
+    <field name="class1" type="integer" column="class1"/>
+    <field name="status" type="integer" column="status"/>
+    <lifecycle-callbacks/>
+  </entity>
+</doctrine-mapping>

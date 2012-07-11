@@ -1,0 +1,44 @@
+{% extends 'ZaysoAreaBundle:Layout:layout.html.twig' %}
+
+{% block title %}Area 5CF - Teams{% endblock %}
+
+{% block content %}
+<div>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>PID</th>
+        <th>Source</th>
+        <th>Type</th>
+        <th>Level</th>
+        <th>Region</th>
+        <th>Age</th>
+        <th>Gen</th>
+        <th>Short Key</th>
+        <th>Expanded Key</th>
+        <th>Eayso ID</th>
+        <th>Eayso Desig</th>
+        <th></th>
+    </tr>
+    {% for team in teams %}
+    {{ teamx.setTeam(team) }}
+    <tr id="team-list-{{team.id}}" >
+        <td><a href="{{ path('zayso_area_admin_team_edit', { 'id': team.id }) }}">{{ team.id }}</a></td>
+        <td>{{ team.project.id }}</td>
+        <td>{{ team.source     }}</td>
+        <td>{{ team.type       }}</td>
+        <td>{{ team.level      }}</td>
+        <td>{{ team.org.id     }}</td>
+        <td>{{ team.age        }}</td>
+        <td>{{ team.gender     }}</td>
+        <td>{{ team.teamKey         }}</td>
+        <td>{{ team.teamKeyExpanded }}</td>
+        <td>{{ team.eaysoTeamId     }}</td>
+        <td>{{ team.eaysoTeamDesig  }}</td>
+
+        <td><input type="checkbox" name="editData[selects][{{team.id}}]" value="{{team.id}}" /></td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+{% endblock %}

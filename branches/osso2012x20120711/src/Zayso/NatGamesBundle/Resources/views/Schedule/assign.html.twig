@@ -1,0 +1,93 @@
+{% form_theme form myBundleName ~ ':Layout:fields.html.twig' %}
+
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
+
+{% block title %}{{ myTitlePrefix }} Assign {% endblock %}
+
+{% block content %}
+<form method="post" action="{{ path('zayso_core_schedule_referee_assign', { 'id': game.id }) }}" {{ form_enctype(form) }}>
+<table border="2" class="form_table" width="600">
+<input type="hidden" name="gameId" value="{{ game.id }}" />
+    <tr><th colspan="2">Referee Assigment</th></tr>
+    <tr>
+        <td style="width: 150px;">Game Number</td><td>{{ game.num }}</td>
+    </tr><tr>
+        <td>Date</td><td>{{ game_date(game.date) }}</td>
+    </tr><tr>
+        <td>Time</td><td>{{ game_time(game.time) }}</td>
+    </tr><tr>
+        <td>Field</td><td>{{ game.fieldDesc }}</td>
+    </tr><tr>
+        <td>Home Team</td><td>{{ game.homeTeam.team.desc }}</td>
+    </tr><tr>
+        <td>Away Team</td><td>{{ game.awayTeam.team.desc }}</td>
+    </tr>
+    <tr><td colspan="2"></td></tr>
+    <tr><td colspan="2"><table border="1" style="margin: 0px;">
+    <tr>
+         <td style="width: 100px;">Position</td>
+         <td style="width: 200px;">Status</td>
+         <td style="width: 300px;">Official</td>
+    </tr>
+    {% for eventPerson in form.eventPersonsSorted %}
+        {{ form_widget(eventPerson.type) }}
+        <tr>
+            <td>{{ form_widget(eventPerson.typeDesc) }}</td>
+            <td>{{ form_widget(eventPerson.statex)   }}</td>
+            <td>{{ form_widget(eventPerson.personId) }}</td>
+        </tr>
+    {% endfor %}
+    </table></td></tr>
+    <tr>
+        <td><a href="{{ path('zayso_core_schedule_referee_list') }}#ref-sched-{{game.num}}">Referee Schedule</a></td>
+        <td align="right"><input type="submit" name="refAssignSubmit" value="Sign Up" /></td>
+    </tr>
+</table>
+{{ form_rest(form) }}        
+</form>
+<h3>Instructions</h3>
+<p>
+    You must be signed on in order to sign up for a game.  Your user information should be shown along the very top of the page.
+</p>
+<p>
+    Sign up for a game by picking your name then pressing the Sign Up button.
+    The status will change to Assignment Requested.  At some point I will review the assignment and approve it.
+    If you have added additional people to your account (from the home page) then you can sign them up as well.
+    When you return to the schedule page, you will see your name.
+<p>
+    Remove yourself from an assignment by selecting Request Removal from the status column then pressing Sign Up.
+    If your assignment has not already been approved then you will be removed.
+    If your assignment has already been approved then I'll get a notification and remove it.
+</p>
+<h3>Guidelines</h3>
+<p>
+    We operate under "trust but verify".  
+    The system currently has very few blocks enabled however we will be reviewing all assignment requests carefully.
+    Please avoid any appearance of conflict of interest.
+    The lead assignor has the final say.
+</p>
+<p>
+    The only official tournament rule is that referees should not sign up for games involving teams from their own region or area.
+    If you feel you are an exception then send me an email and we can talk.
+<p>
+    If you sign up for a game above your badge level (especially centering) then please have your 
+    Regional Referee Administrator send me an email indicating approval.
+</p>
+<p>
+    Anything involving back to back games should be on the same field.  
+    The one thing I can say with confidence is that some games will get out of sync.
+<p>
+    If your schedule is flexible then please hold off signing up for a few days.  
+    Let the folks trying to schedule around their teams have first crack.
+    If you find that all the games you can referee are already taken then please email me. 
+    I don't mind shifting people around.
+</p>
+<p>
+    If you have requested an assessment/observation on the National Games Plans page then sign yourself for a couple of appropiate games.
+    We should have plenty of assessors and will usually be able to work around your schedule.
+</p>
+<p>
+    Medal round (i.e. quarter finals etc) assignments will be done by the tournament staff.
+    Be sure to indicate in your plans page if you want to work medal round games.
+</p>
+{% endblock %}

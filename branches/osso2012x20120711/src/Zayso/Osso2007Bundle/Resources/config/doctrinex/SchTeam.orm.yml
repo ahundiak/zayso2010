@@ -1,0 +1,58 @@
+Zayso\Osso2007Bundle\Entity\SchTeam:
+  type: entity
+  table: sch_team
+  fields:
+    schTeamId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: sch_team_id
+      generator:
+        strategy: IDENTITY
+    phyTeamId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: phy_team_id
+    projectId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: project_id
+    regYearId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: reg_year_id
+    seasonTypeId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: season_type_id
+    scheduleTypeId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: schedule_type_id
+    unitId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: unit_id
+    divisionId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: division_id
+    sortx:
+      type: integer
+      unsigned: false
+      nullable: true
+    descShort:
+      type: string
+      length: 20
+      fixed: true
+      nullable: true
+      column: desc_short
+  lifecycleCallbacks: {  }

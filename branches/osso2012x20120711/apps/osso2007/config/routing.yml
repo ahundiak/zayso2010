@@ -1,0 +1,151 @@
+# Internal routing configuration to handle ESI
+#_internal:
+#   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
+#   prefix:   /_internal
+
+
+_osso2007_welcome:
+    pattern:  /
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+_osso2007_admin_index:
+    pattern:  /admin/index
+    defaults: { _controller: Osso2007Bundle:Admin:index }
+
+_osso2007_phy_team_list:
+    pattern:  /phy_team/list
+    defaults: { _controller: Osso2007Bundle:Team:phyTeamsList }
+    requirements:
+        _method:  GET
+
+_osso2007_phy_team_list_post:
+    pattern:  /phy_team/list
+    defaults: { _controller: Osso2007Bundle:Team:phyTeamsList }
+    requirements:
+        _method:  POST
+
+_osso2007_event_edit:
+    pattern:  /event/edit/{id}
+    defaults: { _controller: Osso2007Bundle:Event:edit, id: 0 }
+    requirements:
+        _method:  GET
+        id: \d+
+
+_osso2007_event_edit_post:
+    pattern:  /event/edit/{id}
+    defaults: { _controller: Osso2007Bundle:Event:editPost, id: 0 }
+    requirements:
+        _method:  POST
+        id: \d+
+
+_osso2007_import_eayso:
+    pattern:  /import/eayso
+    defaults: { _controller: Osso2007Bundle:Import:eayso }
+    requirements:
+        _method:  GET
+
+_osso2007_import_eayso_post:
+    pattern:  /import/eayso
+    defaults: { _controller: Osso2007Bundle:Import:eaysoPost }
+    requirements:
+        _method:  POST
+
+_osso2007_legacy:
+    pattern:  /{cmd}/{action}/{id1}/{id2}
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy, cmd: '', action: '', id1: 0, id2: 0 }
+
+_osso2007_account_logout:
+    pattern:  /home/logout
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+_osso2007_account_login:
+    pattern:  /home/login
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+_osso2007_account_index:
+    pattern:  /account/index
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+_osso2007_account_list:
+    pattern:  /account/list
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+_osso2007_home_index:
+    pattern:  /home/index
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+_osso2007_sched_div_list:
+    pattern:  /sched_div/list
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+_osso2007_sched_ref_list:
+    pattern:  /sched_ref/list
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+_osso2007_person_list:
+    pattern:  /person/list
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+_osso2007_sch_team_list:
+    pattern:  /sch_team/list
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+_osso2007_field_site_list:
+    pattern:  /field_site/list
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+_osso2007_unit_list:
+    pattern:  /unit/list
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+_osso2007_ref_points_monrovia:
+    pattern:  /ref_points/monrovia
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+_osso2007_ref_points_madison:
+    pattern:  /ref_points/madison
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+_osso2007_ref_points_huntsville:
+    pattern:  /ref_points/huntsville
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+_osso2007_import_proc:
+    pattern:  /import/proc
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+_osso2007_report_proc:
+    pattern:  /report/proc
+    defaults: { _controller: Osso2007Bundle:Welcome:legacy }
+
+
+# /
+# /account/index
+# /account/list
+
+# /home/index
+# /home/login
+# /home/logout
+
+# /sched_div/list/region#/div#
+# /sched_div/list
+
+# /sched_ref/list/region#/div#
+# /sched_ref/list
+# /sched_ref/signup/id
+
+# /event/edit/id
+# /event/edit
+
+# /ref_points/monrovia
+# /ref_points/madison
+
+# /admin/index
+
+# /person/list
+# /phy_team/list
+# /sch_team/list
+# /field_site/list
+# /unit/list
+# /import/proc
+# /report/proc

@@ -1,0 +1,47 @@
+{# Obsolete - Remove during next cleanup #}
+{% form_theme form 'ZaysoNatGamesBundle:Layout:fields.html.twig' %}
+
+{% extends 'ZaysoNatGamesBundle:Layout:layout.html.twig' %}
+
+{% block title %}NatGames - Account - Edit{% endblock %}
+
+{% block content %}
+<div>
+<form action="{{ path('zayso_core_account_edit', { 'id': accountPerson.id }) }}" method="post" {{ form_enctype(form) }}>
+<table border="1" style="width: 800px;">
+<tr><th colspan="3">National Games 2012 Edit Account</th></tr>
+<tr>
+    <td style="width: 175px;">{{ form_label (form.userName) }}</td>
+    <td style="width: 275px;">{{ form_widget(form.userName) }}</td>
+    <td style="width: 350px;">
+        For changing account name.<br />
+        {{ form_errors(form.userName) }}
+    </td>
+</tr>
+<tr>
+    <td> {{ form_label (form.userPass1) }}</td>
+    <td> {{ form_widget(form.userPass1) }}</td>
+    <td>
+        For changing password.<br />
+        {{ form_errors(form.userPass1) }}
+    </td>
+</tr>
+<tr>
+    <td> {{ form_label (form.userPass2) }}</td>
+    <td> {{ form_widget(form.userPass2) }}</td>
+    <td>
+        Confirm new password.<br />
+        {{ form_errors(form.userPass2) }}
+    </td>
+</tr>
+<tr>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td align="center"><input type="submit" name="accountPersonEditSubmit" value="Update Account Information" />
+</tr>
+<tr><td colspan="3">{{ form_errors(form) }}</td></tr>
+</table>
+{{ form_rest(form) }}
+</form>
+</div>
+{% endblock %}

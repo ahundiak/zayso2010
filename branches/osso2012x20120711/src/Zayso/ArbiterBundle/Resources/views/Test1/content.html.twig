@@ -1,0 +1,17 @@
+{% extends 'ZaysoArbiterBundle:Test1:layout.html.twig' %}
+
+{% block content %}
+    <h3>Some content</h3>
+    <h4>{{ testvar }}</h4>
+    {% include "ZaysoArbiterBundle:Test1:levelone.html.twig" %}
+    <h4>{{ testvar }}</h4>    
+    {% set testvar = 'something new ' %}
+    <h4>{{ testvar }}</h4>    
+{% endblock content %}
+    
+{% block javascript %}
+{{ parent() }}
+    
+<script> Some content javascript</script>
+
+{% endblock %}    

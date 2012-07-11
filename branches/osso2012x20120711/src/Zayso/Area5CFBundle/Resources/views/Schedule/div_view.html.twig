@@ -1,0 +1,28 @@
+{% extends 'Area5CFBundle::layout.html.twig' %}
+
+{% block title %}Area5CF - Schedule{% endblock %}
+
+{% block content %}
+<div>
+<h3>Schedules</h3>
+{% include 'Area5CFBundle:Schedule:search.html.twig' %}
+<div>
+<table border="2" class="form_table" width="800">
+    <tr><th colspan="6">View Division Schedule</th></tr>
+    {% for game in games %}
+    {% if gen.genGameDateBreak(game) %}
+        <tr><td colspan="6">&nbsp;</td></tr>
+    {% endif %}
+        <tr>
+            <td>{{ game.getNum()                   }}</td>
+            <td>{{ format.date(game.getDate())     }}</td>
+            <td>{{ format.time(game.getTime())     }}</td>
+            <td>{{ game.getFieldKey()              }}</td>
+            <td>{{ gen.genTeam(game.getHomeTeam()) }}</td>
+            <td>{{ gen.genTeam(game.getAwayTeam()) }}</td>
+        </tr>
+    {% endfor %}
+</table>
+</div>
+</div>
+{% endblock %}

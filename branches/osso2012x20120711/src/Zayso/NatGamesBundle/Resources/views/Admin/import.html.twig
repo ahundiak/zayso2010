@@ -1,0 +1,26 @@
+{% extends 'ZaysoNatGamesBundle:Layout:layout.html.twig' %}
+
+{% block title %}NatGames - Import{% endblock %}
+
+{% block content %}
+<div>
+<form method="post" {{ form_enctype(form) }} action="{{ path('zayso_natgames_admin_import') }}">
+{{ form_widget(form.projectId) }}
+<table border="1" width="600">
+<tr><th colspan="2">Import Information</th></tr>
+<tr>
+  <td>{{ form_label (form.attachment) }}</td>
+  <td>{{ form_widget(form.attachment) }}</td>
+</tr>
+<tr>
+  <td><a href="{{ path('zayso_natgames_admin') }}">Admin</a></td>
+  <td align="center"><input type="submit" name="import_submit" value="Import" />
+</tr>
+<tr><td colspan="2">
+    {{ importMsg }} <br /> {{ form_errors(form.attachment) }}
+</td></tr>
+</table>
+{{ form_rest(form) }}
+</form>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% form_theme form 'ZaysoNatGamesBundle:Form:fields.html.twig' %}
+{% extends 'ZaysoNatGamesBundle:Layout:layout.html.twig' %}
+
+{% block title %}NatGames - Account - Signin{% endblock %}
+
+{% block content %}
+<div>
+<form action="{{ path('zayso_natgames_account_signin') }}" method="post" {{ form_enctype(form) }}>
+<table border="1" style="width: 700px;">
+<tr><th colspan="3">National Games 2012 Sign In</th></tr>
+<tr>
+  <td style="width: 100px;">{{ form_label (form.userName) }}</td>
+  <td style="width: 200px;">{{ form_widget(form.userName) }}</td>
+  <td style="width: 300px;">You can also use your email or your 8 digit AYSO ID number to sign in.<br />
+                            {{ form_errors(form.userName) }}</td>
+</tr>
+<tr>
+  <td style="width: 100px;">{{ form_label (form.userPass) }}</td>
+  <td style="width: 200px;">{{ form_widget(form.userPass) }}</td>
+  <td style="width: 300px;">{{ form_errors(form.userPass) }}</td>
+</tr>
+<tr>
+  <td>&nbsp;</td>
+  <td align="center"><input type="submit" name="accountSigninSubmit" value="Sign In" />
+  <td>&nbsp;</td>
+</tr>
+<tr><td colspan="3">{{ form_errors(form) }}</td></tr>
+</table>
+{{ form_rest(form) }}
+</form>
+<br />
+</div>
+<h3>Sign In Using Social Network</h3>
+<p style="width: 800px;">
+Click on an icon below to sign using a social network account.  
+You must have previously connected your zayso account to a social network account in your profile.
+If you have not connected your account then sign in using the above form and click on the "View/Edit My Account Profile" link.
+No more passwords to remember if you use a social account.
+</p>
+<div id="janrainEngageEmbed"></div>
+<h3>Forgot Your Password?</h3>
+<p style="width: 800px;">
+    If you are getting <span style="color: red;">User name not found</span> 
+    then try using your email or 8 digit AYSO ID number to sign in.  
+    If you still get the message then use the <a href="{{ path('zayso_core_contact') }}">Contact Tab</a> for help.
+</p>
+<p style="width: 800px;">
+    If you are getting <span style="color: red;">Invalid password</span> then
+    <a href="{{ path('zayso_natgames_account_reset', { 'id': account.id }) }}">Click Here to reset your password</a>. 
+    This will only work if you have entered a correct user name, email or AYSO ID.
+    An email with instructions will be sent.
+</p>
+{% endblock %}
+{% block janrain %}
+    {% include 'ZaysoCoreBundle:Layout:janrain.js.twig' %}
+{% endblock %}

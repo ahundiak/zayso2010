@@ -1,0 +1,32 @@
+{% extends 'ZaysoNatGamesBundle:Layout:layout.html.twig' %}
+
+{% block title %}NatGames - Accounts{% endblock %}
+
+{% block content %}
+<div>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Account</th>
+        <th>Contact Info</th>
+        <th>Region</th>
+        <th>eAYSO Info</th>
+        <th>Plans</th>
+        <th></th>
+    </tr>
+    {% for member in members %}
+    {{ memberx.setMember(member) }}
+    <tr id="account-list-{{member.id}}" >
+        <td><a href="{{ path('zayso_natgames_admin_account_edit', { 'id': member.id }) }}">{{ member.id }}</a></td>
+        <td>{{ memberx.accountInfo | raw }}</td>
+        <td>{{ memberx.contactInfo | raw }}</td>
+        <td>{{ memberx.region    }}</td>
+        <td>{{ memberx.aysoInfo | raw }}</td>
+        <td>{{ memberx.getPlans | raw }}</td>
+
+        <td><input type="checkbox" name="editData[selects][{{member.id}}]" value="{{member.id}}" /></td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+{% endblock %}

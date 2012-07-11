@@ -1,0 +1,204 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        
+        <service
+            id     = "zayso_natgames.game.schedule.results.manager"
+            class  = "Zayso\NatGamesBundle\Component\Manager\ResultsManager"
+            public = "true">
+            <argument type="service" id="zayso_core.game.entity_manager" />
+            <argument type="string">games</argument>
+        </service>
+        
+        <service
+            id     = "zayso_natgames.schedule.my.search.formtype"
+            class  = "Zayso\NatGamesBundle\Component\Form\Type\Schedule\MySearchFormType"
+            public = "true">
+        </service>
+        
+        <service
+            id     = "zayso_natgames.schedule.team.search.formtype"
+            class  = "Zayso\NatGamesBundle\Component\Form\Type\Schedule\TeamSearchFormType"
+            public = "true">
+           <argument type="service" id="zayso_core.game.schedule.manager" />
+         </service>
+        
+         <service
+            id     = "zayso_natgames.schedule.referee.search.formtype"
+            class  = "Zayso\NatGamesBundle\Component\Form\Type\Schedule\RefSearchFormType"
+            public = "true">
+        </service>
+               
+        <service
+            id     = "zayso_natgames.schedule.refassign.formtype"
+            class  = "Zayso\NatGamesBundle\Component\Form\Type\Schedule\RefAssignFormType"
+            public = "true">
+            <argument type="service" id="zayso_core.game.entity_manager" />
+        </service>
+        
+        <service 
+            id     = "zayso_natgames.ref_stats.manager" 
+            class  = "Zayso\NatGamesBundle\Component\Manager\RefStatsManager" 
+            public = "true">
+            <argument type="service" id="doctrine.orm.osso2012_entity_manager" />
+            <argument type="string">%zayso_core.project.master%</argument>
+        </service>
+
+        <service id = "zayso_model.account.manager" alias="zayso_natgames.account.manager" />
+        
+        <service 
+            id     = "zayso_natgames.account.manager" 
+            class  = "Zayso\NatGamesBundle\Component\Manager\AccountManager" 
+            public = "true">
+            <argument type="service" id="doctrine.orm.accounts_entity_manager" />
+        </service>
+        <service 
+            id     = "zayso_natgames.person.manager" 
+            class  = "Zayso\NatGamesBundle\Component\Manager\PersonManager" 
+            public = "true">
+            <argument type="service" id="doctrine.orm.accounts_entity_manager" />
+        </service>
+        
+        <service 
+            id     = "zayso_natgames.account.import" 
+            class  = "Zayso\NatGamesBundle\Component\Import\AccountImport" 
+            public = "true">
+            <argument type="service" id="zayso_natgames.account.manager" />
+        </service>
+
+        <service 
+            id     = "zayso_natgames.schedule2010.import" 
+            class  = "Zayso\NatGamesBundle\Component\Import\Schedule2010Import" 
+            public = "true">
+            <argument type="service" id="doctrine.orm.osso2012_entity_manager" />
+        </service>
+        
+        <service 
+            id     = "zayso_natgames.schedule2012.import" 
+            class  = "Zayso\NatGamesBundle\Component\Import\Schedule2012Import" 
+            public = "true">
+            <argument type="service" id="zayso_core.game.manager" />
+        </service>
+        
+        <service 
+            id     = "zayso_natgames.soccerfest.import" 
+            class  = "Zayso\NatGamesBundle\Component\Import\SoccerfestImport" 
+            public = "true">
+            <argument type="service" id="zayso_core.game.manager" />
+        </service>
+        
+        <service 
+            id     = "zayso_natgames.game.import" 
+            class  = "Zayso\NatGamesBundle\Component\Import\GameImport" 
+            public = "true">
+            <argument type="service" id="zayso_core.game.manager" />
+        </service>
+        
+        <service 
+            id     = "zayso_natgames.assign.import" 
+            class  = "Zayso\NatGamesBundle\Component\Import\AssignImport" 
+            public = "true">
+            <argument type="service" id="zayso_core.game.schedule.manager" />
+        </service>
+        
+        <service 
+            id     = "zayso_natgames.schedule2012.import2" 
+            class  = "Zayso\NatGamesBundle\Component\Import\Schedule2012Import2" 
+            public = "true">
+            <argument type="service" id="zayso_core.game.manager" />
+        </service>
+
+        <service 
+            id     = "zayso_natgames.account.create.formtype" 
+            class  = "Zayso\NatGamesBundle\Component\Form\Type\Account\AccountCreateFormType" 
+            public = "true">
+            <argument type="service" id="doctrine.orm.accounts_entity_manager" />
+        </service>
+
+        <service
+            id     = "zayso_natgames.admin.account.edit.formtype"
+            class  = "Zayso\NatGamesBundle\Component\Form\Type\Account\AdminAccountEditFormType"
+            public = "true">
+            <argument type="service" id="doctrine.orm.accounts_entity_manager" />
+        </service>
+
+        <service
+            id     = "zayso_natgames.account.person.add.formtype"
+            class  = "Zayso\NatGamesBundle\Component\Form\Type\Account\AccountPersonAddFormType"
+            public = "true">
+            <argument type="service" id="doctrine.orm.accounts_entity_manager" />
+        </service>
+        
+       <service
+            id     = "zayso_natgames.account.person.listitem.formtype"
+            class  = "Zayso\NatGamesBundle\Component\Form\Type\Account\AccountPersonListItemFormType"
+            public = "true">
+            <argument type="service" id="doctrine.orm.accounts_entity_manager" />
+        </service>
+        
+       <service
+            id     = "zayso_natgames.account.person.list.formtype"
+            class  = "Zayso\NatGamesBundle\Component\Form\Type\Account\AccountPersonListFormType"
+            public = "true">
+            <argument type="service" id="doctrine.orm.accounts_entity_manager" />
+            <argument type="service" id="zayso_natgames.account.person.listitem.formtype" />
+        </service>
+        
+        <service
+            id     = "zayso_natgames.account.profile.contact.formtype"
+            class  = "Zayso\NatGamesBundle\Component\Form\Type\Account\AccountProfileContactFormType"
+            public = "true">
+            <argument type="service" id="doctrine.orm.accounts_entity_manager" />
+        </service>
+        
+        <service
+            id     = "zayso_natgames.account.profile.password.formtype"
+            class  = "Zayso\NatGamesBundle\Component\Form\Type\Account\AccountProfilePasswordFormType"
+            public = "true">
+            <argument type="service" id="doctrine.orm.accounts_entity_manager" />
+        </service>
+        
+        <service
+            id     = "zayso_natgames.account.profile.ayso.formtype"
+            class  = "Zayso\NatGamesBundle\Component\Form\Type\Account\AccountProfileAysoFormType"
+            public = "true">
+            <argument type="service" id="doctrine.orm.accounts_entity_manager" />
+        </service>
+        
+        <service
+            id     = "zayso_natgames.account.export"
+            class  = "Zayso\NatGamesBundle\Component\Export\AccountExport"
+            public = "true">
+            <argument type="service" id="zayso_core.person.manager" />
+            <argument type="string">%zayso_core.project.master%</argument>
+            <argument type="service" id="zayso_core.format.excel" />
+        </service>
+        
+        <service
+            id     = "zayso_natgames.game.export"
+            class  = "Zayso\NatGamesBundle\Component\Export\GameExport"
+            public = "true">
+            <argument type="service" id="zayso_core.format.excel" />
+        </service>
+        
+        <service
+            id     = "zayso_natgames.team.export"
+            class  = "Zayso\NatGamesBundle\Component\Export\TeamExport"
+            public = "true">
+            <argument type="service" id="zayso_core.format.excel" />
+        </service>
+        
+        <service
+            id     = "zayso_natgames.team.import"
+            class  = "Zayso\NatGamesBundle\Component\Import\TeamImport"
+            public = "true">
+            <argument type="service" id="zayso_core.game.schedule.manager" />
+            <argument type="string">%zayso_core.project.master%</argument>
+        </service>
+
+    </services>
+</container>

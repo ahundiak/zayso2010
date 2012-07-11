@@ -1,0 +1,152 @@
+{% form_theme contactForm  'ZaysoNatGamesBundle:Form:fields.html.twig' %}
+{% form_theme passwordForm 'ZaysoNatGamesBundle:Form:fields.html.twig' %}
+
+{% extends 'ZaysoNatGamesBundle:Layout:layout.html.twig' %}
+
+{% block title %}NatGames - Account - Profile{% endblock %}
+
+{% block content %}
+<div>
+<h1>Account Profile</h1>
+<div>
+<form action="{{ path('zayso_natgames_account_profile_post') }}" method="post" {{ form_enctype(contactForm) }}>
+
+<table border="1" style="width: 800px;">
+<tr><th colspan="3">National Games 2012 - Update Contact Information</th></tr>
+
+<tr>
+    <td>{{ form_label (contactForm.firstName) }}</td>
+    <td>{{ form_widget(contactForm.firstName) }}</td>
+    <td>Legal name, must match eAYSO.<br />{{ form_errors(contactForm.firstName) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (contactForm.lastName) }}</td>
+    <td>{{ form_widget(contactForm.lastName) }}</td>
+    <td>Legal name, must match eAYSO.<br />{{ form_errors(contactForm.lastName) }}</td>
+</tr>
+<tr><td>{{ form_label (contactForm.nickName) }}</td>
+    <td>{{ form_widget(contactForm.nickName) }}</td>
+    <td>Used in place of first name for assignments.<br />{{ form_errors(contactForm.nickName) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (contactForm.email) }}</td>
+    <td>{{ form_widget(contactForm.email) }}</td>
+    <td>Required.<br />{{ form_errors(contactForm.email) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (contactForm.cellPhone) }}</td>
+    <td>{{ form_widget(contactForm.cellPhone) }}</td>
+    <td>Highly recommended.<br />{{ form_errors(contactForm.cellPhone) }}</td>
+</tr>
+<tr><td colspan="3"></td></tr>
+<tr>
+  <td><a href="{{ path('zayso_core_home')  }}">Home</a></td>
+  <td>
+    {% if     contactFlash %}{{ contactFlash }}{% endif %}
+    {% if not contactFlash %} &nbsp; {% endif %}
+  </td>
+  <td align="center"><input type="submit" name="accountProfileContactSubmit" value="Update Contact Information" /></td>
+</tr>
+<tr><td colspan="3">{{ form_errors(contactForm) }}</td></tr>
+</table>
+{{ form_rest(contactForm) }}
+</form>
+
+<table border="1" style="width: 800px;">
+    <tr><th colspan="3">National Games 2012 - Social Networks</th></tr>
+    <tr>
+        <th>Account User Name</th>
+        <th>Account Person Name</th>
+        <th>Social Network</th>
+    </tr>
+    {% for openid  in openids %}
+    <tr>
+        <td>{{ openid.accountPerson.userName   }}</td>
+        <td>{{ openid.accountPerson.personName }}</td>
+        <td>{{ openid.provider }}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+      <td colspan="3">
+        <a href="{{ path('zayso_core_account_openid_add') }}">Click here</a> 
+        to link a social network (Google, Facebook, Twitter etc) to your Zayso account.
+        This will allow you to sign in to Zayso without using a password or needing to remember your Zayso user name.
+      </td>
+    </tr>
+</table>
+        
+{# include 'ZaysoNatGamesBundle:Account/Person:list.html.twig' #}
+        
+<form action="{{ path('zayso_natgames_account_profile_post') }}" method="post" {{ form_enctype(passwordForm) }}>
+<table border="1" style="width: 800px;">
+<tr><th colspan="3">National Games 2012 - Update User Name or Password</th></tr>
+
+<tr>
+    <td>{{ form_label (passwordForm.userName) }}</td>
+    <td>{{ form_widget(passwordForm.userName) }}</td>
+    <td>Required.<br />{{ form_errors(passwordForm.userName) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (passwordForm.userPass1) }}</td>
+    <td>{{ form_widget(passwordForm.userPass1) }}</td>
+    <td>Only to change.<br />{{ form_errors(passwordForm.userPass1) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (passwordForm.userPass2) }}</td>
+    <td>{{ form_widget(passwordForm.userPass2) }}</td>
+    <td>Only to change.<br />{{ form_errors(passwordForm.userPass2) }}</td>
+</tr>
+<tr><td colspan="3"></td></tr>
+<tr>
+  <td><a href="{{ path('zayso_core_home')  }}">Home</a></td>
+  <td>
+    {% if     passwordFlash %}{{ passwordFlash }}{% endif %}
+    {% if not passwordFlash %} &nbsp; {% endif %}
+  </td>
+  <td align="center"><input type="submit" name="accountProfilePasswordSubmit" value="Update User Name or Password" /></td>
+</tr>
+<tr><td colspan="3">{{ form_errors(passwordForm) }}</td></tr>
+</table>
+{{ form_rest(passwordForm) }}
+
+</form>
+<form action="{{ path('zayso_natgames_account_profile_post') }}" method="post" {{ form_enctype(aysoForm) }}>
+<table border="1" style="width: 800px;">
+<tr><th colspan="3">National Games 2012 - Review eAYSO Information</th></tr>
+<tr>
+    <td style="width: 250px;">{{ form_label (aysoForm.aysoid) }}</td>
+    <td>{{ form_widget(aysoForm.aysoid) }}</td>
+    <td style="width: 300px;">&nbsp;<br />{{ form_errors(aysoForm.aysoid) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (aysoForm.region) }}</td>
+    <td>{{ form_widget(aysoForm.region) }}</td>
+    <td>&nbsp;<br />{{ form_errors(aysoForm.region) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (aysoForm.memYear) }}</td>
+    <td>{{ form_widget(aysoForm.memYear) }}</td>
+    <td>&nbsp;<br />{{ form_errors(aysoForm.memYear) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (aysoForm.safeHaven) }}</td>
+    <td>{{ form_widget(aysoForm.safeHaven) }}</td>
+    <td>&nbsp;<br />{{ form_errors(aysoForm.safeHaven) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (aysoForm.refBadge) }}</td>
+    <td>{{ form_widget(aysoForm.refBadge) }}</td>
+    <td>&nbsp;<br />{{ form_errors(aysoForm.refBadge) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (aysoForm.refDate) }}</td>
+    <td>{{ form_widget(aysoForm.refDate) }}</td>
+    <td>&nbsp;<br />{{ form_errors(aysoForm.refDate) }}</td>
+</tr>
+<tr><td colspan="3">Review only.  Send email if the information shown does not match eAYSO.</td></tr>
+</table>
+{{ form_rest(aysoForm) }}
+</form>
+
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% autoescape false %}
+
+{{ person.firstName }} {{ person.lastName }} {{ person.aysoid }} {{ person.region }}
+{{ person.email }} {{ person.cellPhone }}
+Availability: Sun/Mon/Tue/Wed {{ person.availSun }}/{{ person.availMon }}/{{ person.availTue }}/{{ person.availWed }}
+Class: {{ person.role }} {{ person.class }}
+
+Notes:
+{{ person.notes }}
+---
+{{ gen.csv(person) | raw }}
+---
+
+{% endautoescape %}

@@ -1,0 +1,23 @@
+Zayso\Osso2007Bundle\Entity\ScheduleType:
+  type: entity
+  table: schedule_type
+  fields:
+    scheduleTypeId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: schedule_type_id
+      generator:
+        strategy: IDENTITY
+    keyx:
+      type: string
+      length: 4
+      fixed: true
+      nullable: true
+    descx:
+      type: string
+      length: 20
+      fixed: true
+      nullable: true
+  lifecycleCallbacks: {  }

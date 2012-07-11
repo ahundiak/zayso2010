@@ -1,0 +1,58 @@
+Zayso\Osso2007Bundle\Entity\PhyTeamReferee:
+  type: entity
+  table: phy_team_referee
+  fields:
+    phyTeamRefereeId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: phy_team_referee_id
+      generator:
+        strategy: IDENTITY
+    phyTeamId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: phy_team_id
+    refereeId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: referee_id
+    unitId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: unit_id
+    regYearId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: reg_year_id
+    seasonTypeId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: season_type_id
+    priRegular:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: pri_regular
+    priTourn:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: pri_tourn
+    maxRegular:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: max_regular
+    maxTourn:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: max_tourn
+  lifecycleCallbacks: {  }

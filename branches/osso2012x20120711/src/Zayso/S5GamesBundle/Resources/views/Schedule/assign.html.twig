@@ -1,0 +1,75 @@
+{% form_theme form myBundleName ~ ':Layout:fields.html.twig' %}
+
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
+
+{% block title %}{{ myTitlePrefix }} Assign Referee{% endblock %}
+
+{% block content %}
+<h2>Referee Assign For: {{ game.pool }} #{{ game.num }}</h2>
+
+<form action="{{ path('zayso_core_schedule_referee_assign', { 'id': game.id }) }}" method="post" {{ form_enctype(form) }}>
+<table border="1">
+    <tr><td>Game Number</td><td>{{ game.num             }}</td></tr>
+    <tr><td>Date       </td><td>{{ game_date(game.date) }}</td></tr>
+    <tr><td>Time       </td><td>{{ game_time(game.time) }}</td></tr>
+    <tr><td>Field      </td><td>{{ game.fieldDesc       }}</td></tr>
+    <tr><td>Pool       </td><td>{{ game.pool            }}</td></tr>
+    {% for teamRel in game.teams %}
+        <tr><td>{{ teamRel.type }} Team</td><td>{{ game_team_desc(teamRel) }}</td></tr>
+    {% endfor %}
+    <tr><td></td><td></td></tr>
+    {% for personRel in game.eventPersonsSorted %}
+        <tr><td>{{ personRel.typeDesc }}</td><td>{{ personRel.personz.id }}</td></tr>
+    {% endfor %}
+</table>    
+<div style="padding-left: 5px;">
+    {{ form_widget(form.type) }}
+    {{ form_widget(form.num)  }}
+    {{ form_widget(form.date) }}
+    {{ form_widget(form.time) }}  
+    {{ form_widget(form.fieldDesc) }}  
+    {{ form_widget(form.pool) }}    
+</div>
+{#
+{% set homeTeamRel = form.teams[0] %}
+{% set awayTeamRel = form.teams[1] %}
+{% set homeTeam = homeTeamRel.team %}
+{% set awayTeam = awayTeamRel.team %}
+<table border="1">
+    <tr><td>&nbsp;</td>       <td>{{ form_widget(homeTeamRel.type)       }}</td><td>{{ form_widget(awayTeamRel.type)       }}</td></tr>
+    <tr><td>&nbsp;</td>       <td>{{ game_team_desc(game.homeTeam)       }}</td><td>{{ game_team_desc(game.awayTeam)       }}</td></tr>
+    <tr><td>Goals Scored</td> <td>{{ form_widget(homeTeam.goalsScored)   }}</td><td>{{ form_widget(awayTeam.goalsScored)   }}</td></tr>
+    <tr><td>Cautions</td>     <td>{{ form_widget(homeTeam.cautions)      }}</td><td>{{ form_widget(awayTeam.cautions)      }}</td></tr>
+    <tr><td>Send Offs</td>    <td>{{ form_widget(homeTeam.sendoffs)      }}</td><td>{{ form_widget(awayTeam.sendoffs)      }}</td></tr>
+    <tr><td>Coach Dismissal</td>    <td>{{ form_widget(homeTeam.coachTossed) }}</td><td>{{ form_widget(awayTeam.coachTossed) }}</td></tr>
+    <tr><td>Spectator Dismissal</td><td>{{ form_widget(homeTeam.specTossed)  }}</td><td>{{ form_widget(awayTeam.specTossed)  }}</td></tr>
+    <tr><td>Sportsmanship</td><td>{{ form_widget(homeTeam.sportsmanship) }}</td><td>{{ form_widget(awayTeam.sportsmanship) }}</td></tr>
+    <tr><td>Fudge Factor</td> <td>{{ form_widget(homeTeam.fudgeFactor)   }}</td><td>{{ form_widget(awayTeam.fudgeFactor)   }}</td></tr>
+    <tr><td>Points Minus</td> <td>{{ form_widget(homeTeam.pointsMinus)   }}</td><td>{{ form_widget(awayTeam.pointsMinus)   }}</td></tr>  
+    <tr><td>Points Earned</td><td>{{ form_widget(homeTeam.pointsEarned)  }}</td><td>{{ form_widget(awayTeam.pointsEarned)  }}</td></tr>  
+</table>
+<div style="padding-left: 5px;">
+    {{ form_widget(form.report) }}
+</div>
+<div style="padding-left: 5px;">
+    <a href="{{ path('zayso_core_schedule_results') }}">Return to Game Results</a>
+    {{ form_widget(form.status) }}
+    {{ form_widget(form.pointsApplied)  }}
+    {{ form_widget(form.reportStatus) }}  
+    {% if is_granted('ROLE_ADMIN') %}
+        <input type="submit" name="submit_report" value="Save"  />
+    {% endif %}
+</div>
+<div style="display: none;">
+    {{ form_widget(homeTeam.teamKey) }}
+    {{ form_widget(awayTeam.teamKey) }}
+</div>
+#}
+{{ form_rest(form) }} 
+</form>
+<ul style="padding: 5px; margin: 0px; list-style-type: disc;">
+    <li style="margin-left: 20px;">Set the game status to Played (or one of the other options)</li>
+    <li style="margin-left: 20px;">Explicitly apply the points by selecting 'Appl Points - Yes'</li>
+    <li style="margin-left: 20px;">The report status will change from Pending to Submitted by itself</li> 
+</ul>
+{% endblock %}

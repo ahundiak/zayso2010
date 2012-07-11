@@ -1,0 +1,152 @@
+{% extends myBundleName ~ ':Layout:layout_cached.html.twig' %}
+
+{% block title %}{{ myTitlePrefix }} Results {% endblock %}
+
+{% block content %}
+{% set ages = [ 'U10','U12','U14','U16','U19'  ]          %}
+{% set genders = { 'B' : 'Boys', 'G' : 'Girls' }    %}
+{% set resultsRoute = 'zayso_core_schedule_results' %}
+<table border="1">
+    <tr>
+        <td>
+            &nbsp;
+        </td>
+    {% for age in ages %}
+        <td align="center">{{ age }} Results</td>
+    {% endfor %}
+    </tr>
+    {% for gender,genderDesc in genders %}
+    <tr><td>{{ genderDesc }}</td>
+        {% for age in ages %}
+        <td>
+            {% set pp = { 'All' : '', 'A' : 'A', 'B' : 'B', 'C' : 'C', 'D' : 'D' } %}
+            {% if  age == 'U10' %}
+            {% set pp = { 'All' : '', 'A' : 'A', 'B' : 'B', 'C' : 'C', 'D' : 'D', 'E' : 'E', 'F' : 'F', 'G' : 'G', 'H' : 'H', 'I' : 'I'  } %}
+            {% endif %}
+            {% if  age == 'U16' or age == 'U19' %}
+            {% set pp = { 'All' : '', 'A' : 'A', 'B' : 'B', 'C' : 'C' } %}
+            {% endif %}
+            {% for px,py in pp %}
+                <a href="{{ path(resultsRoute, { 'div': age ~ gender, 'pool' : py}) }}">{{ px }}</a>
+            {% endfor %}
+        </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table> 
+<p>Report incorrect scores by sending email with game number to: ScoringProblems AT NatGames2012.org</p>
+<div>
+    {% for poolKey, pool in pools %}
+    <table border = "1">
+        <tr><th colspan="16">Game Pool Results - {{ poolKey }}</th></tr>
+        <tr><td colspan="16">GS=Goals Scored, SP=Sportsmanship, YC=Caution, RC=Sendoff, CE=Coach Expelled, PE=Points Earned</td></tr>
+        <tr>
+            <td>Game</td>
+            <td>Status 1</td>
+            <td>Status 2</td>
+            <td>PA</td>
+            <td>DOW Time</td>
+            <td>Field</td>
+            <td>Pool</td>
+            <td>Home/Away Team</td>
+            <td>GS</td>
+            <td>SP</td>
+            <td>YC</td>
+            <td>RC</td>
+            <td>CE</td>
+            <td>PE</td>
+        </tr>
+        {% set even = false %}
+        {% for game in pool.games %}
+        {% set one = 1 %}
+        {% for teamRel in game.teams %}
+        
+        {% if one %}
+        {% if even %}
+            <tr id="ref-sched-{{game.num}}" class="game-status-{{game.status}} row-even">
+        {% else %}
+            <tr id="ref-sched-{{game.num}}" class="game-status-{{game.status}}">
+        {% endif %}
+            <td rowspan="2">
+                {{ game.getNum() }}
+            </td>
+            <td rowspan="2">{{ game.status         }}</td>
+            <td rowspan="2">{{ game.reportStatus   }}</td>
+            <td rowspan="2">{{ game.pointsApplied  }}</td>
+            <td rowspan="2">{{ game_dow(game.date) }} {{ game_time(game.time) }}</td>
+            <td rowspan="2">{{ game.fieldDesc      }}</td>
+            <td rowspan="2">{{ game.pool           }}</td>
+        {% else %}
+        {% endif %}  {# one #}  
+            {# set one = 0 #}
+            {% set team = teamRel.team %}
+            
+            <td>{{ game_team_desc2(teamRel)     }}</td>
+            <td align="center">{{ teamRel.report.goalsScored  }}</td>
+            <td align="center">&nbsp;{# teamRel.report.sportsmanship#}</td>
+            <td align="center">{{ teamRel.report.cautions     }}</td>
+            <td align="center">{{ teamRel.report.sendOffs     }}</td>
+            <td align="center">{{ teamRel.report.coachTossed  }}</td>
+            <td align="center">{{ teamRel.report.pointsEarned }}</td>
+        </tr>
+        {% if one %}
+            {% set one = 0 %}
+                {% if even %}
+                    <tr class="game-status-{{game.status}} row-even">
+                {% else %}
+                    <tr class="game-status-{{game.status}}">
+                {% endif %}
+        {% else %}
+            {% if even %}{% set even = false %}{% else %}{%set even = true %}{% endif %}
+        {% endif %}
+        {% endfor %}
+        {% endfor %}       
+    </table>
+    <br />
+    <table border = "1">
+        <tr><th colspan="16">Team Pool Results - {{ poolKey }}</th></tr>
+        <tr><td colspan="16">T=Total, GT=Games Total, GP=Games Played, GW=Games Won, WPF=Winning Percent Formula</td></tr>
+        <tr>
+            <td>Pool</td>
+            <td>Team</td>
+            <td>WPF</td>
+            <td>TPE</td>
+            <td>&nbsp;</td>
+            <td>GT</td>
+            <td>GP</td>
+            <td>GW</td>
+            <td>TGS</td>
+            <td>TGA</td>
+            <td>TYC</td>
+            <td>TRC</td>
+            <td>TCE</td>
+            <td>SP</td>
+            <td>SfP</td>
+        </tr>
+        {% for team in pool.teams %}
+        {% set report = team.report %}
+        <tr>
+            <td>{{ team.key  }}</td>                  
+            <td>{{ team.desc }}</td>                  
+            <td align="center">{{ report.winPercent   () }} </td>
+            <td align="center">{{ report.pointsEarned () }} </td>
+            <td>&nbsp;</td>              
+            <td align="center">{{ report.gamesTotal    }} </td>                  
+            <td align="center">{{ report.gamesPlayed   }} </td>                                  
+            <td align="center">{{ report.gamesWon      }} </td>                  
+            <td align="center">{{ report.goalsScored   }} </td>                  
+            <td align="center">{{ report.goalsAllowed  }} </td>                  
+            <td align="center">{{ report.cautions      }} </td>                  
+            <td align="center">{{ report.sendoffs      }} </td>                  
+            <td align="center">{{ report.coachTossed   }} </td>                               
+            <td align="center">&nbsp;{# report.sportsmanship #} </td>                  
+            <td align="center">{{ team.sfSp            }} </td>                  
+        </tr>
+        {% endfor %}       
+    </table><br />
+    {% endfor %}
+</div>
+<style>
+.row-even      { background-color: #E0FFFF; } {# #E0FFFF PaleCyan #}
+</style>
+{% endblock %}

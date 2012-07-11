@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Zayso\Osso2007Bundle\Entity\SessionBack" table="session_back">
+    <change-tracking-policy>DEFERRED_IMPLICIT</change-tracking-policy>
+    <id name="sessionBackId" type="integer" column="session_back_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="sessionId" type="string" column="session_id" length="32"/>
+    <field name="createdTs" type="string" column="created_ts" length="16"/>
+    <field name="accessedTs" type="string" column="accessed_ts" length="16"/>
+    <field name="name" type="string" column="name" length="32"/>
+    <field name="data1" type="string" column="data1" length="250"/>
+    <field name="data2" type="string" column="data2" length="250"/>
+    <lifecycle-callbacks/>
+  </entity>
+</doctrine-mapping>

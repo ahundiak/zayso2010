@@ -1,0 +1,39 @@
+; These parameters can be imported into other config files
+; by enclosing the key with % (like %database_user%)
+; Comments start with ';', as in php.ini
+[parameters]
+
+    database_driver   = pdo_mysql
+    database_host     = localhost
+    database_port     =
+    database_name     = Symfony
+    database_user     = 
+    database_password = 
+
+    database_eayso_name    = eayso2012
+    database_osso2007_name = osso2007
+    database_osso2012_name = osso2012
+
+    session.dsn       = "mysql:dbname=session;host=localhost"
+
+    mailer_transport  = gmail
+    mailer_host       = localhost
+    mailer_user       = 
+    mailer_password   = 
+    mailer_enabled    = true
+
+    locale            = en
+
+    secret            = zaysoAreaSecretToken
+
+    zayso_core.openid.rpxApiKey = ""
+    zayso_core.user.password    = ""
+
+
+    zayso_area.project.master  = 70
+    zayso_area.project.current = 78
+    zayso_area.provider.key   = secured_area
+
+    zayso_core.project.master  = 70
+    zayso_core.project.current = 78
+    zayso_core.provider.key   = secured_area

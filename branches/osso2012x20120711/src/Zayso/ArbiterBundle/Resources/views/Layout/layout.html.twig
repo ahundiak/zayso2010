@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>{% block title %}Arbiter Bundle{% endblock %}</title>
+    <meta name="description" content="Zayso Arbiter Tools"/>
+    <meta name="author"      content="Art Hundiak"/>
+    
+{% block stylesheets %}{% endblock %}
+    
+    {# Just a bit of html5 nonsense #}
+    <!--[if lt IE 9]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+    
+<div id="layout-content">
+  {% block content %}
+  {% endblock %}
+</div>
+
+{% block javascripts %}{% endblock %}
+
+</body>
+</html>
+

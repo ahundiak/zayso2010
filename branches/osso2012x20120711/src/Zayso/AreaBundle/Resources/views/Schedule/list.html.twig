@@ -1,0 +1,27 @@
+{# List games in schedule #}
+<div>
+<table border="1" class="form_table" width="800" id="schedule-referee-list">
+    <tr><th colspan="6">Referee Schedule - Game Count {{ gameCount }}</th></tr>
+    <tr>
+        <td>Game</td>
+        <td>Date</td>
+        <td>Time</td>
+        <td>Field</td>
+        <td>Home/Away Teams</td>
+        <td>Referees</td>
+    </tr>
+    {% for game in games %}
+    {{ gameView.setGame(game) }}
+        <tr id="ref-sched-{{game.num}}" class="status-{{game.status}}">
+            <td><a href="{{ path('zayso_area_schedule_game_edit', { 'id': game.id })}}">{{ game.getNum() }}</a></td>
+            <td>{{ gameView.date  }}</td>
+            <td>{{ gameView.time  }}</td>
+            <td>{{ gameView.field }}</td>
+            <td>{{ gameView.homeTeam }}<br />
+                {{ gameView.awayTeam }}</td>
+            <td>{{ gameView.officials | raw }}</td>
+        </tr>
+    {% endfor %}
+</table>
+</div>
+

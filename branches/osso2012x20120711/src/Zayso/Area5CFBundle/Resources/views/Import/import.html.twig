@@ -1,0 +1,29 @@
+{% extends 'Area5CFBundle::layout.html.twig' %}
+
+{% block title %}Area5CF - Import{% endblock %}
+
+{% block content %}
+<div>
+<form method="post" enctype="multipart/form-data" action="{{ path('_area5cf_import') }}">
+<table border="1">
+<tr><th colspan="2">Import Information</th></tr>
+<tr>
+  <td>Import File</td>
+  <td>
+    <input type="file" name="import_file" size="80"/>
+  </td>
+</tr>
+<tr>
+  <td>Processed File</td>
+  <td>
+    <input type="text" name="import_file_proc" readonly="readonly" size="40" value="Processed file name"/>
+  </td>
+</tr>
+<tr>
+  <td>.</td>
+  <td align="center"><input type="submit" name="import_submit" value="Import" />
+</tr>
+</table>
+</form>
+</div>
+{% endblock %}

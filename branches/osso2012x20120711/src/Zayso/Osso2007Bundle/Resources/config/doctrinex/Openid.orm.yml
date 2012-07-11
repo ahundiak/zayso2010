@@ -1,0 +1,58 @@
+Zayso\Osso2007Bundle\Entity\Openid:
+  type: entity
+  table: openid
+  fields:
+    id:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      generator:
+        strategy: IDENTITY
+    accountId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: account_id
+    memberId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: member_id
+    personId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: person_id
+    status:
+      type: integer
+      unsigned: false
+      nullable: true
+    displayName:
+      type: string
+      length: 80
+      fixed: true
+      nullable: true
+      column: display_name
+    userName:
+      type: string
+      length: 80
+      fixed: true
+      nullable: true
+      column: user_name
+    email:
+      type: string
+      length: 80
+      fixed: true
+      nullable: true
+    provider:
+      type: string
+      length: 80
+      fixed: true
+      nullable: true
+    identifier:
+      type: string
+      length: 120
+      fixed: true
+      nullable: true
+  lifecycleCallbacks: {  }

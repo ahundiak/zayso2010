@@ -1,0 +1,44 @@
+parameters:
+    zayso_core.user.class: Zayso\AreaBundle\Component\User\User
+
+security:
+    encoders:
+        Zayso\AreaBundle\Component\User\User:
+            id: zayso_core.user.encoder
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    providers:
+        my_provider:
+            id: zayso_core.user.provider
+
+    firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+            
+        # The anonymous means anyone can get to all pages by default
+        secured_area:
+            pattern:    ^/
+            access_denied_url: /welcome
+            anonymous: ~
+
+            # This is needed just to get normal signin to work
+            # without it, get no auth manager exception
+            # The login_path is used to automatically redirect users
+            form_login:
+                login_path:  /welcome
+#               check_path:  /login_checkx
+                
+#           logout:
+#               path:   /logoutx
+#               target: /welcomex
+#               invalidate_session: false
+
+
+    access_control:
+        - { path: ^/admin/super,    roles: ROLE_SUPER_ADMIN }
+        - { path: ^/admin,          roles: ROLE_ADMIN }     
+        - { path: ^/home,           roles: ROLE_USER }

@@ -1,0 +1,19 @@
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
+
+{% block title %}{{ myTitlePrefix }} Home {% endblock %}
+
+{% block content %}
+<div>
+    {% include myBundleName ~ ':Account/Person:list.html.twig' %}
+    <h3>Maps</h3>
+    <p>        
+        <a href="http://goo.gl/maps/p2Va" target="_blank">Map to field sites and assorted locations.</a>
+    </p>
+    <p>
+        Pease keep your tournament plans up to date.
+    </p><p>
+        Check back as the tournament draws closer.  More information will be added.
+    </p>
+</div>
+{% include  myBundleName ~ ':Welcome:hille.html.twig' %}
+{% endblock %}

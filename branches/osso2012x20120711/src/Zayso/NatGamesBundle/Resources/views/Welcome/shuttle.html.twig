@@ -1,0 +1,69 @@
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
+
+{% block title %}{{ myTitlePrefix }} Shuttle {% endblock %}
+
+{% block content %}
+<div>
+  <h3>Shuttle Schedule</h3>
+  <p>
+      For the opening ceremonies on Tuesday night, 
+      shuttles will run from Cedar Bluff Holiday Inn to the Thompson Boling Arena starting at 3:30pm and continuing until 11:30pm.
+  </p>
+  <table border="1">
+      <tr><th colspan="3">BLUE SHUTTLE - Game Days</th></tr>
+      
+      <tr><td>Depart</td><td>Laurel Hall</td><td>6:15 AM</td></tr>
+      <tr><td>Arrive</td><td>Cedar Bluff Holiday Inn</td><td>6:32 AM</td></tr>
+      <tr><td colspan="3"></td></tr>
+      
+      <tr><td>Depart</td><td>Cedar Bluff Holiday Inn</td><td>6:37 AM</td></tr>
+      <tr><td>Arrive</td><td>Cellular Fields</td><td>6:42 AM</td></tr>
+      <tr><td colspan="3"></td></tr>
+  
+      <tr><td>Depart</td><td>Cellular Fields</td><td>6:47 AM</td></tr>
+      <tr><td>Arrive</td><td>Ball Camp  </td><td>6:53 AM</td></tr>
+      <tr><td colspan="3"></td></tr>
+  
+      <tr><td>Depart</td><td>Ball Camp  </td><td>6:58 AM</td></tr>
+      <tr><td>Arrive</td><td>Victor Ashe</td><td>7:23 AM</td></tr>
+      <tr><td colspan="3"></td></tr>
+  
+      <tr><td>Depart</td><td>Victor Ashe</td><td>7:28 AM</td></tr>
+      <tr><td>Arrive</td><td>Laurel Hall</td><td>7:48 AM</td></tr>
+      <tr><td colspan="3"></td></tr>
+  
+      <tr><td>Depart</td><td>Laurel Hall</td><td>8:15 AM</td></tr>
+ 
+      <tr><td colspan="3">
+        Bus will continue this schedule same time every two hours until all games are over for the day.</br>
+        Schedule will be posted in the bus.
+      </td></tr>
+</table>
+  <table border="1">
+      <tr><th colspan="3">RED SHUTTLE - Game Days</th></tr>
+      
+      <tr><td>Depart</td><td> Laurel Hall</td><td>6:15 AM</td></tr>
+      <tr><td>Arrive</td><td> Cedar Bluff Holiday Inn</td><td>6:32 AM</td></tr>
+      <tr><td colspan="3"></td></tr>
+ 
+      <tr><td>Depart</td><td> Cedar Bluff Holiday Inn</td><td>6:37 AM</td></tr>
+      <tr><td>Arrive</td><td> John Turleton</td><td>6:50 AM</td></tr>
+      <tr><td colspan="3"></td></tr>
+ 
+      <tr><td>Depart</td><td> John Turleton</td><td>6:55 AM</td></tr>
+      <tr><td>Arrive</td><td> Rifle Range</td><td>7:25 AM</td></tr>
+      <tr><td colspan="3"></td></tr>
+ 
+      <tr><td>Depart</td><td> Rifle Range</td><td>7:30 AM</td></tr>
+      <tr><td>Arrive</td><td> Laurel Hall</td><td>8:00 AM</td></tr>
+      <tr><td colspan="3"></td></tr>
+ 
+      <tr><td>Depart</td><td> Laurel Hall</td><td>8:15 AM</td></tr>      
+      <tr><td colspan="3">
+        Bus will continue this schedule same time every two hours until all games are over for the day.</br>
+        Schedule will be posted in the bus.
+      </td></tr>      
+  </table>
+</div>
+{% include  myBundleName ~ ':Welcome:hille.html.twig' %}
+{% endblock %}

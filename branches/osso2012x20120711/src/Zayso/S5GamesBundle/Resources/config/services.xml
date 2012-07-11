@@ -1,0 +1,59 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+                
+        <service 
+            id     = "zayso_s5games.account.manager" 
+            class  = "Zayso\S5GamesBundle\Component\Manager\AccountManager" 
+            public = "true">
+            <argument type="service" id="doctrine.orm.accounts_entity_manager" />
+        </service>
+        
+        <service 
+            id     = "zayso_s5games.person.manager" 
+            class  = "Zayso\S5GamesBundle\Manager\PersonManager" 
+            public = "true">
+            <argument type="service" id="doctrine.orm.accounts_entity_manager" />
+        </service>
+        
+        <service
+            id     = "zayso_s5games.account.create.formtype"
+            class  = "Zayso\S5GamesBundle\Component\FormType\Account\AccountCreateFormType"
+            public = "true">
+            <argument type="service" id="doctrine.orm.accounts_entity_manager" />
+        </service>
+        
+        <service
+            id     = "zayso_s5games.schedule.search.formtype"
+            class  = "Zayso\S5GamesBundle\Component\FormType\Schedule\ScheduleSearchFormType"
+            public = "true">
+        </service>
+        
+        <service
+            id     = "zayso_s5games.admin.schedule.list.formtype"
+            class  = "Zayso\S5GamesBundle\Component\FormType\Admin\Schedule\ScheduleListFormType"
+            public = "true">
+        </service>
+       
+        <service
+            id     = "zayso_s5games.game2011.export"
+            class  = "Zayso\S5GamesBundle\Component\Export\Game2011Export"
+            public = "true">
+            <argument type="service" id="zayso_core.game.manager" />
+            <argument type="service" id="zayso_core.format.excel" />
+        </service>
+        
+        <service
+            id     = "zayso_s5games.schedule.import"
+            class  = "Zayso\S5GamesBundle\Import\ScheduleImport"
+            public = "true">
+            <argument type="service" id="zayso_core.game.manager" />
+        </service>
+        
+
+    </services>
+</container>

@@ -1,0 +1,89 @@
+{% form_theme form myBundleName ~ ':Layout:fields.html.twig' %}
+
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
+
+{% block title %}{{ myTitlePrefix }} Account Edit{% endblock %}
+
+{% block content %}
+<div>
+<form action="{{ path('zayso_core_account_person_edit', { 'id': accountPerson.id }) }}" method="post" {{ form_enctype(form) }}>
+<table border="1" style="width: 800px;">
+<tr><th colspan="3">Edit Account Person</th></tr>
+<tr>
+    <td style="width: 175px;">{{ form_label (form.firstName) }}</td>
+    <td style="width: 275px;">{{ form_widget(form.firstName) }}</td>
+    <td style="width: 350px;">
+        Legal name, should match eAYSO.<br />
+        {{ form_errors(form.firstName) }}
+    </td>
+</tr>
+<tr>
+    <td> {{ form_label (form.lastName) }}</td>
+    <td> {{ form_widget(form.lastName) }}</td>
+    <td>
+        Legal name, should match eAYSO.<br />
+        {{ form_errors(form.lastName) }}
+    </td>
+</tr>
+<tr>
+    <td> {{ form_label (form.nickName) }}</td>
+    <td> {{ form_widget(form.nickName) }}</td>
+    <td>
+        Will be used for assignments.<br />
+        {{ form_errors(form.nickName) }}
+    </td>
+</tr>
+<tr>
+    <td> {{ form_label (form.email) }}</td>
+    <td> {{ form_widget(form.email) }}</td>
+    <td>
+        Required.<br />
+        {{ form_errors(form.email) }}
+    </td>
+</tr>
+<tr>
+    <td> {{ form_label (form.cellPhone) }}</td>
+    <td> {{ form_widget(form.cellPhone) }}</td>
+    <td>
+        Highly recommended.<br />
+        Some text messages may be sent.<br />
+        {{ form_errors(form.cellPhone) }}
+    </td>
+</tr>
+<tr><td colspan="3"></td></tr>
+<tr>
+    <td> {{ form_label (form.accountRelation) }}</td>
+    <td> {{ form_widget(form.accountRelation) }}</td>
+    <td>
+        Contact administrator to change.<br />
+        {{ form_errors(form.accountRelation) }}
+    </td>
+</tr>
+<tr>
+    <td> {{ form_label (form.aysoid) }}</td>
+    <td> {{ form_widget(form.aysoid) }}&nbsp;{{ form_widget(form.refBadge) }}</td>
+    <td>
+        Contact administrator to change.<br />
+        {{ form_errors(form.aysoid) }}
+    </td>
+</tr>
+<tr>
+    <td> {{ form_label (form.region) }}</td>
+    <td> {{ form_widget(form.region) }}</td>
+    <td>
+        Contact administrator to change.<br />
+        {{ form_errors(form.region) }}
+    </td>
+</tr>
+<tr>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td align="center"><input type="submit" name="accountPersonEditSubmit" value="Update Contact Information" />
+</tr>
+<tr><td colspan="3">{{ form_errors(form) }}</td></tr>
+</table>
+{{ form_rest(form) }}
+</form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,41 @@
+# Zayso\ArbiterBundle\Resources\config\routine.yml
+
+zayso_arbiter_index:
+    pattern:  /
+    defaults: { _controller: ZaysoArbiterBundle:Welcome:welcome }
+
+zayso_arbiter_welcome:
+    pattern:  /welcome
+    defaults: { _controller: ZaysoArbiterBundle:Welcome:welcome }
+    
+zayso_arbiter_ref_avail:
+    pattern:  /referee/availability
+    defaults: { _controller: ZaysoArbiterBundle:RefAvail:index }
+    
+zayso_arbiter_tourn_opencup:
+    pattern:  /tourn/opencup
+    defaults: { _controller: ZaysoArbiterBundle:Tourn\OpenCup:signup }
+    
+zayso_arbiter_tourn_classic:
+    pattern:  /tourn/classic
+    defaults: { _controller: ZaysoArbiterBundle:Tourn\Classic:signup }
+    
+zayso_arbiter_tourn_kicks:
+    pattern:  /tourn/kicks
+    defaults: { _controller: ZaysoArbiterBundle:Tourn\Kicks:signup }
+    
+zayso_arbiter_tourn_statecup:
+    pattern:  /tourn/statecup
+    defaults: { _controller: ZaysoArbiterBundle:Tourn\StateCup:signup }
+    
+zayso_arbiter_tourn_statecupff:
+    pattern:  /tourn/statecupff
+    defaults: { _controller: ZaysoArbiterBundle:Tourn\StateCupFF:signup }
+    
+zayso_arbiter_test1:
+    pattern:  /test1
+    defaults: { _controller: ZaysoArbiterBundle:Test1\Main:index }
+    
+zayso_arbiter_test2:
+    pattern:  /test2
+    defaults: { _controller: ZaysoArbiterBundle:Test1\Main:test2 }

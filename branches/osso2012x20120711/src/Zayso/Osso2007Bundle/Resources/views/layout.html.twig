@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" href="{{ asset('css/layout.css') }}" type="text/css" media="all" />
+  <link rel="stylesheet" href="{{ asset('css/osso.css') }}" type="text/css" media="all" />
+  <link rel="stylesheet" href="{{ asset('css/menu.css') }}" type="text/css" media="all" />
+  <title>{% block title %}Osso2007 Bundle{% endblock %}</title>
+</head>
+
+<body id="layout-body">
+<div  id="layout-page">
+<div  id="layout-banner">
+
+<div id="layout-banner-left">
+  <span>Zayso</span>
+  <span>User: {{user.getName}} {{user.getAYSOCertsDescription}}</span>
+</div> <!-- Left Banner -->
+
+<div id="layout-banner-right">
+{% if user.isSignedIn %}
+    <span><a href="{{ path('_osso2007_account_logout') }}">Logout</a></span>
+{% else %}
+    <span><a href="{{ path('_osso2007_account_login') }}">Login</a></span>
+{% endif %}
+</div> <!-- Right Banner -->
+
+</div> <!-- Banner -->
+<div id="layout-menu-top" style="clear: both;">
+<ul>
+
+{% if user.isSignedIn %}
+    <li><a href="{{ path('_osso2007_account_index') }}">Home</a></li>
+{% else %}
+    <li><a href="{{ path('_osso2007_home_index') }}">Home</a></li>
+{% endif %}
+
+{% if user.isSignedIn() %}
+    <li><a href="{{ path('_osso2007_sched_div_list') }}">Team Schedules</a></li>
+{% endif %}
+
+{% if user.isSignedIn() %}
+    <li><a href="{{ path('_osso2007_sched_ref_list') }}">Referee Schedules</a></li>
+{% endif %}
+
+{% if user.isReferee("R0894") %}
+    <li><a href="{{ path('_osso2007_ref_points_monrovia') }}">Ref Points Monrovia</a></li>
+{% endif %}
+{% if user.isReferee("R0498") %}
+    <li><a href="{{ path('_osso2007_ref_points_madison') }}">Ref Points Madison</a></li>
+{% endif %}
+{% if user.isReferee("R0160") %}
+    <li><a href="{{ path('_osso2007_ref_points_huntsville') }}">Ref Points Huntsville</a></li>
+{% endif %}
+
+{% if user.isAdmin() %}
+    <li><a href="{{ path('_osso2007_admin_index') }}">Admin</a></li>
+{% endif %}
+
+</ul>
+</div> <!-- Menu Top -->
+
+<div id="layout-content">
+  {% block content %}
+  {% endblock %}
+</div>
+
+</div><!-- Body -->
+</body>
+</html>
+

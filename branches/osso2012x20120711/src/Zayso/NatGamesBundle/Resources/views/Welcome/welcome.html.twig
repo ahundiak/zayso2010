@@ -1,0 +1,47 @@
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
+
+{% block title %}{{ myTitlePrefix }}  Welcome{% endblock %}
+
+{% block content %}
+<div>
+    <h3>Welcome</h3>
+    <p>
+        Welcome to the AYSO National Games 2012 Referee Scheduling Site.
+        As in the past few tournaments, referees will be allowed to assign themselves to games.
+        Referees will need to create a Zayso account.
+        Coaches and other volunteers are encouraged to create accounts as well.
+    </p>
+    <h3>Maps</h3>
+    <p>        
+        <a href="http://goo.gl/maps/p2Va" target="_blank">Map to field sites and assorted locations.</a>
+    </p>
+    <h3>Zayso Sign In</h3>
+    <p>
+        If you already have a Zayso account then sign in by clicking one of the icons below.
+    </p>
+    {% include 'ZaysoCoreBundle:Account/Signin:janrain.html.twig' %}
+    {% include 'ZaysoCoreBundle:Account/Signin:form.html.twig' %}
+        <p>        
+            <a href="http://goo.gl/maps/p2Va" target="_blank">Map to field sites and assorted locations.</a>
+        </p>
+    {% include  myBundleName ~ ':Welcome:hille.html.twig' %}
+    <h3>Create New Zayso Account</h3>
+    <p>
+        Start by clicking on one of the social network icons above.  
+        Use the myOpenID icon if you do not already have an account on one of the major social networks.
+        After signing on to the social network, you will then be asked for your AYSO ID and some contact information.
+        Using a social network means that you won't have to remember yet another user name and password.
+        Zayso never sees your your social network password.
+    </p>
+    <p>
+        If you really really want to create a new account without using a social network
+        (perhaps you are behind a very restrictive firewall) then click
+        <a href="{{ path('zayso_core_account_create') }}"><span style="font-weight:bold;">Create New Zayso Account</span></a>.
+    </p>
+    <h2>Help!</h2>
+    <p>
+        Feel free to contact Art Hundiak at 256.457.5943 if the above instructions are confusing or don't seem to work.
+    </p>
+    {% include myBundleName ~ ':Welcome:rainedout.html.twig' %}
+</div>
+{% endblock %}

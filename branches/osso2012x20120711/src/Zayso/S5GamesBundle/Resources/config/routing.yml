@@ -1,0 +1,227 @@
+# The public welcome stuff
+zayso_core_index:
+    pattern:  /
+    defaults: { _controller: ZaysoS5GamesBundle:Welcome:welcome }
+    
+zayso_core_index_php:
+    pattern:  /index.php
+    defaults: { _controller: ZaysoS5GamesBundle:Welcome:welcome }
+    
+zayso_core_welcome:
+    pattern:  /welcome
+    defaults: { _controller: ZaysoS5GamesBundle:Welcome:welcome }
+    
+zayso_core_welcomex:
+    pattern:  /welcomex
+    defaults: { _controller: ZaysoS5GamesBundle:Welcome:welcome }
+
+zayso_core_textalerts:
+    pattern:  /welcome/textalerts
+    defaults: { _controller: ZaysoS5GamesBundle:Welcome:textalerts }
+    
+zayso_core_contact:
+    pattern:  /welcome/contact
+    defaults: { _controller: ZaysoS5GamesBundle:Welcome:contact }
+
+# Home stuff requires user
+zayso_core_home:
+    pattern:  /home
+    defaults: { _controller: ZaysoS5GamesBundle:Home:index }
+
+# ===============================================================
+# Schedule Stuff
+# Mixture of public and user
+#   
+zayso_core_schedule_referee_list:
+    pattern:  /schedule/public/referee/list.{_format}
+    defaults: { _controller: ZaysoS5GamesBundle:Schedule\RefSched:list, _format: html }
+    requirements:
+        _format:  html|csv|xls|pdf
+    
+zayso_core_schedule_referee_list_old:
+    pattern:  /schedule/referee/list
+    defaults: { _controller: ZaysoS5GamesBundle:Schedule\RefSched:list }
+    
+zayso_core_schedule_results:
+    pattern:  /schedule/public/results/{div}/{pool}
+    defaults: { _controller: ZaysoS5GamesBundle:Schedule\Results:results, div: 0, pool: 0}
+    
+zayso_core_admin_schedule_results_excel:
+    pattern:  /admin/schedule/results/excel/{div}/{pool}
+    defaults: { _controller: ZaysoS5GamesBundle:Admin\Schedule\Results:resultsExcel, div: 0, pool: 0}
+    
+zayso_core_admin_schedule_results:
+    pattern:  /admin/schedule/results/{div}/{pool}
+    defaults: { _controller: ZaysoS5GamesBundle:Admin\Schedule\Results:results, div: 0, pool: 0}
+    
+zayso_core_admin_schedule_game_report:
+    pattern:  /admin/schedule/game/report/{id}
+    defaults: { _controller: ZaysoS5GamesBundle:Admin\Schedule\GameReport:report}
+    requirements:
+        id: \d+
+    
+zayso_core_schedule_results2011:
+    pattern:  /schedule/results2011/{div}/{pool}
+    defaults: { _controller: ZaysoS5GamesBundle:Schedule\Results:results2011, div: 0, pool: 0 }
+     
+zayso_core_schedule_referee_list2011:
+    pattern:  /schedule/referee/list2011/{search}
+    defaults: { _controller: ZaysoS5GamesBundle:Schedule\RefSched:list2011, search: 0 }
+
+zayso_core_schedule_referee_assign:
+    pattern:  /schedule/referee/assign/{id}/{pos}
+    defaults: { _controller: ZaysoCoreBundle:Schedule\RefAssign:assign, id: 0, pos: ''}
+    requirements:
+        id: \d+
+        
+zayso_core_schedule_game_edit:
+    pattern:  /schedule/game/edit/{id}
+    defaults: { _controller: ZaysoS5GamesBundle:Schedule\Game:edit}
+    requirements:
+        id: \d+
+        
+zayso_core_schedule_game_report:
+    pattern:  /schedule/game/report/{id}
+    defaults: { _controller: ZaysoS5GamesBundle:Game\GameReport:report}
+    requirements:
+        id: \d+
+        
+zayso_core_schedule:
+    pattern:  /schedule/public
+    defaults: { _controller: ZaysoS5GamesBundle:Schedule:index }
+    requirements:
+        _method:  GET
+        
+zayso_core_schedule_iapp_list:
+    pattern:  /schedule/public/iapp/list.{_format}
+    defaults: { _controller: ZaysoS5GamesBundle:Schedule\Iapp:list, _format: html }
+    requirements:
+        _method:  GET
+        _format:  html|csv|xls
+
+# ===============================================================
+# Account stuff
+zayso_core_account_create:
+    pattern:  /account/public/create
+    defaults: { _controller: ZaysoCoreBundle:Account\Create:create }
+
+zayso_core_account_edit:
+    pattern:  /account/edit/{id}
+    defaults: { _controller: ZaysoCoreBundle:Account\Edit:edit, id: 0}
+    requirements:
+        id: \d+
+
+zayso_core_account_signout:
+    pattern:  /account/public/signout
+    defaults: { _controller: ZaysoCoreBundle:Account\Signin:signout }
+    
+zayso_core_account_signin:
+    pattern:  /account/public/signin
+    defaults: { _controller: ZaysoCoreBundle:Account\Signin:signin }
+    
+zayso_core_account_signin_rpx:
+    pattern:  /account/public/signin/rpx
+    defaults: { _controller: ZaysoCoreBundle:Account\Signin:signinRpx }
+    
+zayso_core_account_password_reset:
+    pattern:  /account/public/password/reset/{reset}
+    defaults: { _controller: ZaysoCoreBundle:Account\Signin:passwordReset, reset: 0}
+
+zayso_core_account_openid_add:
+    pattern:  /account/openid/add
+    defaults: { _controller: ZaysoCoreBundle:Account\Openid:add }
+
+zayso_core_account_openid_add_rpx:
+    pattern:  /account/openid/add/rpx
+    defaults: { _controller: ZaysoCoreBundle:Account\Openid:addRpx }
+
+zayso_core_account_person_add:
+    pattern:  /account/person/add
+    defaults: { _controller: ZaysoCoreBundle:Account\Person:add }
+    
+zayso_core_account_person_edit:
+    pattern:  /account/person/edit/{id}
+    defaults: { _controller: ZaysoCoreBundle:Account\Person:edit, id: 0 }
+    requirements:
+        id: \d+
+
+# ================================================
+# Person stuff
+zayso_core_person_team_list:
+    pattern:  /home/person/team/list/{personId}
+    defaults: { _controller: ZaysoS5GamesBundle:Person\Team:list, personId: 0 }
+    requirements:
+        personId: \d+
+        
+zayso_core_project_plans:
+    pattern:  /home/person/project/plans/{id}
+    defaults: { _controller: ZaysoS5GamesBundle:Project:plans, id: 0 }
+    requirements:
+        id: \d+
+
+# =================================================
+# Admin stuff
+zayso_s5games_admin:
+    pattern:  /admin
+    defaults: { _controller: ZaysoS5GamesBundle:Admin\Admin:index }
+    requirements:
+        _method:  GET
+        
+zayso_core_admin:
+    pattern:  /admin
+    defaults: { _controller: ZaysoS5GamesBundle:Admin\Admin:index }
+    requirements:
+        _method:  GET
+
+zayso_s5games_admin_account_edit:
+    pattern:  /admin/account/edit/{id}
+    defaults: { _controller: ZaysoS5GamesBundle:Admin\Account\Edit:edit, id: 0}
+    requirements:
+        id: \d+
+        
+zayso_s5games_admin_account_list:
+    pattern:  /admin/account/list.{_format}
+    defaults: { _controller: ZaysoS5GamesBundle:Admin\Account\List:list, _format: html }
+    requirements:
+        _method:  GET
+        _format:  html|csv
+
+zayso_s5games_admin_import:
+    pattern:  /admin/import
+    defaults: { _controller: ZaysoCoreBundle:Admin\Import:index }
+    
+zayso_core_admin_import:
+    pattern:  /admin/import
+    defaults: { _controller: ZaysoCoreBundle:Admin\Import:index }
+    
+zayso_s5games_admin_person_list:
+    pattern:  /admin/person/list.{_format}
+    defaults: { _controller: ZaysoS5GamesBundle:Admin\Person\List:list, _format: html }
+    requirements:
+        _method:  GET
+        _format:  html|csv|xls
+
+zayso_s5games_admin_game2011_list:
+    pattern:  /admin/game2011/list.{_format}
+    defaults: { _controller: ZaysoS5GamesBundle:Admin\Game\Game2011:list, _format: html }
+    requirements:
+        _method:  GET
+        _format:  html|csv|xls
+        
+zayso_core_admin_schedule_referee_list:
+    pattern:  /admin/schedule/referee/list
+    defaults: { _controller: ZaysoS5GamesBundle:Admin\Schedule\RefSched:list }
+
+# =================================================================
+# These seem to keep popping up
+zayso_core_legacy_contact:
+    pattern:  /contact
+    defaults: { _controller: ZaysoS5GamesBundle:Welcome:welcome }
+    
+zayso_core_legacy_schedule_stats:
+    pattern:  /schedule-stats
+    defaults: { _controller: ZaysoS5GamesBundle:Welcome:welcome }
+    
+zayso_core_legacy_schedule:
+    pattern:  /schedule
+    defaults: { _controller: ZaysoS5GamesBundle:Schedule\RefSched:list }

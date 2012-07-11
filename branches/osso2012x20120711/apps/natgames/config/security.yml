@@ -1,0 +1,47 @@
+parameters:
+    zayso_core.user.class: Zayso\NatGamesBundle\Component\User\User
+
+security:
+    encoders:
+        Zayso\NatGamesBundle\Component\User\User:
+            id: zayso_core.user.encoder
+
+    role_hierarchy:
+        ROLE_BOARD:        ROLE_USER
+        ROLE_ADMIN:       [ROLE_USER, ROLE_BOARD]
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_BOARD, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    providers:
+        my_provider:
+            id: zayso_core.user.provider
+
+    firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        # The anonymous means anyone can get to all pages by default
+        secured_area:
+            pattern:    ^/
+            access_denied_url: /welcome
+            anonymous: ~
+            form_login:
+                login_path:  /account/public/signin
+                check_path:  /login_check
+            logout:
+               path:   /logout
+               target: /welcome
+#              invalidate_session: false
+
+    # If signed in as user, then get access denied exception
+    access_control:
+        - { path: ^/admin/import,    roles: ROLE_SUPER_ADMIN }
+        - { path: ^/admin,           roles: ROLE_ADMIN }     
+        - { path: ^/home,            roles: ROLE_USER }
+        - { path: ^/account/create,  roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/account/public,  roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/account/reset,   roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/account/resetx,  roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/account,         roles: ROLE_USER }
+        - { path: ^/schedule/public, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/schedule,        roles: ROLE_USER }

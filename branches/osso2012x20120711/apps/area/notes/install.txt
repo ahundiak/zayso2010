@@ -1,0 +1,24 @@
+25 Dec 2011
+
+Moved area to zayso.org
+
+# For the compressed css
+ ./console assetic:dump $HOME/public_html/area5c
+[file+] /home/ahundiak/public_html/area5c/css/6e0c6c3.css
+
+# For the graphics
+./console assets:install $HOME/public_html/area5c
+
+Installing assets for Zayso\AreaBundle into /home/ahundiak/public_html/area5c/bundles/zaysoarea
+
+# ========================
+08 Jan 2012
+
+Downloaded jquery 1.7.1 to CoreBundle\Resources\public\js
+php console assets:install ../../web/area5c
+copied them over to web/area5c/bundles/zaysocore/js
+
+Seemed to work okay.  Still not sure about using googles version.  And about including it on the bottom.
+
+./console assetic:dump ../../web/area
+./console assets:install ../../web/area

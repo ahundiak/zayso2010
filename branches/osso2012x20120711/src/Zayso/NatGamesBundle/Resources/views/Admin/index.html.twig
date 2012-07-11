@@ -1,0 +1,36 @@
+{% extends 'ZaysoNatGamesBundle:Layout:layout.html.twig' %}
+
+{% block title %}NatGames - Admin{% endblock %}
+
+{% block content %}
+<div>
+  <h3>Admin Links</h3>
+  <p><a href="{{ path('zayso_natgames_admin_account_list') }}">List of Accounts and Referees</a></p>
+  <p><a href="{{ path('zayso_natgames_admin_account_list', { '_format': 'csv' })  }}">List of Accounts and Referees(Excel)</a></p>
+  <br />
+  
+  <p><a href="{{ path('zayso_natgames_admin_person_list',  { '_format': 'html'})  }}">List of People</a></p>
+  <p><a href="{{ path('zayso_natgames_admin_person_list',  { '_format': 'xls' })  }}">List of People(Excel)</a></p>
+  <br />
+  
+  <p><a href="{{ path('zayso_core_admin_team_list',  { '_format': 'html'})  }}">List of Teams</a></p>
+  <p><a href="{{ path('zayso_core_admin_team_list',  { '_format': 'xls' })  }}">List of Teams(Excel)</a></p>
+  <br />
+  
+  <p><a href="{{ path('zayso_core_admin_schedule_game_list',  { '_format': 'xls' })  }}">Game Schedule(Excel)</a></p>
+  <br />
+  <p><a href="{{ path('zayso_core_admin_schedule_referee_list',  { '_format': 'html' })  }}">Referee Schedule</a></p>
+  <br />
+  <p><a href="{{ path('zayso_core_admin_schedule_print_soccerfest') }}">Print Soccerfest Schedule</a></p>
+  <p><a href="{{ path('zayso_core_admin_schedule_print_thursday')   }}">Print Thursday Schedule</a></p>
+  <p><a href="{{ path('zayso_core_admin_schedule_print_friday')     }}">Print Friday Schedule</a></p>
+  <p><a href="{{ path('zayso_core_admin_schedule_print_saturday')   }}">Print Saturday Schedule</a></p>
+  <p><a href="{{ path('zayso_core_admin_schedule_print_sunday')     }}">Print Sunday Schedule</a></p>
+  
+{% if is_granted('ROLE_SUPER_ADMIN') %}  
+  <br />
+  <p><a href="{{ path('zayso_natgames_admin_import') }}">Import AYSO Information</a></p>
+{% endif %}
+  
+</div>
+{% endblock %}

@@ -1,0 +1,150 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        
+        <service id = "zayso_core.account.entity_manager"  alias = "doctrine.orm.accounts_entity_manager" ></service>
+        <service id = "zayso_core.game.entity_manager"     alias = "doctrine.orm.games_entity_manager"    ></service>
+                
+        <service
+            id     = "zayso_core.person.manager"
+            class  = "Zayso\CoreBundle\Component\Manager\PersonManager"
+            public = "true">
+            <argument type="service" id="zayso_core.account.entity_manager" />
+            <argument type="string">accounts</argument>
+        </service>
+        
+        <service
+            id     = "zayso_core.game.manager"
+            class  = "Zayso\CoreBundle\Component\Manager\GameManager"
+            public = "true">
+            <argument type="service" id="zayso_core.game.entity_manager" />
+            <argument type="string">games</argument>
+       </service>
+        
+        <service
+            id     = "zayso_core.game.schedule.manager"
+            class  = "Zayso\CoreBundle\Component\Manager\ScheduleManager"
+            public = "true">
+            <argument type="service" id="zayso_core.game.entity_manager" />
+            <argument type="string">games</argument>
+        </service>
+        
+        <service
+            id     = "zayso_core.game.schedule.results.manager"
+            class  = "Zayso\CoreBundle\Component\Manager\ResultsManager"
+            public = "true">
+            <argument type="service" id="zayso_core.game.entity_manager" />
+            <argument type="string">games</argument>
+        </service>
+       
+        <service
+            id     = "zayso_core.account.manager"
+            class  = "Zayso\CoreBundle\Component\Manager\AccountManager"
+            public = "true">
+            <argument type="service" id="zayso_core.account.entity_manager" />
+            <argument type="string">%zayso_core.user.password%</argument>
+        </service>
+        
+        <service
+            id     = "zayso_core.account.home.manager"
+            class  = "Zayso\CoreBundle\Component\Manager\AccountHomeManager"
+            public = "true">
+            <argument type="service" id="zayso_core.account.entity_manager" />
+        </service>
+                  
+        <service
+            id     = "zayso_core.game.tourn.import"
+            class  = "Zayso\CoreBundle\Component\Import\Game\TournImport"
+            public = "true">
+            <argument type="service" id="zayso_core.game.manager" />
+        </service>
+        
+        <service
+            id     = "zayso_core.game.teams.import"
+            class  = "Zayso\CoreBundle\Component\Import\Game\TeamsImport"
+            public = "true">
+            <argument type="service" id="zayso_core.game.manager" />
+        </service>
+        
+        <service
+            id     = "zayso_core.eayso.volunteer.import"
+            class  = "Zayso\CoreBundle\Component\Import\Eayso\VolunteerImport"
+            public = "true">
+            <argument type="service" id="zayso_core.account.manager" />
+        </service>
+        
+        <service
+            id     = "zayso_core.eayso.certification.import"
+            class  = "Zayso\CoreBundle\Component\Import\Eayso\CertificationImport"
+            public = "true">
+            <argument type="service" id="zayso_core.account.manager" />
+        </service>
+        
+        <service 
+            id="zayso_core.browser.manager" 
+            class="Zayso\CoreBundle\Component\Manager\BrowserManager" 
+            public="true">
+           <argument type="service" id="zayso_core.account.entity_manager" />
+        </service>
+        
+        <service id="zayso_core.openid.rpx" class="Zayso\CoreBundle\Component\OpenidRpx" public="true" scope="request">
+           <argument type="service" id="request" />
+           <argument type="string">%zayso_core.openid.rpxApiKey%</argument>
+        </service>
+             
+        <service id="zayso_core.session.storage" class="Zayso\CoreBundle\Component\Session\SessionStorage" public="true">
+            <argument type="service" id="zayso_core.session.storage.pdo" />
+            <argument type="string">%session.storage.options%</argument>
+            <argument type="string">%session.storage.db_options%</argument>
+        </service>
+  
+        <service id="zayso_core.session.storage.pdo" class="PDO" public="false">
+            <argument type="string">%session.dsn%</argument>
+            <argument type="string">%database_user%</argument>
+            <argument type="string">%database_password%</argument>
+        </service>
+
+        <service id="zayso_core.user.provider" class="Zayso\CoreBundle\Component\User\UserProvider" public="true">
+            <argument type="service" id="doctrine.orm.accounts_entity_manager" />
+            <argument type="string">%zayso_core.user.class%</argument>
+            <argument type="string">%zayso_core.project.master%</argument>
+        </service>
+
+        <service id="zayso_core.user.encoder" class="Zayso\CoreBundle\Component\User\Encoder" public="true">
+        </service>
+
+        <service id="zayso_core.format.html" class="Zayso\CoreBundle\Component\Format\HTML" public="true">
+            <argument type="service" id="router" />
+        </service>
+        
+        <service 
+            id="zayso_core.format.excel" 
+            class="Zayso\CoreBundle\Component\Format\Excel" 
+            public="true">
+        </service>
+        
+        <service 
+            id="zayso_core.format.tcpdf" 
+            class="Zayso\CoreBundle\Component\Format\TCPDFService" 
+            public="true">
+        </service>
+         
+        <service 
+            id="zayso_core.twig.core.extension" 
+            class="Zayso\CoreBundle\Component\Twig\CoreExtension">
+            <tag name="twig.extension" />
+        </service>
+        
+        <service
+            id     = "zayso_core.logger"
+            class  = "Zayso\CoreBundle\Monolog\Logger"
+            public = "true">
+            <argument type="string">zayso_core</argument>
+        </service>
+ 
+    </services>
+</container>

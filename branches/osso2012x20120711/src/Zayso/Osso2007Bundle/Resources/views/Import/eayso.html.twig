@@ -1,0 +1,26 @@
+{% extends 'Osso2007Bundle::layout.html.twig' %}
+
+{% block title %}Osso2007 - Import - Eayso{% endblock %}
+
+{% block content %}
+<div>
+<form method="post" enctype="multipart/form-data" action="{{ path('_osso2007_import_eayso') }}">
+<table border="1">
+<tr><th colspan="2">Import From Eayso</th></tr>
+<tr>
+  <td>Import File</td>
+  <td>
+    <input type="file" name="import_file" size="80"/>
+  </td>
+</tr>
+<tr>
+  <td>&nbsp;</td>
+  <td align="right"><input type="submit" name="import_submit" value="Import" />
+</tr>
+<tr>
+  <td colspan="2">{% if message %}{{message}}{% else %}&nbsp;{% endif %}</td>
+</tr>
+</table>
+</form>
+</div>
+{% endblock %}

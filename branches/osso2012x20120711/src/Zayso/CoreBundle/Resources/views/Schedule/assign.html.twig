@@ -1,0 +1,70 @@
+{% form_theme form myBundleName ~ ':Layout:fields.html.twig' %}
+
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
+
+{% block title %}{{ myTitlePrefix }} Assign {% endblock %}
+
+{% block content %}
+<form method="post" action="{{ path('zayso_core_schedule_referee_assign', { 'id': game.id }) }}" {{ form_enctype(form) }}>
+<table border="2" class="form_table" width="600">
+<input type="hidden" name="gameId" value="{{ game.id }}" />
+    <tr><th colspan="2">Referee Assigment</th></tr>
+    <tr>
+        <td style="width: 150px;">Game Number</td><td>{{ game.num }}</td>
+    </tr><tr>
+        <td>Date</td><td>{{ game_date(game.date) }}</td>
+    </tr><tr>
+        <td>Time</td><td>{{ game_time(game.time) }}</td>
+    </tr><tr>
+        <td>Field</td><td>{{ game.fieldDesc }}</td>
+    </tr><tr>
+        <td>Home Team</td><td>{{ game.homeTeam.team.desc }}</td>
+    </tr><tr>
+        <td>Away Team</td><td>{{ game.awayTeam.team.desc }}</td>
+    </tr>
+    <tr><td colspan="2"></td></tr>
+    <tr><td colspan="2"><table border="1" style="margin: 0px;">
+    <tr>
+         <td style="width: 100px;">Position</td>
+         <td style="width: 200px;">Status</td>
+         <td style="width: 300px;">Official</td>
+    </tr>
+    {% for eventPerson in form.eventPersonsSorted %}
+        {{ form_widget(eventPerson.type) }}
+        <tr>
+            <td>{{ form_widget(eventPerson.typeDesc) }}</td>
+            <td>{{ form_widget(eventPerson.statex)   }}</td>
+            <td>{{ form_widget(eventPerson.personId) }}</td>
+        </tr>
+    {% endfor %}
+    </table></td></tr>
+    <tr>
+        <td><a href="{{ path('zayso_core_schedule_referee_list') }}#ref-sched-{{game.num}}">Referee Schedule</a></td>
+        <td align="right"><input type="submit" name="refAssignSubmit" value="Sign Up" /></td>
+    </tr>
+</table>
+{{ form_rest(form) }}        
+</form>
+<h3>Important</h3>
+<ul>
+    <li>Do not sign up for games involving teams your children are playing on.</li>
+    <li>Avoid signing up for games involving teams from your own region.</li>
+    <li>Avoid any appearence of conflict of interest.</li>
+    <li>Limit yourself to no more than 4 games per day.</li>
+    <li>Back to back games should only be done on the same field.</li>
+</ul>
+<h3>Instructions</h3>
+<p>
+    You must be signed on in order to sign up for a game.  Your user information should be shown along the very top of the page.
+</p>
+<p>
+    Sign up for a game by picking your name then pressing the Sign Up button.
+    The status will change to Assignment Requested.  At some point I will review the assignment and approve it.
+    If you have added additional people to your account (from the home page) then you can sign them up as well.
+    When you return to the schedule page, you will see your name.
+<p>
+    Remove yourself from an assignment by selecting Request Removal from the status column then pressing Sign Up.
+    If your assignment has not already been approved then you will be removed.
+    If your assignment has already been approved then I'll get a notification and remove it.
+</p>
+{% endblock %}

@@ -1,0 +1,33 @@
+## Session Storage area stuff
+
+# Session class and database schema info
+parameters:
+    session.class: Zayso\UserBundle\Component\HttpFoundation\MySession
+
+## Not using these but keep as an example
+    pdo.db_options:
+        db_table:    session
+        db_id_col:   session_id
+        db_data_col: session_value
+        db_time_col: session_time
+
+## My ver own services!!!
+services:
+  
+    session.storage.my:
+        class:     Zayso\UserBundle\Component\HttpFoundation\MySessionStorage
+        arguments: [@session.pdo, %session.storage.options%, %pdo.db_options%]
+  
+    session.pdo:
+        class: PDO
+        arguments:
+            dsn:      %session_dsn%
+            user:     %database_user%
+            password: %database_password%
+            
+framework:
+    session:
+        default_locale: %locale%
+        auto_start:     true
+        name:           user2012x
+        storage_id:     session.storage.my

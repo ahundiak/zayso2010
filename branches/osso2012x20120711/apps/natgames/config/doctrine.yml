@@ -1,0 +1,63 @@
+# Doctrine Configuration
+#doctrine:
+#    dbal:
+#        driver:   %database_driver%
+#        host:     %database_host%
+#        port:     %database_port%
+#        dbname:   %database_name%
+#        user:     %database_user%
+#        password: %database_password%
+#        charset:  UTF8
+
+#    orm:
+#        auto_generate_proxy_classes: %kernel.debug%
+#        auto_mapping: true
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        default_connection: default
+        connections:
+            default:
+                driver:   %database_driver%
+                host:     %database_host%
+                port:     %database_port%
+                dbname:   %database_name%
+                user:     %database_user%
+                password: %database_password%
+                charset:  UTF8
+                
+            osso2012:
+                driver:   %database_driver%
+                host:     %database_host%
+                port:     %database_port%
+                dbname:   %database_osso2012_name%
+                user:     %database_user%
+                password: %database_password%
+                charset:  UTF8
+
+    orm:
+        default_entity_manager:   default
+        auto_generate_proxy_classes: %kernel.debug%
+#       auto_mapping: true
+        entity_managers:
+          
+            default:
+                connection: osso2012
+                mappings:
+                    ZaysoCoreBundle: ~
+                    
+            osso2012:
+                connection: osso2012
+                mappings:
+                    ZaysoCoreBundle: ~
+
+            games:
+                connection: osso2012
+                mappings:
+                    ZaysoCoreBundle: ~
+
+            accounts:
+                connection: osso2012
+                mappings:
+                    ZaysoCoreBundle: ~

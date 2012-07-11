@@ -1,0 +1,46 @@
+{% form_theme form 'ZaysoAreaBundle:Form:fields.html.twig' %}
+
+{% extends 'ZaysoAreaBundle:Layout:layout.html.twig' %}
+
+{% block title %}Area - Team - Edit{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets output="bundles/zaysocore/css/forms2.css"
+          '@ZaysoCoreBundle/Resources/public/css/forms2.css'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}" media="all" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block content %}
+<div>
+<h3>Area 5CF Admin Edit Team {{ team.id }}</h3>    
+<form class="s1" action="{{ path('zayso_area_admin_team_edit', { 'id': team.id }) }}" method="post" {{ form_enctype(form) }}>
+    <fieldset>
+        {{ form_row(form.source)  }}
+        {{ form_row(form.type)    }}
+        {{ form_row(form.status)  }}
+        {{ form_row(form.level)   }}
+        {{ form_row(form.orgDesc) }}
+        {{ form_row(form.org)     }}
+        {{ form_row(form.age)     }}
+        {{ form_row(form.gender)  }}
+        {{ form_row(form.teamKey) }}
+        {{ form_row(form.teamKeyExpanded) }}
+        {{ form_row(form.eaysoTeamId)     }}
+        {{ form_row(form.eaysoTeamDesig)  }}
+        {{ form_row(form.teamName)   }}
+        {{ form_row(form.teamColors) }}         
+   </fieldset>    
+    <fieldset>
+        <a href="{{ path('zayso_area_admin_team_list') }}#team-list-{{ team.id }}">Teams</a></td>
+        <input type="submit" name="delete_submit"  value="Delete" />
+        <input type="submit" name="clone_submit"   value="Clone"  />
+        <input type="submit" name="update_submit"  value="Update" />
+    </fieldset>
+{{ form_rest(form) }}
+</form>
+</div>
+
+{% endblock %}

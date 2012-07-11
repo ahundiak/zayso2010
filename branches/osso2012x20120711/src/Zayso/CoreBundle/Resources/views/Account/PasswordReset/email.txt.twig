@@ -1,0 +1,12 @@
+{% autoescape false %}
+
+Reset Password Request
+
+{{ person.firstName }} {{ person.lastName }} {{ person.aysoid }} {{ person.orgKey }}
+
+Click here to sign in to Zayso: {{ url('zayso_core_account_password_reset', { 'reset': reset }) }}
+
+Art
+256.457.5943
+
+{% endautoescape %}

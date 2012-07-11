@@ -1,0 +1,55 @@
+{% extends 'ZaysoNatGamesBundle:Layout:layout.html.twig' %}
+
+{% block title %}NatGames - Project Plans{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {% stylesheets output="bundles/zaysocore/css/forms3.css"
+          '@ZaysoCoreBundle/Resources/public/css/forms3.css'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}" media="all" />
+    {% endstylesheets %}
+
+{% endblock %}
+
+{% block content %}
+<div>
+<form class="s3" method="post" action="{{ path('zayso_core_project_plans', { 'id': personId }) }} {{ form_enctype(form) }}">
+<fieldset><legend>General Plans For {{ projectPerson.person.personName }}</legend>
+    {{ form_row(form.attend)          }}
+    {{ form_row(form.will_referee)    }}
+    {{ form_row(form.do_assessments)  }}
+    {{ form_row(form.want_assessment) }}
+    {{ form_row(form.coaching)        }}
+    {{ form_row(form.other_jobs)      }}
+    {{ form_row(form.have_player)     }}
+    {{ form_row(form.t_shirt_size)    }}
+    {{ form_row(form.ground_transport)}}
+    {{ form_row(form.hotel)           }}
+</fieldset>
+<fieldset>
+    <div class="controls">
+        <input type="submit" name="classesSubmit" value="Update Plans, Press Home when done" />
+    </div>
+</fieldset>
+<fieldset><legend>Availability For {{ projectPerson.person.personName }}</legend>
+    {{ form_row(form.attend_open)     }}
+    {{ form_row(form.avail_wed)       }}
+    {{ form_row(form.avail_thu)       }}
+    {{ form_row(form.avail_fri)       }}
+    {{ form_row(form.avail_sat_morn)  }}
+    {{ form_row(form.avail_sat_after) }}
+    {{ form_row(form.avail_sun_morn)  }}
+    {{ form_row(form.avail_sun_after) }}
+</fieldset>
+<fieldset>
+    <div class="controls">
+        <input type="submit" name="classesSubmit" value="Update Plans, Press Home when done" />
+    </div>
+</fieldset>
+{{ form_rest(form) }}
+</form>
+</div>        
+
+{% endblock %}

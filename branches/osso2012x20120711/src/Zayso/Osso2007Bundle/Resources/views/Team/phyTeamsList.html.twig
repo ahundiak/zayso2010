@@ -1,0 +1,65 @@
+{% extends 'Osso2007Bundle::layout.html.twig' %}
+
+{% block title %}Osso2007 - PhyTeams - List{% endblock %}
+
+{% block content %}
+<div>
+<form method="post" action="{{ path('_osso2007_phy_team_list_post') }}">
+<table border="1">
+    <tr><th colspan="2">Which teams to show</th></tr>
+    <tr><td>Ages</td><td>
+        <table border="1" style="margin: 0;"><tr>
+        {% for key,desc in ageKeys %}
+            <td width="75" align="center">{{ format.genCheckBox('searchData[ages]',searchData.ages,key,desc) | raw }}</td>
+        {% endfor %}
+        </tr></table>
+    </td></tr>
+    <tr><td>Genders</td><td>
+        <table border="1" style="margin: 0;"><tr>
+        {% for key, desc in genderKeys %}
+            <td width="75" align="center">{{ format.genCheckBox('searchData[genders]',searchData.genders,key,desc) | raw }}</td>
+        {% endfor %}
+        </tr></table>
+    </td></tr>
+    <tr><td>Regions</td><td>
+        <table border="1" style="margin: 0;"><tr>
+        {% for key,desc in regionKeys %}
+            <td width="75" align="center">{{ format.genCheckBox('searchData[regions]',searchData.regions,key,desc) | raw }}</td>
+        {% endfor %}
+        </tr></table>
+    </td></tr>
+    <tr><td>&nbsp;</td>
+        <td align="right"><input type="submit" name="search_submit" value="Search" />
+    </tr>
+</table>
+</form>
+
+<form method="post" action="{{ path('_osso2007_phy_team_list_post') }}">
+<table border="1">
+<tr><th colspan="3">Saeson Teams Listing</th></tr>
+<tr>
+  <td>ID</td>
+  <td>Description</td>
+  <td>Name</td>
+  <td>Colors</td>
+  <td>Delete</td>
+</tr>
+{% for team in teams %}
+<tr>
+  <td>{{ team.id }}</td>
+  <td>{{ team.desc   }}</td>
+  <td>{{ team.name   }}</td>
+  <td>{{ team.colors }}</td>
+  <td><input type="checkbox" name="editData[deletes][{{team.id}}]" value="{{team.id}}" /></td>
+</tr>
+{% endfor %}
+<tr>
+  <td colspan="4">&nbsp;</td>
+    <td align="center">
+        <input type="submit" name="delete_submit"  value="Delete" />
+    </td>
+</tr>
+</table>
+</form>
+</div>
+{% endblock %}

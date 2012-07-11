@@ -1,0 +1,45 @@
+{% extends 'Area5CFBundle::layout.html.twig' %}
+
+{% block title %}Area5CF - Account - Signin{% endblock %}
+
+{% block content %}
+<div>
+<form method="post" action="{{ path('_area5cf_account_signin') }}">
+<input type="hidden" name="project_id" value="52" />
+<table border="1" style="width: 800px;">
+<tr><th colspan="3">AYSO Area 5C/F Sign In</th></tr>
+<tr>
+  <td style="width: 125px;">Account Name</td>
+  <td style="width: 200px;">
+    <input type="text" name="accountSigninData[userName]" size="40" value="{{ accountSigninData.userName }}"/>
+  </td>
+  <td style="width: 375px;">
+    Your account name.  <br />
+  </td>
+</tr>
+<tr>
+  <td style="width: 125px;">Password</td>
+  <td style="width: 200px;">
+    <input type="password" name="accountSigninData[userPass]" size="20" value=""/>
+  </td>
+  <td style="width: 375px;">Your Password</td>
+</tr>
+<tr>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td align="center"><input type="submit" name="accountSigninSubmit" value="Sign In" />
+</tr>
+{% if accountSigninData.errors %}
+<tr>
+  <td colspan="3" style="color: red;">
+  {% for error in accountSigninData.errors %}
+    {{ error }}</br>
+  {% endfor %}
+  </td>
+</tr>
+{% endif %}
+</table>
+</form>
+<br />
+</div>
+{% endblock %}

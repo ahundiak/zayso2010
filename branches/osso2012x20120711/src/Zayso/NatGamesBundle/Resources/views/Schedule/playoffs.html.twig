@@ -1,0 +1,49 @@
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
+
+{% block title %}{{ myTitlePrefix }} Playoffs {% endblock %}
+
+{% block content %}
+{% include myBundleName ~ ':Schedule:Search/referee.html.twig' %}
+<div class="schedule-list">
+    <table border="1" style="max-width: 850px;">
+        <tr><th colspan="7">Playoff Results 2012</th></tr>
+        <tr>
+            <td>Game</td>
+            <td>DOW Time</td>
+            <td>Field</td>
+            <td>Type</td>
+            <td>Home Team</td>
+            <td>GS</td>
+            <td>GS</td>
+            <td>Away Team</td>
+        </tr>
+        {% for game in games %}
+        {% set homeTeamRel = game.homeTeam %}
+        {% set awayTeamRel = game.awayTeam %}
+        {% set homeTeam    = homeTeamRel.team %}
+        {% set awayTeam    = awayTeamRel.team %}
+
+        <tr id="playoffs-{{game.num}}" class="game-status-{{game.status}}">
+            <td>
+                {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('zayso_core_admin_schedule_game_report', { 'id': game.id })}}">{{ game.getNum() }}</a>
+                {% else %}
+                {{ game.num }}
+                {% endif %}
+            </td>
+            <td>{{ game_dow(game.date) }} {{ game_time(game.time) }}</td>
+            <td>{{ game.fieldDesc      }}</td>
+            <td>{{ game.pool           }}</td>
+            <td>{{ homeTeam.desc }}</td>
+            <td>{{ homeTeamRel.report.goalsScored }}</td>
+            <td>{{ awayTeamRel.report.goalsScored }}</td>
+            <td>{{ awayTeam.desc }}</td>
+       </tr>
+        {% endfor %}       
+    </table>
+</div>
+<style>
+.team-hilite   { color: green; }
+.person-hilite { color: green; }
+</style>
+{% endblock %}

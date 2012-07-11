@@ -1,0 +1,62 @@
+{% form_theme form myBundleName ~ ':Layout:fields.html.twig' %}
+
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
+
+{% block title %}{{ myTitlePrefix }} Game Report{% endblock %}
+
+{% block content %}
+<form action="{{ path('zayso_core_admin_schedule_game_report', { 'id': game.id }) }}" method="post" {{ form_enctype(form) }}>
+<h1>Game Report For: {{ game.pool }} #{{ game.num }}</h1>
+<div style="padding-left: 5px;">
+    {{ form_widget(form.type) }}
+    {{ form_widget(form.num)  }}
+    {{ form_widget(form.date) }}
+    {{ form_widget(form.time) }}  
+    {{ form_widget(form.fieldDesc) }}  
+    {{ form_widget(form.pool) }}    
+</div>
+{% set homeTeamRelEntity = game.homeTeam %}
+{% set awayTeamRelEntity = game.awayTeam %}
+{% set homeTeamRel = form.teams[0] %}
+{% set awayTeamRel = form.teams[1] %}
+{% set homeTeam = homeTeamRel.report %}
+{% set awayTeam = awayTeamRel.report %}
+<table border="1">
+    <tr><td>&nbsp;</td>       <td>{{ form_widget(homeTeamRel.type)       }}</td><td>{{ form_widget(awayTeamRel.type)       }}</td></tr>
+    <tr><td>&nbsp;</td>       <td>{{ game_team_desc2(homeTeamRelEntity)  }}</td><td>{{ game_team_desc2(awayTeamRelEntity)  }}</td></tr>
+    <tr><td>Goals Scored</td> <td>{{ form_widget(homeTeam.goalsScored)   }}</td><td>{{ form_widget(awayTeam.goalsScored)   }}</td></tr>
+    <tr><td>Cautions(Yellow)</td>     <td>{{ form_widget(homeTeam.cautions)      }}</td><td>{{ form_widget(awayTeam.cautions)      }}</td></tr>
+    <tr><td>Send Offs(Red Card)</td>    <td>{{ form_widget(homeTeam.sendoffs)      }}</td><td>{{ form_widget(awayTeam.sendoffs)      }}</td></tr>
+    <tr><td>Coach Expelled</td>    <td>{{ form_widget(homeTeam.coachTossed) }}</td><td>{{ form_widget(awayTeam.coachTossed) }}</td></tr>
+    <tr><td>Spectator Expelled</td><td>{{ form_widget(homeTeam.specTossed)  }}</td><td>{{ form_widget(awayTeam.specTossed)  }}</td></tr>
+    <tr><td>Sportsmanship</td><td>{{ form_widget(homeTeam.sportsmanship) }}</td><td>{{ form_widget(awayTeam.sportsmanship) }}</td></tr>
+    <tr><td>Fudge Factor</td> <td>{{ form_widget(homeTeam.fudgeFactor)   }}</td><td>{{ form_widget(awayTeam.fudgeFactor)   }}</td></tr>
+    <tr><td>Points Earned</td><td>{{ form_widget(homeTeam.pointsEarned)  }}</td><td>{{ form_widget(awayTeam.pointsEarned)  }}</td></tr>  
+</table>
+<div style="padding-left: 5px;">
+    {{ form_widget(form.report) }}
+</div>
+<div style="padding-left: 5px;">
+    <a href="{{ path('zayso_core_admin_schedule_results') }}">Back to Results</a>
+    <a href="{{ path('zayso_core_schedule_playoffs')      }}">Back to Playoffs</a>
+    {{ form_widget(form.status) }}
+    {{ form_widget(form.pointsApplied)  }}
+    {{ form_widget(form.reportStatus) }}  
+    {% if is_granted('ROLE_SCORER') %}
+        <input type="submit" name="submit_report" value="Save"  />
+    {% endif %}
+</div>
+<div style="display: none;">
+    {# form_widget(homeTeam.teamKey) #}
+    {# form_widget(awayTeam.teamKey) #}
+    {{ form_widget(homeTeam.pointsMinus) }}
+    {{ form_widget(awayTeam.pointsMinus) }}
+</div>
+{{ form_rest(form) }} 
+</form>
+<ul style="padding: 5px; margin: 0px; list-style-type: disc;">
+    <li style="margin-left: 20px;">Enter score and othe info then press Save</li>
+    <li style="margin-left: 20px;">Points earned will be calculated</li>
+    <li style="margin-left: 20px;">Status fields will update themselves</li>
+</ul>
+{% endblock %}

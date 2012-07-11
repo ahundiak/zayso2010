@@ -1,0 +1,18 @@
+TODO: 09 Jan 2012
+
+TODO: 
+DONE: Copy cell phone/email from 2007
+
+Copy openid from 2007
+
+Home screen
+
+More words
+
+Send email admin@zayso.org  zayso2012 Started
+
+Create new account
+
+Veirfy what happens if openid exists on osso2007
+
+Make sure that when somone has an area5c account they can sign into the National games site.

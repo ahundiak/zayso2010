@@ -1,0 +1,18 @@
+{% extends 'ZaysoArbiterBundle:Test1:base.html.twig' %}
+{% block title %}Different Title{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block navigation %}
+    ...list of menus
+{% endblock %}
+
+{% block sidebar %}
+    {% render "ZaysoArbiterBundle:Test1\\Main:sidebar" %}
+{% endblock %} 
+    
+{% block javascript %}
+    {{ parent() }}
+    <script>Some layout javascript</script>
+    {% render "ZaysoArbiterBundle:Test1\\Main:sidebarjs" %}
+{% endblock javascript %}

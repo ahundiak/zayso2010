@@ -1,0 +1,4 @@
+#!/bin/bash
+php console cache:clear --env=prod --no-debug
+php console assets:install $HOME/public_html/natgames
+php console assetic:dump   $HOME/public_html/natgames

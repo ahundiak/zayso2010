@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Zayso\Osso2007Bundle\Entity\EventTeamType" table="event_team_type">
+    <change-tracking-policy>DEFERRED_IMPLICIT</change-tracking-policy>
+    <id name="eventTeamTypeId" type="integer" column="event_team_type_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="descx" type="string" column="descx" length="20"/>
+    <lifecycle-callbacks/>
+  </entity>
+</doctrine-mapping>

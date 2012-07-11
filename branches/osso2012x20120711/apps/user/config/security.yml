@@ -1,0 +1,73 @@
+security:
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
+        Zayso\UserBundle\Component\Security\User\MyUser:
+            id: security.user.encoder.zayso
+
+    role_hierarchy:
+        ROLE_ADMIN:        ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    providers:
+        my_provider:
+            id: security.user.provider.zayso
+
+       #my_provider:
+       #    zayso_user:
+       # entity and im_memory are reserved words
+
+        # mainx:
+        #zayso_provider:
+        #    zayso:
+        # main:
+             # entity: { class: Zayso\UserBundle\Entity\User, property: username }
+
+#        in_memory:
+#            users:
+#                user:  { password: userx,  roles: [ 'ROLE_USER'  ] }
+#                admin: { password: adminx, roles: [ 'ROLE_ADMIN' ] }
+
+    firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        login:
+            pattern:  ^/demo/secured/login$
+            security: false
+
+        # Example from the book
+        # The anonymous means anyone can get to all pages by default
+        secured_area:
+            pattern:    ^/
+            anonymous: ~
+           #http_basic:
+           #    realm: "Secured Demo Area"
+            form_login:
+                login_path:  /login
+                check_path:  /login_check
+            logout:
+               path:   /logout
+               target: /
+
+        # Acme Demo
+        secured_areax:
+            pattern:    ^/demo/secured/
+            form_login:
+                check_path: /demo/secured/login_check
+                login_path: /demo/secured/login
+            logout:
+                path:   /demo/secured/logout
+                target: /demo/
+            #anonymous: ~
+            #http_basic:
+            #    realm: "Secured Demo Area"
+
+    # If signed in as user, then get access denied exception
+    access_control:
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        #- { path: ^/_internal, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }
+
+
+

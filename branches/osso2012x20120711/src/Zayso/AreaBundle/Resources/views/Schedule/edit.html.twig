@@ -1,0 +1,67 @@
+{% form_theme form 'ZaysoAreaBundle:Form:fields.html.twig' %}
+
+{% extends 'ZaysoAreaBundle:Layout:layout.html.twig' %}
+
+{% block title %}ZaysoArea - Game - Edit{% endblock %}
+
+{% block content %}
+<div>
+<form action="{{ path('zayso_area_schedule_game_edit', { 'id': game.id }) }}" method="post" {{ form_enctype(form) }}>
+<table border="1" style="width: 800px;">
+<tr><th colspan="3">Edit Game {{ game.num }}</th></tr>
+<tr>
+    <td style="width: 150px;">{{ form_label (form.num) }}</td>
+    <td style="width: 200px;">{{ form_widget(form.num) }}</td>
+    <td style="width: 200px;">{{ form_errors(form.num) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (form.type) }}</td>
+    <td>{{ form_widget(form.type) }}</td>
+    <td>{{ form_errors(form.type) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (form.date) }}</td>
+    <td>{{ form_widget(form.date) }}</td>
+    <td>{{ form_errors(form.date) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (form.time) }}</td>
+    <td>{{ form_widget(form.time) }}</td>
+    <td>{{ form_errors(form.time) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (form.pool) }}</td>
+    <td>{{ form_widget(form.pool) }}</td>
+    <td>{{ form_errors(form.pool) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (form.status) }}</td>
+    <td>{{ form_widget(form.status) }}</td>
+    <td>{{ form_errors(form.status) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (form.field) }}</td>
+    <td>{{ form_widget(form.field) }}</td>
+    <td>{{ form_errors(form.field) }}</td>
+</tr>
+{% for team in form.teams %}
+<tr>
+    <td>Team {{ form_widget(team.type) }}</td>
+    <td>{{ form_widget(team.team) }}</td>
+    <td>&nbsp;</td>
+</tr>
+{% endfor %}    
+<tr>
+  <td><a href="{{ path('zayso_area_schedule_referee_list') }}#ref-sched-{{game.num}}">Referee Schedule</a></td>
+    <td align="center">
+        <input type="submit" name="delete_submit"  value="Delete" />
+        <input type="submit" name="clone_submit"   value="Clone"  />
+        <input type="submit" name="update_submit"  value="Update" />
+    </td>
+    <td align="right">&nbsp;</td>
+</tr>
+</table>
+{{ form_rest(form) }}    
+</form>
+</div>
+{% endblock %}

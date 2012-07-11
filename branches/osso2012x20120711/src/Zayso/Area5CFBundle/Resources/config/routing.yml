@@ -1,0 +1,125 @@
+# Internal routing configuration to handle ESI
+#_internal:
+#   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
+#   prefix:   /_internal
+    
+# Area 5CF Routes
+_area5cf_welcome:
+    pattern:  /area5cf
+    defaults: { _controller: Area5CFBundle:Welcome:welcome }
+    
+_area5cf_home:
+    pattern:  /area5cf/home
+    defaults: { _controller: Area5CFBundle:Welcome:home }
+    
+_area5cf_welcomex:
+    pattern:  /area5cf/welcome
+    defaults: { _controller: Area5CFBundle:Welcome:welcome }
+    
+_area5cf_contact:
+    pattern:  /area5cf/contact
+    defaults: { _controller: Area5CFBundle:Contact:contact }
+    
+_area5cf_account_create:
+    pattern:  /area5cf/account/create
+    defaults: { _controller: Area5CFBundle:Account:create }
+    requirements:
+        _method:  GET
+        
+_area5cf_account_create_post:
+    pattern:  /area5cf/account/create
+    defaults: { _controller: Area5CFBundle:Account:createPost }
+    requirements:
+        _method:  POST
+    
+_area5cf_account_signin:
+    pattern:  /area5cf/account/signin
+    defaults: { _controller: Area5CFBundle:Account:signin }
+    requirements:
+        _method:  GET
+
+_area5cf_account_signin_post:
+    pattern:  /area5cf/account/signin
+    defaults: { _controller: Area5CFBundle:Account:signinPost }
+    requirements:
+        _method:  POST
+
+_area5cf_account_signout:
+    pattern:  /area5cf/account/signout
+    defaults: { _controller: Area5CFBundle:Account:signout }
+
+# Project Person Information
+_area5cf_project_plans:
+    pattern:  /area5cf/project/plans
+    defaults: { _controller: Area5CFBundle:Project:plans }
+    requirements:
+        _method:  GET
+
+_area5cf_project_plans_post:
+    pattern:  /area5cf/project/plans
+    defaults: { _controller: Area5CFBundle:Project:plansPost }
+    requirements:
+        _method:  POST
+
+_area5cf_project_levels:
+    pattern:  /area5cf/project/levels
+    defaults: { _controller: Area5CFBundle:Project:levels }
+    requirements:
+        _method:  GET
+
+_area5cf_project_levels_post:
+    pattern:  /area5cf/project/levels
+    defaults: { _controller: Area5CFBundle:Project:levelsPost }
+    requirements:
+        _method:  POST
+
+# Scheduling stuff
+_area5cf_schedule:
+    pattern:  /area5cf/schedule
+    defaults: { _controller: Area5CFBundle:Schedule:viewRefSched }
+    requirements:
+        _method:  GET
+
+_area5cf_schedule_post:
+    pattern:  /area5cf/schedule
+    defaults: { _controller: Area5CFBundle:Schedule:viewRefSchedPost }
+    requirements:
+        _method:  POST
+
+_area5cf_schedule_view:
+    pattern:  /area5cf/schedule/view
+    defaults: { _controller: Area5CFBundle:Schedule:view }
+    requirements:
+        _method:  GET
+
+_area5cf_schedule_view_post:
+    pattern:  /area5cf/schedule/view
+    defaults: { _controller: Area5CFBundle:Schedule:viewPost }
+    requirements:
+        _method:  POST
+
+_area5cf_schedule_edit:
+    pattern:  /area5cf/schedule/edit
+    defaults: { _controller: Area5CFBundle:Schedule:editDivSched }
+    requirements:
+        _method:  GET
+
+_area5cf_schedule_edit_post:
+    pattern:  /area5cf/schedule/edit
+    defaults: { _controller: Area5CFBundle:Schedule:editDivSchedPost }
+    requirements:
+        _method:  POST
+
+# ========================================================
+# Import stuff
+_area5cf_import:
+    pattern:  /area5cf/import
+    defaults: { _controller: Area5CFBundle:Import:import }
+    requirements:
+        _method:  GET
+
+_area5cf_import_post:
+    pattern:  /area5cf/import
+    defaults: { _controller: Area5CFBundle:Import:importPost }
+    requirements:
+        _method:  POST

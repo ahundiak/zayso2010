@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>{% block title %}Area Bundle{% endblock %}</title>
+    <meta name="description" content="Zayso Referee Scheduling"/>
+    <meta name="author" content="Art Hundiak"/>
+    
+{% block stylesheets %}
+
+    {% stylesheets output='bundles/zaysoarea/css/area.css' debug=false
+        '@ZaysoAreaBundle/Resources/public/css/area.css'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}" media="all" />
+    {% endstylesheets %}
+        
+{% endblock %}
+        
+    <!--[if lt IE 9]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+{# Need this at the top to remember which account was last used to sign in #}
+{% block janrain %}{% endblock %}
+    
+</head>
+
+<body>
+<div id="layout-body">
+<div id="layout-header">
+  <a class="a-target-blank" href="http://soccer.org/events/national_games.aspx" target="_blank" title="Area 5C Home Page">
+    <img class="logo1" src="{{ asset('bundles/zaysoarea/images/' ~ 'AysoLogo.gif') }}" height="50" width="50" alt="National Games Site"/>
+  </a>
+  <a class="a-target-blank" href="http://www.soccer.org" target="_blank" title="AYSO Home Page">
+    <img class="logo2" src="{{ asset('bundles/zaysoarea/images/AysoLogo.gif') }}" height="50" width="50" alt="AYSO Site"/>
+  </a>
+  <div class="inner-block">
+    <p style="text-align: center;">
+      <span style="color: blue;">AYSO Area 5CF Referee Scheduling Site</span>
+    </p>
+    <p style="margin-top: 2px; color: black; width: 800px;">
+      <span style="color: blue;">Zayso User: </span>
+      <span style="color: black; font-size: 14px;">
+        {% if     is_granted('ROLE_USER') %}{{ app.user.name }} {{ app.user.getAYSOCertsDescription }}{% endif %}
+        {% if not is_granted('ROLE_USER') %}Guest{% endif %}          
+      </span>
+    </p>
+  </div>
+</div>
+
+<div id="layout-top-menu">
+  <ul style="float:left ">
+    <li><a href="{{ path('zayso_core_welcome') }}">Welcome</a></li>
+    
+{% if is_granted('ROLE_USER') %}
+    <li><a href="{{ path('zayso_core_home') }}">Home</a></li>
+{% endif %}
+    
+    <li><a href="{{ path('zayso_core_schedule_referee_list') }}">Game Schedule</a></li>
+    <li><a href="{{ path('zayso_core_schedule_results')      }}">Sendoff Results</a></li>
+    <li><a href="{{ path('zayso_core_schedule_results_cached')}}">Cached Sendoff Results</a></li>
+  </ul>
+        
+  <ul style="float: right">
+
+{% if is_granted('ROLE_ADMIN') %}
+    <li><a href="{{ path('zayso_area_admin') }}">Admin</a></li>
+{% endif %}
+    
+   <li><a href="{{ path('zayso_area_contact') }}">Contact Us</a></li>
+   
+{% if is_granted('ROLE_USER') %}
+   <li><a href="{{ path('zayso_area_account_signout') }}">Sign Out</a></li>
+{% endif %}
+   
+{% if not is_granted('ROLE_USER') %}
+   <li><a href="{{ path('zayso_core_welcome') }}">Sign In</a></li>
+{% endif %}          
+
+  </ul>
+  <div class="inner-block"></div>
+</div>
+
+<div id="layout-content">
+  {% block content %}
+  {% endblock %}
+</div>
+
+</div>
+{% block javascripts %}{% endblock %}
+</body>
+</html>
+

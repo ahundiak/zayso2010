@@ -1,0 +1,81 @@
+<!doctype html>
+{% set cached = true %}
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>{% block title %}S5Games Bundle{% endblock %}</title>
+    <meta name="description" content="Zayso Referee Scheduling"/>
+    <meta name="author" content="Art Hundiak"/>
+    
+{% block stylesheets %}
+
+     {% stylesheets output='bundles/zaysocore/css/zayso.css' debug=false
+        '@ZaysoCoreBundle/Resources/public/css/reset.css'
+        '@ZaysoCoreBundle/Resources/public/css/layout.css'
+        '@ZaysoCoreBundle/Resources/public/css/core.css'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}" media="all" />
+    {% endstylesheets %}
+        
+{% endblock %}
+        
+    <!--[if lt IE 9]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+{# Need this at the top to remember which account was last used to sign in #}
+{% block janrain %}{% endblock %}
+    
+</head>
+
+<body>
+<div id="layout-body">
+<div id="layout-header">
+  <a class="a-target-blank" 
+     href="http://section5.clubspaces.com/PageCustom.aspx?id=10&o=545142" 
+     target="_blank" 
+     title="Section 5 Games Home Page">
+    <img 
+        class="logo1" 
+        src="{{ asset('bundles/zaysocore/images/' ~ 'S5GamesLogo.aspx') }}" 
+        height="50" width="50" 
+        alt="Section 5 Games Games Home Page"/>
+  </a>
+  <a class="a-target-blank" href="http://www.soccer.org" target="_blank" title="AYSO Home Page">
+    <img class="logo2" src="{{ asset('bundles/zaysocore/images/AysoLogo.gif') }}" height="50" width="50" alt="AYSO Home Page"/>
+  </a>
+  <div class="inner-block">
+    <p style="text-align: center;">
+      <span style="color: blue;">AYSO Section 5 Games Referee Scheduling Site</span>
+    </p>
+    <p style="margin-top: 2px; color: black; width: 800px;">
+      <span style="color: blue;">Zayso User: </span>
+      <span style="color: black; font-size: 14px;">Cached Page {{ cache_dtg() }}</span>
+    </p>
+  </div>
+</div>
+
+<div id="layout-top-menu">
+  <ul style="float:left ">
+    <li><a href="{{ path('zayso_core_welcome') }}">Welcome</a></li>
+    <li><a href="{{ path('zayso_core_textalerts')            }}">Text Alerts</a></li>
+    <li><a href="{{ path('zayso_core_schedule_referee_list') }}">Game Schedule</a></li>
+    <li><a href="{{ path('zayso_core_schedule_results')      }}">Results</a></li>
+  </ul>
+        
+    <ul style="float: right">
+        <li><a href="{{ path('zayso_core_contact') }}">Contact Us</a></li>
+    </ul>
+    <div class="inner-block"></div>
+</div>
+
+<div id="layout-contentccc">
+  {% block content %}
+  {% endblock %}
+</div>
+
+</div>
+{% block javascripts %}{% endblock %}
+</body>
+</html>
+

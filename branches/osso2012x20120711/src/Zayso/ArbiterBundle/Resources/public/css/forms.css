@@ -1,0 +1,150 @@
+/* Reset forms.css */
+html, body, 
+fieldset, form, label, legend
+{
+    margin:  0;
+    padding: 0;
+    border:  0;
+    vertical-align: baseline;
+}
+/* Layout */
+#container {
+	background: url(images/bg-form-btm.png) no-repeat 100% 100%;
+	padding-bottom: 18px;
+	width: 640px;
+}
+
+#container-inner {
+	background: #fff url(images/bg-form.gif) repeat-x;
+	border: 10px solid #fff;
+	border-color: #fff #fff #ababab;
+	padding: 20px;
+}
+h1 {
+	border-bottom: 5px solid #fff;
+	background: url(images/bg-ccc.gif) 0 100% repeat-x;
+	color: #666666;
+	font-size: 1.2em;
+	font-weight: normal;
+	line-height: 1;
+	margin: 0 0 0.7em;
+	padding: 0 0 2px; /* Was 28 */
+}
+/* ==========================================================
+ * Forms stuff
+ */
+fieldset 
+{
+    border: medium solid black;
+    /*
+    border-style: solid;
+    border-width: medium;
+    border-color: lime;*/
+    
+    position: relative;
+    padding:  5px 5px 5px 5px; /* top right bottom left */
+    
+  /* background-color: blue; */
+}
+fieldset div
+{
+    margin:     0 0 5px;
+    overflow:   hidden;
+    padding:    5px 5px 1px 0;
+    
+  /* background-color: red; */
+     border: thin solid blue;
+
+}
+/* Labels */
+fieldset div label 
+{
+    color:          #666;
+    float:          left;
+    font-size:      1.0em;
+    font-weight:    bold;
+    line-height:    1.1;
+    margin:         9px 8px 0 0;
+    width:          180px;
+    padding-left: 5px;
+}
+fieldset div ul
+{
+    color: red;
+    clear: left;
+    float: left;
+    width:          180px;
+    list-style-type: none;
+
+    margin:         9px 8px 0 0;
+    padding-left: 5px;
+    
+}
+fieldset div div.gender label
+{ 
+    width: 50px; 
+    margin-top: -5px;
+    padding-top: 3px;
+}
+fieldset div div.gender input
+{
+   margin-top: 3px;
+}
+fieldset div.radio-medium label
+{ 
+    width: 75px;
+    display: inline;
+    margin-top: -5px;
+    padding-top: 3px;
+}
+fieldset div.radio-medium input
+{
+   margin-top: 3px;
+}
+
+/* Input defaults */
+fieldset div input,
+fieldset div textarea,
+fieldset div select 
+{
+    color:          #333;
+    display:        block;
+    font-size:      14px;
+    font-family:    Arial, Helvetica, sans-serif;
+    float:          left;
+    line-height:    1;
+    margin:         0;
+}
+    
+/* Text inputs */
+fieldset div input 
+{
+    padding: 6px 3px;
+  /*width:   288px; */
+}
+    
+/* Select menus */
+fieldset div select 
+{
+    padding: 8px 0 0 3px;
+  /*width:   291px; */
+}        
+    
+/* Textareas */
+fieldset div textarea 
+{
+    height: 89px;
+    padding: 3px;
+  /*width: 269px; */
+}
+/* Submit */
+fieldset div.controls 
+{
+    background: none;
+}	
+fieldset div.controls input 
+{
+    float: right;
+    width: auto;
+}
+ 

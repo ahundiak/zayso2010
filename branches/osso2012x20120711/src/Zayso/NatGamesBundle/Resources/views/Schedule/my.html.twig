@@ -1,0 +1,80 @@
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
+
+{% block title %}{{ myTitlePrefix }} My Schedule {% endblock %}
+
+{% block content %}
+{% include myBundleName ~ ':Schedule:Search/my.html.twig' %}
+<div>
+    <table border = "1">
+        <tr><th colspan="7">My Schedule 2012 - Game Count {{ gameCount }}</th></tr>
+        <tr><td colspan="7">PP=Pool Play, QF=Quarter-Final, SF=Semi-Final, CM=Consolation Match, FM=Final Match</td></tr>
+        <tr>
+            <td>Game</td>
+            <td>DOW Time</td>
+            <td>Field</td>
+            <td>Pool</td>
+            <td>Home / Away Teams</td>
+            <td>Officials</td>
+        </tr>
+        {% for game in games %}
+        <tr id="team-sched-{{game.num}}" class="game-status-{{game.status}}">
+            <td>
+                {{ game.num }}
+            </td>
+            <td>{{ game_dow(game.date) }} {{ game_time(game.time) }}</td>
+            <td>{{ game.fieldDesc          }}</td>
+            <td>{{ game.pool               }}</td>
+            <td>
+                {% for teamRel in game.teams %}
+                    {% set teamClass = game_team_class(teamIds,teamRel.team) %}
+                    {% if teamClass %}
+                        <span class="{{ teamClass }}">{{ teamRel.team.desc }}</span><br />
+                    {% else %}
+                        {{ teamRel.team.desc }}<br />
+                    {% endif %}
+                {% endfor %}
+            </td>
+            <td><table class="game-officials-list">
+                {% for gamePerson in game.eventPersonsSorted  %}
+                {% set person = gamePerson.personz %}
+                <tr>
+                    <td>
+                        {% if is_granted('ROLE_USER') %}
+                        <a href="{{ path('zayso_core_schedule_referee_assign', { 'id': game.id, 'pos': gamePerson.type }) }}">
+                           {{ gamePerson.type }}:</a>
+                        {% else %}
+                           {{ gamePerson.type }}:
+                        {% endif %}
+                    </td>
+                    <td>
+                    {% set itemClass = game_person_class(personIds,person) %}
+                    {% if  itemClass %}
+                        <span class="{{ itemClass }}">{{ person.personName }}</span>
+                    {% else %}
+                        {{ person.personName }}
+                    {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table></td>
+        </tr>
+        {% endfor %}       
+    </table>
+</div>
+<style>
+.team-hilite   { color: green; }
+.person-hilite { color: green; }
+</style>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% include 'ZaysoCoreBundle:Layout:zaysocore-js.html.twig' %}
+
+<script>
+$(document).ready(function() 
+{
+    $('input[type=checkbox][name^="mySchSearch["][name$="][ALL]"]').change(Zayso.checkboxAll);
+})
+</script>
+{% endblock %}

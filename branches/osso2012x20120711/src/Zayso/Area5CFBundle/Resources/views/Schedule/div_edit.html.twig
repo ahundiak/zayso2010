@@ -1,0 +1,55 @@
+{% extends 'Area5CFBundle::layout.html.twig' %}
+
+{% block title %}Area5CF - Schedule{% endblock %}
+
+{% block content %}
+<div>
+<h3>Schedules</h3>
+{% include 'Area5CFBundle:Schedule:search.html.twig' %}
+<div>
+<form method="post" action="{{ path(postPath) }}">
+<table border="2" class="form_table" width="800">
+<input type="hidden" name="projectId" value="{{projectId}}" />
+    <tr><th colspan="6">Edit Division Schedule</th></tr>
+    {% for game in games %}
+    {% if gen.genGameDateBreak(game) %}
+        <tr><td colspan="6">&nbsp;</td></tr>
+    {% endif %}
+        <tr>
+            <td>
+                <input type="checkbox" name="gameData[{{game.getNum()}}][selected]" value="{{game.getNum()}}"/>
+                {{ game.getNum() }}
+            </td>
+            <td>
+                <select name="gameData[{{game.getNum()}}][date]">
+                    <option value="0">Select Date</option>
+                    {{ format.formOptions(datePickList,game.getDate()) | raw }}
+                </select>
+            </td>
+            <td>
+                <select name="gameData[{{game.getNum()}}][time]">
+                    <option value="0">Select Time</option>
+                    {{ format.formOptions(timePickList,game.getTime()) | raw }}
+                </select>
+            </td>
+            <td>{{ game.getFieldKey()              }}</td>
+            <td>
+                <select name="gameData[{{game.getNum()}}][schTeams][Home]">
+                    <option value="0">Select Home Team</option>
+                    {{ format.formOptions(teamPickList,game.getHomeSchTeamId()) | raw }}
+                </select>
+            </td>
+            <td>
+                <select name="gameData[{{game.getNum()}}][schTeams][Away]">
+                    <option value="0">Select Away Team</option>
+                    {{ format.formOptions(teamPickList,game.getAwaySchTeamId()) | raw }}
+                </select>
+            </td>
+        </tr>
+    {% endfor %}
+    <tr><th colspan="6"><input type="submit" name="schedEditSubmit" value="Update" /></th></tr>
+</table>
+</form>
+</div>
+</div>
+{% endblock %}

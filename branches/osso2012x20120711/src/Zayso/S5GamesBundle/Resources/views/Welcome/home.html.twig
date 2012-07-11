@@ -1,0 +1,14 @@
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
+
+{% block title %}{{ myTitlePrefix }} Home{% endblock %}
+
+{% block content %}
+<div>
+    {% include myBundleName ~ ':Account/Person:list.html.twig' %}
+    <p>
+        Pease keep your tournament plans up to date.
+    </p><p>
+        Check back as the tournament draws closer.  More information will be added.
+    </p>
+</div>
+{% endblock %}
