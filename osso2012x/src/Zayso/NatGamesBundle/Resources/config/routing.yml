@@ -150,7 +150,11 @@ zayso_core_schedule_referee_assign:
         
 zayso_core_schedule_results:
     pattern:  /schedule/public/results/{div}/{pool}
-    defaults: { _controller: ZaysoNatGamesBundle:Schedule\Results:results, div: 0, pool: 0}
+    defaults: { _controller: ZaysoNatGamesBundle:Welcome:champions, div: 0, pool: 0}
+    
+zayso_core_schedule_poolplay:
+    pattern:  /schedule/public/poolplay/{div}/{pool}
+    defaults: { _controller: ZaysoNatGamesBundle:Schedule\Results:poolplay, div: 0, pool: 0}
     
 zayso_core_schedule_playoffs:
     pattern:  /schedule/public/playoffs

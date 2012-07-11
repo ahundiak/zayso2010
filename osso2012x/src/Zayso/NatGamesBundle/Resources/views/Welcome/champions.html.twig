@@ -1,0 +1,47 @@
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
+
+{% block title %}{{ myTitlePrefix }} Champions {% endblock %}
+
+{% block content %}
+<div>
+<h3>Division Winners</h3>
+<ul class="champions">
+<li>U-19 Boys Co-champions: Region 305 from Concord, Calif., and Region 345 Lake Worth, Fla.</li>
+<li>U-19 Girls Co-champions: Region 19 from Culver City, Calif., and Region 345 from Lake Worth, Fla.</li>
+<li>U-16 Boys: Region 65 from Rancho Cucamonga, Calif.</li>
+<li>U-16 Girls: Region 779 from Chino Hills, Calif.</li>
+<li>U-14 Boys: Region 24 from Downey, Calif.</li>
+<li>U-14 Girls: Region 119 from Mililani, Hawaii. (Also winner of the Michalski Sportsmanship Cup)</li>
+<li>U-12 Boys: Region 77 from Lompoc, Calif.</li>
+<li>U-12 Girls: Region 215 from Rowland Heights, Calif.</li>
+</ul>
+
+<br />
+<h3>Sportsmanship Winners</h3>
+<ul class="champions">
+<li>U-10 Boys Sportsmanship co-winners: Region 275 from Knoxville, Tenn., and Region 498 from Madison, Ala.</li>
+<li>U-10 Girls: Region 1475 from Chesapeake, Va.</li>
+<li>U-12 Boys co-winners: Region 100 from Kailua-Walmanalo, Hawaii, and Region 1159 from Maryville, Tenn.</li>
+<li>U-12 Girls: Region 118 from Aiea, Hawaii</li>
+<li>U-14 Boys: Region 71 from Woodland Hills, Calif.</li>
+<li>U-14 Girls: Region 119 from Mililani, Hawaii (Also winner of Michalski Sportsmanship Cup)</li>
+<li>U-16 Boys: Region 275 from Knoxville, Tenn.</li>
+<li>U-16 Girls: Region 862 from St. Johns, Mich.</li>
+<li>U-19 Boys: Region 605 from Charlotte, N.C.</li>
+<li>U-19 Girls co-winners: Region 459 from Harrison Township, Mich., and Region 894 from Monrovia, Ala.</li>
+</ul>
+</div>
+<style>
+ul.champions
+{
+    padding: 5px;
+    margin: 0px;
+    list-style-type: disc;
+}
+ul.champions li
+{
+    margin-left: 20px;
+}    
+</style>
+        
+{% endblock %}
