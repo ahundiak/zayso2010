@@ -49,4 +49,9 @@ class WelcomeController extends CoreBaseController
         $tplData = array();
         return $this->renderx('Welcome:shuttle.html.twig',$tplData);
     }
+    public function championsAction()
+    { 
+        $tplData = array();
+        return $this->renderx('Welcome:champions.html.twig',$tplData);
+    }
 }
