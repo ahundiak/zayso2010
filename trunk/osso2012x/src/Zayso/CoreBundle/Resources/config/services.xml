@@ -145,6 +145,12 @@
             public = "true">
             <argument type="string">zayso_core</argument>
         </service>
+        
+        <service 
+            id    = "kernel.listener.core_exception_listener" 
+            class = "Zayso\CoreBundle\Listener\ExceptionListener">
+            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" />
+        </service>
  
     </services>
 </container>
