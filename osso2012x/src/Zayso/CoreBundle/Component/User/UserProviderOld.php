@@ -25,7 +25,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-class UserProvider implements UserProviderInterface
+class UserProviderOld implements UserProviderInterface
 {
     private $em;
     private $projectId;
@@ -40,10 +40,7 @@ class UserProvider implements UserProviderInterface
         return;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function loadUserByUsername($username)
+    public function loadUserByUsernameOld($username)
     {
         // Called during the sign in process
         // Called again with setUser
@@ -55,7 +52,9 @@ SELECT
   account.user_name AS userName,
   account.user_pass AS userPass,
   account.status    AS accountStatus,
-  account.person_id AS personId,
+
+  account_person.id AS accountPersonId,
+  account_person.person_id AS personId,
 
   person.first_name AS personFirstName,
   person.last_name  AS personLastName,
@@ -68,7 +67,8 @@ SELECT
 
 FROM account
 
-LEFT JOIN person            ON person.id                   = account.person_id
+LEFT JOIN account_person    ON account_person.account_id   = account.id AND account_person.account_relation = 'Primary'
+LEFT JOIN person            ON person.id                   = account_person.person_id
 LEFT JOIN person_registered ON person_registered.person_id = person.id AND person_registered.reg_type = 'AYSOV'
 
 WHERE account.user_name = :userName
@@ -121,10 +121,7 @@ EOT;
         $userName = $this->getUsernameForOpenidIdentifier($identifier);
         return $this->loadUserByUsername($userName);
     }
-    /* ========================================================
-     * Break this out for now
-     */
-    public function getUsernameForOpenidIdentifier($identifier)
+    public function getUsernameForOpenidIdentifierOld($identifier)
     {
         $sql = <<<EOT
 SELECT
@@ -132,7 +129,8 @@ SELECT
 
 FROM account_openid
 
-LEFT JOIN account ON account.id = account_openid.account_id
+LEFT JOIN account_person ON account_person.id = account_openid.account_person_id
+LEFT JOIN account        ON account.id        = account_person.account_id
 
 WHERE account_openid.identifier = :identifier
 ;
@@ -150,6 +148,10 @@ EOT;
         }
         return $row['userName'];
     }
+
+    /**
+     * {@inheritDoc}
+     */
     public function refreshUser(UserInterface $user)
     {
         // Appears to be called when page refreshes
@@ -162,6 +164,10 @@ EOT;
 
         return $this->loadUserByUsername($user->getUsername());
     }
+
+    /**
+     * {@inheritDoc}
+     */
     public function supportsClass($class)
     {
         return true;
