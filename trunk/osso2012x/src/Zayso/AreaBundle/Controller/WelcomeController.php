@@ -17,10 +17,10 @@ class WelcomeController extends BaseController
         
         $accountId = $this->getUser()->getAccountId();
         $projectId = $this->getCurrentProjectId();
-        $accountPersons = $manager->loadAccountPersons($accountId,$projectId);
- 
+        $account   = $manager->loadAccountWithPersons($projectId,$accountId);
+        
         $tplData = array();
-        $tplData['accountPersons'] = $accountPersons;
+        $tplData['account'] = $account;
         return $this->render('ZaysoAreaBundle:Welcome:home.html.twig',$tplData);
     }
     public function welcomeAction()
