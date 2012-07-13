@@ -1,0 +1,22 @@
+
+account => person ...
+
+account => person => person_person for person1
+
+Project comes in somewhere, filter teams, specific project_plan
+
+Actually seems to work well, might want to add project_id for peer relations later
+
+====================
+Want to shut down most of the sites as soon as possible, at least the edit stuff
+Mostly just a template thing
+
+natgames
+s5games
+area5c
+arbiter
+
+======================
+Wish I could move to new git system
+
+Windows at work?
