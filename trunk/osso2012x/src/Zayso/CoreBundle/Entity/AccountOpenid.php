@@ -20,23 +20,25 @@ class AccountOpenid
     
     /**
      * @ORM\Column(name="identifier", type="string", length=120, unique=true, nullable=false)
-     *
-     * openid - identifier
      */
     private $identifier = null;
 
     /**
      * @ORM\Column(name="provider", type="string", length=80, nullable=false)
-     *
-     * openid - providerName
      */
     private $provider = '';
 
     /**
-     * @ORM\ManyToOne(targetEntity="AccountPerson", inversedBy="openids")
-     * @ORM\JoinColumn(name="account_person_id", referencedColumnName="id", nullable=false)
+     *  ORM\ManyToOne(targetEntity="AccountPerson", inversedBy="openids")
+     *  ORM\JoinColumn(name="account_person_id", referencedColumnName="id", nullable=false)
      */
-    protected $accountPerson = null;
+  //protected $accountPerson = null;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Account", inversedBy="openids")
+     * @ORM\JoinColumn(name="account_id", referencedColumnName="id", nullable=true)
+     */
+    protected $account = null;
 
     /**
      * @ORM\Column(name="status", type="string", length=20, nullable=false)
@@ -44,29 +46,17 @@ class AccountOpenid
     private $status = 'Active';
 
     /**
-     * @var string $displayName
-     *
      * @ORM\Column(name="display_name", type="string", length=80, nullable=true)
-     *
-     * openid - displayName
      */
     private $displayName = '';
 
     /**
-     * @var string $userName
-     *
      * @ORM\Column(name="user_name", type="string", length=80, nullable=true)
-     *
-     * openid - preferredUsername
      */
     private $userName = '';
 
     /**
-     * @var string $email
-     *
      * @ORM\Column(name="email", type="string", length=80, nullable=true)
-     *
-     * openid - verifiedEmail
      */
     private $email = '';
 
@@ -77,6 +67,9 @@ class AccountOpenid
     }
 
     public function getAccountPerson() { return $this->accountPerson; }
+    
+    public function setAccount($account) { $this->account = $account; }
+    public function getAccount()  { return $this->account; }
 
     // Loads some stuff from return profile
     public function setProfile($data)
@@ -87,133 +80,23 @@ class AccountOpenid
         if (isset($data['preferredUsername'])) $this->userName    = $data['preferredUsername'];
         if (isset($data['verifiedEmail']))     $this->email       = $data['verifiedEmail'];
     }
-    /**
-     * Set status
-     *
-     * @param integer $status
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-    }
+    public function setStatus($status) { $this->status = $status; }
+    public function getStatus() { return $this->status; }
 
-    /**
-     * Get status
-     *
-     * @return integer 
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
+    public function setDisplayName($displayName) { $this->displayName = $displayName; }
+    public function getDisplayName()      { return $this->displayName; }
+    
+    public function setUserName($userName) { $this->userName = $userName; }
+    public function getUserName()   { return $this->userName; }
+    
+    public function setEmail($email)  { $this->email = $email; }
+    public function getEmail() { return $this->email; }
 
-    /**
-     * Set displayName
-     *
-     * @param string $displayName
-     */
-    public function setDisplayName($displayName)
-    {
-        $this->displayName = $displayName;
-    }
-
-    /**
-     * Get displayName
-     *
-     * @return string 
-     */
-    public function getDisplayName()
-    {
-        return $this->displayName;
-    }
-
-    /**
-     * Set userName
-     *
-     * @param string $userName
-     */
-    public function setUserName($userName)
-    {
-        $this->userName = $userName;
-    }
-
-    /**
-     * Get userName
-     *
-     * @return string 
-     */
-    public function getUserName()
-    {
-        return $this->userName;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string 
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Set provider
-     *
-     * @param string $provider
-     */
-    public function setProvider($provider)
-    {
-        $this->provider = $provider;
-    }
-
-    /**
-     * Get provider
-     *
-     * @return string 
-     */
-    public function getProvider()
-    {
-        return $this->provider;
-    }
-
-    /**
-     * Set identifier
-     *
-     * @param string $identifier
-     */
-    public function setIdentifier($identifier)
-    {
-        $this->identifier = $identifier;
-    }
-
-    /**
-     * Get identifier
-     *
-     * @return string 
-     */
-    public function getIdentifier()
-    {
-        return $this->identifier;
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+    public function setProvider($provider) { $this->provider = $provider; }
+    public function getProvider()   { return $this->provider; }
+    
+    public function setIdentifier($identifier) { $this->identifier = $identifier; }
+    public function getIdentifier()     { return $this->identifier; }
+    
+    public function getId()         { return $this->id; }
 }

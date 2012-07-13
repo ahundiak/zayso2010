@@ -39,6 +39,15 @@ class Account
 
     /** @ORM\OneToMany(targetEntity="AccountPerson", mappedBy="account") */
     protected $accountPersons;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Person")
+     * @ORM\JoinColumn(name="person_id", referencedColumnName="id", nullable=true)
+     */
+    protected $person;
+    
+    /** @ORM\OneToMany(targetEntity="AccountOpenid", mappedBy="account") */
+    protected $openids;
 
     /* ==========================================================
      * Custom Code
@@ -46,6 +55,7 @@ class Account
     public function __construct()
     {
         $this->accountPersons = new ArrayCollection();
+        $this->openids        = new ArrayCollection();
     }
     public function addAccountPerson($accountPerson)
     {
@@ -89,4 +99,16 @@ class Account
     
     public function setReset($reset) { $this->reset = $reset; }
     public function getReset()       { return $this->reset; }
+    
+    // Openid stuff
+    public function getOpenids() { return $this->openids; }
+
+    public function addOpenid($openid) { $this->openids[] = $openid; }
+
+    public function clearOpenids() { $this->openids = new ArrayCollection(); }
+    
+    // Should always have a person
+    public function setPerson($person) { $this->person = $person; }
+    public function getPerson() { return $this->person; }
+
 }
