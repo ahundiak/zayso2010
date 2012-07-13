@@ -7,7 +7,7 @@ namespace Zayso\CoreBundle\Component\User;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Role\Role;
 
-class User implements UserInterface
+class UserOld implements UserInterface
 {
     protected $data;
 
@@ -44,12 +44,7 @@ class User implements UserInterface
     }
     public function getPersonId()        { return $this->getData('personId'); }
     public function getAccountId()       { return $this->getData('accountId'); }
-    
-    public function getAccountPersonId() 
-    { 
-        throw new \Exception('User.getAccountPersonId');
-        return $this->getData('accountPersonId'); 
-    }
+    public function getAccountPersonId() { return $this->getData('accountPersonId'); }
     
     public function setFirstName($value) { $this->data['personFirstName'] = $value; }
     public function setLastName ($value) { $this->data['personLastName' ] = $value; }
