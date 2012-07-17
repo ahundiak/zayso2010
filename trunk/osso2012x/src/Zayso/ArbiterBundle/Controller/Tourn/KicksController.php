@@ -40,6 +40,7 @@ class KicksController extends TournController
         $tplData['form'] = $form->createView();
         $tplData['msg']  = $msg;
 
+        return $this->render('ZaysoArbiterBundle:Tourn\Kicks:offline.html.twig',$tplData);
         return $this->render('ZaysoArbiterBundle:Tourn\Kicks:form.html.twig',$tplData);
     }
     public function signupActionTest(Request $request)
