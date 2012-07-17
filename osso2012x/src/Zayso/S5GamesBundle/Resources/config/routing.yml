@@ -1,3 +1,10 @@
+# Match everything, offline between games
+zayso_core_shutdown:
+    pattern:  /{url}
+    defaults: { _controller: ZaysoS5GamesBundle:Welcome:offline, url: "offline" }
+    requirements:
+        url: ".+"
+  
 # The public welcome stuff
 zayso_core_index:
     pattern:  /

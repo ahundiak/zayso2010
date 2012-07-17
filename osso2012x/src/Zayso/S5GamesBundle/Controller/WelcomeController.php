@@ -42,5 +42,10 @@ class WelcomeController extends BaseController
         $tplData = array();
         return $this->renderx('Schedule:schedule.html.twig',$tplData);
     }
+    public function offlineAction()
+    { 
+        $tplData = array();
+        return $this->renderx('Welcome:offline.html.twig',$tplData);
+    }
 }
 ?>
