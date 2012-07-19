@@ -126,6 +126,19 @@ class ImportCommand extends ContainerAwareCommand
         }
         $manager->flush();
     }
+    protected function importRefAssigns()
+    {
+         $import = $this->getContainer()->get('zayso_natgames.assign_by_name.import');
+         $params = array
+         (
+             // Wrong file name
+            'inputFileName'  => '../datax/RefCleanup20120719.xls',
+            'projectId'      => 52,
+         );
+        $results = $import->process($params);
+        echo "Zayso Import {$results['msg']} \n";
+       
+    }
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // $inputFileName = $input->getArgument('file');
@@ -134,9 +147,9 @@ class ImportCommand extends ContainerAwareCommand
 
         // $this->importSchedule2010('../datax/Schedule2010.csv');
         
-        // $this->importSchedule();
+        $this->importRefAssigns();
         
-        $this->setFieldVenues();
+        // $this->setFieldVenues();
         
 
         return;        
