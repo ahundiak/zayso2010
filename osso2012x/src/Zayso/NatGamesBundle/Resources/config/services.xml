@@ -106,6 +106,13 @@
         </service>
         
         <service 
+            id     = "zayso_natgames.assign_by_name.import" 
+            class  = "Zayso\NatGamesBundle\Component\Import\AssignByNameImport" 
+            public = "true">
+            <argument type="service" id="zayso_core.game.schedule.manager" />
+        </service>
+        
+        <service 
             id     = "zayso_natgames.schedule2012.import2" 
             class  = "Zayso\NatGamesBundle\Component\Import\Schedule2012Import2" 
             public = "true">
