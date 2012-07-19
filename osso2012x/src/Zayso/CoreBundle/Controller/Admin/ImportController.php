@@ -59,7 +59,8 @@ class ImportType extends AbstractType
                 'NatGames2012Teams'    => 'NatGames2012Teams',
               //'NatGames2012Games'    => 'NatGames2012Games',
                 'NatGames2012Assign'   => 'NatGames2012Assign',
-              //'NatGames2012PhyTeams' => 'NatGames2012PhyTeams',
+                'NatGames2012AssignByName'   => 'NatGames2012AssignByName',
+             //'NatGames2012PhyTeams' => 'NatGames2012PhyTeams',
                 
               //'NatGames2012Schedule' => 'NatGames2012Schedule',
               //'NatGames2012RefSched' => 'NatGames2012RefSched',
@@ -103,6 +104,7 @@ class ImportFileValidator implements FormValidatorInterface
         'NatGames2012Teams'  => 'zayso_natgames.team.import',    
         'NatGames2012Games'  => 'zayso_natgames.game.import',    
         'NatGames2012Assign' => 'zayso_natgames.assign.import',    
+        'NatGames2012AssignByName' => 'zayso_natgames.assign_by_name.import',    
         
         'NatGames2012Schedule' => 'zayso_natgames.schedule2012.import',    
         'NatGames2012RefSched' => 'zayso_natgames.schedule2012.import2',    
