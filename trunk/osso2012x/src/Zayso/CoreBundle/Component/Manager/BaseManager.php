@@ -211,5 +211,21 @@ class BaseManager
         
         return $items;
     }
+    public function loadPersonsForProject($projectId)
+    {
+        $qb = $this->createQueryBuilder();
+        
+        $qb->addSelect('person');
+        
+        $qb->from('ZaysoCoreBundle:Person','person');
+        $qb->leftJoin('person.projectPersons','projectPerson');
+        
+        $qb->andWhere($qb->expr()->eq('projectPerson.project',$qb->expr()->literal($projectId)));
+        
+        $qb->addOrderBy('person.lastName,person.nickName,person.firstName');
+        
+        return $qb->getQuery()->getResult();
+        
+    }
 }
 ?>
