@@ -16,19 +16,25 @@ class PersonController extends BaseController
     {
         $manager = $this->get('zayso_core.account.home.manager');
         
-        // Load the account person
-        if ($id) $accountPersonId = $id;
-        else     $accountPersonId = $this->getUser()->getAccountPersonId();
-        
-        $accountPerson = $manager->loadAccountPerson($accountPersonId);
-        
-        if (!$accountPerson || $accountPerson->getAccount()->getId() != $this->getUser()->getAccountId())
+        // Load the account
+        $account = $manager->loadAccountWithPersons($this->getProjectId(),$this->getUser()->getAccountId());
+        if (!$account)
         {
             return $this->redirect($this->generateUrl('zayso_core_home'));
         }
-        $formType = $this->get('zayso_core.account.person.edit.formtype');
+        // Make sure person is part of account
+        $personPerson = null;
+        foreach($account->getPerson()->getPersonPersons() as $personPersonx)
+        {
+            if ($personPersonx->getId() == $id) $personPerson = $personPersonx;
+        }
+        if (!$personPerson)
+        {
+            return $this->redirect($this->generateUrl('zayso_core_home'));
+        }
+        $formType = $this->get('zayso_core.person.person.edit.formtype');
         
-        $form = $this->createForm($formType, $accountPerson);
+        $form = $this->createForm($formType, $personPerson);
         
         if ($request->getMethod() == 'POST')
         {
@@ -39,16 +45,16 @@ class PersonController extends BaseController
                 $manager->flush();
                 
                 // If Primary then reload user infomation
-                if ($accountPerson->isPrimary())
+                if ($personPerson->isPrimary())
                 {
-                    $this->setUser($accountPerson->getUserName());
+                    $this->setUser($account->getUserName());
                 }
                    
                 // Security check   
                 $subject = sprintf('[%s][Account] - Edited Person %s %s',
                     $this->getMyTitlePrefix(),
-                    $accountPerson->getUserName(),
-                    $accountPerson->getPersonName()
+                    $account->getUserName(),
+                    $personPerson->getPerson2()->getPersonName()
                 );
                     
                 $this->sendEmail($subject,$subject);
@@ -58,7 +64,7 @@ class PersonController extends BaseController
         }
         $tplData = array();
         $tplData['form'] = $form->createView();
-        $tplData['accountPerson'] = $accountPerson;
+        $tplData['personPerson'] = $personPerson;
         
         return $this->renderx('Account\Person:edit.html.twig',$tplData);
         

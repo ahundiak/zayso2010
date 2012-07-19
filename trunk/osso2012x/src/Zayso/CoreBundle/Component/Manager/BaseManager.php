@@ -119,5 +119,97 @@ class BaseManager
 
         return null;
     }
+    /* ================================================
+     * For nested queries
+     * projectId is for possible future use and consistency
+     */
+    public function qbPersonPersons($projectId, $personId1)
+    {
+        $qb = $this->createQueryBuilder();
+        
+        $qb->addSelect('distinct personPP.id');
+        
+        // Can't get this to work, really should not need the join
+        // $qb->addSelect('distinct personPersonPP.person_id2');
+        
+        $qb->from('ZaysoCoreBundle:PersonPerson','personPersonPP');
+        
+        $qb->leftJoin('personPersonPP.person2','personPP');
+
+        $qb->andWhere($qb->expr()->eq('personPersonPP.person1',$qb->expr()->literal($personId1)));
+        
+        return $qb;
+    }
+    public function loadPersonsForProjectPerson($projectId,$personId)
+    {    
+        $qbPersonPersons = $this->qbPersonPersons($projectId,$personId);
+        
+        $qb = $this->createQueryBuilder();
+        
+        $qb->addSelect('person');
+        $qb->from('ZaysoCoreBundle:Person','person');
+        
+        // Project should also fit in here
+        $qb->andWhere($qb->expr()->in('person.id', $qbPersonPersons->getDQL()));
+        
+        $qb->addOrderBy('person.nickName');
+        $qb->addOrderBy('person.firstName');
+        $qb->addOrderBy('person.lastName');
+        
+        return $qb->getQuery()->getResult();
+    }
+    public function loadTeamsForProjectPerson($projectId,$personId)
+    {   
+        $qbPersonPersons = $this->qbPersonPersons($projectId,$personId);
+        
+        $qb = $this->createQueryBuilder();
+        
+        $qb->addSelect('team');
+        
+        $qb->from('ZaysoCoreBundle:Team','team');
+        
+        $qb->leftJoin('team.personRels','personRel');
+        
+        $qb->andWhere($qb->expr()->eq('team.project',$qb->expr()->literal($projectId)));
+        $qb->andWhere($qb->expr()->in('personRel.person',   $qbPersonPersons->getDQL()));
+        
+        $qb->addOrderBy('team.key1');
+        
+        return $qb->getQuery()->getResult();
+    }
+    /* ========================================================================
+     * Returns a list of all the referees associated with a given account
+     * and (eventually) project
+     * Started from Area
+     */
+    public function loadOfficialsForPerson($projectId,$personId)
+    {
+        $qbPersonPersons = $this->qbPersonPersons($projectId,$personId);
+       
+        // Build query
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->addSelect('person');
+        $qb->addSelect('personRegistered');
+        
+      //$qb->addSelect('projectPerson');
+
+        $qb->from('ZaysoCoreBundle:Person',       'person');
+        $qb->leftJoin('person.personPersons',     'personPerson');
+        $qb->leftJoin('person.registeredPersons', 'personRegistered'); // Limit to ayso
+        
+      //$qb->leftJoin('person.projectPersons',    'projectPerson');
+
+        $qb->andWhere($qb->expr()->in('person.id',$qbPersonPersons->getDQL()));
+        
+        $qb->addOrderBy('person.nickName');
+        $qb->addOrderBy('person.firstName');
+        $qb->addOrderBy('person.lastName');
+
+        $items = $qb->getQuery()->getResult();
+        
+        return $items;
+    }
 }
 ?>

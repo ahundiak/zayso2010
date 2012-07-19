@@ -17,15 +17,16 @@ class EditController extends BaseController
         $manager = $this->get('zayso_core.account.home.manager');
         
         // Only the primary account holder can use this or administrator?
-        $accountPersonId = $this->getUser()->getAccountPersonId();
-        
-        $accountPerson = $manager->loadAccountPerson($accountPersonId);
-        if (!$accountPerson)
+        $accountId = $this->getUser()->getAccountId();
+        if ($accountId != $id)
+        {
+            return $this->redirect($this->generateUrl('zayso_core_home'));            
+        }
+        $account = $manager->loadAccountWithPersons($this->getProjectId(),$id);
+        if (!$account)
         {
            return $this->redirect($this->generateUrl('zayso_core_home'));            
         }
-        $account = $accountPerson->getAccount();
-        
         $formType = $this->get('zaysocore.account.edit.formtype');
         
         $form = $this->createForm($formType, $account);
@@ -65,7 +66,7 @@ class EditController extends BaseController
                         $this->getMyTitlePrefix(),
                         $userNameCurrent,
                         $userName,
-                        $accountPerson->getPersonName());
+                        $account->getPerson()->getPersonName());
                     
                     $this->sendEmail($subject,$subject);               
                 }
@@ -74,7 +75,7 @@ class EditController extends BaseController
         }
         $tplData = array();
         $tplData['form'] = $form->createView();
-        $tplData['accountPerson'] = $accountPerson;
+        $tplData['account'] = $account;
         
         return $this->renderx('Account:edit.html.twig',$tplData);
         

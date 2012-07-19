@@ -416,40 +416,6 @@ class ScheduleManager extends GameManager
         $qb = $this->qbGameTeamsForProject($projectId);
         return $qb->getQuery()->getResult();        
     }
-    public function loadTeamsForProjectAccount($projectId,$accountId)
-    {
-        $qb = $this->createQueryBuilder();
-        $qb->addSelect('team');
-        $qb->from('ZaysoCoreBundle:Team','team');
-        
-        $qb->leftJoin('team.personRels','personRel');
-        $qb->leftJoin('personRel.person','person');
-        $qb->leftJoin('person.accountPersons','accountPerson');
-           
-        $qb->andWhere($qb->expr()->eq('team.project',          $qb->expr()->literal($projectId)));
-        $qb->andWhere($qb->expr()->eq('accountPerson.account', $qb->expr()->literal($accountId)));
-        
-        $qb->addOrderBy('team.key1');
-        
-        return $qb->getQuery()->getResult();
-    }
-    public function loadPersonsForProjectAccount($projectId,$accountId)
-    {
-        $qb = $this->createQueryBuilder();
-        $qb->addSelect('person');
-        $qb->from('ZaysoCoreBundle:Person','person');
-        
-        $qb->leftJoin('person.accountPersons','accountPerson');
-           
-      //$qb->andWhere($qb->expr()->eq('team.project',          $qb->expr()->literal($projectId)));
-        $qb->andWhere($qb->expr()->eq('accountPerson.account', $qb->expr()->literal($accountId)));
-        
-        $qb->addOrderBy('person.nickName');
-        $qb->addOrderBy('person.firstName');
-        $qb->addOrderBy('person.lastName');
-        
-        return $qb->getQuery()->getResult();
-    }
     public function loadFieldsForProject($projectId)
     {
         $qb = $this->createQueryBuilder();

@@ -27,7 +27,7 @@ class OpenidController extends BaseController
         if ($openid) return $this->redirect($this->generateUrl('zayso_core_account_openid_add'));
 
         // Add it
-        $manager->addOpenidToAccountPerson($this->getUser()->getAccountPersonId(),$profile);
+        $manager->addOpenidToAccount($this->getUser()->getAccountId(),$profile);
         $manager->flush();
         
         return $this->redirect($this->generateUrl('zayso_core_account_openid_add'));
@@ -36,22 +36,20 @@ class OpenidController extends BaseController
     {
         $manager = $this->get('zayso_core.account.home.manager');
         
-        // Load the account person
-        if ($id) $accountPersonId = $id;
-        else     $accountPersonId = $this->getUser()->getAccountPersonId();
-        
-        $accountPerson = $manager->loadAccountPerson($accountPersonId);
-        
-        if (!$accountPerson || $accountPerson->getAccount()->getId() != $this->getUser()->getAccountId())
+        $account = $manager->loadAccountWithPersons($this->getProjectId(),$this->getUser()->getAccountId());
+        if (!$account)
         {
             return $this->redirect($this->generateUrl('zayso_core_home'));
         }
-
+        if ($id && ($account->getId() != $id)) 
+        {
+             return $this->redirect($this->generateUrl('zayso_core_home'));           
+        }
         if ($request->getMethod() == 'POST') return $this->deleteAction($request);
 
         $tplData = array();
-        $tplData['accountPerson'] = $accountPerson;
-        $tplData['error'] = $request->getSession()->getFlash('openid_add_error');
+        $tplData['account'] = $account;
+        $tplData['error']   = $request->getSession()->getFlash('openid_add_error');
         
         return $this->renderx('Account\Openid:add.html.twig',$tplData);
    }
