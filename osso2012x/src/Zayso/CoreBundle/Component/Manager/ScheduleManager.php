@@ -431,21 +431,5 @@ class ScheduleManager extends GameManager
         return $qb->getQuery()->getResult();
         
     }
-    public function loadPersonsForProject($projectId)
-    {
-        $qb = $this->createQueryBuilder();
-        
-        $qb->addSelect('person');
-        
-        $qb->from('ZaysoCoreBundle:Person','person');
-        $qb->leftJoin('person.projectPersons','projectPerson');
-        
-        $qb->andWhere($qb->expr()->eq('projectPerson.project',$qb->expr()->literal($projectId)));
-        
-        $qb->addOrderBy('person.last_name,person.nick_name,person.first_name');
-        
-        return $qb->getQuery()->getResult();
-        
-    }
 }
 ?>
