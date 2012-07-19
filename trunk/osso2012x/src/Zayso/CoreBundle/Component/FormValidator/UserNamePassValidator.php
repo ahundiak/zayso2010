@@ -19,10 +19,10 @@ SELECT
     account.user_name AS userName,
     account.user_pass AS userPass,
     account.status    AS accountStatus,
-    member.id         AS memberId,
-    member.status     AS memberStatus
+    account.person_id AS memberId
+    
 FROM account
-LEFT JOIN account_person AS member ON member.account_id = account.id AND member.account_relation = 'Primary'
+
 WHERE user_name = :userName
 EOT;
         
@@ -42,13 +42,11 @@ SELECT
     account.user_name     AS userName,
     account.user_pass     AS userPass,
     account.status        AS accountStatus,
-    account_person.id     AS memberId,
-    account_person.status AS memberStatus
+    account.person.id     AS memberId
     
 FROM person
 
-LEFT JOIN account_person ON account_person.person_id = person.id AND account_person.account_relation = 'Primary'
-LEFT JOIN account        ON account.id               = account_person.account_id
+LEFT JOIN account ON account.person_id = person.id
 
 WHERE person.email = :email
 EOT;
@@ -69,14 +67,12 @@ SELECT
     account.user_name     AS userName,
     account.user_pass     AS userPass,
     account.status        AS accountStatus,
-    account_person.id     AS memberId,
-    account_person.status AS memberStatus
+    account.person.id     AS memberId
     
 FROM person_registered
 
-LEFT JOIN person         ON person.id = person_registered.person_id
-LEFT JOIN account_person ON account_person.person_id = person.id AND account_person.account_relation = 'Primary'
-LEFT JOIN account        ON account.id               = account_person.account_id
+LEFT JOIN person  ON person.id = person_registered.person_id
+LEFT JOIN account ON account.person_id = person.id
 
 WHERE person_registered.reg_key = :aysoid
 EOT;

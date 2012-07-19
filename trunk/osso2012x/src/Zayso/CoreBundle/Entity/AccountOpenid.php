@@ -29,12 +29,6 @@ class AccountOpenid
     private $provider = '';
 
     /**
-     *  ORM\ManyToOne(targetEntity="AccountPerson", inversedBy="openids")
-     *  ORM\JoinColumn(name="account_person_id", referencedColumnName="id", nullable=false)
-     */
-  //protected $accountPerson = null;
-    
-    /**
      * @ORM\ManyToOne(targetEntity="Account", inversedBy="openids")
      * @ORM\JoinColumn(name="account_id", referencedColumnName="id", nullable=true)
      */
@@ -59,14 +53,6 @@ class AccountOpenid
      * @ORM\Column(name="email", type="string", length=80, nullable=true)
      */
     private $email = '';
-
-    public function setAccountPerson($accountPerson)
-    {
-        $this->accountPerson = $accountPerson;
-        if ($accountPerson) $accountPerson->addOpenid($this);
-    }
-
-    public function getAccountPerson() { return $this->accountPerson; }
     
     public function setAccount($account) { $this->account = $account; }
     public function getAccount()  { return $this->account; }

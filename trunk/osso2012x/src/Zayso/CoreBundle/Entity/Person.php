@@ -69,18 +69,6 @@ class Person
     public function getGameRels() { return $this->gameRels; }
     
     /**
-     * Probably do not need this
-     * Need for query to get all people for a given account
-     * @ORM\OneToMany(targetEntity="AccountPerson", mappedBy="person")
-     */
-    protected $accountPersons;
-    
-    /**
-     *  ORM\OneToMany(targetEntity="Account", mappedBy="person")
-     */
-    // protected $accounts;
-
-    /**
      * @ORM\OneToMany(targetEntity="ProjectPerson", mappedBy="person", cascade={"persist"})
      */
     protected $projectPersons;
