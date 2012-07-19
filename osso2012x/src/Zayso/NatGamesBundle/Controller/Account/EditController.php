@@ -119,18 +119,19 @@ class EditController extends BaseController
     public function editAction(Request $request, $id)
     {
         // Verify authorized to edit this account
-
+die('accountEdit');
         // Load in tha account person
         $accountManager = $this->getAccountManager();
-        $accountPerson = $accountManager->getAccountPerson(array('accountPersonId' => $id, 'projectId' => $this->getProjectId()));
-        if (!$accountPerson)
+        $account = $manager->loadAccountWithPersons($this->getProjectId(),$id);
+        
+        if (!$account)
         {
-            die('Invalid account person id ' . $id);
+            die('Invalid account id ' . $id);
         }
         
         // Form
         $accountType = new AccountEditType($this->getEntityManager());
-        $form = $this->createForm($accountType, $accountPerson);
+        $form = $this->createForm($accountType, $account);
 
         if ($request->getMethod() == 'POST')
         {

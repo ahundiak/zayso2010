@@ -1,7 +1,7 @@
 <?php
 namespace Zayso\NatGamesBundle\Controller\Account;
 
-use Zayso\NatGamesBundle\Controller\BaseController;
+use Zayso\CoreBundle\Controller\BaseController;
 
 use Symfony\Component\HttpFoundation\Request;
 
@@ -9,15 +9,48 @@ class CreateController extends BaseController
 {
     public function createAction(Request $request)
     {
-        // Hook for profile stuff, see area controller
-        $profile = null;
-        
+        // Must have a profile to get here
+        $profile = $request->getSession()->get('openidProfile');
+        if (!$this->isProfileValid($profile)) $profile = null;
+        if (!$profile)
+        {
+            // Allow creating without a profile
+            //return $this->redirect($this->generateUrl('zayso_core_welcome'));
+        }
         // New form stuff
         $accountManager = $this->getAccountManager();
-      //$accountPerson = $accountManager->newAccountPerson(array('projectId' => $this->getProjectId()));
         $accountPerson = $accountManager->newAccountPersonAyso();
+
+        // Init with profile info
+        if ($profile)
+        {
+            $accountPerson->setOpenidDisplayName($profile['displayName']);
+            $accountPerson->setOpenidProvider   ($profile['providerName']);
         
-        $accountFormType = $this->get('zayso_natgames.account.create.formtype');
+            // Pretty much confirmed that we always get one of these
+            if (isset($profile['preferredUsername'])) 
+            {
+                $accountPerson->setOpenidUserName($profile['preferredUsername']);
+                $accountPerson->setUserName      ($profile['preferredUsername']);
+            }
+            // Not for openid
+            if (isset($profile['email']))             $accountPerson->setEmail($profile['email']);
+            if (isset($profile['verifiedEmail']))     $accountPerson->setEmail($profile['verifiedEmail']);
+            
+            if (isset($profile['name']['givenName' ])) $accountPerson->setFirstName($profile['name']['givenName']);
+            if (isset($profile['name']['familyName'])) $accountPerson->setLastName ($profile['name']['familyName']);
+        }
+        
+        // Not real sure about this
+        if (!$accountPerson->getUserName())
+        {
+            // $accountPerson->setUserName(md5(uniqid()));
+        }
+        $accountPerson->setUserPass(md5(uniqid()));
+        
+        
+        // The form
+        $accountFormType = $this->get('zayso_core.account.create.formtype');
 
         $form = $this->createForm($accountFormType, $accountPerson);
 
@@ -25,11 +58,10 @@ class CreateController extends BaseController
         {
             $form->bindRequest($request);
 
-            if ($form->isValid())
+            // Disable account creation
+            if ($form->isValid() && 0)
             {
-                // No need to worry about project, handled by home controller
-                //$accountPerson->setProjectPersonData($this->getProjectId(),$todo);
-                
+                $accountPerson->setProjectPersonData($this->getProjectId());
                 if ($profile)
                 {
                     $openid = $accountPerson->getFirstOpenid();
@@ -38,36 +70,41 @@ class CreateController extends BaseController
                 $account = $accountManager->createAccountFromAccountPersonAyso($accountPerson);
                 
                 if ($account) 
-                {
-                    // Send email
-                    $this->sendEmail($account);
+                {                    
+                    // Sign in
+                    $user = $this->setUser($account->getUserName());
                     
-                    // Done
-                    $this->setUser($account->getUserName());
-                    return $this->redirect($this->generateUrl('zayso_natgames_home'));
+                    // Send email
+                    $subject = sprintf('[%s][Account] Created %s %s %s',
+                            $this->getMyTitlePrefix(),
+                            $user->getName(),$user->getRegion(),$user->getAysoid());
+                    $this->sendEmail($subject,$subject);
+                    
+                    return $this->redirect($this->generateUrl('zayso_core_home'));
                 }
             }
         }
-        $tplData = $this->getTplData();
+        $tplData = array();
         $tplData['form'] = $form->createView();
 
-        return $this->render('ZaysoNatGamesBundle:Account:create.html.twig',$tplData);
+        return $this->renderx('ZaysoNatGamesBundle:Account:create.html.twig',$tplData);
     }
-    protected function sendEmail($account)
+    /* ===============================================
+     * Use this check because sometime the session variable
+     * seems to go away
+     */
+    protected function isProfileValid($profile)
     {
-        $mailerEnabled = $this->container->getParameter('mailer_enabled');
-        if (!$mailerEnabled) return;
-        
-        $accountPerson = $account->getPrimaryAccountPerson();
-        
-        $message = \Swift_Message::newInstance();
-        $message->setSubject('[NatGames2012] New Account ' . $account->getUserName());
-        $message->setFrom('ahundiak@zayso.org');
-        $message->setTo  ('ahundiak@gmail.com');
-        
-        $message->setBody($this->renderView('ZaysoNatGamesBundle:Account:email.txt.twig', array('ap' => $accountPerson)));
+        if (!is_array($profile)) return false;
 
-        $this->get('mailer')->send($message);
-        
+        // Must have identifier
+        if (!isset($profile['identifier']) || (strlen($profile['identifier']) < 8)) return false;
+
+        // Must have providername
+        if (!isset($profile['providerName']) || (strlen($profile['providerName']) < 4)) return false;
+
+        // Good enough
+        return true;
     }
+
 }

@@ -44,8 +44,8 @@ class ResultsController extends BaseController
         $tplData['pools']  = $pools;
         
         $response = $this->renderx('Schedule:results.html.twig',$tplData);
-        $response->setPublic();
-        $response->setSharedMaxAge(30);
+      //$response->setPublic();
+      //$response->setSharedMaxAge(30);
         return $response;
          
     }

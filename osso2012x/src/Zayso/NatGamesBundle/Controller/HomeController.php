@@ -41,12 +41,12 @@ class HomeController extends BaseController
         }
         
         // Get people for account
-        $accountPersons = $manager->loadAccountPersons($accountId,$projectId);
+        $account   = $manager->loadAccountWithPersons($projectId,$accountId);
         
         // And Render
         $tplData = array();
-        $tplData['projectId']      = $projectId;
-        $tplData['accountPersons'] = $accountPersons;
+        $tplData['projectId'] = $projectId;
+        $tplData['account']   = $account;
         
         return $this->renderx('Welcome:home.html.twig',$tplData);
 
