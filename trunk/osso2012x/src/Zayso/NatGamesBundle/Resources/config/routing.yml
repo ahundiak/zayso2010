@@ -67,7 +67,7 @@ zayso_core_project_levels:
 
 zayso_core_account_create:
     pattern:  /account/public/create
-    defaults: { _controller: ZaysoCoreBundle:Account\Create:create }
+    defaults: { _controller: ZaysoNatGamesBundle:Account\Create:create }
 
 zayso_core_account_signout:
     pattern:  /account/public/signout
@@ -101,11 +101,17 @@ zayso_core_account_openid_add_rpx:
 
 zayso_core_account_person_add:
     pattern:  /account/person/add
-    defaults: { _controller: ZaysoNatGamesBundle:Account\Person:add }
+    defaults: { _controller: ZaysoCoreBundle:Account\Person:add }
     
 zayso_core_account_person_edit:
     pattern:  /account/person/edit/{id}
-    defaults: { _controller: ZaysoNatGamesBundle:Account\Person:edit, id: 0 }
+    defaults: { _controller: ZaysoCoreBundle:Account\Person:edit, id: 0 }
+    requirements:
+        id: \d+
+        
+zayso_core_person_person_edit:
+    pattern:  /account/person/edit/{id}
+    defaults: { _controller: ZaysoCoreBundle:Account\Person:edit, id: 0 }
     requirements:
         id: \d+
 

@@ -9,10 +9,10 @@
         <th>Social User Name</th>
         <th>Remove</th>
     </tr>
-    {% for openid  in accountPerson.openids %}
+    {% for openid  in account.openids %}
     <tr>
-        <td>{{ openid.accountPerson.userName   }}</td>
-        <td>{{ openid.accountPerson.personName }}</td>
+        <td>{{ account.userName   }}</td>
+        <td>{{ account.person.personName }}</td>
         <td>{{ openid.provider }}</td>
         <td>{{ openid.userName }}</td>
         <td align="center"><input type="checkbox" name="openids[remove][{{openid.id}}]" value="{{openid.id}}" /></td>
