@@ -8,8 +8,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity
- * @ORM\Table(name="account_person")
+ *  19 July 2012 - Obsolete
+ *  ORM\Entity
+ *  ORM\Table(name="account_person")
  */
 class AccountPerson
 {

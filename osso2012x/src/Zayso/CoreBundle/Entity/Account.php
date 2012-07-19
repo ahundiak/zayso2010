@@ -36,9 +36,6 @@ class Account
     /** @ORM\Column(name="reset",type="string",length="40",nullable=true)
      */
     protected $reset = null;
-
-    /** @ORM\OneToMany(targetEntity="AccountPerson", mappedBy="account") */
-    protected $accountPersons;
     
     /**
      * @ORM\ManyToOne(targetEntity="Person")
@@ -54,36 +51,8 @@ class Account
      */
     public function __construct()
     {
-        $this->accountPersons = new ArrayCollection();
-        $this->openids        = new ArrayCollection();
+        $this->openids = new ArrayCollection();
     }
-    public function addAccountPerson($accountPerson)
-    {
-        $this->accountPersons[] = $accountPerson;
-    }
-    public function getAccountPerson($accountPersonId)
-    {
-        foreach($this->accountPersons as $accountPerson)
-        {
-            if ($accountPerson->getId() == $accountPersonId) return $accountPerson;
-        }
-        return null;
-    }
-    public function getPrimaryAccountPerson()
-    {
-        foreach($this->accountPersons as $accountPerson)
-        {
-            if ($accountPerson->isPrimary()) return $accountPerson;
-
-            //if ($accountPerson->getAccountRelation() == 'Primary') return $accountPerson;
-        }
-        return null;
-    }
-    public function getAccountPersons() { return $this->accountPersons; }
-
-    /* =====================================================================
-     * End of custom code
-     */
 
     public function getId()    { return $this->id; }
     public function setId($id) { $this->id = $id; } // For password reset

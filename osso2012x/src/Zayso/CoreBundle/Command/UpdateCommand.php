@@ -120,9 +120,9 @@ class UpdateCommand extends ContainerAwareCommand
     }
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-      //$this->updateAccountOpenid();
+        $this->updateAccountOpenid();
         
-      //$this->updateAccountPerson();
+        $this->updateAccountPerson();
         
         $this->updatePersonPerson();
     }
