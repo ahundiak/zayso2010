@@ -306,13 +306,13 @@ class AccountHomeManager extends BaseManager
  
         return $qb->getQuery()->getOneOrNullResult();
     }
-    public function addOpenidToAccountPerson($accountPerson,$profile = array())
+    public function addOpenidToAccount($account,$profile = array())
     {
-        if (!is_object($accountPerson)) $accountPerson = $this->getAccountPersonReference($accountPerson);
+        if (!is_object($account)) $account = $this->getAccountReference($account);
                
         $openid = new AccountOpenid();
         $openid->setProfile($profile);
-        $openid->setAccountPerson($accountPerson);
+        $openid->setAccount($account);
 
         $this->persist($openid);
 
