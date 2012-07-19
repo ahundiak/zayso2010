@@ -21,11 +21,11 @@ class RefSchedController extends BaseController
         $manager = $this->getScheduleManager();
         
         $user = $this->getUser();
-        if (is_object($user)) $accountId = $user->getAccountId();
-        else                  $accountId = 0;
+        if (is_object($user)) $personId = $user->getPersonId();
+        else                  $personId = 0;
         
         // My Teams
-        $items = $manager->loadTeamsForProjectAccount($this->projectId,$accountId);
+        $items = $manager->loadTeamsForProjectPerson($this->projectId,$personId);
         $teams   = array();
         $teamIds = array();
         foreach($items as $item)
@@ -35,13 +35,13 @@ class RefSchedController extends BaseController
         }
         
         // My Persons
-        $items = $manager->loadPersonsForProjectAccount($this->projectId,$accountId);
+        $items = $manager->loadPersonsForProjectPerson($this->projectId,$personId);
         $persons   = array();
         $personIds = array();
         foreach($items as $item)
         {
             $persons[$item->getId()] = $item->getPersonName(); // For Pick List
-            $personIds[] = $item->getPersonName();             // Selected teams
+            $personIds[] = $item->getPersonName();             // Selected persons
         }
         return array(
             'dows'     => array('FRI','SUN'),
@@ -70,6 +70,8 @@ class RefSchedController extends BaseController
     
     public function listAction(Request $request, $_format, $search = null)
     {
+        // This keeps tripping me up since session data overrides
+        // Sometimes need to sign out then sign back in again
         $searchData = $this->initSearchData();
         
         // Pull from session if nothing was passed

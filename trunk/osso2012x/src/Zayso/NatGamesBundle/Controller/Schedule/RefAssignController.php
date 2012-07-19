@@ -30,8 +30,9 @@ class RefAssignController extends BaseController
         $user = $this->getUser();
         if (!is_object($user)) return $this->redirect($this->generateUrl('zayso_core_schedule_referee_list'));
         $accountId = $user->getAccountId();
+        $personId  = $user->getPersonId();
         $projectId = $this->getProjectId();
-        $officials = $manager->loadOfficialsForAccount($projectId,$accountId);
+        $officials = $manager->loadOfficialsForPerson($projectId,$personId);
 
         // The form stuff
         $formType = $this->get('zayso_natgames.schedule.refassign.formtype');
@@ -44,7 +45,8 @@ class RefAssignController extends BaseController
 
             if ($form->isValid())
             {   
-                $this->assignOfficials($game);
+                // Disable signups
+                // $this->assignOfficials($game);
                 
                 // Should redirect
                 return $this->redirect($this->generateUrl('zayso_core_schedule_referee_assign',array('id' => $gameId)));
