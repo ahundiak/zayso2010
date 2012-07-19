@@ -6,7 +6,7 @@
 
 {% block content %}
 <div>
-<form action="{{ path('zayso_core_account_edit', { 'id': accountPerson.id }) }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ path('zayso_core_account_edit', { 'id': account.id }) }}" method="post" {{ form_enctype(form) }}>
 <table border="1" style="width: 800px;">
 <tr><th colspan="3">Edit Account</th></tr>
 <tr>
@@ -36,7 +36,7 @@
 <tr>
   <td>&nbsp;</td>
   <td>&nbsp;</td>
-  <td align="center"><input type="submit" name="accountPersonEditSubmit" value="Update Account Information" /></td>
+  <td align="center"><input type="submit" name="accountEditSubmit" value="Update Account Information" /></td>
 </tr>
 <tr><td colspan="3">{{ form_errors(form) }}</td></tr>
 </table>
@@ -44,12 +44,16 @@
 </form>
 </div>
 <h3>Instructions</h3>
-<p>
+<p style="max-width: 750px;">
     This form allows you to change your Zayso user name and/or your Zayso password.
     Most of the time you will sign in using your social network icon but having an actual
     user name and password can come in handy.
 </p>
-<p>
+<p style="max-width: 750px;">
     If you got here as a result of a password reset then go ahead and set your password to whatever you like.
+</p>
+<p style="max-width: 750px;">
+    If your user name looks like 40 random characters then it means that it was automatically generated at some point
+    by zayso.  You can set it to whatever you like as long as it is unique in zayso.
 </p>
 {% endblock %}

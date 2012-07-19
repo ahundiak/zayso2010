@@ -7,10 +7,10 @@
         <th>My NatGames Plans</th>
         <th>My NatGames Teams</th>
    </tr>
-    {% for accountPerson in accountPersons %}
-    {% set person   = accountPerson.personz %}
-    {% set aysoCert = person.aysoCertz %}
-    {% set teamRels = person.teamRels %}
+    {% for personPerson in account.person.personPersons %}
+    {% set person = personPerson.person2 %}
+    {% set aysoCert = person.aysoCertz   %}
+    {% set teamRels = person.teamRels    %}
     {% set projectPerson = person.projectPerson(projectId) %}
     {% if projectPerson %}
         {% set plans = projectPerson.get('plans') %}
@@ -22,22 +22,22 @@
             <tr>
                 <td>Person:</td>
                 <td colspan="1">
-                    <a href="{{ path('zayso_core_account_person_edit', { 'id': accountPerson.id }) }}">
+                    <a href="{{ path('zayso_core_account_person_edit', { 'id': personPerson.id }) }}">
                         {{ person.personName }}
                     </a>
                 </td>
             </tr>
-            <tr><td>Relation:</td><td>{{ accountPerson.accountRelation }}</td></tr>
-            {% if accountPerson.isPrimary %}
+            <tr><td>Relation:</td><td>{{ personPerson.relation }}</td></tr>
+            {% if personPerson.isPrimary %}
             <tr><td>Account:</td><td>
-                <a href="{{ path('zayso_core_account_edit', { 'id': accountPerson.id }) }}">
-                    {{ accountPerson.userName }}
+                <a href="{{ path('zayso_core_account_edit', { 'id': account.id }) }}">
+                    {{ account.userName }}
                 </a>
             </td></tr>
-            {% endif %}
-            {% for openid in accountPerson.openids %}
+            {% for openid in account.openids %}
                 <tr><td>Sign In:</td><td>{{ openid.provider }}<br />{{ openid.userName }}</td></tr>
             {% endfor %}
+            {% endif %}
         </table></td>
         <td><table>
             <tr><td>AYSO ID:</td>      <td>{{aysoCert.aysoid}}   </td></tr>
@@ -54,7 +54,7 @@
             {% else %}
                 <tr><td colspan="2">No plans yet.</td></tr>
             {% endif %}
-            {% if accountPerson.isPrimary or accountPerson.isFamily %}
+            {% if personPerson.isPrimary or personPerson.isFamily %}
             <tr><td colspan="2">
                 <a href="{{ path('zayso_core_project_plans',  { 'id': person.id }) }}">My NatGames Plans</a><br />
                 <a href="{{ path('zayso_core_project_levels', { 'id': person.id }) }}">My Referee Levels</a>
@@ -72,7 +72,7 @@
     </tr>
     {% endfor %}
     <tr><th colspan="5">
-            <a href="{{ path('zayso_core_account_person_add') }}">Add Person to Account</a>
+            <a href="{{ path('zayso_core_home') }}">Add Person to Account(Disabled)</a>
         </th>
     </tr>
     <tr><th colspan="5">
