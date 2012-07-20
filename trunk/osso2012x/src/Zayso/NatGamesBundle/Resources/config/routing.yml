@@ -223,6 +223,18 @@ zayso_core_admin_team_list:
     defaults: { _controller: ZaysoNatGamesBundle:Admin\Team\List:list, _format: html }
     requirements:
         _format:  html|csv|xls
+        
+zayso_core_admin_person_search:
+    pattern:  /admin/person/search.{_format}
+    defaults: { _controller: ZaysoCoreBundle:Admin\Person\Search:search, _format: html }
+    requirements:
+        _format:  html|csv|xls
+        
+zayso_core_admin_person_edit:
+    pattern:  /admin/person/edit/{personId}
+    defaults: { _controller: ZaysoCoreBundle:Admin\Person\Edit:edit, personId: 0 }
+    requirements:
+        personId: \d+
    
 # =================================================
 # Admin stuff
