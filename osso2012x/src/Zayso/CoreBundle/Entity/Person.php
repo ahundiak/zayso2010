@@ -299,7 +299,12 @@ class Person
         
         return $this->aysoCertz;
     }
-    
+    public function getRegAYSO() { return $this->getAysoCertz(); }
+    public function getRegion()
+    {
+        if (!$this->org) return null;
+        return substr($this->org->getId(),4); 
+    }
     protected $orgz = null;
     
     public function getOrgz()

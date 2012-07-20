@@ -93,5 +93,36 @@ class PersonManager extends BaseManager
     }
     public function getPersonTeamRelClass() { return 'Zayso\CoreBundle\Entity\PersonTeamRel'; }
     public function getTeamClass()          { return 'Zayso\CoreBundle\Entity\Team'; }
+    
+    protected function getParam($searchData, $name, $default = null)
+    {
+        if (!isset($searchData[$name])) return $default;
+        
+        return $searchData[$name];
+    }
+   
+    public function searchForPersons($searchData)
+    {
+        $lastName = $this->getParam($searchData,'lastName');
+        
+        $qb = $this->createQueryBuilder();
+        
+        $qb->addSelect('person');
+        $qb->addSelect('personReg');
+        $qb->addSelect('personOrg');
+          
+        $qb->from('ZaysoCoreBundle:Person','person');
+        
+        $qb->leftJoin('person.registeredPersons','personReg');
+        $qb->leftJoin('person.org','personOrg');
+
+        $qb->orderBy('person.lastName');
+        $qb->orderBy('person.nickName');
+        $qb->orderBy('person.firstName');
+
+        if ($lastName) $qb->andWhere($qb->expr()->like('person.lastName',$qb->expr()->literal($lastName . '%')));
+        
+        return $qb->getQuery()->getResult(); 
+    }
 }
 ?>
