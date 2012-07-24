@@ -1,3 +1,9 @@
+# Take everything offline
+# zayso_core_offline:
+#     pattern:  /{url}
+#     defaults: { _controller: ZaysoNatGamesBundle:Welcome:offline, url: "offline" }
+#     requirements:
+#       url: ".+"
 
 # National Games Routes
 zayso_core_index:
