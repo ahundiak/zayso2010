@@ -42,7 +42,7 @@ SELECT
     account.user_name     AS userName,
     account.user_pass     AS userPass,
     account.status        AS accountStatus,
-    account.person.id     AS memberId
+    account.person_id     AS memberId
     
 FROM person
 
@@ -67,7 +67,7 @@ SELECT
     account.user_name     AS userName,
     account.user_pass     AS userPass,
     account.status        AS accountStatus,
-    account.person.id     AS memberId
+    account.person_id     AS memberId
     
 FROM person_registered
 
