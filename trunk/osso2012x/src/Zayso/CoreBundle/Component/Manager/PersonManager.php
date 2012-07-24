@@ -109,12 +109,12 @@ class PersonManager extends BaseManager
         
         $qb->addSelect('person');
         $qb->addSelect('personReg');
-        $qb->addSelect('personOrg');
+        $qb->addSelect('personRegOrg');
           
         $qb->from('ZaysoCoreBundle:Person','person');
         
         $qb->leftJoin('person.registeredPersons','personReg');
-        $qb->leftJoin('person.org','personOrg');
+        $qb->leftJoin('personReg.org','personRegOrg');
 
         $qb->orderBy('person.lastName');
         $qb->orderBy('person.nickName');
@@ -123,6 +123,69 @@ class PersonManager extends BaseManager
         if ($lastName) $qb->andWhere($qb->expr()->like('person.lastName',$qb->expr()->literal($lastName . '%')));
         
         return $qb->getQuery()->getResult(); 
+    }
+    /* =========================================
+     * Already have loadPerson in BaseManager
+     */
+    public function loadPersonForEdit($projectId,$personId)
+    {
+        $qb = $this->createQueryBuilder();
+        
+        $qb->addSelect('person');
+        $qb->addSelect('personReg');
+        $qb->addSelect('personRegOrg');
+        $qb->addSelect('projectPerson');
+         
+        $qb->from('ZaysoCoreBundle:Person','person');
+        
+        $qb->leftJoin('person.registeredPersons','personReg');
+        $qb->leftJoin('personReg.org','personRegOrg');
+        
+        $qb->leftJoin('person.projectPersons','projectPerson', 
+            Expr\Join::WITH, $qb->expr()->eq('projectPerson.project', $projectId));
+       
+        $qb->andWhere($qb->expr()->eq('person.id',$qb->expr()->literal($personId)));
+        
+        return $qb->getQuery()->getOneOrNullResult();      
+    
+    }
+    /* ===========================================
+     * Not sure if this should go here or not
+     */
+    public function savePerson($person)
+    {
+        // Deal with new ayso record
+        // One type at a time for now since getRPs will not work for new records
+        // Need to deal with the case of adding a new person with an existing ayso record
+        $personRegs = array($person->getRegAYSO());
+        foreach($personRegs as $personReg)
+        {
+            if ($personReg->getRegKey()) $this->persist($personReg);
+            else
+            {
+                if ($personReg->getId())
+                {
+                    $this->remove($personReg);
+                }
+            }
+        }
+        // If no project then remove from flush
+        $currentProjectPerson = $person->getCurrentProjectPerson();
+        if (!$currentProjectPerson->getProject())
+        {
+            // This allows removeing a person from a project
+            $this->remove($currentProjectPerson);// die('detached');
+            
+            // Need this otherwise an entity always gets added even with remove/detach
+            // The cascade=persist was causing this when addProjectPerson was called by the form
+            // $person->clearProjectPersons();
+        }
+        else $this->persist($currentProjectPerson);  // Only persist if have a project
+        
+        // Deal with new persons
+        if (!$person->getId()) $this->persist($person);
+        
+        $this->flush();
     }
 }
 ?>

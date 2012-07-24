@@ -227,5 +227,18 @@ class BaseManager
         return $qb->getQuery()->getResult();
         
     }
+    public function qbActiveProjects()
+    {
+        $qb = $this->createQueryBuilder();
+        
+        $qb->addSelect('project');
+        
+        $qb->from('ZaysoCoreBundle:Project','project');
+        
+        $qb->andWhere($qb->expr()->eq('project.status',$qb->expr()->literal('Active')));
+        
+        return $qb;
+    
+    }
 }
 ?>

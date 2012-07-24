@@ -118,13 +118,76 @@ class UpdateCommand extends ContainerAwareCommand
         }
         $em->flush();
     }
+    protected function updatePersonRegistered()
+    {
+        $em = $this->getContainer()->get('zayso_core.account.entity_manager');
+        
+        $qb = $em->createQueryBuilder();
+
+        $qb->addSelect('person, personReg');
+        
+        $qb->from('ZaysoCoreBundle:Person', 'person');
+        $qb->leftJoin('person.registeredPersons','personReg');
+        
+        $persons = $qb->getQuery()->getResult();
+        
+        foreach($persons as $person)
+        {
+            $personRegs = $person->getRegisteredPersons();
+            if (count($personRegs) != 1)
+            {
+                // Verify 1 to 1 at this point
+                echo sprintf("Person %d %d\n",$person->getId(),count($personRegs()));
+            }
+            $org = $person->getOrg();
+            if (!$org)
+            {
+                echo sprintf("Person %d NO ORG\n",$person->getId());               
+            }
+            foreach($personRegs as $personReg)
+            {
+                $personReg->setOrg($org);
+            }
+        }
+        $em->flush();
+    }
+    protected function updatePerson()
+    {
+        $em = $this->getContainer()->get('zayso_core.account.entity_manager');
+        
+        $qb = $em->createQueryBuilder();
+
+        $qb->addSelect('person');
+        
+        $qb->from('ZaysoCoreBundle:Person', 'person');
+        
+        $persons = $qb->getQuery()->getResult();
+        
+        foreach($persons as $person)
+        {
+            $dob = $person->get('dob');
+          //$person->setDob($dob);
+            $person->set('dob',null);
+            
+            $gender = $person->get('gender');
+          //$person->setGender($gender);
+            $person->set('gender',null);
+           
+            $person->clearData();            
+        }
+        $em->flush();
+    }
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->updateAccountOpenid();
+        //$this->updateAccountOpenid();
         
-        $this->updateAccountPerson();
+        //$this->updateAccountPerson();
         
-        $this->updatePersonPerson();
+        //$this->updatePersonPerson();
+        
+        $this->updatePerson();
+        
+      //$this->updatePersonRegistered();
     }
 }
 ?>
