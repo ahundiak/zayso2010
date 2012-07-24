@@ -9,7 +9,7 @@
    </tr>
     {% for personPerson in account.person.personPersons %}
     {% set person = personPerson.person2 %}
-    {% set aysoCert = person.aysoCertz   %}
+    {% set aysoCert = person.regAYSO     %}
     {% set teamRels = person.teamRels    %}
     {% set projectPerson = person.projectPerson(projectId) %}
     {% if projectPerson %}
@@ -40,11 +40,11 @@
             {% endif %}
         </table></td>
         <td><table>
-            <tr><td>AYSO ID:</td>      <td>{{aysoCert.aysoid}}   </td></tr>
-            <tr><td>Vol Year:</td>     <td>{{aysoCert.memYear}}  </td></tr>
-            <tr><td>Safe Haven:</td>   <td>{{aysoCert.safeHaven}}</td></tr>
-            <tr><td>Ref Badge:</td><td>{{aysoCert.refBadge}} </td></tr>
-            <tr><td>Region:</td>       <td>{{person.orgz.desc3}} </td></tr>
+            <tr><td>AYSO ID:</td>   <td>{{aysoCert.aysoid}}   </td></tr>
+            <tr><td>Vol Year:</td>  <td>{{aysoCert.memYear}}  </td></tr>
+            <tr><td>Safe Haven:</td><td>{{aysoCert.safeHaven}}</td></tr>
+            <tr><td>Ref Badge:</td> <td>{{aysoCert.refBadge}} </td></tr>
+            <tr><td>Region:</td>    <td>{{aysoCert.org.desc3}} </td></tr>
         </table></td>
         <td><table>
             {% if plans %}

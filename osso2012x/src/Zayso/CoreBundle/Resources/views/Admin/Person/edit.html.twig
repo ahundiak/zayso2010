@@ -1,0 +1,127 @@
+{% form_theme form myBundleName ~ ':Layout:fields.html.twig' %}
+
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
+
+{% block title %}{{ myTitlePrefix }} Person Edit {% endblock %}
+
+{% block content %}
+<div>
+<form action="{{ path('zayso_core_admin_person_edit', { 'personId': person.id }) }}" method="post" {{ form_enctype(form) }}>
+<table border="1" style="width: 800px;">
+<tr><th colspan="3">Admin Person Edit {{ person.id }}</th></tr>
+<tr>
+    <td> {{ form_label (form.firstName) }}</td>
+    <td> {{ form_widget(form.firstName) }}</td>
+    <td>
+        Legal name<br />
+        {{ form_errors(form.firstName) }}
+    </td>
+</tr>
+<tr>
+    <td> {{ form_label (form.lastName) }}</td>
+    <td> {{ form_widget(form.lastName) }}</td>
+    <td>
+        Legal name<br />
+        {{ form_errors(form.lastName) }}
+    </td>
+</tr>
+<tr>
+    <td> {{ form_label (form.nickName) }}</td>
+    <td> {{ form_widget(form.nickName) }}</td>
+    <td>
+        Will be used for assignments.<br />
+        {{ form_errors(form.nickName) }}
+    </td>
+</tr>
+<tr>
+    <td> {{ form_label (form.email) }}</td>
+    <td> {{ form_widget(form.email) }}</td>
+    <td> {{ form_errors(form.email) }}</td>
+</tr>
+<tr>
+    <td> {{ form_label (form.cellPhone) }}</td>
+    <td> {{ form_widget(form.cellPhone) }}</td>
+    <td> {{ form_errors(form.cellPhone) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (form.gender) }}</td>
+    <td>{{ form_widget(form.gender) }}</td>
+    <td>{{ form_errors(form.gender) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (form.dob) }}</td>
+    <td>{{ form_widget(form.dob) }}</td>
+    <td>{{ form_errors(form.dob) }}</td>
+</tr>
+<tr><th colspan="3">eAYSO Information</th></tr>
+<tr>
+    <td>{{ form_label (form.regAYSO.regKey) }}</td>
+    <td>{{ form_widget(form.regAYSO.regKey) }}</td>
+    <td>
+        Be careful when changing<br />
+        {{ form_errors(form.regAYSO.regKey) }}
+    </td>
+</tr>
+<tr>
+    <td>{{ form_label (form.regAYSO.orgKey) }}</td>
+    <td>{{ form_widget(form.regAYSO.orgKey) }}</td>
+    <td>
+        Will auto-create<br />
+        {{ form_errors(form.regAYSO.orgKey) }}
+    </td>
+</tr>
+<tr>
+    <td>{{ form_label (form.regAYSO.memYear) }}</td>
+    <td>{{ form_widget(form.regAYSO.memYear) }}</td>
+    <td>{{ form_errors(form.regAYSO.memYear) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (form.regAYSO.safeHaven) }}</td>
+    <td>{{ form_widget(form.regAYSO.safeHaven) }}</td>
+    <td>{{ form_errors(form.regAYSO.safeHaven) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (form.regAYSO.refBadge) }}</td>
+    <td>{{ form_widget(form.regAYSO.refBadge) }}</td>
+    <td>{{ form_errors(form.regAYSO.refBadge) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (form.regAYSO.refDate) }}</td>
+    <td>{{ form_widget(form.regAYSO.refDate) }}</td>
+    <td>{{ form_errors(form.regAYSO.refDate) }}</td>
+</tr>
+<tr><th colspan="3">Project Information</th></tr>
+<tr>
+    <td>{{ form_label (form.currentProjectPerson.project) }}</td>
+    <td>{{ form_widget(form.currentProjectPerson.project) }}</td>
+    <td>{{ form_errors(form.currentProjectPerson.project) }}</td>
+</tr>
+
+<tr>
+  <td><a href="{{ path('zayso_core_admin_person_search') }}#person-list-{{ person.id }}">Persons</a></td>
+  <td>&nbsp;</td>
+  <td align="center"><input type="submit" name="personEditSubmit" value="Update Person" />
+</tr>
+<tr><td colspan="3">{{ form_errors(form) }}</td></tr>
+</table>
+{{ form_rest(form) }}
+</form>
+</div>
+<br />
+<div style="width: 750px;">
+    <p>
+        If the aysoid is changed then the actual person_registered reg_key will get updated.
+        It does not create a new record nor does it currently check to ensure the new id
+        does not currently exist.
+    </p>
+    <p>
+        A region record will be automatically created if any valid region number is entered.
+    </p>
+    <p>
+        Current project is added by default.  
+        You can remove a person from the current project by selecting "Choose Project"
+        even though it will look like it hase been added back.  
+        The whole project thing is still very fragile.
+    </p>
+</div>
+{% endblock %}

@@ -42,6 +42,13 @@
         </service>
         
         <service
+            id     = "zayso_core.admin.person.edit.formtype"
+            class  = "Zayso\CoreBundle\Component\FormType\Admin\Person\PersonEditFormType"
+            public = "true">
+            <argument type="service" id="zayso_core.person.manager" />        
+        </service>
+        
+        <service
             id     = "zayso_core.person.team.edit.formtype"
             class  = "Zayso\CoreBundle\Component\FormType\Person\PersonTeamEditFormType"
             public = "true">

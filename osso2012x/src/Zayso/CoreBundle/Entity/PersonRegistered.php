@@ -30,6 +30,12 @@ class PersonRegistered
 
   /** @ORM\Column(type="string",name="reg_key",length=40,unique=true) */
   protected $regKey = '';
+  
+    /**
+     * @ORM\ManyToOne(targetEntity="Org")
+     * @ORM\JoinColumn(name="org_key", referencedColumnName="id", nullable=true)
+     */
+    protected $org = null;
 
   /** @ORM\Column(type="string",name="verified",length=20) */
   protected $verified = 'No';
@@ -69,7 +75,7 @@ class PersonRegistered
     public function setPerson($person)
     {
         $this->person = $person;
-        if ($person) $person->addRegisteredPerson($this);
+      //if ($person) $person->addRegisteredPerson($this);
     }
     public function setRefBadge($refBadge) { return $this->set('ref_badge',$refBadge); }
     public function getRefBadge()          { return $this->get('ref_badge'); }
@@ -90,6 +96,24 @@ class PersonRegistered
     public function getMemYear()          { return $this->get('mem_year'); }
 
     public function getAysoid() { return substr($this->regKey,5); }
+    
+    public function setOrg($org) { $this->org = $org; }
+    public function getOrg()     { return $this->org; }
+
+    public function getOrgKey()
+    {
+        if ($this->org) return $this->org->getId();
+        return null;
+    }
+    public function setOrgKey($key)
+    {
+        //if ($this->org) $this->org->setId($key);
+    }
+    public function getRegion()
+    {
+        if (!$this->org) return null;
+        return substr($this->org->getId(),4); 
+    }
     
     /* =====================================================================
      * Generated Code

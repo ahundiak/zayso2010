@@ -34,8 +34,8 @@ class AccountHomeManager extends BaseManager
         $qb->addSelect('personPerson');
         $qb->addSelect('person');
         
-        $qb->addSelect('registeredPersons');
-        $qb->addSelect('org');
+        $qb->addSelect('personReg');
+        $qb->addSelect('personRegOrg');
         $qb->addSelect('projectPerson');
         $qb->addSelect('openid');
         $qb->addSelect('teamRel');
@@ -50,8 +50,8 @@ class AccountHomeManager extends BaseManager
         $qb->leftJoin('personPerson.person2',       'person');
         
         
-        $qb->leftJoin('person.registeredPersons','registeredPersons');
-        $qb->leftJoin('person.org',              'org');
+        $qb->leftJoin('person.registeredPersons','personReg');
+        $qb->leftJoin('personReg.org',           'personRegOrg');
         
         $qb->leftJoin('person.projectPersons','projectPerson', 
             Expr\Join::WITH, $qb->expr()->eq('projectPerson.project', $projectId));

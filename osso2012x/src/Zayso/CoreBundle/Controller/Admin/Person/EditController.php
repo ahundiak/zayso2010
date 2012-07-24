@@ -8,37 +8,55 @@ use Zayso\CoreBundle\Controller\BaseController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+use Zayso\CoreBundle\Entity\Person;
+use Zayso\CoreBundle\Entity\PersonRegistered;
+
 class EditController extends BaseController
 {
     public function editAction(Request $request, $personId)
     {
-        // Build up the search data
-        $searchData = $this->initSearchData($request);
+        // Load the person
+        $manager = $this->get('zayso_core.person.manager');
+        $projectId = $this->getCurrentProjectId();
+        $person = $manager->loadPersonForEdit($projectId,$personId);
         
-        $searchFormType = $this->get('zayso_core.person.search.formtype');
-        $searchForm = $this->createForm($searchFormType,$searchData);
+        if (!$person)
+        {
+            $person = new Person();
+            
+            // Create one?
+            // return $this->redirect($this->generateUrl('zayso_core_admin_person_search'));
+        }
+        
+        // Just to confuse things, add current project if necessary
+        // Note that it's also possible to remove current project
+        $currentProjectPerson = $person->getCurrentProjectPerson();
+        if (!$currentProjectPerson->getProject())
+        {
+            $project = $manager->getProjectReference($projectId);
+            $currentProjectPerson->setProject($project);
+        }
+        // The form
+        $formType = $this->get('zayso_core.admin.person.edit.formtype');
+        $form = $this->createForm($formType,$person);
 
         // Process Post
         if ($request->getMethod() == 'POST')
         {
-            $searchForm->bindRequest($request);
+            $form->bindRequest($request);
 
-            if ($searchForm->isValid())
+            if ($form->isValid())
             {
-                $searchData = $searchForm->getData();
-                $request->getSession()->set('personSearch',json_encode($searchData));
-                return $this->redirect($this->generateUrl('zayso_core_admin_person_search'));
+                $manager->savePerson($person);
+                
+                return $this->redirect($this->generateUrl('zayso_core_admin_person_edit',array('personId' => $personId)));
             }
         }
         
-        // Do the search
-        $manager = $this->get('zayso_core.person.manager');
-        $persons = $manager->searchForPersons($searchData);
-        
         // And render
         $tplData = array();
-        $tplData['persons']    = $persons;
-        $tplData['searchForm'] = $searchForm->createView();
-        return $this->renderx('ZaysoCoreBundle:Admin/Person:search.html.twig',$tplData);
+        $tplData['person'] = $person;
+        $tplData['form']   = $form->createView();
+        return $this->renderx('ZaysoCoreBundle:Admin/Person:edit.html.twig',$tplData);
     }
 }

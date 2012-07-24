@@ -8,9 +8,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Entity()
  * @ORM\Table(name="person")
- * @ORM\ChangeTrackingPolicy("NOTIFY") * 
+ * @ORM\HasLifecycleCallbacks
  */
-class Person extends BaseEntity
+class Person
 {
     /**
      * @ORM\Id
@@ -45,16 +45,15 @@ class Person extends BaseEntity
 
     /** @ORM\Column(type="string",name="status",length=20) */
     protected $status = 'Active';
-    
+
     /**
-     *  Remove after schema is updated
-     *  ORM\ManyToOne(targetEntity="Org", cascade={"persist"})
-     *  ORM\JoinColumn(name="org_key", referencedColumnName="id", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Org", cascade={"persist"})
+     * @ORM\JoinColumn(name="org_key", referencedColumnName="id", nullable=true)
      */
     protected $org = null;
 
     /**
-     *  @ORM\OneToMany(targetEntity="PersonRegistered", mappedBy="person", indexBy="regType")
+     *  @ORM\OneToMany(targetEntity="PersonRegistered", mappedBy="person", indexBy="regType", cascade={"persist"})
      */
     protected $registeredPersons;
 
@@ -80,13 +79,45 @@ class Person extends BaseEntity
      */
     protected $projectPersons;
 
+    /** @ORM\Column(type="text",name="datax",nullable=true) */
+    protected $datax = null;
+    protected $data = array();
+
+    /** @ORM\PrePersist */
+    public function onPrePersist() { $this->datax = serialize($this->data); }
+
+    /** @ORM\PreUpdate */
+    public function onPreUpdate()  { $this->datax = serialize($this->data); }
+
+    /** @ORM\PostLoad */
+    public function onLoad()       { $this->data = unserialize($this->datax); }
+
+    public function get($name)
+    {
+        if (isset($this->data[$name])) return $this->data[$name];
+        return null;
+    }
+    public function set($name,$value)
+    {
+        if ($value === null)
+        {
+            if (isset($this->data[$name])) unset($this->data[$name]);
+            $this->datax = null;
+            return;
+        }
+        if (isset($this->data[$name]) && $this->data[$name] == $value) return;
+
+        $this->data[$name] = $value;
+        $this->datax = null;
+    }
     public function clearData()
     {
-        $this->data  = null;
-        $this->datax = null;
+        $this->data = null;
     }
     public function __construct()
     {
+      //$this->accounts          = new ArrayCollection();
+        
         $this->registeredPersons = new ArrayCollection();
         $this->personPersons     = new ArrayCollection();
         $this->projectPersons    = new ArrayCollection();
@@ -168,6 +199,77 @@ class Person extends BaseEntity
     }
     public function getRegisteredPersons() { return $this->registeredPersons; }
 
+    public function getAysoRegisteredPerson()
+    {
+        if ($this->registeredPersons['AYSOV']) return $this->registeredPersons['AYSOV'];
+        return null;
+    }
+    public function getAysoid()
+    {
+        $rp = $this->getAysoRegisteredPerson();
+        if ($rp) return $rp->getRegKey();
+        return null;
+    }
+    public function getRefBadge()
+    {
+        $rp = $this->getAysoRegisteredPerson();
+        if ($rp) return $rp->getRefBadge();
+        return null;
+    }
+    public function getRefDate()
+    {
+        $rp = $this->getAysoRegisteredPerson();
+        if ($rp) return $rp->getRefDate();
+        return null;
+    }
+    public function getSafeHaven()
+    {
+        $rp = $this->getAysoRegisteredPerson();
+        if ($rp) return $rp->getSafeHaven();
+        return null;
+    }
+    public function getMemYear()
+    {
+        $rp = $this->getAysoRegisteredPerson();
+        if ($rp) return $rp->getMemYear();
+        return null;
+    }
+    public function setAysoid($aysoid)
+    {
+        $rp = $this->getAysoRegisteredPerson();
+        if ($rp) $rp->setRegKey($aysoid);
+        return;
+    }
+    public function setRefBadge($badge)
+    {
+        $rp = $this->getAysoRegisteredPerson();
+        if ($rp) $rp->setRefBadge($badge);
+        return;
+    }
+    public function setRefDate($date)
+    {
+        $rp = $this->getAysoRegisteredPerson();
+        if ($rp) $rp->setRefDate($date);
+        return;
+    }
+     public function setSafeHaven($value)
+    {
+        $rp = $this->getAysoRegisteredPerson();
+        if ($rp) $rp->setSafeHaven($value);
+        return;
+    }
+     public function setMemYear($value)
+    {
+        $rp = $this->getAysoRegisteredPerson();
+        if ($rp) $rp->setMemYear($value);
+        return;
+    }
+    public function setDob($dob) { $this->dob = $dob; }
+    public function getDob()     { return $this->dob; }
+    
+    public function setGender($gender) { $this->gender = $gender; }
+    public function getGender()        { return $this->gender; }
+
     public function getPersonName()
     {
         $fname = $this->getFirstName();
@@ -180,48 +282,80 @@ class Person extends BaseEntity
         return $name;
     }
     /* ======================================================================
-     * Standard getter/setters
+     * Generated code follows
      */
-    public function getId       () { return $this->id; }
-    public function getDob      () { return $this->dob; }
-    public function getEmail    () { return $this->email;   }
+    public function getId() { return $this->id; }
 
-    public function getStatus   () { return $this->status; }
-    public function getGender   () { return $this->gender; }
-    public function getVerified () { return $this->verified;      }
+    public function setLastName ($name) { $this->lastName  = $name; }
+    public function setNickName ($name) { $this->nickName  = $name; }
+    public function setFirstName($name) { $this->firstName = $name; }
+
     public function getLastName () { return $this->lastName;  }
     public function getNickName () { return $this->nickName;  }
     public function getFirstName() { return $this->firstName; }
-    public function getCellPhone() { return $this->cellPhone; }
 
-    
-    public function setDob      ($value) { $this->onScalerPropertySet('dob',      $value); }
-    public function setEmail    ($value) { $this->onScalerPropertySet('email',    $value); }
-    public function setGender   ($value) { $this->onScalerPropertySet('gender',   $value); }
-    public function setStatus   ($value) { $this->onScalerPropertySet('status',   $value); }
-    public function setVerified ($value) { $this->onScalerPropertySet('verified', $value); }
-    public function setLastName ($value) { $this->onScalerPropertySet('lastName', $value); }
-    public function setNickName ($value) { $this->onScalerPropertySet('nickName', $value); }
-    public function setFirstName($value) { $this->onScalerPropertySet('firstName',$value); }
-    public function setCellPhone($value) { $this->onScalerPropertySet('cellPhone',$value); }
+    public function setEmail($email) { $this->email = $email; }
+    public function getEmail()       { return $this->email;   }
 
-    // ==========================================================
-    // Seems to work okay
-    protected $regAYSOTemp = null;
-    
-    public function getRegAYSO()
+    public function setCellPhone($cellPhone) { $this->cellPhone = $cellPhone; }
+    public function getCellPhone()           { return $this->cellPhone; }
+
+    public function setVerified($verified)   { $this->verified = $verified; }
+    public function getVerified()            { return $this->verified;      }
+
+    public function setStatus($status)       { $this->status = $status; }
+    public function getStatus()              { return $this->status; }
+
+    public function setOrg($org) { $this->org = $org; }
+    public function getOrg()     { return $this->org; }
+
+    public function getOrgKey()
     {
-        if (isset($this->registeredPersons['AYSOV'])) return $this->registeredPersons['AYSOV'];
-        
-        if ($this->regAYSOTemp) return $this->regAYSOTemp;
-        
-        $this->regAYSOTemp = new PersonRegistered();
-        $this->regAYSOTemp->setRegType('AYSOV');
-        $this->regAYSOTemp->setPerson ($this);
-        
-        return $this->regAYSOTemp;
+        if ($this->org) return $this->org->getId();
+        return null;
     }
+    public function setOrgKey($key)
+    {
+        //if ($this->org) $this->org->setId($key);
+    }
+    public function setDatax($datax) { $this->datax = $datax; }
+    public function getDatax() { return $this->datax; }
     
+    // ==========================================================
+    // This might lead to trouble but try it
+    
+    protected $aysoCertz = null;
+    
+    public function getAysoCertz()
+    {
+        if (isset($this->registeredPersons['AYSOV']) && $this->registeredPersons['AYSOV']) return $this->registeredPersons['AYSOV'];
+        
+        if ($this->aysoCertz) return $this->aysoCertz;
+        
+        $this->aysoCertz = new PersonRegistered();
+        $this->aysoCertz->setRegType('AYSOV');
+        $this->aysoCertz->setPerson ($this);
+        
+        return $this->aysoCertz;
+    }
+    public function getRegAYSO() { return $this->getAysoCertz(); }
+    public function getRegion()
+    {
+        if (!$this->org) return null;
+        return substr($this->org->getId(),4); 
+    }
+    protected $orgz = null;
+    
+    public function getOrgz()
+    {
+        if ($this->org) return $this->org;
+        
+        if (!$this->orgz)
+        {
+            $this->orgz = new Org();
+        }
+        return $this->orgz;
+    }
     /* ========================================================================
      * Team relations
      */
