@@ -46,13 +46,10 @@ class Person extends BaseEntity
     /** @ORM\Column(type="string",name="status",length=20) */
     protected $status = 'Active';
     
-    /**
-     *  Remove after schema is updated
-     *  ORM\ManyToOne(targetEntity="Org", cascade={"persist"})
-     *  ORM\JoinColumn(name="org_key", referencedColumnName="id", nullable=true)
-     */
-    protected $org = null;
-
+    /** @ORM\Column(type="text", name="datax", nullable=true) */
+    protected $datax = null;
+    protected $data  = null;
+    
     /**
      *  @ORM\OneToMany(targetEntity="PersonRegistered", mappedBy="person", indexBy="regType")
      */

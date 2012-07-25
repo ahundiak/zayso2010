@@ -10,6 +10,13 @@ use Symfony\Component\Form\FormValidatorInterface;
 
 class PersonPersonEditFormType extends AbstractType
 {
+    protected $manager = null;
+    
+    public function __construct($manager)
+    {
+        $this->manager = $manager;
+    }
+    
     public function getName() { return 'personPersonEdit'; }
 
     // Leave for now as Primary should not be a choice
@@ -27,7 +34,6 @@ class PersonPersonEditFormType extends AbstractType
             'choices'       => $this->relationPickList,
             'read_only'     => true,
         ));
-        $builder->add('person2', new PersonEditFormType());
- 
+        $builder->add('person2', new PersonEditFormType($this->manager));
     }
 }

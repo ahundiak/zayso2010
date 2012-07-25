@@ -18,12 +18,13 @@ class PersonManager extends BaseManager
     {
         $qb = $this->newQueryBuilder();
 
-        $qb->addSelect('person,projectPerson','org','teamRel','team');
+        $qb->addSelect('person, personReg, personRegOrg, projectPerson', 'teamRel', 'team');
 
         $qb->from('ZaysoCoreBundle:Person','person');
         $qb->andWhere($qb->expr()->eq('person.id',$qb->expr()->literal($personId)));
         
-        $qb->leftJoin('person.org','org');
+        $qb->leftJoin('person.registeredPersons','personReg');
+        $qb->leftJoin('personReg.org','personRegOrg');
         
         $qb->leftJoin('person.projectPersons','projectPerson', 
             Expr\Join::WITH, $qb->expr()->eq('projectPerson.project', $projectId));
