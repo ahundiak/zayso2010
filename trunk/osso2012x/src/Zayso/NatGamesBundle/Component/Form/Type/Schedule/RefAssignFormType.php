@@ -74,7 +74,13 @@ class RefAssignPersonSubscriber implements EventSubscriberInterface
             $officialsPickList = array($personId => $person->getPersonName());
             $emptyValue = false;
             $state = $eventPerson->getState();
-            $stateDesc = $statePickList[$state];
+            
+            // Because of error in batch update
+            if (!$state) $state = 'AssignmentRequested';
+            
+            if (isset($statePickList[$state])) $stateDesc = $statePickList[$state];
+            else                               $stateDesc = $state;
+            
             $statePickList = array($state => $stateDesc);
         }
         if ($personId && $matched)

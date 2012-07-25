@@ -75,7 +75,7 @@
             id     = "zayso_core.person.person.edit.formtype"
             class  = "Zayso\CoreBundle\Component\FormType\Person\PersonPersonEditFormType"
             public = "true">
-            <argument type="service" id="zayso_core.account.entity_manager" />
+            <argument type="service" id="zayso_core.person.manager" />
         </service>
         
         <service
