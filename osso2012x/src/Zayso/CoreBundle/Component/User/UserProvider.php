@@ -60,10 +60,10 @@ SELECT
   person.first_name AS personFirstName,
   person.last_name  AS personLastName,
   person.nick_name  AS personNickName,
-  person.org_key    AS personOrgKey,
   person.datax      AS person_datax,
 
   person_registered.reg_key AS aysoid,
+  person_registered.org_key AS personOrgKey,
   person_registered.datax   AS person_registered_datax
 
 FROM account
