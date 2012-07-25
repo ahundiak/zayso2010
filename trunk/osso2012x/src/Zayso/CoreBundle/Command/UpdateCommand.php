@@ -166,11 +166,11 @@ class UpdateCommand extends ContainerAwareCommand
         foreach($persons as $person)
         {
             $dob = $person->get('dob');
-          //$person->setDob($dob);
+            if ($dob) $person->setDob($dob);
             $person->set('dob',null);
             
             $gender = $person->get('gender');
-          //$person->setGender($gender);
+            if ($gender) $person->setGender($gender);
             $person->set('gender',null);
            
             $person->clearData();            
@@ -187,7 +187,7 @@ class UpdateCommand extends ContainerAwareCommand
         
         $this->updatePerson();
         
-      //$this->updatePersonRegistered();
+        $this->updatePersonRegistered();
     }
 }
 ?>
