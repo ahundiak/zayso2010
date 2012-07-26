@@ -54,6 +54,11 @@ class Person extends BaseEntity
      *  @ORM\OneToMany(targetEntity="PersonRegistered", mappedBy="person", indexBy="regType")
      */
     protected $registeredPersons;
+    
+    /**
+     *  @ORM\OneToMany(targetEntity="Account", mappedBy="person")
+     */
+    protected $accounts;
 
     /**
      *  @ORM\OneToMany(targetEntity="PersonPerson", mappedBy="person1")
@@ -84,6 +89,7 @@ class Person extends BaseEntity
     }
     public function __construct()
     {
+        $this->accounts          = new ArrayCollection();
         $this->registeredPersons = new ArrayCollection();
         $this->personPersons     = new ArrayCollection();
         $this->projectPersons    = new ArrayCollection();
@@ -94,6 +100,10 @@ class Person extends BaseEntity
     { 
         // Add a sort for Primary Family Peer
         return $this->personPersons; 
+    }
+    public function getAccounts() 
+    { 
+        return $this->accounts; 
     }
     
     public function getGameRelsForProject($projectId)
