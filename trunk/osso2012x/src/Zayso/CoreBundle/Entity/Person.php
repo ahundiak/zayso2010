@@ -56,7 +56,7 @@ class Person extends BaseEntity
     protected $registeredPersons;
 
     /**
-     *  @ORM\OneToMany(targetEntity="PersonPerson", mappedBy="person1", indexBy="relation")
+     *  @ORM\OneToMany(targetEntity="PersonPerson", mappedBy="person1")
      */
     protected $personPersons;
     
@@ -204,21 +204,51 @@ class Person extends BaseEntity
 
     // ==========================================================
     // Seems to work okay
-    protected $regAYSOTemp = null;
+    protected $regAYSOVTemp = null;
     
-    public function getRegAYSO()
+    public function getRegAYSOV()
     {
-        if (isset($this->registeredPersons['AYSOV'])) return $this->registeredPersons['AYSOV'];
+      //$this->getRegItem('Zayso\CoreBundle\Entity\PersonRegAYSOV');
         
-        if ($this->regAYSOTemp) return $this->regAYSOTemp;
+        if (isset($this->registeredPersons[PersonRegAYSOV::REGTYPE])) 
+        {
+            return $this->registeredPersons[PersonRegAYSOV::REGTYPE];
+        }
         
-        $this->regAYSOTemp = new PersonRegistered();
-        $this->regAYSOTemp->setRegType('AYSOV');
-        $this->regAYSOTemp->setPerson ($this);
+        if ($this->regAYSOVTemp) return $this->regAYSOVTemp;
         
-        return $this->regAYSOTemp;
+        $this->regAYSOVTemp = new PersonRegAYSOV();
+        $this->regAYSOVTemp->setPerson ($this);
+        
+        return $this->regAYSOVTemp;
+    }
+    protected $regUSSFTemp = null;
+    
+    public function getRegUSSF()
+    {
+        if (isset($this->registeredPersons[PersonRegUSSF::REGTYPE])) 
+        {
+            return $this->registeredPersons[PersonRegUSSF::REGTYPE];
+        }
+        
+        if ($this->regUSSFTemp) return $this->regUSSFTemp;
+        
+        $this->regUSSFTemp = new PersonRegUSSF();
+        $this->regUSSFTemp->setPerson($this);
+        
+        return $this->regUSSFTemp;
     }
     
+    // This should work just fine, classname needs to be FQN
+    protected function getRegItem($className)
+    {
+        if (isset($this->registeredPersons[PersonRegAYSOV::REGTYPE])) 
+        {
+            return $this->registeredPersons[PersonRegAYSOV::REGTYPE];
+        }
+        $type = $className::REGTYPE;
+        die('Get type ' . $type);
+    }
     /* ========================================================================
      * Team relations
      */
