@@ -9,10 +9,10 @@
    </tr>
     {% for personPerson in account.person.personPersons %}
     {% set person = personPerson.person2 %}
-    {% set aysoCert = person.regAYSO     %}
+    {% set aysoCert = person.regAYSOV    %}
     {% set teamRels = person.teamRels    %}
     {% set projectPerson = person.projectPerson(projectId) %}
-    {% if projectPerson %}
+    {% if  projectPerson %}
         {% set plans = projectPerson.get('plans') %}
     {% else %}
         {%set plans = null %}
