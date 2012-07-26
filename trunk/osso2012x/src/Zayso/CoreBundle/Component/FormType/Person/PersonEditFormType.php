@@ -2,10 +2,6 @@
 namespace Zayso\CoreBundle\Component\FormType\Person;
 
 use Zayso\CoreBundle\Component\DataTransformer\PhoneTransformer;
-use Zayso\CoreBundle\Component\DataTransformer\AysoidTransformer;
-use Zayso\CoreBundle\Component\DataTransformer\RegionTransformer;
-
-use Zayso\CoreBundle\Component\FormValidator\RegionValidator;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
@@ -33,7 +29,7 @@ class PersonEditFormType extends AbstractType
         $builder->add('email',     'text', array('label' => 'Email',      'attr' => array('size' => 35)));
         $builder->add('cellPhone', 'text', array('label' => 'Cell Phone', 'attr' => array('size' => 20),'required' => false,));
         
-        $builder->add('regAYSO',              new AYSOEditFormType($this->manager));
+        $builder->add('regAYSOV', new AYSOVEditFormType($this->manager));
         
         $builder->get('cellPhone')->appendClientTransformer(new PhoneTransformer());
  

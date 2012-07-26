@@ -1,5 +1,5 @@
 <?php
-namespace Zayso\CoreBundle\Component\FormType\Person;
+namespace Zayso\CoreBundle\Component\FormType\Admin\Person;
 
 use Zayso\CoreBundle\Component\DataTransformer\AysoidTransformer;
 use Zayso\CoreBundle\Component\DataTransformer\RegionTransformer;
@@ -13,7 +13,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\CallbackValidator;
 use Symfony\Component\Form\FormValidatorInterface;
 
-class AYSOEditFormType extends AbstractType
+class AYSOVEditFormType extends AbstractType
 {
     protected $manager = null;
     
@@ -25,16 +25,14 @@ class AYSOEditFormType extends AbstractType
 
     public function buildForm(FormBuilder $builder, array $options)
     {
-        $builder->add('regKey','text', array('label' => 'AYSO ID (8-digits)', 'read_only' => true, 'attr' => array('size' => 10)));
+        $builder->add('regKey','text', array('label' => 'AYSO ID (8-digits)','attr' => array('size' => 10)));
         $builder->get('regKey')->appendClientTransformer(new AysoidTransformer());
  
         $builder->add('refBadge', 'choice', array(
             'label'         => 'AYSO Referee Badge',
             'required'      => true,
-            'read_only'     => true,
             'choices'       => $this->refBadgePickList,
         ));
-/*        
         $builder->add('refDate',   'text', array('label' => 'AYSO Referee Date',  'attr' => array('size' => 8),'required' => false,));
 
         $builder->add('safeHaven', 'choice', array(
@@ -47,8 +45,8 @@ class AYSOEditFormType extends AbstractType
             'required'      => true,
             'choices'       => $this->memYearPickList,
         ));
-*/        
-        $builder->add('orgKey','text', array('label' => 'AYSO Region Number', 'read_only' => true, 'attr' => array('size' => 4)));
+        
+        $builder->add('orgKey','text', array('label' => 'AYSO Region Number', 'attr' => array('size' => 4)));
         $builder->get('orgKey')->appendClientTransformer(new RegionTransformer());
         $builder->addValidator(new RegionValidator($this->manager->getEntityManager(),'orgKey'));
  
