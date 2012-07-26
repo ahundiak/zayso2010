@@ -3,7 +3,7 @@ namespace Zayso\CoreBundle\Component\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 
-class UssfidTransformer implements DataTransformerInterface
+class AYSOVIdTransformer implements DataTransformerInterface
 {
     public function transform($value)
     {
@@ -11,15 +11,15 @@ class UssfidTransformer implements DataTransformerInterface
         
         if (!$value) return '';
 
-        if (substr($value,0,5) == 'USSFR') return substr($value,5);
+        if (substr($value,0,5) == 'AYSOV') return substr($value,5);
 
         return $value;
     }
     public function reverseTransform($value)
-    {        
-        $ussfid = preg_replace('/\D/','',$value);
-        if (!$ussfid) return '';
-        return 'USSFR' . $ussfid;
+    {
+        $id = (int)preg_replace('/\D/','',$value);
+        if (!$id) return '';
+        return 'AYSOV' . $id;
     }
 }
 ?>
