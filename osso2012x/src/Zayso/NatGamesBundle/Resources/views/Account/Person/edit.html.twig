@@ -6,7 +6,7 @@
 
 {% block content %}
 {% set formPerson = form.person2 %}
-{% set formAYSO   = formPerson.regAYSO %}
+{% set formAYSOV  = formPerson.regAYSOV %}
 <div>
 <form action="{{ path('zayso_core_person_person_edit', { 'id': personPerson.id }) }}" method="post" {{ form_enctype(form) }}>
 <table border="1" style="width: 800px;">
@@ -62,19 +62,19 @@
     </td>
 </tr>
 <tr>
-    <td> {{ form_label (formAYSO.regKey) }}</td>
-    <td> {{ form_widget(formAYSO.regKey) }}&nbsp;{{ form_widget(formAYSO.refBadge) }}</td>
+    <td> {{ form_label (formAYSOV.regKey) }}</td>
+    <td> {{ form_widget(formAYSOV.regKey) }}&nbsp;{{ form_widget(formAYSOV.refBadge) }}</td>
     <td>
         Contact administrator to change.<br />
-        {{ form_errors(formAYSO.regKey) }}
+        {{ form_errors(formAYSOV.regKey) }}
     </td>
 </tr>
 <tr>
-    <td> {{ form_label (formAYSO.orgKey) }}</td>
-    <td> {{ form_widget(formAYSO.orgKey) }}</td>
+    <td> {{ form_label (formAYSOV.orgKey) }}</td>
+    <td> {{ form_widget(formAYSOV.orgKey) }}</td>
     <td>
         Contact administrator to change.<br />
-        {{ form_errors(formAYSO.orgKey) }}
+        {{ form_errors(formAYSOV.orgKey) }}
     </td>
 </tr>
 <tr>
