@@ -41,6 +41,7 @@ class PersonManager extends BaseManager
     
     public function loadPersonsForProject($projectId)
     {   
+        die('Load persons for project');
         $qb = $this->newQueryBuilder();
 
         $qb->addSelect('person,projectPerson','aysoCert','org','gameRel','game');
@@ -158,10 +159,28 @@ class PersonManager extends BaseManager
         // Deal with new ayso record
         // One type at a time for now since getRPs will not work for new records
         // Need to deal with the case of adding a new person with an existing ayso record
-        $personRegs = array($person->getRegAYSO());
+        $personRegs = array($person->getRegAYSOV(),$person->getRegUSSF());
         foreach($personRegs as $personReg)
         {
-            if ($personReg->getRegKey()) $this->persist($personReg);
+            if ($personReg->getRegKey()) 
+            {
+                // See if one already exists
+                // Move to a validator?
+                $personRegx = $this->loadPersonRegForKey($personReg->getRegKey());
+                
+                // Nothng existing means to just go ahead and create
+                if (!$personRegx) $this->persist($personReg);
+                else
+                {
+                    // No change is okay
+                    if ($personReg->getId() == $personRegx->getId()) {}
+                    else
+                    {
+                        // Punt for now
+                        die('Trying to change to existing reg key');
+                    }
+                }
+            }
             else
             {
                 if ($personReg->getId())
@@ -187,6 +206,19 @@ class PersonManager extends BaseManager
         if (!$person->getId()) $this->persist($person);
         
         $this->flush();
+    }
+    public function loadPersonRegForKey($personRegKey)
+    {
+        $qb = $this->createQueryBuilder();
+        
+        $qb->addSelect('personReg');
+         
+        $qb->from('ZaysoCoreBundle:PersonRegistered','personReg');
+        
+        $qb->andWhere($qb->expr()->eq('personReg.regKey',$qb->expr()->literal($personRegKey)));
+        
+        return $qb->getQuery()->getOneOrNullResult();      
+    
     }
 }
 ?>
