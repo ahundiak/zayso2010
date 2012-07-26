@@ -55,40 +55,64 @@
 </tr>
 <tr><th colspan="3">eAYSO Information</th></tr>
 <tr>
-    <td>{{ form_label (form.regAYSO.regKey) }}</td>
-    <td>{{ form_widget(form.regAYSO.regKey) }}</td>
+    <td>{{ form_label (form.regAYSOV.regKey) }}</td>
+    <td>{{ form_widget(form.regAYSOV.regKey) }}</td>
     <td>
         Be careful when changing<br />
-        {{ form_errors(form.regAYSO.regKey) }}
+        {{ form_errors(form.regAYSOV.regKey) }}
     </td>
 </tr>
 <tr>
-    <td>{{ form_label (form.regAYSO.orgKey) }}</td>
-    <td>{{ form_widget(form.regAYSO.orgKey) }}</td>
+    <td>{{ form_label (form.regAYSOV.orgKey) }}</td>
+    <td>{{ form_widget(form.regAYSOV.orgKey) }}</td>
     <td>
         Will auto-create<br />
-        {{ form_errors(form.regAYSO.orgKey) }}
+        {{ form_errors(form.regAYSOV.orgKey) }}
     </td>
 </tr>
 <tr>
-    <td>{{ form_label (form.regAYSO.memYear) }}</td>
-    <td>{{ form_widget(form.regAYSO.memYear) }}</td>
-    <td>{{ form_errors(form.regAYSO.memYear) }}</td>
+    <td>{{ form_label (form.regAYSOV.memYear) }}</td>
+    <td>{{ form_widget(form.regAYSOV.memYear) }}</td>
+    <td>{{ form_errors(form.regAYSOV.memYear) }}</td>
 </tr>
 <tr>
-    <td>{{ form_label (form.regAYSO.safeHaven) }}</td>
-    <td>{{ form_widget(form.regAYSO.safeHaven) }}</td>
-    <td>{{ form_errors(form.regAYSO.safeHaven) }}</td>
+    <td>{{ form_label (form.regAYSOV.safeHaven) }}</td>
+    <td>{{ form_widget(form.regAYSOV.safeHaven) }}</td>
+    <td>{{ form_errors(form.regAYSOV.safeHaven) }}</td>
 </tr>
 <tr>
-    <td>{{ form_label (form.regAYSO.refBadge) }}</td>
-    <td>{{ form_widget(form.regAYSO.refBadge) }}</td>
-    <td>{{ form_errors(form.regAYSO.refBadge) }}</td>
+    <td>{{ form_label (form.regAYSOV.refBadge) }}</td>
+    <td>{{ form_widget(form.regAYSOV.refBadge) }}</td>
+    <td>{{ form_errors(form.regAYSOV.refBadge) }}</td>
 </tr>
 <tr>
-    <td>{{ form_label (form.regAYSO.refDate) }}</td>
-    <td>{{ form_widget(form.regAYSO.refDate) }}</td>
-    <td>{{ form_errors(form.regAYSO.refDate) }}</td>
+    <td>{{ form_label (form.regAYSOV.refDate) }}</td>
+    <td>{{ form_widget(form.regAYSOV.refDate) }}</td>
+    <td>{{ form_errors(form.regAYSOV.refDate) }}</td>
+</tr>
+<tr><th colspan="3">USSF Information</th></tr>
+<tr>
+    <td>{{ form_label (form.regUSSF.regKey) }}</td>
+    <td>{{ form_widget(form.regUSSF.regKey) }}</td>
+    <td>
+        Be careful when changing<br />
+        {{ form_errors(form.regUSSF.regKey) }}
+    </td>
+</tr>
+<tr>
+    <td>{{ form_label (form.regUSSF.memYear) }}</td>
+    <td>{{ form_widget(form.regUSSF.memYear) }}</td>
+    <td>{{ form_errors(form.regUSSF.memYear) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (form.regUSSF.refBadge) }}</td>
+    <td>{{ form_widget(form.regUSSF.refBadge) }}</td>
+    <td>{{ form_errors(form.regUSSF.refBadge) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (form.regUSSF.refDate) }}</td>
+    <td>{{ form_widget(form.regUSSF.refDate) }}</td>
+    <td>{{ form_errors(form.regUSSF.refDate) }}</td>
 </tr>
 <tr><th colspan="3">Project Information</th></tr>
 <tr>
@@ -96,7 +120,6 @@
     <td>{{ form_widget(form.currentProjectPerson.project) }}</td>
     <td>{{ form_errors(form.currentProjectPerson.project) }}</td>
 </tr>
-
 <tr>
   <td><a href="{{ path('zayso_core_admin_person_search') }}#person-list-{{ person.id }}">Persons</a></td>
   <td>&nbsp;</td>
