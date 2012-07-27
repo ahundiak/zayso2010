@@ -3,21 +3,21 @@ parameters:
     database_host:     localhost
     database_port:     ~
     database_name:     symfony
-    database_user:     ~
-    database_password: ~
+    database_user:     impd
+    database_password: impd894
     
     database_osso2012_name: osso2012y
 
-    session.dsn:       "mysql:dbname=session;host=localhost"
+    session.dsn:      "mysql:dbname=session;host=localhost"
 
-    mailer_transport:  mail
-    mailer_host:       ~
-    mailer_user:       ~
-    mailer_password:   ~
+    mailer_transport:  gmail
+    mailer_host:       localhost
+    mailer_user:       ahundiak@zayso.org
+    mailer_password:   qweasd999
     mailer_enabled:    true
 
     locale:            en
-    secret:            somethingSecret
+    secret:            zaysoAreaSecretToken
     
     my_bundle_name:    ZaysoAreaBundle
     my_title_prefix:   ZaysoArea5C
