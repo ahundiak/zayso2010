@@ -1,0 +1,50 @@
+Zayso\CoreBundle\Entity\PersonPerson:
+  
+    type:  entity
+  
+    table: person_person
+    
+    uniqueConstraints:
+        person_person_idx:
+            columns: person_id1,person_id2,relation
+                
+    changeTrackingPolicy: NOTIFY
+    
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+            
+    manyToOne:
+        person1:
+            targetEntity: Person
+            nullable:     false
+            inversedBy:   personPersons
+            joinColumn:
+                name:          person_id1
+                referencedColumnName: id
+                
+        person2:
+            targetEntity: Person
+            nullable:     false
+            joinColumn:
+                name:          person_id2
+                referencedColumnName: id
+            
+    fields:
+        relation:
+            type:     string
+            length:   20
+            nullable: false
+            
+        verified:
+            type:     string
+            length:   20
+            nullable: false
+            
+        status:
+            type:     string
+            length:   20
+            nullable: false
+           
+

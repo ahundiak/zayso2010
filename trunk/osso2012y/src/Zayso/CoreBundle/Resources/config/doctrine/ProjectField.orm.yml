@@ -1,0 +1,34 @@
+Zayso\CoreBundle\Entity\ProjectField:
+    type:  entity
+    table: project_field
+    changeTrackingPolicy: NOTIFY
+    uniqueConstraints:
+        project_field_key1_idx:
+            columns: project_id,key1
+    
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+            
+    manyToOne:
+        project:
+            targetEntity: Project
+            nullable:     false
+            
+    fields: 
+        key1:
+            type:     string
+            length:   40
+            nullable: false
+            
+        venue:
+            type:     string
+            length:   40
+            nullable: true
+            
+        status:
+            type:     string
+            length:   20
+            nullable: false
+
