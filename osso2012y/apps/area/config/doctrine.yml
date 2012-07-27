@@ -33,17 +33,6 @@ doctrine:
             osso2012:
                 connection: osso2012
                 mappings:
-                    ZaysoAreaBundle: ~
-            accounts:
-                connection: osso2012
-                mappings:
                     ZaysoCoreBundle: ~
-            teams:
-                connection: osso2012
-                mappings:
-                    ZaysoCoreBundle: ~
-            games:
-                connection: osso2012
-                mappings:
-                    ZaysoCoreBundle: ~
+                    
 
