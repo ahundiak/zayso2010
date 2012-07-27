@@ -1,0 +1,38 @@
+26 Jul 2012
+
+Does it make sense to create an admin bundle?
+
+Currently have
+CoreBundle
+
+    Component
+        FormType
+            Admin
+                Person
+                    PersonEditFormType
+            Person
+                PersonEditFormType
+
+    Controller
+        Admin
+            Person
+                EditController
+        Person
+            EditController
+
+     Resources
+         views
+             Admin
+                 Person
+                     edit.html.twig
+                     search.html.twig
+
+The individual person templates are found under the specific product bundles
+
+The AdminBundle functionality would be designed to work across all the product bundles
+
+The concern is that individual bundles might need their own additional admin functionality?
+
+S5GamesAdminBundle
+
+Might be best to just plow ahead with AreaBundle for now.
