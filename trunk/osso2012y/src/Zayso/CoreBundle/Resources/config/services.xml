@@ -6,8 +6,7 @@
 
     <services>
         
-        <service id = "zayso_core.account.entity_manager"  alias = "doctrine.orm.accounts_entity_manager" ></service>
-        <service id = "zayso_core.game.entity_manager"     alias = "doctrine.orm.games_entity_manager"    ></service>
+        <service id = "zayso_core.osso2012.entity_manager"  alias = "doctrine.orm.osso2012_entity_manager" ></service>
                  
     </services>
 </container>
