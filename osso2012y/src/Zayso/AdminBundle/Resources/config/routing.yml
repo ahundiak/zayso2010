@@ -1,0 +1,5 @@
+zayso_admin_index:
+    pattern:  /admin
+    defaults: { _controller: ZaysoAdminBundle:Admin:index }
+    requirements:
+        _method:  GET

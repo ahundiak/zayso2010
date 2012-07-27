@@ -1,6 +1,6 @@
 <?php
 
-namespace Zayso\AreaBundle\DependencyInjection;
+namespace Zayso\AdminBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
