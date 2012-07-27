@@ -1,4 +1,8 @@
-# Internal routing configuration to handle ESI
-#_internal:
-#    resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
-#    prefix:   /_internal
+core_routing:
+    resource: "@ZaysoCoreBundle/Resources/config/routing.yml"
+    
+admin_routing:
+    resource: "@ZaysoAdminBundle/Resources/config/routing.yml"
+    
+core_last_routing:
+    resource: "@ZaysoCoreBundle/Resources/config/routing_last.yml"

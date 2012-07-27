@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             
             new Zayso\CoreBundle\ZaysoCoreBundle(),
+            new Zayso\AdminBundle\ZaysoAdminBundle(),
             new Zayso\AreaBundle\ZaysoAreaBundle(),
             
         );
