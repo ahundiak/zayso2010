@@ -1,0 +1,8 @@
+27 Jul 2012
+
+Just for the heck of it, refactor zayso for s2.1
+
+DROP DATABASE IF EXISTS osso2012y;
+CREATE DATABASE         osso2012y;
+GRANT ALL ON            osso2012y.* TO "impd"@"localhost";
+FLUSH PRIVILEGES;
