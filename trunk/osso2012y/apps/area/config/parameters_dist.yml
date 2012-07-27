@@ -3,13 +3,18 @@ parameters:
     database_host:     localhost
     database_port:     ~
     database_name:     symfony
-    database_user:     root
+    database_user:     ~
     database_password: ~
+    
+    database_osso2012_name: osso2012y
 
-    mailer_transport:  smtp
-    mailer_host:       localhost
+    session.dsn:       "mysql:dbname=session;host=localhost"
+
+    mailer_transport:  mail
+    mailer_host:       ~
     mailer_user:       ~
     mailer_password:   ~
+    mailer_enabled:    true
 
     locale:            en
-    secret:            ThisTokenIsNotSoSecretChangeIt
+    secret:            somethingSecret
