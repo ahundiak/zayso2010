@@ -1,0 +1,6 @@
+services:
+  
+    zayso_core.osso2012.entity_manager:
+        alias: doctrine.orm.osso2012_entity_manager
+        
+        
