@@ -18,13 +18,13 @@ class ProjectGroup
      */
     protected $id;
 
-    /** @ORM\Column(type="string",length="32",name="keyx") */
+    /** @ORM\Column(type="string",length="32",name="keyx",unique=true) */
     protected $key = '';
 
-    /** @ORM\Column(type="string",length="80",name="descx") */
+    /** @ORM\Column(type="string",length="80",name="descx",nullable=true) */
     protected $description = '';
 
-    /** @ORM\Column(type="string",length="32",name="status") */
+    /** @ORM\Column(type="string",length="20",name="status") */
     protected $status = '';
 
     public function __construct()

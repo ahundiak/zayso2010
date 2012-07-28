@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="account",indexes={@ORM\index(name="reset_idx", columns={"reset"})})
+ * @ORM\Table(name="account")
  */
 class Account
 {
@@ -33,8 +33,7 @@ class Account
     /** @ORM\Column(name="status",type="string",length=16,nullable=false) */
     protected $status = 'Active';
     
-    /** @ORM\Column(name="reset",type="string",length="40",nullable=true)
-     */
+    /** @ORM\Column(name="reset",type="string",length="40",nullable=true,unique=true) */
     protected $reset = null;
     
     /**

@@ -27,11 +27,14 @@ class ProjectField
      */
     protected $project;
   
-    /** @ORM\Column(type="string",name="key1",nullable=true) */
+    /** @ORM\Column(type="string",name="key1",length=40,nullable=false) */
     protected $key1 = null;
   
     /** @ORM\Column(type="string",name="status",length=20) */
     protected $status = 'Active';
+    
+    /** @ORM\Column(type="string",name="venue",length=40,nullable=true) */
+    protected $venue = null;
 
     public function getId     () { return $this->id;      }
     public function getKey    () { return $this->key1;    }
@@ -46,7 +49,7 @@ class ProjectField
     public function setProject($value) { $this->project = $value; }
     
     // Hack for national games
-    public function getVenue()       { return $this->status;  }
-    public function setVenue($value) { $this->status  = $value; }
+    public function getVenue()       { return $this->venue;  }
+    public function setVenue($value) { $this->venue  = $value; }
 
 }
