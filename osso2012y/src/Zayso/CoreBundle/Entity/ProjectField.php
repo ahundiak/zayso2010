@@ -17,15 +17,13 @@ class ProjectField extends BaseEntity
     public function getKey    () { return $this->key1;    }
     public function getKey1   () { return $this->key1;    }
     public function getDesc   () { return $this->key1;    }
-    public function getVenue  () { return $this->status;  }
+    public function getVenue  () { return $this->venue;  }
     public function getStatus () { return $this->status;  }
     public function getProject() { return $this->project; }
 
     public function setKey    ($key)     { $this->onScalerPropertySet('key1',   $key);     }
+    public function setVenue  ($venue)   { $this->onScalerPropertySet('venue',  $venue); }
     public function setStatus ($status)  { $this->onScalerPropertySet('status', $status);  }
     public function setProject($project) { $this->onObjectPropertySet('project',$project); }
-    
-    // Hack for national games
-    public function setVenue($venue) { $this->onScalerPropertySet('venue',$venue); }
 
 }
