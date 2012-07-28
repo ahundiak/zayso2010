@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="person_registered")
+ * @ORM\Table(name="person_reg")
  * @ORM\ChangeTrackingPolicy("NOTIFY") 
  * 
  * @ORM\InheritanceType("SINGLE_TABLE")
