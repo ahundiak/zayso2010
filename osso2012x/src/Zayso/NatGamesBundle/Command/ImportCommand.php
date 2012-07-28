@@ -147,9 +147,9 @@ class ImportCommand extends ContainerAwareCommand
 
         // $this->importSchedule2010('../datax/Schedule2010.csv');
         
-        $this->importRefAssigns();
+        // $this->importRefAssigns();
         
-        // $this->setFieldVenues();
+        $this->setFieldVenues();
         
 
         return;        

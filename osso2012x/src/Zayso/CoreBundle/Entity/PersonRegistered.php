@@ -50,11 +50,11 @@ class PersonRegistered extends BaseEntity
   
     /**
      * @ORM\ManyToOne(targetEntity="Org")
-     * @ORM\JoinColumn(name="org_key", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="org_id", referencedColumnName="id", nullable=true)
      */
     protected $org = null;
 
-    /** @ORM\Column(type="string",name="verified",length=20) */
+    /** @ORM\Column(type="string",name="verified",length=20,nullable=true) */
     protected $verified = 'No';
 
     /** @ORM\Column(type="text", name="datax", nullable=true) */

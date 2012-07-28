@@ -41,7 +41,7 @@ class ProjectPerson
   /** @ORM\Column(type="string",name="status",length=20) */
   protected $status = 'Active';
 
-  /** @ORM\Column(type="text",name="datax") */
+  /** @ORM\Column(type="text",name="datax",nullable=true) */
   protected $datax = '';
   protected $data = array();
 

@@ -21,15 +21,20 @@ class PersonPerson
      */
     protected $id;
   
+    /* =======================================
+     * 28 Jul 2012
+     * Set both to nullable = true to sync with the osso2012y version
+     * even though that version indicates nullable = false???
+     */
     /**
      * @ORM\ManyToOne(targetEntity="Person")
-     * @ORM\JoinColumn(name="person_id1", referencedColumnName="id",nullable=false)
+     * @ORM\JoinColumn(name="person_id1", referencedColumnName="id",nullable=true)
      */
     protected $person1;
     
     /**
      * @ORM\ManyToOne(targetEntity="Person")
-     * @ORM\JoinColumn(name="person_id2", referencedColumnName="id",nullable=false)
+     * @ORM\JoinColumn(name="person_id2", referencedColumnName="id",nullable=true)
      */
     protected $person2;
     
@@ -37,10 +42,10 @@ class PersonPerson
     /* Primary Family Peer */
     protected $relation;
 
-    /** @ORM\Column(name="verified",type="string",length=16,nullable=false) */
+    /** @ORM\Column(name="verified",type="string",length=20,nullable=false) */
     protected $verified = 'No';
 
-    /** @ORM\Column(name="status",type="string",length=16,nullable=false) */
+    /** @ORM\Column(name="status",type="string",length=20,nullable=false) */
     protected $status = 'Active';
 
     /* ============================================

@@ -18,11 +18,11 @@ class Project
      */
     protected $id;
 
-    /** @ORM\Column(type="string",name="desc1") */
-    protected $description = '';
+    /** @ORM\Column(type="string",name="desc1",length=80,nullable=true) */
+    protected $description = null;
 
-    /** @ORM\Column(type="string",name="status") */
-    protected $status = '';
+    /** @ORM\Column(type="string",name="status",length=20) */
+    protected $status = 'Active';
 
     /**
      * @ORM\ManyToOne(targetEntity="Project")

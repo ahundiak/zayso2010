@@ -63,7 +63,7 @@ SELECT
   person.datax      AS person_datax,
 
   person_reg.reg_key AS aysoid,
-  person_reg.org_key AS personOrgKey,
+  person_reg.org_id  AS personOrgKey,
   person_reg.datax   AS person_reg_datax
 
 FROM account

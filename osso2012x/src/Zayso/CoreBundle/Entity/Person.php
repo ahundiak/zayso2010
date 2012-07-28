@@ -40,7 +40,7 @@ class Person extends BaseEntity
     /** @ORM\Column(type="string",name="cell_phone",length=20,nullable=true) */
     protected $cellPhone = '';
 
-    /** @ORM\Column(type="string",name="verified",length=20) */
+    /** @ORM\Column(type="string",name="verified",length=20,nullable=true) */
     protected $verified = 'No';
 
     /** @ORM\Column(type="string",name="status",length=20) */
