@@ -62,14 +62,14 @@ SELECT
   person.nick_name  AS personNickName,
   person.datax      AS person_datax,
 
-  person_registered.reg_key AS aysoid,
-  person_registered.org_key AS personOrgKey,
-  person_registered.datax   AS person_registered_datax
+  person_reg.reg_key AS aysoid,
+  person_reg.org_key AS personOrgKey,
+  person_reg.datax   AS person_reg_datax
 
 FROM account
 
-LEFT JOIN person            ON person.id                   = account.person_id
-LEFT JOIN person_registered ON person_registered.person_id = person.id AND person_registered.reg_type = 'AYSOV'
+LEFT JOIN person     ON person.id            = account.person_id
+LEFT JOIN person_reg ON person_reg.person_id = person.id AND person_reg.reg_type = 'AYSOV'
 
 WHERE account.user_name = :userName
 ;
@@ -93,10 +93,10 @@ EOT;
             unset($row['person_datax']);
             if (is_array($datax)) $row = array_merge($row,$datax);
         }
-        if (isset($row['person_registered_datax']))
+        if (isset($row['person_reg_datax']))
         {
-            $datax = unserialize($row['person_registered_datax']);
-            unset($row['person_registered_datax']);
+            $datax = unserialize($row['person_reg_datax']);
+            unset($row['person_reg_datax']);
             if (is_array($datax)) $row = array_merge($row,$datax);
         }
         
