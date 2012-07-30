@@ -12,6 +12,9 @@ class PublicController extends CoreBaseController
 {
     public function indexAction(Request $request)
     {
+        $manager = $this->get('zayso_core.account.manager');
+        $account = $manager->newAccount();
+        
         $tplData = array();
         return $this->renderx('Public:index.html.twig',$tplData);
         

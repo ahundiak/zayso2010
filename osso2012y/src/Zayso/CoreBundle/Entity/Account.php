@@ -44,7 +44,17 @@ class Account extends BaseEntity
     public function getReset()             { return $this->reset; }
     
     public function setPerson($person)     { $this->onObjectPropertySet('person',$person); }
-    public function getPerson()            { return $this->person; }
+    
+    protected $personTemp = null;
+    public function getPerson()            
+    { 
+        if ( $this->person) return $this->person;
+        if (!$this->personTemp)
+        {
+            $this->personTemp = new Person();
+        }
+        return $this->personTemp;
+    }
     
     // Openid stuff
     public function getOpenids() { return $this->openids; }
