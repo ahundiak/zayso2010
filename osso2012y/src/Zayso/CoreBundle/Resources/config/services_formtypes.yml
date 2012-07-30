@@ -1,0 +1,6 @@
+services:
+  
+    zayso_core.account.signin.formtype:
+        class: Zayso\CoreBundle\FormType\Account\SigninFormType
+        arguments: ["@zayso_core.account.manager"]
+        

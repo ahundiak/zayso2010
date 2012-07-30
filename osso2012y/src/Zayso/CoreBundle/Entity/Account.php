@@ -16,10 +16,6 @@ class Account extends BaseEntity
     
     protected $reset = null;
     
-    /**
-     * @ORM\ManyToOne(targetEntity="Person")
-     * @ORM\JoinColumn(name="person_id", referencedColumnName="id", nullable=true)
-     */
     protected $person;
     
     protected $openids;

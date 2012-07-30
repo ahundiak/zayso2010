@@ -5,5 +5,26 @@ services:
         
     zayso_core.account.manager:
         class: Zayso\CoreBundle\Manager\AccountManager
-        arguments: ["@zayso_core.osso2012.entity_manager", osso2012]
+        arguments: 
+            - '@zayso_core.osso2012.entity_manager'
+            -  osso2012
+        
+    zayso_core.user.provider:
+        class: Zayso\CoreBundle\User\UserProvider
+        arguments: 
+            - '@zayso_core.osso2012.entity_manager'
+            -  %zayso_core.user.class%
+            -  %zayso_core.user.password%
+           
+    zayso_core.user.password.encoder:
+        class: Zayso\CoreBundle\User\UserPasswordEncoder
+        arguments: 
+            -  %zayso_core.user.password%
+          
+    zayso_core.user.authentication.provider:
+        class: Zayso\CoreBundle\User\UserAuthProvider
+        arguments: 
+            - '@zayso_core.user.provider'
+            -  %zayso_core.provider.key%
+            - '@zayso_core.user.password.encoder'
         
