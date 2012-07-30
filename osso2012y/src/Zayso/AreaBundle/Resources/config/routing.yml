@@ -1,0 +1,12 @@
+
+zayso_core_index:
+    pattern:  /
+    defaults: { _controller: ZaysoAreaBundle:Public:index }
+    
+zayso_core_public:
+    pattern:  /public
+    defaults: { _controller: ZaysoAreaBundle:Public:index }
+
+zayso_core_welcome:
+    pattern:  /public/welcome
+    defaults: { _controller: ZaysoAreaBundle:Public:index }

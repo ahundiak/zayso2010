@@ -1,0 +1,9 @@
+
+# This will grab anything that falls through though I think it might need to be moved to it's own file
+# Just to ensure it is loaded after all other routes
+zayso_core_unknown:
+    pattern:  /{url}
+    defaults: { _controller: ZaysoAreaBundle:Public:index, url: "unknown" }
+    requirements:
+        url: ".+"
+ 

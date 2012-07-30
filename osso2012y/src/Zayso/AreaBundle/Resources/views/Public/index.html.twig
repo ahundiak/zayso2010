@@ -1,0 +1,13 @@
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
+
+{% block title %}{{ myTitlePrefix }} Welcome {% endblock %}
+
+{% block content %}
+<h3>Welcome</h3>
+<p>
+    Welcome blah blah blah
+</p>
+<h3>Existing Zayso User Signin</h3>
+{% include 'ZaysoCoreBundle:Account/Signin:form.html.twig' %}
+
+{% endblock %}
