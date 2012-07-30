@@ -3,4 +3,7 @@ services:
     zayso_core.osso2012.entity_manager:
         alias: doctrine.orm.osso2012_entity_manager
         
+    zayso_core.account.manager:
+        class: Zayso\CoreBundle\Manager\AccountManager
+        arguments: ["@zayso_core.osso2012.entity_manager", osso2012]
         
