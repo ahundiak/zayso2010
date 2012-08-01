@@ -27,4 +27,11 @@ services:
             - '@zayso_core.user.provider'
             -  %zayso_core.provider.key%
             - '@zayso_core.user.password.encoder'
+              
+    zayso_core.openid.rpx:
+        class:  Zayso\CoreBundle\User\OpenidRpx
+        scope:  request
+        arguments:  
+            - '@request'
+            -  %zayso_core.openid.rpxApiKey%
         

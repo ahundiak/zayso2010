@@ -1,0 +1,13 @@
+31 Jul 2012
+
+Spent a day going over the 2.1 security code.  Understand the auth system a bit better.
+
+Still not sure about the default system for handling people not signed on.  Save it for 2.2
+
+The user provider can handle aysoid/email as well as openid.  Not sure if it is the best design or not.
+
+The encoder handles the master password just fine.
+
+The existing auth code is pretty strange and requires passwords and such.  Might be better to just implement my own.
+
+

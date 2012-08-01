@@ -10,29 +10,21 @@ use Zayso\CoreBundle\Controller\BaseController as CoreBaseController;
 
 class PublicController extends CoreBaseController
 {
-    public function indexAction(Request $request)
-    {
-        $manager = $this->get('zayso_core.account.manager');
-        $account = $manager->newAccount();
-        
+    /* =============================================================
+     * Need to rsearch on how to override these sorts of templates
+     * Or if it is even worth doing this sort of thing
+     */
+    public function deniedAction()
+    { 
         $tplData = array();
-        return $this->renderx('Public:index.html.twig',$tplData);
-        
-        if ($this->isUser() && !$this->isAdmin())
-        {
-            return $this->redirect($this->generateUrl('zayso_core_home'));
-        }
-        $account = new Account();
-        
-        $signinFormType = $this->get('zayso_core.account.signin.formtype');
-
-        $signinForm = $this->createForm($signinFormType, $account);
-        
-        $tplData = array();
-        $tplData['signinForm'] = $signinForm->createView();
-
-        return $this->renderx('Welcome:welcome.html.twig',$tplData);
+        return $this->renderx('ZaysoCoreBundle:Public:denied.html.twig',$tplData);
     }
+    public function denied2Action()
+    { 
+        $tplData = array();
+        return $this->renderx('ZaysoCoreBundle:Public:denied2.html.twig',$tplData);
+    }
+    
     public function textalertsAction()
     { 
         $tplData = array();

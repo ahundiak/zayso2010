@@ -3,7 +3,11 @@ namespace Zayso\CoreBundle\Controller\Account;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\BadCredentialsException;
+
+use Symfony\Component\Form\FormError;
 
 use Zayso\CoreBundle\Controller\BaseController as CoreBaseController;
 
@@ -28,16 +32,28 @@ class SigninController extends CoreBaseController
                 $token = new UsernamePasswordToken($account->getUserName(),$account->getUserPass(),$providerKey,array());
                 
                 $userAuth = $this->get('zayso_core.user.authentication.provider');
-               
+                $tokenx = null;
                 try
                 {
-                    $token = $userAuth->authenticate($token);
+                    $tokenx = $userAuth->authenticate($token);
+                }
+                catch (BadCredentialsException $e)
+                {
+                    $msg = $e->getMessage();
+                    $signinForm['userPass']->addError(new FormError($msg));
+
                 }
                 catch (AuthenticationException $e)
                 {
-                    die($e->getMessage());
+                    $msg = $e->getMessage();
+                    $signinForm['userName']->addError(new FormError($msg));
+
                 }
-                $this->get('security.context')->setToken($token);
+                if ($tokenx)
+                {
+                    $this->get('security.context')->setToken($tokenx);
+                    return $this->redirect($this->generateUrl('zayso_core_user_home'));
+                }
             }
         }
         $tplData = array();
@@ -51,7 +67,39 @@ class SigninController extends CoreBaseController
         // So easy once the secret is known, need both
         $this->get('security.context')->setToken(null);
         $request->getSession()->remove('_security_secured_area');
-        return $this->redirect($this->generateUrl('zayso_core_welcome'));
+        return $this->redirect($this->generateUrl('zayso_core_public_welcome'));
+   }
+   public function rpxAction(Request $request)
+   {
+        // Load the profile
+        $profile = $this->get('zayso_core.openid.rpx')->getProfile();
+        $identifier = $profile['identifier'];
+        if (!$identifier) die('rpx Action no identifier');
+        
+        $providerKey    = $this->container->getParameter('zayso_core.provider.key'); // secured_area
+        
+        // Need this for now because of the auth code
+        $masterPassword = $this->container->getParameter('zayso_core.user.password');
+        
+        $token = new UsernamePasswordToken($identifier,$masterPassword,$providerKey,array());
+                
+        $userAuth = $this->get('zayso_core.user.authentication.provider');
+        $tokenx = null;
+        try
+        {
+            $tokenx = $userAuth->authenticate($token);
+        }
+        catch (AuthenticationException $e)
+        {
+            $msg = $e->getMessage();
+            die('openid . ' . $msg);
+        }
+        if ($tokenx)
+        {
+            $this->get('security.context')->setToken($tokenx);
+            return $this->redirect($this->generateUrl('zayso_core_user_home'));
+        }
+        die($identifier);
    }
 }
 ?>

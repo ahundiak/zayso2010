@@ -7,9 +7,17 @@ zayso_core_public:
     pattern:  /public
     defaults: { _controller: ZaysoCoreBundle:Public:index }
 
-zayso_core_welcome:
+zayso_core_public_welcome:
     pattern:  /public/welcome
     defaults: { _controller: ZaysoCoreBundle:Public:index }
+    
+zayso_core_public_denied:
+    pattern:  /public/denied
+    defaults: { _controller: ZaysoCoreBundle:Public:denied }
+    
+zayso_core_public_denied2:
+    pattern:  /public/denied2
+    defaults: { _controller: ZaysoCoreBundle:Public:denied2 }
 
 # =========================================================
 # Account oriented routines
@@ -21,4 +29,7 @@ zayso_core_account_signout:
     pattern:  /public/account/signout
     defaults: { _controller: ZaysoCoreBundle:Account/Signin:signout }
   
- 
+zayso_core_account_rpx:
+    pattern:  /public/account/rpx
+    defaults: { _controller: ZaysoCoreBundle:Account/Signin:rpx }
+   
