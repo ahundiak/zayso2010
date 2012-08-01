@@ -7,6 +7,22 @@ zayso_core_public:
     pattern:  /public
     defaults: { _controller: ZaysoAreaBundle:Public:index }
 
-zayso_core_welcome:
+zayso_core_public_welcome:
     pattern:  /public/welcome
     defaults: { _controller: ZaysoAreaBundle:Public:index }
+    
+# ================================================
+# These requires user access
+zayso_core_user_home:
+    pattern:  /user/home
+    defaults: { _controller: ZaysoAreaBundle:Home:home }
+
+# ================================================
+# These require admin access
+zayso_core_admin:
+    pattern:  /admin
+    defaults: { _controller: ZaysoCoreBundle:Admin/Admin:index }
+    
+zayso_core_admin_index:
+    pattern:  /admin/index
+    defaults: { _controller: ZaysoCoreBundle:Admin/Admin:index }
