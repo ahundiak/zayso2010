@@ -13,15 +13,31 @@
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 
+<style>
+#navlist li
+{
+    display:       inline;
+    list-style-type: none;
+    padding-right:   10px;
+}        
+</style>
 </head>
 <body>
-<div id="layour-header">
+<div id="layout-header">
     {% if is_granted('ROLE_USER') %}
         {{ app.user.name }} 
         {{ app.user.getAYSOCertsDescription }}
-        <a href="{{ path('zayso_core_account_signout') }}">Sign Out</a>
     {% endif %}    
     {% if not is_granted('ROLE_USER') %}Guest{% endif %}          
+</div>
+<div id="layout-menu-bar">        
+<ul  id="navlist">
+    <li><a href="{{ path('zayso_core_public_welcome')  }}">Welcome</a></li>
+    <li><a href="{{ path('zayso_core_user_home')       }}">Home</a></li>
+    <li><a href="{{ path('zayso_core_admin_index')     }}">Admin</a></li>
+    <li><a href="{{ path('zayso_core_account_signout') }}">Signout</a></li>
+     
+</ul>
 </div>
 <div id="layout-content">
   {% block content %}

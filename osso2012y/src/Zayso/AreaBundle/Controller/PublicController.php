@@ -1,13 +1,11 @@
 <?php
-
 namespace Zayso\AreaBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 
+use Zayso\CoreBundle\Controller\PublicController as CorePublicController;
 
-use Zayso\CoreBundle\Controller\BaseController as CoreBaseController;
-
-class PublicController extends CoreBaseController
+class PublicController extends CorePublicController
 {
     public function indexAction(Request $request)
     {
@@ -18,39 +16,10 @@ class PublicController extends CoreBaseController
         $signinForm = $this->createForm($signinFormType, $account);
         
         $tplData = array();
-        $tplData['account'] = $account;
-        $tplData['signinForm'] = $signinForm->createView();
+        $tplData['account']             = $account;
+        $tplData['signinForm']          = $signinForm->createView();
+        $tplData['janrain_token_route'] = $this->container->getParameter('zayso_core.openid.route');
         
         return $this->renderx('Public:index.html.twig',$tplData);
-    }
-    public function textalertsAction()
-    { 
-        $tplData = array();
-        return $this->renderx('Welcome:textalerts.html.twig',$tplData);
-    }
-    public function contactAction()
-    { 
-        $tplData = array();
-        return $this->renderx('Welcome:contact.html.twig',$tplData);
-    }
-    public function scheduleAction()
-    { 
-        $tplData = array();
-        return $this->renderx('Schedule:schedule.html.twig',$tplData);
-    }
-    public function shuttleAction()
-    { 
-        $tplData = array();
-        return $this->renderx('Welcome:shuttle.html.twig',$tplData);
-    }
-    public function championsAction()
-    { 
-        $tplData = array();
-        return $this->renderx('Welcome:champions.html.twig',$tplData);
-    }
-    public function offlineAction()
-    { 
-        $tplData = array();
-        return $this->renderx('Welcome:offline.html.twig',$tplData);
     }
 }
