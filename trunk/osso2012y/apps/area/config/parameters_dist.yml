@@ -9,6 +9,7 @@ parameters:
     database_osso2012_name: osso2012y
 
     session.dsn:       "mysql:dbname=session;host=localhost"
+    session.name:      zaysoArea2012
 
     mailer_transport:  mail
     mailer_host:       ~
@@ -26,3 +27,10 @@ parameters:
     zayso_core.project.current: 78
 
     zayso_core.provider.key:    secured_area
+
+    zayso_core.user.class:     'Zayso\CoreBundle\User\User'
+    
+    zayso_core.openid.rpxApiKey: ''
+    zayso_core.openid.route:     zayso_core_account_rpx
+    
+    zayso_core.user.password: ''

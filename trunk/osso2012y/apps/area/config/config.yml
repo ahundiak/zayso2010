@@ -2,6 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: doctrine.yml }
     - { resource: security.yml }
+    - { resource: session.yml }
 
 framework:
     #esi:             ~
@@ -16,7 +17,11 @@ framework:
     templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
     default_locale:  %locale%
     trust_proxy_headers: false # Should Request object should trust proxy headers (X_FORWARDED_FOR/HTTP_CLIENT_IP)
-    session:         ~
+    
+    session:         
+        cookie_lifetime: 66600000
+        name:            %session.name% # Ends up in session.storage.options
+        handler_id:      zayso_core.session.handler
 
 # Twig Configuration
 twig:
