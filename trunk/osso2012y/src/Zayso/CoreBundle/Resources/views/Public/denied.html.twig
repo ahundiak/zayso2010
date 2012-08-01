@@ -1,0 +1,11 @@
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
+
+{% block title %}{{ myTitlePrefix }} Denied {% endblock %}
+
+{% block content %}
+<h3>Denied 1</h3>
+<p>
+    User is signed in but is not allowed access to the request page.
+</p>
+
+{% endblock %}

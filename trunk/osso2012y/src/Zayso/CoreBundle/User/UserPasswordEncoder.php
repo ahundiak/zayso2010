@@ -18,6 +18,9 @@ class UserPasswordEncoder implements PasswordEncoderInterface
     }
     function isPasswordValid($encoded, $raw, $salt)
     {
+        // Takes care of master password
+        if ($encoded == $raw) return true;
+        
         // The usual
         $pass = $this->encodePassword($raw,$salt);
         if ($pass == $encoded) return true;

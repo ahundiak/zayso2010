@@ -120,7 +120,7 @@ EOT;
         $userNamex = $this->getUserNameForOpenidIdentifier($userName);
         if ($userNamex)
         {
-            $user = $this->loadUser($userName);
+            $user = $this->loadUser($userNamex);
             if ($user) 
             {
                 $user->setPassword($this->masterPassword);
@@ -131,7 +131,7 @@ EOT;
         $userNamex = $this->getUserNameForAysoid($userName);
         if ($userNamex)
         {
-            $user = $this->loadUser($userName);
+            $user = $this->loadUser($userNamex);
             if ($user) return $user;
         }
         
