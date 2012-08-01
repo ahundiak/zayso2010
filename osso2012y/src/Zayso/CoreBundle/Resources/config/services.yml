@@ -34,4 +34,19 @@ services:
         arguments:  
             - '@request'
             -  %zayso_core.openid.rpxApiKey%
+            
+    zayso_core.session.handler:
+        class: Zayso\CoreBundle\Session\SessionHandler
+        arguments:  
+            - '@zayso_core.session.storage.pdo'
+            - %session.storage.db_options%
+            - %session.storage.db_options%
+            
+    zayso_core.session.storage.pdo:
+        class:  PDO
+        public: false
+        arguments:  
+            -  %session.dsn%
+            -  %database_user%
+            -  %database_password%
         
