@@ -1,0 +1,48 @@
+Zayso\CoreBundle\Entity\PersonTeamRel:
+    type:  entity
+    table: person_team_rel
+    changeTrackingPolicy: NOTIFY
+    uniqueConstraints:
+        person_team_type_idx:
+            columns: person_id,team_id,type
+   
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+            
+#    oneToMany:
+#        openids:
+#            targetEntity: AccountOpenid
+#            mappedBy:     account
+            
+    manyToOne:
+
+        project:
+            targetEntity: Project
+            nullable:     false
+            
+        person:
+            targetEntity: Person
+            nullable:     false
+            inversedBy:   teamRels
+            
+        team:
+            targetEntity: Team
+            nullable:     false
+            inversedBy:   personRels
+           
+    fields:
+            
+        type:
+            type:     string
+            length:   20
+            nullable: false
+            
+        priority:
+            type:     integer
+            nullable: false
+
+        datax:
+            type:     text
+            nullable: true

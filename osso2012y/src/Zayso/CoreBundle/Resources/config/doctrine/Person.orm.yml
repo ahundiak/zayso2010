@@ -26,6 +26,10 @@ Zayso\CoreBundle\Entity\Person:
             targetEntity: ProjectPerson
             mappedBy:     person
             
+        teamRels:
+            targetEntity: PersonTeamRel
+            mappedBy:     person
+             
     fields:
         firstName:
             column:   first_name
