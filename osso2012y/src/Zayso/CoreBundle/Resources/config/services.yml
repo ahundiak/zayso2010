@@ -8,6 +8,12 @@ services:
         arguments: 
             - '@zayso_core.osso2012.entity_manager'
             -  osso2012
+            
+    zayso_core.project.manager:
+        class: Zayso\CoreBundle\Manager\ProjectManager
+        arguments: 
+            - '@zayso_core.osso2012.entity_manager'
+            -  osso2012
         
     zayso_core.user.provider:
         class: Zayso\CoreBundle\User\UserProvider
