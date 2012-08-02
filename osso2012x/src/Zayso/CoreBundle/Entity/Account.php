@@ -30,7 +30,7 @@ class Account
      */
     protected $userPass  = '';
 
-    /** @ORM\Column(name="status",type="string",length=16,nullable=false) */
+    /** @ORM\Column(name="status",type="string",length=20,nullable=false) */
     protected $status = 'Active';
     
     /** @ORM\Column(name="reset",type="string",length="40",nullable=true,unique=true) */
