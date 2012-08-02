@@ -29,5 +29,18 @@ class BaseManager
         $this->em     = $em;
         $this->emName = $emName;
     }
+    /* ========================================================
+     * References are handy to have
+     */
+    public function getReference($name,$id)
+    {
+        return $this->getEntityManager()->getReference('ZaysoCoreBundle:' . $name, $id);
+    }
+    public function getProjectReference     ($id) { return $this->getReference('Project',     $id); }
+    public function getProjectGroupReference($id) { return $this->getReference('ProjectGroup',$id); }
+    public function getRegionReference      ($id) { return $this->getReference('Org',         $id); }
+    public function getTeamReference        ($id) { return $this->getReference('Team',        $id); }
+    public function getPersonReference      ($id) { return $this->getReference('Person',      $id); }
+    public function getAccountReference     ($id) { return $this->getReference('Account',     $id); }
 }
 ?>
