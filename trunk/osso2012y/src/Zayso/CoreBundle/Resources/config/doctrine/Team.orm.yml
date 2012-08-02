@@ -1,0 +1,94 @@
+Zayso\CoreBundle\Entity\Team:
+    type:  entity
+    table: team
+    changeTrackingPolicy: NOTIFY
+    uniqueConstraints:
+        project_team_key1_idx:
+            columns: project_id,key1
+        project_team_key2_idx:
+            columns: project_id,key2
+        project_team_key3_idx:
+            columns: project_id,key3
+        project_team_key4_idx:
+            columns: project_id,key4
+   
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+            
+    oneToMany:
+        personRels:
+            targetEntity: PersonTeamRel
+            mappedBy:     team
+            
+    manyToOne:
+
+        project:
+            targetEntity: Project
+            nullable:     false
+            
+        parent:
+            targetEntity: Team
+            nullable:     true
+            
+        org:
+            targetEntity: Org
+            nullable:     true
+           
+    fields:
+            
+        type:
+            type:     string
+            length:   20
+            nullable: false
+            
+        source:
+            type:     string
+            length:   20
+            nullable: false
+            
+        key1:
+            type:     string
+            nullable: true
+        key2:
+            type:     string
+            nullable: true
+        key3:
+            type:     string
+            nullable: true
+        key4:
+            type:     string
+            nullable: true
+            
+        desc1:
+            type:     string
+            nullable: true
+        desc2:
+            type:     string
+            nullable: true
+            
+        age:
+            type:     string
+            length:   20
+            nullable: false
+            
+        gender:
+            type:     string
+            length:   20
+            nullable: false
+            
+        level:
+            type:     string
+            length:   20
+            nullable: false
+            
+        status:
+            column:   status
+            type:     string
+            length:   20
+            nullable: false
+
+        datax:
+            type:     text
+            nullable: true
