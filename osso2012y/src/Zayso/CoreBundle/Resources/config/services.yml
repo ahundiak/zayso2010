@@ -55,4 +55,14 @@ services:
             -  %session.dsn%
             -  %database_user%
             -  %database_password%
+            
+    zayso_core.excel.format:
+        class:  Zayso\CoreBundle\Format\Excel
         
+    zayso_core.eayso.team.summary.import:
+        class:  Zayso\CoreBundle\Import\Eayso\TeamSummaryImport
+        arguments:  
+            - '@zayso_core.excel.format'
+            - '@zayso_core.account.manager'
+       
+       
