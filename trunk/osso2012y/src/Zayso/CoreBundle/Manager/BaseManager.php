@@ -24,6 +24,8 @@ class BaseManager
     public function persist($item) { $this->em->persist($item); }
     public function refresh($item) { $this->em->refresh($item); }
     
+    public function getConnection() { return $this->em->getConnection(); }
+    
     public function __construct($em, $emName = 'default')
     {
         $this->em     = $em;
