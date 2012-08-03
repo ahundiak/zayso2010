@@ -4,7 +4,8 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 
 $loader = require __DIR__.'/../../../Symfony-2.1/vendor/autoload.php';
 
-$loader->add('Zayso', __DIR__.'/../../src');
+$loader->add('Zayso',   __DIR__ . '/../../src');
+$loader->add('PHPExcel',__DIR__ . '/../../../PHPExcel/Classes');
 
 // intl
 if (!function_exists('intl_get_error_code')) {
