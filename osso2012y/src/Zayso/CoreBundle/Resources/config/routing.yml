@@ -2,20 +2,20 @@
 zayso_core_index:
     pattern:  /
     defaults: { _controller: ZaysoCoreBundle:Public:index }
-    
-zayso_core_public:
-    pattern:  /public
-    defaults: { _controller: ZaysoCoreBundle:Public:index }
 
-zayso_core_public_welcome:
+zayso_core_welcome:
     pattern:  /public/welcome
     defaults: { _controller: ZaysoCoreBundle:Public:index }
     
-zayso_core_public_denied:
+zayso_core_welcome_legacy:
+    pattern:  /welcome
+    defaults: { _controller: ZaysoCoreBundle:Public:index }
+    
+zayso_core_access_denied:
     pattern:  /public/denied
     defaults: { _controller: ZaysoCoreBundle:Public:denied }
     
-zayso_core_public_denied2:
+zayso_core_access_denied2:
     pattern:  /public/denied2
     defaults: { _controller: ZaysoCoreBundle:Public:denied2 }
 
@@ -32,4 +32,27 @@ zayso_core_account_signout:
 zayso_core_account_rpx:
     pattern:  /public/account/rpx
     defaults: { _controller: ZaysoCoreBundle:Account/Signin:rpx }
-   
+    
+zayso_core_account_edit:
+    pattern:  /user/account/edit/{id}
+    defaults: { _controller: ZaysoCoreBundle:Account/Edit:edit, id: 0 }
+    requirements:
+        id: \d+
+    
+zayso_core_account_openid_list:
+    pattern:  /user/account/openid/list
+    defaults: { _controller: ZaysoCoreBundle:Account/Openid:list }
+
+# =============================================================
+# Person oriented routines
+zayso_core_person_edit:
+    pattern:  /user/person/edit
+    defaults: { _controller: ZaysoCoreBundle:Person/Person:edit }
+    
+zayso_core_person_team_list:
+    pattern:  /user/person/team/list
+    defaults: { _controller: ZaysoCoreBundle:Person/Team:list }
+    
+zayso_core_person_person_list:
+    pattern:  /user/person/person/list
+    defaults: { _controller: ZaysoCoreBundle:Person/PersonPerson:list }
