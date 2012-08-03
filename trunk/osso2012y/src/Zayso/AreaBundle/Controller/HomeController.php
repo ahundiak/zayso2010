@@ -4,14 +4,8 @@ namespace Zayso\AreaBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 
-use Zayso\CoreBundle\Controller\BaseController as CoreBaseController;
+use Zayso\CoreBundle\Controller\HomeController as CoreHomeController;
 
-class HomeController extends CoreBaseController
+class HomeController extends CoreHomeController
 {
-    public function homeAction(Request $request)
-    {        
-        $tplData = array();
-        
-        return $this->renderx('Home:home.html.twig',$tplData);
-    }
 }
