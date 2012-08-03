@@ -33,7 +33,7 @@ class EditFormType extends AbstractType
             'invalid_message' => 'The password fields must match.',
             'options'        => array('required' => false), // Did not seem to work
             'first_options'  => array('label' => 'New Password'),
-            'second_options' => array('label' => 'Repeat New Password'),
+            'second_options' => array('label' => 'New Password(repeat)'),
         ));
         return;
         
