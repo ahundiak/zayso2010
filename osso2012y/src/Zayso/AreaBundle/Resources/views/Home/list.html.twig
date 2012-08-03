@@ -1,0 +1,67 @@
+<div>
+<table class="account-person-list" border="1">
+    <tr><th colspan="4">People Associated With This Account</th></tr>
+    <tr>
+        <th>Account Information</th>
+        <th>AYSO Information</th>
+        <th>My Teams</th>
+   </tr>
+    {% for personPerson in account.person.personPersons %}
+    {% set person = personPerson.person2 %}
+    {% set aysoCert = person.regAYSOV    %}
+    {% set teamRels = person.teamRels    %}
+    {% set projectPerson = person.projectPerson(projectId) %}
+    {% if  projectPerson %}
+        {% set plans = projectPerson.get('plans') %}
+    {% else %}
+        {%set plans = null %}
+    {% endif %}
+    <tr>
+        <td><table>
+            <tr>
+                <td>Person:</td>
+                <td colspan="1">
+                    <a href="{{ path('zayso_core_person_edit', { 'id': personPerson.id }) }}">
+                        {{ person.personName }}
+                    </a>
+                </td>
+            </tr>
+            <tr><td>Relation:</td><td>{{ personPerson.relation }}</td></tr>
+            {% if personPerson.isPrimary %}
+            <tr><td>Account:</td><td>
+                <a href="{{ path('zayso_core_account_edit', { 'id': account.id }) }}">
+                    {{ account.userName }}
+                </a>
+            </td></tr>
+            {% for openid in account.openids %}
+                <tr><td>Sign In:</td><td>{{ openid.provider }}<br />{{ openid.userName }}</td></tr>
+            {% endfor %}
+            {% endif %}
+        </table></td>
+        <td><table>
+            <tr><td>AYSO ID:</td>   <td>{{aysoCert.aysoid}}   </td></tr>
+            <tr><td>Vol Year:</td>  <td>{{aysoCert.memYear}}  </td></tr>
+            <tr><td>Safe Haven:</td><td>{{aysoCert.safeHaven}}</td></tr>
+            <tr><td>Ref Badge:</td> <td>{{aysoCert.refBadge}} </td></tr>
+            <tr><td>Region:</td>    <td>{{aysoCert.org.desc3}} </td></tr>
+        </table></td>
+        <td><table>
+            {% for teamRel in teamRels %}
+                <tr><td>{{ teamRel.type }}</td><td>{{ teamRel.team.desc }}</td></tr>
+            {% endfor %}
+            <tr><td colspan="2">
+                <a href="{{ path('zayso_core_person_team_list', { 'personId': person.id }) }}">Add Team To Person</a>
+            </td></tr>
+        </table></td>
+    </tr>
+    {% endfor %}
+    <tr><th colspan="5">
+            <a href="{{ path('zayso_core_person_person_list') }}">Add Person to Account(Disabled)</a>
+        </th>
+    </tr>
+    <tr><th colspan="5">
+            <a href="{{ path('zayso_core_account_openid_list') }}">Link Zayso Account to Social Network for Signing In</a>
+        </th>
+    </tr>
+</table>
+</div>
