@@ -52,7 +52,7 @@ class SigninController extends CoreBaseController
                 if ($tokenx)
                 {
                     $this->get('security.context')->setToken($tokenx);
-                    return $this->redirect($this->generateUrl('zayso_core_user_home'));
+                    return $this->redirect($this->generateUrl('zayso_core_home'));
                 }
             }
         }
@@ -67,7 +67,7 @@ class SigninController extends CoreBaseController
         // So easy once the secret is known, need both
         $this->get('security.context')->setToken(null);
         $request->getSession()->remove('_security_secured_area');
-        return $this->redirect($this->generateUrl('zayso_core_public_welcome'));
+        return $this->redirect($this->generateUrl('zayso_core_welcome'));
    }
    public function rpxAction(Request $request)
    {
@@ -97,7 +97,7 @@ class SigninController extends CoreBaseController
         if ($tokenx)
         {
             $this->get('security.context')->setToken($tokenx);
-            return $this->redirect($this->generateUrl('zayso_core_user_home'));
+            return $this->redirect($this->generateUrl('zayso_core_home'));
         }
         die($identifier);
    }
