@@ -34,6 +34,8 @@ class EditFormType extends AbstractType
             'options'        => array('required' => false), // Did not seem to work
             'first_options'  => array('label' => 'New Password'),
             'second_options' => array('label' => 'New Password(repeat)'),
+            'first_name'  => 'pass1',
+            'second_name' => 'pass2', // form.userPass.pass1
         ));
         return;
         
