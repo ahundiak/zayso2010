@@ -31,6 +31,5 @@ parameters:
     zayso_core.user.class:     'Zayso\CoreBundle\User\User'
     
     zayso_core.openid.rpxApiKey: ''
-    zayso_core.openid.route:     zayso_core_account_rpx
     
     zayso_core.user.password: ''
