@@ -9,6 +9,12 @@ services:
             - '@zayso_core.osso2012.entity_manager'
             -  osso2012
             
+    zayso_core.person.manager:
+        class: Zayso\CoreBundle\Manager\PersonManager
+        arguments: 
+            - '@zayso_core.osso2012.entity_manager'
+            -  osso2012
+            
     zayso_core.project.manager:
         class: Zayso\CoreBundle\Manager\ProjectManager
         arguments: 

@@ -1,0 +1,99 @@
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
+
+{% block title %}{{ myTitlePrefix }} Person Edit{% endblock %}
+
+{% block content %}
+<div>
+<form action="{{ path('zayso_core_person_edit', { 'id': person.id }) }}" method="post" {{ form_enctype(formPerson) }}>
+<table border="1" style="width: 800px;">
+<tr><th colspan="3">Edit Person {{ person.getPersonName }}</th></tr>
+<tr>
+    <td style="width: 175px;">{{ form_label (formPerson.firstName) }}</td>
+    <td style="width: 275px;">{{ form_widget(formPerson.firstName) }}</td>
+    <td style="width: 350px;">
+        Legal name<br />
+        {{ form_errors(formPerson.firstName) }}
+    </td>
+</tr>
+<tr>
+    <td> {{ form_label (formPerson.lastName) }}</td>
+    <td> {{ form_widget(formPerson.lastName) }}</td>
+    <td>
+        Legal name<br />
+        {{ form_errors(formPerson.lastName) }}
+    </td>
+</tr>
+<tr>
+    <td> {{ form_label (formPerson.nickName) }}</td>
+    <td> {{ form_widget(formPerson.nickName) }}</td>
+    <td>
+        Will be used for assignments.<br />
+        {{ form_errors(formPerson.nickName) }}
+    </td>
+</tr>
+<tr>
+    <td> {{ form_label (formPerson.email) }}</td>
+    <td> {{ form_widget(formPerson.email) }}</td>
+    <td>
+        Required.<br />
+        {{ form_errors(formPerson.email) }}
+    </td>
+</tr>
+<tr>
+    <td> {{ form_label (formPerson.cellPhone) }}</td>
+    <td> {{ form_widget(formPerson.cellPhone) }}</td>
+    <td>
+        Highly recommended.<br />
+        Some text messages may be sent.<br />
+        {{ form_errors(formPerson.cellPhone) }}
+    </td>
+</tr>
+<tr><th colspan="3">eAYSO Information</th></tr>
+{% set formPersonRegAYSOV = formPerson.regAYSOV %}
+<tr>
+    <td>{{ form_label (formPersonRegAYSOV.regKey) }}</td>
+    <td>{{ form_widget(formPersonRegAYSOV.regKey) }}</td>
+    <td>
+        Be careful when changing<br />
+        {{ form_errors(formPersonRegAYSOV.regKey) }}
+    </td>
+</tr>
+<tr>
+    <td>{{ form_label (formPersonRegAYSOV.org) }}</td>
+    <td>{{ form_widget(formPersonRegAYSOV.org) }}</td>
+    <td>
+        Will auto-create<br />
+        {{ form_errors(formPersonRegAYSOV.org) }}
+    </td>
+</tr>
+<tr>
+    <td>{{ form_label (formPersonRegAYSOV.memYear) }}</td>
+    <td>{{ form_widget(formPersonRegAYSOV.memYear) }}</td>
+    <td>{{ form_errors(formPersonRegAYSOV.memYear) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (formPersonRegAYSOV.safeHaven) }}</td>
+    <td>{{ form_widget(formPersonRegAYSOV.safeHaven) }}</td>
+    <td>{{ form_errors(formPersonRegAYSOV.safeHaven) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (formPersonRegAYSOV.refBadge) }}</td>
+    <td>{{ form_widget(formPersonRegAYSOV.refBadge) }}</td>
+    <td>{{ form_errors(formPersonRegAYSOV.refBadge) }}</td>
+</tr>
+<tr>
+    <td>{{ form_label (formPersonRegAYSOV.refDate) }}</td>
+    <td>{{ form_widget(formPersonRegAYSOV.refDate) }}</td>
+    <td>{{ form_errors(formPersonRegAYSOV.refDate) }}</td>
+</tr>
+<tr>
+  <td colspan="2"><a href="{{ path('zayso_core_home') }}">Back to Home</a></td>
+  <td align="center"><input type="submit" name="personEditSubmit" value="Update Person Information" />
+</tr>
+<tr><td colspan="3">{{ form_errors(formPerson) }}</td></tr>
+</table>
+{{ form_rest(formPerson) }}
+</form>
+</div>
+
+{% endblock %}
