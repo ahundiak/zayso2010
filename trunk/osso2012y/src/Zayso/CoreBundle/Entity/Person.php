@@ -33,14 +33,8 @@ class Person extends BaseEntity
     
     protected $projectPersons;
     
-    /**
-     *  @ORM\OneToMany(targetEntity="PersonTeamRel", mappedBy="person")
-     */
     protected $teamRels;
     
-    /**
-     *  @ORM\OneToMany(targetEntity="EventPerson", mappedBy="person")
-     */
     protected $gameRels;
 
     public function getGameRels() { return $this->gameRels; }
