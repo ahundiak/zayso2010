@@ -67,8 +67,11 @@ class EditController extends BaseController
                         $account->getPerson()->getPersonName());
                     
                     //$this->sendEmail($subject,$subject);               
+                    
+                    // Reload user
+                    $this->setUser($account->getUserName());
                 }
-                return $this->redirect($this->generateUrl('zayso_core_home'));
+                return $this->redirect($this->generateUrl('zayso_core_account_edit',array('id' => $accountId)));
             }
         }
         $tplData = array();
