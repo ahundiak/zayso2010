@@ -10,7 +10,7 @@ framework:
     secret:          %secret%
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
-        strict_parameters: %kernel.debug%
+        strict_requirements: %kernel.debug%
     form:            true
     csrf_protection: true
     validation:      { enable_annotations: true }
@@ -27,7 +27,10 @@ framework:
 twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
-
+    form:
+        resources:
+            - 'ZaysoCoreBundle:Form:fields.html.twig'
+            
 # Assetic Configuration
 assetic:
     debug:          %kernel.debug%
