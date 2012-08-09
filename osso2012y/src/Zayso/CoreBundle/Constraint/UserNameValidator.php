@@ -3,8 +3,6 @@ namespace Zayso\CoreBundle\Constraint;
 
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormValidatorInterface;
-
 
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
