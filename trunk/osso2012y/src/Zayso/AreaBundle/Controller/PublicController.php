@@ -18,7 +18,7 @@ class PublicController extends CorePublicController
         $tplData = array();
         $tplData['account']             = $account;
         $tplData['signinForm']          = $signinForm->createView();
-        $tplData['janrain_token_route'] = $this->container->getParameter('zayso_core.openid.route');
+        $tplData['janrain_token_route'] = 'zayso_core_account_signin_rpx';  //$this->container->getParameter('zayso_core.openid.route');
         
         return $this->renderx('Public:index.html.twig',$tplData);
     }
