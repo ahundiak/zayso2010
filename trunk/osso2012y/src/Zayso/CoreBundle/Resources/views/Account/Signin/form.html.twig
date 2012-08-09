@@ -1,5 +1,4 @@
 {% if signinForm is defined  %}
-{% form_theme signinForm myBundleName ~ ':Layout:fields.html.twig' %}
 <div class="account-signin">
 <form action="{{ path('zayso_core_account_signin_check') }}" method="post" {{ form_enctype(signinForm) }}>
     {{ form_label(signinForm.userName) }}{{ form_widget(signinForm.userName) }}{{ form_errors(signinForm.userName) }}

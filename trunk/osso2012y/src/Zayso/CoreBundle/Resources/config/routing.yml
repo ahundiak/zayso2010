@@ -29,8 +29,8 @@ zayso_core_account_signout:
     pattern:  /public/account/signout
     defaults: { _controller: ZaysoCoreBundle:Account/Signin:signout }
   
-zayso_core_account_rpx:
-    pattern:  /public/account/rpx
+zayso_core_account_signin_rpx:
+    pattern:  /public/account/signin/rpx
     defaults: { _controller: ZaysoCoreBundle:Account/Signin:rpx }
     
 zayso_core_account_edit:
@@ -39,15 +39,21 @@ zayso_core_account_edit:
     requirements:
         id: \d+
     
-zayso_core_account_openid_list:
-    pattern:  /user/account/openid/list
-    defaults: { _controller: ZaysoCoreBundle:Account/Openid:list }
+zayso_core_account_openid_add:
+    pattern:  /user/account/openid/add
+    defaults: { _controller: ZaysoCoreBundle:Account/Openid:add }
+    
+zayso_core_account_openid_add_rpx:
+    pattern:  /user/account/openid/add/rpx
+    defaults: { _controller: ZaysoCoreBundle:Account/Openid:addRpx }
 
 # =============================================================
 # Person oriented routines
 zayso_core_person_edit:
-    pattern:  /user/person/edit
-    defaults: { _controller: ZaysoCoreBundle:Person/Person:edit }
+    pattern:  /user/person/edit/{id}
+    defaults: { _controller: ZaysoCoreBundle:Person/Edit:edit, id: 0 }
+    requirements:
+        id: \d+
     
 zayso_core_person_team_list:
     pattern:  /user/person/team/list

@@ -1,5 +1,3 @@
-{% form_theme form myBundleName ~ ':Layout:fields.html.twig' %}
-
 {% extends myBundleName ~ ':Layout:layout.html.twig' %}
 
 {% block title %}{{ myTitlePrefix }} Account Edit{% endblock %}
@@ -28,9 +26,8 @@
 </tr>
 {% endfor %}
 <tr>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td align="center"><input type="submit" name="accountEditSubmit" value="Update Account Information" /></td>
+    <td colspan="2"><a href="{{ path('zayso_core_home') }}">Back to Home</a></td>
+    <td align="center"><input type="submit" name="accountEditSubmit" value="Update Account Information" /></td>
 </tr>
 <tr><td colspan="3">{{ form_errors(form) }}</td></tr>
 </table>

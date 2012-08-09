@@ -1,0 +1,14 @@
+{# 08 Aug 2012 - See config.yml for automatically including this for all forms #}
+
+{% block field_errors %}
+{% spaceless %}
+    {% if errors|length > 0 %}
+        {% set first = true %}
+        {% for error in errors %}
+            {% if first == false %}<br />{% endif %}
+            <span style="color:red">{{ error.messageTemplate|trans(error.messageParameters, 'validators') }}</span>
+            {% set first = false %}
+        {% endfor %}
+    {% endif %}
+{% endspaceless %}
+{% endblock field_errors %}
