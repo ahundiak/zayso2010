@@ -39,7 +39,10 @@ class BaseController extends Controller
     {
         return $this->get('security.context')->isGranted('ROLE_SCORERX');
     }
-    // Takes either userName or an actual user object
+    /* =================================================================
+     * This turns out to be handy to refresh the user information
+     * Is there a better way?
+     */
     protected function setUser($userName)
     {
         if (is_object($userName)) $user = $userName;
