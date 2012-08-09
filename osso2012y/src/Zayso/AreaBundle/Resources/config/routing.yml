@@ -13,10 +13,6 @@ zayso_core_home:
     pattern:  /user/home
     defaults: { _controller: ZaysoAreaBundle:Home:home }
     
-zayso_core_person_edit:
-    pattern:  /user/person/edit
-    defaults: { _controller: ZaysoAreaBundle:Person/Person:edit }
-   
 # ================================================
 # These require admin access
 zayso_core_admin:
