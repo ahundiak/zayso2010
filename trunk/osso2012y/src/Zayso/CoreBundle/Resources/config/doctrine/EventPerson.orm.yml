@@ -1,0 +1,62 @@
+Zayso\CoreBundle\Entity\EventPerson:
+    type:  entity
+    table: event_person
+    changeTrackingPolicy: NOTIFY
+    uniqueConstraints:
+        person_team_type_idx:
+            columns: event_id,person_id,type
+   
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+            
+    manyToOne:
+
+        project:
+            targetEntity: Project
+            nullable:     true
+            
+        event:
+            targetEntity: Event
+            nullable:     false
+            inversedBy:   persons
+            
+        person:
+            targetEntity: Person
+            nullable:     false
+    
+    fields:
+            
+        type:
+            type:     string
+            length:   20
+            nullable: false
+            
+        sort:
+            column:   sortx
+            type:     integer
+            nullable: false
+            
+        protected:
+            type:     integer
+            nullable: false
+            
+        state:
+            type:     string
+            length:   20
+            nullable: true
+            
+        userModified:
+            column:   modified_user
+            type:     datetime
+            nullable: true
+            
+        adminModified:
+            column:   modified_admin
+            type:     datetime
+            nullable: true
+
+        datax:
+            type:     text
+            nullable: true
