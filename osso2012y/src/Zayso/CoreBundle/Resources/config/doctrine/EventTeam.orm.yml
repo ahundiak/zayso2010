@@ -1,0 +1,38 @@
+Zayso\CoreBundle\Entity\EventTeam:
+    type:  entity
+    table: event_team
+    changeTrackingPolicy: NOTIFY
+    uniqueConstraints:
+        person_team_type_idx:
+            columns: event_id,team_id,type
+   
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+            
+    manyToOne:
+
+        project:
+            targetEntity: Project
+            nullable:     true
+            
+        event:
+            targetEntity: Event
+            nullable:     false
+            inversedBy:   teams
+            
+        team:
+            targetEntity: Team
+            nullable:     false
+    
+    fields:
+            
+        type:
+            type:     string
+            length:   20
+            nullable: false
+            
+        datax:
+            type:     text
+            nullable: true

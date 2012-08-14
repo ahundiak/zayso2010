@@ -1,0 +1,74 @@
+Zayso\CoreBundle\Entity\Event:
+    type:  entity
+    table: event
+    changeTrackingPolicy: NOTIFY
+    uniqueConstraints:
+        event_project_num_idx:
+            columns: project_id,num
+   
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+            
+    oneToMany:
+      
+        persons:
+            targetEntity: EventPerson
+            mappedBy:     event
+            
+        teams:
+            targetEntity: EventTeam
+            mappedBy:     event
+            
+    manyToOne:
+
+        project:
+            targetEntity: Project
+            nullable:     false
+            
+        field:
+            targetEntity: ProjectField
+            nullable:     false
+            
+        org:
+            targetEntity: Org
+            nullable:     true
+            
+           
+    fields:
+            
+        num:
+            type:     integer
+            nullable: false
+            
+        type:
+            type:     string
+            length:   20
+            nullable: false
+            
+        date:
+            column:   datex
+            type:     string
+            length:   8
+            nullable: true
+            
+        time:
+            column:   timex
+            type:     string
+            length:   4
+            nullable: true
+            
+        pool:
+            type:     string
+            length:   20
+            nullable: true
+            
+        status:
+            type:     string
+            length:   20
+            nullable: false
+
+        datax:
+            type:     text
+            nullable: true
