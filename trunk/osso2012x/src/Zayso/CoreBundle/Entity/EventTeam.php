@@ -27,6 +27,12 @@ class EventTeam extends BaseEntity
     protected $id;
     
     /**
+     * @ORM\ManyToOne(targetEntity="Project")
+     * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
+     */
+    protected $project = null;
+    
+    /**
      * @ORM\ManyToOne(targetEntity="Event", inversedBy="teams")
      * @ORM\JoinColumn(name="event_id", referencedColumnName="id")
      */
