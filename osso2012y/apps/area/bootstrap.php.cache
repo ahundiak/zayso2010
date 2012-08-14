@@ -502,12 +502,12 @@ abstract class Kernel implements KernelInterface, TerminableInterface
     protected $classes;
     protected $errorReportingLevel;
 
-    const VERSION         = '2.1.0-BETA4';
+    const VERSION         = '2.1.0-RC1';
     const VERSION_ID      = '20100';
     const MAJOR_VERSION   = '2';
     const MINOR_VERSION   = '1';
     const RELEASE_VERSION = '0';
-    const EXTRA_VERSION   = 'BETA';
+    const EXTRA_VERSION   = 'RC1';
 
     
     public function __construct($environment, $debug)
@@ -1463,8 +1463,12 @@ class HttpKernel implements HttpKernelInterface, TerminableInterface
 
         $response = $event->getResponse();
 
-                if (!$response->isClientError() && !$response->isServerError() && !$response->isRedirect()) {
-            if ($e instanceof HttpExceptionInterface) {
+                if ($response->headers->has('X-Status-Code')) {
+            $response->setStatusCode($response->headers->get('X-Status-Code'));
+
+            $response->headers->remove('X-Status-Code');
+        } elseif (!$response->isClientError() && !$response->isServerError() && !$response->isRedirect()) {
+                        if ($e instanceof HttpExceptionInterface) {
                                 $response->setStatusCode($e->getStatusCode());
                 $response->headers->add($e->getHeaders());
             } else {
