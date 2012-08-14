@@ -44,7 +44,7 @@ Zayso\CoreBundle\Entity\EventPerson:
             
         state:
             type:     string
-            length:   20
+            length:   40
             nullable: true
             
         userModified:
