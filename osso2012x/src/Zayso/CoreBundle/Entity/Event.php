@@ -31,7 +31,7 @@ class Event extends BaseEntity
     /** @ORM\Column(type="integer",name="num",nullable=false) */
     protected $num = 0;
     
-    /** @ORM\Column(type="string",name="type",length=20,nullable=true) */
+    /** @ORM\Column(type="string",name="type",length=20,nullable=false) */
     protected $type = 'Game';
     
     /**

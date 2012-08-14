@@ -62,11 +62,17 @@ class EventPerson extends BaseEntity
     protected $id = 0;
     
     /**
+     * @ORM\ManyToOne(targetEntity="Project")
+     * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
+     */
+    protected $project = null;
+    
+    /**
      * @ORM\ManyToOne(targetEntity="Event", inversedBy="persons")
      * @ORM\JoinColumn(name="event_id", referencedColumnName="id")
      */
     protected $event = null;
-    
+   
     /**
      * @ORM\ManyToOne(targetEntity="Person")
      * @ORM\JoinColumn(name="person_id", referencedColumnName="id")
