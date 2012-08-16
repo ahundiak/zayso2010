@@ -69,8 +69,8 @@ class RefSchedController extends CoreBaseController
     protected $searchFormId  = 'zayso_core.schedule.referee.search.formtype';
     protected $routeId       = 'zayso_core_schedule_referee_list';
     
-    protected $csvTpl   = 'Schedule:referee.csv.php';
-    protected $excelTpl = 'Schedule:referee.excel.php';
+    protected $csvTpl   = 'ZaysoCoreBundle:Schedule:referee.csv.php';
+    protected $excelTpl = 'ZaysoCoreBundle:Schedule:referee.excel.php';
     protected $htmlTpl  = 'ZaysoCoreBundle:Schedule:referee.html.twig';
     protected $fileName = 'RefSchedule';
     
