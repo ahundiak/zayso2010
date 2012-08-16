@@ -113,7 +113,7 @@ class ScheduleImport extends BaseImport
         $gameNum = (int)$item->gameNum;
         if (!$gameNum) return;
         
-        $gameNum += 1000;
+      //$gameNum += 1000;
         
         $projectId = $item->projectId;
         if (!$projectId) $projectId = $this->projectId;
