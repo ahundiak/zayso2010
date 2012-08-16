@@ -1,0 +1,10 @@
+{# Load just the core zayso java scripts 
+ # This does not work because jquery is needed
+ #}
+<script src="{{ asset('bundles/zaysocore/js/jquery-1.7.1.min.js') }}"></script>
+
+{% javascripts
+    '@ZaysoCoreBundle/Resources/public/js/zaysocore.js'
+%}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}

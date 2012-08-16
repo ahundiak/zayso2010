@@ -40,9 +40,22 @@ class ImportCommand extends ContainerAwareCommand
         echo $import->getResultmessage() . "\n";
         
     }
-   protected function execute(InputInterface $input, OutputInterface $output)
+    protected function testImportSchedule()
     {
-        $this->testImport2();
+        $import = $this->getContainer()->get('zayso_core.schedule.import');
+        
+        $params = array
+        (
+            'inputFileName' => '../datax/AYSO2012FallGameScheduleM6R0498.xls',
+            'projectId'     => 80,
+        );
+        $import->process($params);
+        echo $import->getResultmessage() . "\n";
+        
+    }
+  protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $this->testImportSchedule();
     }
 }
 ?>

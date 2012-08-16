@@ -19,11 +19,11 @@ class EventPerson extends BaseEntity
     const TypeObs = 'OBS';
     
     const TypeREF  = 'REF';
-    const TypeREF1 = 'REF 1';
-    const TypeREF2 = 'REF 2';
+    const TypeREF1 = 'REF1';
+    const TypeREF2 = 'REF2';
     
-    const TypeAR1  = 'AR 1';
-    const TypeAR2  = 'AR 2';
+    const TypeAR1  = 'AR1';
+    const TypeAR2  = 'AR2';
 
     static public $typeDescs = array
     (
@@ -53,7 +53,7 @@ class EventPerson extends BaseEntity
 
     protected $sort = 0;
 
-    protected $protected = 0;
+    protected $protected = false;
 
     protected $state = null;
 
@@ -73,6 +73,9 @@ class EventPerson extends BaseEntity
      */    
     public function getId()    { return $this->id; }
     public function setId($id) { $this->id = $id; }
+    
+    public function setProject($project) { $this->onObjectPropertySet('project', $project); }
+    public function getProject()         { return $this->project;     }
 
     public function setGame($event) { $this->setEvent($event); }
     public function getGame()       { return $this->event;     }
@@ -140,16 +143,20 @@ class EventPerson extends BaseEntity
     }
     public function getPersonId()
     {
-        if (!$this->person) return 0;
+        if (!$this->person) return null;
         return $this->person->getId();
     }
     protected $personIdx = null;
     
-    public function setPersonId($personId)
+    public function setPersonIdx($personId)
     {
         $this->personIdx = $personId;
     }
-    public function getPersonIdx() { return $this->personIdx; }
+    public function getPersonIdx() 
+    {
+        if ($this->personIdx) return $this->personIdx;
+        return $this->getPersonId(); 
+    }
     
     // Real hack here, want to perserve state for form processing
     protected $statex = null;

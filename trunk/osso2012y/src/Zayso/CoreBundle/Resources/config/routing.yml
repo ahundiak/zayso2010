@@ -62,3 +62,23 @@ zayso_core_person_team_list:
 zayso_core_person_person_list:
     pattern:  /user/person/person/list
     defaults: { _controller: ZaysoCoreBundle:Person/PersonPerson:list }
+    
+# =============================================================
+# Schedule items
+zayso_core_schedule_referee_list:
+    pattern:  /public/schedule/referee/list.{_format}
+    defaults: { _controller: ZaysoCoreBundle:Schedule\RefSched:list, _format: html }
+    requirements:
+        _format:  html|csv|xls|pdf
+        
+zayso_core_schedule_referee_assign:
+    pattern:  /user/schedule/referee/assign/{id}/{pos}
+    defaults: { _controller: ZaysoCoreBundle:Schedule\RefAssign:assign, id: 0, pos: ''}
+    requirements:
+        id: \d+
+        
+zayso_core_schedule_game_edit:
+    pattern:  /user/schedule/game/edit/{id}
+    defaults: { _controller: ZaysoCoreBundle:Schedule\GameEdit:edit, id: 0}
+    requirements:
+        id: \d+

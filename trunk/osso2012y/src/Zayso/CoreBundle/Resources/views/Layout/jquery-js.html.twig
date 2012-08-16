@@ -1,0 +1,10 @@
+{# Load this when only need jquery #}
+
+<script src="{{ asset('bundles/zaysocore/js/jquery-1.7.1.min.js') }}"></script>
+
+{# Not positive about this but leave for now #}
+{% javascripts
+    '@ZaysoCoreBundle/Resources/public/js/zaysocore.js'
+%}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}

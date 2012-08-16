@@ -1,5 +1,29 @@
 services:
   
+    zayso_core.schedule.referee.search.formtype:
+        class: Zayso\CoreBundle\FormType\Schedule\RefSearchFormType
+        arguments: ["@zayso_core.schedule.manager"]
+        tags:
+            - { name: form.type, alias: ref_sch_search }
+            
+    zayso_core.schedule.referee.assign.formtype:
+        class: Zayso\CoreBundle\FormType\Schedule\RefAssignFormType
+        arguments: ["@zayso_core.schedule.manager"]
+        tags:
+            - { name: form.type, alias: ref_sch_assign }
+            
+    zayso_core.person.team.list.formtype:
+        class: Zayso\CoreBundle\FormType\Person\TeamListFormType
+        arguments: ['@zayso_core.person.manager', %zayso_core.project.master%]
+        tags:
+            - { name: form.type, alias: ref_sch_assign }
+            
+    zayso_core.misc.datex.formtype:
+        class: Zayso\CoreBundle\FormType\Misc\DatexFormType
+        arguments: ["@zayso_core.schedule.manager"]
+        tags:
+            - { name: form.type, alias: datex }
+  
     zayso_core.account.signin.formtype:
         class: Zayso\CoreBundle\FormType\Account\SigninFormType
         arguments: ["@zayso_core.account.manager"]

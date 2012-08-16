@@ -12,8 +12,13 @@ class Team extends BaseEntity
     const TypePlayoff  = 'Playoff';
     
     const SourceEayso  = 'Eayso';
+    const SourceImport = 'Import';
     const SourceAuto   = 'Auto';   // Automatically created by zayso
     const SourceManual = 'Manual'; // Maually created within zayso
+    
+    const LevelRegular  = 'Regular';
+    const LevelSelect   = 'Import';
+    const LevelExtra    = 'Extra';
     
     protected $id;
     
@@ -26,6 +31,7 @@ class Team extends BaseEntity
     protected $type = null;
     
     protected $source = null;
+    protected $level  = self::LevelRegular;
     
     protected $key1 = null;
     protected $key2 = null;
@@ -35,11 +41,9 @@ class Team extends BaseEntity
     protected $desc1 = null;
     protected $desc2 = null;
     
-    protected $age = null;
-
+    protected $age    = null;
     protected $gender = null;
 
-    protected $level = null;
     
     /**
      *   ORM\OneToMany(targetEntity="PersonTeamRel", mappedBy="team")
@@ -149,7 +153,14 @@ class Team extends BaseEntity
         if ($this->parent) return $this->parent->getParentForType($type);
         return null;
     }
-      
+    public function setTypePhysical() { return $this->setType(self::TypePhysical); }
+    
+    public function setSourceImport() { return $this->setSource(self::SourceImport); }
+    
+    public function setLevelRegular() { return $this->setLevel(self::LevelRegular); }
+    public function setLevelSelect () { return $this->setLevel(self::LevelSelect);  }
+    public function setLevelExtra  () { return $this->setLevel(self::LevelExtra);   }
+    
     /* ================================================================================
      * Used to consolidate team standings
      */

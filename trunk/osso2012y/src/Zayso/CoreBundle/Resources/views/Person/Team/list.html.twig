@@ -1,0 +1,81 @@
+{% extends myBundleName ~ ':Layout:layout.html.twig' %}
+
+{% block title %}{{ myTitlePrefix }} Person Team List{% endblock %}
+
+{% block content %}
+<div>
+<form action="{{ path('zayso_core_person_team_list', { 'personId': person.id }) }}" method="post" {{ form_enctype(listForm) }}>
+
+    <table border="1">
+        <tr>
+            <td>Team</td>
+            <td>Relation</td>
+            <td>Priority</td>
+            <td>Remove</td>
+        </tr>
+        {% for teamRel in listForm.teamRels %}
+        <tr>
+            <td>{{ form_widget(teamRel.team) }}</td>
+            <td>{{ form_widget(teamRel.type) }}</td>
+            <td align="center">{{ form_widget(teamRel.priority) }}</td>
+            <td align="center">{{ form_widget(teamRel.delete) }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td><a href="{{ path('zayso_core_home') }}">Return to Home Page</a></td>
+            <td colspan="5" align="right"><input type="submit" name="personTeamListSubmit" value="Update Teams For Person" /></td>
+        </tr>
+    </table>
+{{ form_rest(listForm) }}
+</form>
+</div>
+{% if addForm is defined %}
+<div>
+<form action="{{ path('zayso_core_person_team_add') }}" method="post" {{ form_enctype(addForm) }}>
+
+    {{ form_widget(addForm.team) }}
+    {{ form_widget(addForm.type) }}
+<input type="submit" name="personTeamAddSubmit" value="Add Team To Person" />
+
+{{ form_rest(addForm) }}
+</form>
+</div>
+{% endif %}
+
+<div>
+    <h2>Instructions</h2>
+    <h3>Regular Teams</h3>
+    <p>
+        Why is my team missing?
+        There are still some teams that have not fully committed.
+        They will be added as soom as the paper work is in.
+    </p>
+    <h3>Referee</h3>
+    <p>
+        Indicates that you are a referee for this team for the purposes of whatever 
+        referee quota/point system which may be in effect.
+        If you are a referee for multiple teams then set your priority for points distributation.
+    </p>
+    <h3>Parent or Spectator</h3>
+    <p>
+        Implies that you will be at these games but don't want to referee unless absolutely needed.
+        Possibly available to referee before or after the game at the same site/field.
+    </p>
+    <h3>Player or Coach or Manager</h3>
+    <p>
+        Will be at the games but will not be able to referee and will need extra time before or after the game.
+    </p>
+    <h3>Blocked-Soft</h3>
+    <p>
+        Basically a reminder that the team is from your own region (or possibly area).
+        Also useful for blocking teams within a pool.
+        Avoid blocking too many teams with this as it will just clutter things up.
+    </p>
+    <h3>Blocked-Hard</h3>
+    <p>
+        For those teams that for whatever reason you really don't want to referee. 
+        Or even to be asked to referee.
+    </p>
+</div>
+
+{% endblock %}

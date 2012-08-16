@@ -16,10 +16,14 @@ Zayso\CoreBundle\Entity\Event:
         persons:
             targetEntity: EventPerson
             mappedBy:     event
+            indexBy:      type
+            cascade:      ['all']  
             
         teams:
             targetEntity: EventTeam
             mappedBy:     event
+            indexBy:      type
+            cascade:      ['all']  
             
     manyToOne:
 

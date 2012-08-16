@@ -86,11 +86,14 @@ class Event extends BaseEntity
     }
     public function getEventPersonsSorted()
     {
+      //return $this->persons;
+        
         $types = array_keys(EventPerson::$typeDescs);
         $eventPersons = array();
         foreach($types as $type)
         {
             if (isset($this->persons[$type])) $eventPersons[$type] = $this->persons[$type];
+          //if (isset($this->persons[$type])) $eventPersons[]      = $this->persons[$type];
         }
         return $eventPersons;
     }
