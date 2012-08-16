@@ -8,7 +8,10 @@
           
 {# Need this at the top to remember which account was last used to sign in #}
 {% block janrain %}{% endblock %}
-        
+    
+{# Add standard zayso stuff later #}
+{% block stylesheets %}{%endblock %} 
+    
 <!--[if lt IE 9]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
@@ -34,7 +37,10 @@
 <ul  id="navlist">
     <li><a href="{{ path('zayso_core_welcome')         }}">Welcome</a></li>
     <li><a href="{{ path('zayso_core_home')            }}">Home</a></li>
+    <li><a href="{{ path('zayso_core_schedule_referee_list') }}">Referee Schedule</a></li>
+    {% if is_granted('ROLE_ADMIN') %}   
     <li><a href="{{ path('zayso_core_admin_index')     }}">Admin</a></li>
+    {% endif %}
     <li><a href="{{ path('zayso_core_account_signout') }}">Signout</a></li>
      
 </ul>

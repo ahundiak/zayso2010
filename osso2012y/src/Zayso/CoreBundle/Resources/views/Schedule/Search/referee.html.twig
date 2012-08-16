@@ -1,0 +1,113 @@
+{% if searchForm is defined  %}
+{% set form = searchForm     %}
+<div class="schedule-search">
+<form action="{{ path('zayso_core_schedule_referee_list') }}" method="post" {{ form_enctype(form) }}>
+<table border="1" style="width: 1000px;">
+<tr>  
+    <td align="center"><table border="1"><tr>
+        <td>
+            {{ form_widget(form.date1x.year)  }}
+            {{ form_widget(form.date1x.month) }}
+            {{ form_widget(form.date1x.day)   }}
+            {{ form_widget(form.date1x.date)  }}
+            {{ form_widget(form.time1)        }}<br />
+            {{ form_widget(form.date2x.year)  }}
+            {{ form_widget(form.date2x.month) }}
+            {{ form_widget(form.date2x.day)   }}
+            {{ form_widget(form.date2x.date)  }}
+            {{ form_widget(form.time2)        }}
+        </td>
+    <tr></table></td>
+    
+    <td style="width: 200px;"><table border="1">
+        <tr><td align="center">My Teams</td></tr>
+        {% for team in form.teamIds %}
+            <tr><td>{{ form_widget(team) }}{{ form_label(team) }}</td></tr>
+        {% endfor %} 
+    <tr></table></td>
+    
+    <td style="width: 200px;"><table border="1">
+        <tr><td align="center">My People</td></tr>
+        {% for item in form.personIds %}
+            <tr><td>{{ form_widget(item) }}{{ form_label(item) }}</td></tr>
+        {% endfor %} 
+    <tr></table></td>
+</tr>
+<tr>
+    
+    <td><table border="1">
+    <tr>
+    {% set itemFirst = true %}
+    {% for item in form.regions %}
+        <td align="center">{{ form_label(item) }}<br />
+            {% if itemFirst %}
+                {{ form_widget(item, { 'attr': {'class': 'zayso-checkbox-all' }}) }}
+            {% else %}
+                {{ form_widget(item) }}
+            {% endif %}
+            {% set itemFirst = false %}
+        </td>
+    {% endfor %}
+    </tr><tr>
+    {% set itemFirst = true %}
+    {% for item in form.ages %}
+        <td align="center">{{ form_label(item) }}<br />
+            {% if itemFirst %}
+                {{ form_widget(item, { 'attr': {'class': 'zayso-checkbox-all' }}) }}
+            {% else %}
+                {{ form_widget(item) }}
+            {% endif %}
+            {% set itemFirst = false %}
+        </td>
+    {% endfor %}
+    </tr>
+    </table></td>
+    
+    <td><table border="1"><tr>
+    {% set itemFirst = true %}
+    {% for item in form.genders %}
+        <td align="center">{{ form_label(item) }}<br />
+            {% if itemFirst %}
+                {{ form_widget(item, { 'attr': {'class': 'zayso-checkbox-all' }}) }}
+            {% else %}
+                {{ form_widget(item) }}
+            {% endif %}
+            {% set itemFirst = false %}
+        </td>
+    {% endfor %}
+    <tr></table></td>
+    
+    <td colspan="2"><table border="1">
+        <tr><td>{{ form_label(form.coach)   }}</td><td>{{ form_widget(form.coach)   }}</td></tr>
+        <tr><td>{{ form_label(form.official)}}</td><td>{{ form_widget(form.official)}}</td></tr>
+    </table></td>
+</tr>
+<tr>
+    <td colspan="2">{#
+        <a href="{{ path('zayso_core_schedule_referee_list', { '_format' : 'xls'}) }}">Excel Spreadsheet</a>
+        <a href="{{ path('zayso_core_schedule_referee_list', { '_format' : 'csv'}) }}">Text File</a>
+        <a href="http://goo.gl/maps/p2Va" target="_blank">Field Sites</a>
+#}
+            &nbsp;
+   </td>
+    <td colspan="2" align="right">
+         <input type="submit" name="schSearchSubmit" value="Search" />
+    </td>
+</tr>
+<tr>
+<td colspan="4">
+The form may look a bit complicated but it's really straight forward.  
+If you have added teams or people to your account on the Home page then check them to see their games.
+Then check the age you wish to referee and press Search.
+Sign up for a game by clicking on the links over to the right of the games.
+You must be logged into zayso to see the signup links.
+</td>
+</tr>
+</table>
+<div style="display: none;">
+    {{ form_widget(form.teamIds) }}{{form_widget(form.personIds) }}
+</div>
+<div style="display: none;">{{ form_rest(form) }}</div>
+</form>        
+</div>
+{% endif %}

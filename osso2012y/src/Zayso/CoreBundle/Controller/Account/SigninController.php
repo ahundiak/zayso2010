@@ -59,7 +59,7 @@ class SigninController extends CoreBaseController
         $tplData = array();
         $tplData['account'] = $account;
         $tplData['signinForm'] = $signinForm->createView();
-        $tplData['janrain_token_route'] = $this->container->getParameter('zayso_core.openid.route');
+        $tplData['janrain_token_route'] = 'zayso_core_account_signin_rpx';
         
         return $this->renderx('Public:index.html.twig',$tplData);        
     }

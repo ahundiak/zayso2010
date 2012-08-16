@@ -9,6 +9,49 @@ class PersonManager extends BaseManager
 {
     public function newPerson() { return new Person; }
     
+    public function qbPhyTeamsForProject($projectId)
+    {
+        $qb = $this->createQueryBuilder();
+        $qb->addSelect('team');
+        $qb->from('ZaysoCoreBundle:Team','team');
+        
+        $qb->andWhere($qb->expr()->in('team.project', $projectId));
+        $qb->andWhere($qb->expr()->in('team.type',    array('Physical','physical')));
+        
+        $qb->addOrderBy('team.key1');
+
+        return $qb;
+    }
+     
+    /* ========================================================
+     * Currently used by person team controller
+     * Merge with load person for edit later
+     */
+    public function loadPersonForProject($projectId,$personId)
+    {
+        $qb = $this->createQueryBuilder();
+
+        $qb->addSelect('person, personReg, personRegOrg, projectPerson', 'teamRel', 'team');
+
+        $qb->from('ZaysoCoreBundle:Person','person');
+        $qb->andWhere($qb->expr()->eq('person.id',$qb->expr()->literal($personId)));
+        
+        $qb->leftJoin('person.registeredPersons','personReg');
+        $qb->leftJoin('personReg.org','personRegOrg');
+        
+        $qb->leftJoin('person.projectPersons','projectPerson', 
+            Expr\Join::WITH, $qb->expr()->eq('projectPerson.project', $projectId));
+        
+        $qb->leftJoin('person.teamRels','teamRel',
+             Expr\Join::WITH, $qb->expr()->eq('teamRel.project', $projectId));
+        
+        $qb->leftJoin('teamRel.team','team');
+       
+        //die($qb->getQuery()->getSQL());
+        
+        return $qb->getQuery()->getOneOrNullResult();      
+    }
+     
     public function loadPersonForEdit($projectId,$personId)
     {
         $qb = $this->createQueryBuilder();

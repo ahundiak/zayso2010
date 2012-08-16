@@ -27,6 +27,9 @@ class EventTeam extends BaseEntity
      */    
     public function getId() { return $this->id; }
     
+    public function setProject($project) { $this->onObjectPropertySet('project', $project); }
+    public function getProject()         { return $this->project;     }
+    
     public function setGame($event) { $this->setEvent($event); }
     public function getGame()       { return $this->event;     }
     
@@ -48,30 +51,7 @@ class EventTeam extends BaseEntity
         return $this->team->getTeamKey();
     }
     public function setTeamKey($key) { return; }
- /*   
-    public function getGoalsScored()   { return $this->team->getGoalsScored() ;  }
-    public function getGoalsAllowed()  { return $this->team->getGoalsAllowed();  }
-    public function getCautions()      { return $this->team->getCautions();      }
-    public function getSendoffs()      { return $this->team->getSendoffs();      }
-    public function getSportsmanship() { return $this->team->getSportsmanship(); }
-    public function getFudgeFactor()   { return $this->team->getFudgeFactor();   }
-    public function getPointsEarned()  { return $this->team->getPointsEarned();  }
-    public function getPointsMinus()   { return $this->team->getPointsMinus();   }
 
-    public function setGoalsScored  ($value) { $this->team->setGoalsScored  ($value); }
-    public function setGoalsAllowed ($value) { $this->team->setGoalsAllowed ($value); }
-    public function setCautions     ($value) { $this->team->setCautions     ($value); }
-    public function setSendoffs     ($value) { $this->team->setSendoffs     ($value); }
-    public function setSportsmanship($value) { $this->team->setSportsmanship($value); }
-    public function setFudgeFactor  ($value) { $this->team->setFudgeFactor  ($value); }
-    public function setPointsEarned ($value) { $this->team->setPointsEarned ($value); }
-    public function setPointsMinus  ($value) { $this->team->setPointsMinus  ($value); }
-    
-    public function clearReportInfo()
-    {
-        $this->setPointsEarned(null);
-        $this->setPointsMinus (null);
-    }*/
     protected $teamReport = null;
     
     public function getReport()

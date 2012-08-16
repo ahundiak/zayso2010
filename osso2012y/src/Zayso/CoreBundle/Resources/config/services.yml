@@ -20,6 +20,12 @@ services:
         arguments: 
             - '@zayso_core.osso2012.entity_manager'
             -  osso2012
+            
+    zayso_core.schedule.manager:
+        class: Zayso\CoreBundle\Manager\ScheduleManager
+        arguments: 
+            - '@zayso_core.osso2012.entity_manager'
+            -  osso2012
         
     zayso_core.user.provider:
         class: Zayso\CoreBundle\User\UserProvider
@@ -70,5 +76,17 @@ services:
         arguments:  
             - '@zayso_core.excel.format'
             - '@zayso_core.account.manager'
+            
+    zayso_core.schedule.import:
+        class:  Zayso\CoreBundle\Import\Schedule\ScheduleImport
+        arguments:  
+            - '@zayso_core.excel.format'
+            - '@zayso_core.schedule.manager'
        
+      
+    zayso_core.twig.core.extension:
+        class:  Zayso\CoreBundle\Twig\CoreExtension
+        tags:
+            - { name: twig.extension }
+
        

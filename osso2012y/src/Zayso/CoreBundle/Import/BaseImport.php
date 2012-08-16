@@ -225,5 +225,66 @@ class BaseImport
      * Maybe should be moved somewhere else?
      * But it seems to work okay here
      */
+    protected function processDate($date)
+    {
+        if (!$date) return null;
+        
+        // YYYYMMDD
+        $datex = preg_replace('/\D/','',$date);
+        if (($datex == $date) && (strlen($datex) == 8)) return $datex;
+        
+        // MM/DD/YY or MM/DD/YYYY
+        // MM-DD-YY or MM-DD-YYYY
+        $date = str_replace('-','/',$date);
+        $parts = explode('/',$date);
+        if (count($parts) == 3)
+        {
+            $year = (int)$parts[2];
+            if ($year < 100)
+            {
+                if ($year > 20) $year += 1900; // Think this is backwards?
+                else            $year += 2000;
+            }
+            $datex = sprintf('%04d%02d%02d',$year,(int)$parts[0],(int)$parts[1]); // die($datex);
+            return $datex;
+        }
+         die('Date: ' . $date); // $dob = substr($dob,6,4) . substr($dob,0,2) . substr($dob,3,2);
+    }
+    protected function processTime($time)
+    {
+        if (!$time) return null;
+        
+        // HHMM
+        $timex = preg_replace('/\D/','',$time);
+        if (($timex == $time) && (strlen($timex) == 4)) return $timex;
+        
+        // HH:MM AM or PM
+        $parts = explode(' ',$time);
+        if (count($parts) == 2 && ($parts[1] == 'AM' || $parts[1] = 'PM'))
+        {
+            if ($parts[1] == 'PM') $offset = 12;
+            else                   $offset =  0;
+            
+            $parts = explode(':',$parts[0]);
+            if (count($parts) == 2)
+            {
+                // Noon = 12pm
+                $hour = ((int)$parts[0] + $offset);
+                if ($hour == 24) $hour = 12;
+                
+                $timex = sprintf('%02d%02d',$hour,(int)$parts[1]);
+                return $timex;
+            }
+        }
+         
+        // HH:MM
+        $parts = explode(':',$time);
+        if (count($parts) == 2)
+        {
+            $timex = sprintf('%02d%02d',(int)$parts[0],(int)$parts[1]);
+            return $timex;
+        }
+        die('Time: ' . $time);
+    }
 }
 ?>
