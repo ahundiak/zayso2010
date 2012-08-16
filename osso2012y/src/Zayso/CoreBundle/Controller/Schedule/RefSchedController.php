@@ -152,7 +152,7 @@ class RefSchedController extends CoreBaseController
         {
             $tplData = array();
             $tplData['games'] = $games;
-            $tplData['excel'] = $this->get('zayso_core.format.excel');
+            $tplData['excel'] = $this->get('zayso_core.excel.format');
             $response = $this->renderx($this->excelTpl,$tplData);
         
             $outFileName = $this->fileName . date('YmdHi') . '.xls';
