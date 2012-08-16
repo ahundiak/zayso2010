@@ -1,5 +1,5 @@
 <?php
-class S5GamesRefereeExport
+class AreaRefereeExport
 {
     protected $counts = array();
     
@@ -178,7 +178,7 @@ class S5GamesRefereeExport
         
     }
 }
-$export = new S5GamesRefereeExport($excel,$games);
+$export = new AreaRefereeExport($excel,$games);
 
 echo $export->generate();
  
