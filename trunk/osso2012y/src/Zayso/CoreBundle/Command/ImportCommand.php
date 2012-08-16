@@ -46,7 +46,7 @@ class ImportCommand extends ContainerAwareCommand
         
         $params = array
         (
-            'inputFileName' => '../datax/AYSO2012FallGameScheduleM6R0498.xls',
+            'inputFileName' => '../datax/Schedule20120816.xls',
             'projectId'     => 80,
         );
         $import->process($params);
