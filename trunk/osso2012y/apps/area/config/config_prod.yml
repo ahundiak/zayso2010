@@ -27,5 +27,5 @@ monolog:
             type:       swift_mailer
             from_email: %mailer_user%
             to_email:   ahundiak@gmail.com
-            subject:   "[ZaysoNatGames][Error]"
+            subject:   "[ZaysoArea][Error]"
             level:      debug
