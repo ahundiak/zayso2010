@@ -69,12 +69,12 @@ SELECT
     account.status        AS accountStatus,
     account.person_id     AS memberId
     
-FROM person_registered
+FROM person_reg
 
 LEFT JOIN person  ON person.id = person_registered.person_id
 LEFT JOIN account ON account.person_id = person.id
 
-WHERE person_registered.reg_key = :aysoid
+WHERE person_reg.reg_key = :aysoid
 EOT;
         
         $conn = $this->em->getConnection();
