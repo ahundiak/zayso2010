@@ -1,3 +1,7 @@
+27 Aug 2012
+
+New office laptop
+
 27 Jul 2012
 
 Just for the heck of it, refactor zayso for s2.1
