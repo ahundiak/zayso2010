@@ -71,7 +71,7 @@ SELECT
     
 FROM person_reg
 
-LEFT JOIN person  ON person.id = person_registered.person_id
+LEFT JOIN person  ON person.id = person_reg.person_id
 LEFT JOIN account ON account.person_id = person.id
 
 WHERE person_reg.reg_key = :aysoid
