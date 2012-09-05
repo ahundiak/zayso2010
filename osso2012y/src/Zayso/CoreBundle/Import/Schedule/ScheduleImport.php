@@ -113,12 +113,20 @@ class ScheduleImport extends BaseImport
         $gameNum = (int)$item->gameNum;
         if (!$gameNum) return;
         
-      //$gameNum += 1000;
-        
         $projectId = $item->projectId;
         if (!$projectId) $projectId = $this->projectId;
         
-      //$project = $manager->getProjectReference($projectId);
+        if ($gameNum < 0)
+        {
+            $gameNum = -1 * $gameNum;
+            $game = $manager->loadEventForProjectNum($projectId,$gameNum);
+            if ($game) 
+            {
+                $this->total++;
+                $manager->remove($game);
+            }
+            return;
+        }
         
          // Used later
         $homeTeam = $this->getTeam($projectId,$item->homeTeam,$item->homeRegion,$item->awayRegion,$item->homeDiv,$item->awayDiv);
