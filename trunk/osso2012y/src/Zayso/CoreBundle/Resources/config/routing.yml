@@ -56,8 +56,10 @@ zayso_core_person_edit:
         id: \d+
     
 zayso_core_person_team_list:
-    pattern:  /user/person/team/list
-    defaults: { _controller: ZaysoCoreBundle:Person/Team:list }
+    pattern:  /user/person/team/list/{personId}
+    defaults: { _controller: ZaysoCoreBundle:Person/Team:list, personId: 0 }
+    requirements:
+        personId: \d+
     
 zayso_core_person_person_list:
     pattern:  /user/person/person/list
