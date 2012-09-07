@@ -32,6 +32,10 @@ services:
         class: Zayso\CoreBundle\FormType\Account\EditFormType
         arguments: ["@zayso_core.account.manager"]
         
+    zayso_core.account.create.formtype:
+        class: Zayso\CoreBundle\FormType\Account\CreateFormType
+        arguments: ["@zayso_core.account.manager"]
+        
     zayso_core.user_name.validator:
         class: Zayso\CoreBundle\Constraint\UserNameValidator
         arguments: ["@zayso_core.account.manager","@security.context"]

@@ -46,6 +46,10 @@ zayso_core_account_openid_add:
 zayso_core_account_openid_add_rpx:
     pattern:  /user/account/openid/add/rpx
     defaults: { _controller: ZaysoCoreBundle:Account/Openid:addRpx }
+    
+zayso_core_account_create:
+    pattern:  /public/account/create
+    defaults: { _controller: ZaysoCoreBundle:Account/Create:create }
 
 # =============================================================
 # Person oriented routines
