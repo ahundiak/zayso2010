@@ -18,10 +18,12 @@ class UserNameValidator extends ConstraintValidator
             $this->context->addViolation($constraint->messageNotBlank, array('%string%' => $userName));
             return;
         }
-        $userNameOriginal = $this->sc->getToken()->getUser()->getUserName();
-        
-        // Only validate a change
-        if ($userNameOriginal && ($userNameOriginal == $userName)) return;
+        $user = $this->sc->getToken()->getUser();
+        if (is_object($user))
+        {
+            $userNameOriginal = $user->getUserName();
+            if ($userNameOriginal && ($userNameOriginal == $userName)) return;
+        }
         
         // Actualy query
         $conn = $this->manager->getConnection();
