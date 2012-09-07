@@ -5,6 +5,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
+
 class VolFormType extends AbstractType
 {
     protected $manager = null;
@@ -24,7 +27,10 @@ class VolFormType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('regKey','zayso_core_ayso_vol_id');
+        $regex = new Regex(array('pattern' => '/^(AYSOV)?\d{8}$/'));
+        
+        $builder->add('regKey','zayso_core_ayso_vol_id',array('constraints' => array(new NotBlank(),$regex)));
+        
         $builder->add('org',   'zayso_core_ayso_region');
   
         $builder->add('refBadge', 'choice', array(
