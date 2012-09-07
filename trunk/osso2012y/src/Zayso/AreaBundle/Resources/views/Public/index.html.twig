@@ -7,19 +7,18 @@
 <p>
     Welcome blah blah blah
 </p>
+<h3>Create New Zayso Account</h3>
+<p>
+    <a href="{{ path('zayso_core_account_create') }}">Click here</a> to create a new zayso account.  
+</p>
 <h3>Problems with signing in</h3>
 <p>The system is not allowing users from last year to sign in.  
     Those that signed in during spring are fine.
-    I'm working the problem and will have it fixed by Thursday, August 23.
+    You can go ahead and just create a new account until I get the problem resolved.
 </p>
-<p>
-    Creating accounts for new users is also a work in progress.  Again, it will be working by Thursday.
- </p>   
 <h3>Existing Zayso User Signin</h3>
 {% include 'ZaysoCoreBundle:Account/Signin:form.html.twig' %}
 <br />
 <div id="janrainEngageEmbed"></div>
-<h3>New Zayso Users</h3>
-<p>Still working on the new user stuff.</p>
 {% endblock %}
 {% block janrain %}{% include 'ZaysoCoreBundle:Layout:janrain.js.twig' %}{% endblock %}
