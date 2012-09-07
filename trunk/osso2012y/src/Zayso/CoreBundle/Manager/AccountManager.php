@@ -2,13 +2,60 @@
 namespace Zayso\CoreBundle\Manager;
 
 use Zayso\CoreBundle\Entity\Account;
+use Zayso\CoreBundle\Entity\ProjectPerson;
+use Zayso\CoreBundle\Entity\PersonPerson;
 
 use Doctrine\ORM\Query\Expr;
 
-class AccountManager extends BaseManager
+class AccountManager extends PersonManager
 {
-    public function newAccount() { return new Account; }
-    
+    public function newAccount($projectId = null) 
+    {
+        $account = new Account();
+        if (!$projectId) return $account;
+        
+        // Probably should not go here
+        $person = $account->getPerson();
+        
+        $project = $this->getProjectReference($projectId);
+ 
+        $projectPerson = new ProjectPerson();
+        $projectPerson->setPerson($person);
+        $projectPerson->setProject($project);
+       
+        $person->addProjectPerson($projectPerson);
+        
+    }
+    public function createAccount($account)
+    {
+        $person    = $account->getPerson();
+        $personReg = $person->getRegAYSOV();
+        
+        // See if have a volunteer with the same id
+        $personRegx = $this->loadPersonRegForKey($personReg->getRegKey());
+        
+        if (!$personRegx) $this->persist($personReg);
+        else
+        {
+            // Just use the existing person
+            $person = $personRegx->getPerson();   
+        }
+        if (!$person->getId()) 
+        {
+            $this->persist($person);
+            
+            $personPerson = new PersonPerson();
+            $personPerson->setPerson1($person);
+            $personPerson->setPerson2($person);
+            $personPerson->setAsPrimary();
+            $this->persist($personPerson);
+        }
+        $account->setPerson($person);
+        
+        if (!$account->getId()) $this->persist($account);
+        
+        $this->flush();
+    }
     /* =========================================================================
      * Load account information
      * Includes all people and teams related to account
