@@ -1,0 +1,35 @@
+parameters:
+    database_driver:   pdo_mysql
+    database_host:     localhost
+    database_port:     ~
+    database_name:     symfony
+    database_user:     ~
+    database_password: ~
+    
+    database_osso2012_name: osso2012y
+
+    session.dsn:       "mysql:dbname=session;host=localhost"
+    session.name:      zaysoArea2012
+
+    mailer_transport:  mail
+    mailer_host:       ~
+    mailer_user:       ~
+    mailer_password:   ~
+    mailer_enabled:    true
+
+    locale:            en
+    secret:            somethingSecret
+    
+    my_bundle_name:    ZaysoAreaBundle
+    my_title_prefix:   ZaysoArea5C
+
+    zayso_core.project.master:  70
+    zayso_core.project.current: 78
+
+    zayso_core.provider.key:    secured_area
+
+    zayso_core.user.class:     'Zayso\CoreBundle\User\User'
+    
+    zayso_core.openid.rpxApiKey: ''
+    
+    zayso_core.user.password: ''
