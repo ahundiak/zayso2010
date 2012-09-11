@@ -1,9 +1,9 @@
 <?php
-namespace Zayso\CoreBundle\Component\DataTransformer;
+namespace Zayso\CoreBundle\DataTransformer\USSF;
 
 use Symfony\Component\Form\DataTransformerInterface;
 
-class USSFIdTransformer implements DataTransformerInterface
+class IdTransformer implements DataTransformerInterface
 {
     public function transform($value)
     {
