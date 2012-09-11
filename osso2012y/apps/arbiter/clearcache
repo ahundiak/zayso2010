@@ -1,4 +1,4 @@
 #!/bin/bash
 php console cache:clear --env=prod --no-debug
-php console assets:install $HOME/public_html/area5c
-php console assetic:dump   $HOME/public_html/area5c
+php console assets:install $HOME/public_html/arbiter
+php console assetic:dump   $HOME/public_html/arbiter
