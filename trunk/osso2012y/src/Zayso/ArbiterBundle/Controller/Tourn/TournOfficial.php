@@ -57,7 +57,7 @@ class TournOfficial
      *  Assert\NotBlank(message="USSF ID cannot be blank", groups={"create","edit","add"})
      * @Assert\Regex(
      *     groups={"create","edit","add"},
-     *     pattern="/^((USSFR)?\d{16})?$/",
+     *     pattern="/^((USSF)?\d{16})?$/",
      *     message="USSF ID must be 16-digit number")
      * 
      * The ? near the end allows blanks to match otherwise must be valid

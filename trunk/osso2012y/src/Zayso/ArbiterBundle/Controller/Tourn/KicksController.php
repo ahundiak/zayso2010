@@ -75,7 +75,7 @@ class KicksController extends TournController
             $referee->age,
             $referee->gender,
             
-      'R' . substr($referee->ussfid,5),
+      'R' . substr($referee->ussfid,4),
             $referee->refBadge,
             $referee->refState,
             $referee->refExp,
