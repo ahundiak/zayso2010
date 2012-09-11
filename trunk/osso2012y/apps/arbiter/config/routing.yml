@@ -1,11 +1,4 @@
-core_routing:
-    resource: "@ZaysoCoreBundle/Resources/config/routing.yml"
-    
-admin_routing:
-    resource: "@ZaysoAdminBundle/Resources/config/routing.yml"
 
-area_routing:
-    resource: "@ZaysoAreaBundle/Resources/config/routing.yml"
+arbiter_routing:
+    resource: "@ZaysoArbiterBundle/Resources/config/routing.yml"
   
-#area_last_routing:
-#    resource: "@ZaysoAreaBundle/Resources/config/routing_last.yml"
