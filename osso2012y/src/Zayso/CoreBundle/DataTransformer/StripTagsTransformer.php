@@ -1,5 +1,5 @@
 <?php
-namespace Zayso\CoreBundle\Component\DataTransformer;
+namespace Zayso\CoreBundle\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 
