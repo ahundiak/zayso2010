@@ -51,7 +51,7 @@ class ClassicController extends TournController
 
         return $this->render('ZaysoArbiterBundle:Tourn\Classic:form.html.twig',$tplData);
     }
-    protected function sendEmail($referee)
+    protected function sendRefereeEmail($referee)
     {
         $mailerEnabled = $this->container->getParameter('mailer_enabled');
         if (!$mailerEnabled) return;
