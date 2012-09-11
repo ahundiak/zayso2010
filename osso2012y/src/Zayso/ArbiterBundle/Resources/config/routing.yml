@@ -1,0 +1,9 @@
+zayso_arbiter_tourn_kicks:
+    pattern:  /tourn/kicks
+    defaults: { _controller: ZaysoArbiterBundle:Tourn\Kicks:signup }
+
+zayso_arbiter_unknown:
+    pattern:  /{url}
+    defaults: { _controller: ZaysoArbiterBundle:Public:index, url: "unknown" }
+    requirements:
+        url: ".+"
