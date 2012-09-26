@@ -82,7 +82,13 @@ services:
         arguments:  
             - '@zayso_core.excel.format'
             - '@zayso_core.schedule.manager'
-       
+            
+    zayso_core.scheduleRT0498.import:
+        class:  Zayso\CoreBundle\Import\Schedule\RT0498Import
+        arguments:  
+            - '@zayso_core.excel.format'
+            - '@zayso_core.schedule.manager'
+      
       
     zayso_core.twig.core.extension:
         class:  Zayso\CoreBundle\Twig\CoreExtension
