@@ -146,6 +146,29 @@ class ScheduleManager extends BaseManager
         
         return $qb->getQuery()->getOneOrNullResult();  
     }
+     /* ===================================================================
+     * Loads team for a given main key
+     */
+    public function loadTeamForLikeKey($projectId,$key)
+    {
+        // Just because
+        if (is_object($projectId)) $projectId = $projectId->getId();
+        
+        // Build query
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->addSelect('team');
+
+        $qb->from('ZaysoCoreBundle:Team','team');
+        $qb->leftJoin('team.project','project');
+
+        $qb->andWhere($qb->expr()->eq('project.id',$qb->expr()->literal($projectId)));
+        
+        $qb->andWhere($qb->expr()->like('team.key1',$qb->expr()->literal($key . '%')));
+        
+        return $qb->getQuery()->getOneOrNullResult();  
+    }
     /* ================================================
      * For nested queries
      * projectId is for possible future use and consistency

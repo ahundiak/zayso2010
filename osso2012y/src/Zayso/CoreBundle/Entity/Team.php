@@ -154,6 +154,8 @@ class Team extends BaseEntity
         return null;
     }
     public function setTypePhysical() { return $this->setType(self::TypePhysical); }
+    public function setTypePool()     { return $this->setType(self::TypePool); }
+    public function setTypePlayoff()  { return $this->setType(self::TypePlayoff); }
     
     public function setSourceImport() { return $this->setSource(self::SourceImport); }
     
