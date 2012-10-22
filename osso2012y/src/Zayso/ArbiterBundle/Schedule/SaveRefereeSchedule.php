@@ -61,9 +61,9 @@ class SaveRefereeSchedule
     {
         switch($team)
         {
-            case 'RIVER CITY UNITED RAPTORS':               return 'DJ Rector';          break;
+            case 'RIVER CITY UNITED RAPTORS':               return 'D.J. Rector';        break;
             case 'HUNTSVILLE FC HFC 00 BLUE (AL)':          return 'Mike Newchurch';     break;
-            case 'HUNTSVILLE FUTBOL GIRLS 96 MAROON (AL)':  return 'Jim Rogers';         break;
+            case 'HUNTSVILLE FUTBOL GIRLS 96 MAROON (AL)':  return 'James Rogers';       break;
             case 'HUNTSVILLE FC HFC 97 MAROON (AL)':        return 'Mike Futrell';       break;
             case 'RIVER CITY UNITED RC REVOLUTION (AL)':    return 'Tim Holt';           break;
             case 'RIVER CITY UNITED U11- RAPTORS (AL)':     return 'Andy Dye';           break;
