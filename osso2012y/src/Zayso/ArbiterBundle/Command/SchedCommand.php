@@ -51,19 +51,19 @@ class SchedCommand extends ContainerAwareCommand
     protected function testPositions()
     {
         $arbiterLoad = new LoadArbiterSchedule();
-        $arbiterGames = $arbiterLoad->load('../datax/KicksArbiter20121017.csv');
+        $arbiterGames = $arbiterLoad->load('../datax/KicksArbiter20121021.csv');
         
         echo 'Arbiter Game Count: ' . count($arbiterGames) . "\n";
      
         $arbSave = new SaveRefereeSchedule();
-        $arbSave->save('../datax/KicksReferees20121017.csv',$arbiterGames);
+        $arbSave->save('../datax/KicksReferees20121021.csv',$arbiterGames);
         
         return;
     }
     protected function testCompare()
     {
         $arbiterLoad = new LoadArbiterSchedule();
-        $arbiterGames = $arbiterLoad->load('../datax/KicksArbiter20121017.csv');
+        $arbiterGames = $arbiterLoad->load('../datax/KicksArbiter20121021.csv');
         
         echo 'Arbiter Game Count: ' . count($arbiterGames) . "\n";
        
