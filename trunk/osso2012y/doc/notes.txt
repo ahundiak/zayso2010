@@ -1,3 +1,6 @@
+27 Oct 2012
+Copied ssh keys from home solaris to here.
+
 27 Aug 2012
 
 New office laptop
