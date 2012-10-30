@@ -75,11 +75,31 @@ class SchedCommand extends ContainerAwareCommand
         $compare = new CompareSchedules();
         $compare->compare($arbiterGames,$lesGames);
     }
+     protected function testLoadArbiter()
+    {
+        $arbiterLoad = $this->getContainer()->get('zayso_arbiter.schedule.load');
+        $arbiterGames = $arbiterLoad->load('../datax/KicksArbiterSchedule20121024.xls');
+        
+        echo 'Arbiter Game Count: ' . count($arbiterGames) . "\n";
+        
+        $gameNums = array_keys($arbiterGames);
+        
+        $game = $arbiterGames[$gameNums[4]];
+        echo sprintf("Game %s %s %s %s\n",$game->getGameNum(),$game->getSite(),$game->getHomeTeam(),$game->getCR());
+        
+        return;
+        
+        $arbiterGames = $arbiterLoad->load('../datax/KicksArbiter20121021.csv');
+        
+        echo 'Arbiter Game Count: ' . count($arbiterGames) . "\n";
+        
+    }
     protected function execute(InputInterface $input, OutputInterface $output)
     {
        
-        $this->testCompare();
-        $this->testPositions();
+      //$this->testCompare();
+      //$this->testPositions();
+        $this->testLoadArbiter();
     }
 }
 ?>

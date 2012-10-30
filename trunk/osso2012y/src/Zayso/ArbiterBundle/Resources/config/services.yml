@@ -1,0 +1,7 @@
+services:
+            
+    zayso_arbiter.schedule.load:
+        class:  Zayso\ArbiterBundle\Schedule\LoadArbiterSchedule
+        arguments:  
+            - '@zayso_core.excel.format'
+       

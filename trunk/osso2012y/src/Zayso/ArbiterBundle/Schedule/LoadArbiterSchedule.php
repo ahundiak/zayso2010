@@ -42,17 +42,27 @@ class LoadArbiterSchedule_RowIndexes
 }
 class LoadArbiterSchedule
 {
-    public function load($csvFileName)
+    protected $excel = null;
+    
+    public function __construct($excel)
+    {
+        $this->excel = $excel;
+    }
+    public function load($inputFileName)
     {
         $games = array();
+        $reader = $this->excel->load($inputFileName);
+
+        $ws = $reader->getSheet(0);
+
+        $rows = $ws->toArray();
         
-        // Setup to read file
-        $file = fopen($csvFileName,'rt');
-        $header = fgetcsv($file);
+        $header = array_shift(&$rows);
+        
         $rowIndexes = new LoadArbiterSchedule_RowIndexes($header);
 
         // Insert each record
-        while ($line = fgetcsv($file))
+        foreach($rows as $line)
         {
             $game = new Game();
 
@@ -83,7 +93,6 @@ class LoadArbiterSchedule
             
             // Debug::dump($game); die('game');
         }
-        fclose($file);
         return $games;
     }    
 }
