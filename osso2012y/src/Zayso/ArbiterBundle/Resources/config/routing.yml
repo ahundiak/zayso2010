@@ -1,3 +1,15 @@
+zayso_arbiter_welcome:
+    pattern:  /welcome
+    defaults: { _controller: ZaysoArbiterBundle:Public:index }
+    
+zayso_arbiter_index:
+    pattern:  /
+    defaults: { _controller: ZaysoArbiterBundle:Public:index }
+    
+zayso_arbiter_import:
+    pattern:  /import
+    defaults: { _controller: ZaysoArbiterBundle:Import:index }
+    
 zayso_arbiter_tourn_kicks:
     pattern:  /tourn/kicks
     defaults: { _controller: ZaysoArbiterBundle:Tourn\Kicks:signup }
